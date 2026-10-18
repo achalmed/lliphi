@@ -66,7 +66,7 @@ def empaquetar() -> int:
     dist.mkdir(exist_ok=True)
     paquetes = {"esquema": ["color-schemes"], "global": ["look-and-feel"], "estilo": ["desktoptheme"],
                 "konsole": ["konsole"], "fondos": ["wallpapers"], "terminales": ["terminales"],
-                "editores": ["editores"], "libreoffice": ["libreoffice"], "decoracion": ["aurorae"]}
+                "editores": ["editores"], "libreoffice": ["libreoffice"], "decoracion": ["aurorae"], "kvantum": ["kvantum"]}
     sumas = []
     for modulo, carpetas in paquetes.items():
         ruta = dist / f"{marca['id']}-{modulo}-{version}.tar.gz"

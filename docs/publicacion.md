@@ -6,7 +6,7 @@ titulo: 'Publicación (fase 9): lo que queda preparado y los comandos exactos qu
 # Publicación
 
 Estado el 2026-10-18: el autor pidió al asistente ejecutar la publicación. **Hecho**: remoto `achalmed/lliphi`,
-etiqueta `v0.1.0` (en el commit del primer lote), release con `dist/`, sitio en GitHub Pages (`achalmed.github.io/lliphi`,
+etiquetas `v0.1.0` y `v0.2.0` con sus releases (`dist/`), sitio en GitHub Pages (`achalmed.github.io/lliphi`,
 workflow `.github/workflows/sitio.yml`), enlace en el hub. **Pendiente del autor**: KDE Store (cuenta) y, si lo quiere,
 Netlify. Lo que sigue describe el procedimiento para las versiones siguientes.
 
