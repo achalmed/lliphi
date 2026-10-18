@@ -29,8 +29,8 @@ cursorTheme=Bibata-Modern-Ice
 [kwinrc][org.kde.kdecoration2]
 library=org.kde.kwin.aurorae.v2
 theme=__aurorae__svg__lliphi-claro
-ButtonsOnLeft=
-ButtonsOnRight=IAX
+ButtonsOnLeft=XIA
+ButtonsOnRight=
 
 [kwinrc][WindowSwitcher]
 LayoutName=org.kde.breeze.desktop

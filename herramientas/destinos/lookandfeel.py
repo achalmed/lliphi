@@ -62,7 +62,7 @@ def defaults(marca: dict, variante: str) -> str:
         "[kcminputrc][Mouse]", f"cursorTheme={'Bibata-Modern-Ice' if variante == 'claro' else 'Bibata-Modern-Classic'}", "",
         # decoración propia (Aurorae, motor SVG V2 de Plasma 6.6: el KCM escribe `org.kde.kwin.aurorae.v2`); sin menú a la izquierda
         "[kwinrc][org.kde.kdecoration2]", "library=org.kde.kwin.aurorae.v2",
-        f"theme=__aurorae__svg__{marca['id'] if variante == 'oscuro' else marca['id'] + '-claro'}", "ButtonsOnLeft=", "ButtonsOnRight=IAX", "",
+        f"theme=__aurorae__svg__{marca['id'] if variante == 'oscuro' else marca['id'] + '-claro'}", "ButtonsOnLeft=XIA", "ButtonsOnRight=", "",
         "[kwinrc][WindowSwitcher]", "LayoutName=org.kde.breeze.desktop", "",
         "[kwinrc][DesktopSwitcher]", "LayoutName=org.kde.breeze.desktop", "",
         "[KSplash]", "Theme=org.kde.breeze", "",
