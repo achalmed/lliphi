@@ -1,0 +1,10 @@
+{
+  "$description": "Identidad de la marca. PROVISIONAL hasta que el autor apruebe el nombre (docs/nombre.md); cambiar aquí renombra todos los derivados al regenerar.",
+  "nombre": "Llampu",
+  "id": "llampu",
+  "dominio_inverso": "org.llampu",
+  "autor": "Edison Achalma",
+  "sitio": "https://achalmaedison.netlify.app",
+  "nombre_esquema": {"claro": "Llampu Claro", "oscuro": "Llampu Oscuro"},
+  "id_esquema": {"claro": "LlampuClaro", "oscuro": "LlampuOscuro"}
+}

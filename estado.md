@@ -13,6 +13,7 @@ Hasta que el autor elija el nombre (fase 3), la carpeta se llama `tema-plasma` y
 
 | fecha | qué | dónde se ve |
 |---|---|---|
+| 2026-10-18 | fase 4: paleta OKLCH en `herramientas/paleta.py` → `tokens/tokens.json` (DTCG 2025.10), 25 pares de contraste medidos y en verde en las dos variantes, primer generador (`herramientas/generar_esquema.py` → `generado/color-schemes/*.colors`) y lámina de widgets Breeze (`herramientas/lamina.py` → `muestras/*.png`); `.venv` con coloraide; dirección artística documentada, pendiente de aprobación | `docs/direccion-artistica.md` |
 | 2026-10-18 | fase 2 cerrada: análisis de los temas de partida, matriz de referencias, mecánica de cada categoría en Plasma 6.6 y estándares del repositorio; Aurorae reescrito en 6.6 (motor SVG V2): el primer lote usa Breeze coloreada por el esquema | `docs/analisis-temas-de-partida.md`, `docs/investigacion.md` |
 | 2026-10-18 | fase 3: estudio de nombres (Llampu recomendado; Sosiego segunda opción) | `docs/nombre.md` |
 | 2026-10-18 | usuario de prueba `prueba-tema` (uid 1001) creado por el autor para la validación de la fase 7 | `id prueba-tema` |
@@ -21,7 +22,7 @@ Hasta que el autor elija el nombre (fase 3), la carpeta se llama `tema-plasma` y
 
 ## En curso
 
-- fase 3: el autor elige el nombre (Llampu o Sosiego); fase 4, dirección artística, empieza con nombre provisional (dueño: asistente).
+- fase 3 y 4: el autor elige el nombre (Llampu o Sosiego) y aprueba la paleta; mientras tanto se redacta la arquitectura (fase 5) con el nombre provisional (dueño: asistente).
 
 ## Por hacer
 
