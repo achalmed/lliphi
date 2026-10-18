@@ -19,7 +19,7 @@ jobs:
         run: python herramientas/paleta.py
       - name: Lo generado no se editó a mano
         run: python herramientas/generar.py verificar
-      - name: Pruebas (sin Plasma: la de instalación se omite)
+      - name: "Pruebas (sin Plasma se omite la de instalación)"
         run: pytest -q
       - name: Licencias (REUSE 3.3)
         run: reuse lint
