@@ -6,60 +6,65 @@ titulo: 'Dirección artística (fase 4): principios, paleta OKLCH, tokens semán
 # Dirección artística
 
 Fase 4 del encargo, 2026-10-18. Propuesta del director para aprobación del autor. La fuente de verdad es
-`herramientas/paleta.py` (que escribe `tokens/tokens.json`); esta página explica las decisiones. El nombre
-«Llampu» es provisional hasta que el autor lo apruebe (`docs/nombre.md`); vive en `tokens/marca.json`.
+`herramientas/paleta.py` (que escribe `tokens/tokens.json`); esta página explica las decisiones. Primera propuesta
+(acento verde azulado) rechazada por el autor el 2026-10-18 por no ser la fusión de Nothing y WhiteSur que pidió;
+esta es la segunda.
 
 ## 1. Principios
 
-1. **Suavidad con estructura.** Superficies neutras de poca saturación, jerarquía por luminosidad (vista > ventana >
-   botón) y bordes de 1 px tenues en vez de sombras pesadas. Lo que Nothing hace plano y WhiteSur hace translúcido,
-   aquí se hace por planos.
-2. **Un acento, y que siga al sistema.** Un verde azulado sereno (matiz 195) con dos luminosidades por variante; el
-   esquema deja que Plasma lo sustituya por el acento del usuario o del fondo sin romper el contraste.
-3. **Dos variantes, una lógica.** Mismos tokens semánticos, mismos radios, espacios y estados; cambian solo las
-   primitivas. El día es papel cálido (matiz 80); la noche es pizarra fría (matiz 255): la marca cuenta el paso del
-   día sin cambiar de forma.
+1. **La fusión que pidió el autor.** De Nothing: superficies casi negras de tono único (`#1b1c1e`, el `#1b1b1d` de
+   Nothing llevado a OKLCH), un solo acento rojo, barra superior fina y dock flotante que se oculta. De WhiteSur:
+   la jerarquía de planos (vista > ventana > botón), los radios redondeados, los márgenes de 8 px, el borde de 1 px
+   tenue y la familia claro/oscuro con escalas. De ninguno: el semáforo, el logo y la fuente de Apple, el appmenu
+   global, Kvantum, los cursores WhiteSur y los colores fijos en los SVG.
+2. **Un acento, y que siga al sistema.** El rojo es el acento principal (`rojo` en `herramientas/paleta.py`), medido
+   para cumplir 4.5:1 con texto claro. Los otros dos (`azul`, el de WhiteSur; `verde-azul`) se generan con
+   `--acento` como variantes; y como el esquema sigue el acento de Plasma 6, el usuario puede cambiarlo desde
+   Preferencias sin tocar el tema.
+3. **Dos variantes, una lógica.** Mismos tokens semánticos, radios, espacios y estados; cambian solo las primitivas.
+   Los neutros comparten un matiz frío apenas perceptible (270, croma ≤ 0.006): el oscuro es la noche de Nothing;
+   el claro, el gris suave de WhiteSur claro.
 4. **Legible antes que bonito.** Todo par texto/fondo ≥ 4.5:1 (WCAG 2.2, 1.4.3) y todo foco, acento y borde de
    control ≥ 3:1 (1.4.11), medido por el script y verificado como prueba.
-5. **Nada de Apple ni de nadie.** Sin semáforos, sin logotipos, sin fuentes propietarias, sin SVG ajenos: la
-   originalidad está en las proporciones, los radios, la paleta y los estados.
-6. **Mínimo que hereda.** Lo que Breeze ya hace bien (iconos, decoración, GTK generado) no se reemplaza; se colorea.
+5. **Mínimo que hereda.** Lo que Breeze ya hace bien (iconos, decoración, GTK generado) no se reemplaza; se colorea.
 
 ## 2. Paleta
 
-Primitivas en OKLCH (luminosidad, croma, matiz) convertidas a sRGB con mapeo de gama. Las semánticas son las
-que consumen los generadores; `herramientas/paleta.py` imprime la tabla completa con hex, `R,G,B` y OKLCH.
+Primitivas en OKLCH (luminosidad, croma, matiz) convertidas a sRGB con mapeo de gama. `herramientas/paleta.py`
+imprime la tabla completa con hex, `R,G,B` y OKLCH; aquí, los tokens que más pesan.
 
 | token semántico | claro | oscuro | papel |
 |---|---|---|---|
-| `fondo.vista` | `#fdfcf9` (L 0.99) | `#101419` (L 0.19) | contenido: listas, editores, campos |
-| `fondo.ventana` | `#f1eeea` (L 0.95) | `#1b1f26` (L 0.245) | ventanas, diálogos, paneles |
-| `fondo.boton` | `#e7e4df` (L 0.92) | L 0.32 | controles |
-| `fondo.encabezado` | = ventana | L 0.22 (más profundo) | barras de título y herramientas |
-| `fondo.tooltip` | `#2b2823` (inverso) | L 0.34 | tooltips |
-| `fondo.complementario` | `#101419` | `#101419` | bloqueo y cierre de sesión: siempre oscuro |
-| `texto.normal` | `#25211b` (L 0.25) | L 0.935 | texto |
+| `fondo.vista` | `#fbfcfd` (L 0.99) | `#101012` (L 0.175) | contenido: listas, editores, campos |
+| `fondo.ventana` | `#ecedef` (L 0.945) | `#1b1c1e` (L 0.225) | ventanas, diálogos, paneles |
+| `fondo.boton` | `#e0e1e5` (L 0.91) | `#2e2f32` (L 0.305) | controles |
+| `fondo.encabezado` | = ventana | = vista (más profundo) | barras de título y herramientas |
+| `fondo.tooltip` | L 0.26 (inverso) | L 0.32 | tooltips |
+| `fondo.complementario` | `#101012` | `#101012` | bloqueo y cierre de sesión: siempre oscuro |
+| `texto.normal` | `#1d1f24` (L 0.24) | `#eaebed` (L 0.94) | texto |
 | `texto.secundario` | L 0.42 | L 0.80 | metadatos |
-| `texto.inactivo` | L 0.53 | L 0.68 | deshabilitado, marcadores |
-| `acento.base` = `seleccion.fondo` | `#007272` (L 0.50 C 0.085) | `#008181` (L 0.545 C 0.10) | selección, acento |
-| `acento.suave` = `hover` | L 0.575 | L 0.68 | pasar el ratón; foco en el oscuro |
-| `acento.texto` = `enlace` | L 0.44 | L 0.76 | enlaces, texto activo |
+| `texto.inactivo` | L 0.515 | L 0.68 | deshabilitado, marcadores |
+| `acento.base` = `seleccion.fondo` | `#c53133` (L 0.545 C 0.185 H 25) | `#c93436` (L 0.555) | selección, acento |
+| `acento.suave` = `hover` | `#da534f` (L 0.62) | `#ef6661` (L 0.68) | pasar el ratón; foco en el oscuro |
+| `acento.texto` = `enlace` | `#b51e26` (L 0.50) | `#ff958d` (L 0.78) | enlaces, texto activo |
 | `foco` | = acento.base | = acento.suave | anillo de foco: el acento de mayor contraste de cada variante |
 | `estado.error` | oklch(0.52 0.17 25) | oklch(0.74 0.15 25) | negativo |
 | `estado.advertencia` | oklch(0.52 0.12 70) | oklch(0.80 0.12 75) | neutral |
 | `estado.exito` | oklch(0.50 0.13 150) | oklch(0.76 0.13 150) | positivo |
 | `estado.info` | oklch(0.52 0.12 250) | oklch(0.76 0.10 250) | información |
-| `borde.separador` | L 0.86 | L 0.38 | separadores |
+| `borde.separador` | L 0.85 | L 0.365 | separadores |
 
 Decisiones de color:
 
-- **Texto sobre el acento siempre claro** (`#fcfcfc`) en las dos variantes, por eso el acento oscuro sube de croma
-  y baja de luminosidad hasta 4.63:1; en el claro queda en 5.63:1.
-- **El foco no es el mismo color en las dos variantes**: en el oscuro usa `acento.suave` (L 0.68), porque el acento
-  base solo llega a 2.68:1 sobre el botón; en el claro el acento base ya da 4.54:1.
-- **El tooltip es inverso en el claro** (oscuro sobre papel) y una superficie elevada en el oscuro.
-- **Los colores de estado tienen el mismo matiz en las dos variantes** y solo cambian de luminosidad; en el claro
-  son texto legible (≥ 4.5:1), no pastel.
+- **El rojo de Nothing (`#eb3131`, 4.11:1 con texto blanco) baja a L 0.545–0.555** para cumplir 4.5:1 como fondo de
+  selección con texto claro en las dos variantes (5.1:1 y 4.9:1); el tono se conserva (matiz 25).
+- **El foco no es el mismo color en las dos variantes**: en el oscuro usa `acento.suave` (`#ef6661`) para llegar a
+  4.3:1 sobre el botón; en el claro el acento base ya da 4.2:1.
+- **El error (negativo) comparte matiz con el acento**; se distingue por contexto (texto o borde, nunca fondo
+  pleno) y porque el acento no se usa como texto de aviso.
+- **El tooltip es inverso en el claro** (oscuro sobre gris) y una superficie elevada en el oscuro.
+- **Variantes de acento**: `azul` (oklch 0.50/0.56, 0.17, 262: el azul de WhiteSur llevado a 4.5:1) y `verde-azul`
+  (195) existen en el script y se publican como esquemas adicionales si el autor lo pide.
 
 ## 3. Contraste medido
 
@@ -67,58 +72,58 @@ Salida de `herramientas/paleta.py` (WCAG 2.1/2.2, sin redondeo). Los pares «jer
 
 ```
 == claro
-  ok  texto.normal / fondo.ventana                13.83    4.5   1.4.3
-  ok  texto.normal / fondo.vista                  15.55    4.5   1.4.3
-  ok  texto.normal / fondo.boton                  12.63    4.5   1.4.3
-  ok  texto.normal / fondo.encabezado             13.83    4.5   1.4.3
-  ok  texto.secundario / fondo.ventana             7.32    4.5   1.4.3
-  ok  texto.inactivo / fondo.ventana               4.56    4.5   1.4.3
-  ok  texto.inactivo / fondo.vista                 5.13    4.5   1.4.3
-  ok  texto.tooltip / fondo.tooltip               14.19    4.5   1.4.3
-  ok  texto.complementario / fondo.complementario  15.26    4.5   1.4.3
-  ok  seleccion.texto / seleccion.fondo            5.63    4.5   1.4.3
-  ok  enlace / fondo.ventana                       6.46    4.5   1.4.3
-  ok  enlace / fondo.vista                         7.27    4.5   1.4.3
-  ok  estado.error / fondo.ventana                 5.19    4.5   1.4.3
-  ok  estado.advertencia / fondo.ventana           4.88    4.5   1.4.3
-  ok  estado.exito / fondo.ventana                 4.88    4.5   1.4.3
-  ok  estado.info / fondo.ventana                  4.75    4.5   1.4.3
+  ok  texto.normal / fondo.ventana                14.01    4.5   1.4.3
+  ok  texto.normal / fondo.vista                  15.99    4.5   1.4.3
+  ok  texto.normal / fondo.boton                  12.59    4.5   1.4.3
+  ok  texto.normal / fondo.encabezado             14.01    4.5   1.4.3
+  ok  texto.secundario / fondo.ventana             7.21    4.5   1.4.3
+  ok  texto.inactivo / fondo.ventana               4.79    4.5   1.4.3
+  ok  texto.inactivo / fondo.vista                 5.47    4.5   1.4.3
+  ok  texto.tooltip / fondo.tooltip               15.10    4.5   1.4.3
+  ok  texto.complementario / fondo.complementario  15.91    4.5   1.4.3
+  ok  seleccion.texto / seleccion.fondo            5.33    4.5   1.4.3
+  ok  enlace / fondo.ventana                       5.63    4.5   1.4.3
+  ok  enlace / fondo.vista                         6.42    4.5   1.4.3
+  ok  estado.error / fondo.ventana                 5.12    4.5   1.4.3
+  ok  estado.advertencia / fondo.ventana           4.81    4.5   1.4.3
+  ok  estado.exito / fondo.ventana                 4.81    4.5   1.4.3
+  ok  estado.info / fondo.ventana                  4.68    4.5   1.4.3
   ok  estado.error / fondo.vista                   5.84    4.5   1.4.3
-  ok  foco / fondo.ventana                         4.97    3.0   1.4.11
-  ok  foco / fondo.vista                           5.59    3.0   1.4.11
-  ok  foco / fondo.boton                           4.54    3.0   1.4.11
-  ok  hover / fondo.ventana                        3.62    3.0   1.4.11
-  ok  hover / fondo.boton                          3.30    3.0   1.4.11
-  ok  acento.base / fondo.ventana                  4.97    3.0   1.4.11
-  ok  borde.separador / fondo.ventana              1.32    1.2   jerarquía (informativo)
-  ok  fondo.vista / fondo.ventana                  1.12   1.05   jerarquía (informativo)
-  ok  fondo.boton / fondo.ventana                  1.09   1.05   jerarquía (informativo)
-== oscuro
-  ok  texto.normal / fondo.ventana                13.40    4.5   1.4.3
-  ok  texto.normal / fondo.vista                  15.26    4.5   1.4.3
-  ok  texto.normal / fondo.boton                  10.48    4.5   1.4.3
-  ok  texto.normal / fondo.encabezado             14.30    4.5   1.4.3
-  ok  texto.secundario / fondo.ventana             8.69    4.5   1.4.3
-  ok  texto.inactivo / fondo.ventana               5.63    4.5   1.4.3
-  ok  texto.inactivo / fondo.vista                 6.41    4.5   1.4.3
-  ok  texto.tooltip / fondo.tooltip                9.71    4.5   1.4.3
-  ok  texto.complementario / fondo.complementario  15.26    4.5   1.4.3
-  ok  seleccion.texto / seleccion.fondo            4.63    4.5   1.4.3
-  ok  enlace / fondo.ventana                       7.84    4.5   1.4.3
-  ok  enlace / fondo.vista                         8.92    4.5   1.4.3
-  ok  estado.error / fondo.ventana                 6.60    4.5   1.4.3
-  ok  estado.advertencia / fondo.ventana           8.55    4.5   1.4.3
-  ok  estado.exito / fondo.ventana                 7.95    4.5   1.4.3
-  ok  estado.info / fondo.ventana                  7.60    4.5   1.4.3
-  ok  estado.error / fondo.vista                   7.51    4.5   1.4.3
-  ok  foco / fondo.ventana                         5.87    3.0   1.4.11
-  ok  foco / fondo.vista                           6.68    3.0   1.4.11
-  ok  foco / fondo.boton                           4.59    3.0   1.4.11
-  ok  hover / fondo.ventana                        5.87    3.0   1.4.11
-  ok  hover / fondo.boton                          4.59    3.0   1.4.11
-  ok  acento.base / fondo.ventana                  3.42    3.0   1.4.11
-  ok  borde.separador / fondo.ventana              1.62    1.2   jerarquía (informativo)
+  ok  foco / fondo.ventana                         4.64    3.0   1.4.11
+  ok  foco / fondo.vista                           5.29    3.0   1.4.11
+  ok  foco / fondo.boton                           4.17    3.0   1.4.11
+  ok  hover / fondo.ventana                        3.36    3.0   1.4.11
+  ok  hover / fondo.boton                          3.02    3.0   1.4.11
+  ok  acento.base / fondo.ventana                  4.64    3.0   1.4.11
+  ok  borde.separador / fondo.ventana              1.35    1.2   jerarquía (informativo)
   ok  fondo.vista / fondo.ventana                  1.14   1.05   jerarquía (informativo)
+  ok  fondo.boton / fondo.ventana                  1.11   1.05   jerarquía (informativo)
+== oscuro
+  ok  texto.normal / fondo.ventana                14.34    4.5   1.4.3
+  ok  texto.normal / fondo.vista                  15.91    4.5   1.4.3
+  ok  texto.normal / fondo.boton                  11.24    4.5   1.4.3
+  ok  texto.normal / fondo.encabezado             15.91    4.5   1.4.3
+  ok  texto.secundario / fondo.ventana             9.15    4.5   1.4.3
+  ok  texto.inactivo / fondo.ventana               5.94    4.5   1.4.3
+  ok  texto.inactivo / fondo.vista                 6.58    4.5   1.4.3
+  ok  texto.tooltip / fondo.tooltip               10.64    4.5   1.4.3
+  ok  texto.complementario / fondo.complementario  15.91    4.5   1.4.3
+  ok  seleccion.texto / seleccion.fondo            5.11    4.5   1.4.3
+  ok  enlace / fondo.ventana                       8.11    4.5   1.4.3
+  ok  enlace / fondo.vista                         9.00    4.5   1.4.3
+  ok  estado.error / fondo.ventana                 6.96    4.5   1.4.3
+  ok  estado.advertencia / fondo.ventana           9.02    4.5   1.4.3
+  ok  estado.exito / fondo.ventana                 8.38    4.5   1.4.3
+  ok  estado.info / fondo.ventana                  8.01    4.5   1.4.3
+  ok  estado.error / fondo.vista                   7.72    4.5   1.4.3
+  ok  foco / fondo.ventana                         5.50    3.0   1.4.11
+  ok  foco / fondo.vista                           6.10    3.0   1.4.11
+  ok  foco / fondo.boton                           4.31    3.0   1.4.11
+  ok  hover / fondo.ventana                        5.50    3.0   1.4.11
+  ok  hover / fondo.boton                          4.31    3.0   1.4.11
+  ok  acento.base / fondo.ventana                  3.28    3.0   1.4.11
+  ok  borde.separador / fondo.ventana              1.61    1.2   jerarquía (informativo)
+  ok  fondo.vista / fondo.ventana                  1.11   1.05   jerarquía (informativo)
   ok  fondo.boton / fondo.ventana                  1.28   1.05   jerarquía (informativo)
 resultado: todos los pares cumplen
 ```
@@ -162,13 +167,15 @@ con `--fuentes` y el sitio las documenta. Nada de `SFNS Display` ni de fuentes p
 
 ## 7. Muestras
 
-`muestras/claro.png` y `muestras/oscuro.png`: widgets reales de Qt con el estilo Breeze y el esquema generado
+`muestras/boceto-claro.png` y `muestras/boceto-oscuro.png`: boceto del escritorio (panel fino, lanzador, ventana
+redondeada, notificación, tooltip, dock flotante) dibujado con los tokens por `herramientas/boceto.py`; **no es una
+captura**. `muestras/claro.png` y `muestras/oscuro.png`: widgets reales de Qt con el estilo Breeze y el esquema generado
 (`herramientas/lamina.py`, sin pantalla). Límite de la lámina: fuera de una sesión de Plasma el estilo no lee el
 color de foco del esquema, por eso el deslizador y la barra de progreso salen en azul Breeze; en el escritorio real
 siguen al esquema (se comprueba en la fase 7).
 
 ## 8. Lo que decide el autor
 
-1. La paleta (acento verde azulado 195; papel cálido y pizarra fría), o un acento distinto: el script admite cambiar
-   `ACENTO_H` y vuelve a medir.
-2. El nombre (`docs/nombre.md`).
+1. La paleta corregida (rojo de Nothing sobre neutros casi negros y grises suaves): aprobación o cambio de acento
+   (`--acento azul|verde-azul`, o un matiz nuevo).
+2. El nombre: **Llampu**, aprobado el 2026-10-18.

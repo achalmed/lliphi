@@ -26,7 +26,11 @@ sentido para una estética serena y mínima, y en sintonía con el ecosistema de
 | Wayra | quechua: viento | 0 | 227 | libre | libre | — | aceleradora Wayra (Telefónica) | descartado: marca conocida |
 | Umbral | español | 0 | 775; `umbral-night-theme` existe | ocupado | ocupado | — | — | descartado |
 
-## Recomendación
+## Decisión
+
+**El autor eligió Llampu el 2026-10-18.**
+
+## Recomendación (previa a la decisión)
 
 **Llampu**, con las variantes **Llampu Claro** y **Llampu Oscuro** (en la tienda, «Llampu Light» y «Llampu Dark»
 como alias en inglés). Identificadores: carpeta y repositorio `llampu`, paquetes `org.llampu.<componente>` o

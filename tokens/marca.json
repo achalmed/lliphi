@@ -1,5 +1,5 @@
 {
-  "$description": "Identidad de la marca. PROVISIONAL hasta que el autor apruebe el nombre (docs/nombre.md); cambiar aquí renombra todos los derivados al regenerar.",
+  "$description": "Identidad de la marca (nombre aprobado por el autor el 2026-10-18, docs/nombre.md); cambiar aquí renombra todos los derivados al regenerar.",
   "nombre": "Llampu",
   "id": "llampu",
   "dominio_inverso": "org.llampu",

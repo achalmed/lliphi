@@ -21,8 +21,9 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
 
 - **2.1 (2026-10-18) Fuente de verdad en OKLCH**, con `hex` de respaldo, en formato Design Tokens 2025.10. Motivo:
   luminosidad perceptual para derivar superficies y estados; Plasma tiñe en OKLab; el formato es intercambiable.
-- **2.2 (2026-10-18) Un solo acento (matiz 195) que sigue al sistema.** Nothing fija el rojo 258 veces en los SVG y
-  WhiteSur el azul; aquí el acento es un token y los SVG propios usan `currentColor` con las clases
+- **2.2 (2026-10-18) Un solo acento, el rojo de Nothing (matiz 25), que sigue al sistema.** El autor rechazó el verde
+  azulado de la primera propuesta: el tema es la fusión de Nothing y WhiteSur. Nothing fija el rojo 258 veces en los SVG y
+  WhiteSur el azul; aquí el acento es un token (y `azul` y `verde-azul` son variantes generadas) y los SVG propios usan `currentColor` con las clases
   `ColorScheme-*`, de modo que el acento del usuario o del fondo lo sustituye.
 - **2.3 (2026-10-18) Texto claro sobre el acento en las dos variantes;** el acento del oscuro baja de luminosidad
   hasta cumplir 4.5:1. Alternativa descartada: texto oscuro sobre un acento brillante en la variante oscura (rompe
@@ -33,8 +34,9 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   translúcida vendrá como módulo con su contraste medido sobre fondos de prueba.
 - **2.6 (2026-10-18) Sin imponer fuentes** desde `defaults`; Inter e IBM Plex Mono se recomiendan y el instalador las
   ofrece con `--fuentes`.
-- **2.7 (2026-10-18) Papel cálido de día, pizarra fría de noche** (matices 80 y 255) con croma ≤ 0.014: las dos
-  variantes comparten lógica y geometría y cambian solo las primitivas.
+- **2.7 (2026-10-18) Neutros casi negros (Nothing) y grises suaves (WhiteSur claro)** con un matiz frío común (270)
+  y croma ≤ 0.006; sustituye al «papel cálido / pizarra fría» de la primera propuesta, que el autor no reconoció
+  como la fusión pedida. Las dos variantes comparten lógica y geometría y cambian solo las primitivas.
 
 ## 3. Técnica
 

@@ -30,48 +30,64 @@ def oklch(l: float, c: float, h: float) -> Color:
     return Color("oklch", [l, c, h]).fit("srgb")
 
 
-MATIZ = {"claro": 80, "oscuro": 255}
-ACENTO_H = 195
-
-PRIMITIVAS = {
-    "claro": {
-        "neutro-0": oklch(0.990, 0.003, 80),   # vista (papel claro)
-        "neutro-1": oklch(0.965, 0.005, 80),   # vista alterna
-        "neutro-2": oklch(0.950, 0.006, 80),   # ventana
-        "neutro-3": oklch(0.920, 0.007, 80),   # ventana alterna, botón
-        "neutro-4": oklch(0.860, 0.008, 80),   # separadores, bordes
-        "neutro-5": oklch(0.530, 0.010, 80),   # texto inactivo
-        "neutro-6": oklch(0.420, 0.012, 80),   # texto secundario
-        "neutro-7": oklch(0.250, 0.012, 80),   # texto
-        "neutro-8": oklch(0.280, 0.010, 80),   # tooltip (inverso)
-        "acento":   oklch(0.500, 0.095, ACENTO_H),
-        "acento-suave": oklch(0.575, 0.090, ACENTO_H),
-        "acento-texto": oklch(0.440, 0.095, ACENTO_H),
-        "negativo": oklch(0.520, 0.170, 25),
-        "neutral":  oklch(0.520, 0.120, 70),
-        "positivo": oklch(0.500, 0.130, 150),
-        "info":     oklch(0.520, 0.120, 250),
-    },
-    "oscuro": {
-        "neutro-0": oklch(0.190, 0.012, 255),  # vista (más profunda que la ventana)
-        "neutro-1": oklch(0.220, 0.012, 255),  # vista alterna
-        "neutro-2": oklch(0.245, 0.013, 255),  # ventana
-        "neutro-3": oklch(0.275, 0.013, 255),  # ventana alterna
-        "neutro-3b": oklch(0.320, 0.014, 255), # botón
-        "neutro-4": oklch(0.380, 0.014, 255),  # separadores, bordes
-        "neutro-5": oklch(0.680, 0.012, 255),  # texto inactivo
-        "neutro-6": oklch(0.800, 0.010, 255),  # texto secundario
-        "neutro-7": oklch(0.935, 0.006, 255),  # texto
-        "neutro-8": oklch(0.340, 0.014, 255),  # tooltip
-        "acento":   oklch(0.545, 0.100, ACENTO_H),
-        "acento-suave": oklch(0.680, 0.095, ACENTO_H),
-        "acento-texto": oklch(0.760, 0.090, ACENTO_H),
-        "negativo": oklch(0.740, 0.150, 25),
-        "neutral":  oklch(0.800, 0.120, 75),
-        "positivo": oklch(0.760, 0.130, 150),
-        "info":     oklch(0.760, 0.100, 250),
-    },
+# Neutros casi negros (Nothing) y grises suaves (WhiteSur claro), con un matiz frío apenas perceptible.
+# Acento principal: el rojo de Nothing, llevado a la luminosidad que cumple 4.5:1 con texto claro.
+# Otros acentos (azul de WhiteSur, verde azulado) se generan con --acento; el esquema sigue además
+# el acento del sistema de Plasma 6, así que el usuario puede cambiarlo sin tocar el tema.
+MATIZ_NEUTRO = 270
+ACENTOS = {
+    #            claro: base, suave, texto          oscuro: base, suave, texto
+    "rojo":       ((0.545, 0.185, 25), (0.62, 0.17, 25), (0.50, 0.185, 25),
+                   (0.555, 0.185, 25), (0.68, 0.17, 25), (0.78, 0.13, 25)),
+    "azul":       ((0.50, 0.17, 262), (0.60, 0.15, 262), (0.46, 0.17, 262),
+                   (0.56, 0.17, 262), (0.70, 0.13, 262), (0.80, 0.10, 262)),
+    "verde-azul": ((0.50, 0.085, 195), (0.575, 0.09, 195), (0.44, 0.095, 195),
+                   (0.545, 0.10, 195), (0.68, 0.095, 195), (0.76, 0.09, 195)),
 }
+ACENTO = "rojo"
+
+
+def primitivas(acento: str = ACENTO) -> dict[str, dict[str, Color]]:
+    a = ACENTOS[acento]
+    h = MATIZ_NEUTRO
+    return {
+        "claro": {
+            "neutro-0": oklch(0.990, 0.002, h),   # vista
+            "neutro-1": oklch(0.965, 0.003, h),   # vista alterna
+            "neutro-2": oklch(0.945, 0.004, h),   # ventana
+            "neutro-3": oklch(0.910, 0.005, h),   # ventana alterna, botón
+            "neutro-4": oklch(0.850, 0.006, h),   # separadores, bordes
+            "neutro-5": oklch(0.515, 0.008, h),   # texto inactivo
+            "neutro-6": oklch(0.420, 0.010, h),   # texto secundario
+            "neutro-7": oklch(0.240, 0.010, h),   # texto
+            "neutro-8": oklch(0.260, 0.008, h),   # tooltip (inverso)
+            "acento": oklch(*a[0]), "acento-suave": oklch(*a[1]), "acento-texto": oklch(*a[2]),
+            "negativo": oklch(0.520, 0.170, 25),
+            "neutral":  oklch(0.520, 0.120, 70),
+            "positivo": oklch(0.500, 0.130, 150),
+            "info":     oklch(0.520, 0.120, 250),
+        },
+        "oscuro": {
+            "neutro-0": oklch(0.175, 0.004, h),   # vista (más profunda)
+            "neutro-1": oklch(0.205, 0.004, h),   # vista alterna
+            "neutro-2": oklch(0.225, 0.004, h),   # ventana (≈ el #1b1b1d de Nothing)
+            "neutro-3": oklch(0.260, 0.005, h),   # ventana alterna
+            "neutro-3b": oklch(0.305, 0.005, h),  # botón
+            "neutro-4": oklch(0.365, 0.006, h),   # separadores, bordes
+            "neutro-5": oklch(0.680, 0.006, h),   # texto inactivo
+            "neutro-6": oklch(0.800, 0.005, h),   # texto secundario
+            "neutro-7": oklch(0.940, 0.003, h),   # texto
+            "neutro-8": oklch(0.320, 0.005, h),   # tooltip
+            "acento": oklch(*a[3]), "acento-suave": oklch(*a[4]), "acento-texto": oklch(*a[5]),
+            "negativo": oklch(0.740, 0.150, 25),
+            "neutral":  oklch(0.800, 0.120, 75),
+            "positivo": oklch(0.760, 0.130, 150),
+            "info":     oklch(0.760, 0.100, 250),
+        },
+    }
+
+
+PRIMITIVAS = primitivas()
 
 BLANCO = Color("srgb", [0.99, 0.99, 0.99])
 
@@ -91,7 +107,7 @@ def semanticos(variante: str) -> dict[str, Color]:
         "fondo.vista": p["neutro-0"],
         "fondo.vista-alterno": p["neutro-1"],
         "fondo.boton": boton,
-        "fondo.encabezado": p["neutro-2"] if variante == "claro" else p["neutro-1"],
+        "fondo.encabezado": p["neutro-2"] if variante == "claro" else p["neutro-0"],
         "fondo.tooltip": p["neutro-8"],
         "fondo.complementario": PRIMITIVAS["oscuro"]["neutro-0"],   # bloqueo y cierre: siempre oscuro
         # texto
@@ -206,6 +222,7 @@ def token_color(c: Color, descripcion: str = "") -> dict:
 def escribir_tokens() -> None:
     doc = {
         "$description": "Fuente de verdad del color del tema. Generado por herramientas/paleta.py; no editar a mano.",
+        "acento": ACENTO,
         "primitivas": {
             v: {k: token_color(c) for k, c in p.items()} for v, p in PRIMITIVAS.items()
         },
@@ -232,6 +249,9 @@ def escribir_tokens() -> None:
 
 
 if __name__ == "__main__":
+    if "--acento" in sys.argv:
+        ACENTO = sys.argv[sys.argv.index("--acento") + 1]
+        PRIMITIVAS = primitivas(ACENTO)
     bien = informe()
     if "--aplicar" in sys.argv:
         escribir_tokens()

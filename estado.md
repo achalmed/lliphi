@@ -13,6 +13,7 @@ Hasta que el autor elija el nombre (fase 3), la carpeta se llama `tema-plasma` y
 
 | fecha | qué | dónde se ve |
 |---|---|---|
+| 2026-10-18 | fase 3 cerrada: el autor eligió **Llampu**; fase 4 corregida: la primera paleta (verde azulado) no era la fusión pedida; segunda paleta con el rojo de Nothing sobre neutros casi negros y grises suaves (25 pares en verde), variantes de acento `azul` y `verde-azul` en el script, boceto del escritorio (`herramientas/boceto.py` → `muestras/boceto-*.png`) | `docs/direccion-artistica.md` |
 | 2026-10-18 | fase 5 (borrador): arquitectura (fuente → generadores → `generado/` versionado con prueba de deriva; instalador reversible; módulos y lotes), decisiones 1.1–3.10 y matriz de compatibilidad | `docs/arquitectura.md`, `docs/decisiones.md`, `docs/compatibilidad.md` |
 | 2026-10-18 | fase 4: paleta OKLCH en `herramientas/paleta.py` → `tokens/tokens.json` (DTCG 2025.10), 25 pares de contraste medidos y en verde en las dos variantes, primer generador (`herramientas/generar_esquema.py` → `generado/color-schemes/*.colors`) y lámina de widgets Breeze (`herramientas/lamina.py` → `muestras/*.png`); `.venv` con coloraide; dirección artística documentada, pendiente de aprobación | `docs/direccion-artistica.md` |
 | 2026-10-18 | fase 2 cerrada: análisis de los temas de partida, matriz de referencias, mecánica de cada categoría en Plasma 6.6 y estándares del repositorio; Aurorae reescrito en 6.6 (motor SVG V2): el primer lote usa Breeze coloreada por el esquema | `docs/analisis-temas-de-partida.md`, `docs/investigacion.md` |
@@ -23,9 +24,9 @@ Hasta que el autor elija el nombre (fase 3), la carpeta se llama `tema-plasma` y
 
 ## En curso
 
-- fase 3 y 4: el autor elige el nombre (Llampu o Sosiego) y aprueba la paleta; mientras tanto se redacta la arquitectura (fase 5) con el nombre provisional (dueño: asistente).
+- fase 4: el autor aprueba la paleta corregida (rojo de Nothing) o pide otro acento; con su visto bueno empieza la implementación del primer lote (fase 6).
 
 ## Por hacer
 
-- 2026-10-18 · dueño: autor · elegir el nombre (fase 3) y después dar de alta la carpeta en `meta/workspace.yml` (director).
+- 2026-10-18 · dueño: director · dar de alta `llampu` en `meta/workspace.yml` y renombrar la carpeta `tema-plasma` → `llampu` con `core/renombrar.py` (cambio estructural: etiqueta, simulación, respaldo, UNDO).
 - 2026-10-18 · dueño: autor · importar en Zotero `scripts-biblioteca/ingesta/salida_ris/ingesta_20261018_130400.ris` (15 ítems de esta serie) y pegar las claves en `#zotero_key`.
