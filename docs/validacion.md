@@ -130,3 +130,21 @@ cadenas `#69c27e`, números `#d0a43a`; Positron claro: editor `#fbfcfd`, explora
    validación se mata por PID tras comprobar `HOME=/tmp/casa-lliphi-l2` en `/proc/<pid>/environ`, y el compositor
    externo solo con el patrón anclado `^kwin_wayland --virtual --xwayland --width 1600`. La sesión del autor no se
    tocó en ningún momento (su `kwin_wayland --socket wayland-0` siguió vivo; ninguna orden `plasma-apply-*` usó su bus).
+
+## 6. Cristal (0.2.0): qué hizo falta para que la translucidez fuera real
+
+Medido en la sesión del autor (Plasma 6.6.6, Wayland, efecto `blur` cargado, sin efecto `contrast`: en este KWin ya
+no existe como efecto aparte) con el lanzador abierto sobre una ventana oscura, variante clara, píxel del fondo del
+lanzador: opaco = `#eceef0` (236,237,239); translúcido = ≈ (213,214,216).
+
+| intento | resultado | lección |
+|---|---|---|
+| `translucent/dialogs/background.svg` al 0.85 y normal al 0.97, con `opaque/` al 1.0 | 236: opaco | — |
+| sin `opaque/` | 236: opaco | no era `opaque/` |
+| normal y `translucent/` al 0.5 | 236: opaco | Plasma no usaba ninguno de los dos para el lanzador |
+| **`solid/dialogs/background.svg` con el cristal** | **213: translúcido con desenfoque** | Kickoff (y el panel en modo opaco) piden la variante `solid`; si el tema no la trae, Plasma cae a la `solid/` de Breeze, opaca, teñida con el esquema. WhiteSur entrega una `solid/` translúcida: por eso se ve de cristal |
+| sesión anidada (`kwin_wayland` en ventana) | el lanzador de Breeze también sale opaco | la anidada no sirve para validar translucidez; solo la sesión real |
+
+Decisión: el estilo entrega el mismo cristal en `widgets/`, `translucent/` y `solid/`, y no entrega `opaque/`. QtSvg
+renderiza la opacidad de los SVG generados igual que la de Breeze (alfa 216 para 0.85, medido con `QSvgRenderer`).
+Límite: sin compositor con `blur`, el cristal se ve sin desenfoque (el contraste de `plasmarc` solo actúa con blur).
