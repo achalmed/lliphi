@@ -1,0 +1,27 @@
+{
+    "KPackageStructure": "KWin/Aurorae",
+    "KPlugin": {
+        "Authors": [
+            {
+                "Name": "Edison Achalma",
+                "Email": ""
+            },
+            {
+                "Name": "vinceliuice (WhiteSur)",
+                "Email": ""
+            },
+            {
+                "Name": "jomada (Nothing)",
+                "Email": ""
+            }
+        ],
+        "Category": "Plasma 6 Window Decorations",
+        "Description": "Lliphi: decoración de ventanas (Lliphi Claro), derivada de WhiteSur y Nothing",
+        "EnabledByDefault": true,
+        "Id": "lliphi-claro",
+        "License": "GPL-3.0-or-later",
+        "Name": "Lliphi Claro",
+        "Version": "0.2.0",
+        "Website": "https://achalmed.github.io/lliphi/"
+    }
+}
