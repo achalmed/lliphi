@@ -1,0 +1,79 @@
+---
+title: "LibreOffice: colores de la aplicación"
+subtitle: "Dos esquemas de «Colores de la aplicación» (Lliphi Claro y Lliphi Oscuro) para Writer, Calc, Impress, Draw, Base y la IDE de BASIC: documento, cuadrícula, saltos, control de cambios, sintaxis BASIC y SQL desde los mismos tokens, como extensión .oxt o fragmento .xcu."
+---
+
+| | |
+|---|---|
+| estado | **experimental** |
+| tecnología | `org.openoffice.Office.UI/ColorScheme/ColorSchemes` (91 entradas `Color` y `IsVisible`, esquema de LibreOffice 26.2) · extensión `.oxt` con `oor:component-data` · fragmento `<oor:items>` para `registrymodifications.xcu` |
+| desde la versión | 0.2.0 |
+| archivos | `lliphi.oxt`, `lliphi.xcu`, `lliphi-claro.xcu`, `lliphi-oscuro.xcu`, `oxt/` |
+| licencia | CC-BY-SA-4.0 |
+
+
+## Instalar
+
+LibreOffice (≥ 24.8; generado contra 26.2) guarda los esquemas de «Colores de la aplicación» en su configuración, no
+en una carpeta de temas, así que el instalador de Lliphi **no toca LibreOffice** (decisión 3.14): hay dos caminos y
+los dos los haces tú, con LibreOffice cerrado.
+
+### A. Extensión (recomendado)
+
+`lliphi.oxt` es una extensión de solo configuración (sin código) que añade los dos esquemas.
+
+1. Cierra LibreOffice del todo (también el inicio rápido).
+2. Instálala para tu usuario:
+
+```bash
+unopkg add generado/libreoffice/lliphi.oxt
+```
+
+   o desde LibreOffice: Herramientas → Gestor de extensiones → Añadir → `lliphi.oxt`.
+3. Abre LibreOffice → Herramientas → Opciones → LibreOffice → Colores de la aplicación → Esquema: **Lliphi Oscuro** o
+   **Lliphi Claro** → Aceptar. El cambio es inmediato.
+
+Los esquemas de una extensión no se pueden borrar desde ese diálogo (se quitan desinstalando la extensión), y sí se
+pueden copiar y modificar con «Guardar».
+
+### B. Fragmento en `registrymodifications.xcu`
+
+Si prefieres no instalar extensiones:
+
+1. Cierra LibreOffice y haz copia de `~/.config/libreoffice/4/user/registrymodifications.xcu`.
+2. Copia los `<item …>` de `lliphi.xcu` (o solo los de `lliphi-claro.xcu` / `lliphi-oscuro.xcu`) dentro de
+   `<oor:items> … </oor:items>` de ese archivo, en cualquier posición.
+3. Abre LibreOffice y elige el esquema como en A.3. Al elegirlo, LibreOffice reescribe el archivo con sus propias
+   entradas; a partir de entonces el esquema es tuyo y se puede borrar desde el diálogo.
+
+### Qué cambia y qué no
+
+- Cambian los colores del **documento**: fondo de página y de la aplicación, límites de texto y de tabla, texto, enlaces,
+  subrayados de ortografía y gramática, sombreados de campos e índices, saltos de página, cuadrícula y detective de Calc,
+  valores, fórmulas y texto en el resaltado de valores, colores de los nueve autores del control de cambios, y la
+  sintaxis de la IDE de BASIC, del editor SQL de Base y del código HTML (palabras clave rojo, cadenas verde, números
+  amarillo, comentarios en el texto inactivo, como en los editores).
+- La **interfaz** (menús, barras, botones) sigue al escritorio: con el esquema de Lliphi aplicado en Plasma, LibreOffice
+  ya la toma de ahí. Los esquemas incluyen también esos colores de interfaz (`WindowColor`, `MenuColor`…) para quien
+  active el «tema de LibreOffice» (24.8+, Herramientas → Opciones → LibreOffice → Avanzado → Configuración experta →
+  `org.openoffice.Office.Common/Appearance/LibreOfficeTheme`); sin activarlo no se usan.
+- Para que siga al sistema entre claro y oscuro, LibreOffice solo tiene el esquema «Automático» propio; con Lliphi se
+  elige una variante a mano.
+
+## Actualizar
+
+Camino A: `unopkg remove org.lliphi.libreoffice` y `unopkg add` del `.oxt` nuevo (o Gestor de extensiones → Actualizar).
+Camino B: vuelve a pegar los `<item>` nuevos; las entradas con el mismo nombre se funden (`oor:op="fuse"`).
+
+## Desinstalar
+
+Elige otro esquema en Colores de la aplicación. Camino A: `unopkg remove org.lliphi.libreoffice` (o Gestor de
+extensiones → Eliminar). Camino B: borra el esquema desde el diálogo (botón Eliminar) o restaura la copia del archivo.
+
+
+## Código, incidencias y cambios
+
+- Código: [`generado/libreoffice`](https://github.com/achalmed/lliphi/tree/main/generado/libreoffice) y su generador
+  [`herramientas/destinos/libreoffice.py`](https://github.com/achalmed/lliphi/blob/main/herramientas/destinos/libreoffice.py).
+- Incidencias: [https://github.com/achalmed/lliphi/issues](https://github.com/achalmed/lliphi/issues?q=label%3Alibreoffice).
+- Cambios: [registro de cambios](../../cambios.qmd).

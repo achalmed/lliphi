@@ -254,6 +254,61 @@ def test_iconos_tema_carpetas():
         assert not list(base.rglob("*-symbolic.svg")), "los simbólicos se heredan de Breeze"
 
 
+def test_libreoffice_esquemas():
+    """Fragmentos .xcu y extensión .oxt: estructura, 91 entradas por esquema, cada Color decimal es un hex de los tokens."""
+    import zipfile
+    sys.path.insert(0, str(RAIZ / "herramientas"))
+    from destinos.libreoffice import VISIBLES, entradas  # noqa: E402
+    hexes = {t["$value"]["hex"].lower() for t in _tokens_planos(TOKENS).values() if isinstance(t["$value"], dict) and "hex" in t["$value"]}
+    enteros = {int(h[1:], 16) for h in hexes}
+    base = GEN / "libreoffice"
+    raiz = "/org.openoffice.Office.UI/ColorScheme/ColorSchemes"
+    for archivo, variantes in ((f"{MARCA['id']}.xcu", ("claro", "oscuro")), (f"{MARCA['id']}-claro.xcu", ("claro",)), (f"{MARCA['id']}-oscuro.xcu", ("oscuro",))):
+        doc = ET.parse(base / archivo).getroot()
+        assert doc.tag == "{http://openoffice.org/2001/registry}items"
+        items = doc.findall("item")
+        nodos = {i.find("node").get("{http://openoffice.org/2001/registry}name") for i in items if i.get("{http://openoffice.org/2001/registry}path") == raiz}
+        assert nodos == {MARCA["nombre_esquema"][v] for v in variantes}
+        for v in variantes:
+            e = entradas(TOKENS, v)
+            assert len(e) == 91 and e["DocColor"] == _sintaxis_esperada(v)["fondo"] and e["BASICKeyword"] == _sintaxis_esperada(v)["palabra-clave"]
+            assert e["BASICString"] == _terminal(v)["color2"] and e["SQLNumber"] == _terminal(v)["color3"] and e["SQLComment"] == _sintaxis_esperada(v)["comentario"]
+            prefijo = f"{raiz}/org.openoffice.Office.UI:ColorScheme['{MARCA['nombre_esquema'][v]}']/"
+            colores = {i.get("{http://openoffice.org/2001/registry}path")[len(prefijo):]: int(i.find("prop/value").text)
+                       for i in items if i.get("{http://openoffice.org/2001/registry}path", "").startswith(prefijo) and i.find("prop").get("{http://openoffice.org/2001/registry}name") == "Color"}
+            assert set(colores) == set(e)
+            for entrada, n in colores.items():
+                assert n in enteros and n == int(e[entrada][1:], 16), (v, entrada, n)
+            visibles = {i.get("{http://openoffice.org/2001/registry}path")[len(prefijo):]: i.find("prop/value").text
+                        for i in items if i.get("{http://openoffice.org/2001/registry}path", "").startswith(prefijo) and i.find("prop").get("{http://openoffice.org/2001/registry}name") == "IsVisible"}
+            assert visibles == {k: str(b).lower() for k, b in VISIBLES.items()}
+        assert all(prop.get("{http://openoffice.org/2001/registry}op") == "fuse" for prop in doc.iter("prop")), archivo
+    # la extensión: zip reproducible con manifest, description y el component-data con los dos esquemas
+    with zipfile.ZipFile(base / f"{MARCA['id']}.oxt") as z:
+        assert set(z.namelist()) == {"META-INF/manifest.xml", "description.xml", "descripcion.txt", f"{MARCA['id']}.xcu"}
+        assert all(zi.date_time == (1980, 1, 1, 0, 0, 0) for zi in z.infolist()), "zip no reproducible"
+        manifest = ET.fromstring(z.read("META-INF/manifest.xml"))
+        entrada = manifest.find("{http://openoffice.org/2001/manifest}file-entry")
+        assert entrada.get("{http://openoffice.org/2001/manifest}media-type") == "application/vnd.sun.star.configuration-data"
+        assert entrada.get("{http://openoffice.org/2001/manifest}full-path") == f"{MARCA['id']}.xcu"
+        desc = ET.fromstring(z.read("description.xml"))
+        assert desc.find("{http://openoffice.org/extensions/description/2006}identifier").get("value") == f"{MARCA['dominio_inverso']}.libreoffice"
+        assert desc.find("{http://openoffice.org/extensions/description/2006}version").get("value") == (RAIZ / "VERSION").read_text().strip()
+        datos = ET.fromstring(z.read(f"{MARCA['id']}.xcu"))
+        assert datos.get("{http://openoffice.org/2001/registry}name") == "UI" and datos.get("{http://openoffice.org/2001/registry}package") == "org.openoffice.Office"
+        esquemas = datos.findall("node/node/node")
+        assert {n.get("{http://openoffice.org/2001/registry}name") for n in esquemas} == set(MARCA["nombre_esquema"].values())
+        for esquema in esquemas:
+            assert esquema.get("{http://openoffice.org/2001/registry}op") == "replace"
+            v = "claro" if esquema.get("{http://openoffice.org/2001/registry}name") == MARCA["nombre_esquema"]["claro"] else "oscuro"
+            e = entradas(TOKENS, v)
+            assert [n.get("{http://openoffice.org/2001/registry}name") for n in esquema.findall("node")] == list(e)
+            for n in esquema.findall("node"):
+                valor = int(n.find("prop[@{http://openoffice.org/2001/registry}name='Color']/value").text)
+                assert valor in enteros and valor == int(e[n.get("{http://openoffice.org/2001/registry}name")][1:], 16)
+        assert (base / "oxt" / f"{MARCA['id']}.xcu").read_bytes() == z.read(f"{MARCA['id']}.xcu")
+
+
 def test_fondo_paquete():
     base = GEN / "wallpapers" / MARCA["id_fondo"]
     meta = json.loads((base / "metadata.json").read_text(encoding="utf-8"))

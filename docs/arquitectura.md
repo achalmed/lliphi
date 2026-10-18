@@ -73,6 +73,7 @@ cada módulo declara desde qué versión existe.
 | `aurorae` | solo en SVG (V2) y solo si Breeze no basta | Aurorae V2 | pendiente | 3 |
 | `terminales` | Alacritty (`[colors]` TOML) y Kitty (`.conf`), claro y oscuro, desde el grupo `terminal` | varias | implementado (lote 2) | 2 |
 | `editores` | extensión mínima de VS Code y tema de Zed; sintaxis desde los ANSI con una tabla única | varias | implementado (lote 2) | 2 |
+| `libreoffice` | dos esquemas de «Colores de la aplicación» (91 entradas de LibreOffice 26.2) como `.oxt` reproducible y fragmentos `.xcu`; BASIC y SQL con la tabla de los editores | varias | implementado (lote 2) | 2 |
 | `kvantum`, `navegadores` (Zen/Firefox), `productividad`, `ciencia` (RStudio, Positron, JupyterLab, matplotlib) | archivos por aplicación generados de los tokens | varias | pendiente | 2–4 |
 | `sddm`, `plymouth` | con confirmación explícita y root | SDDM, Plymouth | pendiente | 4 |
 

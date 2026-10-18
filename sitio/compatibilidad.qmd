@@ -17,6 +17,7 @@ indica y aún no se ha probado aquí. La matriz completa y actualizada está en
 | decoración Breeze coloreada | esperado | esperado | **probado** |
 | Konsole | esperado | esperado | experimental |
 | fondo con variante oscura (`images_dark/`) | solo la clara | solo la clara | **probado** (por ruta del paquete) |
+| LibreOffice (colores de la aplicación, `.oxt`) | independiente de Plasma | — | experimental |
 | GTK generado por Plasma | esperado | esperado | pendiente |
 | escalas 150 % y 200 % | — | — | pendiente |
 | SDDM, splash, bloqueo | fuera del primer lote | | |

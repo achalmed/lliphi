@@ -1,0 +1,1 @@
+Esquemas de colores de la aplicación «Lliphi Claro» y «Lliphi Oscuro», generados desde los tokens de Lliphi: Tema para KDE Plasma: casi negro y gris suave con un acento rojo; mínimo, legible y reversible. Elige el esquema en Herramientas → Opciones → LibreOffice → Colores de la aplicación. Licencia CC-BY-SA-4.0. https://lliphi.netlify.app

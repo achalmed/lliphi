@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Editores: VS Code y Zed – Lliphi</title>
+<title>Editores: VS Code, Positron y Zed – Lliphi</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -113,8 +113,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <style>html{ scroll-behavior: smooth; }</style>
 
 
-<meta property="og:title" content="Editores: VS Code y Zed – Lliphi">
-<meta property="og:description" content="Temas claro y oscuro para VS Code (extensión mínima) y Zed con la interfaz del esquema, la sintaxis derivada de los dieciséis ANSI y la terminal integrada de Konsole.">
+<meta property="og:title" content="Editores: VS Code, Positron y Zed – Lliphi">
+<meta property="og:description" content="Temas claro y oscuro para VS Code y sus derivados Positron y VSCodium (una misma extensión mínima) y para Zed, con la interfaz del esquema, la sintaxis derivada de los dieciséis ANSI y la terminal integrada de Konsole.">
 <meta property="og:image" content="https://lliphi.netlify.app/generado/catalogo/generado/capturas/oscuro-02-lanzador.png">
 <meta property="og:site_name" content="Lliphi">
 <meta property="og:locale" content="es_ES">
@@ -389,6 +389,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#instalar-a-mano" id="toc-instalar-a-mano" class="nav-link active" data-scroll-target="#instalar-a-mano">Instalar a mano</a>
   <ul class="collapse">
   <li><a href="#vs-code" id="toc-vs-code" class="nav-link" data-scroll-target="#vs-code">VS Code</a></li>
+  <li><a href="#positron-y-vscodium" id="toc-positron-y-vscodium" class="nav-link" data-scroll-target="#positron-y-vscodium">Positron y VSCodium</a></li>
   <li><a href="#zed" id="toc-zed" class="nav-link" data-scroll-target="#zed">Zed</a></li>
   </ul></li>
   <li><a href="#actualizar" id="toc-actualizar" class="nav-link" data-scroll-target="#actualizar">Actualizar</a></li>
@@ -403,8 +404,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Editores: VS Code y Zed</h1>
-<p class="subtitle lead">Temas claro y oscuro para VS Code (extensión mínima) y Zed con la interfaz del esquema, la sintaxis derivada de los dieciséis ANSI y la terminal integrada de Konsole.</p>
+<h1 class="title">Editores: VS Code, Positron y Zed</h1>
+<p class="subtitle lead">Temas claro y oscuro para VS Code y sus derivados Positron y VSCodium (una misma extensión mínima) y para Zed, con la interfaz del esquema, la sintaxis derivada de los dieciséis ANSI y la terminal integrada de Konsole.</p>
 </div>
 
 
@@ -433,7 +434,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td>tecnología</td>
-<td>VS Code color theme (<code>colors</code>, <code>tokenColors</code>, <code>semanticTokenColors</code>) · Zed theme v0.2.0</td>
+<td>VS Code color theme (<code>colors</code>, <code>tokenColors</code>, <code>semanticTokenColors</code>), leído también por Positron (<code>~/.positron/extensions/</code>) y VSCodium (<code>~/.vscode-oss/extensions/</code>) · Zed theme v0.2.0</td>
 </tr>
 <tr class="odd">
 <td>desde la versión</td>
@@ -451,15 +452,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 <section id="instalar-a-mano" class="level2">
 <h2 class="anchored" data-anchor-id="instalar-a-mano">Instalar a mano</h2>
-<p>El instalador (<code>python3 herramientas/instalar.py --modulos editores --aplicar</code>) copia la extensión a <code>~/.vscode/extensions/lliphi.lliphi/</code> (o a <code>$VSCODE_EXTENSIONS</code> si está definida) y el tema de Zed a <code>~/.config/zed/themes/lliphi.json</code>. Ninguno de los dos editores lo activa solo.</p>
+<p>El instalador (<code>python3 herramientas/instalar.py --modulos editores --aplicar</code>) copia la extensión a <code>~/.vscode/extensions/lliphi.lliphi/</code> (o a <code>$VSCODE_EXTENSIONS</code> si está definida) y el tema de Zed a <code>~/.config/zed/themes/lliphi.json</code>. Si existe <code>~/.positron</code> copia la misma extensión a <code>~/.positron/extensions/lliphi.lliphi/</code> (o <code>$POSITRON_EXTENSIONS</code>), y si existe <code>~/.vscode-oss</code>, a <code>~/.vscode-oss/extensions/lliphi.lliphi/</code> (o <code>$VSCODIUM_EXTENSIONS</code>); si no existen, lo omite y lo dice en la simulación, sin crear nada. Ningún editor activa el tema solo.</p>
 <section id="vs-code" class="level3">
 <h3 class="anchored" data-anchor-id="vs-code">VS Code</h3>
 <ol type="1">
-<li>Copia la carpeta <code>vscode/lliphi/</code> a <code>~/.vscode/extensions/lliphi.lliphi/</code> (VSCodium: <code>~/.vscode-oss/extensions/</code>).</li>
+<li>Copia la carpeta <code>vscode/lliphi/</code> a <code>~/.vscode/extensions/lliphi.lliphi/</code>.</li>
 <li>Reinicia VS Code y elige el tema: <code>Ctrl+K Ctrl+T</code> → «Lliphi Oscuro» o «Lliphi Claro»; o en <code>settings.json</code>:</li>
 </ol>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="st">"workbench.colorTheme"</span><span class="er">:</span> <span class="st">"Lliphi Oscuro"</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Para que siga al sistema: <code>"window.autoDetectColorScheme": true</code>, <code>"workbench.preferredDarkColorTheme": "Lliphi Oscuro"</code>, <code>"workbench.preferredLightColorTheme": "Lliphi Claro"</code>.</p>
+</section>
+<section id="positron-y-vscodium" class="level3">
+<h3 class="anchored" data-anchor-id="positron-y-vscodium">Positron y VSCodium</h3>
+<p>Positron (Posit) y VSCodium son derivados de VS Code y leen la misma extensión, cada uno desde su carpeta: Positron, <code>~/.positron/extensions/</code>; VSCodium, <code>~/.vscode-oss/extensions/</code>. Copia allí <code>vscode/lliphi/</code> como <code>lliphi.lliphi/</code>, reinicia el editor y elige el tema como en VS Code (<code>Ctrl+K Ctrl+T</code> o <code>workbench.colorTheme</code>). Positron guarda su <code>settings.json</code> en <code>~/.config/Positron/User/</code>; VSCodium, en <code>~/.config/VSCodium/User/</code>.</p>
 </section>
 <section id="zed" class="level3">
 <h3 class="anchored" data-anchor-id="zed">Zed</h3>
@@ -477,7 +482,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="desinstalar" class="level2">
 <h2 class="anchored" data-anchor-id="desinstalar">Desinstalar</h2>
-<p>Elige otro tema en cada editor y borra <code>~/.vscode/extensions/lliphi.lliphi/</code> y <code>~/.config/zed/themes/lliphi.json</code>. El instalador (<code>desinstalar</code>) hace lo segundo y no toca los <code>settings.json</code>, que son tuyos.</p>
+<p>Elige otro tema en cada editor y borra <code>~/.vscode/extensions/lliphi.lliphi/</code>, <code>~/.positron/extensions/lliphi.lliphi/</code>, <code>~/.vscode-oss/extensions/lliphi.lliphi/</code> (las que existan) y <code>~/.config/zed/themes/lliphi.json</code>. El instalador (<code>desinstalar</code>) hace lo segundo y no toca los <code>settings.json</code>, que son tuyos.</p>
 </section>
 <section id="código-incidencias-y-cambios" class="level2">
 <h2 class="anchored" data-anchor-id="código-incidencias-y-cambios">Código, incidencias y cambios</h2>

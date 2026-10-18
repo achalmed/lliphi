@@ -23,6 +23,7 @@ probado aquí. Se actualiza en cada fase de validación.
 | VS Code (extensión de tema: `colors`, `tokenColors`, `semanticTokenColors`) | independiente de Plasma | — | pendiente | VS Code ≥ 1.80 (`editorIndentGuide.background1`, `activityBarTop.*`) |
 | Positron y VSCodium (la misma extensión, en `~/.positron/extensions/` y `~/.vscode-oss/extensions/`) | independiente de Plasma | — | pendiente | Positron ≥ 2025.x y VSCodium ≥ 1.80 (base de VS Code ≥ 1.80); el instalador los cubre solo si existe su carpeta |
 | Zed (`themes/<id>.json`, esquema v0.2.0) | independiente de Plasma | — | pendiente | Zed ≥ 0.130 (temas de usuario en `~/.config/zed/themes/`) |
+| LibreOffice «Colores de la aplicación» (`.oxt` de configuración y fragmento `.xcu`) | independiente de Plasma | — | pendiente | LibreOffice ≥ 24.8 (lista de 91 entradas tomada del esquema de 26.2; versiones anteriores ignoran las que no conocen); la interfaz la da Plasma salvo que se active `LibreOfficeTheme` |
 | fondo con `images_dark/` | no (solo `images/`) | no | **probado** por ruta del paquete; por nombre no resolvió | `images_dark/` llega en 6.6; antes se usa la imagen clara |
 | acento declarado por el fondo | esperado | esperado | pendiente | `X-KDE-PlasmaImageWallpaper-AccentColor` |
 | iconos de carpeta (`lliphi`, `lliphi-oscuro`; heredan de Breeze; `FollowsColorScheme`) | esperado | esperado | pendiente | KIconLoader (KF 6) recolorea `current-color-scheme`; GTK ve los colores de respaldo del SVG |
@@ -45,5 +46,5 @@ probado aquí. Se actualiza en cada fase de validación.
 
 ## 3. Lo que no depende de la versión
 
-Esquemas de color, Konsole, Alacritty, Kitty, VS Code, Positron, VSCodium, Zed, iconos de carpeta, tokens, instalador (rutas XDG), sitio y documentación. Lo que sí: paquetes de fondo con
+Esquemas de color, Konsole, Alacritty, Kitty, VS Code, Positron, VSCodium, Zed, LibreOffice, iconos de carpeta, tokens, instalador (rutas XDG), sitio y documentación. Lo que sí: paquetes de fondo con
 `images_dark/`, funciones de 6.6 y cualquier Aurorae.

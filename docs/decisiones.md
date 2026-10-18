@@ -85,4 +85,19 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   El directorio de 64 px es `Scalable` hasta 512 para que las vistas grandes de Dolphin no caigan en la carpeta de
   Breeze. Alternativa descartada: directorios `@2x`/`@3x` (los SVG ya escalan; se añadirán si la validación real
   muestra desalineación en 150 %).
+- **3.14 (2026-10-18) LibreOffice: extensión `.oxt` de configuración y fragmento `.xcu`; el instalador no toca
+  LibreOffice.** LibreOffice no tiene carpeta de temas: los esquemas de «Colores de la aplicación» viven en el set
+  `org.openoffice.Office.UI/ColorScheme/ColorSchemes` de su configuración, cuyas capas son los `.xcd` del programa (root),
+  las extensiones (`unopkg`, `~/.config/libreoffice/4/user/uno_packages/`) y `registrymodifications.xcu`, que LibreOffice
+  reescribe entero al cerrar. Por eso se generan (a) un `.oxt` solo de configuración (`oor:component-data`, sin código),
+  reproducible byte a byte para la prueba de deriva, que se instala con `unopkg add` o el Gestor de extensiones, y (b)
+  fragmentos `<oor:items>` con el formato exacto que LibreOffice escribe (`org.openoffice.Office.UI:ColorScheme['…']`,
+  `oor:op="fuse"`) para quien prefiera pegarlos. El instalador no tiene módulo `libreoffice`: copiar a
+  `~/.config/libreoffice/4/user/` un archivo que LibreOffice no lee sería engañoso, sobrescribir
+  `registrymodifications.xcu` rompería la configuración del usuario, y ejecutar `unopkg` desde el instalador falla con
+  LibreOffice abierto y crea un perfil donde no lo hay. La lista de 91 entradas sale del esquema real de 26.2 (`main.xcd`)
+  y no de la de 24.8 del encargo (`ObjectBoundaries` y `WriterScriptIndicator` ya no existen); las versiones anteriores
+  ignoran lo que no conocen. Los colores de interfaz (`WindowColor`…) se incluyen con la lógica del esquema de Plasma,
+  pero solo actúan si el usuario activa el tema de LibreOffice (`Appearance/LibreOfficeTheme`): por omisión la interfaz
+  la sigue dando Plasma y Lliphi solo pinta el documento.
 

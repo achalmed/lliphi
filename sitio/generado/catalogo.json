@@ -118,6 +118,24 @@
       "id": "konsole"
     },
     {
+      "nombre": "LibreOffice: colores de la aplicación",
+      "resumen": "Dos esquemas de «Colores de la aplicación» (Lliphi Claro y Lliphi Oscuro) para Writer, Calc, Impress, Draw, Base y la IDE de BASIC: documento, cuadrícula, saltos, control de cambios, sintaxis BASIC y SQL desde los mismos tokens, como extensión .oxt o fragmento .xcu.",
+      "estado": "experimental",
+      "tecnologia": "`org.openoffice.Office.UI/ColorScheme/ColorSchemes` (91 entradas `Color` y `IsVisible`, esquema de LibreOffice 26.2) · extensión `.oxt` con `oor:component-data` · fragmento `<oor:items>` para `registrymodifications.xcu`",
+      "desde": "0.2.0",
+      "archivos": [
+        "lliphi.oxt",
+        "lliphi.xcu",
+        "lliphi-claro.xcu",
+        "lliphi-oscuro.xcu",
+        "oxt/"
+      ],
+      "carpeta": "libreoffice",
+      "generador": "libreoffice.py",
+      "capturas": [],
+      "id": "libreoffice"
+    },
+    {
       "nombre": "Terminales: Alacritty y Kitty",
       "resumen": "Los mismos dieciséis colores ANSI, fondo, selección y cursor de Konsole para Alacritty (TOML) y Kitty (conf), en claro y oscuro.",
       "estado": "experimental",
