@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GENERADO por herramientas/generar.py desde tokens/; no editar -->
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="88" viewBox="0 0 240 88">
+  <defs>
+    <style id="current-color-scheme" type="text/css">
+      .ColorScheme-Text { color:#eaebed; }
+      .ColorScheme-Background { color:#1b1c1e; }
+      .ColorScheme-Highlight { color:#c93436; }
+      .ColorScheme-ViewText { color:#eaebed; }
+      .ColorScheme-ViewBackground { color:#101012; }
+      .ColorScheme-ViewHover { color:#c93436; }
+      .ColorScheme-ViewFocus { color:#c93436; }
+      .ColorScheme-ButtonText { color:#eaebed; }
+      .ColorScheme-ButtonBackground { color:#2e2f32; }
+      .ColorScheme-ButtonHover { color:#c93436; }
+      .ColorScheme-ButtonFocus { color:#c93436; }
+    </style>
+    <linearGradient id="s-arriba" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#000" stop-opacity="0.3"/><stop offset="1" stop-color="#000" stop-opacity="0"/></linearGradient>
+    <linearGradient id="s-abajo" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#000" stop-opacity="0.3"/><stop offset="1" stop-color="#000" stop-opacity="0"/></linearGradient>
+    <linearGradient id="s-izq" x1="1" y1="0" x2="0" y2="0"><stop offset="0" stop-color="#000" stop-opacity="0.3"/><stop offset="1" stop-color="#000" stop-opacity="0"/></linearGradient>
+    <linearGradient id="s-der" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#000" stop-opacity="0.3"/><stop offset="1" stop-color="#000" stop-opacity="0"/></linearGradient>
+    <radialGradient id="s-topleft" gradientUnits="userSpaceOnUse" cx="12" cy="12" r="12"><stop offset="0" stop-color="#000" stop-opacity="0.3"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
+    <radialGradient id="s-topright" gradientUnits="userSpaceOnUse" cx="64" cy="12" r="12"><stop offset="0" stop-color="#000" stop-opacity="0.3"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
+    <radialGradient id="s-bottomleft" gradientUnits="userSpaceOnUse" cx="12" cy="64" r="12"><stop offset="0" stop-color="#000" stop-opacity="0.3"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
+    <radialGradient id="s-bottomright" gradientUnits="userSpaceOnUse" cx="64" cy="64" r="12"><stop offset="0" stop-color="#000" stop-opacity="0.3"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect id="shadow-center" x="12" y="12" width="52" height="52" fill="#000" fill-opacity="0.3"/>
+  <rect id="shadow-top" x="12" y="0" width="52" height="12" fill="url(#s-arriba)"/>
+  <rect id="shadow-bottom" x="12" y="64" width="52" height="12" fill="url(#s-abajo)"/>
+  <rect id="shadow-left" x="0" y="12" width="12" height="52" fill="url(#s-izq)"/>
+  <rect id="shadow-right" x="64" y="12" width="12" height="52" fill="url(#s-der)"/>
+  <rect id="shadow-topleft" x="0" y="0" width="12" height="12" fill="url(#s-topleft)"/>
+  <rect id="shadow-topright" x="64" y="0" width="12" height="12" fill="url(#s-topright)"/>
+  <rect id="shadow-bottomleft" x="0" y="64" width="12" height="12" fill="url(#s-bottomleft)"/>
+  <rect id="shadow-bottomright" x="64" y="64" width="12" height="12" fill="url(#s-bottomright)"/>
+  <rect id="shadow-hint-top-margin" x="188" y="12" width="4" height="12" fill="#000" fill-opacity="0"/>
+  <rect id="shadow-hint-top-inset" x="208" y="12" width="4" height="0.01" fill="#000" fill-opacity="0"/>
+  <rect id="shadow-hint-bottom-margin" x="188" y="30" width="4" height="12" fill="#000" fill-opacity="0"/>
+  <rect id="shadow-hint-bottom-inset" x="208" y="30" width="4" height="0.01" fill="#000" fill-opacity="0"/>
+  <rect id="shadow-hint-left-margin" x="188" y="48" width="12" height="4" fill="#000" fill-opacity="0"/>
+  <rect id="shadow-hint-left-inset" x="208" y="48" width="0.01" height="4" fill="#000" fill-opacity="0"/>
+  <rect id="shadow-hint-right-margin" x="188" y="66" width="12" height="4" fill="#000" fill-opacity="0"/>
+  <rect id="shadow-hint-right-inset" x="208" y="66" width="0.01" height="4" fill="#000" fill-opacity="0"/>
+  <g id="topleft">
+    <path d="M20.0,12.0 H22 V22 H12.0 V20.0 A8.0,8.0 0 0 1 20.0,12.0 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.14"/>
+    <path d="M20,13 H22 V22 H13 V20 A7,7 0 0 1 20,13 Z" class="ColorScheme-Background" fill="currentColor" fill-opacity="0.92"/>
+  </g>
+  <g id="topright">
+    <path d="M54,12.0 H56.0 A8.0,8.0 0 0 1 64.0,20.0 V22 H54 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.14"/>
+    <path d="M54,13 H56 A7,7 0 0 1 63,20 V22 H54 Z" class="ColorScheme-Background" fill="currentColor" fill-opacity="0.92"/>
+  </g>
+  <g id="bottomleft">
+    <path d="M12.0,54 H22 V64.0 H20.0 A8.0,8.0 0 0 1 12.0,56.0 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.14"/>
+    <path d="M13,54 H22 V63 H20 A7,7 0 0 1 13,56 Z" class="ColorScheme-Background" fill="currentColor" fill-opacity="0.92"/>
+  </g>
+  <g id="bottomright">
+    <path d="M54,54 H64.0 V56.0 A8.0,8.0 0 0 1 56.0,64.0 H54 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.14"/>
+    <path d="M54,54 H63 V56 A7,7 0 0 1 56,63 H54 Z" class="ColorScheme-Background" fill="currentColor" fill-opacity="0.92"/>
+  </g>
+  <g id="top">
+    <rect x="22" y="12" width="32" height="10" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.14"/>
+    <rect x="22" y="13" width="32" height="9" class="ColorScheme-Background" fill="currentColor" fill-opacity="0.92"/>
+  </g>
+  <g id="bottom">
+    <rect x="22" y="54" width="32" height="10" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.14"/>
+    <rect x="22" y="54" width="32" height="9" class="ColorScheme-Background" fill="currentColor" fill-opacity="0.92"/>
+  </g>
+  <g id="left">
+    <rect x="12" y="22" width="10" height="32" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.14"/>
+    <rect x="13" y="22" width="9" height="32" class="ColorScheme-Background" fill="currentColor" fill-opacity="0.92"/>
+  </g>
+  <g id="right">
+    <rect x="54" y="22" width="10" height="32" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.14"/>
+    <rect x="54" y="22" width="9" height="32" class="ColorScheme-Background" fill="currentColor" fill-opacity="0.92"/>
+  </g>
+  <rect id="center" x="22" y="22" width="32" height="32" class="ColorScheme-Background" fill="currentColor" fill-opacity="0.92"/>
+  <rect id="hint-top-margin" x="72" y="12" width="4" height="12" fill="#000" fill-opacity="0"/>
+  <rect id="hint-top-inset" x="92" y="12" width="4" height="0.01" fill="#000" fill-opacity="0"/>
+  <rect id="hint-bottom-margin" x="72" y="30" width="4" height="12" fill="#000" fill-opacity="0"/>
+  <rect id="hint-bottom-inset" x="92" y="30" width="4" height="0.01" fill="#000" fill-opacity="0"/>
+  <rect id="hint-left-margin" x="72" y="48" width="12" height="4" fill="#000" fill-opacity="0"/>
+  <rect id="hint-left-inset" x="92" y="48" width="0.01" height="4" fill="#000" fill-opacity="0"/>
+  <rect id="hint-right-margin" x="72" y="66" width="12" height="4" fill="#000" fill-opacity="0"/>
+  <rect id="hint-right-inset" x="92" y="66" width="0.01" height="4" fill="#000" fill-opacity="0"/>
+  <path id="mask-topleft" d="M132.0,12.0 H134 V22 H124.0 V20.0 A8.0,8.0 0 0 1 132.0,12.0 Z" fill="#000"/>
+  <path id="mask-topright" d="M166,12.0 H168.0 A8.0,8.0 0 0 1 176.0,20.0 V22 H166 Z" fill="#000"/>
+  <path id="mask-bottomleft" d="M124.0,54 H134 V64.0 H132.0 A8.0,8.0 0 0 1 124.0,56.0 Z" fill="#000"/>
+  <path id="mask-bottomright" d="M166,54 H176.0 V56.0 A8.0,8.0 0 0 1 168.0,64.0 H166 Z" fill="#000"/>
+  <rect id="mask-top" x="134" y="12" width="32" height="10" fill="#000"/>
+  <rect id="mask-bottom" x="134" y="54" width="32" height="10" fill="#000"/>
+  <rect id="mask-left" x="124" y="22" width="10" height="32" fill="#000"/>
+  <rect id="mask-right" x="166" y="22" width="10" height="32" fill="#000"/>
+  <rect id="mask-center" x="134" y="22" width="32" height="32" fill="#000"/>
+  <rect id="hint-tile-center" x="2" y="80" width="5" height="5" fill="#000" fill-opacity="0"/>
+</svg>

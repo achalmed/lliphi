@@ -91,6 +91,30 @@ PRIMITIVAS = primitivas()
 
 BLANCO = Color("srgb", [0.99, 0.99, 0.99])
 
+# Paleta ANSI de 16 colores para terminales (Konsole y después otras): matices fijos con significado
+# (0 negro, 1 rojo, 2 verde, 3 amarillo, 4 azul, 5 magenta, 6 cian, 7 blanco) y luminosidades por variante
+# que dan ≥ 4.5:1 sobre el fondo de vista; las «intensas» (8–15) suben de luminosidad, nunca de ruido.
+ANSI_MATIZ = {"rojo": 25, "verde": 150, "amarillo": 85, "azul": 262, "magenta": 330, "cian": 200}
+
+
+def terminal(variante: str) -> dict[str, Color]:
+    p = PRIMITIVAS[variante]
+    h = MATIZ_NEUTRO
+    if variante == "claro":
+        normal, intensa, croma = 0.50, 0.42, 0.14
+        negro, negro_i = oklch(0.30, 0.008, h), oklch(0.45, 0.008, h)
+        blanco, blanco_i = oklch(0.80, 0.004, h), oklch(0.93, 0.002, h)
+    else:
+        normal, intensa, croma = 0.74, 0.82, 0.13
+        negro, negro_i = oklch(0.32, 0.006, h), oklch(0.50, 0.006, h)
+        blanco, blanco_i = oklch(0.86, 0.004, h), oklch(0.96, 0.002, h)
+    t = {"fondo": p["neutro-0"], "texto": p["neutro-7"], "texto-tenue": p["neutro-5"], "texto-intenso": p["neutro-7"],
+         "color0": negro, "color8": negro_i, "color7": blanco, "color15": blanco_i}
+    for i, nombre in enumerate(("rojo", "verde", "amarillo", "azul", "magenta", "cian"), start=1):
+        t[f"color{i}"] = oklch(normal, croma, ANSI_MATIZ[nombre])
+        t[f"color{i + 8}"] = oklch(intensa, croma, ANSI_MATIZ[nombre])
+    return t
+
 
 # ---------------------------------------------------------------------------
 # 2. Tokens semánticos: los roles que consumen los generadores (esquema de Plasma,
@@ -200,6 +224,17 @@ def informe() -> bool:
             ok &= cumple or criterio.startswith("jerarquía")
             marca = "ok " if cumple else "FALLA"
             print(f"  {marca} {fg + ' / ' + bg:42s} {r:6.2f}  {minimo:>5}   {criterio}")
+        term = terminal(variante)
+        # el negro ANSI sobre fondo oscuro y el blanco ANSI sobre fondo claro son del mismo polo que el fondo:
+        # no son texto corriente y se miden solo a título informativo
+        mismo_polo = {"color0", "color8"} if variante == "oscuro" else {"color7", "color15"}
+        for k, c in term.items():
+            if k.startswith("color") or k == "texto":
+                r = contraste(c, term["fondo"])
+                informativo = k in mismo_polo
+                cumple = r >= 4.5 or informativo
+                ok &= cumple
+                print(f"  {'ok ' if cumple else 'FALLA'} {'terminal.' + k + ' / terminal.fondo':42s} {r:6.2f}    4.5   {'informativo (mismo polo)' if informativo else '1.4.3'}")
     return ok
 
 
@@ -237,6 +272,7 @@ def escribir_tokens() -> None:
                 d = d.setdefault(parte, {})
             d[partes[-1]] = token_color(c)
         doc["semanticos"][variante] = grupo
+    doc["terminal"] = {v: {k: token_color(c) for k, c in terminal(v).items()} for v in ("claro", "oscuro")}
     doc["espaciado"] = {"$type": "dimension", **{f"e{n}": {"$value": {"value": n, "unit": "px"}} for n in (4, 8, 12, 16, 24, 32)}}
     doc["radio"] = {"$type": "dimension", "control": {"$value": {"value": 4, "unit": "px"}}, "menu": {"$value": {"value": 6, "unit": "px"}},
                     "ventana": {"$value": {"value": 8, "unit": "px"}}, "panel-flotante": {"$value": {"value": 10, "unit": "px"}}}

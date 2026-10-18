@@ -1,0 +1,18 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Name": "Edison Achalma",
+                "Email": ""
+            }
+        ],
+        "Id": "org.llampu.horizonte",
+        "License": "CC-BY-SA-4.0",
+        "Name": "Llampu Horizonte",
+        "Version": "0.1.0"
+    },
+    "X-KDE-PlasmaImageWallpaper-AccentColor": {
+        "Light": "#c53133",
+        "Dark": "#c93436"
+    }
+}

@@ -1,0 +1,18 @@
+# REUSE 3.3 (Calibre 10533): qué licencia tiene cada archivo. Código MIT; activos gráficos y lo generado
+# para Plasma, CC BY-SA 4.0; documentación, CC BY-SA 4.0. La última tabla que coincide gana.
+version = 1
+SPDX-PackageName = "llampu"
+SPDX-PackageSupplier = "Edison Achalma <https://achalmaedison.netlify.app>"
+SPDX-PackageDownloadLocation = "https://github.com/achalmed/llampu"
+
+[[annotations]]
+path = ["**"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 Edison Achalma"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = ["generado/**", "fuentes/**", "muestras/**", "docs/**", "tokens/**", "README.md", "CHANGELOG.md", "estado.md"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 Edison Achalma"
+SPDX-License-Identifier = "CC-BY-SA-4.0"

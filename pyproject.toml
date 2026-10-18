@@ -1,0 +1,13 @@
+[project]
+name = "llampu"
+version = "0.1.0"
+description = "Ecosistema de temas para KDE Plasma: tokens, generadores, instalador reversible y pruebas"
+requires-python = ">=3.10"
+license = "MIT"
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["coloraide>=8", "pillow>=10", "pytest>=8", "reuse>=5"]
+
+[tool.pytest.ini_options]
+testpaths = ["pruebas"]

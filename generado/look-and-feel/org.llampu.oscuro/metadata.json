@@ -1,0 +1,19 @@
+{
+    "KPackageStructure": "Plasma/LookAndFeel",
+    "KPlugin": {
+        "Authors": [
+            {
+                "Name": "Edison Achalma",
+                "Email": ""
+            }
+        ],
+        "Category": "",
+        "Description": "Llampu Oscuro: Tema para KDE Plasma: casi negro y gris suave con un acento rojo; mínimo, legible y reversible.",
+        "Id": "org.llampu.oscuro",
+        "License": "CC-BY-SA-4.0",
+        "Name": "Llampu Oscuro",
+        "Version": "0.1.0",
+        "Website": "https://achalmaedison.netlify.app"
+    },
+    "X-KDE-fallbackPackage": "org.kde.breeze.desktop"
+}

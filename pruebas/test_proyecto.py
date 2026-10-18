@@ -1,0 +1,207 @@
+"""Pruebas del proyecto: tokens válidos, contraste, deriva de lo generado, estructura de los paquetes,
+instalación reversible en un HOME temporal y licencias (REUSE). Se corren con `.venv/bin/pytest`."""
+from __future__ import annotations
+
+import configparser
+import json
+import os
+import re
+import shutil
+import subprocess
+import sys
+import xml.etree.ElementTree as ET
+from pathlib import Path
+
+import pytest
+
+RAIZ = Path(__file__).resolve().parent.parent
+PY = sys.executable
+TOKENS = json.loads((RAIZ / "tokens" / "tokens.json").read_text(encoding="utf-8"))
+MARCA = json.loads((RAIZ / "tokens" / "marca.json").read_text(encoding="utf-8"))
+GEN = RAIZ / "generado"
+
+
+def correr(*args: str, env: dict | None = None) -> subprocess.CompletedProcess:
+    return subprocess.run([PY, *args], cwd=RAIZ, capture_output=True, text=True, env=env)
+
+
+# ---------------------------------------------------------------- tokens
+
+def _tokens_planos(grupo: dict, prefijo: str = "") -> dict:
+    out = {}
+    for k, v in grupo.items():
+        if k.startswith("$"):
+            continue
+        if isinstance(v, dict) and "$value" in v:
+            out[prefijo + k] = v
+        elif isinstance(v, dict):
+            out.update(_tokens_planos(v, prefijo + k + "."))
+    return out
+
+
+def test_tokens_dtcg_validos():
+    planos = _tokens_planos(TOKENS)
+    assert planos, "tokens.json sin tokens"
+    for nombre, t in planos.items():
+        assert not re.search(r"[${}.]", nombre.split(".")[-1]), nombre
+        tipo = t.get("$type") or "heredado"
+        if "colorSpace" in t.get("$value", {}) if isinstance(t["$value"], dict) else False:
+            v = t["$value"]
+            assert v["colorSpace"] == "oklch" and len(v["components"]) == 3, nombre
+            assert re.fullmatch(r"#[0-9a-f]{6}", v["hex"]), nombre
+    for variante in ("claro", "oscuro"):
+        sem = _tokens_planos(TOKENS["semanticos"][variante])
+        for clave in ("fondo.ventana", "fondo.vista", "texto.normal", "seleccion.fondo", "seleccion.texto", "foco", "hover", "enlace"):
+            assert clave in sem, (variante, clave)
+
+
+def test_marca_ids_ascii():
+    for v in (MARCA["id"], *MARCA["id_esquema"].values(), *MARCA["id_global"].values(), MARCA["id_fondo"]):
+        assert re.fullmatch(r"[A-Za-z0-9.-]+", v), v
+
+
+# ---------------------------------------------------------------- contraste y deriva
+
+def test_contraste_todos_los_pares():
+    r = correr("herramientas/paleta.py")
+    assert r.returncode == 0, r.stdout[-2000:]
+    assert "FALLA" not in r.stdout
+
+
+def test_generado_sin_deriva():
+    r = correr("herramientas/generar.py", "verificar")
+    assert r.returncode == 0, r.stdout[-2000:]
+
+
+def test_ningun_hex_fuera_del_maestro():
+    """Los archivos de texto generados solo contienen colores que existen en tokens.json."""
+    hexes = {t["$value"]["hex"].lower() for t in _tokens_planos(TOKENS).values()
+             if isinstance(t["$value"], dict) and "hex" in t["$value"]}
+    rgbs = {",".join(str(int(h[i:i + 2], 16)) for i in (1, 3, 5)) for h in hexes}
+    permitidos_rgb = rgbs | {"56,56,56", "112,111,110"}          # efectos de KColorScheme, de Breeze
+    for f in GEN.rglob("*"):
+        if f.suffix in (".colors", ".colorscheme", "") and f.is_file() and f.name != "defaults":
+            for m in re.findall(r"=(\d{1,3},\d{1,3},\d{1,3})\b", f.read_text(encoding="utf-8")):
+                assert m in permitidos_rgb, (f.name, m)
+        if f.suffix == ".svg":
+            for h in re.findall(r"#[0-9a-fA-F]{6}\b", f.read_text(encoding="utf-8")):
+                assert h.lower() in hexes | {"#000000"}, (f.name, h)
+
+
+# ---------------------------------------------------------------- estructura de los paquetes
+
+def test_esquemas_completos():
+    for v in ("claro", "oscuro"):
+        cp = configparser.ConfigParser(interpolation=None, strict=False); cp.optionxform = str
+        cp.read(GEN / "color-schemes" / f"{MARCA['id_esquema'][v]}.colors", encoding="utf-8")
+        for g in ("Colors:View", "Colors:Window", "Colors:Button", "Colors:Selection", "Colors:Tooltip", "Colors:Complementary", "Colors:Header", "Colors:Header][Inactive"):
+            assert g in cp, g
+            for k in ("BackgroundNormal", "BackgroundAlternate", "ForegroundNormal", "ForegroundInactive", "ForegroundActive",
+                      "ForegroundLink", "ForegroundVisited", "ForegroundNegative", "ForegroundNeutral", "ForegroundPositive", "DecorationFocus", "DecorationHover"):
+                assert k in cp[g], (g, k)
+        assert cp["General"]["ColorScheme"] == MARCA["id_esquema"][v]
+        assert "WM" in cp and "KDE" in cp
+
+
+def test_tema_global_estructura():
+    for v in ("claro", "oscuro"):
+        base = GEN / "look-and-feel" / MARCA["id_global"][v]
+        meta = json.loads((base / "metadata.json").read_text(encoding="utf-8"))
+        assert meta["KPackageStructure"] == "Plasma/LookAndFeel"
+        assert meta["KPlugin"]["Id"] == MARCA["id_global"][v] == base.name
+        assert meta["X-KDE-fallbackPackage"] == "org.kde.breeze.desktop"
+        d = (base / "contents" / "defaults").read_text(encoding="utf-8")
+        assert f"ColorScheme={MARCA['id_esquema'][v]}" in d and f"name={MARCA['id']}" in d
+        assert "kvantum" not in d.lower() and "ButtonsOnLeft=M" in d
+        assert (base / "contents" / "layouts" / "org.kde.plasma.desktop-layout.js").exists()
+        assert (base / "contents" / "previews" / "preview.png").exists()
+
+
+def test_estilo_plasma_svg():
+    base = GEN / "desktoptheme" / MARCA["id"]
+    meta = json.loads((base / "metadata.json").read_text(encoding="utf-8"))
+    assert meta["KPlugin"]["Id"] == MARCA["id"] == base.name
+    assert not (base / "colors").exists(), "el estilo sigue el esquema del sistema: sin colors"
+    for svg in base.rglob("*.svg"):
+        raiz = ET.parse(svg).getroot()
+        ids = [e.get("id") for e in raiz.iter() if e.get("id")]
+        assert len(ids) == len(set(ids)), f"ids repetidos en {svg.name}"
+        for req in ("current-color-scheme", "topleft", "top", "topright", "left", "center", "right", "bottomleft", "bottom", "bottomright",
+                    "hint-top-margin", "hint-bottom-margin", "hint-left-margin", "hint-right-margin",
+                    "mask-center", "shadow-center", "shadow-hint-top-margin"):
+            assert req in ids, (svg.name, req)
+        assert 'fill="currentColor"' in svg.read_text(encoding="utf-8")
+    panel = ET.parse(base / "widgets" / "panel-background.svg").getroot()
+    ids = {e.get("id") for e in panel.iter()}
+    assert {"thick-center", "thick-hint-top-margin", "hint-tile-center"} <= ids
+
+
+def test_konsole_16_colores():
+    for v in ("claro", "oscuro"):
+        cp = configparser.ConfigParser(interpolation=None, strict=False); cp.optionxform = str
+        cp.read(GEN / "konsole" / f"{MARCA['nombre_esquema'][v]}.colorscheme", encoding="utf-8")
+        for i in range(8):
+            assert f"Color{i}" in cp and f"Color{i}Intense" in cp and f"Color{i}Faint" in cp
+        assert cp["General"]["Description"] == MARCA["nombre_esquema"][v]
+
+
+def test_fondo_paquete():
+    base = GEN / "wallpapers" / MARCA["id_fondo"]
+    meta = json.loads((base / "metadata.json").read_text(encoding="utf-8"))
+    assert meta["KPlugin"]["Id"] == MARCA["id_fondo"]
+    assert set(meta["X-KDE-PlasmaImageWallpaper-AccentColor"]) == {"Light", "Dark"}
+    for carpeta in ("images", "images_dark"):
+        assert (base / "contents" / carpeta / "1920x1080.png").exists()
+
+
+# ---------------------------------------------------------------- instalación reversible
+
+def _entorno(tmp: Path) -> dict:
+    env = dict(os.environ)
+    env.update(HOME=str(tmp), XDG_DATA_HOME=str(tmp / ".local/share"), XDG_CONFIG_HOME=str(tmp / ".config"),
+               XDG_STATE_HOME=str(tmp / ".local/state"))
+    return env
+
+
+@pytest.mark.skipif(shutil.which("plasmashell") is None, reason="sin Plasma")
+def test_instalar_y_desinstalar_restaura(tmp_path: Path):
+    env = _entorno(tmp_path)
+    (tmp_path / ".config").mkdir()
+    (tmp_path / ".config" / "kdeglobals").write_text("[General]\nColorScheme=BreezeDark\n", encoding="utf-8")
+    antes = {p.relative_to(tmp_path): p.read_bytes() for p in tmp_path.rglob("*") if p.is_file()}
+    sim = correr("herramientas/instalar.py", env=env)
+    assert sim.returncode == 0 and "SIM" in sim.stdout and not (tmp_path / ".local/share").exists(), sim.stdout
+    ap = correr("herramientas/instalar.py", "--aplicar", env=env)
+    assert ap.returncode == 0, ap.stdout + ap.stderr
+    assert (tmp_path / ".local/share/plasma/look-and-feel" / MARCA["id_global"]["oscuro"] / "metadata.json").exists()
+    assert (tmp_path / ".local/share/color-schemes" / f"{MARCA['id_esquema']['claro']}.colors").exists()
+    manifiesto = tmp_path / ".local/state" / MARCA["id"] / "instalado.json"
+    assert manifiesto.exists()
+    respaldo = Path(json.loads(manifiesto.read_text())["respaldo"])
+    assert (respaldo / "config" / "kdeglobals").exists() and (respaldo / "UNDO.sh").exists()
+    est = correr("herramientas/instalar.py", "estado", env=env)
+    assert "MOD" not in est.stdout
+    # otro proyecto en el mismo destino → conflicto, no se pisa
+    ajeno = tmp_path / ".local/share/plasma/desktoptheme" / MARCA["id"] / "ajeno.txt"
+    ajeno.write_text("x")
+    manifiesto.unlink()
+    conf = correr("herramientas/instalar.py", "--aplicar", env=env)
+    assert conf.returncode == 3 and ajeno.exists()
+    ajeno.unlink(); ap2 = correr("herramientas/instalar.py", "--aplicar", env=env); assert ap2.returncode == 0
+    # UNDO restaura la configuración y retira lo instalado
+    (tmp_path / ".config" / "kdeglobals").write_text("[General]\nColorScheme=Otro\n", encoding="utf-8")
+    manifiesto2 = json.loads(manifiesto.read_text())
+    undo = subprocess.run(["bash", str(Path(manifiesto2["respaldo"]) / "UNDO.sh")], capture_output=True, text=True, env=env)
+    assert undo.returncode == 0, undo.stderr
+    assert (tmp_path / ".config" / "kdeglobals").read_bytes() == antes[Path(".config/kdeglobals")]
+    assert not (tmp_path / ".local/share/plasma/look-and-feel" / MARCA["id_global"]["oscuro"]).exists()
+    assert not manifiesto.exists()
+
+
+# ---------------------------------------------------------------- licencias
+
+@pytest.mark.skipif(shutil.which("reuse") is None and not (RAIZ / ".venv/bin/reuse").exists(), reason="sin reuse")
+def test_reuse_lint():
+    reuse = shutil.which("reuse") or str(RAIZ / ".venv/bin/reuse")
+    r = subprocess.run([reuse, "lint"], cwd=RAIZ, capture_output=True, text=True)
+    assert r.returncode == 0, r.stdout[-3000:]

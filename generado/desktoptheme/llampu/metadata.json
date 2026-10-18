@@ -1,0 +1,19 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Name": "Edison Achalma",
+                "Email": ""
+            }
+        ],
+        "Category": "",
+        "Description": "Tema para KDE Plasma: casi negro y gris suave con un acento rojo; mínimo, legible y reversible.",
+        "EnabledByDefault": true,
+        "Id": "llampu",
+        "License": "CC-BY-SA-4.0",
+        "Name": "Llampu",
+        "Version": "0.1.0",
+        "Website": "https://achalmaedison.netlify.app"
+    },
+    "X-Plasma-API": "5.0"
+}
