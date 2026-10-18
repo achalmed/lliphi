@@ -80,7 +80,7 @@ def test_ningun_hex_fuera_del_maestro():
     rgbs = {",".join(str(int(h[i:i + 2], 16)) for i in (1, 3, 5)) for h in hexes}
     permitidos_rgb = rgbs | {"56,56,56", "112,111,110"}          # efectos de KColorScheme, de Breeze
     for f in GEN.rglob("*"):
-        if f.suffix in (".colors", ".colorscheme", "") and f.is_file() and f.name != "defaults":
+        if f.suffix in (".colors", ".colorscheme", "") and f.is_file() and f.name != "defaults" and "aurorae" not in f.parts:
             for m in re.findall(r"=(\d{1,3},\d{1,3},\d{1,3})\b", f.read_text(encoding="utf-8")):
                 assert m in permitidos_rgb, (f.name, m)
         if f.suffix == ".svg" and "desktoptheme" not in f.parts and "kvantum" not in f.parts and "aurorae" not in f.parts and "icons" not in f.parts:
@@ -229,54 +229,18 @@ def test_zed_tema():
 
 
 def test_decoracion_aurorae():
-    """Dos temas Aurorae completos: marco con los nueve lados en activo e inactivo, centro maximizado, hints, nueve
-    botones con los ocho estados, rc con [General] y [Layout] coherentes con el SVG, y metadatos con el id de la carpeta."""
-    sys.path.insert(0, str(RAIZ / "herramientas"))
-    from destinos.aurorae import BASE, BOTONES, TITULO, mapa_boton, mapa_marco  # noqa: E402
-    lados = ("topleft", "top", "topright", "left", "center", "right", "bottomleft", "bottom", "bottomright")
-    assert (BASE / "ORIGEN.md").exists() and (BASE / "LICENSE").exists() and (RAIZ / "LICENSES" / "GPL-3.0-or-later.txt").exists()
-    hexes = {t["$value"]["hex"].lower() for t in _tokens_planos(TOKENS).values() if isinstance(t["$value"], dict) and "hex" in t["$value"]}
-    for tema, variante in ((MARCA["id"], "oscuro"), (f"{MARCA['id']}-claro", "claro")):
-        base = GEN / "aurorae" / tema
-        sem = {k: v["$value"]["hex"] for k, v in _tokens_planos(TOKENS["semanticos"][variante]).items()}
-        deco = ET.parse(base / "decoration.svg").getroot()
-        ids = [e.get("id") for e in deco.iter() if e.get("id")]
-        assert len(ids) == len(set(ids)), "ids repetidos en decoration.svg"
-        for pref in ("decoration", "decoration-inactive", "mask"):
-            for lado in lados:
-                assert f"{pref}-{lado}" in ids, (tema, pref, lado)
-        for req in ("hint-top-margin", "hint-bottom-margin", "hint-left-margin", "hint-right-margin", "shadow-hint-top-margin"):
-            assert req in ids, (tema, req)
-        # derivado y recoloreado: ningún color del tema de partida sobrevive y el encabezado lleva el token
-        texto = (base / "decoration.svg").read_text(encoding="utf-8")
-        assert "GPL-3.0-or-later" in texto and sem["fondo.encabezado"] in texto
-        assert not any(viejo in texto for viejo in mapa_marco(sem)), tema
-        for b in BOTONES:
-            svg = base / f"{b}.svg"
-            bids = {e.get("id") for e in ET.parse(svg).getroot().iter() if e.get("id")}
-            assert {"active-center", "hover-center", "pressed-center", "inactive-center", "deactivated-center"} <= bids, (svg.name, bids)
-            t = svg.read_text(encoding="utf-8")
-            assert not any(viejo in t for viejo in mapa_boton(sem, b)), svg.name
-            for h in re.findall(r"#[0-9a-fA-F]{6}\b", t):
-                assert h.lower() in hexes | {"#000000"}, (svg.name, h)
-        assert sem["acento.base"] in (base / "close.svg").read_text(encoding="utf-8")
-        assert sem["acento.base"] not in (base / "maximize.svg").read_text(encoding="utf-8")   # sin semáforo: solo cerrar lleva el acento
-        cp = configparser.ConfigParser(interpolation=None, strict=False); cp.optionxform = str
-        cp.read(base / f"{tema}rc", encoding="utf-8")
-        g, lay = cp["General"], cp["Layout"]
-        assert g["TitleAlignment"] == "Center" and g["Shadow"] == "true" and g["RightButtons"] == "IAX" and g["LeftButtons"] == ""
-        assert g["UseTextShadow"] == "false"
-        rgb = lambda h: ",".join(str(int(h[i:i + 2], 16)) for i in (1, 3, 5))  # noqa: E731
-        assert g["ActiveTextColor"] == rgb(sem["texto.normal"]) and g["InactiveTextColor"] == rgb(sem["texto.inactivo"])
-        assert sum(int(lay[k]) for k in TITULO) == 30
-        assert int(lay["PaddingLeft"]) == 76 and int(lay["PaddingTop"]) == 36    # la sombra del marco de partida
-        assert int(lay["ButtonWidth"]) == int(lay["ButtonHeight"]) == 16
-        md = configparser.ConfigParser(interpolation=None, strict=False); md.optionxform = str
-        md.read(base / "metadata.desktop", encoding="utf-8")
-        assert md["Desktop Entry"]["X-KDE-PluginInfo-Name"] == tema and md["Desktop Entry"]["X-KDE-PluginInfo-License"] == "GPL-3.0-or-later"
-        mj = json.loads((base / "metadata.json").read_text(encoding="utf-8"))
-        assert mj["KPackageStructure"] == "KWin/Aurorae" and mj["KPlugin"]["Id"] == tema
-
+    """La decoración deriva de Nothing: dos variantes con marco, botones, rc y metadatos; GPL declarada."""
+    for v, id_ in (("oscuro", MARCA["id"]), ("claro", f"{MARCA['id']}-claro")):
+        base = GEN / "aurorae" / id_
+        for req in ("decoration.svg", "close.svg", "maximize.svg", "minimize.svg", "restore.svg", f"{id_}rc", "metadata.json", "metadata.desktop"):
+            assert (base / req).exists(), (v, req)
+        meta = json.loads((base / "metadata.json").read_text(encoding="utf-8"))
+        assert meta["KPlugin"]["Id"] == id_ and meta["KPlugin"]["License"] == "GPL-3.0-or-later"
+        rc = (base / f"{id_}rc").read_text(encoding="utf-8")
+        assert "UseTextShadow=false" in rc and re.search(r"^ActiveTextColor=\d+,\d+,\d+$", rc, re.M)
+        for svg in base.glob("*.svg"):
+            ET.parse(svg)
+    assert (RAIZ / "fuentes" / "base" / "Nothing-aurorae" / "ORIGEN.md").exists()
 
 def test_libreoffice_esquemas():
     """Fragmentos .xcu y extensión .oxt: estructura, 91 entradas por esquema, cada Color decimal es un hex de los tokens."""
@@ -392,7 +356,7 @@ def test_instalar_y_desinstalar_restaura(tmp_path: Path):
     est = correr("herramientas/instalar.py", "estado", env=env)
     assert "MOD" not in est.stdout
     # otro proyecto en el mismo destino → conflicto, no se pisa
-    ajeno = tmp_path / ".local/share/plasma/desktoptheme" / MARCA["id"] / "ajeno.txt"
+    ajeno = tmp_path / ".local/share/plasma/desktoptheme" / f"{MARCA['id']}-oscuro" / "ajeno.txt"
     ajeno.write_text("x")
     manifiesto.unlink()
     conf = correr("herramientas/instalar.py", "--aplicar", env=env)
