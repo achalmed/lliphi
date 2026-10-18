@@ -1,5 +1,5 @@
 [project]
-name = "llampu"
+name = "lliphi"
 version = "0.1.0"
 description = "Ecosistema de temas para KDE Plasma: tokens, generadores, instalador reversible y pruebas"
 requires-python = ">=3.10"

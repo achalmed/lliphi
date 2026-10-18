@@ -52,7 +52,7 @@ def main() -> int:
     nombres = list(DESTINOS)
     if "--destinos" in args:
         nombres = args[args.index("--destinos") + 1].split(",")
-    with tempfile.TemporaryDirectory(prefix="llampu-gen-") as tmp:
+    with tempfile.TemporaryDirectory(prefix="lliphi-gen-") as tmp:
         carpeta = Path(tmp)
         hechos = generar_en(carpeta, nombres)
         if "verificar" in args:

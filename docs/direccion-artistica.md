@@ -178,4 +178,4 @@ siguen al esquema (se comprueba en la fase 7).
 
 1. La paleta corregida (rojo de Nothing sobre neutros casi negros y grises suaves): aprobación o cambio de acento
    (`--acento azul|verde-azul`, o un matiz nuevo).
-2. El nombre: **Llampu**, aprobado el 2026-10-18.
+2. El nombre: **Lliphi**, aprobado el 2026-10-18.

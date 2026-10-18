@@ -4,7 +4,7 @@
 FallbackTheme=default
 
 [Wallpaper]
-defaultWallpaperTheme=org.llampu.horizonte
+defaultWallpaperTheme=org.lliphi.horizonte
 defaultFileSuffix=.png
 defaultWidth=1920
 defaultHeight=1080

@@ -9,9 +9,9 @@
         "Category": "",
         "Description": "Tema para KDE Plasma: casi negro y gris suave con un acento rojo; mínimo, legible y reversible.",
         "EnabledByDefault": true,
-        "Id": "llampu",
+        "Id": "lliphi",
         "License": "CC-BY-SA-4.0",
-        "Name": "Llampu",
+        "Name": "Lliphi",
         "Version": "0.1.0",
         "Website": "https://achalmaedison.netlify.app"
     },

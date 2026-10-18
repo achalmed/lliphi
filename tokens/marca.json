@@ -1,17 +1,17 @@
 {
   "$description": "Identidad de la marca: cambiar aquí renombra todos los derivados al regenerar (herramientas/generar.py). El nombre lo aprueba el autor (docs/nombre.md).",
-  "nombre": "Llampu",
-  "id": "llampu",
-  "dominio_inverso": "org.llampu",
+  "nombre": "Lliphi",
+  "id": "lliphi",
+  "dominio_inverso": "org.lliphi",
   "descripcion": "Tema para KDE Plasma: casi negro y gris suave con un acento rojo; mínimo, legible y reversible.",
   "autor": "Edison Achalma",
   "correo": "",
   "sitio": "https://achalmaedison.netlify.app",
   "licencia_codigo": "MIT",
   "licencia_activos": "CC-BY-SA-4.0",
-  "nombre_esquema": {"claro": "Llampu Claro", "oscuro": "Llampu Oscuro"},
-  "id_esquema": {"claro": "LlampuClaro", "oscuro": "LlampuOscuro"},
-  "id_global": {"claro": "org.llampu.claro", "oscuro": "org.llampu.oscuro"},
-  "id_fondo": "org.llampu.horizonte",
-  "nombre_fondo": "Llampu Horizonte"
+  "nombre_esquema": {"claro": "Lliphi Claro", "oscuro": "Lliphi Oscuro"},
+  "id_esquema": {"claro": "LliphiClaro", "oscuro": "LliphiOscuro"},
+  "id_global": {"claro": "org.lliphi.claro", "oscuro": "org.lliphi.oscuro"},
+  "id_fondo": "org.lliphi.horizonte",
+  "nombre_fondo": "Lliphi Horizonte"
 }

@@ -8,10 +8,10 @@
             }
         ],
         "Category": "",
-        "Description": "Llampu Oscuro: Tema para KDE Plasma: casi negro y gris suave con un acento rojo; mínimo, legible y reversible.",
-        "Id": "org.llampu.oscuro",
+        "Description": "Lliphi Claro: Tema para KDE Plasma: casi negro y gris suave con un acento rojo; mínimo, legible y reversible.",
+        "Id": "org.lliphi.claro",
         "License": "CC-BY-SA-4.0",
-        "Name": "Llampu Oscuro",
+        "Name": "Lliphi Claro",
         "Version": "0.1.0",
         "Website": "https://achalmaedison.netlify.app"
     },

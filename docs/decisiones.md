@@ -52,7 +52,7 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
 - **3.5 (2026-10-18) `generado/` se versiona** para que un usuario instale sin Python ni herramientas; una prueba de
   deriva (`generar.py verificar`) impide editarlo a mano, como `just check` en Catppuccin.
 - **3.6 (2026-10-18) Instalador en Python con biblioteca estándar**, simulación por defecto, solo rutas de usuario,
-  respaldo con SHA-256 y `UNDO.sh` en `~/.local/state/llampu/`. Motivo: reversible, auditable, sin root.
+  respaldo con SHA-256 y `UNDO.sh` en `~/.local/state/lliphi/`. Motivo: reversible, auditable, sin root.
 - **3.7 (2026-10-18) SDDM y Plymouth fuera del instalador de usuario**: root y riesgo de bloquear el arranque; módulo
   posterior con confirmación explícita.
 - **3.8 (2026-10-18) Ningún SVG ni recurso de terceros.** Los temas de partida son GPL y derivarlos obligaría a GPL y

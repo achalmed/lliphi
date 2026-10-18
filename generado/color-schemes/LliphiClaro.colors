@@ -133,8 +133,8 @@ ForegroundPositive=19,119,56
 ForegroundVisited=75,77,83
 
 [General]
-ColorScheme=LlampuClaro
-Name=Llampu Claro
+ColorScheme=LliphiClaro
+Name=Lliphi Claro
 shadeSortColumn=true
 
 [KDE]

@@ -7,7 +7,7 @@ titulo: 'Arquitectura del repositorio (fase 5): fuente de verdad, generadores, m
 
 Fase 5 del encargo, 2026-10-18 (borrador hasta que el autor apruebe el nombre y la paleta). Las decisiones y su
 porqué están en `decisiones.md`; la mecánica de Plasma que las sostiene, en `investigacion.md` §2. El nombre
-«llampu» es provisional (`tokens/marca.json`).
+«lliphi» es provisional (`tokens/marca.json`).
 
 ## 1. Principio: una fuente, todo generado
 
@@ -17,11 +17,11 @@ tokens/marca.json   (nombre, ids, autor)
         │
         ▼  herramientas/generar.py  (un módulo por destino en herramientas/destinos/)
 generado/            ← nunca se edita; `herramientas/generar.py verificar` falla si difiere de lo que generaría
-  color-schemes/     LlampuClaro.colors, LlampuOscuro.colors
-  look-and-feel/     org.llampu.claro/, org.llampu.oscuro/   (metadata.json, contents/defaults, layouts, previews)
-  desktoptheme/      llampu-claro/, llampu-oscuro/           (metadata.json, colors, plasmarc, widgets/*.svg propios)
-  konsole/           Llampu Claro.colorscheme, Llampu Oscuro.colorscheme
-  wallpapers/        org.llampu.sumaq/ (contents/images, images_dark, metadata.json con acento)
+  color-schemes/     LliphiClaro.colors, LliphiOscuro.colors
+  look-and-feel/     org.lliphi.claro/, org.lliphi.oscuro/   (metadata.json, contents/defaults, layouts, previews)
+  desktoptheme/      lliphi-claro/, lliphi-oscuro/           (metadata.json, colors, plasmarc, widgets/*.svg propios)
+  konsole/           Lliphi Claro.colorscheme, Lliphi Oscuro.colorscheme
+  wallpapers/        org.lliphi.sumaq/ (contents/images, images_dark, metadata.json con acento)
   sitio/             datos del catálogo (JSON) que consume el sitio
 ```
 
@@ -33,7 +33,7 @@ editables), **generado** (derivados, versionados para que el usuario pueda insta
 ## 2. Árbol del repositorio
 
 ```
-llampu/
+lliphi/
 ├── README.md · LICENSE · LICENSES/ · REUSE.toml · CHANGELOG.md · CITATION.cff · CONTRIBUTING.md
 ├── estado.md                 (traspaso entre sesiones, regla 10 del ecosistema; no se publica en el sitio)
 ├── pyproject.toml            (herramientas y pruebas; sin dependencias de pago)
@@ -61,9 +61,9 @@ cada módulo declara desde qué versión existe.
 
 | id | qué entrega | tecnología | estado al nacer | lote |
 |---|---|---|---|---|
-| `esquema` | `LlampuClaro.colors`, `LlampuOscuro.colors` | KColorScheme | implementado (fase 4) | 1 |
-| `global` | `org.llampu.claro`, `org.llampu.oscuro` (look-and-feel con `X-KDE-fallbackPackage=org.kde.breeze.desktop`) | KPackage Plasma/LookAndFeel | pendiente | 1 |
-| `estilo` | `llampu-claro`, `llampu-oscuro` (desktoptheme mínimo: `colors`, `plasmarc`, SVG propios solo donde Breeze no basta: panel, diálogos, tooltip) | Plasma SVG | pendiente | 1 |
+| `esquema` | `LliphiClaro.colors`, `LliphiOscuro.colors` | KColorScheme | implementado (fase 4) | 1 |
+| `global` | `org.lliphi.claro`, `org.lliphi.oscuro` (look-and-feel con `X-KDE-fallbackPackage=org.kde.breeze.desktop`) | KPackage Plasma/LookAndFeel | pendiente | 1 |
+| `estilo` | `lliphi-claro`, `lliphi-oscuro` (desktoptheme mínimo: `colors`, `plasmarc`, SVG propios solo donde Breeze no basta: panel, diálogos, tooltip) | Plasma SVG | pendiente | 1 |
 | `konsole` | dos `.colorscheme` con paleta ANSI derivada y ≥ 4.5:1 | Konsole | pendiente | 1 |
 | `fondos` | un paquete con `images/` e `images_dark/` y acento declarado | KPackage Wallpaper | pendiente | 1 |
 | `decoracion` | ninguna propia: Breeze coloreada por `[WM]` y `Colors:Header` | KDecoration | implementado por herencia | 1 |
@@ -82,11 +82,11 @@ cada módulo declara desde qué versión existe.
 - escribe solo en `$XDG_DATA_HOME` (`~/.local/share`) y `$XDG_CONFIG_HOME` (`~/.config`); nunca en `/usr`;
 - comprueba dependencias (`kpackagetool6`, `plasma-apply-*`, versión de Plasma ≥ 6.2 por `plasmashell --version`);
 - **respalda** antes de tocar: `kdeglobals`, `plasmarc`, `kwinrc`, `kcminputrc`, `ksplashrc`, `gtk-3.0/settings.ini`,
-  `gtk-4.0/settings.ini`, `plasma-org.kde.plasma.desktop-appletsrc`, en `~/.local/state/llampu/respaldos/<fecha>/`,
+  `gtk-4.0/settings.ini`, `plasma-org.kde.plasma.desktop-appletsrc`, en `~/.local/state/lliphi/respaldos/<fecha>/`,
   con suma SHA-256 verificada, y deja ahí un `UNDO.sh` que restaura byte a byte y desinstala;
-- no pisa archivos ajenos: si existe un paquete con el mismo `Id` y no es de Llampu (manifiesto propio), se detiene;
+- no pisa archivos ajenos: si existe un paquete con el mismo `Id` y no es de Lliphi (manifiesto propio), se detiene;
 - `--aplicar-tema` aplica con `plasma-apply-lookandfeel` (sin `--resetLayout` salvo `--disposicion`);
-- `desinstalar` elimina lo instalado según el manifiesto `~/.local/state/llampu/instalado.json` y restaura;
+- `desinstalar` elimina lo instalado según el manifiesto `~/.local/state/lliphi/instalado.json` y restaura;
 - `actualizar` = desinstalar lo de la versión anterior + instalar la nueva, conservando los respaldos.
 
 ## 5. Verificación
@@ -112,7 +112,7 @@ cada módulo declara desde qué versión existe.
 ## 7. Diagrama C4
 
 Contexto: el **autor** (diseña, aprueba, publica) y el **usuario de Plasma** (instala, aplica, desinstala) usan el
-**repositorio Llampu**; este lee la **documentación de KDE** y escribe en **Plasma 6** (archivos de usuario), en
+**repositorio Lliphi**; este lee la **documentación de KDE** y escribe en **Plasma 6** (archivos de usuario), en
 **GitHub** (código y versiones), en **KDE Store** (fichas) y en **Netlify** (sitio), y se enlaza con el **hub
 `achalmaedison.netlify.app`**.
 

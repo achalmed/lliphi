@@ -15,7 +15,7 @@ sentido para una estética serena y mínima, y en sintonía con el ecosistema de
 
 | nombre | lengua y sentido | KDE Store | GitHub (repos con el nombre) | PyPI | npm | `.netlify.app` | web | veredicto |
 |---|---|---|---|---|---|---|---|---|
-| **Llampu** | quechua: suave, liso, apacible | 0 | 3, sin relación (un apellido) | libre | libre | libre | nada | **recomendado**: libre en todo y describe la estética |
+| **Lliphi** | quechua: suave, liso, apacible | 0 | 3, sin relación (un apellido) | libre | libre | libre | nada | **recomendado**: libre en todo y describe la estética |
 | **Sosiego** | español: calma, serenidad | 0 | 11, triviales (0 estrellas) | libre | libre | **ocupado** | nada | buena segunda opción; el sitio iría como sección del hub o `sosiego-tema` |
 | Yuraq | quechua: blanco | 0 | 16, triviales | libre | libre | libre | solo montañas | libre, pero «blanco» describe mal la variante oscura |
 | Qasi | quechua: calmo, tranquilo | 0 | 2 487 (ruido: Qasim, qasino…) | **ocupado** | libre | libre | nada | ruido de búsqueda alto |
@@ -28,12 +28,19 @@ sentido para una estética serena y mínima, y en sintonía con el ecosistema de
 
 ## Decisión
 
-**El autor eligió Llampu el 2026-10-18.**
+**El autor eligió «Lliphi» el 2026-10-18** («relámpago» en quechua; Laime Ajacopa, *Diccionario bilingüe
+quechua–castellano*, 2007: «lliphi, illapa, chuqi illa. s. Relámpago»; «lliphipiy. s. Resplandor, fulgor»). Había
+elegido primero «Llampu» y pidió el mismo día un nombre que dijera «rayo» o «destello». Segunda búsqueda de
+colisiones (misma batería): **Lliphi** libre en KDE Store, GitHub (0 repos), PyPI, npm y `lliphi.netlify.app`;
+**Illapa** («rayo», el apu) descartado porque `illapa.netlify.app` es una empresa peruana de soluciones eléctricas y
+npm lo ocupa una utilidad SQL; **Illariy** («fulgurar, alborear») e **Lliphipiy** («resplandor») libres pero menos
+precisos o más largos; **K'achachacha** («destello») demasiado largo. Grafía: la del quechua sureño (ph aspirada);
+en quechua chanka se escribiría sin aspiración, lo que se anota en el sitio.
 
 ## Recomendación (previa a la decisión)
 
-**Llampu**, con las variantes **Llampu Claro** y **Llampu Oscuro** (en la tienda, «Llampu Light» y «Llampu Dark»
-como alias en inglés). Identificadores: carpeta y repositorio `llampu`, paquetes `org.llampu.<componente>` o
-`llampu-<componente>`, sitio `llampu.netlify.app` o `achalmaedison.netlify.app/llampu`. Lo que no se ha podido
+**Lliphi**, con las variantes **Lliphi Claro** y **Lliphi Oscuro** (en la tienda, «Lliphi Light» y «Lliphi Dark»
+como alias en inglés). Identificadores: carpeta y repositorio `lliphi`, paquetes `org.lliphi.<componente>` o
+`lliphi-<componente>`, sitio `lliphi.netlify.app` o `achalmaedison.netlify.app/lliphi`. Lo que no se ha podido
 comprobar: registros de marca (INDECOPI, EUIPO, USPTO); una búsqueda web general no muestra ningún producto con ese
 nombre.

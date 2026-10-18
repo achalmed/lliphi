@@ -133,8 +133,8 @@ ForegroundPositive=111,200,132
 ForegroundVisited=188,190,193
 
 [General]
-ColorScheme=LlampuOscuro
-Name=Llampu Oscuro
+ColorScheme=LliphiOscuro
+Name=Lliphi Oscuro
 shadeSortColumn=true
 
 [KDE]

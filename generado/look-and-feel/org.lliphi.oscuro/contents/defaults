@@ -4,16 +4,16 @@
 widgetStyle=Breeze
 
 [kdeglobals][General]
-ColorScheme=LlampuClaro
+ColorScheme=LliphiOscuro
 
 [kdeglobals][Icons]
-Theme=breeze
+Theme=breeze-dark
 
 [plasmarc][Theme]
-name=llampu
+name=lliphi
 
 [Wallpaper]
-Image=org.llampu.horizonte
+Image=org.lliphi.horizonte
 
 [kcminputrc][Mouse]
 cursorTheme=breeze_cursors

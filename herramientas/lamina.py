@@ -6,7 +6,7 @@ herramientas, botones, campos, listas con selección, pestañas, deslizador, pro
 estados deshabilitados) con el esquema `.colors` indicado, y guarda un PNG. Para que Breeze lea
 el esquema se crea un `kdeglobals` temporal con su contenido y se apunta `XDG_CONFIG_HOME` a él.
 
-Uso:  /usr/bin/python3 herramientas/lamina.py generado/color-schemes/LlampuClaro.colors muestras/claro.png
+Uso:  /usr/bin/python3 herramientas/lamina.py generado/color-schemes/LliphiClaro.colors muestras/claro.png
 Requiere el PyQt6 del sistema (construido contra el Qt del sistema, como el plugin Breeze).
 """
 from __future__ import annotations

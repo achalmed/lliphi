@@ -6,9 +6,9 @@
                 "Email": ""
             }
         ],
-        "Id": "org.llampu.horizonte",
+        "Id": "org.lliphi.horizonte",
         "License": "CC-BY-SA-4.0",
-        "Name": "Llampu Horizonte",
+        "Name": "Lliphi Horizonte",
         "Version": "0.1.0"
     },
     "X-KDE-PlasmaImageWallpaper-AccentColor": {

@@ -1,5 +1,5 @@
 // GENERADO por herramientas/generar.py desde tokens/; no editar.
-// Disposición de Llampu: barra superior fina (lanzador, reloj, bandeja) y dock inferior flotante que se
+// Disposición de Lliphi: barra superior fina (lanzador, reloj, bandeja) y dock inferior flotante que se
 // oculta bajo las ventanas. Se aplica solo si el usuario marca «Disposición del escritorio» al aplicar el tema.
 
 var superior = new Panel;
@@ -28,5 +28,5 @@ var escritorios = desktopsForActivity(currentActivity());
 for (var i = 0; i < escritorios.length; i++) {
     escritorios[i].wallpaperPlugin = "org.kde.image";
     escritorios[i].currentConfigGroup = ["Wallpaper", "org.kde.image", "General"];
-    escritorios[i].writeConfig("Image", "org.llampu.horizonte");
+    escritorios[i].writeConfig("Image", "org.lliphi.horizonte");
 }
