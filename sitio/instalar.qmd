@@ -30,7 +30,7 @@ Qué hace:
    `plasma-org.kde.plasma.desktop-appletsrc`, `gtk-3.0/settings.ini`, `gtk-4.0/settings.ini` y `konsolerc` en
    `~/.local/state/lliphi/respaldos/<fecha>/`, verifica cada copia con SHA-256 y deja allí un `UNDO.sh`.
 3. Copia los módulos a `~/.local/share/` (esquemas, temas globales, estilo de Plasma, Konsole, fondos) y los temas de
-   otras aplicaciones a `~/.config/<aplicación>/themes/` (terminales). Nunca
+   otras aplicaciones a `~/.config/<aplicación>/themes/` (terminales, Zed) y a `~/.vscode/extensions/` (VS Code). Nunca
    escribe en `/usr` ni pide `sudo`.
 4. Se detiene si en el destino hay archivos que no instaló Lliphi (no pisa nada ajeno).
 5. Anota lo instalado en `~/.local/state/lliphi/instalado.json`.

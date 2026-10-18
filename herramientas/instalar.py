@@ -3,7 +3,8 @@
 
 Solo escribe en `$XDG_DATA_HOME` (`~/.local/share`) y `$XDG_CONFIG_HOME` (`~/.config`); nunca en `/usr`.
 Los módulos de terminales y editores dejan sus archivos en `$XDG_CONFIG_HOME/<aplicación>/themes/`; cada aplicación los
-importa desde su propia configuración, que el instalador no toca (lo dice `modulos/<id>/INSTALL.md`).
+importa desde su propia configuración, que el instalador no toca (lo dice `modulos/<id>/INSTALL.md`). La única excepción
+a XDG es la extensión de VS Code, que solo se lee desde `~/.vscode/extensions/` (o `$VSCODE_EXTENSIONS`; decisión 3.12).
 Antes de tocar nada respalda los archivos de configuración que cambia Plasma al aplicar un tema, con su
 SHA-256 verificada, en `$XDG_STATE_HOME/<id>/respaldos/<fecha>/` y deja allí un `UNDO.sh` que restaura
 byte a byte y desinstala. Lo instalado queda anotado en `$XDG_STATE_HOME/<id>/instalado.json`.
@@ -38,6 +39,7 @@ HOME = Path.home()
 DATA = Path(os.environ.get("XDG_DATA_HOME") or HOME / ".local" / "share")
 CONFIG = Path(os.environ.get("XDG_CONFIG_HOME") or HOME / ".config")
 STATE = Path(os.environ.get("XDG_STATE_HOME") or HOME / ".local" / "state") / ID
+VSCODE = Path(os.environ.get("VSCODE_EXTENSIONS") or HOME / ".vscode" / "extensions")
 MANIFIESTO = STATE / "instalado.json"
 
 # archivos de configuración que Plasma reescribe al aplicar un tema global: se respaldan siempre
@@ -46,7 +48,7 @@ CONFIGS = ["kdeglobals", "plasmarc", "kwinrc", "kcminputrc", "ksplashrc", "kscre
            "konsolerc"]
 
 # módulo → [(origen relativo a generado/, destino relativo a la base, base)]; la base es "data" (XDG_DATA_HOME, por
-# omisión si el par tiene dos elementos) o "config" (XDG_CONFIG_HOME)
+# omisión si el par tiene dos elementos), "config" (XDG_CONFIG_HOME) o "vscode" (~/.vscode/extensions)
 MODULOS = {
     "esquema": [(f"color-schemes/{MARCA['id_esquema'][v]}.colors", f"color-schemes/{MARCA['id_esquema'][v]}.colors") for v in ("claro", "oscuro")],
     "estilo": [(f"desktoptheme/{ID}", f"plasma/desktoptheme/{ID}")],
@@ -55,8 +57,9 @@ MODULOS = {
     "fondos": [(f"wallpapers/{MARCA['id_fondo']}", f"wallpapers/{MARCA['id_fondo']}")],
     "terminales": [(f"terminales/alacritty/{ID}-{v}.toml", f"alacritty/themes/{ID}-{v}.toml", "config") for v in ("claro", "oscuro")]
                 + [(f"terminales/kitty/{ID}-{v}.conf", f"kitty/themes/{ID}-{v}.conf", "config") for v in ("claro", "oscuro")],
+    "editores": [(f"editores/vscode/{ID}", f"{ID}.{ID}", "vscode"), (f"editores/zed/{ID}.json", f"zed/themes/{ID}.json", "config")],
 }
-BASES = {"data": DATA, "config": CONFIG}
+BASES = {"data": DATA, "config": CONFIG, "vscode": VSCODE}
 
 
 def pares_de(modulos: list[str]) -> list[tuple[Path, Path]]:

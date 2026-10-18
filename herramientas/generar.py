@@ -18,11 +18,11 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from destinos import RAIZ, cargar  # noqa: E402
-from destinos import desktoptheme, esquema, fondo, konsole, lookandfeel, sitio, terminales  # noqa: E402
+from destinos import desktoptheme, editores, esquema, fondo, konsole, lookandfeel, sitio, terminales  # noqa: E402
 
 GENERADO = RAIZ / "generado"
 DESTINOS = {"esquema": esquema, "global": lookandfeel, "estilo": desktoptheme, "konsole": konsole, "fondos": fondo,
-            "terminales": terminales, "sitio": sitio}
+            "terminales": terminales, "editores": editores, "sitio": sitio}
 # el sitio se genera dentro de sitio/generado/ (Quarto solo renderiza lo que cuelga de su proyecto)
 BASES = {"sitio": RAIZ / "sitio" / "generado"}
 
@@ -64,7 +64,8 @@ def empaquetar() -> int:
     dist = RAIZ / "dist"
     dist.mkdir(exist_ok=True)
     paquetes = {"esquema": ["color-schemes"], "global": ["look-and-feel"], "estilo": ["desktoptheme"],
-                "konsole": ["konsole"], "fondos": ["wallpapers"], "terminales": ["terminales"]}
+                "konsole": ["konsole"], "fondos": ["wallpapers"], "terminales": ["terminales"],
+                "editores": ["editores"]}
     sumas = []
     for modulo, carpetas in paquetes.items():
         ruta = dist / f"{marca['id']}-{modulo}-{version}.tar.gz"

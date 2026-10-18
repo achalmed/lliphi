@@ -53,7 +53,7 @@
     "href": "instalar.html#con-el-instalador-recomendado",
     "title": "Instalar",
     "section": "1. Con el instalador (recomendado)",
-    "text": "1. Con el instalador (recomendado)\ngit clone https://github.com/achalmed/lliphi.git\ncd lliphi\npython3 herramientas/instalar.py\nSin opciones solo simula: dice qué respaldaría y qué copiaría, y no escribe nada. Cuando estés conforme:\npython3 herramientas/instalar.py --aplicar\nQué hace:\n\nComprueba que hay Plasma 6 y las herramientas necesarias.\nRespalda kdeglobals, plasmarc, kwinrc, kcminputrc, ksplashrc, kscreenlockerrc, plasma-org.kde.plasma.desktop-appletsrc, gtk-3.0/settings.ini, gtk-4.0/settings.ini y konsolerc en ~/.local/state/lliphi/respaldos/&lt;fecha&gt;/, verifica cada copia con SHA-256 y deja allí un UNDO.sh.\nCopia los módulos a ~/.local/share/ (esquemas, temas globales, estilo de Plasma, Konsole, fondos) y los temas de otras aplicaciones a ~/.config/&lt;aplicación&gt;/themes/ (terminales). Nunca escribe en /usr ni pide sudo.\nSe detiene si en el destino hay archivos que no instaló Lliphi (no pisa nada ajeno).\nAnota lo instalado en ~/.local/state/lliphi/instalado.json.\n\nPara aplicar el tema en el mismo paso:\npython3 herramientas/instalar.py --aplicar --aplicar-tema oscuro     # o claro\nEso equivale a elegir el tema global en Preferencias del sistema → Apariencia y estilo → Tema global. No cambia tu disposición del escritorio (paneles y widgets) salvo que marques «Disposición del escritorio» en Preferencias o ejecutes plasma-apply-lookandfeel -a org.lliphi.oscuro --resetLayout; el respaldo del paso 2 la guarda por si acaso.\nSolo algunos módulos:\npython3 herramientas/instalar.py --modulos esquema,konsole --aplicar"
+    "text": "1. Con el instalador (recomendado)\ngit clone https://github.com/achalmed/lliphi.git\ncd lliphi\npython3 herramientas/instalar.py\nSin opciones solo simula: dice qué respaldaría y qué copiaría, y no escribe nada. Cuando estés conforme:\npython3 herramientas/instalar.py --aplicar\nQué hace:\n\nComprueba que hay Plasma 6 y las herramientas necesarias.\nRespalda kdeglobals, plasmarc, kwinrc, kcminputrc, ksplashrc, kscreenlockerrc, plasma-org.kde.plasma.desktop-appletsrc, gtk-3.0/settings.ini, gtk-4.0/settings.ini y konsolerc en ~/.local/state/lliphi/respaldos/&lt;fecha&gt;/, verifica cada copia con SHA-256 y deja allí un UNDO.sh.\nCopia los módulos a ~/.local/share/ (esquemas, temas globales, estilo de Plasma, Konsole, fondos) y los temas de otras aplicaciones a ~/.config/&lt;aplicación&gt;/themes/ (terminales, Zed) y a ~/.vscode/extensions/ (VS Code). Nunca escribe en /usr ni pide sudo.\nSe detiene si en el destino hay archivos que no instaló Lliphi (no pisa nada ajeno).\nAnota lo instalado en ~/.local/state/lliphi/instalado.json.\n\nPara aplicar el tema en el mismo paso:\npython3 herramientas/instalar.py --aplicar --aplicar-tema oscuro     # o claro\nEso equivale a elegir el tema global en Preferencias del sistema → Apariencia y estilo → Tema global. No cambia tu disposición del escritorio (paneles y widgets) salvo que marques «Disposición del escritorio» en Preferencias o ejecutes plasma-apply-lookandfeel -a org.lliphi.oscuro --resetLayout; el respaldo del paso 2 la guarda por si acaso.\nSolo algunos módulos:\npython3 herramientas/instalar.py --modulos esquema,konsole --aplicar"
   },
   {
     "objectID": "instalar.html#a-mano",
@@ -182,53 +182,242 @@
     "text": "Código, incidencias y cambios\n\nCódigo: generado/desktoptheme y su generador herramientas/destinos/desktoptheme.py.\nIncidencias: https://github.com/achalmed/lliphi/issues.\nCambios: registro de cambios."
   },
   {
-    "objectID": "galeria.html",
-    "href": "galeria.html",
-    "title": "Galería",
+    "objectID": "generado/catalogo/editores.html",
+    "href": "generado/catalogo/editores.html",
+    "title": "Editores: VS Code y Zed",
     "section": "",
-    "text": "Todas las imágenes son capturas de una sesión real de Plasma 6.6 con el tema instalado y aplicado (nada de maquetas). Los dos bocetos del final están rotulados como tales."
+    "text": "estado\nexperimental\n\n\ntecnología\nVS Code color theme (colors, tokenColors, semanticTokenColors) · Zed theme v0.2.0\n\n\ndesde la versión\n0.2.0\n\n\narchivos\nvscode/lliphi/, zed/lliphi.json\n\n\nlicencia\nCC-BY-SA-4.0"
   },
   {
-    "objectID": "galeria.html#escritorio",
-    "href": "galeria.html#escritorio",
-    "title": "Galería",
-    "section": "Escritorio",
-    "text": "Escritorio\n\n\n\n\nOscuro\n\n\n\n\n\nClaro"
+    "objectID": "generado/catalogo/editores.html#instalar-a-mano",
+    "href": "generado/catalogo/editores.html#instalar-a-mano",
+    "title": "Editores: VS Code y Zed",
+    "section": "Instalar a mano",
+    "text": "Instalar a mano\nEl instalador (python3 herramientas/instalar.py --modulos editores --aplicar) copia la extensión a ~/.vscode/extensions/lliphi.lliphi/ (o a $VSCODE_EXTENSIONS si está definida) y el tema de Zed a ~/.config/zed/themes/lliphi.json. Ninguno de los dos editores lo activa solo.\n\nVS Code\n\nCopia la carpeta vscode/lliphi/ a ~/.vscode/extensions/lliphi.lliphi/ (VSCodium: ~/.vscode-oss/extensions/).\nReinicia VS Code y elige el tema: Ctrl+K Ctrl+T → «Lliphi Oscuro» o «Lliphi Claro»; o en settings.json:\n\n\"workbench.colorTheme\": \"Lliphi Oscuro\"\nPara que siga al sistema: \"window.autoDetectColorScheme\": true, \"workbench.preferredDarkColorTheme\": \"Lliphi Oscuro\", \"workbench.preferredLightColorTheme\": \"Lliphi Claro\".\n\n\nZed\n\nCopia zed/lliphi.json a ~/.config/zed/themes/.\nEn Zed: paleta de órdenes → theme selector: toggle → «Lliphi Oscuro» o «Lliphi Claro»; o en settings.json:\n\n\"theme\": { \"mode\": \"system\", \"dark\": \"Lliphi Oscuro\", \"light\": \"Lliphi Claro\" }\nZed relee la carpeta de temas al vuelo."
   },
   {
-    "objectID": "galeria.html#lanzador",
-    "href": "galeria.html#lanzador",
-    "title": "Galería",
-    "section": "Lanzador",
-    "text": "Lanzador\n\n\n\n\nOscuro\n\n\n\n\n\nClaro"
+    "objectID": "generado/catalogo/editores.html#actualizar",
+    "href": "generado/catalogo/editores.html#actualizar",
+    "title": "Editores: VS Code y Zed",
+    "section": "Actualizar",
+    "text": "Actualizar\nSustituye la carpeta de la extensión y el archivo de Zed; los nombres de los temas no cambian."
   },
   {
-    "objectID": "galeria.html#dolphin-konsole-y-una-notificación",
-    "href": "galeria.html#dolphin-konsole-y-una-notificación",
-    "title": "Galería",
-    "section": "Dolphin, Konsole y una notificación",
-    "text": "Dolphin, Konsole y una notificación\n\n\n\n\nOscuro\n\n\n\n\n\nClaro"
+    "objectID": "generado/catalogo/editores.html#desinstalar",
+    "href": "generado/catalogo/editores.html#desinstalar",
+    "title": "Editores: VS Code y Zed",
+    "section": "Desinstalar",
+    "text": "Desinstalar\nElige otro tema en cada editor y borra ~/.vscode/extensions/lliphi.lliphi/ y ~/.config/zed/themes/lliphi.json. El instalador (desinstalar) hace lo segundo y no toca los settings.json, que son tuyos."
   },
   {
-    "objectID": "galeria.html#preferencias-del-sistema-colores",
-    "href": "galeria.html#preferencias-del-sistema-colores",
-    "title": "Galería",
-    "section": "Preferencias del sistema → Colores",
-    "text": "Preferencias del sistema → Colores\n\n\n\n\nOscuro\n\n\n\n\n\nClaro"
+    "objectID": "generado/catalogo/editores.html#código-incidencias-y-cambios",
+    "href": "generado/catalogo/editores.html#código-incidencias-y-cambios",
+    "title": "Editores: VS Code y Zed",
+    "section": "Código, incidencias y cambios",
+    "text": "Código, incidencias y cambios\n\nCódigo: generado/editores y su generador herramientas/destinos/editores.py.\nIncidencias: https://github.com/achalmed/lliphi/issues.\nCambios: registro de cambios."
   },
   {
-    "objectID": "galeria.html#kate",
-    "href": "galeria.html#kate",
-    "title": "Galería",
-    "section": "Kate",
-    "text": "Kate\n\n\n\n\nOscuro\n\n\n\n\n\nClaro"
+    "objectID": "filosofia.html",
+    "href": "filosofia.html",
+    "title": "Filosofía",
+    "section": "",
+    "text": "El autor usaba dos temas globales de Plasma: Nothing (jomada, Seducción Linux), casi negro con un acento rojo y un dock flotante, y WhiteSur (vinceliuice), con la geometría redondeada, los márgenes generosos y la familia claro/oscuro de macOS. Quería la fusión de ambos, pero sin lo que arrastran: colores fijados en centenares de SVG, dependencias de otros temas, imitación literal de otra plataforma y ninguna forma de medir si el texto se lee."
   },
   {
-    "objectID": "galeria.html#bocetos-no-son-capturas",
-    "href": "galeria.html#bocetos-no-son-capturas",
-    "title": "Galería",
-    "section": "Bocetos (no son capturas)",
-    "text": "Bocetos (no son capturas)\nDibujos previos a la implementación, hechos con los tokens para decidir la dirección artística.\n\n\n\n\nBoceto oscuro\n\n\n\n\n\nBoceto claro"
+    "objectID": "filosofia.html#de-dónde-viene",
+    "href": "filosofia.html#de-dónde-viene",
+    "title": "Filosofía",
+    "section": "",
+    "text": "El autor usaba dos temas globales de Plasma: Nothing (jomada, Seducción Linux), casi negro con un acento rojo y un dock flotante, y WhiteSur (vinceliuice), con la geometría redondeada, los márgenes generosos y la familia claro/oscuro de macOS. Quería la fusión de ambos, pero sin lo que arrastran: colores fijados en centenares de SVG, dependencias de otros temas, imitación literal de otra plataforma y ninguna forma de medir si el texto se lee."
+  },
+  {
+    "objectID": "filosofia.html#seis-principios",
+    "href": "filosofia.html#seis-principios",
+    "title": "Filosofía",
+    "section": "Seis principios",
+    "text": "Seis principios\n\nSuavidad con estructura. Superficies neutras de poca saturación, jerarquía por luminosidad (vista más clara u oscura que la ventana, botón distinto de ambas) y bordes de un píxel en vez de sombras pesadas.\nUn acento, y que siga al sistema. Rojo por defecto; el esquema deja que Plasma lo sustituya por el acento del usuario o del fondo sin romper el contraste.\nDos variantes, una lógica. Mismos tokens semánticos, radios, espacios y estados; cambian solo las primitivas.\nLegible antes que bonito. Contraste medido (WCAG 2.2) como prueba automática.\nNada de Apple ni de nadie. La originalidad está en proporciones, radios, paleta y estados, no en copiar.\nMínimo que hereda. Breeze colorea; Lliphi no reemplaza lo que ya funciona."
+  },
+  {
+    "objectID": "filosofia.html#lo-que-lliphi-no-es",
+    "href": "filosofia.html#lo-que-lliphi-no-es",
+    "title": "Filosofía",
+    "section": "Lo que Lliphi no es",
+    "text": "Lo que Lliphi no es\n\nNo es una imitación de macOS ni de Windows: no hay semáforos, logotipos ni fuentes de esas plataformas.\nNo exige Kvantum ni estilos de widgets compilados: con Breeze basta y sobrevive a cada versión de Qt.\nNo instala nada con privilegios: SDDM y Plymouth, si algún día llegan, serán un módulo aparte con confirmación.\nNo promete compatibilidad universal: la matriz dice qué está probado y dónde."
+  },
+  {
+    "objectID": "filosofia.html#cómo-se-decide",
+    "href": "filosofia.html#cómo-se-decide",
+    "title": "Filosofía",
+    "section": "Cómo se decide",
+    "text": "Cómo se decide\nCada decisión de diseño y de técnica está escrita, con fecha y motivo, en docs/decisiones.md; la dirección artística, con la paleta y el contraste medido, en docs/direccion-artistica.md."
+  },
+  {
+    "objectID": "descargas.html",
+    "href": "descargas.html",
+    "title": "Descargas y versiones",
+    "section": "",
+    "text": "0.1.0 — primer lote. Las versiones siguen SemVer: la primera cifra cambia si cambian los nombres de los paquetes o la forma de instalar; la segunda, si entra un módulo o cambia el diseño; la tercera, correcciones."
+  },
+  {
+    "objectID": "descargas.html#versión-actual",
+    "href": "descargas.html#versión-actual",
+    "title": "Descargas y versiones",
+    "section": "",
+    "text": "0.1.0 — primer lote. Las versiones siguen SemVer: la primera cifra cambia si cambian los nombres de los paquetes o la forma de instalar; la segunda, si entra un módulo o cambia el diseño; la tercera, correcciones."
+  },
+  {
+    "objectID": "descargas.html#formas-de-obtenerlo",
+    "href": "descargas.html#formas-de-obtenerlo",
+    "title": "Descargas y versiones",
+    "section": "Formas de obtenerlo",
+    "text": "Formas de obtenerlo\n\n\n\nforma\npara quién\ncómo\n\n\n\n\nrepositorio\nquien quiera el instalador y las herramientas\ngit clone https://github.com/achalmed/lliphi.git\n\n\nversión etiquetada\nquien quiera una versión fija\ngithub.com/achalmed/lliphi/releases: código y, por módulo, un .tar.gz listo para kpackagetool6 o para copiar\n\n\nKDE Store\nquien instale desde Preferencias del sistema\npendiente de publicación (ver registro de cambios)"
+  },
+  {
+    "objectID": "descargas.html#comprobar-lo-descargado",
+    "href": "descargas.html#comprobar-lo-descargado",
+    "title": "Descargas y versiones",
+    "section": "Comprobar lo descargado",
+    "text": "Comprobar lo descargado\nCada versión publicada lleva su SHA256SUMS. En Linux:\nsha256sum -c SHA256SUMS"
+  },
+  {
+    "objectID": "descargas.html#qué-contiene-una-versión",
+    "href": "descargas.html#qué-contiene-una-versión",
+    "title": "Descargas y versiones",
+    "section": "Qué contiene una versión",
+    "text": "Qué contiene una versión\n\ngenerado/: los módulos tal como se instalan (esquemas, temas globales, estilo de Plasma, Konsole, fondos).\nherramientas/instalar.py: el instalador, sin dependencias.\ntokens/: la fuente de verdad del color y de la marca.\ndocs/, CHANGELOG.md, LICENSES/, REUSE.toml."
+  },
+  {
+    "objectID": "compatibilidad.html",
+    "href": "compatibilidad.html",
+    "title": "Compatibilidad",
+    "section": "",
+    "text": "«Probado» significa visto en un escritorio real con capturas; «esperado» es lo que la documentación de KDE indica y aún no se ha probado aquí. La matriz completa y actualizada está en docs/compatibilidad.md."
+  },
+  {
+    "objectID": "compatibilidad.html#por-componente-y-versión-de-plasma",
+    "href": "compatibilidad.html#por-componente-y-versión-de-plasma",
+    "title": "Compatibilidad",
+    "section": "Por componente y versión de Plasma",
+    "text": "Por componente y versión de Plasma\n\n\n\n\n\n\n\n\n\ncomponente\nPlasma 6.0–6.1\n6.2–6.5\n6.6\n\n\n\n\nesquemas de color\nesperado\nesperado\nprobado\n\n\ntemas globales (heredan de Breeze)\nesperado\nesperado\nprobado\n\n\nestilo de Plasma\nesperado\nesperado\nprobado\n\n\ndecoración Breeze coloreada\nesperado\nesperado\nprobado\n\n\nKonsole\nesperado\nesperado\nexperimental\n\n\nfondo con variante oscura (images_dark/)\nsolo la clara\nsolo la clara\nprobado (por ruta del paquete)\n\n\nGTK generado por Plasma\nesperado\nesperado\npendiente\n\n\nescalas 150 % y 200 %\n—\n—\npendiente\n\n\nSDDM, splash, bloqueo\nfuera del primer lote"
+  },
+  {
+    "objectID": "compatibilidad.html#por-distribución",
+    "href": "compatibilidad.html#por-distribución",
+    "title": "Compatibilidad",
+    "section": "Por distribución",
+    "text": "Por distribución\n\n\n\n\n\n\n\n\ndistribución\nPlasma\nestado\n\n\n\n\nKubuntu 26.04 LTS (Wayland)\n6.6\nprobado (máquina del autor)\n\n\nKDE neon, Fedora KDE 43, Arch y derivadas, openSUSE Tumbleweed\n6.5–6.6\nesperado igual: solo rutas de usuario y herramientas de Plasma\n\n\nDebian 13\n6.3\nesperado; sin variante oscura del fondo\n\n\nKubuntu 24.04 (Plasma 5.27)\n5\nno\n\n\nX11\n6.x\nesperado igual: nada depende del protocolo gráfico\n\n\n\n¿Lo probaste en otra distribución? Abre una incidencia con la versión de Plasma (plasmashell --version) y una captura; la matriz se actualiza con cada informe."
+  },
+  {
+    "objectID": "cambios.html",
+    "href": "cambios.html",
+    "title": "Registro de cambios",
+    "section": "",
+    "text": "Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión del proyecto vive en VERSION."
+  },
+  {
+    "objectID": "cambios.html#unreleased",
+    "href": "cambios.html#unreleased",
+    "title": "Registro de cambios",
+    "section": "[Unreleased]",
+    "text": "[Unreleased]\n\nAdded\n\nMódulo terminales: esquemas para Alacritty ([colors] en TOML) y Kitty (.conf) en claro y oscuro, con los dieciséis ANSI de Konsole y la selección, el cursor y los enlaces del esquema de Plasma; el instalador admite destinos en $XDG_CONFIG_HOME (alacritty/themes/, kitty/themes/).\nMódulo editores: extensión mínima de VS Code (dos temas con colors, tokenColors y semanticTokenColors) y tema de Zed (v0.2.0, dos variantes en un archivo); la sintaxis sale de los ANSI con una tabla única (palabras clave rojo, cadenas verde, números amarillo, funciones azul, comentarios en el texto inactivo). El instalador copia la extensión a ~/.vscode/extensions/ (o $VSCODE_EXTENSIONS), su única ruta de lectura."
+  },
+  {
+    "objectID": "cambios.html#section",
+    "href": "cambios.html#section",
+    "title": "Registro de cambios",
+    "section": "[0.1.0] - 2026-10-18",
+    "text": "[0.1.0] - 2026-10-18\n\nAdded\n\nTokens de diseño (DTCG 2025.10, color en OKLCH) con contraste medido; variantes clara y oscura y acento rojo.\nGeneradores: esquemas de color de Plasma, temas globales, estilo de Plasma que sigue el esquema del sistema, esquemas de Konsole y paquete de fondos con variante oscura.\nInstalador en Python con simulación por defecto, respaldo verificado, manifiesto y UNDO.sh.\nPruebas: tokens, contraste, deriva de lo generado, estructura de paquetes, instalación reversible y REUSE.\nSitio oficial (Quarto) con galería de capturas reales, catálogo generado de modulos/, guías e integración propuesta con el hub del autor; integración continua; empaquetado por módulo con SHA256SUMS."
+  },
+  {
+    "objectID": "actualizar-y-desinstalar.html",
+    "href": "actualizar-y-desinstalar.html",
+    "title": "Actualizar y desinstalar",
+    "section": "",
+    "text": "cd lliphi\ngit pull\npython3 herramientas/instalar.py --aplicar\nEl instalador retira la versión anterior según su manifiesto y copia la nueva; los respaldos anteriores se conservan (cada instalación crea su carpeta con fecha). Si cambió el estilo de Plasma y ves el anterior, cierra la sesión y vuelve a entrar: Plasma guarda los SVG en caché por versión.\nVer qué hay instalado y si algo se modificó fuera del instalador:\npython3 herramientas/instalar.py estado"
+  },
+  {
+    "objectID": "actualizar-y-desinstalar.html#actualizar",
+    "href": "actualizar-y-desinstalar.html#actualizar",
+    "title": "Actualizar y desinstalar",
+    "section": "",
+    "text": "cd lliphi\ngit pull\npython3 herramientas/instalar.py --aplicar\nEl instalador retira la versión anterior según su manifiesto y copia la nueva; los respaldos anteriores se conservan (cada instalación crea su carpeta con fecha). Si cambió el estilo de Plasma y ves el anterior, cierra la sesión y vuelve a entrar: Plasma guarda los SVG en caché por versión.\nVer qué hay instalado y si algo se modificó fuera del instalador:\npython3 herramientas/instalar.py estado"
+  },
+  {
+    "objectID": "actualizar-y-desinstalar.html#desinstalar",
+    "href": "actualizar-y-desinstalar.html#desinstalar",
+    "title": "Actualizar y desinstalar",
+    "section": "Desinstalar",
+    "text": "Desinstalar\npython3 herramientas/instalar.py desinstalar            # simula\npython3 herramientas/instalar.py desinstalar --aplicar  # retira lo instalado\nAntes, elige otro tema global en Preferencias del sistema (o plasma-apply-lookandfeel -a org.kde.breeze.desktop) para que Plasma no se quede apuntando a un tema que ya no existe."
+  },
+  {
+    "objectID": "actualizar-y-desinstalar.html#volver-exactamente-a-lo-de-antes",
+    "href": "actualizar-y-desinstalar.html#volver-exactamente-a-lo-de-antes",
+    "title": "Actualizar y desinstalar",
+    "section": "Volver exactamente a lo de antes",
+    "text": "Volver exactamente a lo de antes\nEl respaldo de cada instalación incluye un UNDO.sh:\nbash ~/.local/state/lliphi/respaldos/&lt;fecha&gt;/UNDO.sh\nRestaura byte a byte los archivos de configuración respaldados (los compara con su suma SHA-256), retira los módulos de Lliphi y borra el manifiesto. Después, cierra la sesión y vuelve a entrar."
+  },
+  {
+    "objectID": "actualizar-y-desinstalar.html#volver-a-una-versión-anterior-de-lliphi",
+    "href": "actualizar-y-desinstalar.html#volver-a-una-versión-anterior-de-lliphi",
+    "title": "Actualizar y desinstalar",
+    "section": "Volver a una versión anterior de Lliphi",
+    "text": "Volver a una versión anterior de Lliphi\ngit checkout v0.1.0            # la etiqueta de la versión que quieres\npython3 herramientas/instalar.py --aplicar"
+  },
+  {
+    "objectID": "catalogo.html",
+    "href": "catalogo.html",
+    "title": "Catálogo",
+    "section": "",
+    "text": "Un módulo es una pieza que se instala, se actualiza y se desinstala por separado. Estados: probado (visto en un escritorio real con capturas), experimental (instalado, sin verificación visual completa), pendiente (en la hoja de ruta). La tabla se genera del repositorio (modulos/*/modulo.json)."
+  },
+  {
+    "objectID": "catalogo.html#lo-que-no-es-un-módulo-propio-y-por-qué",
+    "href": "catalogo.html#lo-que-no-es-un-módulo-propio-y-por-qué",
+    "title": "Catálogo",
+    "section": "Lo que no es un módulo propio, y por qué",
+    "text": "Lo que no es un módulo propio, y por qué\n\n\n\n\n\n\n\npieza\ncómo la cubre Lliphi\n\n\n\n\ndecoración de ventanas\nBreeze, coloreada por el esquema ([WM] y Colors:Header). Aurorae se reescribió en Plasma 6.6; no se depende de él.\n\n\naplicaciones GTK\nPlasma genera el tema GTK desde el esquema (breeze-gtk): con el esquema de Lliphi aplicado, GTK 3 y 4 lo siguen.\n\n\niconos y cursores\nBreeze y breeze_cursors, que siguen el esquema. Un módulo de iconos propio está en la hoja de ruta.\n\n\nKvantum, estilos de widgets en C++\nno se usan: Breeze basta y no se rompe con cada Qt."
+  },
+  {
+    "objectID": "catalogo.html#hoja-de-ruta",
+    "href": "catalogo.html#hoja-de-ruta",
+    "title": "Catálogo",
+    "section": "Hoja de ruta",
+    "text": "Hoja de ruta\n\n\n\n\n\n\n\n\nlote\nmódulos\ncondición\n\n\n\n\n2\nterminales (Alacritty, Kitty) hecho · editores (VS Code, Zed) hecho · navegador (Zen/Firefox)\ngenerados desde los mismos tokens\n\n\n3\niconos (solo lo que cambia, hereda de Breeze), cursores\nsi aportan algo visible\n\n\n4\nSDDM y Plymouth (root, con confirmación), Kvantum opcional, variante translúcida con contraste medido\ntras probar el primer lote en más distribuciones"
+  },
+  {
+    "objectID": "contribuir.html",
+    "href": "contribuir.html",
+    "title": "Contribuir",
+    "section": "",
+    "text": "Abre una incidencia con: distribución y versión de Plasma (plasmashell --version), sesión (Wayland o X11), la variante (clara u oscura), qué esperabas, qué pasó y una captura. Si es de un módulo, nómbralo (esquema, global, estilo, konsole, fondos)."
+  },
+  {
+    "objectID": "contribuir.html#informar-de-un-problema",
+    "href": "contribuir.html#informar-de-un-problema",
+    "title": "Contribuir",
+    "section": "",
+    "text": "Abre una incidencia con: distribución y versión de Plasma (plasmashell --version), sesión (Wayland o X11), la variante (clara u oscura), qué esperabas, qué pasó y una captura. Si es de un módulo, nómbralo (esquema, global, estilo, konsole, fondos)."
+  },
+  {
+    "objectID": "contribuir.html#proponer-un-cambio-de-diseño",
+    "href": "contribuir.html#proponer-un-cambio-de-diseño",
+    "title": "Contribuir",
+    "section": "Proponer un cambio de diseño",
+    "text": "Proponer un cambio de diseño\nPrimero una incidencia con la propuesta y, si puedes, una captura o boceto. Los cambios de paleta pasan por herramientas/paleta.py: toda propuesta debe seguir dando 4.5:1 en texto y 3:1 en foco y controles."
+  },
+  {
+    "objectID": "contribuir.html#programar",
+    "href": "contribuir.html#programar",
+    "title": "Contribuir",
+    "section": "Programar",
+    "text": "Programar\ngit clone https://github.com/achalmed/lliphi.git && cd lliphi\npython3 -m venv .venv && .venv/bin/pip install -e \".[dev]\"\n.venv/bin/python herramientas/paleta.py --aplicar     # tokens\n.venv/bin/python herramientas/generar.py --aplicar    # todo lo generado\n.venv/bin/pytest                                      # pruebas\n.venv/bin/reuse lint                                  # licencias\nReglas:\n\nLo generado no se edita: cambia los tokens o el generador; generar.py verificar (y la prueba test_generado_sin_deriva) rechaza ediciones a mano en generado/ y sitio/generado/.\nNingún color fuera de los tokens: la prueba test_ningun_hex_fuera_del_maestro lo vigila.\nNada de terceros: ni SVG, ni iconos, ni código copiado de otros temas. Todo archivo lleva su licencia (REUSE).\nUn módulo nuevo es una carpeta en modulos/&lt;id&gt;/ con modulo.json e INSTALL.md, un generador en herramientas/destinos/, su entrada en MODULOS del instalador, su prueba y su fila en la matriz de compatibilidad.\nMensajes de commit en español, con Conventional Commits."
+  },
+  {
+    "objectID": "contribuir.html#criterios-de-aceptación-de-una-pieza",
+    "href": "contribuir.html#criterios-de-aceptación-de-una-pieza",
+    "title": "Contribuir",
+    "section": "Criterios de aceptación de una pieza",
+    "text": "Criterios de aceptación de una pieza\n\nSe genera de los tokens y pasa la prueba de deriva.\nContraste en verde en las dos variantes.\nSe instala y se desinstala con el instalador, y UNDO.sh deja todo como estaba (prueba test_instalar_y_desinstalar_restaura).\nCapturas reales de la pieza en las dos variantes en muestras/capturas/.\nLicencia declarada por archivo y reuse lint en verde."
   },
   {
     "objectID": "faq.html",
@@ -301,207 +490,53 @@
     "text": "¿Puedo copiar partes para mi propio tema?\nSí: el código es MIT y los activos gráficos CC BY-SA 4.0 (atribución y misma licencia para lo derivado). Nada del proyecto proviene de otros temas, así que no arrastra licencias ajenas (licencias)."
   },
   {
-    "objectID": "contribuir.html",
-    "href": "contribuir.html",
-    "title": "Contribuir",
+    "objectID": "galeria.html",
+    "href": "galeria.html",
+    "title": "Galería",
     "section": "",
-    "text": "Abre una incidencia con: distribución y versión de Plasma (plasmashell --version), sesión (Wayland o X11), la variante (clara u oscura), qué esperabas, qué pasó y una captura. Si es de un módulo, nómbralo (esquema, global, estilo, konsole, fondos)."
+    "text": "Todas las imágenes son capturas de una sesión real de Plasma 6.6 con el tema instalado y aplicado (nada de maquetas). Los dos bocetos del final están rotulados como tales."
   },
   {
-    "objectID": "contribuir.html#informar-de-un-problema",
-    "href": "contribuir.html#informar-de-un-problema",
-    "title": "Contribuir",
-    "section": "",
-    "text": "Abre una incidencia con: distribución y versión de Plasma (plasmashell --version), sesión (Wayland o X11), la variante (clara u oscura), qué esperabas, qué pasó y una captura. Si es de un módulo, nómbralo (esquema, global, estilo, konsole, fondos)."
+    "objectID": "galeria.html#escritorio",
+    "href": "galeria.html#escritorio",
+    "title": "Galería",
+    "section": "Escritorio",
+    "text": "Escritorio\n\n\n\n\nOscuro\n\n\n\n\n\nClaro"
   },
   {
-    "objectID": "contribuir.html#proponer-un-cambio-de-diseño",
-    "href": "contribuir.html#proponer-un-cambio-de-diseño",
-    "title": "Contribuir",
-    "section": "Proponer un cambio de diseño",
-    "text": "Proponer un cambio de diseño\nPrimero una incidencia con la propuesta y, si puedes, una captura o boceto. Los cambios de paleta pasan por herramientas/paleta.py: toda propuesta debe seguir dando 4.5:1 en texto y 3:1 en foco y controles."
+    "objectID": "galeria.html#lanzador",
+    "href": "galeria.html#lanzador",
+    "title": "Galería",
+    "section": "Lanzador",
+    "text": "Lanzador\n\n\n\n\nOscuro\n\n\n\n\n\nClaro"
   },
   {
-    "objectID": "contribuir.html#programar",
-    "href": "contribuir.html#programar",
-    "title": "Contribuir",
-    "section": "Programar",
-    "text": "Programar\ngit clone https://github.com/achalmed/lliphi.git && cd lliphi\npython3 -m venv .venv && .venv/bin/pip install -e \".[dev]\"\n.venv/bin/python herramientas/paleta.py --aplicar     # tokens\n.venv/bin/python herramientas/generar.py --aplicar    # todo lo generado\n.venv/bin/pytest                                      # pruebas\n.venv/bin/reuse lint                                  # licencias\nReglas:\n\nLo generado no se edita: cambia los tokens o el generador; generar.py verificar (y la prueba test_generado_sin_deriva) rechaza ediciones a mano en generado/ y sitio/generado/.\nNingún color fuera de los tokens: la prueba test_ningun_hex_fuera_del_maestro lo vigila.\nNada de terceros: ni SVG, ni iconos, ni código copiado de otros temas. Todo archivo lleva su licencia (REUSE).\nUn módulo nuevo es una carpeta en modulos/&lt;id&gt;/ con modulo.json e INSTALL.md, un generador en herramientas/destinos/, su entrada en MODULOS del instalador, su prueba y su fila en la matriz de compatibilidad.\nMensajes de commit en español, con Conventional Commits."
+    "objectID": "galeria.html#dolphin-konsole-y-una-notificación",
+    "href": "galeria.html#dolphin-konsole-y-una-notificación",
+    "title": "Galería",
+    "section": "Dolphin, Konsole y una notificación",
+    "text": "Dolphin, Konsole y una notificación\n\n\n\n\nOscuro\n\n\n\n\n\nClaro"
   },
   {
-    "objectID": "contribuir.html#criterios-de-aceptación-de-una-pieza",
-    "href": "contribuir.html#criterios-de-aceptación-de-una-pieza",
-    "title": "Contribuir",
-    "section": "Criterios de aceptación de una pieza",
-    "text": "Criterios de aceptación de una pieza\n\nSe genera de los tokens y pasa la prueba de deriva.\nContraste en verde en las dos variantes.\nSe instala y se desinstala con el instalador, y UNDO.sh deja todo como estaba (prueba test_instalar_y_desinstalar_restaura).\nCapturas reales de la pieza en las dos variantes en muestras/capturas/.\nLicencia declarada por archivo y reuse lint en verde."
+    "objectID": "galeria.html#preferencias-del-sistema-colores",
+    "href": "galeria.html#preferencias-del-sistema-colores",
+    "title": "Galería",
+    "section": "Preferencias del sistema → Colores",
+    "text": "Preferencias del sistema → Colores\n\n\n\n\nOscuro\n\n\n\n\n\nClaro"
   },
   {
-    "objectID": "catalogo.html",
-    "href": "catalogo.html",
-    "title": "Catálogo",
-    "section": "",
-    "text": "Un módulo es una pieza que se instala, se actualiza y se desinstala por separado. Estados: probado (visto en un escritorio real con capturas), experimental (instalado, sin verificación visual completa), pendiente (en la hoja de ruta). La tabla se genera del repositorio (modulos/*/modulo.json)."
+    "objectID": "galeria.html#kate",
+    "href": "galeria.html#kate",
+    "title": "Galería",
+    "section": "Kate",
+    "text": "Kate\n\n\n\n\nOscuro\n\n\n\n\n\nClaro"
   },
   {
-    "objectID": "catalogo.html#lo-que-no-es-un-módulo-propio-y-por-qué",
-    "href": "catalogo.html#lo-que-no-es-un-módulo-propio-y-por-qué",
-    "title": "Catálogo",
-    "section": "Lo que no es un módulo propio, y por qué",
-    "text": "Lo que no es un módulo propio, y por qué\n\n\n\n\n\n\n\npieza\ncómo la cubre Lliphi\n\n\n\n\ndecoración de ventanas\nBreeze, coloreada por el esquema ([WM] y Colors:Header). Aurorae se reescribió en Plasma 6.6; no se depende de él.\n\n\naplicaciones GTK\nPlasma genera el tema GTK desde el esquema (breeze-gtk): con el esquema de Lliphi aplicado, GTK 3 y 4 lo siguen.\n\n\niconos y cursores\nBreeze y breeze_cursors, que siguen el esquema. Un módulo de iconos propio está en la hoja de ruta.\n\n\nKvantum, estilos de widgets en C++\nno se usan: Breeze basta y no se rompe con cada Qt."
-  },
-  {
-    "objectID": "catalogo.html#hoja-de-ruta",
-    "href": "catalogo.html#hoja-de-ruta",
-    "title": "Catálogo",
-    "section": "Hoja de ruta",
-    "text": "Hoja de ruta\n\n\n\n\n\n\n\n\nlote\nmódulos\ncondición\n\n\n\n\n2\nterminales (Alacritty, Kitty) hecho · editores (VS Code, Zed) · navegador (Zen/Firefox)\ngenerados desde los mismos tokens\n\n\n3\niconos (solo lo que cambia, hereda de Breeze), cursores\nsi aportan algo visible\n\n\n4\nSDDM y Plymouth (root, con confirmación), Kvantum opcional, variante translúcida con contraste medido\ntras probar el primer lote en más distribuciones"
-  },
-  {
-    "objectID": "actualizar-y-desinstalar.html",
-    "href": "actualizar-y-desinstalar.html",
-    "title": "Actualizar y desinstalar",
-    "section": "",
-    "text": "cd lliphi\ngit pull\npython3 herramientas/instalar.py --aplicar\nEl instalador retira la versión anterior según su manifiesto y copia la nueva; los respaldos anteriores se conservan (cada instalación crea su carpeta con fecha). Si cambió el estilo de Plasma y ves el anterior, cierra la sesión y vuelve a entrar: Plasma guarda los SVG en caché por versión.\nVer qué hay instalado y si algo se modificó fuera del instalador:\npython3 herramientas/instalar.py estado"
-  },
-  {
-    "objectID": "actualizar-y-desinstalar.html#actualizar",
-    "href": "actualizar-y-desinstalar.html#actualizar",
-    "title": "Actualizar y desinstalar",
-    "section": "",
-    "text": "cd lliphi\ngit pull\npython3 herramientas/instalar.py --aplicar\nEl instalador retira la versión anterior según su manifiesto y copia la nueva; los respaldos anteriores se conservan (cada instalación crea su carpeta con fecha). Si cambió el estilo de Plasma y ves el anterior, cierra la sesión y vuelve a entrar: Plasma guarda los SVG en caché por versión.\nVer qué hay instalado y si algo se modificó fuera del instalador:\npython3 herramientas/instalar.py estado"
-  },
-  {
-    "objectID": "actualizar-y-desinstalar.html#desinstalar",
-    "href": "actualizar-y-desinstalar.html#desinstalar",
-    "title": "Actualizar y desinstalar",
-    "section": "Desinstalar",
-    "text": "Desinstalar\npython3 herramientas/instalar.py desinstalar            # simula\npython3 herramientas/instalar.py desinstalar --aplicar  # retira lo instalado\nAntes, elige otro tema global en Preferencias del sistema (o plasma-apply-lookandfeel -a org.kde.breeze.desktop) para que Plasma no se quede apuntando a un tema que ya no existe."
-  },
-  {
-    "objectID": "actualizar-y-desinstalar.html#volver-exactamente-a-lo-de-antes",
-    "href": "actualizar-y-desinstalar.html#volver-exactamente-a-lo-de-antes",
-    "title": "Actualizar y desinstalar",
-    "section": "Volver exactamente a lo de antes",
-    "text": "Volver exactamente a lo de antes\nEl respaldo de cada instalación incluye un UNDO.sh:\nbash ~/.local/state/lliphi/respaldos/&lt;fecha&gt;/UNDO.sh\nRestaura byte a byte los archivos de configuración respaldados (los compara con su suma SHA-256), retira los módulos de Lliphi y borra el manifiesto. Después, cierra la sesión y vuelve a entrar."
-  },
-  {
-    "objectID": "actualizar-y-desinstalar.html#volver-a-una-versión-anterior-de-lliphi",
-    "href": "actualizar-y-desinstalar.html#volver-a-una-versión-anterior-de-lliphi",
-    "title": "Actualizar y desinstalar",
-    "section": "Volver a una versión anterior de Lliphi",
-    "text": "Volver a una versión anterior de Lliphi\ngit checkout v0.1.0            # la etiqueta de la versión que quieres\npython3 herramientas/instalar.py --aplicar"
-  },
-  {
-    "objectID": "cambios.html",
-    "href": "cambios.html",
-    "title": "Registro de cambios",
-    "section": "",
-    "text": "Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión del proyecto vive en VERSION."
-  },
-  {
-    "objectID": "cambios.html#unreleased",
-    "href": "cambios.html#unreleased",
-    "title": "Registro de cambios",
-    "section": "[Unreleased]",
-    "text": "[Unreleased]\n\nAdded\n\nMódulo terminales: esquemas para Alacritty ([colors] en TOML) y Kitty (.conf) en claro y oscuro, con los dieciséis ANSI de Konsole y la selección, el cursor y los enlaces del esquema de Plasma; el instalador admite destinos en $XDG_CONFIG_HOME (alacritty/themes/, kitty/themes/)."
-  },
-  {
-    "objectID": "cambios.html#section",
-    "href": "cambios.html#section",
-    "title": "Registro de cambios",
-    "section": "[0.1.0] - 2026-10-18",
-    "text": "[0.1.0] - 2026-10-18\n\nAdded\n\nTokens de diseño (DTCG 2025.10, color en OKLCH) con contraste medido; variantes clara y oscura y acento rojo.\nGeneradores: esquemas de color de Plasma, temas globales, estilo de Plasma que sigue el esquema del sistema, esquemas de Konsole y paquete de fondos con variante oscura.\nInstalador en Python con simulación por defecto, respaldo verificado, manifiesto y UNDO.sh.\nPruebas: tokens, contraste, deriva de lo generado, estructura de paquetes, instalación reversible y REUSE.\nSitio oficial (Quarto) con galería de capturas reales, catálogo generado de modulos/, guías e integración propuesta con el hub del autor; integración continua; empaquetado por módulo con SHA256SUMS."
-  },
-  {
-    "objectID": "compatibilidad.html",
-    "href": "compatibilidad.html",
-    "title": "Compatibilidad",
-    "section": "",
-    "text": "«Probado» significa visto en un escritorio real con capturas; «esperado» es lo que la documentación de KDE indica y aún no se ha probado aquí. La matriz completa y actualizada está en docs/compatibilidad.md."
-  },
-  {
-    "objectID": "compatibilidad.html#por-componente-y-versión-de-plasma",
-    "href": "compatibilidad.html#por-componente-y-versión-de-plasma",
-    "title": "Compatibilidad",
-    "section": "Por componente y versión de Plasma",
-    "text": "Por componente y versión de Plasma\n\n\n\n\n\n\n\n\n\ncomponente\nPlasma 6.0–6.1\n6.2–6.5\n6.6\n\n\n\n\nesquemas de color\nesperado\nesperado\nprobado\n\n\ntemas globales (heredan de Breeze)\nesperado\nesperado\nprobado\n\n\nestilo de Plasma\nesperado\nesperado\nprobado\n\n\ndecoración Breeze coloreada\nesperado\nesperado\nprobado\n\n\nKonsole\nesperado\nesperado\nexperimental\n\n\nfondo con variante oscura (images_dark/)\nsolo la clara\nsolo la clara\nprobado (por ruta del paquete)\n\n\nGTK generado por Plasma\nesperado\nesperado\npendiente\n\n\nescalas 150 % y 200 %\n—\n—\npendiente\n\n\nSDDM, splash, bloqueo\nfuera del primer lote"
-  },
-  {
-    "objectID": "compatibilidad.html#por-distribución",
-    "href": "compatibilidad.html#por-distribución",
-    "title": "Compatibilidad",
-    "section": "Por distribución",
-    "text": "Por distribución\n\n\n\n\n\n\n\n\ndistribución\nPlasma\nestado\n\n\n\n\nKubuntu 26.04 LTS (Wayland)\n6.6\nprobado (máquina del autor)\n\n\nKDE neon, Fedora KDE 43, Arch y derivadas, openSUSE Tumbleweed\n6.5–6.6\nesperado igual: solo rutas de usuario y herramientas de Plasma\n\n\nDebian 13\n6.3\nesperado; sin variante oscura del fondo\n\n\nKubuntu 24.04 (Plasma 5.27)\n5\nno\n\n\nX11\n6.x\nesperado igual: nada depende del protocolo gráfico\n\n\n\n¿Lo probaste en otra distribución? Abre una incidencia con la versión de Plasma (plasmashell --version) y una captura; la matriz se actualiza con cada informe."
-  },
-  {
-    "objectID": "descargas.html",
-    "href": "descargas.html",
-    "title": "Descargas y versiones",
-    "section": "",
-    "text": "0.1.0 — primer lote. Las versiones siguen SemVer: la primera cifra cambia si cambian los nombres de los paquetes o la forma de instalar; la segunda, si entra un módulo o cambia el diseño; la tercera, correcciones."
-  },
-  {
-    "objectID": "descargas.html#versión-actual",
-    "href": "descargas.html#versión-actual",
-    "title": "Descargas y versiones",
-    "section": "",
-    "text": "0.1.0 — primer lote. Las versiones siguen SemVer: la primera cifra cambia si cambian los nombres de los paquetes o la forma de instalar; la segunda, si entra un módulo o cambia el diseño; la tercera, correcciones."
-  },
-  {
-    "objectID": "descargas.html#formas-de-obtenerlo",
-    "href": "descargas.html#formas-de-obtenerlo",
-    "title": "Descargas y versiones",
-    "section": "Formas de obtenerlo",
-    "text": "Formas de obtenerlo\n\n\n\nforma\npara quién\ncómo\n\n\n\n\nrepositorio\nquien quiera el instalador y las herramientas\ngit clone https://github.com/achalmed/lliphi.git\n\n\nversión etiquetada\nquien quiera una versión fija\ngithub.com/achalmed/lliphi/releases: código y, por módulo, un .tar.gz listo para kpackagetool6 o para copiar\n\n\nKDE Store\nquien instale desde Preferencias del sistema\npendiente de publicación (ver registro de cambios)"
-  },
-  {
-    "objectID": "descargas.html#comprobar-lo-descargado",
-    "href": "descargas.html#comprobar-lo-descargado",
-    "title": "Descargas y versiones",
-    "section": "Comprobar lo descargado",
-    "text": "Comprobar lo descargado\nCada versión publicada lleva su SHA256SUMS. En Linux:\nsha256sum -c SHA256SUMS"
-  },
-  {
-    "objectID": "descargas.html#qué-contiene-una-versión",
-    "href": "descargas.html#qué-contiene-una-versión",
-    "title": "Descargas y versiones",
-    "section": "Qué contiene una versión",
-    "text": "Qué contiene una versión\n\ngenerado/: los módulos tal como se instalan (esquemas, temas globales, estilo de Plasma, Konsole, fondos).\nherramientas/instalar.py: el instalador, sin dependencias.\ntokens/: la fuente de verdad del color y de la marca.\ndocs/, CHANGELOG.md, LICENSES/, REUSE.toml."
-  },
-  {
-    "objectID": "filosofia.html",
-    "href": "filosofia.html",
-    "title": "Filosofía",
-    "section": "",
-    "text": "El autor usaba dos temas globales de Plasma: Nothing (jomada, Seducción Linux), casi negro con un acento rojo y un dock flotante, y WhiteSur (vinceliuice), con la geometría redondeada, los márgenes generosos y la familia claro/oscuro de macOS. Quería la fusión de ambos, pero sin lo que arrastran: colores fijados en centenares de SVG, dependencias de otros temas, imitación literal de otra plataforma y ninguna forma de medir si el texto se lee."
-  },
-  {
-    "objectID": "filosofia.html#de-dónde-viene",
-    "href": "filosofia.html#de-dónde-viene",
-    "title": "Filosofía",
-    "section": "",
-    "text": "El autor usaba dos temas globales de Plasma: Nothing (jomada, Seducción Linux), casi negro con un acento rojo y un dock flotante, y WhiteSur (vinceliuice), con la geometría redondeada, los márgenes generosos y la familia claro/oscuro de macOS. Quería la fusión de ambos, pero sin lo que arrastran: colores fijados en centenares de SVG, dependencias de otros temas, imitación literal de otra plataforma y ninguna forma de medir si el texto se lee."
-  },
-  {
-    "objectID": "filosofia.html#seis-principios",
-    "href": "filosofia.html#seis-principios",
-    "title": "Filosofía",
-    "section": "Seis principios",
-    "text": "Seis principios\n\nSuavidad con estructura. Superficies neutras de poca saturación, jerarquía por luminosidad (vista más clara u oscura que la ventana, botón distinto de ambas) y bordes de un píxel en vez de sombras pesadas.\nUn acento, y que siga al sistema. Rojo por defecto; el esquema deja que Plasma lo sustituya por el acento del usuario o del fondo sin romper el contraste.\nDos variantes, una lógica. Mismos tokens semánticos, radios, espacios y estados; cambian solo las primitivas.\nLegible antes que bonito. Contraste medido (WCAG 2.2) como prueba automática.\nNada de Apple ni de nadie. La originalidad está en proporciones, radios, paleta y estados, no en copiar.\nMínimo que hereda. Breeze colorea; Lliphi no reemplaza lo que ya funciona."
-  },
-  {
-    "objectID": "filosofia.html#lo-que-lliphi-no-es",
-    "href": "filosofia.html#lo-que-lliphi-no-es",
-    "title": "Filosofía",
-    "section": "Lo que Lliphi no es",
-    "text": "Lo que Lliphi no es\n\nNo es una imitación de macOS ni de Windows: no hay semáforos, logotipos ni fuentes de esas plataformas.\nNo exige Kvantum ni estilos de widgets compilados: con Breeze basta y sobrevive a cada versión de Qt.\nNo instala nada con privilegios: SDDM y Plymouth, si algún día llegan, serán un módulo aparte con confirmación.\nNo promete compatibilidad universal: la matriz dice qué está probado y dónde."
-  },
-  {
-    "objectID": "filosofia.html#cómo-se-decide",
-    "href": "filosofia.html#cómo-se-decide",
-    "title": "Filosofía",
-    "section": "Cómo se decide",
-    "text": "Cómo se decide\nCada decisión de diseño y de técnica está escrita, con fecha y motivo, en docs/decisiones.md; la dirección artística, con la paleta y el contraste medido, en docs/direccion-artistica.md."
+    "objectID": "galeria.html#bocetos-no-son-capturas",
+    "href": "galeria.html#bocetos-no-son-capturas",
+    "title": "Galería",
+    "section": "Bocetos (no son capturas)",
+    "text": "Bocetos (no son capturas)\nDibujos previos a la implementación, hechos con los tokens para decidir la dirección artística.\n\n\n\n\nBoceto oscuro\n\n\n\n\n\nBoceto claro"
   },
   {
     "objectID": "generado/catalogo/esquema.html",

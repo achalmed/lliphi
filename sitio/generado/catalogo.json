@@ -2,6 +2,21 @@
   "version": "0.1.0",
   "modulos": [
     {
+      "nombre": "Editores: VS Code y Zed",
+      "resumen": "Temas claro y oscuro para VS Code (extensión mínima) y Zed con la interfaz del esquema, la sintaxis derivada de los dieciséis ANSI y la terminal integrada de Konsole.",
+      "estado": "experimental",
+      "tecnologia": "VS Code color theme (`colors`, `tokenColors`, `semanticTokenColors`) · Zed theme v0.2.0",
+      "desde": "0.2.0",
+      "archivos": [
+        "vscode/lliphi/",
+        "zed/lliphi.json"
+      ],
+      "carpeta": "editores",
+      "generador": "editores.py",
+      "capturas": [],
+      "id": "editores"
+    },
+    {
       "nombre": "Esquemas de color",
       "resumen": "Lliphi Claro y Lliphi Oscuro para todas las aplicaciones Qt y KDE (y, a través de Plasma, GTK).",
       "estado": "probado",

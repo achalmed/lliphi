@@ -177,6 +177,49 @@ def test_terminales_alacritty_kitty():
         assert f"## name: {MARCA['nombre_esquema'][v]}" in (GEN / "terminales" / "kitty" / f"{MARCA['id']}-{v}.conf").read_text(encoding="utf-8")
 
 
+def _sintaxis_esperada(v: str) -> dict[str, str]:
+    t = _terminal(v)
+    sem = {k: x["$value"]["hex"] for k, x in _tokens_planos(TOKENS["semanticos"][v]).items()}
+    return {"palabra-clave": t["color1"], "cadena": t["color2"], "numero": t["color3"], "funcion": t["color4"],
+            "comentario": sem["texto.inactivo"], "fondo": sem["fondo.vista"], "texto": sem["texto.normal"], "rojo": t["color1"]}
+
+
+def test_vscode_extension():
+    ext = GEN / "editores" / "vscode" / MARCA["id"]
+    pkg = json.loads((ext / "package.json").read_text(encoding="utf-8"))
+    assert pkg["name"] == MARCA["id"] and pkg["categories"] == ["Themes"] and pkg["engines"]["vscode"]
+    temas = pkg["contributes"]["themes"]
+    assert {x["uiTheme"] for x in temas} == {"vs", "vs-dark"} and len(temas) == 2
+    por_ambito = {"keyword": "palabra-clave", "string": "cadena", "constant.numeric": "numero", "entity.name.function": "funcion", "comment": "comentario"}
+    for entrada in temas:
+        v = "claro" if entrada["uiTheme"] == "vs" else "oscuro"
+        tema = json.loads((ext / entrada["path"]).read_text(encoding="utf-8"))
+        assert tema["name"] == entrada["label"] == MARCA["nombre_esquema"][v]
+        assert tema["type"] == ("light" if v == "claro" else "dark")
+        e = _sintaxis_esperada(v)
+        assert tema["colors"]["editor.background"] == e["fondo"] and tema["colors"]["editor.foreground"] == e["texto"]
+        assert tema["colors"]["terminal.ansiRed"] == e["rojo"] and tema["colors"]["terminal.background"] == _terminal(v)["fondo"]
+        colores_por_ambito = {a: tc["settings"]["foreground"] for tc in tema["tokenColors"] for a in tc["scope"]}
+        for ambito, papel in por_ambito.items():
+            assert colores_por_ambito[ambito] == e[papel], (v, ambito)
+        assert tema["semanticTokenColors"]["function"] == e["funcion"]
+    assert (ext / "README.md").exists()
+
+
+def test_zed_tema():
+    z = json.loads((GEN / "editores" / "zed" / f"{MARCA['id']}.json").read_text(encoding="utf-8"))
+    assert z["name"] == MARCA["nombre"] and {t["appearance"] for t in z["themes"]} == {"light", "dark"}
+    for tema in z["themes"]:
+        v = "claro" if tema["appearance"] == "light" else "oscuro"
+        assert tema["name"] == MARCA["nombre_esquema"][v]
+        e = _sintaxis_esperada(v)
+        st = tema["style"]
+        assert st["editor.background"] == e["fondo"] and st["text"] == e["texto"] and st["terminal.ansi.red"] == e["rojo"]
+        for papel, clave in (("palabra-clave", "keyword"), ("cadena", "string"), ("numero", "number"), ("funcion", "function"), ("comentario", "comment")):
+            assert st["syntax"][clave]["color"] == e[papel], (v, clave)
+        assert st["players"] and {"cursor", "background", "selection"} <= set(st["players"][0])
+
+
 def test_fondo_paquete():
     base = GEN / "wallpapers" / MARCA["id_fondo"]
     meta = json.loads((base / "metadata.json").read_text(encoding="utf-8"))
@@ -209,6 +252,8 @@ def test_instalar_y_desinstalar_restaura(tmp_path: Path):
     assert (tmp_path / ".local/share/color-schemes" / f"{MARCA['id_esquema']['claro']}.colors").exists()
     assert (tmp_path / ".config/alacritty/themes" / f"{MARCA['id']}-oscuro.toml").exists()
     assert (tmp_path / ".config/kitty/themes" / f"{MARCA['id']}-claro.conf").exists()
+    assert (tmp_path / ".config/zed/themes" / f"{MARCA['id']}.json").exists()
+    assert (tmp_path / ".vscode/extensions" / f"{MARCA['id']}.{MARCA['id']}" / "package.json").exists()
     manifiesto = tmp_path / ".local/state" / MARCA["id"] / "instalado.json"
     assert manifiesto.exists()
     respaldo = Path(json.loads(manifiesto.read_text())["respaldo"])
@@ -230,6 +275,7 @@ def test_instalar_y_desinstalar_restaura(tmp_path: Path):
     assert (tmp_path / ".config" / "kdeglobals").read_bytes() == antes[Path(".config/kdeglobals")]
     assert not (tmp_path / ".local/share/plasma/look-and-feel" / MARCA["id_global"]["oscuro"]).exists()
     assert not (tmp_path / ".config/kitty/themes" / f"{MARCA['id']}-claro.conf").exists()
+    assert not (tmp_path / ".vscode/extensions" / f"{MARCA['id']}.{MARCA['id']}").exists()
     assert not manifiesto.exists()
 
 

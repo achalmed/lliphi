@@ -64,3 +64,14 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
 - **3.10 (2026-10-18) Lámina de muestras con PyQt6 del sistema y Breeze sin pantalla.** Fuera de Plasma no hay plugin
   de plataforma: la QPalette se construye desde el esquema. Límite conocido: el foco del deslizador y la barra de
   progreso sale en azul Breeze en la lámina; la validación real es la fase 7.
+- **3.11 (2026-10-18) Terminales y editores desde los mismos tokens, sin colores nuevos.** Lo que Konsole no define
+  (selección, cursor, enlaces, bordes, pestañas) sale de los semánticos de la misma variante; la sintaxis de los
+  editores deriva de los ANSI con una sola tabla (`editores.sintaxis`: palabras clave rojo, cadenas verde, números y
+  constantes amarillo, funciones azul, tipos cian, atributos magenta, comentarios en el texto inactivo). Los resaltes
+  que se superponen al texto llevan alfa (`#rrggbbaa`) sobre un color del maestro; la prueba de hexes lo admite
+  recortando el alfa. Alternativa descartada: una paleta de sintaxis propia (más colores que medir y mantener).
+- **3.12 (2026-10-18) La extensión de VS Code se instala fuera de XDG.** VS Code solo lee `~/.vscode/extensions/`
+  (o `$VSCODE_EXTENSIONS`); el instalador añade esa base para ese único módulo, sin versión en el nombre de la carpeta
+  (`lliphi.lliphi`) para que actualizar no deje carpetas viejas. Alternativa descartada: publicar en el Marketplace o
+  empaquetar un `.vsix`, que exigen `vsce` y una cuenta; queda para cuando el autor publique.
+

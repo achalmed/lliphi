@@ -1,0 +1,42 @@
+{
+  "name": "lliphi",
+  "displayName": "Lliphi",
+  "description": "Tema para KDE Plasma: casi negro y gris suave con un acento rojo; mínimo, legible y reversible.",
+  "version": "0.1.0",
+  "publisher": "lliphi",
+  "license": "CC-BY-SA-4.0",
+  "author": {
+    "name": "Edison Achalma"
+  },
+  "homepage": "https://lliphi.netlify.app",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/achalmed/lliphi"
+  },
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Themes"
+  ],
+  "keywords": [
+    "theme",
+    "kde",
+    "plasma",
+    "lliphi"
+  ],
+  "contributes": {
+    "themes": [
+      {
+        "label": "Lliphi Oscuro",
+        "uiTheme": "vs-dark",
+        "path": "./themes/lliphi-oscuro-color-theme.json"
+      },
+      {
+        "label": "Lliphi Claro",
+        "uiTheme": "vs",
+        "path": "./themes/lliphi-claro-color-theme.json"
+      }
+    ]
+  }
+}
