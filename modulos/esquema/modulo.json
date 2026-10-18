@@ -1,0 +1,17 @@
+{
+  "nombre": "Esquemas de color",
+  "resumen": "Lliphi Claro y Lliphi Oscuro para todas las aplicaciones Qt y KDE (y, a través de Plasma, GTK).",
+  "estado": "probado",
+  "tecnologia": "KColorScheme (`.colors`)",
+  "desde": "0.1.0",
+  "archivos": [
+    "LliphiClaro.colors",
+    "LliphiOscuro.colors"
+  ],
+  "carpeta": "color-schemes",
+  "generador": "esquema.py",
+  "capturas": [
+    "../capturas/oscuro-04-preferencias-colores.png",
+    "../capturas/claro-04-preferencias-colores.png"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "nombre": "Estilo de Plasma",
+  "resumen": "Panel, diálogos, tooltips y fondos de widgets con los radios y márgenes de Lliphi; sigue el esquema de color y el acento del sistema.",
+  "estado": "probado",
+  "tecnologia": "Plasma SVG (desktoptheme)",
+  "desde": "0.1.0",
+  "archivos": [
+    "lliphi/"
+  ],
+  "carpeta": "desktoptheme",
+  "generador": "desktoptheme.py",
+  "capturas": [
+    "../capturas/oscuro-03-dolphin-konsole-notificacion.png"
+  ]
+}

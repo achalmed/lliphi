@@ -1,0 +1,46 @@
+---
+title: "Preguntas frecuentes"
+---
+
+## ¿Cambia mis paneles y widgets?
+
+No, salvo que lo pidas: el instalador no toca la disposición. Si en Preferencias del sistema marcas «Disposición
+del escritorio» al aplicar el tema global (o usas `--resetLayout`), Plasma sustituye tu disposición por la de
+Lliphi (barra superior fina y dock flotante). El instalador respalda `plasma-org.kde.plasma.desktop-appletsrc`
+antes, y `UNDO.sh` lo restaura.
+
+## ¿Necesita Kvantum?
+
+No. Lliphi usa el estilo de widgets Breeze, que lee el esquema de color. Kvantum queda como módulo opcional futuro.
+
+## ¿Por qué las carpetas de Dolphin siguen azules?
+
+Los iconos son Breeze, cuyas carpetas son azules. Un módulo de iconos que solo recoloree las carpetas está en la
+hoja de ruta; mientras tanto, cualquier tema de iconos que siga el esquema (o uno rojo) se combina bien.
+
+## ¿Puedo usar otro acento?
+
+Sí: Preferencias del sistema → Colores → acento. Y el proyecto genera variantes con acento azul o verde azulado
+([personalizar](personalizar.qmd)).
+
+## ¿Funciona en X11?
+
+Debería: nada del tema depende del protocolo gráfico. Está probado en Wayland.
+
+## ¿Y en Plasma 5?
+
+No. El contrato de paquetes (`metadata.json`, `kpackagetool6`) es el de Plasma 6.
+
+## El estilo de Plasma no cambia tras actualizar
+
+Plasma guarda los SVG en caché por versión del paquete. Cierra la sesión y vuelve a entrar; si persiste, borra
+`~/.cache/plasma-svgelements*` y `~/.cache/plasma_theme_*`.
+
+## ¿Cómo vuelvo a como estaba?
+
+`bash ~/.local/state/lliphi/respaldos/<fecha>/UNDO.sh` ([actualizar y desinstalar](actualizar-y-desinstalar.qmd)).
+
+## ¿Puedo copiar partes para mi propio tema?
+
+Sí: el código es MIT y los activos gráficos CC BY-SA 4.0 (atribución y misma licencia para lo derivado).
+Nada del proyecto proviene de otros temas, así que no arrastra licencias ajenas ([licencias](licencias.qmd)).

@@ -1,0 +1,36 @@
+---
+title: "Filosofía"
+subtitle: "Qué quiere ser Lliphi y qué no"
+---
+
+## De dónde viene
+
+El autor usaba dos temas globales de Plasma: *Nothing* (jomada, Seducción Linux), casi negro con un acento rojo y
+un dock flotante, y *WhiteSur* (vinceliuice), con la geometría redondeada, los márgenes generosos y la familia
+claro/oscuro de macOS. Quería la fusión de ambos, pero sin lo que arrastran: colores fijados en centenares de SVG,
+dependencias de otros temas, imitación literal de otra plataforma y ninguna forma de medir si el texto se lee.
+
+## Seis principios
+
+1. **Suavidad con estructura.** Superficies neutras de poca saturación, jerarquía por luminosidad (vista más
+   clara u oscura que la ventana, botón distinto de ambas) y bordes de un píxel en vez de sombras pesadas.
+2. **Un acento, y que siga al sistema.** Rojo por defecto; el esquema deja que Plasma lo sustituya por el acento
+   del usuario o del fondo sin romper el contraste.
+3. **Dos variantes, una lógica.** Mismos tokens semánticos, radios, espacios y estados; cambian solo las primitivas.
+4. **Legible antes que bonito.** Contraste medido (WCAG 2.2) como prueba automática.
+5. **Nada de Apple ni de nadie.** La originalidad está en proporciones, radios, paleta y estados, no en copiar.
+6. **Mínimo que hereda.** Breeze colorea; Lliphi no reemplaza lo que ya funciona.
+
+## Lo que Lliphi no es
+
+- No es una imitación de macOS ni de Windows: no hay semáforos, logotipos ni fuentes de esas plataformas.
+- No exige Kvantum ni estilos de widgets compilados: con Breeze basta y sobrevive a cada versión de Qt.
+- No instala nada con privilegios: SDDM y Plymouth, si algún día llegan, serán un módulo aparte con confirmación.
+- No promete compatibilidad universal: la [matriz](compatibilidad.qmd) dice qué está probado y dónde.
+
+## Cómo se decide
+
+Cada decisión de diseño y de técnica está escrita, con fecha y motivo, en
+[`docs/decisiones.md`](https://github.com/achalmed/lliphi/blob/main/docs/decisiones.md); la dirección
+artística, con la paleta y el contraste medido, en
+[`docs/direccion-artistica.md`](https://github.com/achalmed/lliphi/blob/main/docs/direccion-artistica.md).

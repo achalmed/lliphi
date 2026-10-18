@@ -1,0 +1,57 @@
+---
+title: "Galería"
+subtitle: "Capturas reales de Plasma 6.6, variante clara y oscura, caso por caso"
+---
+
+Todas las imágenes son capturas de una sesión real de Plasma 6.6 con el tema instalado y aplicado (nada de
+maquetas). Los dos bocetos del final están rotulados como tales.
+
+## Escritorio
+
+::: {.ll-par}
+![Oscuro](generado/capturas/oscuro-01-escritorio.png){.lightbox group="escritorio"}
+
+![Claro](generado/capturas/claro-01-escritorio.png){.lightbox group="escritorio"}
+:::
+
+## Lanzador
+
+::: {.ll-par}
+![Oscuro](generado/capturas/oscuro-02-lanzador.png){.lightbox group="lanzador"}
+
+![Claro](generado/capturas/claro-02-lanzador.png){.lightbox group="lanzador"}
+:::
+
+## Dolphin, Konsole y una notificación
+
+::: {.ll-par}
+![Oscuro](generado/capturas/oscuro-03-dolphin-konsole-notificacion.png){.lightbox group="dolphin"}
+
+![Claro](generado/capturas/claro-03-dolphin-konsole-notificacion.png){.lightbox group="dolphin"}
+:::
+
+## Preferencias del sistema → Colores
+
+::: {.ll-par}
+![Oscuro](generado/capturas/oscuro-04-preferencias-colores.png){.lightbox group="colores"}
+
+![Claro](generado/capturas/claro-04-preferencias-colores.png){.lightbox group="colores"}
+:::
+
+## Kate
+
+::: {.ll-par}
+![Oscuro](generado/capturas/oscuro-05-kate.png){.lightbox group="kate"}
+
+![Claro](generado/capturas/claro-05-kate.png){.lightbox group="kate"}
+:::
+
+## Bocetos (no son capturas)
+
+Dibujos previos a la implementación, hechos con los tokens para decidir la dirección artística.
+
+::: {.ll-par}
+![Boceto oscuro](generado/capturas/boceto-oscuro.png){.lightbox group="boceto"}
+
+![Boceto claro](generado/capturas/boceto-claro.png){.lightbox group="boceto"}
+:::

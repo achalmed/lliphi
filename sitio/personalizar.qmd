@@ -1,0 +1,42 @@
+---
+title: "Personalizar"
+subtitle: "Cambiar el acento, generar tu propia variante o tocar un solo módulo"
+---
+
+## Cambiar el acento sin tocar nada
+
+Preferencias del sistema → Apariencia y estilo → Colores → elige un acento. El estilo de Plasma y los esquemas de
+Lliphi lo siguen (selección, foco, enlaces); el contraste de los textos sobre los fondos no cambia.
+
+## Generar una variante con otro acento
+
+El proyecto trae tres acentos medidos: `rojo` (por defecto), `azul` (el azul de WhiteSur, llevado a 4.5:1) y
+`verde-azul`.
+
+```bash
+python3 -m venv .venv && .venv/bin/pip install -e ".[dev]"
+.venv/bin/python herramientas/paleta.py --acento azul --aplicar   # reescribe tokens/tokens.json y mide el contraste
+.venv/bin/python herramientas/generar.py --aplicar                # regenera todo
+python3 herramientas/instalar.py --aplicar
+```
+
+Para un matiz propio, edita `ACENTOS` en `herramientas/paleta.py` (luminosidad, croma y matiz en OKLCH): el script
+falla si algún par de contraste baja de 4.5:1 (texto) o 3:1 (foco y controles).
+
+## Cambiar neutros, radios o espacios
+
+- Neutros: `primitivas()` en `herramientas/paleta.py`.
+- Radios y espacios: la sección `radio` y `espaciado` de `tokens/tokens.json` se escriben desde `escribir_tokens()`
+  en el mismo script; el estilo de Plasma y el sitio los leen de ahí.
+
+Después, `generar.py --aplicar` y las pruebas (`.venv/bin/pytest`) comprueban que nada quedó editado a mano y que
+el contraste sigue en verde.
+
+## Solo un módulo
+
+```bash
+python3 herramientas/instalar.py --modulos esquema --aplicar
+```
+
+Y para combinar Lliphi con otro estilo de Plasma o decoración, instala solo `esquema` y `konsole`: el esquema es
+la pieza que más se nota en las aplicaciones.

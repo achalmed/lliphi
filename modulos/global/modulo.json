@@ -1,0 +1,17 @@
+{
+  "nombre": "Temas globales",
+  "resumen": "Dos paquetes look-and-feel que aplican esquema, estilo de Plasma, iconos, cursores, decoración y, si lo pides, la disposición del escritorio.",
+  "estado": "probado",
+  "tecnologia": "KPackage `Plasma/LookAndFeel`",
+  "desde": "0.1.0",
+  "archivos": [
+    "org.lliphi.claro/",
+    "org.lliphi.oscuro/"
+  ],
+  "carpeta": "look-and-feel",
+  "generador": "lookandfeel.py",
+  "capturas": [
+    "../capturas/oscuro-02-lanzador.png",
+    "../capturas/claro-02-lanzador.png"
+  ]
+}

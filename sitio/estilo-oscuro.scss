@@ -1,0 +1,6 @@
+/*-- scss:defaults --*/
+// Tema oscuro del sitio: los mismos tokens del escritorio (sitio/generado/_tokens-oscuro.scss, generado).
+@import "generado/_tokens-oscuro";
+
+/*-- scss:rules --*/
+@import "_comun";

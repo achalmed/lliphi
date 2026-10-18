@@ -1,0 +1,50 @@
+---
+title: "Actualizar y desinstalar"
+subtitle: "Cómo pasar a una versión nueva, cómo quitarlo todo y cómo volver exactamente a lo de antes"
+---
+
+## Actualizar
+
+```bash
+cd lliphi
+git pull
+python3 herramientas/instalar.py --aplicar
+```
+
+El instalador retira la versión anterior según su manifiesto y copia la nueva; los respaldos anteriores se
+conservan (cada instalación crea su carpeta con fecha). Si cambió el estilo de Plasma y ves el anterior, cierra la
+sesión y vuelve a entrar: Plasma guarda los SVG en caché por versión.
+
+Ver qué hay instalado y si algo se modificó fuera del instalador:
+
+```bash
+python3 herramientas/instalar.py estado
+```
+
+## Desinstalar
+
+```bash
+python3 herramientas/instalar.py desinstalar            # simula
+python3 herramientas/instalar.py desinstalar --aplicar  # retira lo instalado
+```
+
+Antes, elige otro tema global en Preferencias del sistema (o `plasma-apply-lookandfeel -a org.kde.breeze.desktop`)
+para que Plasma no se quede apuntando a un tema que ya no existe.
+
+## Volver exactamente a lo de antes
+
+El respaldo de cada instalación incluye un `UNDO.sh`:
+
+```bash
+bash ~/.local/state/lliphi/respaldos/<fecha>/UNDO.sh
+```
+
+Restaura byte a byte los archivos de configuración respaldados (los compara con su suma SHA-256), retira los
+módulos de Lliphi y borra el manifiesto. Después, cierra la sesión y vuelve a entrar.
+
+## Volver a una versión anterior de Lliphi
+
+```bash
+git checkout v0.1.0            # la etiqueta de la versión que quieres
+python3 herramientas/instalar.py --aplicar
+```

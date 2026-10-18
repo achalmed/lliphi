@@ -9,9 +9,20 @@
   "sitio": "https://achalmaedison.netlify.app",
   "licencia_codigo": "MIT",
   "licencia_activos": "CC-BY-SA-4.0",
-  "nombre_esquema": {"claro": "Lliphi Claro", "oscuro": "Lliphi Oscuro"},
-  "id_esquema": {"claro": "LliphiClaro", "oscuro": "LliphiOscuro"},
-  "id_global": {"claro": "org.lliphi.claro", "oscuro": "org.lliphi.oscuro"},
+  "nombre_esquema": {
+    "claro": "Lliphi Claro",
+    "oscuro": "Lliphi Oscuro"
+  },
+  "id_esquema": {
+    "claro": "LliphiClaro",
+    "oscuro": "LliphiOscuro"
+  },
+  "id_global": {
+    "claro": "org.lliphi.claro",
+    "oscuro": "org.lliphi.oscuro"
+  },
   "id_fondo": "org.lliphi.horizonte",
-  "nombre_fondo": "Lliphi Horizonte"
+  "nombre_fondo": "Lliphi Horizonte",
+  "repositorio": "https://github.com/achalmed/lliphi",
+  "sitio_tema": "https://lliphi.netlify.app"
 }

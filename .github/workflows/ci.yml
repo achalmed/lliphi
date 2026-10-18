@@ -1,0 +1,28 @@
+# Integración continua: tokens y contraste, deriva de lo generado, pruebas, licencias y render del sitio.
+# No publica nada: la publicación la hace el autor (docs/publicacion.md).
+name: ci
+on:
+  push:
+    branches: [main]
+  pull_request:
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Dependencias
+        run: pip install -e ".[dev]"
+      - name: Contraste
+        run: python herramientas/paleta.py
+      - name: Lo generado no se editó a mano
+        run: python herramientas/generar.py verificar
+      - name: Pruebas (sin Plasma: la de instalación se omite)
+        run: pytest -q
+      - name: Licencias (REUSE 3.3)
+        run: reuse lint
+      - uses: quarto-dev/quarto-actions/setup@v2
+      - name: Sitio
+        run: quarto render sitio

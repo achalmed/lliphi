@@ -1,0 +1,40 @@
+---
+title: "Fondos de pantalla"
+subtitle: "Paquete «Lliphi Horizonte» con imagen clara y oscura (Plasma elige según el esquema) en 1080p, 1440p y 4K, y acento declarado."
+---
+
+| | |
+|---|---|
+| estado | **probado** |
+| tecnología | paquete de fondo de Plasma (`images/`, `images_dark/`) |
+| desde la versión | 0.1.0 |
+| archivos | `org.lliphi.horizonte/` |
+| licencia | CC-BY-SA-4.0 |
+
+![../capturas/oscuro-01-escritorio.png](../capturas/oscuro-01-escritorio.png)
+![../capturas/claro-01-escritorio.png](../capturas/claro-01-escritorio.png)
+
+## Instalar a mano
+
+```bash
+cp -r org.lliphi.horizonte ~/.local/share/wallpapers/
+plasma-apply-wallpaperimage ~/.local/share/wallpapers/org.lliphi.horizonte
+```
+
+Plasma elige `images_dark/` cuando el esquema de color es oscuro (Plasma ≥ 6.6); en versiones anteriores usa siempre la imagen clara. En Plasma 6.6 el paquete se aplica **por ruta**, no por nombre.
+
+## Actualizar
+
+Sustituye la carpeta y vuelve a aplicarla.
+
+## Desinstalar
+
+Elige otro fondo (clic derecho en el escritorio → Configurar escritorio y fondo) y borra `~/.local/share/wallpapers/org.lliphi.horizonte`.
+
+
+## Código, incidencias y cambios
+
+- Código: [`generado/wallpapers`](https://github.com/achalmed/lliphi/tree/main/generado/wallpapers) y su generador
+  [`herramientas/destinos/fondo.py`](https://github.com/achalmed/lliphi/blob/main/herramientas/destinos/fondo.py).
+- Incidencias: [https://github.com/achalmed/lliphi/issues](https://github.com/achalmed/lliphi/issues?q=label%3Afondos).
+- Cambios: [registro de cambios](../../cambios.qmd).

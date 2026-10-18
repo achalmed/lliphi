@@ -24,11 +24,13 @@ Hasta que el autor elija el nombre (fase 3), la carpeta se llama `tema-plasma` y
 
 ## En curso
 
-- fase 8: sitio y documentación de usuario (dueño: asistente).
+- nada: el primer lote (0.1.0) está completo y probado; la publicación es del autor (`docs/publicacion.md`).
 
 ## Por hacer
 
 - 2026-10-18 · dueño: autor · **el disco interno `/dev/nvme0n1` (INTEL HBRPEKNX0101AH) aparece como «likely to fail soon» en Plasma** (aviso de Device Health visto en la sesión de prueba): respaldar y comprobar con `sudo smartctl -a /dev/nvme0n1`.
+- 2026-10-18 · dueño: autor · **publicar 0.1.0**: crear el remoto `achalmed/lliphi`, empujar, etiquetar `v0.1.0`, `gh release create` con `dist/`, sitio en Netlify (`lliphi`), parche del hub y fichas en KDE Store; comandos en `docs/publicacion.md`.
+- 2026-10-18 · dueño: asistente (lote 2) · terminales (Alacritty, Kitty), editores (VS Code, Zed) y navegador desde los mismos tokens; iconos de carpeta en rojo (lote 3); GTK y escalas en la validación real.
 - 2026-10-18 · dueño: autor · validar con inicio de sesión real como `prueba-tema` (SDDM, splash, bloqueo, escala 150 %, una aplicación GTK): `python3 /tmp/lliphi-dist/herramientas/instalar.py --aplicar --aplicar-tema oscuro`.
 - 2026-10-18 · dueño: director · renombrar la carpeta `tema-plasma` → `lliphi` con `core/renombrar.py` y darla de alta en `meta/workspace.yml`.
 - 2026-10-18 · dueño: autor · importar en Zotero `scripts-biblioteca/ingesta/salida_ris/ingesta_20261018_130400.ris` (15 ítems de esta serie) y pegar las claves en `#zotero_key`.

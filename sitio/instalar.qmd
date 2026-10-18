@@ -1,0 +1,67 @@
+---
+title: "Instalar"
+subtitle: "Con el instalador (simula, respalda, aplica) o a mano, módulo a módulo"
+---
+
+## Requisitos
+
+- KDE Plasma 6 (probado en 6.6, Wayland). Plasma 5 no está cubierto.
+- Python 3.10 o posterior (viene con la distribución). Nada más: el instalador no tiene dependencias.
+- Las herramientas de Plasma `kpackagetool6`, `plasma-apply-lookandfeel` y `plasma-apply-colorscheme` (vienen con Plasma).
+
+## 1. Con el instalador (recomendado)
+
+```bash
+git clone https://github.com/achalmed/lliphi.git
+cd lliphi
+python3 herramientas/instalar.py
+```
+
+Sin opciones **solo simula**: dice qué respaldaría y qué copiaría, y no escribe nada. Cuando estés conforme:
+
+```bash
+python3 herramientas/instalar.py --aplicar
+```
+
+Qué hace:
+
+1. Comprueba que hay Plasma 6 y las herramientas necesarias.
+2. Respalda `kdeglobals`, `plasmarc`, `kwinrc`, `kcminputrc`, `ksplashrc`, `kscreenlockerrc`,
+   `plasma-org.kde.plasma.desktop-appletsrc`, `gtk-3.0/settings.ini`, `gtk-4.0/settings.ini` y `konsolerc` en
+   `~/.local/state/lliphi/respaldos/<fecha>/`, verifica cada copia con SHA-256 y deja allí un `UNDO.sh`.
+3. Copia los módulos a `~/.local/share/` (esquemas, temas globales, estilo de Plasma, Konsole, fondos). Nunca
+   escribe en `/usr` ni pide `sudo`.
+4. Se detiene si en el destino hay archivos que no instaló Lliphi (no pisa nada ajeno).
+5. Anota lo instalado en `~/.local/state/lliphi/instalado.json`.
+
+Para aplicar el tema en el mismo paso:
+
+```bash
+python3 herramientas/instalar.py --aplicar --aplicar-tema oscuro     # o claro
+```
+
+Eso equivale a elegir el tema global en Preferencias del sistema → Apariencia y estilo → Tema global. **No cambia tu
+disposición del escritorio** (paneles y widgets) salvo que marques «Disposición del escritorio» en Preferencias o
+ejecutes `plasma-apply-lookandfeel -a org.lliphi.oscuro --resetLayout`; el respaldo del paso 2 la guarda por si acaso.
+
+Solo algunos módulos:
+
+```bash
+python3 herramientas/instalar.py --modulos esquema,konsole --aplicar
+```
+
+## 2. A mano
+
+Cada página del [catálogo](catalogo.qmd) trae sus pasos de instalación, actualización y desinstalación con
+`kpackagetool6` o copiando archivos. Los archivos están en `generado/` del repositorio y en cada
+[versión publicada](descargas.qmd).
+
+## 3. Desde Preferencias del sistema (KDE Store)
+
+Cuando el tema esté publicado en la tienda, bastará Preferencias del sistema → Tema global → Obtener nuevo… y
+buscar «Lliphi». Hasta entonces, usa el instalador o la instalación a mano.
+
+## Tipografía recomendada
+
+Lliphi no cambia tus fuentes. Se diseñó con **Inter** (interfaz) e **IBM Plex Mono** (terminal y código), ambas
+libres (OFL). Si quieres el mismo aspecto: Preferencias del sistema → Apariencia y estilo → Tipografías.

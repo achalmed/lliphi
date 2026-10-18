@@ -1,0 +1,33 @@
+---
+title: "Licencias y créditos"
+---
+
+## Licencias
+
+| qué | licencia |
+|---|---|
+| código (herramientas, generadores, instalador, pruebas, sitio) | [MIT](https://github.com/achalmed/lliphi/blob/main/LICENSES/MIT.txt) |
+| activos gráficos y lo generado para Plasma (SVG, esquemas, fondos, capturas), documentación | [CC BY-SA 4.0](https://github.com/achalmed/lliphi/blob/main/LICENSES/CC-BY-SA-4.0.txt) |
+
+La licencia de cada archivo está declarada con [REUSE 3.3](https://reuse.software/spec-3.3/) (`REUSE.toml` y
+`LICENSES/`); `reuse lint` pasa en cada versión.
+
+## Procedencia
+
+Todo lo gráfico de Lliphi se dibuja en el proyecto (generadores en `herramientas/destinos/`). No contiene archivos
+de otros temas. Lo que hereda del sistema (iconos Breeze, decoración Breeze, estilo de widgets Breeze) sigue siendo
+de KDE bajo sus licencias (LGPL y GPLv2+) y no se redistribuye aquí.
+
+## Créditos e inspiración
+
+- **Nothing** (jomada, [Seducción Linux](https://seduccionlinux.wordpress.com/), GPL 3+): la sobriedad casi negra, el
+  acento rojo, la barra fina y el dock que se oculta, como ideas.
+- **WhiteSur** (vinceliuice, GPLv3): la jerarquía de planos, los radios, los márgenes y la familia claro/oscuro, como ideas.
+- **Breeze** (KDE Visual Design Group): el contrato de estilos de Plasma y el mínimo que hereda.
+- **Dracula** y **Catppuccin**: el modelo de ecosistema (paleta única, catálogo, plantillas) y el de generación con
+  comprobación de deriva.
+- Documentación: KDE Developer (estilos de Plasma, Aurorae, fondos), freedesktop.org (Icon Theme, XDG Base
+  Directory), W3C Design Tokens Community Group (Format Module 2025.10), WCAG 2.2, REUSE 3.3, SPDX.
+- Nombre: *lliphi*, «relámpago», del *Diccionario bilingüe quechua–castellano* de Teófilo Laime Ajacopa (2007).
+
+Autor: [Edison Achalma](https://achalmaedison.netlify.app/).

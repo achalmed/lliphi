@@ -1,0 +1,16 @@
+{
+  "nombre": "Fondos de pantalla",
+  "resumen": "Paquete «Lliphi Horizonte» con imagen clara y oscura (Plasma elige según el esquema) en 1080p, 1440p y 4K, y acento declarado.",
+  "estado": "probado",
+  "tecnologia": "paquete de fondo de Plasma (`images/`, `images_dark/`)",
+  "desde": "0.1.0",
+  "archivos": [
+    "org.lliphi.horizonte/"
+  ],
+  "carpeta": "wallpapers",
+  "generador": "fondo.py",
+  "capturas": [
+    "../capturas/oscuro-01-escritorio.png",
+    "../capturas/claro-01-escritorio.png"
+  ]
+}

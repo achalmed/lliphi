@@ -1,0 +1,72 @@
+# _quarto.yml — sitio oficial de Lliphi (lliphi.netlify.app). Satélite del hub achalmaedison.netlify.app:
+# proyecto Quarto propio, Netlify publica el `_site/` empujado sin build (mismo patrón que los 11 blogs del autor).
+project:
+  type: website
+  output-dir: _site
+  render:
+    - "*.qmd"
+    - "generado/catalogo/*.qmd"
+  resources:
+    - generado/capturas/
+
+website:
+  title: "Lliphi"
+  description: "Ecosistema de temas para KDE Plasma: casi negro y gris suave con un acento rojo; claro y oscuro desde una sola fuente de tokens; instalación reversible."
+  site-url: https://lliphi.netlify.app/
+  repo-url: https://github.com/achalmed/lliphi
+  repo-actions: [issue]
+  favicon: favicon.svg
+  image: generado/capturas/oscuro-02-lanzador.png
+  open-graph:
+    locale: es_ES
+    site-name: "Lliphi"
+  navbar:
+    logo: favicon.svg
+    left:
+      - text: "Filosofía"
+        href: filosofia.qmd
+      - text: "Galería"
+        href: galeria.qmd
+      - text: "Catálogo"
+        href: catalogo.qmd
+      - text: "Instalar"
+        href: instalar.qmd
+      - text: "Más"
+        menu:
+          - text: "Actualizar y desinstalar"
+            href: actualizar-y-desinstalar.qmd
+          - text: "Personalizar"
+            href: personalizar.qmd
+          - text: "Compatibilidad"
+            href: compatibilidad.qmd
+          - text: "Descargas y versiones"
+            href: descargas.qmd
+          - text: "Registro de cambios"
+            href: cambios.qmd
+          - text: "Preguntas frecuentes"
+            href: faq.qmd
+          - text: "Contribuir"
+            href: contribuir.qmd
+          - text: "Licencias y créditos"
+            href: licencias.qmd
+    right:
+      - text: "Edison Achalma"
+        href: https://achalmaedison.netlify.app/
+      - icon: github
+        href: https://github.com/achalmed/lliphi
+        aria-label: "Repositorio en GitHub"
+  page-footer:
+    left: "© 2026 Edison Achalma · Lliphi: código MIT, activos CC BY-SA 4.0 · Hecho con [Quarto](https://quarto.org)"
+    right: "[Hub académico](https://achalmaedison.netlify.app/) · [Incidencias](https://github.com/achalmed/lliphi/issues)"
+
+format:
+  html:
+    lang: es
+    theme:
+      light: [cosmo, estilo-claro.scss]
+      dark: [cosmo, estilo-oscuro.scss]
+    toc: true
+    toc-depth: 3
+    code-copy: true
+    smooth-scroll: true
+    lightbox: auto

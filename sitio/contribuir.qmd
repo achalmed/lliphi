@@ -1,0 +1,44 @@
+---
+title: "Contribuir"
+subtitle: "Informar, proponer, programar: qué se acepta y cómo se comprueba"
+---
+
+## Informar de un problema
+
+Abre una [incidencia](https://github.com/achalmed/lliphi/issues) con: distribución y versión de Plasma
+(`plasmashell --version`), sesión (Wayland o X11), la variante (clara u oscura), qué esperabas, qué pasó y una
+captura. Si es de un módulo, nómbralo (esquema, global, estilo, konsole, fondos).
+
+## Proponer un cambio de diseño
+
+Primero una incidencia con la propuesta y, si puedes, una captura o boceto. Los cambios de paleta pasan por
+`herramientas/paleta.py`: toda propuesta debe seguir dando 4.5:1 en texto y 3:1 en foco y controles.
+
+## Programar
+
+```bash
+git clone https://github.com/achalmed/lliphi.git && cd lliphi
+python3 -m venv .venv && .venv/bin/pip install -e ".[dev]"
+.venv/bin/python herramientas/paleta.py --aplicar     # tokens
+.venv/bin/python herramientas/generar.py --aplicar    # todo lo generado
+.venv/bin/pytest                                      # pruebas
+.venv/bin/reuse lint                                  # licencias
+```
+
+Reglas:
+
+- **Lo generado no se edita**: cambia los tokens o el generador; `generar.py verificar` (y la prueba
+  `test_generado_sin_deriva`) rechaza ediciones a mano en `generado/` y `sitio/generado/`.
+- **Ningún color fuera de los tokens**: la prueba `test_ningun_hex_fuera_del_maestro` lo vigila.
+- **Nada de terceros**: ni SVG, ni iconos, ni código copiado de otros temas. Todo archivo lleva su licencia (REUSE).
+- **Un módulo nuevo** es una carpeta en `modulos/<id>/` con `modulo.json` e `INSTALL.md`, un generador en
+  `herramientas/destinos/`, su entrada en `MODULOS` del instalador, su prueba y su fila en la matriz de compatibilidad.
+- Mensajes de commit en español, con [Conventional Commits](https://www.conventionalcommits.org/es/).
+
+## Criterios de aceptación de una pieza
+
+1. Se genera de los tokens y pasa la prueba de deriva.
+2. Contraste en verde en las dos variantes.
+3. Se instala y se desinstala con el instalador, y `UNDO.sh` deja todo como estaba (prueba `test_instalar_y_desinstalar_restaura`).
+4. Capturas reales de la pieza en las dos variantes en `muestras/capturas/`.
+5. Licencia declarada por archivo y `reuse lint` en verde.

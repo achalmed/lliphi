@@ -1,0 +1,27 @@
+---
+title: "Catálogo"
+subtitle: "Cada pieza del ecosistema, con su estado y su página"
+---
+
+Un módulo es una pieza que se instala, se actualiza y se desinstala por separado. Estados: **probado** (visto en un
+escritorio real con capturas), **experimental** (instalado, sin verificación visual completa), **pendiente** (en la
+hoja de ruta). La tabla se genera del repositorio (`modulos/*/modulo.json`).
+
+{{< include generado/_catalogo-tabla.md >}}
+
+## Lo que no es un módulo propio, y por qué
+
+| pieza | cómo la cubre Lliphi |
+|---|---|
+| decoración de ventanas | Breeze, coloreada por el esquema (`[WM]` y `Colors:Header`). Aurorae se reescribió en Plasma 6.6; no se depende de él. |
+| aplicaciones GTK | Plasma genera el tema GTK desde el esquema (`breeze-gtk`): con el esquema de Lliphi aplicado, GTK 3 y 4 lo siguen. |
+| iconos y cursores | Breeze y `breeze_cursors`, que siguen el esquema. Un módulo de iconos propio está en la hoja de ruta. |
+| Kvantum, estilos de widgets en C++ | no se usan: Breeze basta y no se rompe con cada Qt. |
+
+## Hoja de ruta
+
+| lote | módulos | condición |
+|---|---|---|
+| 2 | terminales (Alacritty, Kitty), editores (VS Code, Zed), navegador (Zen/Firefox) | generados desde los mismos tokens |
+| 3 | iconos (solo lo que cambia, hereda de Breeze), cursores | si aportan algo visible |
+| 4 | SDDM y Plymouth (root, con confirmación), Kvantum opcional, variante translúcida con contraste medido | tras probar el primer lote en más distribuciones |

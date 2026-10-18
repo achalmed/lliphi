@@ -1,0 +1,40 @@
+---
+title: "Esquemas de color"
+subtitle: "Lliphi Claro y Lliphi Oscuro para todas las aplicaciones Qt y KDE (y, a través de Plasma, GTK)."
+---
+
+| | |
+|---|---|
+| estado | **probado** |
+| tecnología | KColorScheme (`.colors`) |
+| desde la versión | 0.1.0 |
+| archivos | `LliphiClaro.colors`, `LliphiOscuro.colors` |
+| licencia | CC-BY-SA-4.0 |
+
+![../capturas/oscuro-04-preferencias-colores.png](../capturas/oscuro-04-preferencias-colores.png)
+![../capturas/claro-04-preferencias-colores.png](../capturas/claro-04-preferencias-colores.png)
+
+## Instalar a mano
+
+1. Copia `LliphiClaro.colors` y `LliphiOscuro.colors` a `~/.local/share/color-schemes/` (crea la carpeta si no existe).
+2. Preferencias del sistema → Apariencia y estilo → Colores → elige «Lliphi Claro» o «Lliphi Oscuro»; o en un terminal:
+
+```bash
+plasma-apply-colorscheme LliphiOscuro
+```
+
+## Actualizar
+
+Sustituye los dos archivos por los de la versión nueva y vuelve a aplicar el esquema (Plasma no relee un esquema ya aplicado hasta que lo aplicas otra vez).
+
+## Desinstalar
+
+Elige otro esquema en Preferencias y borra los dos archivos de `~/.local/share/color-schemes/`.
+
+
+## Código, incidencias y cambios
+
+- Código: [`generado/color-schemes`](https://github.com/achalmed/lliphi/tree/main/generado/color-schemes) y su generador
+  [`herramientas/destinos/esquema.py`](https://github.com/achalmed/lliphi/blob/main/herramientas/destinos/esquema.py).
+- Incidencias: [https://github.com/achalmed/lliphi/issues](https://github.com/achalmed/lliphi/issues?q=label%3Aesquema).
+- Cambios: [registro de cambios](../../cambios.qmd).

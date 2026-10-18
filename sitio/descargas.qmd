@@ -1,0 +1,33 @@
+---
+title: "Descargas y versiones"
+subtitle: "Dónde está cada versión y qué contiene"
+---
+
+## Versión actual
+
+**0.1.0** — primer lote. Las versiones siguen [SemVer](https://semver.org/lang/es/): la primera cifra cambia si
+cambian los nombres de los paquetes o la forma de instalar; la segunda, si entra un módulo o cambia el diseño;
+la tercera, correcciones.
+
+## Formas de obtenerlo
+
+| forma | para quién | cómo |
+|---|---|---|
+| repositorio | quien quiera el instalador y las herramientas | `git clone https://github.com/achalmed/lliphi.git` |
+| versión etiquetada | quien quiera una versión fija | [github.com/achalmed/lliphi/releases](https://github.com/achalmed/lliphi/releases): código y, por módulo, un `.tar.gz` listo para `kpackagetool6` o para copiar |
+| KDE Store | quien instale desde Preferencias del sistema | pendiente de publicación (ver [registro de cambios](cambios.qmd)) |
+
+## Comprobar lo descargado
+
+Cada versión publicada lleva su `SHA256SUMS`. En Linux:
+
+```bash
+sha256sum -c SHA256SUMS
+```
+
+## Qué contiene una versión
+
+- `generado/`: los módulos tal como se instalan (esquemas, temas globales, estilo de Plasma, Konsole, fondos).
+- `herramientas/instalar.py`: el instalador, sin dependencias.
+- `tokens/`: la fuente de verdad del color y de la marca.
+- `docs/`, `CHANGELOG.md`, `LICENSES/`, `REUSE.toml`.

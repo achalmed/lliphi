@@ -1,0 +1,34 @@
+---
+title: "Konsole"
+subtitle: "Esquemas de color para la terminal con una paleta ANSI de dieciséis colores medida sobre el fondo."
+---
+
+| | |
+|---|---|
+| estado | **experimental** |
+| tecnología | Konsole `.colorscheme` |
+| desde la versión | 0.1.0 |
+| archivos | `Lliphi Claro.colorscheme`, `Lliphi Oscuro.colorscheme` |
+| licencia | CC-BY-SA-4.0 |
+
+
+## Instalar a mano
+
+1. Copia los dos `.colorscheme` a `~/.local/share/konsole/`.
+2. En Konsole: Preferencias → Configurar Konsole → Perfiles → tu perfil → Editar → Apariencia → elige «Lliphi Oscuro» o «Lliphi Claro».
+
+## Actualizar
+
+Sustituye los archivos; Konsole los relee al abrir el diálogo de perfiles.
+
+## Desinstalar
+
+Elige otro esquema en el perfil y borra los archivos.
+
+
+## Código, incidencias y cambios
+
+- Código: [`generado/konsole`](https://github.com/achalmed/lliphi/tree/main/generado/konsole) y su generador
+  [`herramientas/destinos/konsole.py`](https://github.com/achalmed/lliphi/blob/main/herramientas/destinos/konsole.py).
+- Incidencias: [https://github.com/achalmed/lliphi/issues](https://github.com/achalmed/lliphi/issues?q=label%3Akonsole).
+- Cambios: [registro de cambios](../../cambios.qmd).

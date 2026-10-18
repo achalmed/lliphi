@@ -1,0 +1,7 @@
+---
+title: "Registro de cambios"
+subtitle: "Lo añadido, cambiado, corregido y retirado en cada versión (Keep a Changelog)"
+toc: false
+---
+
+{{< include generado/_cambios.md >}}

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Lliphi: un relámpago de trazo único sobre casi negro. Original, CC BY-SA 4.0. -->
+  <rect width="64" height="64" rx="14" fill="#1b1c1e"/>
+  <path d="M36 8 L18 36 H31 L27 56 L46 26 H33 Z" fill="#c93436"/>
+</svg>

@@ -1,0 +1,46 @@
+---
+title: "Estilo de Plasma"
+subtitle: "Panel, diálogos, tooltips y fondos de widgets con los radios y márgenes de Lliphi; sigue el esquema de color y el acento del sistema."
+---
+
+| | |
+|---|---|
+| estado | **probado** |
+| tecnología | Plasma SVG (desktoptheme) |
+| desde la versión | 0.1.0 |
+| archivos | `lliphi/` |
+| licencia | CC-BY-SA-4.0 |
+
+![../capturas/oscuro-03-dolphin-konsole-notificacion.png](../capturas/oscuro-03-dolphin-konsole-notificacion.png)
+
+## Instalar a mano
+
+```bash
+kpackagetool6 -t Plasma/Theme -i lliphi
+plasma-apply-desktoptheme lliphi
+```
+
+El estilo no trae `colors`: toma los colores del esquema activo. Con Lliphi Oscuro es casi negro; con Lliphi Claro, gris suave; con cualquier otro esquema, el de ese esquema, y el acento del sistema manda en la selección y el foco.
+
+## Actualizar
+
+```bash
+kpackagetool6 -t Plasma/Theme -u lliphi
+```
+
+Si tras actualizar ves el estilo viejo, cierra la sesión y vuelve a entrar: Plasma guarda los SVG en caché por versión.
+
+## Desinstalar
+
+```bash
+plasma-apply-desktoptheme default
+kpackagetool6 -t Plasma/Theme -r lliphi
+```
+
+
+## Código, incidencias y cambios
+
+- Código: [`generado/desktoptheme`](https://github.com/achalmed/lliphi/tree/main/generado/desktoptheme) y su generador
+  [`herramientas/destinos/desktoptheme.py`](https://github.com/achalmed/lliphi/blob/main/herramientas/destinos/desktoptheme.py).
+- Incidencias: [https://github.com/achalmed/lliphi/issues](https://github.com/achalmed/lliphi/issues?q=label%3Aestilo).
+- Cambios: [registro de cambios](../../cambios.qmd).

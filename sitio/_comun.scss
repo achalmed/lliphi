@@ -1,0 +1,24 @@
+// Reglas compartidas por los dos temas del sitio; solo consumen tokens $ll-* (nunca hex sueltos).
+body { font-feature-settings: "tnum", "ss01"; }
+.navbar { border-bottom: 1px solid $ll-borde-sutil; box-shadow: none; }
+.navbar .navbar-brand { font-weight: 600; letter-spacing: .01em; }
+a:focus-visible, button:focus-visible, .btn:focus-visible { outline: 2px solid $ll-foco; outline-offset: 2px; }
+h1, h2, h3 { letter-spacing: -.01em; }
+.ll-portada { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; align-items: center; margin: 1rem 0 2rem; }
+.ll-portada img { border-radius: $ll-radio-ventana; border: 1px solid $ll-borde-sutil; }
+.ll-rasgos { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+.ll-rasgo { background: $ll-fondo-vista; border: 1px solid $ll-borde-sutil; border-radius: $ll-radio-menu; padding: 1rem 1.1rem; }
+.ll-rasgo h3 { font-size: 1rem; margin: 0 0 .4rem; }
+.ll-rasgo p { margin: 0; color: $ll-texto-secundario; font-size: .95rem; }
+.ll-par { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.ll-par figure { margin: 0; }
+.ll-par img { border-radius: $ll-radio-control; border: 1px solid $ll-borde-sutil; }
+.ll-estado { display: inline-block; padding: .1rem .5rem; border-radius: 999px; font-size: .8rem; border: 1px solid $ll-borde-separador; }
+.ll-muestras { display: flex; gap: .5rem; flex-wrap: wrap; margin: 1rem 0; }
+.ll-muestra { width: 3.25rem; height: 3.25rem; border-radius: $ll-radio-control; border: 1px solid $ll-borde-sutil; display: flex; align-items: flex-end; font-size: .6rem; padding: .2rem; }
+pre, code { border-radius: $ll-radio-control; }
+.quarto-title .subtitle { color: $ll-texto-secundario; }
+table { font-size: .95rem; }
+@media (max-width: 768px) {
+  .ll-portada, .ll-par { grid-template-columns: 1fr; }
+}

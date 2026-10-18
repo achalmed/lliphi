@@ -1,0 +1,35 @@
+---
+title: "Compatibilidad"
+subtitle: "Qué está probado, dónde, y qué depende de la versión de Plasma"
+---
+
+«Probado» significa visto en un escritorio real con capturas; «esperado» es lo que la documentación de KDE
+indica y aún no se ha probado aquí. La matriz completa y actualizada está en
+[`docs/compatibilidad.md`](https://github.com/achalmed/lliphi/blob/main/docs/compatibilidad.md).
+
+## Por componente y versión de Plasma
+
+| componente | Plasma 6.0–6.1 | 6.2–6.5 | 6.6 |
+|---|---|---|---|
+| esquemas de color | esperado | esperado | **probado** |
+| temas globales (heredan de Breeze) | esperado | esperado | **probado** |
+| estilo de Plasma | esperado | esperado | **probado** |
+| decoración Breeze coloreada | esperado | esperado | **probado** |
+| Konsole | esperado | esperado | experimental |
+| fondo con variante oscura (`images_dark/`) | solo la clara | solo la clara | **probado** (por ruta del paquete) |
+| GTK generado por Plasma | esperado | esperado | pendiente |
+| escalas 150 % y 200 % | — | — | pendiente |
+| SDDM, splash, bloqueo | fuera del primer lote | | |
+
+## Por distribución
+
+| distribución | Plasma | estado |
+|---|---|---|
+| Kubuntu 26.04 LTS (Wayland) | 6.6 | **probado** (máquina del autor) |
+| KDE neon, Fedora KDE 43, Arch y derivadas, openSUSE Tumbleweed | 6.5–6.6 | esperado igual: solo rutas de usuario y herramientas de Plasma |
+| Debian 13 | 6.3 | esperado; sin variante oscura del fondo |
+| Kubuntu 24.04 (Plasma 5.27) | 5 | **no** |
+| X11 | 6.x | esperado igual: nada depende del protocolo gráfico |
+
+¿Lo probaste en otra distribución? Abre una [incidencia](https://github.com/achalmed/lliphi/issues) con la versión
+de Plasma (`plasmashell --version`) y una captura; la matriz se actualiza con cada informe.

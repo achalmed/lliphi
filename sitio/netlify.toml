@@ -1,0 +1,4 @@
+# netlify.toml — lliphi.netlify.app: Netlify publica el `_site/` empujado, sin build (mismo patrón que los blogs
+# del autor: el render es local con `quarto render sitio` y se versiona el resultado).
+[build]
+  publish = "_site"
