@@ -1,0 +1,539 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   id="svg2"
+   version="1.1"
+   viewBox="0 0 94 64"
+   sodipodi:docname="checkmarks.svgz"
+   inkscape:version="1.1 (c4e8f9ed74, 2021-05-24)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs41">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient883">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop879" />
+      <stop
+         style="stop-color:#000000;stop-opacity:0;"
+         offset="1"
+         id="stop881" />
+    </linearGradient>
+    <linearGradient
+       id="paint0_linear"
+       x1="8"
+       y1="0"
+       x2="8"
+       y2="16"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(81,75)">
+      <stop
+         stop-color="#4B91F7"
+         id="stop959" />
+      <stop
+         offset="1"
+         stop-color="#367AF6"
+         id="stop961" />
+    </linearGradient>
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient883"
+       id="radialGradient885"
+       cx="89"
+       cy="83"
+       fx="89"
+       fy="83"
+       r="8"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(0,2)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#paint0_linear"
+       id="linearGradient1001"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(81,75)"
+       x1="8"
+       y1="0"
+       x2="8"
+       y2="16" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient883"
+       id="radialGradient1003"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(0,2)"
+       cx="89"
+       cy="83"
+       fx="89"
+       fy="83"
+       r="8" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#paint0_linear"
+       id="linearGradient1173"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(81,75)"
+       x1="8"
+       y1="0"
+       x2="8"
+       y2="16" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient883"
+       id="radialGradient1175"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(0,2)"
+       cx="89"
+       cy="83"
+       fx="89"
+       fy="83"
+       r="8" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#paint0_linear"
+       id="linearGradient1185"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(81,75)"
+       x1="8"
+       y1="0"
+       x2="8"
+       y2="16" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient883"
+       id="radialGradient1187"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(0,2)"
+       cx="89"
+       cy="83"
+       fx="89"
+       fy="83"
+       r="8" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#paint0_linear"
+       id="linearGradient1269"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(81,75)"
+       x1="8"
+       y1="0"
+       x2="8"
+       y2="16" />
+    <filter
+       id="filter0_d"
+       x="3.75"
+       y="4.24991"
+       width="9.00009"
+       height="9.00009"
+       filterUnits="userSpaceOnUse"
+       color-interpolation-filters="sRGB">
+      <feFlood
+         flood-opacity="0"
+         result="BackgroundImageFix"
+         id="feFlood1279" />
+      <feColorMatrix
+         in="SourceAlpha"
+         type="matrix"
+         values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+         result="hardAlpha"
+         id="feColorMatrix1281" />
+      <feOffset
+         dy="0.5"
+         id="feOffset1283" />
+      <feGaussianBlur
+         stdDeviation="0.25"
+         id="feGaussianBlur1285" />
+      <feColorMatrix
+         type="matrix"
+         values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.2 0"
+         id="feColorMatrix1287" />
+      <feBlend
+         mode="normal"
+         in2="BackgroundImageFix"
+         result="effect1_dropShadow"
+         id="feBlend1289" />
+      <feBlend
+         mode="normal"
+         in="SourceGraphic"
+         in2="effect1_dropShadow"
+         result="shape"
+         id="feBlend1291" />
+    </filter>
+    <linearGradient
+       id="paint0_linear-3"
+       x1="8"
+       y1="1"
+       x2="8"
+       y2="15"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(99,11)">
+      <stop
+         stop-color="#4B91F7"
+         id="stop1294" />
+      <stop
+         offset="1"
+         stop-color="#367AF6"
+         id="stop1296" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#paint0_linear-3"
+       id="linearGradient1893"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(99,11)"
+       x1="8"
+       y1="1"
+       x2="8"
+       y2="15" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#paint0_linear-3"
+       id="linearGradient2039"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(99,11)"
+       x1="8"
+       y1="1"
+       x2="8"
+       y2="15" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#paint0_linear-3"
+       id="linearGradient897"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(99,11)"
+       x1="8"
+       y1="1"
+       x2="8"
+       y2="15" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#paint0_linear-3"
+       id="linearGradient979"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(99,11)"
+       x1="8"
+       y1="1"
+       x2="8"
+       y2="15" />
+  </defs>
+  <sodipodi:namedview
+     id="namedview39"
+     pagecolor="#ffffff"
+     bordercolor="#66676c"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="true"
+     inkscape:snap-bbox="true"
+     inkscape:bbox-nodes="true"
+     inkscape:zoom="3.209602"
+     inkscape:cx="-4.8292592"
+     inkscape:cy="52.187156"
+     inkscape:window-width="1920"
+     inkscape:window-height="1024"
+     inkscape:window-x="0"
+     inkscape:window-y="28"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2"
+     inkscape:snap-nodes="false">
+    <inkscape:grid
+       type="xygrid"
+       id="grid1084" />
+  </sodipodi:namedview>
+  <style
+     id="current-color-scheme"
+     type="text/css">.ColorScheme-Background {
+            color:#eff0f1;
+        }
+        .ColorScheme-ButtonFocus{
+            color:#3daee9;
+        }</style>
+  <g
+     id="16-16-radiobutton"
+     transform="translate(-3,-27)">
+    <circle
+       cx="89"
+       cy="83"
+       r="8"
+       fill="url(#paint0_linear)"
+       id="circle938"
+       style="fill:url(#linearGradient1269)" />
+    <path
+       id="circle859"
+       style="opacity:0.15;fill:url(#radialGradient885);fill-opacity:1"
+       d="M 89,77 A 8,8 0 0 0 81.072266,84 8,8 0 0 0 89,91 8,8 0 0 0 96.929688,83.962891 8,8 0 0 0 89,77 Z" />
+    <circle
+       style="fill:#ffffff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;paint-order:fill markers stroke"
+       id="path1288"
+       cx="89"
+       cy="83"
+       r="3" />
+  </g>
+  <g
+     id="22-22-radiobutton"
+     transform="matrix(1.375,0,0,1.375,-55.375,-61.125)">
+    <circle
+       cx="89"
+       cy="83"
+       r="8"
+       fill="url(#paint0_linear)"
+       id="circle993"
+       style="fill:url(#linearGradient1001)" />
+    <path
+       id="path995"
+       style="opacity:0.15;fill:url(#radialGradient1003);fill-opacity:1"
+       d="M 89,77 A 8,8 0 0 0 81.072266,84 8,8 0 0 0 89,91 8,8 0 0 0 96.929688,83.962891 8,8 0 0 0 89,77 Z" />
+    <circle
+       style="fill:#ffffff;stroke-width:1.93939;stroke-linecap:round;stroke-linejoin:round;paint-order:fill markers stroke"
+       id="circle997"
+       cx="89"
+       cy="83"
+       r="2.909091" />
+  </g>
+  <g
+     id="24-24-radiobutton"
+     transform="matrix(1.5,0,0,1.5,-89.5,-72.5)">
+    <circle
+       cx="89"
+       cy="83"
+       r="8"
+       fill="url(#paint0_linear)"
+       id="circle1165"
+       style="fill:url(#linearGradient1173)" />
+    <path
+       id="path1167"
+       style="opacity:0.15;fill:url(#radialGradient1175);fill-opacity:1"
+       d="M 89,77 A 8,8 0 0 0 81.072266,84 8,8 0 0 0 89,91 8,8 0 0 0 96.929688,83.962891 8,8 0 0 0 89,77 Z" />
+    <circle
+       style="fill:#ffffff;stroke-width:2.22222;stroke-linecap:round;stroke-linejoin:round;paint-order:fill markers stroke"
+       id="circle1169"
+       cx="89"
+       cy="83"
+       r="3.3333333" />
+  </g>
+  <g
+     id="radiobutton"
+     transform="matrix(2,0,0,2,-162,-118)">
+    <circle
+       cx="89"
+       cy="83"
+       r="8"
+       fill="url(#paint0_linear)"
+       id="circle1177"
+       style="fill:url(#linearGradient1185)" />
+    <path
+       id="path1179"
+       style="opacity:0.15;fill:url(#radialGradient1187);fill-opacity:1"
+       d="M 89,77 A 8,8 0 0 0 81.072266,84 8,8 0 0 0 89,91 8,8 0 0 0 96.929688,83.962891 8,8 0 0 0 89,77 Z" />
+    <circle
+       style="fill:#ffffff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;paint-order:fill markers stroke"
+       id="circle1181"
+       cx="89"
+       cy="83"
+       r="3" />
+  </g>
+  <g
+     id="16-16-checkbox"
+     transform="translate(-21,4)">
+    <rect
+       style="opacity:1;fill:none;stroke-width:0.936425;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;paint-order:fill markers stroke"
+       id="rect1556"
+       width="16"
+       height="16"
+       x="99"
+       y="11"
+       rx="0"
+       ry="0" />
+    <g
+       id="g1440">
+      <rect
+         x="100"
+         y="12"
+         width="14"
+         height="14"
+         rx="3"
+         fill="url(#paint0_linear)"
+         id="rect1271"
+         style="fill:url(#linearGradient979)" />
+      <rect
+         x="100.25"
+         y="12.25"
+         width="13.5"
+         height="13.5"
+         rx="2.75"
+         stroke="#000000"
+         stroke-opacity="0.12"
+         stroke-width="0.5"
+         id="rect1273"
+         style="fill:none" />
+      <g
+         filter="url(#filter0_d)"
+         id="g1277"
+         transform="translate(99,11)">
+        <path
+           d="M 5,9 7.25,11.5 11.5,5"
+           stroke="#ffffff"
+           stroke-width="1.5"
+           stroke-linecap="round"
+           stroke-linejoin="round"
+           id="path1275"
+           style="fill:none" />
+      </g>
+    </g>
+  </g>
+  <g
+     id="22-22-checkbox"
+     transform="translate(-5,27)">
+    <rect
+       style="fill:none;stroke-width:1.28758;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;paint-order:fill markers stroke"
+       id="rect1879"
+       width="22"
+       height="22"
+       x="61"
+       y="-17"
+       rx="0"
+       ry="0" />
+    <g
+       id="g1889"
+       transform="matrix(1.4285714,0,0,1.4285714,-80.857143,-33.142857)">
+      <rect
+         x="100"
+         y="12"
+         width="14"
+         height="14"
+         rx="3"
+         fill="url(#paint0_linear)"
+         id="rect1881"
+         style="fill:url(#linearGradient1893)" />
+      <rect
+         x="100.25"
+         y="12.25"
+         width="13.5"
+         height="13.5"
+         rx="2.75"
+         stroke="#000000"
+         stroke-opacity="0.12"
+         stroke-width="0.5"
+         id="rect1883"
+         style="fill:none" />
+      <g
+         filter="url(#filter0_d)"
+         id="g1887"
+         transform="translate(99,11)">
+        <path
+           d="M 5,9 7.25,11.5 11.5,5"
+           stroke="#ffffff"
+           stroke-width="1.5"
+           stroke-linecap="round"
+           stroke-linejoin="round"
+           id="path1885"
+           style="fill:none" />
+      </g>
+    </g>
+  </g>
+  <g
+     id="24-24-checkbox"
+     transform="translate(-1,30)">
+    <rect
+       style="fill:none;stroke-width:1.40463;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;paint-order:fill markers stroke"
+       id="rect2025"
+       width="24"
+       height="24"
+       x="33"
+       y="-22"
+       rx="0"
+       ry="0" />
+    <g
+       id="g2035"
+       transform="matrix(1.5714299,0,0,1.5714299,-123.14301,-39.85717)">
+      <rect
+         x="100"
+         y="12"
+         width="14"
+         height="14"
+         rx="3"
+         fill="url(#paint0_linear)"
+         id="rect2027"
+         style="fill:url(#linearGradient2039)" />
+      <rect
+         x="100.25"
+         y="12.25"
+         width="13.5"
+         height="13.5"
+         rx="2.75"
+         stroke="#000000"
+         stroke-opacity="0.12"
+         stroke-width="0.5"
+         id="rect2029"
+         style="fill:none" />
+      <g
+         filter="url(#filter0_d)"
+         id="g2033"
+         transform="translate(99,11)">
+        <path
+           d="M 5,9 7.25,11.5 11.5,5"
+           stroke="#ffffff"
+           stroke-width="1.5"
+           stroke-linecap="round"
+           stroke-linejoin="round"
+           id="path2031"
+           style="fill:none" />
+      </g>
+    </g>
+  </g>
+  <g
+     id="checkbox"
+     transform="matrix(2,0,0,2,-198,-22)">
+    <rect
+       style="opacity:1;fill:none;stroke-width:0.936425;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;paint-order:fill markers stroke"
+       id="rect890"
+       width="16"
+       height="16"
+       x="99"
+       y="11"
+       rx="0"
+       ry="0" />
+    <g
+       id="g900">
+      <rect
+         x="100"
+         y="12"
+         width="14"
+         height="14"
+         rx="3"
+         fill="url(#paint0_linear)"
+         id="rect892"
+         style="fill:url(#linearGradient897)" />
+      <rect
+         x="100.25"
+         y="12.25"
+         width="13.5"
+         height="13.5"
+         rx="2.75"
+         stroke="#000000"
+         stroke-opacity="0.12"
+         stroke-width="0.5"
+         id="rect894"
+         style="fill:none" />
+      <g
+         filter="url(#filter0_d)"
+         id="g898"
+         transform="translate(99,11)">
+        <path
+           d="M 5,9 7.25,11.5 11.5,5"
+           stroke="#ffffff"
+           stroke-width="1.5"
+           stroke-linecap="round"
+           stroke-linejoin="round"
+           id="path896"
+           style="fill:none" />
+      </g>
+    </g>
+  </g>
+</svg>

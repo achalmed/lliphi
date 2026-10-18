@@ -17,12 +17,13 @@ import tempfile
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from destinos import RAIZ, cargar  # noqa: E402
-from destinos import desktoptheme, editores, esquema, fondo, iconos, konsole, libreoffice, lookandfeel, sitio, terminales  # noqa: E402
+from destinos import RAIZ, cargar, kvantum  # noqa: E402
+from destinos import aurorae, desktoptheme, editores, esquema, fondo, konsole, kvantum, libreoffice, lookandfeel, sitio, terminales  # noqa: E402
 
 GENERADO = RAIZ / "generado"
 DESTINOS = {"esquema": esquema, "global": lookandfeel, "estilo": desktoptheme, "konsole": konsole, "fondos": fondo,
-            "terminales": terminales, "editores": editores, "iconos": iconos, "libreoffice": libreoffice, "sitio": sitio}
+            "terminales": terminales, "editores": editores, "libreoffice": libreoffice,
+            "decoracion": aurorae, "sitio": sitio, "kvantum": kvantum}
 # el sitio se genera dentro de sitio/generado/ (Quarto solo renderiza lo que cuelga de su proyecto)
 BASES = {"sitio": RAIZ / "sitio" / "generado"}
 
@@ -65,7 +66,7 @@ def empaquetar() -> int:
     dist.mkdir(exist_ok=True)
     paquetes = {"esquema": ["color-schemes"], "global": ["look-and-feel"], "estilo": ["desktoptheme"],
                 "konsole": ["konsole"], "fondos": ["wallpapers"], "terminales": ["terminales"],
-                "editores": ["editores"], "iconos": ["icons"], "libreoffice": ["libreoffice"]}
+                "editores": ["editores"], "libreoffice": ["libreoffice"], "decoracion": ["aurorae"]}
     sumas = []
     for modulo, carpetas in paquetes.items():
         ruta = dist / f"{marca['id']}-{modulo}-{version}.tar.gz"
@@ -87,7 +88,7 @@ def empaquetar() -> int:
 
 Dos variantes, **{marca['nombre_esquema']['claro']}** y **{marca['nombre_esquema']['oscuro']}**, generadas desde una
 sola fuente de tokens con contraste medido (WCAG 2.2). El estilo de Plasma sigue el esquema y el acento del sistema;
-decoración Breeze coloreada; sin Kvantum; instalación reversible con el instalador del repositorio.
+decoración de ventanas propia (Aurorae, Plasma ≥ 6.6); sin Kvantum; instalación reversible con el instalador del repositorio.
 
 - Sitio y guías: {marca['sitio_tema']}
 - Código (Source): {marca['repositorio']}

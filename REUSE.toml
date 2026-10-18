@@ -16,3 +16,11 @@ path = ["generado/**", "fuentes/**", "muestras/**", "docs/**", "tokens/**", "REA
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2026 Edison Achalma"
 SPDX-License-Identifier = "CC-BY-SA-4.0"
+
+# Decoración Aurorae: deriva de WhiteSur-dark (vinceliuice) y Nothing (jomada), ambos GPL-3.0-or-later
+# (fuentes/aurorae/base/ORIGEN.md); la copia de partida y lo generado desde ella heredan la licencia.
+[[annotations]]
+path = ["fuentes/aurorae/**", "generado/aurorae/**"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = ["vinceliuice (WhiteSur-dark)", "jomada (Nothing)", "2026 Edison Achalma (adaptación a Lliphi)"]
+SPDX-License-Identifier = "GPL-3.0-or-later"

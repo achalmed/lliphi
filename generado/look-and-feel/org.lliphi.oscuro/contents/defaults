@@ -1,27 +1,35 @@
 # GENERADO por herramientas/generar.py desde tokens/; no editar
 
 [kdeglobals][KDE]
-widgetStyle=Breeze
+widgetStyle=kvantum-dark
+
+[kdeglobals][Icons]
+Theme=Papirus-Dark
 
 [kdeglobals][General]
 ColorScheme=LliphiOscuro
+font=IBM Plex Sans,10,-1,5,400,0,0,0,0,0
+fixed=IBM Plex Mono,10,-1,5,400,0,0,0,0,0
+menuFont=IBM Plex Sans,10,-1,5,400,0,0,0,0,0
+toolBarFont=IBM Plex Sans,10,-1,5,400,0,0,0,0,0
+smallestReadableFont=IBM Plex Sans,8,-1,5,400,0,0,0,0,0
 
-[kdeglobals][Icons]
-Theme=breeze-dark
+[kdeglobals][WM]
+activeFont=IBM Plex Sans,10,-1,5,500,0,0,0,0,0
 
 [plasmarc][Theme]
-name=lliphi
+name=lliphi-oscuro
 
 [Wallpaper]
 Image=org.lliphi.horizonte
 
 [kcminputrc][Mouse]
-cursorTheme=breeze_cursors
+cursorTheme=Bibata-Modern-Classic
 
 [kwinrc][org.kde.kdecoration2]
-library=org.kde.breeze
-theme=Breeze
-ButtonsOnLeft=M
+library=org.kde.kwin.aurorae.v2
+theme=__aurorae__svg__lliphi
+ButtonsOnLeft=
 ButtonsOnRight=IAX
 
 [kwinrc][WindowSwitcher]

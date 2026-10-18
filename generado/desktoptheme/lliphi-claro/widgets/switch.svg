@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   id="svg2"
+   version="1.1"
+   viewBox="0 0 51 58.999999"
+   sodipodi:docname="switch.svgz"
+   inkscape:version="1.3.2 (091e20ef0f, 2023-11-25)"
+   width="51"
+   height="59"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs57">
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#shadow"
+       id="radialGradient1675"
+       cx="108"
+       cy="111.5"
+       fx="108"
+       fy="111.5"
+       r="11.5"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       id="shadow">
+      <stop
+         id="stop0"
+         offset="0"
+         style="stop-color:#000;stop-opacity:1" />
+      <stop
+         id="stop1"
+         offset="0.7391304374"
+         style="stop-color:#000;stop-opacity:.2" />
+      <stop
+         id="stop2"
+         offset="0.8260869384"
+         style="stop-color:#000;stop-opacity:.1" />
+      <stop
+         id="stop3"
+         offset="0.8695651889"
+         style="stop-color:#000;stop-opacity:.05" />
+      <stop
+         id="stop4"
+         offset="1"
+         style="stop-color:#000;stop-opacity:0" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient862-6"
+       x1="19"
+       x2="19"
+       y1="24"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(42)">
+      <stop
+         stop-color="#ffffff"
+         offset="0"
+         id="stop1-2" />
+      <stop
+         stop-color="#ffffff"
+         stop-opacity="0"
+         offset="1"
+         id="stop2-9" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient862-6"
+       id="linearGradient8"
+       x1="33.999996"
+       y1="16.009998"
+       x2="33.999996"
+       y2="0.0099997465"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient862-6"
+       id="linearGradient10"
+       x1="40.5"
+       y1="16.01"
+       x2="40.5"
+       y2="0.0099997465"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient862-6"
+       id="linearGradient12"
+       x1="33.333332"
+       y1="16.009998"
+       x2="33.333332"
+       y2="0.0099997465"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient862-6"
+       id="linearGradient17"
+       gradientUnits="userSpaceOnUse"
+       x1="33.333332"
+       y1="16.009998"
+       x2="33.333332"
+       y2="0.0099997465" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient862-6"
+       id="linearGradient18"
+       gradientUnits="userSpaceOnUse"
+       x1="40.5"
+       y1="16.01"
+       x2="40.5"
+       y2="0.0099997465" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient862-6"
+       id="linearGradient19"
+       gradientUnits="userSpaceOnUse"
+       x1="33.999996"
+       y1="16.009998"
+       x2="33.999996"
+       y2="0.0099997465" />
+  </defs>
+  <sodipodi:namedview
+     id="namedview55"
+     pagecolor="#ababab"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="true"
+     inkscape:zoom="4"
+     inkscape:cx="17"
+     inkscape:cy="21"
+     inkscape:window-width="3440"
+     inkscape:window-height="1373"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2"
+     showguides="true">
+    <inkscape:grid
+       type="xygrid"
+       id="grid286"
+       originx="0"
+       originy="9.9999996e-08"
+       spacingy="1"
+       spacingx="1"
+       units="px"
+       visible="true" />
+  </sodipodi:namedview>
+  <style
+     id="current-color-scheme"
+     type="text/css">.ColorScheme-Text {
+            color:#232629;
+            stop-color:#232629;
+        }
+        .ColorScheme-Background {
+            color:#eff0f1;
+            stop-color:#eff0f1;
+        }
+        .ColorScheme-Highlight {
+            color:#3daee9;
+            stop-color:#3daee9;
+        }
+        .ColorScheme-ButtonText {
+            color:#232629;
+            stop-color:#232629;
+        }
+        .ColorScheme-ButtonBackground {
+            color:#eff0f1;
+            stop-color:#eff0f1;
+        }</style>
+  <rect
+     id="hint-stretch-borders"
+     y="7.0100002"
+     width="4"
+     height="4"
+     fill="#ff2a2a"
+     x="0" />
+  <g
+     id="active-left"
+     transform="matrix(1.375,0,0,1.375,-36.249996,-0.01374956)">
+    <path
+       id="path2278"
+       class="ColorScheme-Highlight"
+       d="m 37.999997,0.00999968 c -4.476587,0 -7.999999,3.53540812 -7.999999,7.99999942 0,4.4645909 3.523412,7.9999999 7.999999,7.9999999 V 8.0099991 Z"
+       style="fill:currentColor" />
+    <path
+       id="path7"
+       d="m 37.999997,0.00999968 c -4.476587,0 -7.999999,3.53540812 -7.999999,7.99999942 0,4.4645909 3.523412,7.9999999 7.999999,7.9999999 V 8.0099991 Z"
+       style="opacity:0.3;fill:url(#linearGradient8)" />
+  </g>
+  <g
+     id="active-center"
+     transform="matrix(3.5999992,0,0,1.375,-120.79996,-0.01374956)">
+    <path
+       id="path2453"
+       style="fill:currentColor"
+       class="ColorScheme-Highlight"
+       d="M 38,0.00999977 V 8.0099998 16.01 h 5 V 8.0099998 0.00999977 Z" />
+    <path
+       id="path8"
+       style="opacity:0.3;fill:url(#linearGradient10)"
+       d="M 38,0.00999977 V 8.0099998 16.01 h 5 V 8.0099998 0.00999977 Z" />
+  </g>
+  <rect
+     style="fill:#0000ff;stroke-width:139.774;stroke-linecap:round"
+     id="hint-bar-size"
+     width="40"
+     height="22"
+     x="5"
+     y="-25" />
+  <g
+     id="handle"
+     transform="translate(-66,21)">
+    <rect
+       id="rect841-6-6-5-3-3"
+       x="67"
+       y="15"
+       width="22"
+       height="22"
+       rx="11"
+       style="fill:#ffffff" />
+  </g>
+  <g
+     transform="translate(-30,-11)"
+     id="handle-focus">
+    <path
+       id="rect1962"
+       d="m 95,19 c -7,0 -13,6 -13,13 0,7 6,13 13,13 7,0 13,-6 13,-13 0,-7 -6,-13 -13,-13 z m 0,2 c 6,0 11,5 11,11 0,6 -5,11 -11,11 -6,0 -11,-5 -11,-11 0,-6 5,-11 11,-11 z"
+       style="opacity:0.33;fill:currentColor"
+       class="ColorScheme-Highlight" />
+  </g>
+  <g
+     id="handle-shadow"
+     transform="matrix(1.0769231,0,0,1.0769231,-31.307695,-71.46154)">
+    <rect
+       id="rect3114-3-3"
+       height="26"
+       style="opacity:0.00100002;fill:#000000;fill-opacity:0.00392157"
+       width="26"
+       x="95"
+       y="97" />
+    <circle
+       style="fill:url(#radialGradient1675);fill-opacity:1;fill-rule:evenodd"
+       id="path1195-6"
+       cx="108"
+       cy="111.5"
+       r="11.5" />
+  </g>
+  <g
+     id="handle-hover"
+     transform="translate(-38,-44)">
+    <rect
+       id="rect4180"
+       x="62"
+       y="80"
+       width="22"
+       height="22"
+       rx="11"
+       ry="11"
+       style="fill:#ffffff" />
+  </g>
+  <g
+     id="handle-pressed"
+     transform="translate(-15,-44)">
+    <rect
+       id="rect4346"
+       x="63"
+       y="81"
+       width="22"
+       height="22"
+       rx="11"
+       style="fill:#f2f2f2" />
+  </g>
+  <g
+     id="active-right"
+     transform="matrix(-1.375,0,0,1.375,86.249999,-0.01374956)">
+    <path
+       id="path5"
+       class="ColorScheme-Highlight"
+       d="M 37.999999,0.00999968 V 8.0099991 16.009999 C 33.523412,16.009999 30,12.47459 30,8.0099991 30,3.5454078 33.523412,0.00999968 37.999999,0.00999968 Z"
+       style="fill:currentColor" />
+    <path
+       id="path10"
+       d="M 37.999999,0.00999968 V 8.0099991 16.009999 C 33.523412,16.009999 30,12.47459 30,8.0099991 30,3.5454078 33.523412,0.00999968 37.999999,0.00999968 Z"
+       style="opacity:0.3;fill:url(#linearGradient12)" />
+  </g>
+  <g
+     id="inactive-left"
+     transform="matrix(1.375,0,0,1.375,-86.249995,-0.0137496)">
+    <path
+       id="path12"
+       class="ColorScheme-ButtonText"
+       d="m 37.999997,0.00999968 c -4.476587,0 -7.999999,3.53540812 -7.999999,7.99999942 0,4.4645909 3.523412,7.9999999 7.999999,7.9999999 V 8.0099991 Z"
+       style="opacity:0.35;fill:currentColor" />
+    <path
+       id="path13"
+       d="m 37.999997,0.00999968 c -4.476587,0 -7.999999,3.53540812 -7.999999,7.99999942 0,4.4645909 3.523412,7.9999999 7.999999,7.9999999 V 8.0099991 Z"
+       style="opacity:0.3;fill:url(#linearGradient19)" />
+  </g>
+  <g
+     id="inactive-center"
+     transform="matrix(3.6,0,0,1.375,-170.80001,-0.0137496)">
+    <path
+       id="path14"
+       style="opacity:0.35;fill:currentColor"
+       class="ColorScheme-ButtonText"
+       d="M 38,0.00999977 V 8.0099998 16.01 h 5 V 8.0099998 0.00999977 Z" />
+    <path
+       id="path15"
+       style="opacity:0.3;fill:url(#linearGradient18)"
+       d="M 38,0.00999977 V 8.0099998 16.01 h 5 V 8.0099998 0.00999977 Z" />
+  </g>
+  <g
+     id="inactive-right"
+     transform="matrix(-1.375,0,0,1.375,36.249999,-0.0137496)">
+    <path
+       id="path16"
+       class="ColorScheme-ButtonText"
+       d="M 37.999999,0.00999968 V 8.0099991 16.009999 C 33.523412,16.009999 30,12.47459 30,8.0099991 30,3.5454078 33.523412,0.00999968 37.999999,0.00999968 Z"
+       style="opacity:0.35;fill:currentColor" />
+    <path
+       id="path17"
+       d="M 37.999999,0.00999968 V 8.0099991 16.009999 C 33.523412,16.009999 30,12.47459 30,8.0099991 30,3.5454078 33.523412,0.00999968 37.999999,0.00999968 Z"
+       style="opacity:0.3;fill:url(#linearGradient17)" />
+  </g>
+</svg>

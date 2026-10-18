@@ -101,3 +101,16 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   pero solo actúan si el usuario activa el tema de LibreOffice (`Appearance/LibreOfficeTheme`): por omisión la interfaz
   la sigue dando Plasma y Lliphi solo pinta el documento.
 
+
+## 4. Cambio de enfoque de 0.2.0 (decisión del autor, 2026-10-18)
+
+- **4.1 Derivar de lo que existe, no dibujar desde cero.** El autor rechazó 0.1.0 («Breeze con detalles en rojo») y los
+  iconos y la decoración dibujados a mano («todo feo»). Desde ahora Lliphi se construye a partir de los dos temas que
+  eligió y de lo mejor que hay publicado: el estilo de Plasma, el tema Kvantum y la decoración Aurorae de
+  **WhiteSur-kde** (GPL-3.0) recoloreados con los tokens y sin lo que imita a Apple; los botones de **Nothing** (GPL-3.0);
+  iconos **Papirus** con carpetas rojas; cursores **Bibata**; tipografía **IBM Plex**. Deroga 3.1, 3.2, 3.4 y 3.8 en lo que
+  contradigan. Consecuencia: lo derivado es GPL-3.0-or-later (REUSE.toml, `fuentes/base/ORIGEN.md`); lo propio sigue en MIT.
+- **4.2 Kvantum sí.** Es lo que da a WhiteSur su aspecto en las aplicaciones (menús y ventanas translúcidos con desenfoque).
+  El instalador lo configura si está instalado (`qt6-style-kvantum`) y, si no, deja Breeze con menús translúcidos.
+- **4.3 Dependencias descargadas, no redistribuidas.** `herramientas/dependencias.py` trae Papirus y Bibata de sus
+  versiones publicadas al `~/.local/share/icons` del usuario; el repositorio solo las cita.

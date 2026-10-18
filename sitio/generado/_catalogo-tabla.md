@@ -1,11 +1,11 @@
 | módulo | qué entrega | estado | desde |
 |---|---|---|---|
+| [Decoración de ventanas](generado/catalogo/decoracion.qmd) | Dos temas Aurorae (oscuro y claro) con el marco, los radios y la sombra de WhiteSur y los botones circulares de Nothing, recoloreados con los tokens: barra de 30 px con el título centrado, botones a la derecha, cerrar en el acento y el resto en gris; sin semáforo. | probado | 0.2.0 |
 | [Editores: VS Code, Positron y Zed](generado/catalogo/editores.qmd) | Temas claro y oscuro para VS Code y sus derivados Positron y VSCodium (una misma extensión mínima) y para Zed, con la interfaz del esquema, la sintaxis derivada de los dieciséis ANSI y la terminal integrada de Konsole. | experimental | 0.2.0 |
 | [Esquemas de color](generado/catalogo/esquema.qmd) | Lliphi Claro y Lliphi Oscuro para todas las aplicaciones Qt y KDE (y, a través de Plasma, GTK). | probado | 0.1.0 |
 | [Estilo de Plasma](generado/catalogo/estilo.qmd) | Panel, diálogos, tooltips y fondos de widgets con los radios y márgenes de Lliphi; sigue el esquema de color y el acento del sistema. | probado | 0.1.0 |
 | [Fondos de pantalla](generado/catalogo/fondos.qmd) | Paquete «Lliphi Horizonte» con imagen clara y oscura (Plasma elige según el esquema) en 1080p, 1440p y 4K, y acento declarado. | probado | 0.1.0 |
 | [Temas globales](generado/catalogo/global.qmd) | Dos paquetes look-and-feel que aplican esquema, estilo de Plasma, iconos, cursores, decoración y, si lo pides, la disposición del escritorio. | probado | 0.1.0 |
-| [Iconos de carpeta](generado/catalogo/iconos.qmd) | Dos temas de iconos que heredan todo de Breeze y cambian solo las carpetas: dibujadas aquí, en el acento, con distintivos para los lugares de uso común; siguen el acento del usuario en KDE. | probado | 0.2.0 |
 | [Konsole](generado/catalogo/konsole.qmd) | Esquemas de color para la terminal con una paleta ANSI de dieciséis colores medida sobre el fondo. | experimental | 0.1.0 |
 | [LibreOffice: colores de la aplicación](generado/catalogo/libreoffice.qmd) | Dos esquemas de «Colores de la aplicación» (Lliphi Claro y Lliphi Oscuro) para Writer, Calc, Impress, Draw, Base y la IDE de BASIC: documento, cuadrícula, saltos, control de cambios, sintaxis BASIC y SQL desde los mismos tokens, como extensión .oxt o fragmento .xcu. | experimental | 0.2.0 |
 | [Terminales: Alacritty y Kitty](generado/catalogo/terminales.qmd) | Los mismos dieciséis colores ANSI, fondo, selección y cursor de Konsole para Alacritty (TOML) y Kitty (conf), en claro y oscuro. | experimental | 0.2.0 |

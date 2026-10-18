@@ -1,0 +1,18 @@
+{
+  "nombre": "Decoración de ventanas",
+  "resumen": "Dos temas Aurorae (oscuro y claro) con el marco, los radios y la sombra de WhiteSur y los botones circulares de Nothing, recoloreados con los tokens: barra de 30 px con el título centrado, botones a la derecha, cerrar en el acento y el resto en gris; sin semáforo.",
+  "estado": "probado",
+  "tecnologia": "Aurorae SVG (motor V2 de Plasma 6.6, `kwin-style-aurorae`); derivado de WhiteSur-dark y Nothing, GPL-3.0-or-later",
+  "desde": "0.2.0",
+  "licencia": "GPL-3.0-or-later",
+  "archivos": [
+    "lliphi/",
+    "lliphi-claro/"
+  ],
+  "carpeta": "aurorae",
+  "generador": "aurorae.py",
+  "capturas": [
+    "../capturas/oscuro-09-decoracion.png",
+    "../capturas/claro-09-decoracion.png"
+  ]
+}

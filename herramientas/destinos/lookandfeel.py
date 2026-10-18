@@ -51,13 +51,18 @@ for (var i = 0; i < escritorios.length; i++) {{
 def defaults(marca: dict, variante: str) -> str:
     return "\n".join([
         "# GENERADO por herramientas/generar.py desde tokens/; no editar", "",
-        "[kdeglobals][KDE]", "widgetStyle=Breeze", "",
-        "[kdeglobals][General]", f"ColorScheme={marca['id_esquema'][variante]}", "",
-        "[kdeglobals][Icons]", f"Theme={'breeze' if variante == 'claro' else 'breeze-dark'}", "",
-        "[plasmarc][Theme]", f"name={marca['id']}", "",
+        "[kdeglobals][KDE]", f"widgetStyle={'kvantum' if variante == 'claro' else 'kvantum-dark'}", "",
+        "[kdeglobals][Icons]", f"Theme={'Papirus-Light' if variante == 'claro' else 'Papirus-Dark'}", "",
+        "[kdeglobals][General]", f"ColorScheme={marca['id_esquema'][variante]}", "font=IBM Plex Sans,10,-1,5,400,0,0,0,0,0", "fixed=IBM Plex Mono,10,-1,5,400,0,0,0,0,0",
+        "menuFont=IBM Plex Sans,10,-1,5,400,0,0,0,0,0", "toolBarFont=IBM Plex Sans,10,-1,5,400,0,0,0,0,0",
+        "smallestReadableFont=IBM Plex Sans,8,-1,5,400,0,0,0,0,0", "",
+        "[kdeglobals][WM]", "activeFont=IBM Plex Sans,10,-1,5,500,0,0,0,0,0", "",
+        "[plasmarc][Theme]", f"name={marca['id']}-{variante}", "",
         "[Wallpaper]", f"Image={marca['id_fondo']}", "",   # por nombre; el instalador lo aplica además por ruta (docs/validacion.md §3)
-        "[kcminputrc][Mouse]", "cursorTheme=breeze_cursors", "",
-        "[kwinrc][org.kde.kdecoration2]", "library=org.kde.breeze", "theme=Breeze", "ButtonsOnLeft=M", "ButtonsOnRight=IAX", "",
+        "[kcminputrc][Mouse]", f"cursorTheme={'Bibata-Modern-Ice' if variante == 'claro' else 'Bibata-Modern-Classic'}", "",
+        # decoración propia (Aurorae, motor SVG V2 de Plasma 6.6: el KCM escribe `org.kde.kwin.aurorae.v2`); sin menú a la izquierda
+        "[kwinrc][org.kde.kdecoration2]", "library=org.kde.kwin.aurorae.v2",
+        f"theme=__aurorae__svg__{marca['id'] if variante == 'oscuro' else marca['id'] + '-claro'}", "ButtonsOnLeft=", "ButtonsOnRight=IAX", "",
         "[kwinrc][WindowSwitcher]", "LayoutName=org.kde.breeze.desktop", "",
         "[kwinrc][DesktopSwitcher]", "LayoutName=org.kde.breeze.desktop", "",
         "[KSplash]", "Theme=org.kde.breeze", "",
@@ -78,6 +83,7 @@ def metadata(marca: dict, variante: str) -> str:
             "Website": marca["sitio"],
         },
         "X-KDE-fallbackPackage": "org.kde.breeze.desktop",
+        "X-KPackage-Dependencies": ["kns://icons.knsrc/api.kde-look.org/1166289", "kns://xcursor.knsrc/api.kde-look.org/1914825"],
     }, ensure_ascii=False, indent=4) + "\n"
 
 

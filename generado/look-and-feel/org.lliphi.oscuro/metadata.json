@@ -15,5 +15,9 @@
         "Version": "0.2.0",
         "Website": "https://achalmaedison.netlify.app"
     },
-    "X-KDE-fallbackPackage": "org.kde.breeze.desktop"
+    "X-KDE-fallbackPackage": "org.kde.breeze.desktop",
+    "X-KPackage-Dependencies": [
+        "kns://icons.knsrc/api.kde-look.org/1166289",
+        "kns://xcursor.knsrc/api.kde-look.org/1914825"
+    ]
 }

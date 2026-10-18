@@ -4,6 +4,11 @@ Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión de
 
 ## [Unreleased]
 
+### Changed
+- Cambio de enfoque: el estilo de Plasma y el tema Kvantum derivan de WhiteSur-kde (GPL-3.0) recoloreados con los
+  tokens y sin lo que imita a Apple; iconos Papirus (carpetas rojas), cursores Bibata y tipografía IBM Plex como
+  dependencias descargadas; retirado el módulo de iconos propio.
+
 ### Added
 - Módulo `terminales`: esquemas para Alacritty (`[colors]` en TOML) y Kitty (`.conf`) en claro y oscuro, con los
   dieciséis ANSI de Konsole y la selección, el cursor y los enlaces del esquema de Plasma; el instalador admite

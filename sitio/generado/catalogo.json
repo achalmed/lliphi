@@ -1,6 +1,25 @@
 {
-  "version": "0.1.0",
+  "version": "0.2.0",
   "modulos": [
+    {
+      "nombre": "Decoración de ventanas",
+      "resumen": "Dos temas Aurorae (oscuro y claro) con el marco, los radios y la sombra de WhiteSur y los botones circulares de Nothing, recoloreados con los tokens: barra de 30 px con el título centrado, botones a la derecha, cerrar en el acento y el resto en gris; sin semáforo.",
+      "estado": "probado",
+      "tecnologia": "Aurorae SVG (motor V2 de Plasma 6.6, `kwin-style-aurorae`); derivado de WhiteSur-dark y Nothing, GPL-3.0-or-later",
+      "desde": "0.2.0",
+      "licencia": "GPL-3.0-or-later",
+      "archivos": [
+        "lliphi/",
+        "lliphi-claro/"
+      ],
+      "carpeta": "aurorae",
+      "generador": "aurorae.py",
+      "capturas": [
+        "../capturas/oscuro-09-decoracion.png",
+        "../capturas/claro-09-decoracion.png"
+      ],
+      "id": "decoracion"
+    },
     {
       "nombre": "Editores: VS Code, Positron y Zed",
       "resumen": "Temas claro y oscuro para VS Code y sus derivados Positron y VSCodium (una misma extensión mínima) y para Zed, con la interfaz del esquema, la sintaxis derivada de los dieciséis ANSI y la terminal integrada de Konsole.",
@@ -87,27 +106,6 @@
         "../capturas/claro-02-lanzador.png"
       ],
       "id": "global"
-    },
-    {
-      "nombre": "Iconos de carpeta",
-      "resumen": "Dos temas de iconos que heredan todo de Breeze y cambian solo las carpetas: dibujadas aquí, en el acento, con distintivos para los lugares de uso común; siguen el acento del usuario en KDE.",
-      "estado": "probado",
-      "tecnologia": "freedesktop Icon Theme (`index.theme`, `FollowsColorScheme`, SVG con `current-color-scheme`)",
-      "desde": "0.2.0",
-      "archivos": [
-        "lliphi/",
-        "lliphi-oscuro/"
-      ],
-      "carpeta": "icons",
-      "generador": "iconos.py",
-      "capturas": [
-        "../capturas/iconos-carpetas-render.png",
-        "../capturas/oscuro-06-dolphin-iconos-carpeta.png",
-        "../capturas/claro-06-dolphin-iconos-carpeta.png",
-        "../capturas/oscuro-07-dolphin-iconos-grandes.png",
-        "../capturas/claro-07-dolphin-iconos-grandes.png"
-      ],
-      "id": "iconos"
     },
     {
       "nombre": "Konsole",

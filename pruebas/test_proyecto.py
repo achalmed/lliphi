@@ -83,7 +83,7 @@ def test_ningun_hex_fuera_del_maestro():
         if f.suffix in (".colors", ".colorscheme", "") and f.is_file() and f.name != "defaults":
             for m in re.findall(r"=(\d{1,3},\d{1,3},\d{1,3})\b", f.read_text(encoding="utf-8")):
                 assert m in permitidos_rgb, (f.name, m)
-        if f.suffix == ".svg":
+        if f.suffix == ".svg" and "desktoptheme" not in f.parts and "kvantum" not in f.parts and "aurorae" not in f.parts and "icons" not in f.parts:
             for h in re.findall(r"#[0-9a-fA-F]{6}\b", f.read_text(encoding="utf-8")):
                 assert h.lower() in hexes | {"#000000"}, (f.name, h)
         if f.suffix in (".toml", ".conf", ".json"):
@@ -116,40 +116,37 @@ def test_tema_global_estructura():
         assert meta["X-KDE-fallbackPackage"] == "org.kde.breeze.desktop"
         d = (base / "contents" / "defaults").read_text(encoding="utf-8")
         assert f"ColorScheme={MARCA['id_esquema'][v]}" in d and f"name={MARCA['id']}" in d
-        assert "kvantum" not in d.lower() and "ButtonsOnLeft=M" in d
+        assert "kvantum" not in d.lower() and "ButtonsOnLeft=\n" in d and "ButtonsOnRight=IAX" in d
+        deco = MARCA["id"] if v == "oscuro" else MARCA["id"] + "-claro"
+        assert "library=org.kde.kwin.aurorae.v2" in d and f"theme=__aurorae__svg__{deco}" in d
         assert (base / "contents" / "layouts" / "org.kde.plasma.desktop-layout.js").exists()
         assert (base / "contents" / "previews" / "preview.png").exists()
 
 
-def test_estilo_plasma_svg():
-    base = GEN / "desktoptheme" / MARCA["id"]
-    meta = json.loads((base / "metadata.json").read_text(encoding="utf-8"))
-    assert meta["KPlugin"]["Id"] == MARCA["id"] == base.name
-    assert not (base / "colors").exists(), "el estilo sigue el esquema del sistema: sin colors"
-    fondos = {"panel-background.svg", "background.svg", "tooltip.svg", "translucentbackground.svg"}
-    for svg in base.rglob("*.svg"):
-        raiz = ET.parse(svg).getroot()
-        ids = [e.get("id") for e in raiz.iter() if e.get("id")]
-        assert len(ids) == len(set(ids)), f"ids repetidos en {svg.name}"
-        assert "current-color-scheme" in ids and 'fill="currentColor"' in svg.read_text(encoding="utf-8"), svg.name
-        if svg.name in fondos:
-            for req in ("topleft", "top", "topright", "left", "center", "right", "bottomleft", "bottom", "bottomright",
-                        "hint-top-margin", "hint-bottom-margin", "hint-left-margin", "hint-right-margin",
-                        "mask-center", "shadow-center", "shadow-hint-top-margin"):
-                assert req in ids, (svg.name, req)
-    # widgets con estados: cada estado trae sus nueve losas
-    for nombre, estados in (("tasks.svg", ("normal", "hover", "focus", "attention", "minimized")), ("button.svg", ("normal", "hover", "pressed", "focus")),
-                            ("lineedit.svg", ("base", "focus", "hover")), ("viewitem.svg", ("hover", "selected")), ("tabbar.svg", ("north-active-tab", "south-active-tab"))):
-        ids = {e.get("id") for e in ET.parse(base / "widgets" / nombre).getroot().iter()}
-        for est in estados:
-            for pos in ("topleft", "top", "center", "bottomright"):
-                assert f"{est}-{pos}" in ids, (nombre, est, pos)
-    for carpeta in ("translucent/widgets/panel-background.svg", "translucent/dialogs/background.svg", "opaque/widgets/panel-background.svg"):
-        assert (base / carpeta).exists(), carpeta
-    panel = ET.parse(base / "widgets" / "panel-background.svg").getroot()
-    ids = {e.get("id") for e in panel.iter()}
-    assert {"thick-center", "thick-hint-top-margin", "hint-tile-center"} <= ids
+def test_estilo_plasma_derivado():
+    """El estilo de Plasma deriva de WhiteSur-kde: dos variantes, sin `colors` (sigue el esquema), GPL declarada, SVG válidos."""
+    for v in ("claro", "oscuro"):
+        base = GEN / "desktoptheme" / f"{MARCA['id']}-{v}"
+        meta = json.loads((base / "metadata.json").read_text(encoding="utf-8"))
+        assert meta["KPlugin"]["Id"] == base.name and meta["KPlugin"]["License"] == "GPL-3.0-or-later"
+        assert not (base / "colors").exists(), "el estilo sigue el esquema del sistema: sin colors"
+        for req in ("widgets/panel-background.svg", "dialogs/background.svg", "widgets/tasks.svg", "widgets/button.svg", "plasmarc"):
+            assert (base / req).exists(), (v, req)
+        for svg in base.rglob("*.svg"):
+            ET.parse(svg)
+        assert "BlurBehindEffect" in (base / "plasmarc").read_text(encoding="utf-8")
+    assert (RAIZ / "fuentes" / "base" / "WhiteSur-kde" / "LICENSE").exists()
 
+
+def test_kvantum_derivado():
+    for v in ("claro", "oscuro"):
+        d = GEN / "kvantum" / MARCA["id_esquema"][v]
+        kv = (d / f"{MARCA['id_esquema'][v]}.kvconfig").read_text(encoding="utf-8")
+        hexes = {t["$value"]["hex"].lower() for t in _tokens_planos(TOKENS).values() if isinstance(t["$value"], dict) and "hex" in t["$value"]}
+        for clave in ("window.color", "highlight.color", "text.color"):
+            m = re.search(rf"^{re.escape(clave)}=(#[0-9a-f]{{6}})", kv, re.M)
+            assert m and m.group(1).lower() in hexes, (v, clave)
+        ET.parse(d / f"{MARCA['id_esquema'][v]}.svg")
 
 def test_konsole_16_colores():
     for v in ("claro", "oscuro"):
@@ -231,38 +228,54 @@ def test_zed_tema():
         assert st["players"] and {"cursor", "background", "selection"} <= set(st["players"][0])
 
 
-def test_iconos_tema_carpetas():
+def test_decoracion_aurorae():
+    """Dos temas Aurorae completos: marco con los nueve lados en activo e inactivo, centro maximizado, hints, nueve
+    botones con los ocho estados, rc con [General] y [Layout] coherentes con el SVG, y metadatos con el id de la carpeta."""
     sys.path.insert(0, str(RAIZ / "herramientas"))
-    from destinos.iconos import LUGARES, TAMANOS  # noqa: E402
+    from destinos.aurorae import BASE, BOTONES, TITULO, mapa_boton, mapa_marco  # noqa: E402
+    lados = ("topleft", "top", "topright", "left", "center", "right", "bottomleft", "bottom", "bottomright")
+    assert (BASE / "ORIGEN.md").exists() and (BASE / "LICENSE").exists() and (RAIZ / "LICENSES" / "GPL-3.0-or-later.txt").exists()
     hexes = {t["$value"]["hex"].lower() for t in _tokens_planos(TOKENS).values() if isinstance(t["$value"], dict) and "hex" in t["$value"]}
-    for tema, hereda in ((MARCA["id"], "breeze,hicolor"), (f"{MARCA['id']}-oscuro", "breeze-dark,breeze,hicolor")):
-        base = GEN / "icons" / tema
+    for tema, variante in ((MARCA["id"], "oscuro"), (f"{MARCA['id']}-claro", "claro")):
+        base = GEN / "aurorae" / tema
+        sem = {k: v["$value"]["hex"] for k, v in _tokens_planos(TOKENS["semanticos"][variante]).items()}
+        deco = ET.parse(base / "decoration.svg").getroot()
+        ids = [e.get("id") for e in deco.iter() if e.get("id")]
+        assert len(ids) == len(set(ids)), "ids repetidos en decoration.svg"
+        for pref in ("decoration", "decoration-inactive", "mask"):
+            for lado in lados:
+                assert f"{pref}-{lado}" in ids, (tema, pref, lado)
+        for req in ("hint-top-margin", "hint-bottom-margin", "hint-left-margin", "hint-right-margin", "shadow-hint-top-margin"):
+            assert req in ids, (tema, req)
+        # derivado y recoloreado: ningún color del tema de partida sobrevive y el encabezado lleva el token
+        texto = (base / "decoration.svg").read_text(encoding="utf-8")
+        assert "GPL-3.0-or-later" in texto and sem["fondo.encabezado"] in texto
+        assert not any(viejo in texto for viejo in mapa_marco(sem)), tema
+        for b in BOTONES:
+            svg = base / f"{b}.svg"
+            bids = {e.get("id") for e in ET.parse(svg).getroot().iter() if e.get("id")}
+            assert {"active-center", "hover-center", "pressed-center", "inactive-center", "deactivated-center"} <= bids, (svg.name, bids)
+            t = svg.read_text(encoding="utf-8")
+            assert not any(viejo in t for viejo in mapa_boton(sem, b)), svg.name
+            for h in re.findall(r"#[0-9a-fA-F]{6}\b", t):
+                assert h.lower() in hexes | {"#000000"}, (svg.name, h)
+        assert sem["acento.base"] in (base / "close.svg").read_text(encoding="utf-8")
+        assert sem["acento.base"] not in (base / "maximize.svg").read_text(encoding="utf-8")   # sin semáforo: solo cerrar lleva el acento
         cp = configparser.ConfigParser(interpolation=None, strict=False); cp.optionxform = str
-        cp.read(base / "index.theme", encoding="utf-8")
-        it = cp["Icon Theme"]
-        assert it["Inherits"] == hereda and it["FollowsColorScheme"] == "true" and it["Example"] == "folder"
-        dirs = it["Directories"].split(",")
-        assert dirs == [f"places/{S}" for S in TAMANOS]
-        for d in dirs:
-            assert cp[d]["Context"] == "Places" and cp[d]["Type"] in ("Fixed", "Scalable") and (base / d).is_dir()
-            if cp[d]["Type"] == "Scalable":
-                assert int(cp[d]["MinSize"]) <= int(cp[d]["Size"]) <= int(cp[d]["MaxSize"])
-        for S in TAMANOS:
-            for nombre, (dibujo, badge) in LUGARES.items():
-                svg = base / "places" / str(S) / f"{nombre}.svg"
-                assert svg.exists(), svg
-                raiz = ET.parse(svg).getroot()
-                assert raiz.get("viewBox") == f"0 0 {S} {S}"
-                texto = svg.read_text(encoding="utf-8")
-                assert 'id="current-color-scheme"' in texto and "ColorScheme-Highlight" in texto and 'fill="currentColor"' in texto
-                for h in re.findall(r"#[0-9a-fA-F]{6}\b", texto):
-                    assert h.lower() in hexes, (svg.name, h)
-                if badge and S >= 22:
-                    assert 'id="distintivo"' in texto, svg
-            # los sinónimos son byte a byte iguales a su base
-            assert (base / "places" / str(S) / "inode-directory.svg").read_bytes() == (base / "places" / str(S) / "folder.svg").read_bytes()
-            assert (base / "places" / str(S) / "folder-open.svg").read_bytes() != (base / "places" / str(S) / "folder.svg").read_bytes()
-        assert not list(base.rglob("*-symbolic.svg")), "los simbólicos se heredan de Breeze"
+        cp.read(base / f"{tema}rc", encoding="utf-8")
+        g, lay = cp["General"], cp["Layout"]
+        assert g["TitleAlignment"] == "Center" and g["Shadow"] == "true" and g["RightButtons"] == "IAX" and g["LeftButtons"] == ""
+        assert g["UseTextShadow"] == "false"
+        rgb = lambda h: ",".join(str(int(h[i:i + 2], 16)) for i in (1, 3, 5))  # noqa: E731
+        assert g["ActiveTextColor"] == rgb(sem["texto.normal"]) and g["InactiveTextColor"] == rgb(sem["texto.inactivo"])
+        assert sum(int(lay[k]) for k in TITULO) == 30
+        assert int(lay["PaddingLeft"]) == 76 and int(lay["PaddingTop"]) == 36    # la sombra del marco de partida
+        assert int(lay["ButtonWidth"]) == int(lay["ButtonHeight"]) == 16
+        md = configparser.ConfigParser(interpolation=None, strict=False); md.optionxform = str
+        md.read(base / "metadata.desktop", encoding="utf-8")
+        assert md["Desktop Entry"]["X-KDE-PluginInfo-Name"] == tema and md["Desktop Entry"]["X-KDE-PluginInfo-License"] == "GPL-3.0-or-later"
+        mj = json.loads((base / "metadata.json").read_text(encoding="utf-8"))
+        assert mj["KPackageStructure"] == "KWin/Aurorae" and mj["KPlugin"]["Id"] == tema
 
 
 def test_libreoffice_esquemas():
@@ -325,8 +338,20 @@ def test_fondo_paquete():
     meta = json.loads((base / "metadata.json").read_text(encoding="utf-8"))
     assert meta["KPlugin"]["Id"] == MARCA["id_fondo"]
     assert set(meta["X-KDE-PlasmaImageWallpaper-AccentColor"]) == {"Light", "Dark"}
+    sys.path.insert(0, str(RAIZ / "herramientas"))
+    from destinos.fondo import TAMANOS  # noqa: E402
+    PIL = pytest.importorskip("PIL.Image")
     for carpeta in ("images", "images_dark"):
-        assert (base / "contents" / carpeta / "1920x1080.png").exists()
+        for ancho, alto in TAMANOS:
+            ruta = base / "contents" / carpeta / f"{ancho}x{alto}.png"
+            assert ruta.exists(), ruta
+            im = PIL.open(ruta)
+            assert im.size == (ancho, alto) and im.mode == "RGB"
+    assert PIL.open(base / "contents" / "screenshot.png").size == (480, 270)
+    # el oscuro es casi negro y el claro casi blanco en la esquina (fuera del relámpago y del campo de puntos)
+    oscuro = PIL.open(base / "contents" / "images_dark" / "1920x1080.png").getpixel((4, 4))
+    claro = PIL.open(base / "contents" / "images" / "1920x1080.png").getpixel((4, 4))
+    assert max(oscuro) < 40 and min(claro) > 215
 
 
 # ---------------------------------------------------------------- instalación reversible

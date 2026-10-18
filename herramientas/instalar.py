@@ -14,7 +14,8 @@ byte a byte y desinstala. Lo instalado queda anotado en `$XDG_STATE_HOME/<id>/in
 
 Uso:
   python3 herramientas/instalar.py                       simula la instalación (no escribe nada)
-  python3 herramientas/instalar.py --aplicar             instala los módulos del primer lote
+  python3 herramientas/instalar.py --aplicar             instala los módulos
+  python3 herramientas/instalar.py --dependencias --aplicar   además descarga Papirus y Bibata al usuario (herramientas/dependencias.py)
   python3 herramientas/instalar.py --aplicar --aplicar-tema oscuro|claro   además aplica el tema global
   python3 herramientas/instalar.py --modulos esquema,konsole --aplicar
   python3 herramientas/instalar.py desinstalar [--aplicar]
@@ -57,7 +58,8 @@ CONFIGS = ["kdeglobals", "plasmarc", "kwinrc", "kcminputrc", "ksplashrc", "kscre
 # ("positron", "vscodium"): solo se instala si existe la carpeta del editor (CONDICIONALES); si no, se omite y se avisa
 MODULOS = {
     "esquema": [(f"color-schemes/{MARCA['id_esquema'][v]}.colors", f"color-schemes/{MARCA['id_esquema'][v]}.colors") for v in ("claro", "oscuro")],
-    "estilo": [(f"desktoptheme/{ID}", f"plasma/desktoptheme/{ID}")],
+    "estilo": [(f"desktoptheme/{ID}-{v}", f"plasma/desktoptheme/{ID}-{v}") for v in ("claro", "oscuro")],
+    "kvantum": [(f"kvantum/{MARCA['id_esquema'][v]}", f"../../.config/Kvantum/{MARCA['id_esquema'][v]}") for v in ("claro", "oscuro")],
     "global": [(f"look-and-feel/{MARCA['id_global'][v]}", f"plasma/look-and-feel/{MARCA['id_global'][v]}") for v in ("claro", "oscuro")],
     "konsole": [(f"konsole/{MARCA['nombre_esquema'][v]}.colorscheme", f"konsole/{MARCA['nombre_esquema'][v]}.colorscheme") for v in ("claro", "oscuro")],
     "fondos": [(f"wallpapers/{MARCA['id_fondo']}", f"wallpapers/{MARCA['id_fondo']}")],
@@ -65,7 +67,7 @@ MODULOS = {
                 + [(f"terminales/kitty/{ID}-{v}.conf", f"kitty/themes/{ID}-{v}.conf", "config") for v in ("claro", "oscuro")],
     "editores": [(f"editores/vscode/{ID}", f"{ID}.{ID}", "vscode"), (f"editores/vscode/{ID}", f"{ID}.{ID}", "positron"),
                  (f"editores/vscode/{ID}", f"{ID}.{ID}", "vscodium"), (f"editores/zed/{ID}.json", f"zed/themes/{ID}.json", "config")],
-    "iconos": [(f"icons/{ID}", f"icons/{ID}"), (f"icons/{ID}-oscuro", f"icons/{ID}-oscuro")],
+    "decoracion": [(f"aurorae/{ID}", f"aurorae/themes/{ID}"), (f"aurorae/{ID}-claro", f"aurorae/themes/{ID}-claro")],
 }
 BASES = {"data": DATA, "config": CONFIG, "vscode": VSCODE, "positron": POSITRON, "vscodium": VSCODIUM}
 # base condicional → (carpeta que debe existir, nombre del editor); el instalador nunca crea esa carpeta
@@ -184,8 +186,12 @@ def instalar(modulos: list[str], aplicar: bool, aplicar_tema: str | None) -> int
             shutil.copytree(origen, destino) if origen.is_dir() else shutil.copy2(origen, destino)
     if aplicar:
         STATE.mkdir(parents=True, exist_ok=True)
+        # el manifiesto acumula: instalar solo algunos módulos no olvida los ya instalados
+        previo = json.loads(MANIFIESTO.read_text(encoding="utf-8")) if MANIFIESTO.exists() else {}
+        rutas = {k: v for k, v in previo.get("rutas", {}).items() if Path(k).exists()}
+        rutas.update({str(d): sha_dir(d) for _, d in pares})
         MANIFIESTO.write_text(json.dumps({"version": VERSION, "fecha": datetime.now().isoformat(timespec="seconds"),
-                                          "modulos": modulos, "rutas": {str(d): sha_dir(d) for _, d in pares},
+                                          "modulos": sorted(set(previo.get("modulos", [])) | set(modulos)), "rutas": rutas,
                                           "respaldo": str(carpeta)}, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
         escribir_undo(carpeta, [d for _, d in pares])
         print(f"  manifiesto: {MANIFIESTO}\n  reversión: {carpeta / 'UNDO.sh'}")
@@ -209,8 +215,26 @@ def instalar(modulos: list[str], aplicar: bool, aplicar_tema: str | None) -> int
             if shutil.which("kwriteconfig6"):
                 subprocess.run(["kwriteconfig6", "--file", "breezerc", "--group", "Style", "--key", "MenuOpacity", str(opacidad_menus)], capture_output=True, text=True)
                 print(f"  menús de Breeze al {opacidad_menus} % (breezerc, respaldado)")
-            iconos = f"{ID}-oscuro" if aplicar_tema == "oscuro" else ID
-            if "iconos" in modulos and (DATA / "icons" / iconos).exists():
+            # Kvantum: tema activo y estilo de widgets
+            kvdir = CONFIG / "Kvantum"
+            if "kvantum" in modulos and kvdir.exists():
+                kvdir.mkdir(parents=True, exist_ok=True)
+                tema_kv = MARCA["id_esquema"][aplicar_tema]
+                (kvdir / "kvantum.kvconfig").write_text(f"[General]\ntheme={tema_kv}\n", encoding="utf-8")
+                if shutil.which("kwriteconfig6"):
+                    subprocess.run(["kwriteconfig6", "--file", "kdeglobals", "--group", "KDE", "--key", "widgetStyle", "kvantum-dark" if aplicar_tema == "oscuro" else "kvantum"], capture_output=True, text=True)
+                print(f"  Kvantum: tema {tema_kv}, estilo kvantum")
+            # tipografía IBM Plex en toda la sesión (lo que fija defaults solo lo lee el KCM al aplicar el tema)
+            if shutil.which("kwriteconfig6"):
+                for clave, valor in (("font", "IBM Plex Sans,10,-1,5,400,0,0,0,0,0"), ("fixed", "IBM Plex Mono,10,-1,5,400,0,0,0,0,0"),
+                                     ("menuFont", "IBM Plex Sans,10,-1,5,400,0,0,0,0,0"), ("toolBarFont", "IBM Plex Sans,10,-1,5,400,0,0,0,0,0"),
+                                     ("smallestReadableFont", "IBM Plex Sans,8,-1,5,400,0,0,0,0,0")):
+                    subprocess.run(["kwriteconfig6", "--file", "kdeglobals", "--group", "General", "--key", clave, valor], capture_output=True, text=True)
+                subprocess.run(["kwriteconfig6", "--file", "kdeglobals", "--group", "WM", "--key", "activeFont", "IBM Plex Sans,10,-1,5,500,0,0,0,0,0"], capture_output=True, text=True)
+                subprocess.run(["dbus-send", "--session", "--type=signal", "/KGlobalSettings", "org.kde.KGlobalSettings.notifyChange", "int32:0", "int32:0"], capture_output=True, text=True)
+                print("  tipografía: IBM Plex Sans 10 / IBM Plex Mono 10")
+            iconos = "Papirus-Dark" if aplicar_tema == "oscuro" else "Papirus-Light"
+            if (DATA / "icons" / iconos).exists():
                 if shutil.which("plasma-changeicons"):
                     subprocess.run(["plasma-changeicons", iconos], capture_output=True, text=True)
                 elif shutil.which("kwriteconfig6"):
@@ -272,6 +296,10 @@ def main() -> int:
     aplicar_tema = args[args.index("--aplicar-tema") + 1] if "--aplicar-tema" in args else None
     if aplicar_tema and aplicar_tema not in ("claro", "oscuro"):
         print("--aplicar-tema claro|oscuro"); return 1
+    if "--dependencias" in args or "dependencias" in args:
+        r = subprocess.run([sys.executable, str(RAIZ / "herramientas" / "dependencias.py"), *(["--aplicar"] if aplicar else [])])
+        if r.returncode or "dependencias" in args:
+            return r.returncode
     if "desinstalar" in args:
         return desinstalar(aplicar)
     if "estado" in args:
