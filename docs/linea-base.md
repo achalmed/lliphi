@@ -31,5 +31,7 @@ el esquema rojo de los tokens. Quedan en el repositorio como piezas opcionales.
 1. **Hecha y aprobada por el autor (18:35)**: acento rojo de Lliphi en el esquema sin tocar lo demás (`LliphiOscuro.colors`,
    decisiones 4.5); comparación en `muestras/comparacion-linea-base-acento.png`; aplicada en la sesión con
    `plasma-apply-colorscheme LliphiOscuro`; se revierte con `plasma-apply-colorscheme WhiteSurDark`.
-2. Variante clara equivalente (`WhiteSur` + `lliphi-claro`) comprobada en pantalla.
+2. **Hecha, en evaluación (18:50)**: variante clara equivalente (`org.lliphi.claro`: WhiteSur + `LliphiClaro` rojo +
+   `lliphi-claro` + Kvantum `LliphiClaro`) comprobada en sesión anidada (decisiones 4.6, `validacion.md` §7); comparación
+   en `muestras/comparacion-linea-base-clara.png`. No aplicada en la sesión del autor.
 3. Iconos: probar Papirus con carpetas rojas junto a esta base (ya descargado) y decidir.

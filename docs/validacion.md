@@ -210,3 +210,23 @@ Tras el rechazo del autor a lo dibujado desde cero, 0.2.0 se construye de bases 
 
 Límites: la anidada no muestra el desenfoque (§6); la variante clara de 0.2.0 solo se ha visto en el lanzador de cristal
 de la sesión real (`claro-14`), no en Dolphin ni en la decoración. Hoja comparativa: `muestras/comparacion-0.1-0.2.png`.
+
+## 7. Mejora 2: variante clara sobre la línea base (2026-10-18)
+
+Mismo método del §5 y §6 (`kwin_wayland --virtual --xwayland --width 1600 --height 900 --exit-with-session=startplasma-wayland`
+bajo `/usr/bin/dbus-run-session`, `HOME` aparte en `/tmp/casa-lliphi-m2`, `powerdevilrc` sin acciones por inactividad,
+cursores WhiteSur enlazados; `instalar.py --aplicar --aplicar-tema claro` y todo `qdbus6`/`plasma-apply-*` con el bus de
+esa sesión; Dolphin y Preferencias abiertas en `wayland-2`, en mosaico por un script en el KWin interno (`:1.N`), capturadas
+desde el externo con `WAYLAND_DISPLAY=wayland-1 spectacle -b -n -f`; notificaciones inhibidas por
+`org.freedesktop.Notifications.Inhibit` mientras dura la captura; cierre por PID tras comprobar `HOME=` en `/proc/<pid>/environ`).
+
+| caso | claro | qué se comprueba |
+|---|---|---|
+| Dolphin (activa, todo seleccionado) + Preferencias → General Behavior | `claro-10-mejora-2-linea-base-clara.png` | selección, foco de elemento, decoración `lliphi-claro` con botones a la izquierda, controles del esquema |
+| Preferencias activa | `claro-11-mejora-2-preferencias.png` | foco del campo de búsqueda (Kvantum), fila seleccionada del lateral, radios y casillas en el acento |
+
+Resultado: **probado**. Hubo que corregir el Kvantum claro (foco y deslizadores azules `#0860f2`, decisiones 4.6). Observaciones:
+las carpetas de `breeze` claro son azules fijas (mejora 3); en la vista de iconos de Dolphin la selección activa sale como
+rosa tenue porque WhiteSur dibuja los elementos de vista con el acento a baja opacidad (igual que su azul original); el
+panel de la anidada no muestra la translucidez de WhiteSur (límite del §6). El estilo de Plasma `lliphi-claro` con su
+`colors` no sigue el acento del esquema, como el oscuro.

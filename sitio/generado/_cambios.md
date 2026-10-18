@@ -7,7 +7,11 @@ Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión de
 - Mejora 1 sobre la línea base (decisiones 4.5): `LliphiOscuro.colors` y `LliphiClaro.colors` son WhiteSurDark y
   WhiteSur con solo el acento tomado de los tokens (foco, hover, enlace, texto activo y el grupo de selección en rojo);
   cada otro valor se copia byte a byte, lo verifica `test_esquema_linea_base_solo_acento`. Captura de comparación en
-  `muestras/comparacion-linea-base-acento.png`; pendiente del visto bueno del autor.
+  `muestras/comparacion-linea-base-acento.png`; aprobada por el autor.
+- Mejora 2 (decisiones 4.6): variante clara equivalente (`org.lliphi.claro` = WhiteSur claro + `LliphiClaro` con el
+  acento rojo + `lliphi-claro` + Kvantum `LliphiClaro`) comprobada en sesión anidada; el Kvantum claro no recoloreaba el
+  foco ni los deslizadores porque el acento de `WhiteSur.svg` es `#0860f2` (y `#0e4bb4`, `#0852ce`, `#1352c4`, `#77aff1`),
+  no `#315bef`: ahora se mapean a los tokens. Capturas `claro-10`, `claro-11` y `muestras/comparacion-linea-base-clara.png`.
 - Línea base fijada por el autor (`docs/linea-base.md`, decisiones 4.4): el tema global reproduce su configuración
   activa, WhiteSur-dark tal cual (esquema `WhiteSurDark` y estilo de Plasma con su `colors`, sin recolorear),
   decoración Nothing, Kvantum Lliphi, iconos `breeze-dark`, cursores WhiteSur-cursors; la única novedad es la

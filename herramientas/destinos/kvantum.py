@@ -30,7 +30,11 @@ HEX = {  # hex fijo del svg de WhiteSur → token (los demás se dejan)
                "#2d2d2d": "fondo.vista-alterno", "#656565": "fondo.boton", "#333333": "fondo.tooltip", "#dedede": "texto.normal",
                "#dfdfdf": "texto.normal", "#9d9d9d": "texto.inactivo", "#4f4f4f": "borde.separador", "#696969": "borde.separador",
                "#1b1b1b": "fondo.ventana", "#1a1a1a": "fondo.ventana"},
-    "claro": {"#315bef": "acento.base", "#5294e2": "acento.suave", "#a0b4f8": "acento.suave", "#4285f4": "acento.base",
+    # el acento de WhiteSur.svg (claro) es #0860f2 (47 usos: foco, selección, deslizadores), con #0e4bb4/#0852ce/#1352c4 como
+    # tonos pulsados o de borde y #77aff1 como tono claro (mejora 2, decisiones 4.6); #315bef solo aparece una vez
+    "claro": {"#0860f2": "acento.base", "#0e4bb4": "acento.texto", "#0852ce": "acento.texto", "#1352c4": "acento.texto",
+              "#77aff1": "acento.suave",
+              "#315bef": "acento.base", "#5294e2": "acento.suave", "#a0b4f8": "acento.suave", "#4285f4": "acento.base",
               "#333333": "texto.normal", "#666666": "texto.inactivo", "#f5f5f5": "fondo.ventana", "#ffffff": "fondo.vista",
               "#e5e5e5": "fondo.boton", "#d9d9d9": "borde.separador"},
 }

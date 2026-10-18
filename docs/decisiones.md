@@ -136,3 +136,11 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   positivo), `[WM]` y `[ColorEffects:*]` quedan como en WhiteSur. Se aplicó solo con `plasma-apply-colorscheme` en la
   sesión del autor (tema global, estilo, Kvantum y decoración intactos); reversión: `plasma-apply-colorscheme WhiteSurDark`.
   Aprobada por el autor a las 18:35 sobre `muestras/comparacion-linea-base-acento.png`.
+- **4.6 (2026-10-18, 18:50) Mejora 2: la variante clara se comprueba en sesión anidada, no en la del autor**
+  (`docs/linea-base.md` §2.2, `docs/validacion.md` §7). `org.lliphi.claro` ya era la equivalente (WhiteSur claro tal cual,
+  `LliphiClaro` con el acento de la mejora 1, `lliphi-claro`, Kvantum `LliphiClaro`, `breeze`); lo único que desentonaba
+  era el foco azul de Kvantum: `WhiteSur.svg` usa `#0860f2` como acento (47 usos) y `herramientas/destinos/kvantum.py`
+  solo mapeaba `#315bef` (el acento del oscuro). Se mapean `#0860f2`→`acento.base`, `#0e4bb4`/`#0852ce`/`#1352c4`→
+  `acento.texto`, `#77aff1`→`acento.suave`. No se aplica nada en la sesión del autor: la variante clara se le propone con
+  la captura y la prueba en su sesión queda a su mano (instrucciones en `estado.md`). Observado y dejado como está: las
+  carpetas de `breeze` (claro) son azules fijas, a diferencia de `breeze-dark` que sigue el acento: es la mejora 3 (iconos).
