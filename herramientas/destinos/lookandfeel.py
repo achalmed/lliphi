@@ -55,7 +55,7 @@ def defaults(marca: dict, variante: str) -> str:
         "[kdeglobals][General]", f"ColorScheme={marca['id_esquema'][variante]}", "",
         "[kdeglobals][Icons]", f"Theme={'breeze' if variante == 'claro' else 'breeze-dark'}", "",
         "[plasmarc][Theme]", f"name={marca['id']}", "",
-        "[Wallpaper]", f"Image=file://$HOME/.local/share/wallpapers/{marca['id_fondo']}", "",
+        "[Wallpaper]", f"Image={marca['id_fondo']}", "",   # por nombre; el instalador lo aplica además por ruta (docs/validacion.md §3)
         "[kcminputrc][Mouse]", "cursorTheme=breeze_cursors", "",
         "[kwinrc][org.kde.kdecoration2]", "library=org.kde.breeze", "theme=Breeze", "ButtonsOnLeft=M", "ButtonsOnRight=IAX", "",
         "[kwinrc][WindowSwitcher]", "LayoutName=org.kde.breeze.desktop", "",

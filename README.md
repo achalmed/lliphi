@@ -1,7 +1,7 @@
 # Lliphi
 
 Ecosistema de temas para KDE Plasma 6: casi negro y gris suave con un solo acento rojo, variantes clara y oscura
-generadas desde una sola fuente de tokens, contraste medido e instalación reversible. Sitio: [lliphi.netlify.app](https://lliphi.netlify.app/).
+generadas desde una sola fuente de tokens, contraste medido e instalación reversible. Sitio: [achalmed.github.io/lliphi](https://achalmed.github.io/lliphi/).
 
 ![Lliphi Oscuro](muestras/capturas/oscuro-02-lanzador.png)
 

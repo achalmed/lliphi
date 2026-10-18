@@ -1,1 +1,1 @@
-Sitemap: https://lliphi.netlify.app/sitemap.xml
+Sitemap: https://achalmed.github.io/lliphi/sitemap.xml

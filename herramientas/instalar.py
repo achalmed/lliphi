@@ -198,6 +198,19 @@ def instalar(modulos: list[str], aplicar: bool, aplicar_tema: str | None) -> int
             print("  " + (r.stdout + r.stderr).strip()[-300:])
             if r.returncode:
                 return 1
+            # el fondo por ruta (Plasma 6.6 no resuelve el nombre del paquete de usuario) y los iconos de carpeta
+            fondo = DATA / "wallpapers" / MARCA["id_fondo"]
+            if "fondos" in modulos and fondo.exists() and shutil.which("plasma-apply-wallpaperimage"):
+                subprocess.run(["plasma-apply-wallpaperimage", str(fondo)], capture_output=True, text=True)
+                print(f"  fondo aplicado: {fondo}")
+            iconos = f"{ID}-oscuro" if aplicar_tema == "oscuro" else ID
+            if "iconos" in modulos and (DATA / "icons" / iconos).exists():
+                if shutil.which("plasma-changeicons"):
+                    subprocess.run(["plasma-changeicons", iconos], capture_output=True, text=True)
+                elif shutil.which("kwriteconfig6"):
+                    subprocess.run(["kwriteconfig6", "--file", "kdeglobals", "--group", "Icons", "--key", "Theme", iconos], capture_output=True, text=True)
+                    subprocess.run(["dbus-send", "--session", "--type=signal", "/KIconLoader", "org.kde.KIconLoader.iconChanged", "int32:0"], capture_output=True, text=True)
+                print(f"  iconos aplicados: {iconos}")
     print("hecho." if aplicar else "nada escrito; añade --aplicar para instalar.")
     return 0
 

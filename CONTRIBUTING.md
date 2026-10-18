@@ -1,6 +1,6 @@
 # Contribuir a Lliphi
 
-La guía completa está en el sitio: [lliphi.netlify.app/contribuir](https://lliphi.netlify.app/contribuir.html)
+La guía completa está en el sitio: [lliphi.netlify.app/contribuir](https://achalmed.github.io/lliphi/contribuir.html)
 (fuente: `sitio/contribuir.qmd`). Resumen:
 
 1. Incidencia primero (problema o propuesta), con versión de Plasma, variante y captura.

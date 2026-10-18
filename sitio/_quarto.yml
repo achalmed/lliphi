@@ -1,5 +1,5 @@
-# _quarto.yml — sitio oficial de Lliphi (lliphi.netlify.app). Satélite del hub achalmaedison.netlify.app:
-# proyecto Quarto propio, Netlify publica el `_site/` empujado sin build (mismo patrón que los 11 blogs del autor).
+# _quarto.yml — sitio oficial de Lliphi. Satélite del hub achalmaedison.netlify.app: proyecto Quarto propio; el `_site/`
+# renderizado en local y versionado lo publica GitHub Pages (.github/workflows/sitio.yml); Netlify (lliphi.netlify.app) queda como opción.
 project:
   type: website
   output-dir: _site
@@ -12,7 +12,7 @@ project:
 website:
   title: "Lliphi"
   description: "Ecosistema de temas para KDE Plasma: casi negro y gris suave con un acento rojo; claro y oscuro desde una sola fuente de tokens; instalación reversible."
-  site-url: https://lliphi.netlify.app/
+  site-url: https://achalmed.github.io/lliphi/
   repo-url: https://github.com/achalmed/lliphi
   repo-actions: [issue]
   favicon: favicon.svg
