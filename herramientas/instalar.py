@@ -50,7 +50,7 @@ MANIFIESTO = STATE / "instalado.json"
 # archivos de configuración que Plasma reescribe al aplicar un tema global: se respaldan siempre
 CONFIGS = ["kdeglobals", "plasmarc", "kwinrc", "kcminputrc", "ksplashrc", "kscreenlockerrc",
            "plasma-org.kde.plasma.desktop-appletsrc", "gtk-3.0/settings.ini", "gtk-4.0/settings.ini",
-           "konsolerc"]
+           "konsolerc", "breezerc"]
 
 # módulo → [(origen relativo a generado/, destino relativo a la base, base)]; la base es "data" (XDG_DATA_HOME, por
 # omisión si el par tiene dos elementos), "config" (XDG_CONFIG_HOME), "vscode" (~/.vscode/extensions) o una base condicional
@@ -203,6 +203,12 @@ def instalar(modulos: list[str], aplicar: bool, aplicar_tema: str | None) -> int
             if "fondos" in modulos and fondo.exists() and shutil.which("plasma-apply-wallpaperimage"):
                 subprocess.run(["plasma-apply-wallpaperimage", str(fondo)], capture_output=True, text=True)
                 print(f"  fondo aplicado: {fondo}")
+            # menús translúcidos con desenfoque en las aplicaciones Qt (función de serie de Breeze): el vidrio llega a las apps
+            tokens = json.loads((RAIZ / "tokens" / "tokens.json").read_text(encoding="utf-8"))
+            opacidad_menus = tokens.get("efectos", {}).get("opacidad-menus-qt", {}).get("$value", 80)
+            if shutil.which("kwriteconfig6"):
+                subprocess.run(["kwriteconfig6", "--file", "breezerc", "--group", "Style", "--key", "MenuOpacity", str(opacidad_menus)], capture_output=True, text=True)
+                print(f"  menús de Breeze al {opacidad_menus} % (breezerc, respaldado)")
             iconos = f"{ID}-oscuro" if aplicar_tema == "oscuro" else ID
             if "iconos" in modulos and (DATA / "icons" / iconos).exists():
                 if shutil.which("plasma-changeicons"):

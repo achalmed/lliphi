@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GENERADO por herramientas/generar.py desde tokens/; no editar -->
+<svg xmlns="http://www.w3.org/2000/svg" width="220" height="74" viewBox="0 0 220 74">
+  <defs>
+    <style id="current-color-scheme" type="text/css">
+      .ColorScheme-Text { color:#eaebed; }
+      .ColorScheme-Background { color:#1b1c1e; }
+      .ColorScheme-Highlight { color:#c93436; }
+      .ColorScheme-ViewText { color:#eaebed; }
+      .ColorScheme-ViewBackground { color:#101012; }
+      .ColorScheme-ViewHover { color:#c93436; }
+      .ColorScheme-ViewFocus { color:#c93436; }
+      .ColorScheme-ButtonText { color:#eaebed; }
+      .ColorScheme-ButtonBackground { color:#2e2f32; }
+      .ColorScheme-ButtonHover { color:#c93436; }
+      .ColorScheme-ButtonFocus { color:#c93436; }
+    </style>
+  </defs>
+  <g id="groove-topleft">
+    <path d="M11.0,8.0 H13 V13 H8.0 V11.0 A3.0,3.0 0 0 1 11.0,8.0 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.18"/>
+  </g>
+  <g id="groove-topright">
+    <path d="M45,8.0 H47.0 A3.0,3.0 0 0 1 50.0,11.0 V13 H45 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.18"/>
+  </g>
+  <g id="groove-bottomleft">
+    <path d="M8.0,45 H13 V50.0 H11.0 A3.0,3.0 0 0 1 8.0,47.0 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.18"/>
+  </g>
+  <g id="groove-bottomright">
+    <path d="M45,45 H50.0 V47.0 A3.0,3.0 0 0 1 47.0,50.0 H45 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.18"/>
+  </g>
+  <g id="groove-top">
+    <rect x="13" y="8.0" width="32" height="5.0" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.18"/>
+  </g>
+  <g id="groove-bottom">
+    <rect x="13" y="45" width="32" height="5.0" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.18"/>
+  </g>
+  <g id="groove-left">
+    <rect x="8.0" y="13" width="5.0" height="32" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.18"/>
+  </g>
+  <g id="groove-right">
+    <rect x="45" y="13" width="5.0" height="32" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.18"/>
+  </g>
+  <g id="groove-center">
+    <rect x="13" y="13" width="32" height="32" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.18"/>
+  </g>
+  <g id="groove-highlight-topleft">
+    <path d="M113.0,8.0 H115 V13 H110.0 V11.0 A3.0,3.0 0 0 1 113.0,8.0 Z" class="ColorScheme-Highlight" fill="currentColor" fill-opacity="1.0"/>
+  </g>
+  <g id="groove-highlight-topright">
+    <path d="M147,8.0 H149.0 A3.0,3.0 0 0 1 152.0,11.0 V13 H147 Z" class="ColorScheme-Highlight" fill="currentColor" fill-opacity="1.0"/>
+  </g>
+  <g id="groove-highlight-bottomleft">
+    <path d="M110.0,45 H115 V50.0 H113.0 A3.0,3.0 0 0 1 110.0,47.0 Z" class="ColorScheme-Highlight" fill="currentColor" fill-opacity="1.0"/>
+  </g>
+  <g id="groove-highlight-bottomright">
+    <path d="M147,45 H152.0 V47.0 A3.0,3.0 0 0 1 149.0,50.0 H147 Z" class="ColorScheme-Highlight" fill="currentColor" fill-opacity="1.0"/>
+  </g>
+  <g id="groove-highlight-top">
+    <rect x="115" y="8.0" width="32" height="5.0" class="ColorScheme-Highlight" fill="currentColor" fill-opacity="1.0"/>
+  </g>
+  <g id="groove-highlight-bottom">
+    <rect x="115" y="45" width="32" height="5.0" class="ColorScheme-Highlight" fill="currentColor" fill-opacity="1.0"/>
+  </g>
+  <g id="groove-highlight-left">
+    <rect x="110.0" y="13" width="5.0" height="32" class="ColorScheme-Highlight" fill="currentColor" fill-opacity="1.0"/>
+  </g>
+  <g id="groove-highlight-right">
+    <rect x="147" y="13" width="5.0" height="32" class="ColorScheme-Highlight" fill="currentColor" fill-opacity="1.0"/>
+  </g>
+  <g id="groove-highlight-center">
+    <rect x="115" y="13" width="32" height="32" class="ColorScheme-Highlight" fill="currentColor" fill-opacity="1.0"/>
+  </g>
+  <circle id="horizontal-slider-shadow" cx="24" cy="200" r="11" fill="#000" fill-opacity="0.18"/>
+  <g id="horizontal-slider-handle"><circle cx="64" cy="200" r="9" class="ColorScheme-ButtonBackground" fill="currentColor" fill-opacity="1.0"/><circle cx="64" cy="200" r="9" fill="none" stroke="currentColor" stroke-opacity="0.35" stroke-width="1" class="ColorScheme-Text"/></g>
+  <circle id="horizontal-slider-hover" cx="104" cy="200" r="9" class="ColorScheme-Highlight" fill="currentColor" fill-opacity="1.0"/>
+  <circle id="horizontal-slider-focus" cx="144" cy="200" r="11" fill="none" stroke="currentColor" stroke-width="2" class="ColorScheme-Highlight"/>
+  <circle id="vertical-slider-shadow" cx="24" cy="240" r="11" fill="#000" fill-opacity="0.18"/>
+  <g id="vertical-slider-handle"><circle cx="64" cy="240" r="9" class="ColorScheme-ButtonBackground" fill="currentColor" fill-opacity="1.0"/><circle cx="64" cy="240" r="9" fill="none" stroke="currentColor" stroke-opacity="0.35" stroke-width="1" class="ColorScheme-Text"/></g>
+  <circle id="vertical-slider-hover" cx="104" cy="240" r="9" class="ColorScheme-Highlight" fill="currentColor" fill-opacity="1.0"/>
+  <circle id="vertical-slider-focus" cx="144" cy="240" r="11" fill="none" stroke="currentColor" stroke-width="2" class="ColorScheme-Highlight"/>
+</svg>

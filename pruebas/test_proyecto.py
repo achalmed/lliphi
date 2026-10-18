@@ -126,15 +126,26 @@ def test_estilo_plasma_svg():
     meta = json.loads((base / "metadata.json").read_text(encoding="utf-8"))
     assert meta["KPlugin"]["Id"] == MARCA["id"] == base.name
     assert not (base / "colors").exists(), "el estilo sigue el esquema del sistema: sin colors"
+    fondos = {"panel-background.svg", "background.svg", "tooltip.svg", "translucentbackground.svg"}
     for svg in base.rglob("*.svg"):
         raiz = ET.parse(svg).getroot()
         ids = [e.get("id") for e in raiz.iter() if e.get("id")]
         assert len(ids) == len(set(ids)), f"ids repetidos en {svg.name}"
-        for req in ("current-color-scheme", "topleft", "top", "topright", "left", "center", "right", "bottomleft", "bottom", "bottomright",
-                    "hint-top-margin", "hint-bottom-margin", "hint-left-margin", "hint-right-margin",
-                    "mask-center", "shadow-center", "shadow-hint-top-margin"):
-            assert req in ids, (svg.name, req)
-        assert 'fill="currentColor"' in svg.read_text(encoding="utf-8")
+        assert "current-color-scheme" in ids and 'fill="currentColor"' in svg.read_text(encoding="utf-8"), svg.name
+        if svg.name in fondos:
+            for req in ("topleft", "top", "topright", "left", "center", "right", "bottomleft", "bottom", "bottomright",
+                        "hint-top-margin", "hint-bottom-margin", "hint-left-margin", "hint-right-margin",
+                        "mask-center", "shadow-center", "shadow-hint-top-margin"):
+                assert req in ids, (svg.name, req)
+    # widgets con estados: cada estado trae sus nueve losas
+    for nombre, estados in (("tasks.svg", ("normal", "hover", "focus", "attention", "minimized")), ("button.svg", ("normal", "hover", "pressed", "focus")),
+                            ("lineedit.svg", ("base", "focus", "hover")), ("viewitem.svg", ("hover", "selected")), ("tabbar.svg", ("north-active-tab", "south-active-tab"))):
+        ids = {e.get("id") for e in ET.parse(base / "widgets" / nombre).getroot().iter()}
+        for est in estados:
+            for pos in ("topleft", "top", "center", "bottomright"):
+                assert f"{est}-{pos}" in ids, (nombre, est, pos)
+    for carpeta in ("translucent/widgets/panel-background.svg", "translucent/dialogs/background.svg", "opaque/widgets/panel-background.svg"):
+        assert (base / carpeta).exists(), carpeta
     panel = ET.parse(base / "widgets" / "panel-background.svg").getroot()
     ids = {e.get("id") for e in panel.iter()}
     assert {"thick-center", "thick-hint-top-margin", "hint-tile-center"} <= ids

@@ -274,8 +274,16 @@ def escribir_tokens() -> None:
         doc["semanticos"][variante] = grupo
     doc["terminal"] = {v: {k: token_color(c) for k, c in terminal(v).items()} for v in ("claro", "oscuro")}
     doc["espaciado"] = {"$type": "dimension", **{f"e{n}": {"$value": {"value": n, "unit": "px"}} for n in (4, 8, 12, 16, 24, 32)}}
-    doc["radio"] = {"$type": "dimension", "control": {"$value": {"value": 4, "unit": "px"}}, "menu": {"$value": {"value": 6, "unit": "px"}},
-                    "ventana": {"$value": {"value": 8, "unit": "px"}}, "panel-flotante": {"$value": {"value": 10, "unit": "px"}}}
+    doc["radio"] = {"$type": "dimension", "control": {"$value": {"value": 6, "unit": "px"}}, "menu": {"$value": {"value": 10, "unit": "px"}},
+                    "ventana": {"$value": {"value": 12, "unit": "px"}}, "panel-flotante": {"$value": {"value": 14, "unit": "px"}}}
+    # vidrio: opacidades de los fondos translúcidos (Plasma los usa solo con desenfoque), contraste tras el vidrio y textura
+    doc["efectos"] = {"$type": "number",
+                      "opacidad-panel": {"$value": 0.64, "$description": "panel y dock en translucent/: 0.58 oscuro; el claro usa la misma SVG con su fondo"},
+                      "opacidad-dialogo": {"$value": 0.85, "$description": "lanzador, menús del shell, notificaciones, tooltips"},
+                      "contraste": {"$value": 0.35}, "intensidad": {"$value": 1.0}, "saturacion": {"$value": 1.15},
+                      "textura": {"$value": 0.07, "$description": "opacidad de la retícula de puntos del panel"},
+                      "opacidad-menus-qt": {"$value": 80, "$description": "MenuOpacity de Breeze (menús de las aplicaciones)"},
+                      "opacidad-konsole": {"$value": 0.86}}
     doc["tipografia"] = {"interfaz": {"$type": "fontFamily", "$value": ["Inter", "Noto Sans", "sans-serif"]},
                          "monoespaciada": {"$type": "fontFamily", "$value": ["IBM Plex Mono", "Hack", "monospace"]},
                          "tamano-base": {"$type": "dimension", "$value": {"value": 10, "unit": "pt"}}}

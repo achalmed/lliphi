@@ -92,11 +92,11 @@ Color=29,31,36
 
 [General]
 Anchor=0.5,0.5
-Blur=false
+Blur=true
 ColorRandomization=false
 Description=Lliphi Claro
 FillStyle=Tile
-Opacity=1
+Opacity=0.86
 Wallpaper=
 WallpaperFlipType=NoFlip
 WallpaperOpacity=1

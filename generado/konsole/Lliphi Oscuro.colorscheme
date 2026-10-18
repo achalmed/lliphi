@@ -92,11 +92,11 @@ Color=234,235,237
 
 [General]
 Anchor=0.5,0.5
-Blur=false
+Blur=true
 ColorRandomization=false
 Description=Lliphi Oscuro
 FillStyle=Tile
-Opacity=1
+Opacity=0.86
 Wallpaper=
 WallpaperFlipType=NoFlip
 WallpaperOpacity=1

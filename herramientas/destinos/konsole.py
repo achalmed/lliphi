@@ -18,8 +18,8 @@ def texto_konsole(tokens: dict, marca: dict, variante: str) -> str:
                    f"[Color{i}Intense]", f"Color={t[f'color{i + 8}']}", ""]
     lineas += ["[Foreground]", f"Color={t['texto']}", "", "[ForegroundFaint]", f"Color={t['texto-tenue']}", "",
                "[ForegroundIntense]", f"Color={t['texto-intenso']}", "",
-               "[General]", "Anchor=0.5,0.5", "Blur=false", "ColorRandomization=false",
-               f"Description={marca['nombre_esquema'][variante]}", "FillStyle=Tile", "Opacity=1", "Wallpaper=",
+               "[General]", "Anchor=0.5,0.5", "Blur=true", "ColorRandomization=false",
+               f"Description={marca['nombre_esquema'][variante]}", "FillStyle=Tile", f"Opacity={tokens.get('efectos', {}).get('opacidad-konsole', {}).get('$value', 0.86)}", "Wallpaper=",
                "WallpaperFlipType=NoFlip", "WallpaperOpacity=1", ""]
     return "\n".join(lineas)
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- GENERADO por herramientas/generar.py desde tokens/; no editar -->
-<svg xmlns="http://www.w3.org/2000/svg" width="264" height="112" viewBox="0 0 264 112">
+<svg xmlns="http://www.w3.org/2000/svg" width="296" height="136" viewBox="0 0 296 136">
   <defs>
     <style id="current-color-scheme" type="text/css">
       .ColorScheme-Text { color:#eaebed; }
@@ -15,81 +15,84 @@
       .ColorScheme-ButtonHover { color:#c93436; }
       .ColorScheme-ButtonFocus { color:#c93436; }
     </style>
-    <linearGradient id="s-arriba" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#000" stop-opacity="0.4"/><stop offset="1" stop-color="#000" stop-opacity="0"/></linearGradient>
-    <linearGradient id="s-abajo" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#000" stop-opacity="0.4"/><stop offset="1" stop-color="#000" stop-opacity="0"/></linearGradient>
-    <linearGradient id="s-izq" x1="1" y1="0" x2="0" y2="0"><stop offset="0" stop-color="#000" stop-opacity="0.4"/><stop offset="1" stop-color="#000" stop-opacity="0"/></linearGradient>
-    <linearGradient id="s-der" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#000" stop-opacity="0.4"/><stop offset="1" stop-color="#000" stop-opacity="0"/></linearGradient>
-    <radialGradient id="s-topleft" gradientUnits="userSpaceOnUse" cx="24" cy="24" r="24"><stop offset="0" stop-color="#000" stop-opacity="0.4"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
-    <radialGradient id="s-topright" gradientUnits="userSpaceOnUse" cx="76" cy="24" r="24"><stop offset="0" stop-color="#000" stop-opacity="0.4"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
-    <radialGradient id="s-bottomleft" gradientUnits="userSpaceOnUse" cx="24" cy="76" r="24"><stop offset="0" stop-color="#000" stop-opacity="0.4"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
-    <radialGradient id="s-bottomright" gradientUnits="userSpaceOnUse" cx="76" cy="76" r="24"><stop offset="0" stop-color="#000" stop-opacity="0.4"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
+    <linearGradient id="shadow-arriba" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#000" stop-opacity="0.42"/><stop offset="1" stop-color="#000" stop-opacity="0"/></linearGradient>
+    <linearGradient id="shadow-abajo" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#000" stop-opacity="0.42"/><stop offset="1" stop-color="#000" stop-opacity="0"/></linearGradient>
+    <linearGradient id="shadow-izq" x1="1" y1="0" x2="0" y2="0"><stop offset="0" stop-color="#000" stop-opacity="0.42"/><stop offset="1" stop-color="#000" stop-opacity="0"/></linearGradient>
+    <linearGradient id="shadow-der" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#000" stop-opacity="0.42"/><stop offset="1" stop-color="#000" stop-opacity="0"/></linearGradient>
+    <radialGradient id="g-shadow-topleft" gradientUnits="userSpaceOnUse" cx="32" cy="32" r="32"><stop offset="0" stop-color="#000" stop-opacity="0.42"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
+    <radialGradient id="g-shadow-topright" gradientUnits="userSpaceOnUse" cx="92" cy="32" r="32"><stop offset="0" stop-color="#000" stop-opacity="0.42"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
+    <radialGradient id="g-shadow-bottomleft" gradientUnits="userSpaceOnUse" cx="32" cy="92" r="32"><stop offset="0" stop-color="#000" stop-opacity="0.42"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
+    <radialGradient id="g-shadow-bottomright" gradientUnits="userSpaceOnUse" cx="92" cy="92" r="32"><stop offset="0" stop-color="#000" stop-opacity="0.42"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
   </defs>
-  <rect id="shadow-center" x="24" y="24" width="52" height="52" fill="#000" fill-opacity="0.4"/>
-  <rect id="shadow-top" x="24" y="0" width="52" height="24" fill="url(#s-arriba)"/>
-  <rect id="shadow-bottom" x="24" y="76" width="52" height="24" fill="url(#s-abajo)"/>
-  <rect id="shadow-left" x="0" y="24" width="24" height="52" fill="url(#s-izq)"/>
-  <rect id="shadow-right" x="76" y="24" width="24" height="52" fill="url(#s-der)"/>
-  <rect id="shadow-topleft" x="0" y="0" width="24" height="24" fill="url(#s-topleft)"/>
-  <rect id="shadow-topright" x="76" y="0" width="24" height="24" fill="url(#s-topright)"/>
-  <rect id="shadow-bottomleft" x="0" y="76" width="24" height="24" fill="url(#s-bottomleft)"/>
-  <rect id="shadow-bottomright" x="76" y="76" width="24" height="24" fill="url(#s-bottomright)"/>
-  <rect id="shadow-hint-top-margin" x="200" y="24" width="4" height="24" fill="#000" fill-opacity="0"/>
-  <rect id="shadow-hint-top-inset" x="232" y="24" width="4" height="0.01" fill="#000" fill-opacity="0"/>
-  <rect id="shadow-hint-bottom-margin" x="200" y="54" width="4" height="24" fill="#000" fill-opacity="0"/>
-  <rect id="shadow-hint-bottom-inset" x="232" y="54" width="4" height="0.01" fill="#000" fill-opacity="0"/>
-  <rect id="shadow-hint-left-margin" x="200" y="84" width="24" height="4" fill="#000" fill-opacity="0"/>
-  <rect id="shadow-hint-left-inset" x="232" y="84" width="0.01" height="4" fill="#000" fill-opacity="0"/>
-  <rect id="shadow-hint-right-margin" x="200" y="114" width="24" height="4" fill="#000" fill-opacity="0"/>
-  <rect id="shadow-hint-right-inset" x="232" y="114" width="0.01" height="4" fill="#000" fill-opacity="0"/>
+  <rect id="shadow-center" x="32" y="32" width="60" height="60" fill="#000" fill-opacity="0.42"/>
+  <rect id="shadow-top" x="32" y="0" width="60" height="32" fill="url(#shadow-arriba)"/>
+  <rect id="shadow-bottom" x="32" y="92" width="60" height="32" fill="url(#shadow-abajo)"/>
+  <rect id="shadow-left" x="0" y="32" width="32" height="60" fill="url(#shadow-izq)"/>
+  <rect id="shadow-right" x="92" y="32" width="32" height="60" fill="url(#shadow-der)"/>
+  <rect id="shadow-topleft" x="0" y="0" width="32" height="32" fill="url(#g-shadow-topleft)"/>
+  <rect id="shadow-topright" x="92" y="0" width="32" height="32" fill="url(#g-shadow-topright)"/>
+  <rect id="shadow-bottomleft" x="0" y="92" width="32" height="32" fill="url(#g-shadow-bottomleft)"/>
+  <rect id="shadow-bottomright" x="92" y="92" width="32" height="32" fill="url(#g-shadow-bottomright)"/>
+  <rect id="shadow-hint-top-margin" x="224" y="32" width="4" height="32" fill="#000" fill-opacity="0"/>
+  <rect id="shadow-hint-top-inset" x="264" y="32" width="4" height="0.01" fill="#000" fill-opacity="0"/>
+  <rect id="shadow-hint-bottom-margin" x="224" y="70" width="4" height="32" fill="#000" fill-opacity="0"/>
+  <rect id="shadow-hint-bottom-inset" x="264" y="70" width="4" height="0.01" fill="#000" fill-opacity="0"/>
+  <rect id="shadow-hint-left-margin" x="224" y="108" width="32" height="4" fill="#000" fill-opacity="0"/>
+  <rect id="shadow-hint-left-inset" x="264" y="108" width="0.01" height="4" fill="#000" fill-opacity="0"/>
+  <rect id="shadow-hint-right-margin" x="224" y="146" width="32" height="4" fill="#000" fill-opacity="0"/>
+  <rect id="shadow-hint-right-inset" x="264" y="146" width="0.01" height="4" fill="#000" fill-opacity="0"/>
   <g id="topleft">
-    <path d="M32.0,24.0 H34 V34 H24.0 V32.0 A8.0,8.0 0 0 1 32.0,24.0 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.14"/>
-    <path d="M32,25 H34 V34 H25 V32 A7,7 0 0 1 32,25 Z" class="ColorScheme-Background" fill="currentColor" fill-opacity="1.0"/>
+    <path d="M44.0,32.0 H46 V46 H32.0 V44.0 A12.0,12.0 0 0 1 44.0,32.0 Z" class="ColorScheme-Background" fill="currentColor" fill-opacity="0.97"/>
+    <path fill-rule="evenodd" d="M44.0,32.0 H46 V46 H32.0 V44.0 A12.0,12.0 0 0 1 44.0,32.0 Z M44.0,33.0 H46 V46 H33.0 V44.0 A11.0,11.0 0 0 1 44.0,33.0 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.16"/>
   </g>
   <g id="topright">
-    <path d="M66,24.0 H68.0 A8.0,8.0 0 0 1 76.0,32.0 V34 H66 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.14"/>
-    <path d="M66,25 H68 A7,7 0 0 1 75,32 V34 H66 Z" class="ColorScheme-Background" fill="currentColor" fill-opacity="1.0"/>
+    <path d="M78,32.0 H80.0 A12.0,12.0 0 0 1 92.0,44.0 V46 H78 Z" class="ColorScheme-Background" fill="currentColor" fill-opacity="0.97"/>
+    <path fill-rule="evenodd" d="M78,32.0 H80.0 A12.0,12.0 0 0 1 92.0,44.0 V46 H78 Z M78,33.0 H80.0 A11.0,11.0 0 0 1 91.0,44.0 V46 H78 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.16"/>
   </g>
   <g id="bottomleft">
-    <path d="M24.0,66 H34 V76.0 H32.0 A8.0,8.0 0 0 1 24.0,68.0 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.14"/>
-    <path d="M25,66 H34 V75 H32 A7,7 0 0 1 25,68 Z" class="ColorScheme-Background" fill="currentColor" fill-opacity="1.0"/>
+    <path d="M32.0,78 H46 V92.0 H44.0 A12.0,12.0 0 0 1 32.0,80.0 Z" class="ColorScheme-Background" fill="currentColor" fill-opacity="0.97"/>
+    <path fill-rule="evenodd" d="M32.0,78 H46 V92.0 H44.0 A12.0,12.0 0 0 1 32.0,80.0 Z M33.0,78 H46 V91.0 H44.0 A11.0,11.0 0 0 1 33.0,80.0 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.16"/>
   </g>
   <g id="bottomright">
-    <path d="M66,66 H76.0 V68.0 A8.0,8.0 0 0 1 68.0,76.0 H66 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.14"/>
-    <path d="M66,66 H75 V68 A7,7 0 0 1 68,75 H66 Z" class="ColorScheme-Background" fill="currentColor" fill-opacity="1.0"/>
+    <path d="M78,78 H92.0 V80.0 A12.0,12.0 0 0 1 80.0,92.0 H78 Z" class="ColorScheme-Background" fill="currentColor" fill-opacity="0.97"/>
+    <path fill-rule="evenodd" d="M78,78 H92.0 V80.0 A12.0,12.0 0 0 1 80.0,92.0 H78 Z M78,78 H91.0 V80.0 A11.0,11.0 0 0 1 80.0,91.0 H78 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.16"/>
   </g>
   <g id="top">
-    <rect x="34" y="24" width="32" height="10" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.14"/>
-    <rect x="34" y="25" width="32" height="9" class="ColorScheme-Background" fill="currentColor" fill-opacity="1.0"/>
+    <rect x="46" y="32.0" width="32" height="14.0" class="ColorScheme-Background" fill="currentColor" fill-opacity="0.97"/>
+    <path fill-rule="evenodd" d="M46,32.0 h32 v14.0 h-32 Z M46,33.0 h32 v13.0 h-32 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.16"/>
+    <rect x="46" y="32" width="32" height="1" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.1"/>
   </g>
   <g id="bottom">
-    <rect x="34" y="66" width="32" height="10" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.14"/>
-    <rect x="34" y="66" width="32" height="9" class="ColorScheme-Background" fill="currentColor" fill-opacity="1.0"/>
+    <rect x="46" y="78" width="32" height="14.0" class="ColorScheme-Background" fill="currentColor" fill-opacity="0.97"/>
+    <path fill-rule="evenodd" d="M46,78 h32 v14.0 h-32 Z M46,78 h32 v13.0 h-32 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.16"/>
   </g>
   <g id="left">
-    <rect x="24" y="34" width="10" height="32" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.14"/>
-    <rect x="25" y="34" width="9" height="32" class="ColorScheme-Background" fill="currentColor" fill-opacity="1.0"/>
+    <rect x="32.0" y="46" width="14.0" height="32" class="ColorScheme-Background" fill="currentColor" fill-opacity="0.97"/>
+    <path fill-rule="evenodd" d="M32.0,46 h14.0 v32 h-14.0 Z M33.0,46 h13.0 v32 h-13.0 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.16"/>
   </g>
   <g id="right">
-    <rect x="66" y="34" width="10" height="32" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.14"/>
-    <rect x="66" y="34" width="9" height="32" class="ColorScheme-Background" fill="currentColor" fill-opacity="1.0"/>
+    <rect x="78" y="46" width="14.0" height="32" class="ColorScheme-Background" fill="currentColor" fill-opacity="0.97"/>
+    <path fill-rule="evenodd" d="M78,46 h14.0 v32 h-14.0 Z M78,46 h13.0 v32 h-13.0 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.16"/>
   </g>
-  <rect id="center" x="34" y="34" width="32" height="32" class="ColorScheme-Background" fill="currentColor" fill-opacity="1.0"/>
-  <rect id="hint-top-margin" x="84" y="24" width="4" height="12" fill="#000" fill-opacity="0"/>
-  <rect id="hint-top-inset" x="104" y="24" width="4" height="0.01" fill="#000" fill-opacity="0"/>
-  <rect id="hint-bottom-margin" x="84" y="42" width="4" height="12" fill="#000" fill-opacity="0"/>
-  <rect id="hint-bottom-inset" x="104" y="42" width="4" height="0.01" fill="#000" fill-opacity="0"/>
-  <rect id="hint-left-margin" x="84" y="60" width="12" height="4" fill="#000" fill-opacity="0"/>
-  <rect id="hint-left-inset" x="104" y="60" width="0.01" height="4" fill="#000" fill-opacity="0"/>
-  <rect id="hint-right-margin" x="84" y="78" width="12" height="4" fill="#000" fill-opacity="0"/>
-  <rect id="hint-right-inset" x="104" y="78" width="0.01" height="4" fill="#000" fill-opacity="0"/>
-  <path id="mask-topleft" d="M144.0,24.0 H146 V34 H136.0 V32.0 A8.0,8.0 0 0 1 144.0,24.0 Z" fill="#000"/>
-  <path id="mask-topright" d="M178,24.0 H180.0 A8.0,8.0 0 0 1 188.0,32.0 V34 H178 Z" fill="#000"/>
-  <path id="mask-bottomleft" d="M136.0,66 H146 V76.0 H144.0 A8.0,8.0 0 0 1 136.0,68.0 Z" fill="#000"/>
-  <path id="mask-bottomright" d="M178,66 H188.0 V68.0 A8.0,8.0 0 0 1 180.0,76.0 H178 Z" fill="#000"/>
-  <rect id="mask-top" x="146" y="24" width="32" height="10" fill="#000"/>
-  <rect id="mask-bottom" x="146" y="66" width="32" height="10" fill="#000"/>
-  <rect id="mask-left" x="136" y="34" width="10" height="32" fill="#000"/>
-  <rect id="mask-right" x="178" y="34" width="10" height="32" fill="#000"/>
-  <rect id="mask-center" x="146" y="34" width="32" height="32" fill="#000"/>
-  <rect id="hint-tile-center" x="2" y="104" width="5" height="5" fill="#000" fill-opacity="0"/>
+  <g id="center">
+    <rect x="46" y="46" width="32" height="32" class="ColorScheme-Background" fill="currentColor" fill-opacity="0.97"/>
+  </g>
+  <rect id="hint-top-margin" x="100" y="32" width="4" height="12" fill="#000" fill-opacity="0"/>
+  <rect id="hint-top-inset" x="120" y="32" width="4" height="0.01" fill="#000" fill-opacity="0"/>
+  <rect id="hint-bottom-margin" x="100" y="50" width="4" height="12" fill="#000" fill-opacity="0"/>
+  <rect id="hint-bottom-inset" x="120" y="50" width="4" height="0.01" fill="#000" fill-opacity="0"/>
+  <rect id="hint-left-margin" x="100" y="68" width="12" height="4" fill="#000" fill-opacity="0"/>
+  <rect id="hint-left-inset" x="120" y="68" width="0.01" height="4" fill="#000" fill-opacity="0"/>
+  <rect id="hint-right-margin" x="100" y="86" width="12" height="4" fill="#000" fill-opacity="0"/>
+  <rect id="hint-right-inset" x="120" y="86" width="0.01" height="4" fill="#000" fill-opacity="0"/>
+  <path id="mask-topleft" d="M164.0,32.0 H166 V46 H152.0 V44.0 A12.0,12.0 0 0 1 164.0,32.0 Z" fill="#000"/>
+  <path id="mask-topright" d="M198,32.0 H200.0 A12.0,12.0 0 0 1 212.0,44.0 V46 H198 Z" fill="#000"/>
+  <path id="mask-bottomleft" d="M152.0,78 H166 V92.0 H164.0 A12.0,12.0 0 0 1 152.0,80.0 Z" fill="#000"/>
+  <path id="mask-bottomright" d="M198,78 H212.0 V80.0 A12.0,12.0 0 0 1 200.0,92.0 H198 Z" fill="#000"/>
+  <rect id="mask-top" x="166" y="32" width="32" height="14" fill="#000"/>
+  <rect id="mask-bottom" x="166" y="78" width="32" height="14" fill="#000"/>
+  <rect id="mask-left" x="152" y="46" width="14" height="32" fill="#000"/>
+  <rect id="mask-right" x="198" y="46" width="14" height="32" fill="#000"/>
+  <rect id="mask-center" x="166" y="46" width="32" height="32" fill="#000"/>
+  <rect id="hint-tile-center" x="2" y="128" width="5" height="5" fill="#000" fill-opacity="0"/>
 </svg>

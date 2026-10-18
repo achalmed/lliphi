@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GENERADO por herramientas/generar.py desde tokens/; no editar -->
+<svg xmlns="http://www.w3.org/2000/svg" width="232" height="144" viewBox="0 0 232 144">
+  <defs>
+    <style id="current-color-scheme" type="text/css">
+      .ColorScheme-Text { color:#eaebed; }
+      .ColorScheme-Background { color:#1b1c1e; }
+      .ColorScheme-Highlight { color:#c93436; }
+      .ColorScheme-ViewText { color:#eaebed; }
+      .ColorScheme-ViewBackground { color:#101012; }
+      .ColorScheme-ViewHover { color:#c93436; }
+      .ColorScheme-ViewFocus { color:#c93436; }
+      .ColorScheme-ButtonText { color:#eaebed; }
+      .ColorScheme-ButtonBackground { color:#2e2f32; }
+      .ColorScheme-ButtonHover { color:#c93436; }
+      .ColorScheme-ButtonFocus { color:#c93436; }
+    </style>
+  </defs>
+  <g id="plain-topleft">
+    <path fill-rule="evenodd" d="M14.0,8.0 H16 V16 H8.0 V14.0 A6.0,6.0 0 0 1 14.0,8.0 Z M14.0,9.0 H16 V16 H9.0 V14.0 A5.0,5.0 0 0 1 14.0,9.0 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.14"/>
+  </g>
+  <g id="plain-topright">
+    <path fill-rule="evenodd" d="M48,8.0 H50.0 A6.0,6.0 0 0 1 56.0,14.0 V16 H48 Z M48,9.0 H50.0 A5.0,5.0 0 0 1 55.0,14.0 V16 H48 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.14"/>
+  </g>
+  <g id="plain-bottomleft">
+    <path fill-rule="evenodd" d="M8.0,48 H16 V56.0 H14.0 A6.0,6.0 0 0 1 8.0,50.0 Z M9.0,48 H16 V55.0 H14.0 A5.0,5.0 0 0 1 9.0,50.0 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.14"/>
+  </g>
+  <g id="plain-bottomright">
+    <path fill-rule="evenodd" d="M48,48 H56.0 V50.0 A6.0,6.0 0 0 1 50.0,56.0 H48 Z M48,48 H55.0 V50.0 A5.0,5.0 0 0 1 50.0,55.0 H48 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.14"/>
+  </g>
+  <g id="plain-top">
+    <path fill-rule="evenodd" d="M16,8.0 h32 v8.0 h-32 Z M16,9.0 h32 v7.0 h-32 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.14"/>
+  </g>
+  <g id="plain-bottom">
+    <path fill-rule="evenodd" d="M16,48 h32 v8.0 h-32 Z M16,48 h32 v7.0 h-32 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.14"/>
+  </g>
+  <g id="plain-left">
+    <path fill-rule="evenodd" d="M8.0,16 h8.0 v32 h-8.0 Z M9.0,16 h7.0 v32 h-7.0 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.14"/>
+  </g>
+  <g id="plain-right">
+    <path fill-rule="evenodd" d="M48,16 h8.0 v32 h-8.0 Z M48,16 h7.0 v32 h-7.0 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.14"/>
+  </g>
+  <g id="plain-center">
+    <rect x="16" y="16" width="32" height="32" fill="#000" fill-opacity="0"/>
+  </g>
+  <rect id="plain-hint-top-margin" x="64" y="8" width="4" height="4" fill="#000" fill-opacity="0"/>
+  <rect id="plain-hint-bottom-margin" x="64" y="18" width="4" height="4" fill="#000" fill-opacity="0"/>
+  <rect id="plain-hint-left-margin" x="64" y="28" width="4" height="4" fill="#000" fill-opacity="0"/>
+  <rect id="plain-hint-right-margin" x="64" y="38" width="4" height="4" fill="#000" fill-opacity="0"/>
+  <g id="raised-topleft">
+    <path d="M122.0,8.0 H124 V16 H116.0 V14.0 A6.0,6.0 0 0 1 122.0,8.0 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.04"/>
+    <path fill-rule="evenodd" d="M122.0,8.0 H124 V16 H116.0 V14.0 A6.0,6.0 0 0 1 122.0,8.0 Z M122.0,9.0 H124 V16 H117.0 V14.0 A5.0,5.0 0 0 1 122.0,9.0 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.14"/>
+  </g>
+  <g id="raised-topright">
+    <path d="M156,8.0 H158.0 A6.0,6.0 0 0 1 164.0,14.0 V16 H156 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.04"/>
+    <path fill-rule="evenodd" d="M156,8.0 H158.0 A6.0,6.0 0 0 1 164.0,14.0 V16 H156 Z M156,9.0 H158.0 A5.0,5.0 0 0 1 163.0,14.0 V16 H156 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.14"/>
+  </g>
+  <g id="raised-bottomleft">
+    <path d="M116.0,48 H124 V56.0 H122.0 A6.0,6.0 0 0 1 116.0,50.0 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.04"/>
+    <path fill-rule="evenodd" d="M116.0,48 H124 V56.0 H122.0 A6.0,6.0 0 0 1 116.0,50.0 Z M117.0,48 H124 V55.0 H122.0 A5.0,5.0 0 0 1 117.0,50.0 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.14"/>
+  </g>
+  <g id="raised-bottomright">
+    <path d="M156,48 H164.0 V50.0 A6.0,6.0 0 0 1 158.0,56.0 H156 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.04"/>
+    <path fill-rule="evenodd" d="M156,48 H164.0 V50.0 A6.0,6.0 0 0 1 158.0,56.0 H156 Z M156,48 H163.0 V50.0 A5.0,5.0 0 0 1 158.0,55.0 H156 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.14"/>
+  </g>
+  <g id="raised-top">
+    <rect x="124" y="8.0" width="32" height="8.0" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.04"/>
+    <path fill-rule="evenodd" d="M124,8.0 h32 v8.0 h-32 Z M124,9.0 h32 v7.0 h-32 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.14"/>
+  </g>
+  <g id="raised-bottom">
+    <rect x="124" y="48" width="32" height="8.0" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.04"/>
+    <path fill-rule="evenodd" d="M124,48 h32 v8.0 h-32 Z M124,48 h32 v7.0 h-32 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.14"/>
+  </g>
+  <g id="raised-left">
+    <rect x="116.0" y="16" width="8.0" height="32" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.04"/>
+    <path fill-rule="evenodd" d="M116.0,16 h8.0 v32 h-8.0 Z M117.0,16 h7.0 v32 h-7.0 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.14"/>
+  </g>
+  <g id="raised-right">
+    <rect x="156" y="16" width="8.0" height="32" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.04"/>
+    <path fill-rule="evenodd" d="M156,16 h8.0 v32 h-8.0 Z M156,16 h7.0 v32 h-7.0 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.14"/>
+  </g>
+  <g id="raised-center">
+    <rect x="124" y="16" width="32" height="32" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.04"/>
+  </g>
+  <rect id="raised-hint-top-margin" x="172" y="8" width="4" height="4" fill="#000" fill-opacity="0"/>
+  <rect id="raised-hint-bottom-margin" x="172" y="18" width="4" height="4" fill="#000" fill-opacity="0"/>
+  <rect id="raised-hint-left-margin" x="172" y="28" width="4" height="4" fill="#000" fill-opacity="0"/>
+  <rect id="raised-hint-right-margin" x="172" y="38" width="4" height="4" fill="#000" fill-opacity="0"/>
+  <g id="sunken-topleft">
+    <path fill-rule="evenodd" d="M14.0,72.0 H16 V80 H8.0 V78.0 A6.0,6.0 0 0 1 14.0,72.0 Z M14.0,73.0 H16 V80 H9.0 V78.0 A5.0,5.0 0 0 1 14.0,73.0 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.18"/>
+  </g>
+  <g id="sunken-topright">
+    <path fill-rule="evenodd" d="M48,72.0 H50.0 A6.0,6.0 0 0 1 56.0,78.0 V80 H48 Z M48,73.0 H50.0 A5.0,5.0 0 0 1 55.0,78.0 V80 H48 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.18"/>
+  </g>
+  <g id="sunken-bottomleft">
+    <path fill-rule="evenodd" d="M8.0,112 H16 V120.0 H14.0 A6.0,6.0 0 0 1 8.0,114.0 Z M9.0,112 H16 V119.0 H14.0 A5.0,5.0 0 0 1 9.0,114.0 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.18"/>
+  </g>
+  <g id="sunken-bottomright">
+    <path fill-rule="evenodd" d="M48,112 H56.0 V114.0 A6.0,6.0 0 0 1 50.0,120.0 H48 Z M48,112 H55.0 V114.0 A5.0,5.0 0 0 1 50.0,119.0 H48 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.18"/>
+  </g>
+  <g id="sunken-top">
+    <path fill-rule="evenodd" d="M16,72.0 h32 v8.0 h-32 Z M16,73.0 h32 v7.0 h-32 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.18"/>
+  </g>
+  <g id="sunken-bottom">
+    <path fill-rule="evenodd" d="M16,112 h32 v8.0 h-32 Z M16,112 h32 v7.0 h-32 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.18"/>
+  </g>
+  <g id="sunken-left">
+    <path fill-rule="evenodd" d="M8.0,80 h8.0 v32 h-8.0 Z M9.0,80 h7.0 v32 h-7.0 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.18"/>
+  </g>
+  <g id="sunken-right">
+    <path fill-rule="evenodd" d="M48,80 h8.0 v32 h-8.0 Z M48,80 h7.0 v32 h-7.0 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.18"/>
+  </g>
+  <g id="sunken-center">
+    <rect x="16" y="80" width="32" height="32" fill="#000" fill-opacity="0"/>
+  </g>
+  <rect id="sunken-hint-top-margin" x="64" y="72" width="4" height="4" fill="#000" fill-opacity="0"/>
+  <rect id="sunken-hint-bottom-margin" x="64" y="82" width="4" height="4" fill="#000" fill-opacity="0"/>
+  <rect id="sunken-hint-left-margin" x="64" y="92" width="4" height="4" fill="#000" fill-opacity="0"/>
+  <rect id="sunken-hint-right-margin" x="64" y="102" width="4" height="4" fill="#000" fill-opacity="0"/>
+</svg>

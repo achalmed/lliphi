@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GENERADO por herramientas/generar.py desde tokens/; no editar -->
+<svg xmlns="http://www.w3.org/2000/svg" width="232" height="144" viewBox="0 0 232 144">
+  <defs>
+    <style id="current-color-scheme" type="text/css">
+      .ColorScheme-Text { color:#eaebed; }
+      .ColorScheme-Background { color:#1b1c1e; }
+      .ColorScheme-Highlight { color:#c93436; }
+      .ColorScheme-ViewText { color:#eaebed; }
+      .ColorScheme-ViewBackground { color:#101012; }
+      .ColorScheme-ViewHover { color:#c93436; }
+      .ColorScheme-ViewFocus { color:#c93436; }
+      .ColorScheme-ButtonText { color:#eaebed; }
+      .ColorScheme-ButtonBackground { color:#2e2f32; }
+      .ColorScheme-ButtonHover { color:#c93436; }
+      .ColorScheme-ButtonFocus { color:#c93436; }
+    </style>
+  </defs>
+  <g id="north-active-tab-topleft">
+    <path d="M14.0,8.0 H16 V16 H8.0 V14.0 A6.0,6.0 0 0 1 14.0,8.0 Z" class="ColorScheme-Highlight" fill="currentColor" fill-opacity="0.14"/>
+  </g>
+  <g id="north-active-tab-topright">
+    <path d="M48,8.0 H50.0 A6.0,6.0 0 0 1 56.0,14.0 V16 H48 Z" class="ColorScheme-Highlight" fill="currentColor" fill-opacity="0.14"/>
+  </g>
+  <g id="north-active-tab-bottomleft">
+    <path d="M8.0,48 H16 V56.0 H14.0 A6.0,6.0 0 0 1 8.0,50.0 Z" class="ColorScheme-Highlight" fill="currentColor" fill-opacity="0.14"/>
+  </g>
+  <g id="north-active-tab-bottomright">
+    <path d="M48,48 H56.0 V50.0 A6.0,6.0 0 0 1 50.0,56.0 H48 Z" class="ColorScheme-Highlight" fill="currentColor" fill-opacity="0.14"/>
+  </g>
+  <g id="north-active-tab-top">
+    <rect x="16" y="8.0" width="32" height="8.0" class="ColorScheme-Highlight" fill="currentColor" fill-opacity="0.14"/>
+  </g>
+  <g id="north-active-tab-bottom">
+    <rect x="16" y="54" width="32" height="2" class="ColorScheme-Highlight" fill="currentColor" fill-opacity="1.0"/>
+    <rect x="16" y="48" width="32" height="8.0" class="ColorScheme-Highlight" fill="currentColor" fill-opacity="0.14"/>
+  </g>
+  <g id="north-active-tab-left">
+    <rect x="8.0" y="16" width="8.0" height="32" class="ColorScheme-Highlight" fill="currentColor" fill-opacity="0.14"/>
+  </g>
+  <g id="north-active-tab-right">
+    <rect x="48" y="16" width="8.0" height="32" class="ColorScheme-Highlight" fill="currentColor" fill-opacity="0.14"/>
+  </g>
+  <g id="north-active-tab-center">
+    <rect x="16" y="16" width="32" height="32" class="ColorScheme-Highlight" fill="currentColor" fill-opacity="0.14"/>
+  </g>
+  <rect id="north-active-tab-hint-top-margin" x="64" y="8" width="4" height="4" fill="#000" fill-opacity="0"/>
+  <rect id="north-active-tab-hint-bottom-margin" x="64" y="18" width="4" height="4" fill="#000" fill-opacity="0"/>
+  <rect id="north-active-tab-hint-left-margin" x="64" y="28" width="4" height="4" fill="#000" fill-opacity="0"/>
+  <rect id="north-active-tab-hint-right-margin" x="64" y="38" width="4" height="4" fill="#000" fill-opacity="0"/>
+  <g id="south-active-tab-topleft">
+    <path d="M122.0,8.0 H124 V16 H116.0 V14.0 A6.0,6.0 0 0 1 122.0,8.0 Z" class="ColorScheme-Highlight" fill="currentColor" fill-opacity="0.14"/>
+  </g>
+  <g id="south-active-tab-topright">
+    <path d="M156,8.0 H158.0 A6.0,6.0 0 0 1 164.0,14.0 V16 H156 Z" class="ColorScheme-Highlight" fill="currentColor" fill-opacity="0.14"/>
+  </g>
+  <g id="south-active-tab-bottomleft">
+    <path d="M116.0,48 H124 V56.0 H122.0 A6.0,6.0 0 0 1 116.0,50.0 Z" class="ColorScheme-Highlight" fill="currentColor" fill-opacity="0.14"/>
+  </g>
+  <g id="south-active-tab-bottomright">
+    <path d="M156,48 H164.0 V50.0 A6.0,6.0 0 0 1 158.0,56.0 H156 Z" class="ColorScheme-Highlight" fill="currentColor" fill-opacity="0.14"/>
+  </g>
+  <g id="south-active-tab-top">
+    <rect x="124" y="8" width="32" height="2" class="ColorScheme-Highlight" fill="currentColor" fill-opacity="1.0"/>
+    <rect x="124" y="8.0" width="32" height="8.0" class="ColorScheme-Highlight" fill="currentColor" fill-opacity="0.14"/>
+  </g>
+  <g id="south-active-tab-bottom">
+    <rect x="124" y="48" width="32" height="8.0" class="ColorScheme-Highlight" fill="currentColor" fill-opacity="0.14"/>
+  </g>
+  <g id="south-active-tab-left">
+    <rect x="116.0" y="16" width="8.0" height="32" class="ColorScheme-Highlight" fill="currentColor" fill-opacity="0.14"/>
+  </g>
+  <g id="south-active-tab-right">
+    <rect x="156" y="16" width="8.0" height="32" class="ColorScheme-Highlight" fill="currentColor" fill-opacity="0.14"/>
+  </g>
+  <g id="south-active-tab-center">
+    <rect x="124" y="16" width="32" height="32" class="ColorScheme-Highlight" fill="currentColor" fill-opacity="0.14"/>
+  </g>
+  <rect id="south-active-tab-hint-top-margin" x="172" y="8" width="4" height="4" fill="#000" fill-opacity="0"/>
+  <rect id="south-active-tab-hint-bottom-margin" x="172" y="18" width="4" height="4" fill="#000" fill-opacity="0"/>
+  <rect id="south-active-tab-hint-left-margin" x="172" y="28" width="4" height="4" fill="#000" fill-opacity="0"/>
+  <rect id="south-active-tab-hint-right-margin" x="172" y="38" width="4" height="4" fill="#000" fill-opacity="0"/>
+  <g id="east-active-tab-topleft">
+    <path d="M14.0,72.0 H16 V80 H8.0 V78.0 A6.0,6.0 0 0 1 14.0,72.0 Z" class="ColorScheme-Highlight" fill="currentColor" fill-opacity="0.14"/>
+  </g>
+  <g id="east-active-tab-topright">
+    <path d="M48,72.0 H50.0 A6.0,6.0 0 0 1 56.0,78.0 V80 H48 Z" class="ColorScheme-Highlight" fill="currentColor" fill-opacity="0.14"/>
+  </g>
+  <g id="east-active-tab-bottomleft">
+    <path d="M8.0,112 H16 V120.0 H14.0 A6.0,6.0 0 0 1 8.0,114.0 Z" class="ColorScheme-Highlight" fill="currentColor" fill-opacity="0.14"/>
+  </g>
+  <g id="east-active-tab-bottomright">
+    <path d="M48,112 H56.0 V114.0 A6.0,6.0 0 0 1 50.0,120.0 H48 Z" class="ColorScheme-Highlight" fill="currentColor" fill-opacity="0.14"/>
+  </g>
+  <g id="east-active-tab-top">
+    <rect x="16" y="72.0" width="32" height="8.0" class="ColorScheme-Highlight" fill="currentColor" fill-opacity="0.14"/>
+  </g>
+  <g id="east-active-tab-bottom">
+    <rect x="16" y="112" width="32" height="8.0" class="ColorScheme-Highlight" fill="currentColor" fill-opacity="0.14"/>
+  </g>
+  <g id="east-active-tab-left">
+    <rect x="8" y="80" width="2" height="32" class="ColorScheme-Highlight" fill="currentColor" fill-opacity="1.0"/>
+    <rect x="8.0" y="80" width="8.0" height="32" class="ColorScheme-Highlight" fill="currentColor" fill-opacity="0.14"/>
+  </g>
+  <g id="east-active-tab-right">
+    <rect x="48" y="80" width="8.0" height="32" class="ColorScheme-Highlight" fill="currentColor" fill-opacity="0.14"/>
+  </g>
+  <g id="east-active-tab-center">
+    <rect x="16" y="80" width="32" height="32" class="ColorScheme-Highlight" fill="currentColor" fill-opacity="0.14"/>
+  </g>
+  <rect id="east-active-tab-hint-top-margin" x="64" y="72" width="4" height="4" fill="#000" fill-opacity="0"/>
+  <rect id="east-active-tab-hint-bottom-margin" x="64" y="82" width="4" height="4" fill="#000" fill-opacity="0"/>
+  <rect id="east-active-tab-hint-left-margin" x="64" y="92" width="4" height="4" fill="#000" fill-opacity="0"/>
+  <rect id="east-active-tab-hint-right-margin" x="64" y="102" width="4" height="4" fill="#000" fill-opacity="0"/>
+  <g id="west-active-tab-topleft">
+    <path d="M122.0,72.0 H124 V80 H116.0 V78.0 A6.0,6.0 0 0 1 122.0,72.0 Z" class="ColorScheme-Highlight" fill="currentColor" fill-opacity="0.14"/>
+  </g>
+  <g id="west-active-tab-topright">
+    <path d="M156,72.0 H158.0 A6.0,6.0 0 0 1 164.0,78.0 V80 H156 Z" class="ColorScheme-Highlight" fill="currentColor" fill-opacity="0.14"/>
+  </g>
+  <g id="west-active-tab-bottomleft">
+    <path d="M116.0,112 H124 V120.0 H122.0 A6.0,6.0 0 0 1 116.0,114.0 Z" class="ColorScheme-Highlight" fill="currentColor" fill-opacity="0.14"/>
+  </g>
+  <g id="west-active-tab-bottomright">
+    <path d="M156,112 H164.0 V114.0 A6.0,6.0 0 0 1 158.0,120.0 H156 Z" class="ColorScheme-Highlight" fill="currentColor" fill-opacity="0.14"/>
+  </g>
+  <g id="west-active-tab-top">
+    <rect x="124" y="72.0" width="32" height="8.0" class="ColorScheme-Highlight" fill="currentColor" fill-opacity="0.14"/>
+  </g>
+  <g id="west-active-tab-bottom">
+    <rect x="124" y="112" width="32" height="8.0" class="ColorScheme-Highlight" fill="currentColor" fill-opacity="0.14"/>
+  </g>
+  <g id="west-active-tab-left">
+    <rect x="116.0" y="80" width="8.0" height="32" class="ColorScheme-Highlight" fill="currentColor" fill-opacity="0.14"/>
+  </g>
+  <g id="west-active-tab-right">
+    <rect x="162" y="80" width="2" height="32" class="ColorScheme-Highlight" fill="currentColor" fill-opacity="1.0"/>
+    <rect x="156" y="80" width="8.0" height="32" class="ColorScheme-Highlight" fill="currentColor" fill-opacity="0.14"/>
+  </g>
+  <g id="west-active-tab-center">
+    <rect x="124" y="80" width="32" height="32" class="ColorScheme-Highlight" fill="currentColor" fill-opacity="0.14"/>
+  </g>
+  <rect id="west-active-tab-hint-top-margin" x="172" y="72" width="4" height="4" fill="#000" fill-opacity="0"/>
+  <rect id="west-active-tab-hint-bottom-margin" x="172" y="82" width="4" height="4" fill="#000" fill-opacity="0"/>
+  <rect id="west-active-tab-hint-left-margin" x="172" y="92" width="4" height="4" fill="#000" fill-opacity="0"/>
+  <rect id="west-active-tab-hint-right-margin" x="172" y="102" width="4" height="4" fill="#000" fill-opacity="0"/>
+  <rect id="base" x="4" y="140" width="48" height="2" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.12"/>
+</svg>
