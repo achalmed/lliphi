@@ -116,7 +116,7 @@ def test_tema_global_estructura():
         assert meta["X-KDE-fallbackPackage"] == "org.kde.breeze.desktop"
         d = (base / "contents" / "defaults").read_text(encoding="utf-8")
         assert f"ColorScheme={MARCA['id_esquema'][v]}" in d and f"name={MARCA['id']}" in d
-        assert "kvantum" not in d.lower() and "ButtonsOnLeft=\n" in d and "ButtonsOnRight=IAX" in d
+        assert "kvantum" in d.lower() and "ButtonsOnLeft=\n" in d and "ButtonsOnRight=IAX" in d
         deco = MARCA["id"] if v == "oscuro" else MARCA["id"] + "-claro"
         assert "library=org.kde.kwin.aurorae.v2" in d and f"theme=__aurorae__svg__{deco}" in d
         assert (base / "contents" / "layouts" / "org.kde.plasma.desktop-layout.js").exists()
