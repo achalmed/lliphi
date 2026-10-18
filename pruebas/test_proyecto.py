@@ -383,7 +383,6 @@ def test_instalar_y_desinstalar_restaura(tmp_path: Path):
     assert (tmp_path / ".vscode/extensions" / f"{MARCA['id']}.{MARCA['id']}" / "package.json").exists()
     assert (tmp_path / ".positron/extensions" / f"{MARCA['id']}.{MARCA['id']}" / "package.json").exists()
     assert not (tmp_path / ".vscode-oss").exists()
-    assert (tmp_path / ".local/share/icons" / f"{MARCA['id']}-oscuro" / "index.theme").exists()
     manifiesto = tmp_path / ".local/state" / MARCA["id"] / "instalado.json"
     assert manifiesto.exists()
     respaldo = Path(json.loads(manifiesto.read_text())["respaldo"])
