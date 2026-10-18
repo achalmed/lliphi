@@ -1,0 +1,11 @@
+Metadata-Version: 2.4
+Name: lliphi
+Version: 0.1.0
+Summary: Ecosistema de temas para KDE Plasma: tokens, generadores, instalador reversible y pruebas
+License-Expression: MIT
+Requires-Python: >=3.10
+Provides-Extra: dev
+Requires-Dist: coloraide>=8; extra == "dev"
+Requires-Dist: pillow>=10; extra == "dev"
+Requires-Dist: pytest>=8; extra == "dev"
+Requires-Dist: reuse>=5; extra == "dev"

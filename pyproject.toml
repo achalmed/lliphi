@@ -11,3 +11,6 @@ dev = ["coloraide>=8", "pillow>=10", "pytest>=8", "reuse>=5"]
 
 [tool.pytest.ini_options]
 testpaths = ["pruebas"]
+
+[tool.setuptools]
+packages = []   # no es un paquete Python: las herramientas se ejecutan por ruta; el pyproject solo declara las dependencias de desarrollo

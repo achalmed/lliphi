@@ -1,0 +1,6 @@
+
+[dev]
+coloraide>=8
+pillow>=10
+pytest>=8
+reuse>=5
