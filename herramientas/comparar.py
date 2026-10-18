@@ -14,16 +14,23 @@ from PIL import Image, ImageDraw, ImageFont
 ANCHO = 900
 
 
+def fuente_rotulo(tamano: int = 20) -> ImageFont.FreeTypeFont | ImageFont.ImageFont:
+    """Inter Medium (o la sans que resuelva fontconfig): la fuente de mapa de bits de Pillow no tiene tildes."""
+    import subprocess
+    try:
+        ruta = subprocess.run(["fc-match", "-f", "%{file}", "Inter:medium"], capture_output=True, text=True, timeout=10).stdout.strip()
+        return ImageFont.truetype(ruta, tamano)
+    except (OSError, subprocess.SubprocessError):
+        return ImageFont.load_default()
+
+
 def celda(ruta: Path, rotulo: str) -> Image.Image:
     im = Image.open(ruta).convert("RGB")
     im = im.resize((ANCHO, round(im.height * ANCHO / im.width)), Image.LANCZOS)
     lienzo = Image.new("RGB", (ANCHO, im.height + 40), "#101012")
     lienzo.paste(im, (0, 40))
     d = ImageDraw.Draw(lienzo)
-    try:
-        fuente = ImageFont.truetype("/usr/share/fonts/truetype/inter/Inter-Medium.ttf", 20)
-    except OSError:
-        fuente = ImageFont.load_default()
+    fuente = fuente_rotulo()
     d.text((12, 10), rotulo, fill="#eaebed", font=fuente)
     return lienzo
 

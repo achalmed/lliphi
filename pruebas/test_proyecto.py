@@ -80,8 +80,9 @@ def test_ningun_hex_fuera_del_maestro():
     rgbs = {",".join(str(int(h[i:i + 2], 16)) for i in (1, 3, 5)) for h in hexes}
     permitidos_rgb = rgbs | {"56,56,56", "112,111,110"}          # efectos de KColorScheme, de Breeze
     for f in GEN.rglob("*"):
-        # línea base (decisiones 4.4): LliphiOscuro/LliphiClaro.colors y el `colors` del estilo de Plasma son copias de
-        # WhiteSur-kde; solo las variantes `-tokens` y lo demás (Konsole, terminales) salen del maestro
+        # línea base (decisiones 4.4 y 4.5): LliphiOscuro/LliphiClaro.colors son WhiteSur-kde con solo el acento de los tokens
+        # (lo verifica test_esquema_linea_base_solo_acento) y el `colors` del estilo de Plasma es copia de WhiteSur-kde;
+        # solo las variantes `-tokens` y lo demás (Konsole, terminales) salen por entero del maestro
         copia_whitesur = f.suffix == ".colors" and not f.stem.endswith("-tokens") or (f.name == "colors" and "desktoptheme" in f.parts)
         if f.suffix in (".colors", ".colorscheme", "") and f.is_file() and f.name != "defaults" and "aurorae" not in f.parts and not copia_whitesur:
             for m in re.findall(r"=(\d{1,3},\d{1,3},\d{1,3})\b", f.read_text(encoding="utf-8")):
@@ -108,6 +109,35 @@ def test_esquemas_completos():
                 assert k in cp[g], (g, k)
         assert cp["General"]["ColorScheme"] == MARCA["id_esquema"][v]
         assert "WM" in cp and "KDE" in cp
+
+
+def test_esquema_linea_base_solo_acento():
+    """Mejora 1 (decisiones 4.5): Lliphi{Oscuro,Claro}.colors es WhiteSur{Dark,}.colors con solo el acento sustituido:
+    cada clave cuyo valor en WhiteSur es uno de sus azules (o ForegroundLink en la selección) vale el token de su
+    función; todas las demás líneas, incluidos [WM] y [ColorEffects:*], son idénticas a WhiteSur."""
+    sys.path.insert(0, str(RAIZ / "herramientas"))
+    from destinos import esquema, rgb, aplanar  # noqa: E402
+    for v, origen in (("oscuro", "WhiteSurDark.colors"), ("claro", "WhiteSur.colors")):
+        t = {k: rgb(tok) for k, tok in aplanar(TOKENS["semanticos"][v]).items()}
+        base = (RAIZ / "fuentes" / "base" / "WhiteSur-kde" / "color-schemes" / origen).read_text(encoding="utf-8").splitlines()
+        base = [l for l in base if not l.startswith("Name[")]
+        gen = (GEN / "color-schemes" / f"{MARCA['id_esquema'][v]}.colors").read_text(encoding="utf-8").splitlines()[1:]
+        assert len(base) == len(gen), (v, len(base), len(gen))
+        grupo, cambiadas = "", 0
+        for b, g in zip(base, gen):
+            if b.startswith("["):
+                grupo = b[1:-1]
+            if b.startswith(("ColorScheme=", "Name=")):
+                continue
+            m = esquema._LINEA.match(b) if grupo.startswith("Colors:") else None
+            nombre = esquema.token_de(grupo, m.group(1), m.group(2)) if m else None
+            if nombre is None:
+                assert b == g, (v, grupo, b, g)
+            else:
+                assert g == f"{m.group(1)}={t[nombre]}{m.group(3)}", (v, grupo, b, g)
+                cambiadas += 1
+        assert 20 < cambiadas < 60, (v, cambiadas)
+        assert not any(azul in l for l in gen for azul in esquema.AZULES_WHITESUR), v
 
 
 def test_tema_global_estructura():

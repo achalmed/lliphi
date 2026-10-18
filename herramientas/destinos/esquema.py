@@ -66,17 +66,62 @@ def texto_esquema(tokens: dict, marca: dict, variante: str, con_efectos: bool = 
 BASE = RAIZ / "fuentes" / "base" / "WhiteSur-kde" / "color-schemes"
 ORIGEN = {"oscuro": "WhiteSurDark.colors", "claro": "WhiteSur.colors"}
 
+# Mejora 1 sobre la línea base (docs/linea-base.md §2.1): el acento azul de WhiteSur se sustituye por el rojo de los
+# tokens y todo lo demás se copia byte a byte. Estos son los azules que WhiteSur-kde usa como acento en sus dos esquemas
+# (base 49,91,239; claro 79/74,124-127,239; sobre selección 127-135,152-163,239; hover 83,143,255 y 30,146,255;
+# ForegroundActive 61,174,230-233; enlace de Breeze 41,128,185). Un valor que no esté aquí no se toca.
+AZULES_WHITESUR = frozenset({"49,91,239", "79,127,239", "74,124,239", "130,156,239", "135,163,239", "128,152,239",
+                             "127,160,239", "83,143,255", "30,146,255", "61,174,230", "61,174,233", "41,128,185"})
+# clave → token semántico que cumple la misma función; en Colors:Selection el texto va «sobre acento»
+TOKEN_POR_CLAVE = {"DecorationFocus": "foco", "DecorationHover": "hover", "ForegroundLink": "enlace",
+                   "ForegroundActive": "acento.texto", "ForegroundVisited": "acento.suave"}
+TOKEN_EN_SELECCION = {"BackgroundNormal": "seleccion.fondo", "BackgroundAlternate": "acento.suave",
+                      "ForegroundInactive": "seleccion.texto", "ForegroundVisited": "seleccion.texto",
+                      "ForegroundLink": "seleccion.texto", "DecorationHover": "hover", "DecorationFocus": "foco"}
+_LINEA = re.compile(r"^(\w+)=(\d{1,3},\d{1,3},\d{1,3})((?:,\d{1,3})?)$")
+
+
+def token_de(grupo: str, clave: str, valor: str) -> str | None:
+    """Nombre del token que sustituye a `clave=valor` en `grupo`, o None si el valor se copia tal cual.
+    Se sustituye si el valor es un azul de WhiteSur, y además `ForegroundLink` en la selección (amarillo en WhiteSur)."""
+    if grupo == "Colors:Selection":
+        if clave in TOKEN_EN_SELECCION and (valor in AZULES_WHITESUR or clave == "ForegroundLink"):
+            return TOKEN_EN_SELECCION[clave]
+        return None
+    if clave in TOKEN_POR_CLAVE and valor in AZULES_WHITESUR:
+        return TOKEN_POR_CLAVE[clave]
+    return None
+
+
+def con_acento(base: str, t: dict[str, str]) -> str:
+    """El texto de un esquema de WhiteSur con sus azules sustituidos por los tokens (`t`: token semántico → R,G,B);
+    se conserva el alfa (`R,G,B,A`) cuando lo hay."""
+    salida, grupo = [], ""
+    for linea in base.splitlines():
+        if linea.startswith("[") and linea.endswith("]"):
+            grupo = linea[1:-1]
+        elif grupo.startswith("Colors:") and (m := _LINEA.match(linea)):
+            clave, valor, alfa = m.groups()
+            if (nombre := token_de(grupo, clave, valor)) is not None:
+                linea = f"{clave}={t[nombre]}{alfa}"
+        salida.append(linea)
+    return "\n".join(salida) + "\n"
+
 
 def generar(tokens: dict, marca: dict, destino: Path) -> list[Path]:
-    """Línea base del autor (2026-10-18): los esquemas de WhiteSur tal cual, renombrados. El esquema generado desde los
-    tokens (`texto_esquema`) se conserva como `<Id>-tokens.colors` para la mejora siguiente (acento rojo)."""
+    """Línea base del autor (2026-10-18, decisiones 4.4) más la mejora 1 (4.5): los esquemas de WhiteSur renombrados y
+    con solo el acento (foco, hover, enlace, selección) tomado de los tokens. El esquema generado por entero desde los
+    tokens (`texto_esquema`) se conserva como `<Id>-tokens.colors`."""
     hechos: list[Path] = []
     for variante in ("claro", "oscuro"):
         id_ = marca["id_esquema"][variante]
+        t = {k: rgb(v) for k, v in aplanar(tokens["semanticos"][variante]).items()}
         base = (BASE / ORIGEN[variante]).read_text(encoding="utf-8")
         base = re.sub(r"^ColorScheme=.*$", f"ColorScheme={id_}", base, flags=re.M)
         base = re.sub(r"^Name=.*$", f"Name={marca['nombre_esquema'][variante]}", base, flags=re.M)
         base = re.sub(r"^Name\[.*$\n?", "", base, flags=re.M)
-        escribir(destino / "color-schemes" / f"{id_}.colors", "# GENERADO por herramientas/generar.py desde fuentes/base/WhiteSur-kde (GPL-3.0); no editar\n" + base, hechos)
+        escribir(destino / "color-schemes" / f"{id_}.colors",
+                 "# GENERADO por herramientas/generar.py desde fuentes/base/WhiteSur-kde (GPL-3.0) con el acento de tokens/; no editar\n"
+                 + con_acento(base, t), hechos)
         escribir(destino / "color-schemes" / f"{id_}-tokens.colors", texto_esquema(tokens, marca, variante).replace(f"ColorScheme={id_}", f"ColorScheme={id_}-tokens").replace(f"Name={marca['nombre_esquema'][variante]}", f"Name={marca['nombre_esquema'][variante]} (tokens)"), hechos)
     return hechos

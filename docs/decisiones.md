@@ -127,3 +127,12 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   cual (tema global, estilo, esquema azul), decoración Nothing, Kvantum LliphiOscuro, breeze-dark, cursores WhiteSur, y la
   única novedad pedida: Inter (interfaz) y Hack (mono). Las mejoras entran una a una con su visto bueno. Deroga lo de 4.1 que
   recoloreaba el estilo de Plasma y usaba Papirus/Bibata/Hack como predeterminados: quedan como opcionales.
+- **4.5 (2026-10-18, 18:30) Mejora 1: el acento rojo entra en el esquema, nada más** (`docs/linea-base.md` §2.1).
+  `herramientas/destinos/esquema.py` copia WhiteSurDark/WhiteSur y sustituye solo los valores que WhiteSur usa como
+  acento (sus azules: 49,91,239 y derivados) por el token de la misma función: `DecorationFocus`→`foco`,
+  `DecorationHover`→`hover`, `ForegroundLink`→`enlace`, `ForegroundActive`→`acento.texto`, `ForegroundVisited`→
+  `acento.suave`, y en `Colors:Selection` el fondo→`seleccion.fondo`, el alterno→`acento.suave` y los textos→
+  `seleccion.texto`. Se conserva el alfa (`,150`) de los valores atenuados. Los grises, los estados (negativo, neutral,
+  positivo), `[WM]` y `[ColorEffects:*]` quedan como en WhiteSur. Se aplicó solo con `plasma-apply-colorscheme` en la
+  sesión del autor (tema global, estilo, Kvantum y decoración intactos); reversión: `plasma-apply-colorscheme WhiteSurDark`.
+  Queda pendiente su visto bueno sobre `muestras/comparacion-linea-base-acento.png`.

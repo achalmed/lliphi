@@ -13,6 +13,7 @@ Hasta que el autor elija el nombre (fase 3), la carpeta se llama `lliphi` y no e
 
 | fecha | qué | dónde se ve |
 |---|---|---|
+| 2026-10-18 | **mejora 1 sobre la línea base: acento rojo en el esquema** (decisiones 4.5): `LliphiOscuro.colors` y `LliphiClaro.colors` = WhiteSurDark/WhiteSur con solo foco, hover, enlace, texto activo y selección tomados de los tokens (el resto byte a byte; prueba `test_esquema_linea_base_solo_acento`, 19 en verde, `verificar` sin deriva); instalado con respaldo (`respaldos/2026-10-18_182307/UNDO.sh`) y **aplicado en la sesión del autor solo con `plasma-apply-colorscheme LliphiOscuro`** (tema global, estilo, Kvantum y decoración intactos); comparación antes/después con Dolphin y Preferencias | `muestras/comparacion-linea-base-acento.png`, `muestras/capturas/oscuro-18-*.png`, `oscuro-19-*.png` |
 | 2026-10-18 | **línea base fijada por el autor** = su configuración activa (WhiteSur-dark tal cual + Nothing + Kvantum Lliphi + breeze-dark + cursores WhiteSur) con Inter/Hack; los generadores la reproducen (esquema y estilo copiados sin recolorear); el esquema rojo de los tokens queda como `-tokens` | `docs/linea-base.md`, `docs/decisiones.md` 4.4 |
 | 2026-10-18 | **0.2.0 publicada** (etiqueta `v0.2.0`, release con 10 paquetes y `SHA256SUMS`) con el visto bueno del autor. Cambio de enfoque por el autor: todo derivado de lo existente: estilo de Plasma y Kvantum de WhiteSur-kde recoloreados, decoración de Nothing recoloreada, Papirus con carpetas rojas, Bibata, Hack; aplicado en la sesión del autor; comprobado en anidada y en sesión real (cristal) | `docs/autocritica.md`, `docs/decisiones.md` §4, `docs/validacion.md` §6–7, `muestras/comparacion-0.1-0.2.png` |
 | 2026-10-18 | lote 2, **decoración de ventanas** (`herramientas/destinos/aurorae.py` → `generado/aurorae/{lliphi,lliphi-claro}/`): derivada de WhiteSur-dark (marco, sombra, rc) y Nothing (botones circulares), GPL-3.0-or-later, copiados a `fuentes/aurorae/base/` (`ORIGEN.md`, `LICENSE`) y recoloreados solo con los tokens (cerrar en el acento, resto gris, sin semáforo; barra de 30 px, botones `IAX`); temas globales con `library=org.kde.kwin.aurorae.v2`; instalador (módulo `decoracion`, escribe `kwinrc` al aplicar); prueba; capturas reales en sesión anidada (`oscuro-09-decoracion.png`, `claro-09-decoracion.png`); lo aprendido del motor V2 en `validacion.md` §6; decisión 3.15. Una primera versión dibujada desde cero fue rechazada por el autor («Breeze con detalles rojos») | `modulos/decoracion/`, `docs/validacion.md` §6 |
@@ -34,10 +35,17 @@ Hasta que el autor elija el nombre (fase 3), la carpeta se llama `lliphi` y no e
 
 ## En curso
 
-- mejoras una a una sobre la línea base (`docs/linea-base.md` §2): primero el acento rojo en el esquema, con captura y visto bueno del autor.
+- mejoras una a una sobre la línea base (`docs/linea-base.md` §2): la 1 (acento rojo en el esquema) está hecha y
+  aplicada, a la espera del visto bueno del autor; sigue la 2 (variante clara) cuando responda.
 
 ## Por hacer
 
+- 2026-10-18 · dueño: autor · **¿aprobado el acento rojo?** Mirar `muestras/comparacion-linea-base-acento.png` (o el
+  escritorio: el esquema `LliphiOscuro` quedó aplicado). Si no gusta, revertir sin tocar nada más con
+  `plasma-apply-colorscheme WhiteSurDark` (equivale a `kwriteconfig6 --file kdeglobals --group General --key ColorScheme WhiteSurDark`;
+  también `~/.local/state/lliphi/respaldos/2026-10-18_182307/REVERTIR-esquema.sh`). Observado en la captura: con el
+  esquema rojo, las carpetas de breeze-dark y la fila seleccionada inactiva de Dolphin quedan del mismo rojo apagado;
+  el panel de Plasma no cambia porque el estilo WhiteSur-dark lleva su propio `colors`.
 - 2026-10-18 · dueño: asistente · `test_instalar_y_desinstalar_restaura` falla en la línea de los iconos (`index.theme` no instalado): otra sesión retiró `herramientas/destinos/iconos.py` y el módulo `iconos` a la vez que se cerraba la decoración; al cerrar ese cambio, ajustar la prueba o reponer el módulo.
 - 2026-10-18 · dueño: autor · el hub (`web` 6ffafae, con el enlace a Lliphi) está empujado pero Netlify no lo había desplegado 40 minutos después (la portada sigue sin el enlace): revisar en app.netlify.com → Deploys del sitio `achalmaedison` si el despliegue automático desde GitHub sigue activo.
 - 2026-10-18 · dueño: autor · **el disco interno `/dev/nvme0n1` (INTEL HBRPEKNX0101AH) aparece como «likely to fail soon» en Plasma** (aviso de Device Health visto en la sesión de prueba): respaldar y comprobar con `sudo smartctl -a /dev/nvme0n1`.
