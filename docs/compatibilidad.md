@@ -28,7 +28,7 @@ probado aquí. Se actualiza en cada fase de validación.
 | acento declarado por el fondo | esperado | esperado | pendiente | `X-KDE-PlasmaImageWallpaper-AccentColor` |
 | iconos de carpeta (`lliphi`, `lliphi-oscuro`; heredan de Breeze; `FollowsColorScheme`) | esperado | esperado | **probado** (Dolphin en sesión anidada, 2026-10-18: 22, 32 y 64 px escalable, dos variantes; defecto 1 de `validacion.md` §5.3) | KIconLoader (KF 6) recolorea `current-color-scheme`; GTK ve los colores de respaldo del SVG |
 | GTK generado por Plasma | esperado | esperado | pendiente | `kde-gtk-config`, `breeze-gtk` |
-| Aurorae propio | no se ofrece | no se ofrece | no se ofrece | motor V2 solo desde 6.6 |
+| decoración Aurorae `lliphi` / `lliphi-claro` (marco de WhiteSur y botones de Nothing recoloreados, GPL-3.0-or-later) | no (el motor SVG V2 llega en 6.6; antes queda la decoración Breeze coloreada) | no | **probado** (sesión anidada, 2026-10-18: Dolphin y Kate en las dos variantes, `validacion.md` §6) | `kwin-style-aurorae` ≥ 6.6 (`library=org.kde.kwin.aurorae.v2`) |
 | «guardar como tema global» de 6.6 | — | — | no se usa | bug 516318 |
 
 ## 2. Por distribución
@@ -47,4 +47,4 @@ probado aquí. Se actualiza en cada fase de validación.
 ## 3. Lo que no depende de la versión
 
 Esquemas de color, Konsole, Alacritty, Kitty, VS Code, Positron, VSCodium, Zed, LibreOffice, iconos de carpeta, tokens, instalador (rutas XDG), sitio y documentación. Lo que sí: paquetes de fondo con
-`images_dark/`, funciones de 6.6 y cualquier Aurorae.
+`images_dark/`, funciones de 6.6 y la decoración Aurorae (motor V2 de 6.6).

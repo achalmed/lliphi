@@ -8,14 +8,14 @@ Theme=Papirus-Dark
 
 [kdeglobals][General]
 ColorScheme=LliphiOscuro
-font=IBM Plex Sans,10,-1,5,400,0,0,0,0,0
-fixed=IBM Plex Mono,10,-1,5,400,0,0,0,0,0
-menuFont=IBM Plex Sans,10,-1,5,400,0,0,0,0,0
-toolBarFont=IBM Plex Sans,10,-1,5,400,0,0,0,0,0
-smallestReadableFont=IBM Plex Sans,8,-1,5,400,0,0,0,0,0
+font=Hack,10,-1,5,400,0,0,0,0,0
+fixed=Hack,10,-1,5,400,0,0,0,0,0
+menuFont=Hack,10,-1,5,400,0,0,0,0,0
+toolBarFont=Hack,10,-1,5,400,0,0,0,0,0
+smallestReadableFont=Hack,8,-1,5,400,0,0,0,0,0
 
 [kdeglobals][WM]
-activeFont=IBM Plex Sans,10,-1,5,500,0,0,0,0,0
+activeFont=Hack,10,-1,5,700,0,0,0,0,0
 
 [plasmarc][Theme]
 name=lliphi-oscuro

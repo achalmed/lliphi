@@ -148,3 +148,49 @@ lanzador: opaco = `#eceef0` (236,237,239); translúcido = ≈ (213,214,216).
 Decisión: el estilo entrega el mismo cristal en `widgets/`, `translucent/` y `solid/`, y no entrega `opaque/`. QtSvg
 renderiza la opacidad de los SVG generados igual que la de Breeze (alfa 216 para 0.85, medido con `QSvgRenderer`).
 Límite: sin compositor con `blur`, el cristal se ve sin desenfoque (el contraste de `plasmarc` solo actúa con blur).
+
+## 6. Decoración Aurorae (2026-10-18)
+
+Mismo método del §5 (`kwin_wayland --virtual --xwayland --width 1600 --height 900 --exit-with-session=startplasma-wayland`
+bajo `dbus-run-session`, `HOME` aparte en `/tmp/casa-lliphi-aur`, todo `plasma-apply-*`, `kwriteconfig6` y `qdbus6` con el
+DBus de esa sesión; cierre por PID tras comprobar `HOME=` en `/proc/<pid>/environ` y, para el KWin externo, por ser hijo
+del `dbus-run-session` propio). Dolphin y Kate abiertas en el display interno, colocadas con un script de KWin cargado en
+el KWin interno por su nombre único de bus (`:1.N`, el de su PID), y capturadas desde el externo con Spectacle.
+
+| caso | oscuro | claro | qué se comprueba |
+|---|---|---|---|
+| Dolphin (activa) sobre Kate (inactiva), decoración `__aurorae__svg__lliphi` / `-claro` | `oscuro-09-decoracion.png` | `claro-09-decoracion.png` | marco con esquinas redondeadas y sombra de WhiteSur, barra de 30 px con el título centrado, botones circulares de Nothing a la derecha (`IAX`): gris, gris y cerrar en el acento; en la inactiva, al 50 % |
+
+Resultado: **probado** en las dos variantes (Plasma 6.6.6, motor V2). La decoración es la derivada (decisión 3.15):
+`fuentes/aurorae/base/` recoloreado por `herramientas/destinos/aurorae.py`.
+
+### 6.1 Lo aprendido del motor V2 (`aurorae` 6.6.6, `v2/decoration.cpp`, `decorationbutton.cpp`, `decorationtheme.cpp`)
+
+1. **Dos plugins.** Desde 6.6 el paquete trae `org.kde.kwin.aurorae.so` (V1, solo decoraciones QML como Plastik) y
+   `org.kde.kwin.aurorae.v2.so` (motor SVG). Los temas SVG se registran como `__aurorae__svg__<carpeta>` y el KCM escribe
+   `library=org.kde.kwin.aurorae.v2` (así quedó el `kwinrc` del autor con WhiteSur-dark); con `library=org.kde.kwin.aurorae`
+   el tema SVG no se encuentra. Los `defaults` de los temas globales y el instalador usan `.v2`.
+2. **`metadata.desktop` manda.** El proveedor de temas (`decorationthemeprovider.cpp`) lista solo carpetas de
+   `aurorae/themes/` con `metadata.desktop`; `metadata.json` se añade para KPackage, pero no sustituye al `.desktop`.
+3. **`reconfigure` no relee los SVG de un tema ya cargado** (KSvg conserva los renderizadores y la caché de píxeles por
+   ruta). Para ver un cambio hay que cambiar a otro tema y volver (`theme=…-claro` → `reconfigure` → `theme=…` →
+   `reconfigure`) o usar otra carpeta. En la validación cada experimento usó un nombre de tema nuevo.
+4. **Estados de los botones.** `select()` elige, para la ventana activa, `pressed` → `hover` → `deactivated` → `active`; para
+   la inactiva, `pressed-inactive`/`pressed` → `hover-inactive`/`hover` → `deactivated-inactive`/`deactivated` → `inactive` →
+   `active`. `Hovered` incluye el «hover de grupo» (`ButtonGroupHover` en `[General]`, nuevo en 6.6: al pasar sobre un
+   botón se iluminan todos). Comprobado con botones de diagnóstico de colores planos en catorce variantes.
+5. **Un grupo cuyo único hijo es un trazo sin relleno (`fill="none"`, solo `stroke`) no se renderiza como tal**: KSvg/QtSvg
+   devolvió para él el dibujo de otro estado (la primera versión dibujada, con anillos de solo trazo en `inactive-center`,
+   mostraba el aspecto de `hover` en las ventanas inactivas; con un `<rect>` invisible de 14 × 14 dentro del grupo, con el
+   círculo relleno o con un radio menor desaparecía). Los botones de Nothing son formas rellenas y no lo sufren.
+6. **Sombra.** V2 pinta el FrameSvg entero (incluido el relleno `Padding*`) en una imagen, recorta el rectángulo interior
+   y la entrega a KWin como `DecorationShadow` con `innerShadowRect`; la decoración visible se pinta aparte desplazada
+   `-Padding`. Las piezas `hint-*-margin` solo sirven al borde interior (`innerborder`). El tamaño del borde del usuario
+   (`BorderSize`) acota `BorderLeft/Right/Bottom` (`Normal` → entre 4 y 6 px; `None`/`NoSides` → 0).
+7. **Escala.** Todas las medidas del rc se multiplican por `dpi/96` de la pantalla primaria; los botones, además, por
+   `ButtonSize` de `auroraerc` (`1 + (n-1)·0,2`).
+8. **Desenfoque.** Si el SVG trae `mask-*` (WhiteSur lo trae), V2 pide a KWin desenfoque tras la decoración; con el marco
+   opaco de Lliphi no se ve nada. No se afirma nada sobre decoraciones translúcidas: no se probaron.
+9. **`plasma-apply-lookandfeel -a`** aplicó esquema, estilo e iconos de los `defaults` pero no escribió
+   `[kwinrc][org.kde.kdecoration2]` en la sesión anidada; el instalador escribe esas claves con `kwriteconfig6` y llama a
+   `org.kde.KWin.reconfigure` cuando aplica el tema con el módulo `decoracion` instalado.

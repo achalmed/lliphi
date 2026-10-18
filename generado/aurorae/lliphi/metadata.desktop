@@ -1,12 +1,10 @@
-# GENERADO por herramientas/generar.py desde tokens/; no editar
 [Desktop Entry]
-Name=Lliphi
-Comment=Lliphi (Lliphi Oscuro): marco de WhiteSur y botones de Nothing con los colores de Lliphi
+Name=Lliphi Oscuro
+Comment=Decoración de Lliphi, derivada de Nothing
+Type=Service
+X-KDE-ServiceTypes=KWin/Aurorae
 X-KDE-PluginInfo-Name=lliphi
-X-KDE-PluginInfo-Author=Edison Achalma
-X-KDE-PluginInfo-Email=
-X-KDE-PluginInfo-Website=https://achalmed.github.io/lliphi/
 X-KDE-PluginInfo-Version=0.2.0
+X-KDE-PluginInfo-Author=Edison Achalma
 X-KDE-PluginInfo-License=GPL-3.0-or-later
-X-KDE-PluginInfo-Category=Plasma 6 Window Decorations
 X-KDE-PluginInfo-EnabledByDefault=true

@@ -284,8 +284,8 @@ def escribir_tokens() -> None:
                       "textura": {"$value": 0.07, "$description": "opacidad de la retícula de puntos del panel"},
                       "opacidad-menus-qt": {"$value": 80, "$description": "MenuOpacity de Breeze (menús de las aplicaciones)"},
                       "opacidad-konsole": {"$value": 0.86}}
-    doc["tipografia"] = {"interfaz": {"$type": "fontFamily", "$value": ["Inter", "Noto Sans", "sans-serif"]},
-                         "monoespaciada": {"$type": "fontFamily", "$value": ["IBM Plex Mono", "Hack", "monospace"]},
+    doc["tipografia"] = {"interfaz": {"$type": "fontFamily", "$value": ["Hack", "Noto Sans", "sans-serif"]},
+                         "monoespaciada": {"$type": "fontFamily", "$value": ["Hack", "monospace"]},
                          "tamano-base": {"$type": "dimension", "$value": {"value": 10, "unit": "pt"}}}
     TOKENS.parent.mkdir(exist_ok=True)
     TOKENS.write_text(json.dumps(doc, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

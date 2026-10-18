@@ -114,3 +114,12 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   El instalador lo configura si está instalado (`qt6-style-kvantum`) y, si no, deja Breeze con menús translúcidos.
 - **4.3 Dependencias descargadas, no redistribuidas.** `herramientas/dependencias.py` trae Papirus y Bibata de sus
   versiones publicadas al `~/.local/share/icons` del usuario; el repositorio solo las cita.
+- **3.15 (2026-10-18) Decoración Aurorae derivada, no dibujada.** El autor rechazó una primera decoración propia
+  (anillos, sombra por degradados) por parecer «Breeze con detalles rojos» y fijó el criterio: partir del código que
+  existe. La decoración deriva de dos temas GPL-3.0-or-later copiados sin cambios a `fuentes/aurorae/base/`: el marco,
+  los radios, la sombra y la disposición de WhiteSur-dark (vinceliuice) y los botones circulares de Nothing (jomada).
+  `herramientas/destinos/aurorae.py` reescribe solo los colores (hex de los tokens; cerrar en el acento, los demás en
+  gris: sin semáforo) y los valores del rc que cambian (barra de 30 px, botones a la derecha, título sin sombra).
+  Consecuencia: `fuentes/aurorae/**` y `generado/aurorae/**` son GPL-3.0-or-later (excepción a la decisión 3.8,
+  declarada en `REUSE.toml`), y la decoración se publica como módulo aparte con esa licencia. Lo aprendido del motor
+  V2 con la versión dibujada (recarga, estados, `metadata.desktop`) queda en `validacion.md` §6.

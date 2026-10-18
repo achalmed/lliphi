@@ -7,21 +7,21 @@
                 "Email": ""
             },
             {
-                "Name": "vinceliuice (WhiteSur)",
-                "Email": ""
-            },
-            {
-                "Name": "jomada (Nothing)",
+                "Name": "jomada (Nothing, base GPL-3.0-or-later)",
                 "Email": ""
             }
         ],
         "Category": "Plasma 6 Window Decorations",
-        "Description": "Lliphi: decoración de ventanas (Lliphi Oscuro), derivada de WhiteSur y Nothing",
+        "ServiceTypes": [
+            "KWin/Aurorae"
+        ],
         "EnabledByDefault": true,
+        "Name": "Lliphi Oscuro",
+        "Description": "Decoración de Lliphi, derivada de Nothing",
         "Id": "lliphi",
-        "License": "GPL-3.0-or-later",
-        "Name": "Lliphi",
         "Version": "0.2.0",
-        "Website": "https://achalmed.github.io/lliphi/"
+        "License": "GPL-3.0-or-later",
+        "X-KDE-PluginInfo-blur": false,
+        "X-KPackage-Dependencies": []
     }
 }

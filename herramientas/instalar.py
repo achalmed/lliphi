@@ -226,13 +226,13 @@ def instalar(modulos: list[str], aplicar: bool, aplicar_tema: str | None) -> int
                 print(f"  Kvantum: tema {tema_kv}, estilo kvantum")
             # tipografía IBM Plex en toda la sesión (lo que fija defaults solo lo lee el KCM al aplicar el tema)
             if shutil.which("kwriteconfig6"):
-                for clave, valor in (("font", "IBM Plex Sans,10,-1,5,400,0,0,0,0,0"), ("fixed", "IBM Plex Mono,10,-1,5,400,0,0,0,0,0"),
-                                     ("menuFont", "IBM Plex Sans,10,-1,5,400,0,0,0,0,0"), ("toolBarFont", "IBM Plex Sans,10,-1,5,400,0,0,0,0,0"),
-                                     ("smallestReadableFont", "IBM Plex Sans,8,-1,5,400,0,0,0,0,0")):
+                for clave, valor in (("font", "Hack,10,-1,5,400,0,0,0,0,0"), ("fixed", "Hack,10,-1,5,400,0,0,0,0,0"),
+                                     ("menuFont", "Hack,10,-1,5,400,0,0,0,0,0"), ("toolBarFont", "Hack,10,-1,5,400,0,0,0,0,0"),
+                                     ("smallestReadableFont", "Hack,8,-1,5,400,0,0,0,0,0")):
                     subprocess.run(["kwriteconfig6", "--file", "kdeglobals", "--group", "General", "--key", clave, valor], capture_output=True, text=True)
-                subprocess.run(["kwriteconfig6", "--file", "kdeglobals", "--group", "WM", "--key", "activeFont", "IBM Plex Sans,10,-1,5,500,0,0,0,0,0"], capture_output=True, text=True)
+                subprocess.run(["kwriteconfig6", "--file", "kdeglobals", "--group", "WM", "--key", "activeFont", "Hack,10,-1,5,700,0,0,0,0,0"], capture_output=True, text=True)
                 subprocess.run(["dbus-send", "--session", "--type=signal", "/KGlobalSettings", "org.kde.KGlobalSettings.notifyChange", "int32:0", "int32:0"], capture_output=True, text=True)
-                print("  tipografía: IBM Plex Sans 10 / IBM Plex Mono 10")
+                print("  tipografía: Hack 10 (interfaz y terminal)")
             iconos = "Papirus-Dark" if aplicar_tema == "oscuro" else "Papirus-Light"
             if (DATA / "icons" / iconos).exists():
                 if shutil.which("plasma-changeicons"):
@@ -241,6 +241,15 @@ def instalar(modulos: list[str], aplicar: bool, aplicar_tema: str | None) -> int
                     subprocess.run(["kwriteconfig6", "--file", "kdeglobals", "--group", "Icons", "--key", "Theme", iconos], capture_output=True, text=True)
                     subprocess.run(["dbus-send", "--session", "--type=signal", "/KIconLoader", "org.kde.KIconLoader.iconChanged", "int32:0"], capture_output=True, text=True)
                 print(f"  iconos aplicados: {iconos}")
+            # decoración Aurorae: `plasma-apply-lookandfeel` no siempre escribe el grupo [org.kde.kdecoration2] de los
+            # defaults (comprobado en sesión anidada, docs/validacion.md §6); se escribe aquí y se avisa a KWin
+            deco = ID if aplicar_tema == "oscuro" else f"{ID}-claro"
+            if "decoracion" in modulos and (DATA / "aurorae" / "themes" / deco).exists() and shutil.which("kwriteconfig6"):
+                for clave, valor in (("library", "org.kde.kwin.aurorae.v2"), ("theme", f"__aurorae__svg__{deco}"), ("ButtonsOnLeft", ""), ("ButtonsOnRight", "IAX")):
+                    subprocess.run(["kwriteconfig6", "--file", "kwinrc", "--group", "org.kde.kdecoration2", "--key", clave, valor], capture_output=True, text=True)
+                if shutil.which("qdbus6"):
+                    subprocess.run(["qdbus6", "org.kde.KWin", "/KWin", "org.kde.KWin.reconfigure"], capture_output=True, text=True)
+                print(f"  decoración aplicada: __aurorae__svg__{deco}")
     print("hecho." if aplicar else "nada escrito; añade --aplicar para instalar.")
     return 0
 
