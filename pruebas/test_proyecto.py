@@ -80,7 +80,10 @@ def test_ningun_hex_fuera_del_maestro():
     rgbs = {",".join(str(int(h[i:i + 2], 16)) for i in (1, 3, 5)) for h in hexes}
     permitidos_rgb = rgbs | {"56,56,56", "112,111,110"}          # efectos de KColorScheme, de Breeze
     for f in GEN.rglob("*"):
-        if f.suffix in (".colors", ".colorscheme", "") and f.is_file() and f.name != "defaults" and "aurorae" not in f.parts:
+        # línea base (decisiones 4.4): LliphiOscuro/LliphiClaro.colors y el `colors` del estilo de Plasma son copias de
+        # WhiteSur-kde; solo las variantes `-tokens` y lo demás (Konsole, terminales) salen del maestro
+        copia_whitesur = f.suffix == ".colors" and not f.stem.endswith("-tokens") or (f.name == "colors" and "desktoptheme" in f.parts)
+        if f.suffix in (".colors", ".colorscheme", "") and f.is_file() and f.name != "defaults" and "aurorae" not in f.parts and not copia_whitesur:
             for m in re.findall(r"=(\d{1,3},\d{1,3},\d{1,3})\b", f.read_text(encoding="utf-8")):
                 assert m in permitidos_rgb, (f.name, m)
         if f.suffix == ".svg" and "desktoptheme" not in f.parts and "kvantum" not in f.parts and "aurorae" not in f.parts and "icons" not in f.parts:
@@ -124,12 +127,12 @@ def test_tema_global_estructura():
 
 
 def test_estilo_plasma_derivado():
-    """El estilo de Plasma deriva de WhiteSur-kde: dos variantes, sin `colors` (sigue el esquema), GPL declarada, SVG válidos."""
+    """El estilo de Plasma deriva de WhiteSur-kde: dos variantes, con su `colors` (línea base, decisiones 4.4), GPL declarada, SVG válidos."""
     for v in ("claro", "oscuro"):
         base = GEN / "desktoptheme" / f"{MARCA['id']}-{v}"
         meta = json.loads((base / "metadata.json").read_text(encoding="utf-8"))
         assert meta["KPlugin"]["Id"] == base.name and meta["KPlugin"]["License"] == "GPL-3.0-or-later"
-        assert not (base / "colors").exists(), "el estilo sigue el esquema del sistema: sin colors"
+        assert (base / "colors").exists(), "línea base: el estilo lleva el `colors` de WhiteSur tal cual"
         for req in ("widgets/panel-background.svg", "dialogs/background.svg", "widgets/tasks.svg", "widgets/button.svg", "plasmarc"):
             assert (base / req).exists(), (v, req)
         for svg in base.rglob("*.svg"):

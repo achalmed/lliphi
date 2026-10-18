@@ -27,8 +27,8 @@
      gridtolerance="4"
      objecttolerance="6"
      borderopacity="1.0"
-     bordercolor="#3d3e42"
-     pagecolor="#1b1c1e"
+     bordercolor="#666666"
+     pagecolor="#1a1a1a"
      id="base"
      inkscape:zoom="1.1290943"
      inkscape:cx="103.62288"
@@ -116,7 +116,7 @@
        y2="34.742001"
        gradientUnits="userSpaceOnUse">
       <stop
-         stop-color="#2e2f32"
+         stop-color="#333333"
          offset="0"
          id="stop15" />
       <stop
@@ -196,7 +196,7 @@
        height="220"
        rx="44"
        ry="44"
-       fill="#2e2f32"
+       fill="#333333"
        opacity="0"
        stroke-width="1.1"
        id="rect30" />

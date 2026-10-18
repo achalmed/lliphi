@@ -261,7 +261,7 @@
          height="32"
          x="-918.36218"
          y="-51"
-         style="fill:#4b4d53" />
+         style="fill:#333333" />
     </g>
     <g
        transform="translate(15.000037,-5.999943)"
@@ -269,7 +269,7 @@
       <path
          id="rect4159"
          d="m 29,910.36218 c -8.863965,0 -16,7.13604 -16,16 h 16 z"
-         style="fill:#4b4d53" />
+         style="fill:#333333" />
     </g>
     <rect
        id="center"
@@ -277,7 +277,7 @@
        height="12"
        x="44"
        y="920.36218"
-       style="fill:#4b4d53" />
+       style="fill:#333333" />
     <g
        style="opacity:1"
        transform="matrix(0.37500332,0,0,1.5555643,36.874926,-505.09806)"
@@ -573,7 +573,7 @@
        id="north-bottom">
       <rect
          transform="matrix(0,-1,-1,0,0,0)"
-         style="opacity:1;fill:#4b4d53"
+         style="opacity:1;fill:#333333"
          id="rect7"
          width="8"
          height="32"
@@ -593,7 +593,7 @@
        id="north-left">
       <rect
          transform="matrix(0,-1,-1,0,0,0)"
-         style="opacity:1;fill:#4b4d53"
+         style="opacity:1;fill:#333333"
          id="rect9"
          width="8"
          height="32"
@@ -613,7 +613,7 @@
        id="north-right">
       <rect
          transform="matrix(0,-1,-1,0,0,0)"
-         style="opacity:1;fill:#4b4d53"
+         style="opacity:1;fill:#333333"
          id="rect11"
          width="8"
          height="32"
@@ -633,7 +633,7 @@
        id="north-top">
       <rect
          transform="matrix(0,-1,-1,0,0,0)"
-         style="opacity:1;fill:#4b4d53"
+         style="opacity:1;fill:#333333"
          id="rect3"
          width="8"
          height="32"
@@ -654,14 +654,14 @@
       <path
          id="path4"
          d="m 29,910.36218 c -8.863965,0 -16,7.13604 -16,16 h 16 z"
-         style="opacity:1;fill:#4b4d53" />
+         style="opacity:1;fill:#333333" />
       <path
          id="path5"
          style="opacity:0;fill:#ffffff"
          d="m 28.999963,910.36212 c -8.863965,0 -16,7.13604 -16,16 h 1 c 0,-8.30998 6.690012,-15 15,-15 z" />
     </g>
     <rect
-       style="opacity:1;fill:#4b4d53"
+       style="opacity:1;fill:#333333"
        id="north-center"
        width="12"
        height="12"
@@ -673,7 +673,7 @@
       <path
          id="path18"
          d="m 29,910.36218 c -8.863965,0 -16,7.13604 -16,16 h 16 z"
-         style="opacity:1;fill:#4b4d53" />
+         style="opacity:1;fill:#333333" />
       <path
          id="path19"
          style="opacity:0;fill:#ffffff"
@@ -685,7 +685,7 @@
       <path
          id="path8"
          d="m 29,910.36218 c -8.863965,0 -16,7.13604 -16,16 h 16 z"
-         style="opacity:1;fill:#4b4d53" />
+         style="opacity:1;fill:#333333" />
       <path
          id="path9"
          style="opacity:0;fill:#ffffff"
@@ -697,7 +697,7 @@
       <path
          id="path16"
          d="m 29,910.36218 c -8.863965,0 -16,7.13604 -16,16 h 16 z"
-         style="opacity:1;fill:#4b4d53" />
+         style="opacity:1;fill:#333333" />
       <path
          id="path17"
          style="opacity:0;fill:#ffffff"

@@ -17,7 +17,6 @@
     },
     "X-KDE-fallbackPackage": "org.kde.breeze.desktop",
     "X-KPackage-Dependencies": [
-        "kns://icons.knsrc/api.kde-look.org/1166289",
-        "kns://xcursor.knsrc/api.kde-look.org/1914825"
+        "kns://xcursor.knsrc/api.kde-look.org/1411743"
     ]
 }

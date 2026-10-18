@@ -7,7 +7,9 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from . import CABECERA_INI, aplanar, escribir, rgb
+import re
+
+from . import CABECERA_INI, RAIZ, aplanar, escribir, rgb
 
 
 def grupos(t: dict[str, str]) -> dict[str, dict[str, str]]:
@@ -61,9 +63,20 @@ def texto_esquema(tokens: dict, marca: dict, variante: str, con_efectos: bool = 
     return "\n".join(lineas)
 
 
+BASE = RAIZ / "fuentes" / "base" / "WhiteSur-kde" / "color-schemes"
+ORIGEN = {"oscuro": "WhiteSurDark.colors", "claro": "WhiteSur.colors"}
+
+
 def generar(tokens: dict, marca: dict, destino: Path) -> list[Path]:
+    """Línea base del autor (2026-10-18): los esquemas de WhiteSur tal cual, renombrados. El esquema generado desde los
+    tokens (`texto_esquema`) se conserva como `<Id>-tokens.colors` para la mejora siguiente (acento rojo)."""
     hechos: list[Path] = []
     for variante in ("claro", "oscuro"):
-        escribir(destino / "color-schemes" / f"{marca['id_esquema'][variante]}.colors",
-                 texto_esquema(tokens, marca, variante), hechos)
+        id_ = marca["id_esquema"][variante]
+        base = (BASE / ORIGEN[variante]).read_text(encoding="utf-8")
+        base = re.sub(r"^ColorScheme=.*$", f"ColorScheme={id_}", base, flags=re.M)
+        base = re.sub(r"^Name=.*$", f"Name={marca['nombre_esquema'][variante]}", base, flags=re.M)
+        base = re.sub(r"^Name\[.*$\n?", "", base, flags=re.M)
+        escribir(destino / "color-schemes" / f"{id_}.colors", "# GENERADO por herramientas/generar.py desde fuentes/base/WhiteSur-kde (GPL-3.0); no editar\n" + base, hechos)
+        escribir(destino / "color-schemes" / f"{id_}-tokens.colors", texto_esquema(tokens, marca, variante).replace(f"ColorScheme={id_}", f"ColorScheme={id_}-tokens").replace(f"Name={marca['nombre_esquema'][variante]}", f"Name={marca['nombre_esquema'][variante]} (tokens)"), hechos)
     return hechos

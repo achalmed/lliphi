@@ -9,11 +9,11 @@
  </g>
  <g id="pressed" transform="matrix(1.6,0,0,1.6,67.344,99.056)">
   <rect x="-42.09" y="-1.91" width="20" height="20" opacity=".001"/>
-  <circle transform="matrix(1.0156 0 0 1.0156 .40985 -.035)" cx="-32" cy="8" r="8" fill="#c93436"/>
+  <circle transform="matrix(1.0156 0 0 1.0156 .40985 -.035)" cx="-32" cy="8" r="8" fill="#4285f4"/>
  </g>
  <g id="22-22-pressed" transform="matrix(1.1 0 0 1.1 86.299 103.1)">
   <rect x="-42.09" y="-1.91" width="20" height="20" opacity=".001"/>
-  <path transform="matrix(1.0227 0 0 1.0227 .63712 -.091818)" d="m-24 8a8 8 0 0 1-8 8 8 8 0 0 1-8-8 8 8 0 0 1 8-8 8 8 0 0 1 8 8z" fill="#c93436"/>
+  <path transform="matrix(1.0227 0 0 1.0227 .63712 -.091818)" d="m-24 8a8 8 0 0 1-8 8 8 8 0 0 1-8-8 8 8 0 0 1 8-8 8 8 0 0 1 8 8z" fill="#4285f4"/>
  </g>
  <g id="hover" transform="translate(-11,-2)">
   <rect x="11" y="34" width="32" height="32" opacity=".001"/>
@@ -49,6 +49,6 @@
  </g>
  <g id="16-16-pressed" transform="translate(0,96)">
   <rect x="68" y="8" width="16" height="16" opacity=".001" stroke-width=".8"/>
-  <path d="m83 16a7 7 0 0 1-7 7 7 7 0 0 1-7-7 7 7 0 0 1 7-7 7 7 0 0 1 7 7z" fill="#c93436" stroke-width=".875"/>
+  <path d="m83 16a7 7 0 0 1-7 7 7 7 0 0 1-7-7 7 7 0 0 1 7-7 7 7 0 0 1 7 7z" fill="#4285f4" stroke-width=".875"/>
  </g>
 </svg>

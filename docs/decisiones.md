@@ -123,3 +123,7 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   Consecuencia: `fuentes/aurorae/**` y `generado/aurorae/**` son GPL-3.0-or-later (excepción a la decisión 3.8,
   declarada en `REUSE.toml`), y la decoración se publica como módulo aparte con esa licencia. Lo aprendido del motor
   V2 con la versión dibujada (recarga, estados, `metadata.desktop`) queda en `validacion.md` §6.
+- **4.4 (2026-10-18, 18:10) La línea base es la configuración activa del autor** (`docs/linea-base.md`): WhiteSur-dark tal
+  cual (tema global, estilo, esquema azul), decoración Nothing, Kvantum LliphiOscuro, breeze-dark, cursores WhiteSur, y la
+  única novedad pedida: Inter (interfaz) y Hack (mono). Las mejoras entran una a una con su visto bueno. Deroga lo de 4.1 que
+  recoloreaba el estilo de Plasma y usaba Papirus/Bibata/Hack como predeterminados: quedan como opcionales.

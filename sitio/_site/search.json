@@ -789,5 +789,12 @@
     "title": "Licencias y créditos",
     "section": "Créditos e inspiración",
     "text": "Créditos e inspiración\n\nNothing (jomada, Seducción Linux, GPL 3+): la sobriedad casi negra, el acento rojo, la barra fina y el dock que se oculta, como ideas.\nWhiteSur (vinceliuice, GPLv3): la jerarquía de planos, los radios, los márgenes y la familia claro/oscuro, como ideas.\nBreeze (KDE Visual Design Group): el contrato de estilos de Plasma y el mínimo que hereda.\nDracula y Catppuccin: el modelo de ecosistema (paleta única, catálogo, plantillas) y el de generación con comprobación de deriva.\nDocumentación: KDE Developer (estilos de Plasma, Aurorae, fondos), freedesktop.org (Icon Theme, XDG Base Directory), W3C Design Tokens Community Group (Format Module 2025.10), WCAG 2.2, REUSE 3.3, SPDX.\nNombre: lliphi, «relámpago», del Diccionario bilingüe quechua–castellano de Teófilo Laime Ajacopa (2007).\n\nAutor: Edison Achalma."
+  },
+  {
+    "objectID": "instalar.html#tipografía-y-cursores",
+    "href": "instalar.html#tipografía-y-cursores",
+    "title": "Instalar",
+    "section": "Tipografía y cursores",
+    "text": "Tipografía y cursores\nEl tema global trae Inter (interfaz, OFL) y Hack (terminal y código, MIT); si no están instaladas, Plasma usa las tuyas (sudo apt install fonts-inter fonts-hack). Los cursores son WhiteSur-cursors (GPL-3.0; no se redistribuyen aquí): python3 herramientas/dependencias.py --aplicar los descarga a ~/.local/share/icons/."
   }
 ]

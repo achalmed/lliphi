@@ -27,12 +27,7 @@ ORIGEN = {"oscuro": "WhiteSur-dark", "claro": "WhiteSur"}
 
 # hex fijo de WhiteSur → token semántico de Lliphi (los colores de marcador de Plasma —magenta, cian, verde, naranja—
 # y los del stylesheet de Breeze no se tocan: Plasma los sustituye o los ignora)
-MAPA = {
-    "oscuro": {"#1a1a1a": "fondo.ventana", "#333333": "fondo.boton", "#666666": "borde.separador", "#4285f4": "acento.base",
-               "#315bef": "acento.base", "#4f7fef": "acento.suave"},
-    "claro": {"#333333": "texto.secundario", "#666666": "texto.inactivo", "#4285f4": "acento.base", "#315bef": "acento.base",
-              "#4f7fef": "acento.suave"},
-}
+MAPA = {"oscuro": {}, "claro": {}}   # línea base del autor: WhiteSur tal cual, sin recolorear
 
 
 def recolorear(texto: str, mapa: dict[str, str]) -> str:
@@ -49,7 +44,7 @@ def generar(tokens: dict, marca: dict, destino: Path) -> list[Path]:
         base = destino / "desktoptheme" / id_
         origen = BASE / ORIGEN[variante]
         for f in sorted(origen.rglob("*")):
-            if not f.is_file() or f.name in ("colors", "plasmarc", "metadata.json", "metadata.desktop"):
+            if not f.is_file() or f.name in ("plasmarc", "metadata.json", "metadata.desktop"):
                 continue
             rel = f.relative_to(origen)
             if f.suffix == ".svgz":

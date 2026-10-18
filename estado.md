@@ -13,6 +13,7 @@ Hasta que el autor elija el nombre (fase 3), la carpeta se llama `lliphi` y no e
 
 | fecha | qué | dónde se ve |
 |---|---|---|
+| 2026-10-18 | **línea base fijada por el autor** = su configuración activa (WhiteSur-dark tal cual + Nothing + Kvantum Lliphi + breeze-dark + cursores WhiteSur) con Inter/Hack; los generadores la reproducen (esquema y estilo copiados sin recolorear); el esquema rojo de los tokens queda como `-tokens` | `docs/linea-base.md`, `docs/decisiones.md` 4.4 |
 | 2026-10-18 | **0.2.0 publicada** (etiqueta `v0.2.0`, release con 10 paquetes y `SHA256SUMS`) con el visto bueno del autor. Cambio de enfoque por el autor: todo derivado de lo existente: estilo de Plasma y Kvantum de WhiteSur-kde recoloreados, decoración de Nothing recoloreada, Papirus con carpetas rojas, Bibata, Hack; aplicado en la sesión del autor; comprobado en anidada y en sesión real (cristal) | `docs/autocritica.md`, `docs/decisiones.md` §4, `docs/validacion.md` §6–7, `muestras/comparacion-0.1-0.2.png` |
 | 2026-10-18 | lote 2, **decoración de ventanas** (`herramientas/destinos/aurorae.py` → `generado/aurorae/{lliphi,lliphi-claro}/`): derivada de WhiteSur-dark (marco, sombra, rc) y Nothing (botones circulares), GPL-3.0-or-later, copiados a `fuentes/aurorae/base/` (`ORIGEN.md`, `LICENSE`) y recoloreados solo con los tokens (cerrar en el acento, resto gris, sin semáforo; barra de 30 px, botones `IAX`); temas globales con `library=org.kde.kwin.aurorae.v2`; instalador (módulo `decoracion`, escribe `kwinrc` al aplicar); prueba; capturas reales en sesión anidada (`oscuro-09-decoracion.png`, `claro-09-decoracion.png`); lo aprendido del motor V2 en `validacion.md` §6; decisión 3.15. Una primera versión dibujada desde cero fue rechazada por el autor («Breeze con detalles rojos») | `modulos/decoracion/`, `docs/validacion.md` §6 |
 | 2026-10-18 | **publicado y aplicado por el asistente a pedido del autor**: repositorio público `achalmed/lliphi`, etiqueta y versión v0.1.0 con los cinco paquetes y `SHA256SUMS`, sitio en GitHub Pages (`achalmed.github.io/lliphi`, workflow `sitio`), CI en verde, enlace en el menú «More» del hub (`web` 6ffafae), tema aplicado en la sesión del autor (respaldo `~/.local/state/lliphi/respaldos/2026-10-18_154947/UNDO.sh`), alta en `meta/workspace.yml` y renombrado de la carpeta; fuentes importadas en Zotero por el conector; bundles y espejo respaldados | `docs/publicacion.md`, `docs/integracion-hub.md` |
@@ -33,7 +34,7 @@ Hasta que el autor elija el nombre (fase 3), la carpeta se llama `lliphi` y no e
 
 ## En curso
 
-- nada: 0.2.0 publicada; siguiente: validar la variante clara completa y el inicio de sesión real (SDDM, bloqueo).
+- mejoras una a una sobre la línea base (`docs/linea-base.md` §2): primero el acento rojo en el esquema, con captura y visto bueno del autor.
 
 ## Por hacer
 

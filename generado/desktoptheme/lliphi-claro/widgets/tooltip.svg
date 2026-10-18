@@ -19,8 +19,8 @@
      type="text/css"
      id="current-color-scheme">
       .ColorScheme-Text {
-        color:#4b4d53;
-        stop-color:#4b4d53;
+        color:#333333;
+        stop-color:#333333;
       }
       .ColorScheme-Background {
         color:#fefefe;
@@ -31,8 +31,8 @@
         stop-color:#3daee9;
       }
       .ColorScheme-ViewText {
-        color:#4b4d53;
-        stop-color:#4b4d53;
+        color:#333333;
+        stop-color:#333333;
       }
       .ColorScheme-ViewBackground {
         color:#ffffff;

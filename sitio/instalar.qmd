@@ -62,7 +62,8 @@ Cada página del [catálogo](catalogo.qmd) trae sus pasos de instalación, actua
 Cuando el tema esté publicado en la tienda, bastará Preferencias del sistema → Tema global → Obtener nuevo… y
 buscar «Lliphi». Hasta entonces, usa el instalador o la instalación a mano.
 
-## Tipografía recomendada
+## Tipografía y cursores
 
-Lliphi no cambia tus fuentes. Se diseñó con **Inter** (interfaz) e **IBM Plex Mono** (terminal y código), ambas
-libres (OFL). Si quieres el mismo aspecto: Preferencias del sistema → Apariencia y estilo → Tipografías.
+El tema global trae **Inter** (interfaz, OFL) y **Hack** (terminal y código, MIT); si no están instaladas, Plasma usa
+las tuyas (`sudo apt install fonts-inter fonts-hack`). Los cursores son **WhiteSur-cursors** (GPL-3.0; no se
+redistribuyen aquí): `python3 herramientas/dependencias.py --aplicar` los descarga a `~/.local/share/icons/`.

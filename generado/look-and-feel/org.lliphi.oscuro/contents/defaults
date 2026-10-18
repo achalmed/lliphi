@@ -4,18 +4,18 @@
 widgetStyle=kvantum-dark
 
 [kdeglobals][Icons]
-Theme=Papirus-Dark
+Theme=breeze-dark
 
 [kdeglobals][General]
 ColorScheme=LliphiOscuro
-font=Hack,10,-1,5,400,0,0,0,0,0
+font=Inter,10,-1,5,400,0,0,0,0,0
 fixed=Hack,10,-1,5,400,0,0,0,0,0
-menuFont=Hack,10,-1,5,400,0,0,0,0,0
-toolBarFont=Hack,10,-1,5,400,0,0,0,0,0
-smallestReadableFont=Hack,8,-1,5,400,0,0,0,0,0
+menuFont=Inter,10,-1,5,400,0,0,0,0,0
+toolBarFont=Inter,10,-1,5,400,0,0,0,0,0
+smallestReadableFont=Inter,8,-1,5,400,0,0,0,0,0
 
 [kdeglobals][WM]
-activeFont=Hack,10,-1,5,700,0,0,0,0,0
+activeFont=Inter,10,-1,5,500,0,0,0,0,0
 
 [plasmarc][Theme]
 name=lliphi-oscuro
@@ -24,7 +24,7 @@ name=lliphi-oscuro
 Image=org.lliphi.horizonte
 
 [kcminputrc][Mouse]
-cursorTheme=Bibata-Modern-Classic
+cursorTheme=WhiteSur-cursors
 
 [kwinrc][org.kde.kdecoration2]
 library=org.kde.kwin.aurorae.v2

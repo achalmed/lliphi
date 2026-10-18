@@ -4,6 +4,13 @@ Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión de
 
 ## [Unreleased]
 
+### Changed
+- Línea base fijada por el autor (`docs/linea-base.md`, decisiones 4.4): el tema global reproduce su configuración
+  activa, WhiteSur-dark tal cual (esquema `WhiteSurDark` y estilo de Plasma con su `colors`, sin recolorear),
+  decoración Nothing, Kvantum Lliphi, iconos `breeze-dark`, cursores WhiteSur-cursors; la única novedad es la
+  tipografía: Inter (interfaz) y Hack (monoespaciada). El esquema rojo de los tokens queda como `Lliphi*-tokens.colors`.
+- `dependencias.py` instala WhiteSur-cursors por defecto; Papirus y Bibata pasan a `--opcionales`.
+
 ## [0.2.0] - 2026-10-18
 
 ### Changed
