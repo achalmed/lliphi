@@ -1,0 +1,6 @@
+# Generado y artefactos
+_site/
+.quarto/
+__pycache__/
+*.pyc
+.pytest_cache/
