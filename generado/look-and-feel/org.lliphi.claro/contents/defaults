@@ -13,7 +13,7 @@ Theme=breeze
 name=lliphi
 
 [Wallpaper]
-Image=org.lliphi.horizonte
+Image=file://$HOME/.local/share/wallpapers/org.lliphi.horizonte
 
 [kcminputrc][Mouse]
 cursorTheme=breeze_cursors

@@ -24,9 +24,11 @@ Hasta que el autor elija el nombre (fase 3), la carpeta se llama `tema-plasma` y
 
 ## En curso
 
-- fase 4: el autor aprueba la paleta corregida (rojo de Nothing) o pide otro acento; con su visto bueno empieza la implementación del primer lote (fase 6).
+- fase 8: sitio y documentación de usuario (dueño: asistente).
 
 ## Por hacer
 
-- 2026-10-18 · dueño: director · dar de alta `lliphi` en `meta/workspace.yml` y renombrar la carpeta `tema-plasma` → `lliphi` con `core/renombrar.py` (cambio estructural: etiqueta, simulación, respaldo, UNDO).
+- 2026-10-18 · dueño: autor · **el disco interno `/dev/nvme0n1` (INTEL HBRPEKNX0101AH) aparece como «likely to fail soon» en Plasma** (aviso de Device Health visto en la sesión de prueba): respaldar y comprobar con `sudo smartctl -a /dev/nvme0n1`.
+- 2026-10-18 · dueño: autor · validar con inicio de sesión real como `prueba-tema` (SDDM, splash, bloqueo, escala 150 %, una aplicación GTK): `python3 /tmp/lliphi-dist/herramientas/instalar.py --aplicar --aplicar-tema oscuro`.
+- 2026-10-18 · dueño: director · renombrar la carpeta `tema-plasma` → `lliphi` con `core/renombrar.py` y darla de alta en `meta/workspace.yml`.
 - 2026-10-18 · dueño: autor · importar en Zotero `scripts-biblioteca/ingesta/salida_ris/ingesta_20261018_130400.ris` (15 ítems de esta serie) y pegar las claves en `#zotero_key`.

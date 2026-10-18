@@ -108,6 +108,7 @@ def respaldar(aplicar: bool) -> Path:
             sumas[rel] = sha(origen)
             print(f"  {'respaldado' if aplicar else 'SIM respaldar'} {rel}")
     if aplicar:
+        carpeta.mkdir(parents=True, exist_ok=True)
         (carpeta / "sumas.json").write_text(json.dumps(sumas, indent=2) + "\n", encoding="utf-8")
     return carpeta
 

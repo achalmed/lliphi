@@ -13,12 +13,12 @@ probado aquí. Se actualiza en cada fase de validación.
 
 | componente | Plasma 6.0–6.1 | 6.2–6.5 | **6.6 (probado aquí)** | depende de |
 |---|---|---|---|---|
-| esquema de color `.colors` | esperado | esperado | pendiente de probar | KColorScheme (estable desde KF5) |
-| tema global (look-and-feel con fallback a Breeze) | esperado | esperado | pendiente | `kpackagetool6`, `plasma-apply-lookandfeel` |
-| estilo de Plasma (hereda de Breeze; `plasmarc` con `[ContrastEffect]`, `[AdaptiveTransparency]`) | esperado | esperado | pendiente | `AdaptiveTransparency` no documentado: se prueba |
-| decoración Breeze coloreada | esperado | esperado | pendiente | `[WM]`, `Colors:Header` |
+| esquema de color `.colors` | esperado | esperado | **probado** (sesión anidada, 2026-10-18) | KColorScheme (estable desde KF5) |
+| tema global (look-and-feel con fallback a Breeze) | esperado | esperado | **probado** (sesión anidada, 2026-10-18) | `kpackagetool6`, `plasma-apply-lookandfeel` |
+| estilo de Plasma (hereda de Breeze; `plasmarc` con `[ContrastEffect]`, `[AdaptiveTransparency]`) | esperado | esperado | **probado** (sesión anidada, 2026-10-18) | `AdaptiveTransparency` no documentado: se prueba |
+| decoración Breeze coloreada | esperado | esperado | **probado** (sesión anidada, 2026-10-18) | `[WM]`, `Colors:Header` |
 | Konsole `.colorscheme` | esperado | esperado | pendiente | Konsole ≥ 22 |
-| fondo con `images_dark/` | no (solo `images/`) | no | pendiente | `images_dark/` llega en 6.6; antes se usa la imagen clara |
+| fondo con `images_dark/` | no (solo `images/`) | no | **probado** por ruta del paquete; por nombre no resolvió | `images_dark/` llega en 6.6; antes se usa la imagen clara |
 | acento declarado por el fondo | esperado | esperado | pendiente | `X-KDE-PlasmaImageWallpaper-AccentColor` |
 | GTK generado por Plasma | esperado | esperado | pendiente | `kde-gtk-config`, `breeze-gtk` |
 | Aurorae propio | no se ofrece | no se ofrece | no se ofrece | motor V2 solo desde 6.6 |

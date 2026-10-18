@@ -28,5 +28,6 @@ var escritorios = desktopsForActivity(currentActivity());
 for (var i = 0; i < escritorios.length; i++) {
     escritorios[i].wallpaperPlugin = "org.kde.image";
     escritorios[i].currentConfigGroup = ["Wallpaper", "org.kde.image", "General"];
-    escritorios[i].writeConfig("Image", "org.lliphi.horizonte");
+    // por ruta del paquete: en Plasma 6.6 el nombre de un paquete de usuario no se resolvía (docs/validacion.md §3)
+    escritorios[i].writeConfig("Image", "file://" + userDataPath("wallpapers") + "/org.lliphi.horizonte");
 }

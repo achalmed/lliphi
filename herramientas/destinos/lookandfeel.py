@@ -42,7 +42,8 @@ var escritorios = desktopsForActivity(currentActivity());
 for (var i = 0; i < escritorios.length; i++) {{
     escritorios[i].wallpaperPlugin = "org.kde.image";
     escritorios[i].currentConfigGroup = ["Wallpaper", "org.kde.image", "General"];
-    escritorios[i].writeConfig("Image", "{fondo}");
+    // por ruta del paquete: en Plasma 6.6 el nombre de un paquete de usuario no se resolvía (docs/validacion.md §3)
+    escritorios[i].writeConfig("Image", "file://" + userDataPath("wallpapers") + "/{fondo}");
 }}
 """
 
@@ -54,7 +55,7 @@ def defaults(marca: dict, variante: str) -> str:
         "[kdeglobals][General]", f"ColorScheme={marca['id_esquema'][variante]}", "",
         "[kdeglobals][Icons]", f"Theme={'breeze' if variante == 'claro' else 'breeze-dark'}", "",
         "[plasmarc][Theme]", f"name={marca['id']}", "",
-        "[Wallpaper]", f"Image={marca['id_fondo']}", "",
+        "[Wallpaper]", f"Image=file://$HOME/.local/share/wallpapers/{marca['id_fondo']}", "",
         "[kcminputrc][Mouse]", "cursorTheme=breeze_cursors", "",
         "[kwinrc][org.kde.kdecoration2]", "library=org.kde.breeze", "theme=Breeze", "ButtonsOnLeft=M", "ButtonsOnRight=IAX", "",
         "[kwinrc][WindowSwitcher]", "LayoutName=org.kde.breeze.desktop", "",
@@ -88,9 +89,10 @@ def generar(tokens: dict, marca: dict, destino: Path) -> list[Path]:
         escribir(base / "contents" / "defaults", defaults(marca, variante), hechos)
         escribir(base / "contents" / "layouts" / "org.kde.plasma.desktop-layout.js",
                  LAYOUT.format(nombre=marca["nombre"], fondo=marca["id_fondo"]), hechos)
-        # Vistas previas: hasta la fase 7 son el boceto (rotulado como tal); después, capturas reales.
-        for origen, nombre in ((RAIZ / "muestras" / f"boceto-{variante}.png", "fullscreenpreview.jpg"),
-                               (RAIZ / "muestras" / f"boceto-{variante}.png", "preview.png")):
+        # Vistas previas: capturas reales de la fase 7 (muestras/capturas); si faltan, el boceto rotulado.
+        captura = RAIZ / "muestras" / "capturas" / f"{variante}-02-lanzador.png"
+        origen_previa = captura if captura.exists() else RAIZ / "muestras" / f"boceto-{variante}.png"
+        for origen, nombre in ((origen_previa, "fullscreenpreview.jpg"), (origen_previa, "preview.png")):
             if origen.exists():
                 dest = base / "contents" / "previews" / nombre
                 dest.parent.mkdir(parents=True, exist_ok=True)
