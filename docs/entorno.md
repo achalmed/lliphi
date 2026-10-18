@@ -22,7 +22,7 @@ comprobar cuando cambie la distribución o Plasma. Rutas relativas a `~`.
 | arranque | Plymouth 24.004 | `dpkg -l plymouth` |
 | RAM | 15 GiB, de los que quedaban 2,5 GiB disponibles al inspeccionar | `free -h` |
 | disco | 35 GB libres de 234 (85 % usado) | `df -h ~` |
-| usuarios | solo `achalmaedison` (1000); no hay usuario de prueba | `/etc/passwd` |
+| usuarios | `achalmaedison` (1000) y `prueba-tema` (1001, creado el 2026-10-18 para la validación limpia de la fase 7) | `/etc/passwd` |
 | virtualización | `qemu-system-x86_64` y `docker` presentes; sin `virt-manager`, `distrobox` ni `podman` | `command -v` |
 | `sudo` | pide contraseña interactiva: el asistente no puede usarlo; el autor ejecuta lo privilegiado | `sudo -n true` |
 
@@ -117,7 +117,7 @@ Todas respondieron 200 el 2026-10-18: la tienda (con antibots), la API OCS, `dra
 
 | riesgo | efecto | mitigación |
 |---|---|---|
-| sin usuario de prueba ni VM lista; 2,5 GiB de RAM libres | la validación en una sesión limpia no se puede hacer hoy sin ayuda | el autor crea un usuario de prueba (`sudo adduser prueba-tema`) o se usa `plasmashell --replace` tras respaldo; una VM de Kubuntu es posible con QEMU si se libera memoria |
+| 2,5 GiB de RAM libres durante la inspección | una segunda sesión de Plasma (usuario `prueba-tema`) convive justa con la del autor | cerrar aplicaciones pesadas antes de abrir la sesión de prueba; la VM con QEMU queda como alternativa |
 | `sudo` interactivo | SDDM, Plymouth, `/usr/share` e instalación de paquetes quedan fuera del asistente | el asistente deja los comandos; el autor los ejecuta |
 | disco al 85 % | una VM de 20 GB no cabe con holgura | se decide en la fase 7 |
 | la tienda bloquea el navegador sin JavaScript | no se leen reseñas ni capturas desde el terminal | la API OCS y el paquete en disco bastan |
