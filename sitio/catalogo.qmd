@@ -22,6 +22,6 @@ hoja de ruta). La tabla se genera del repositorio (`modulos/*/modulo.json`).
 
 | lote | módulos | condición |
 |---|---|---|
-| 2 | terminales (Alacritty, Kitty), editores (VS Code, Zed), navegador (Zen/Firefox) | generados desde los mismos tokens |
+| 2 | terminales (Alacritty, Kitty) **hecho** · editores (VS Code, Zed) · navegador (Zen/Firefox) | generados desde los mismos tokens |
 | 3 | iconos (solo lo que cambia, hereda de Breeze), cursores | si aportan algo visible |
 | 4 | SDDM y Plymouth (root, con confirmación), Kvantum opcional, variante translúcida con contraste medido | tras probar el primer lote en más distribuciones |

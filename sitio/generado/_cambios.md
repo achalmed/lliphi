@@ -3,6 +3,11 @@ Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión de
 
 ## [Unreleased]
 
+### Added
+- Módulo `terminales`: esquemas para Alacritty (`[colors]` en TOML) y Kitty (`.conf`) en claro y oscuro, con los
+  dieciséis ANSI de Konsole y la selección, el cursor y los enlaces del esquema de Plasma; el instalador admite
+  destinos en `$XDG_CONFIG_HOME` (`alacritty/themes/`, `kitty/themes/`).
+
 ## [0.1.0] - 2026-10-18
 
 ### Added

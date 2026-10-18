@@ -86,6 +86,10 @@ def test_ningun_hex_fuera_del_maestro():
         if f.suffix == ".svg":
             for h in re.findall(r"#[0-9a-fA-F]{6}\b", f.read_text(encoding="utf-8")):
                 assert h.lower() in hexes | {"#000000"}, (f.name, h)
+        if f.suffix in (".toml", ".conf", ".json"):
+            # los editores admiten #rrggbbaa: el color base debe ser del maestro; el alfa es libre
+            for h in re.findall(r"#([0-9a-fA-F]{6})(?:[0-9a-fA-F]{2})?\b", f.read_text(encoding="utf-8")):
+                assert "#" + h.lower() in hexes, (f.name, h)
 
 
 # ---------------------------------------------------------------- estructura de los paquetes
@@ -145,6 +149,34 @@ def test_konsole_16_colores():
         assert cp["General"]["Description"] == MARCA["nombre_esquema"][v]
 
 
+def _terminal(variante: str) -> dict[str, str]:
+    return {k: v["$value"]["hex"] for k, v in TOKENS["terminal"][variante].items()}
+
+
+def test_terminales_alacritty_kitty():
+    import tomllib
+    ansi = ("black", "red", "green", "yellow", "blue", "magenta", "cyan", "white")
+    for v in ("claro", "oscuro"):
+        t = _terminal(v)
+        sem = {k: x["$value"]["hex"] for k, x in _tokens_planos(TOKENS["semanticos"][v]).items()}
+        a = tomllib.loads((GEN / "terminales" / "alacritty" / f"{MARCA['id']}-{v}.toml").read_text(encoding="utf-8"))["colors"]
+        assert a["primary"] == {"background": t["fondo"], "foreground": t["texto"], "dim_foreground": t["texto-tenue"], "bright_foreground": t["texto-intenso"]}
+        assert a["selection"] == {"text": sem["seleccion.texto"], "background": sem["seleccion.fondo"]}
+        assert a["cursor"]["cursor"] == sem["acento.base"]
+        for i, n in enumerate(ansi):
+            assert a["normal"][n] == t[f"color{i}"] and a["bright"][n] == t[f"color{i + 8}"], (v, n)
+        k = {}
+        for linea in (GEN / "terminales" / "kitty" / f"{MARCA['id']}-{v}.conf").read_text(encoding="utf-8").splitlines():
+            if linea and not linea.startswith("#"):
+                clave, valor = linea.split(maxsplit=1); k[clave] = valor
+        assert k["foreground"] == t["texto"] and k["background"] == t["fondo"]
+        assert k["selection_background"] == sem["seleccion.fondo"] and k["selection_foreground"] == sem["seleccion.texto"]
+        assert k["cursor"] == sem["acento.base"] and k["url_color"] == sem["enlace"]
+        for i in range(16):
+            assert k[f"color{i}"] == t[f"color{i}"], (v, i)
+        assert f"## name: {MARCA['nombre_esquema'][v]}" in (GEN / "terminales" / "kitty" / f"{MARCA['id']}-{v}.conf").read_text(encoding="utf-8")
+
+
 def test_fondo_paquete():
     base = GEN / "wallpapers" / MARCA["id_fondo"]
     meta = json.loads((base / "metadata.json").read_text(encoding="utf-8"))
@@ -175,6 +207,8 @@ def test_instalar_y_desinstalar_restaura(tmp_path: Path):
     assert ap.returncode == 0, ap.stdout + ap.stderr
     assert (tmp_path / ".local/share/plasma/look-and-feel" / MARCA["id_global"]["oscuro"] / "metadata.json").exists()
     assert (tmp_path / ".local/share/color-schemes" / f"{MARCA['id_esquema']['claro']}.colors").exists()
+    assert (tmp_path / ".config/alacritty/themes" / f"{MARCA['id']}-oscuro.toml").exists()
+    assert (tmp_path / ".config/kitty/themes" / f"{MARCA['id']}-claro.conf").exists()
     manifiesto = tmp_path / ".local/state" / MARCA["id"] / "instalado.json"
     assert manifiesto.exists()
     respaldo = Path(json.loads(manifiesto.read_text())["respaldo"])
@@ -195,6 +229,7 @@ def test_instalar_y_desinstalar_restaura(tmp_path: Path):
     assert undo.returncode == 0, undo.stderr
     assert (tmp_path / ".config" / "kdeglobals").read_bytes() == antes[Path(".config/kdeglobals")]
     assert not (tmp_path / ".local/share/plasma/look-and-feel" / MARCA["id_global"]["oscuro"]).exists()
+    assert not (tmp_path / ".config/kitty/themes" / f"{MARCA['id']}-claro.conf").exists()
     assert not manifiesto.exists()
 
 

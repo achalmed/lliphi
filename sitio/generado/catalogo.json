@@ -84,6 +84,23 @@
       "generador": "konsole.py",
       "capturas": [],
       "id": "konsole"
+    },
+    {
+      "nombre": "Terminales: Alacritty y Kitty",
+      "resumen": "Los mismos dieciséis colores ANSI, fondo, selección y cursor de Konsole para Alacritty (TOML) y Kitty (conf), en claro y oscuro.",
+      "estado": "experimental",
+      "tecnologia": "Alacritty `[colors]` (TOML, ≥ 0.13) · Kitty `.conf`",
+      "desde": "0.2.0",
+      "archivos": [
+        "alacritty/lliphi-claro.toml",
+        "alacritty/lliphi-oscuro.toml",
+        "kitty/lliphi-claro.conf",
+        "kitty/lliphi-oscuro.conf"
+      ],
+      "carpeta": "terminales",
+      "generador": "terminales.py",
+      "capturas": [],
+      "id": "terminales"
     }
   ]
 }

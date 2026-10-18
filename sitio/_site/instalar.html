@@ -439,7 +439,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ol type="1">
 <li>Comprueba que hay Plasma 6 y las herramientas necesarias.</li>
 <li>Respalda <code>kdeglobals</code>, <code>plasmarc</code>, <code>kwinrc</code>, <code>kcminputrc</code>, <code>ksplashrc</code>, <code>kscreenlockerrc</code>, <code>plasma-org.kde.plasma.desktop-appletsrc</code>, <code>gtk-3.0/settings.ini</code>, <code>gtk-4.0/settings.ini</code> y <code>konsolerc</code> en <code>~/.local/state/lliphi/respaldos/&lt;fecha&gt;/</code>, verifica cada copia con SHA-256 y deja allí un <code>UNDO.sh</code>.</li>
-<li>Copia los módulos a <code>~/.local/share/</code> (esquemas, temas globales, estilo de Plasma, Konsole, fondos). Nunca escribe en <code>/usr</code> ni pide <code>sudo</code>.</li>
+<li>Copia los módulos a <code>~/.local/share/</code> (esquemas, temas globales, estilo de Plasma, Konsole, fondos) y los temas de otras aplicaciones a <code>~/.config/&lt;aplicación&gt;/themes/</code> (terminales). Nunca escribe en <code>/usr</code> ni pide <code>sudo</code>.</li>
 <li>Se detiene si en el destino hay archivos que no instaló Lliphi (no pisa nada ajeno).</li>
 <li>Anota lo instalado en <code>~/.local/state/lliphi/instalado.json</code>.</li>
 </ol>

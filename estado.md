@@ -13,6 +13,7 @@ Hasta que el autor elija el nombre (fase 3), la carpeta se llama `tema-plasma` y
 
 | fecha | qué | dónde se ve |
 |---|---|---|
+| 2026-10-18 | lote 2, terminales: generador `herramientas/destinos/terminales.py` → `generado/terminales/{alacritty,kitty}/` (claro y oscuro, desde el grupo `terminal` más selección, cursor y enlace de los semánticos); módulo `terminales`; el instalador admite destinos en `$XDG_CONFIG_HOME`; prueba, compatibilidad y changelog | `modulos/terminales/`, `sitio/generado/catalogo/terminales.qmd` |
 | 2026-10-18 | fase 3 cerrada: el autor eligió **Lliphi**; fase 4 corregida: la primera paleta (verde azulado) no era la fusión pedida; segunda paleta con el rojo de Nothing sobre neutros casi negros y grises suaves (25 pares en verde), variantes de acento `azul` y `verde-azul` en el script, boceto del escritorio (`herramientas/boceto.py` → `muestras/boceto-*.png`) | `docs/direccion-artistica.md` |
 | 2026-10-18 | fase 5 (borrador): arquitectura (fuente → generadores → `generado/` versionado con prueba de deriva; instalador reversible; módulos y lotes), decisiones 1.1–3.10 y matriz de compatibilidad | `docs/arquitectura.md`, `docs/decisiones.md`, `docs/compatibilidad.md` |
 | 2026-10-18 | fase 4: paleta OKLCH en `herramientas/paleta.py` → `tokens/tokens.json` (DTCG 2025.10), 25 pares de contraste medidos y en verde en las dos variantes, primer generador (`herramientas/generar_esquema.py` → `generado/color-schemes/*.colors`) y lámina de widgets Breeze (`herramientas/lamina.py` → `muestras/*.png`); `.venv` con coloraide; dirección artística documentada, pendiente de aprobación | `docs/direccion-artistica.md` |
@@ -30,7 +31,7 @@ Hasta que el autor elija el nombre (fase 3), la carpeta se llama `tema-plasma` y
 
 - 2026-10-18 · dueño: autor · **el disco interno `/dev/nvme0n1` (INTEL HBRPEKNX0101AH) aparece como «likely to fail soon» en Plasma** (aviso de Device Health visto en la sesión de prueba): respaldar y comprobar con `sudo smartctl -a /dev/nvme0n1`.
 - 2026-10-18 · dueño: autor · **publicar 0.1.0**: crear el remoto `achalmed/lliphi`, empujar, etiquetar `v0.1.0`, `gh release create` con `dist/`, sitio en Netlify (`lliphi`), parche del hub y fichas en KDE Store; comandos en `docs/publicacion.md`.
-- 2026-10-18 · dueño: asistente (lote 2) · terminales (Alacritty, Kitty), editores (VS Code, Zed) y navegador desde los mismos tokens; iconos de carpeta en rojo (lote 3); GTK y escalas en la validación real.
+- 2026-10-18 · dueño: asistente (lote 2) · editores (VS Code, Zed) y navegador desde los mismos tokens; iconos de carpeta en rojo (lote 3); GTK y escalas en la validación real. Terminales: hecho.
 - 2026-10-18 · dueño: autor · validar con inicio de sesión real como `prueba-tema` (SDDM, splash, bloqueo, escala 150 %, una aplicación GTK): `python3 /tmp/lliphi-dist/herramientas/instalar.py --aplicar --aplicar-tema oscuro`.
 - 2026-10-18 · dueño: director · renombrar la carpeta `tema-plasma` → `lliphi` con `core/renombrar.py` y darla de alta en `meta/workspace.yml`.
 - 2026-10-18 · dueño: autor · importar en Zotero `scripts-biblioteca/ingesta/salida_ris/ingesta_20261018_130400.ris` (15 ítems de esta serie) y pegar las claves en `#zotero_key`.

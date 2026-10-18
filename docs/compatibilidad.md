@@ -18,6 +18,8 @@ probado aquí. Se actualiza en cada fase de validación.
 | estilo de Plasma (hereda de Breeze; `plasmarc` con `[ContrastEffect]`, `[AdaptiveTransparency]`) | esperado | esperado | **probado** (sesión anidada, 2026-10-18) | `AdaptiveTransparency` no documentado: se prueba |
 | decoración Breeze coloreada | esperado | esperado | **probado** (sesión anidada, 2026-10-18) | `[WM]`, `Colors:Header` |
 | Konsole `.colorscheme` | esperado | esperado | pendiente | Konsole ≥ 22 |
+| Alacritty `[colors]` (TOML) | independiente de Plasma | — | pendiente | Alacritty ≥ 0.13 (configuración TOML; `general.import` desde 0.14) |
+| Kitty `.conf` (`color0..15`, selección, cursor, pestañas) | independiente de Plasma | — | pendiente | Kitty ≥ 0.26 (`include`, `kitten themes`) |
 | fondo con `images_dark/` | no (solo `images/`) | no | **probado** por ruta del paquete; por nombre no resolvió | `images_dark/` llega en 6.6; antes se usa la imagen clara |
 | acento declarado por el fondo | esperado | esperado | pendiente | `X-KDE-PlasmaImageWallpaper-AccentColor` |
 | GTK generado por Plasma | esperado | esperado | pendiente | `kde-gtk-config`, `breeze-gtk` |
@@ -39,5 +41,5 @@ probado aquí. Se actualiza en cada fase de validación.
 
 ## 3. Lo que no depende de la versión
 
-Esquemas de color, Konsole, tokens, instalador (rutas XDG), sitio y documentación. Lo que sí: paquetes de fondo con
+Esquemas de color, Konsole, Alacritty, Kitty, tokens, instalador (rutas XDG), sitio y documentación. Lo que sí: paquetes de fondo con
 `images_dark/`, funciones de 6.6 y cualquier Aurorae.

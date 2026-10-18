@@ -1,0 +1,64 @@
+# GENERADO por herramientas/generar.py desde tokens/; no editar
+# Lliphi Oscuro: en alacritty.toml añade  [general]  import = ["~/.config/alacritty/themes/lliphi-oscuro.toml"]
+
+[colors.primary]
+background = "#101012"
+foreground = "#eaebed"
+dim_foreground = "#97989c"
+bright_foreground = "#eaebed"
+
+[colors.cursor]
+text = "#fcfcfc"
+cursor = "#c93436"
+
+[colors.vi_mode_cursor]
+text = "#fcfcfc"
+cursor = "#c93436"
+
+[colors.selection]
+text = "#fcfcfc"
+background = "#c93436"
+
+[colors.search.matches]
+foreground = "#101012"
+background = "#d0a43a"
+
+[colors.search.focused_match]
+foreground = "#fcfcfc"
+background = "#c93436"
+
+[colors.hints.start]
+foreground = "#101012"
+background = "#d0a43a"
+
+[colors.hints.end]
+foreground = "#101012"
+background = "#ebbd57"
+
+[colors.footer_bar]
+foreground = "#bcbec1"
+background = "#1b1c1e"
+
+[colors.line_indicator]
+foreground = "None"
+background = "None"
+
+[colors.normal]
+black = "#323336"
+red = "#f28881"
+green = "#69c27e"
+yellow = "#d0a43a"
+blue = "#7daafd"
+magenta = "#d98cd2"
+cyan = "#00c2ca"
+white = "#d0d1d4"
+
+[colors.bright]
+black = "#626367"
+red = "#ffaba3"
+green = "#83dc97"
+yellow = "#ebbd57"
+blue = "#a4c5ff"
+magenta = "#f4a5ec"
+cyan = "#34dde5"
+white = "#f1f2f3"

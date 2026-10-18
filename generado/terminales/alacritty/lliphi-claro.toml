@@ -1,0 +1,64 @@
+# GENERADO por herramientas/generar.py desde tokens/; no editar
+# Lliphi Claro: en alacritty.toml añade  [general]  import = ["~/.config/alacritty/themes/lliphi-claro.toml"]
+
+[colors.primary]
+background = "#fbfcfd"
+foreground = "#1d1f24"
+dim_foreground = "#66676c"
+bright_foreground = "#1d1f24"
+
+[colors.cursor]
+text = "#fcfcfc"
+cursor = "#c53133"
+
+[colors.vi_mode_cursor]
+text = "#fcfcfc"
+cursor = "#c53133"
+
+[colors.selection]
+text = "#fcfcfc"
+background = "#c53133"
+
+[colors.search.matches]
+foreground = "#fbfcfd"
+background = "#7e5e00"
+
+[colors.search.focused_match]
+foreground = "#fcfcfc"
+background = "#c53133"
+
+[colors.hints.start]
+foreground = "#fbfcfd"
+background = "#7e5e00"
+
+[colors.hints.end]
+foreground = "#fbfcfd"
+background = "#624800"
+
+[colors.footer_bar]
+foreground = "#4b4d53"
+background = "#ecedef"
+
+[colors.line_indicator]
+foreground = "None"
+background = "None"
+
+[colors.normal]
+black = "#2c2e32"
+red = "#a43b38"
+green = "#007835"
+yellow = "#7e5e00"
+blue = "#345fb2"
+magenta = "#8e4088"
+cyan = "#007176"
+white = "#bdbec0"
+
+[colors.bright]
+black = "#53555a"
+red = "#892122"
+green = "#005e28"
+yellow = "#624800"
+blue = "#1e4798"
+magenta = "#752870"
+cyan = "#00585c"
+white = "#e7e8e9"

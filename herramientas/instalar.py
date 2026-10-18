@@ -2,6 +2,8 @@
 """Instala, actualiza y desinstala el tema en el usuario actual, con simulación, respaldo y reversión.
 
 Solo escribe en `$XDG_DATA_HOME` (`~/.local/share`) y `$XDG_CONFIG_HOME` (`~/.config`); nunca en `/usr`.
+Los módulos de terminales y editores dejan sus archivos en `$XDG_CONFIG_HOME/<aplicación>/themes/`; cada aplicación los
+importa desde su propia configuración, que el instalador no toca (lo dice `modulos/<id>/INSTALL.md`).
 Antes de tocar nada respalda los archivos de configuración que cambia Plasma al aplicar un tema, con su
 SHA-256 verificada, en `$XDG_STATE_HOME/<id>/respaldos/<fecha>/` y deja allí un `UNDO.sh` que restaura
 byte a byte y desinstala. Lo instalado queda anotado en `$XDG_STATE_HOME/<id>/instalado.json`.
@@ -43,14 +45,28 @@ CONFIGS = ["kdeglobals", "plasmarc", "kwinrc", "kcminputrc", "ksplashrc", "kscre
            "plasma-org.kde.plasma.desktop-appletsrc", "gtk-3.0/settings.ini", "gtk-4.0/settings.ini",
            "konsolerc"]
 
-# módulo → [(origen relativo a generado/, destino relativo a XDG_DATA_HOME)]
+# módulo → [(origen relativo a generado/, destino relativo a la base, base)]; la base es "data" (XDG_DATA_HOME, por
+# omisión si el par tiene dos elementos) o "config" (XDG_CONFIG_HOME)
 MODULOS = {
     "esquema": [(f"color-schemes/{MARCA['id_esquema'][v]}.colors", f"color-schemes/{MARCA['id_esquema'][v]}.colors") for v in ("claro", "oscuro")],
     "estilo": [(f"desktoptheme/{ID}", f"plasma/desktoptheme/{ID}")],
     "global": [(f"look-and-feel/{MARCA['id_global'][v]}", f"plasma/look-and-feel/{MARCA['id_global'][v]}") for v in ("claro", "oscuro")],
     "konsole": [(f"konsole/{MARCA['nombre_esquema'][v]}.colorscheme", f"konsole/{MARCA['nombre_esquema'][v]}.colorscheme") for v in ("claro", "oscuro")],
     "fondos": [(f"wallpapers/{MARCA['id_fondo']}", f"wallpapers/{MARCA['id_fondo']}")],
+    "terminales": [(f"terminales/alacritty/{ID}-{v}.toml", f"alacritty/themes/{ID}-{v}.toml", "config") for v in ("claro", "oscuro")]
+                + [(f"terminales/kitty/{ID}-{v}.conf", f"kitty/themes/{ID}-{v}.conf", "config") for v in ("claro", "oscuro")],
 }
+BASES = {"data": DATA, "config": CONFIG}
+
+
+def pares_de(modulos: list[str]) -> list[tuple[Path, Path]]:
+    """(origen absoluto en generado/, destino absoluto) de cada archivo o carpeta de los módulos pedidos."""
+    pares = []
+    for m in modulos:
+        for par in MODULOS[m]:
+            origen, destino, *base = par
+            pares.append((GENERADO / origen, BASES[base[0] if base else "data"] / destino))
+    return pares
 DEPENDENCIAS = {"global": ["plasma-apply-lookandfeel"], "esquema": ["plasma-apply-colorscheme"]}
 
 
@@ -131,7 +147,7 @@ def instalar(modulos: list[str], aplicar: bool, aplicar_tema: str | None) -> int
     if faltan:
         print("faltan dependencias:\n  " + "\n  ".join(faltan)); return 2
     print(f"{'Instalando' if aplicar else 'SIMULACIÓN de'} {MARCA['nombre']} {VERSION} en {DATA}")
-    pares = [(GENERADO / o, DATA / d) for m in modulos for o, d in MODULOS[m]]
+    pares = pares_de(modulos)
     conflictos = [d for o, d in pares if ajeno(o, d)]
     if conflictos:
         print("en el destino hay archivos que no instaló este proyecto; no se tocan:\n  " + "\n  ".join(map(str, conflictos)))

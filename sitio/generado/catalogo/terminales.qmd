@@ -1,0 +1,54 @@
+---
+title: "Terminales: Alacritty y Kitty"
+subtitle: "Los mismos dieciséis colores ANSI, fondo, selección y cursor de Konsole para Alacritty (TOML) y Kitty (conf), en claro y oscuro."
+---
+
+| | |
+|---|---|
+| estado | **experimental** |
+| tecnología | Alacritty `[colors]` (TOML, ≥ 0.13) · Kitty `.conf` |
+| desde la versión | 0.2.0 |
+| archivos | `alacritty/lliphi-claro.toml`, `alacritty/lliphi-oscuro.toml`, `kitty/lliphi-claro.conf`, `kitty/lliphi-oscuro.conf` |
+| licencia | CC-BY-SA-4.0 |
+
+
+## Instalar a mano
+
+El instalador (`python3 herramientas/instalar.py --modulos terminales --aplicar`) copia los archivos a
+`~/.config/alacritty/themes/` y `~/.config/kitty/themes/`; ninguna terminal los carga sola: hay que importarlos.
+
+### Alacritty (≥ 0.13, configuración en TOML)
+
+1. Copia `alacritty/lliphi-claro.toml` y `alacritty/lliphi-oscuro.toml` a `~/.config/alacritty/themes/`.
+2. En `~/.config/alacritty/alacritty.toml` añade (o amplía) la importación:
+
+```toml
+[general]
+import = ["~/.config/alacritty/themes/lliphi-oscuro.toml"]
+```
+
+Alacritty recarga la configuración al guardar. Para cambiar de variante basta cambiar el nombre importado.
+
+### Kitty
+
+1. Copia `kitty/lliphi-claro.conf` y `kitty/lliphi-oscuro.conf` a `~/.config/kitty/themes/`.
+2. En `~/.config/kitty/kitty.conf` añade `include themes/lliphi-oscuro.conf`, o elige el tema con
+   `kitten themes --config-file-name kitty.conf Lliphi Oscuro` (la cabecera `## name:` lo registra en el selector).
+3. Recarga con `ctrl+shift+F5` o abre una ventana nueva.
+
+## Actualizar
+
+Sustituye los archivos; la importación sigue valiendo. Alacritty y Kitty los releen al recargar.
+
+## Desinstalar
+
+Quita la línea `import` o `include` y borra los archivos de `themes/`. El instalador (`desinstalar`) retira los archivos
+pero no toca `alacritty.toml` ni `kitty.conf`, que son tuyos.
+
+
+## Código, incidencias y cambios
+
+- Código: [`generado/terminales`](https://github.com/achalmed/lliphi/tree/main/generado/terminales) y su generador
+  [`herramientas/destinos/terminales.py`](https://github.com/achalmed/lliphi/blob/main/herramientas/destinos/terminales.py).
+- Incidencias: [https://github.com/achalmed/lliphi/issues](https://github.com/achalmed/lliphi/issues?q=label%3Aterminales).
+- Cambios: [registro de cambios](../../cambios.qmd).
