@@ -13,7 +13,7 @@ y pidió un solo cambio: la tipografía, a una de estilo Apple. Desde aquí se m
 | componente | valor activo | de dónde viene | cómo lo reproduce Lliphi |
 |---|---|---|---|
 | tema global | `com.github.vinceliuice.WhiteSur-dark` | WhiteSur-kde (GPL-3.0) | `org.lliphi.oscuro` con los mismos `defaults` |
-| esquema de color | `WhiteSurDark` (acento azul 49,91,239) | WhiteSur-kde | `LliphiOscuro.colors` = WhiteSurDark con solo el acento de los tokens (mejora 1, decisiones 4.5, en evaluación); `LliphiOscuro-tokens.colors` guarda el esquema generado por entero desde los tokens |
+| esquema de color | `WhiteSurDark` (acento azul 49,91,239) | WhiteSur-kde | `LliphiOscuro.colors` = WhiteSurDark con solo el acento de los tokens (mejora 1, decisiones 4.5, aprobada); `LliphiOscuro-tokens.colors` guarda el esquema generado por entero desde los tokens |
 | estilo de Plasma | `WhiteSur-dark` (con su `colors`) | WhiteSur-kde | `lliphi-oscuro` = copia tal cual, metadata propia, fondo de Lliphi en `plasmarc` |
 | estilo de widgets | `kvantum-dark`, tema Kvantum `LliphiOscuro` | WhiteSur-kde recoloreado con los tokens (rojo) | `generado/kvantum/LliphiOscuro` |
 | decoración | Aurorae V2 `__aurorae__svg__Nothing`, botones `XIA` a la izquierda | Nothing (GPL-3.0-or-later) | `lliphi` = Nothing tal cual con barra de 18 px |
@@ -28,7 +28,7 @@ el esquema rojo de los tokens. Quedan en el repositorio como piezas opcionales.
 
 ## 2. Qué sigue (una mejora por vez, con captura y visto bueno)
 
-1. **Hecha, en evaluación (18:30)**: acento rojo de Lliphi en el esquema sin tocar lo demás (`LliphiOscuro.colors`,
+1. **Hecha y aprobada por el autor (18:35)**: acento rojo de Lliphi en el esquema sin tocar lo demás (`LliphiOscuro.colors`,
    decisiones 4.5); comparación en `muestras/comparacion-linea-base-acento.png`; aplicada en la sesión con
    `plasma-apply-colorscheme LliphiOscuro`; se revierte con `plasma-apply-colorscheme WhiteSurDark`.
 2. Variante clara equivalente (`WhiteSur` + `lliphi-claro`) comprobada en pantalla.

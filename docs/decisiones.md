@@ -135,4 +135,4 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   `seleccion.texto`. Se conserva el alfa (`,150`) de los valores atenuados. Los grises, los estados (negativo, neutral,
   positivo), `[WM]` y `[ColorEffects:*]` quedan como en WhiteSur. Se aplicó solo con `plasma-apply-colorscheme` en la
   sesión del autor (tema global, estilo, Kvantum y decoración intactos); reversión: `plasma-apply-colorscheme WhiteSurDark`.
-  Queda pendiente su visto bueno sobre `muestras/comparacion-linea-base-acento.png`.
+  Aprobada por el autor a las 18:35 sobre `muestras/comparacion-linea-base-acento.png`.
