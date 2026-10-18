@@ -21,7 +21,7 @@ en KDE Store son acciones externas que ejecuta el autor (decisión 1.2).
 ### Repositorio y primera versión
 
 ```bash
-cd ~/Documents/tema-plasma            # o ~/Documents/lliphi tras el renombrado
+cd ~/Documents/lliphi            # o ~/Documents/lliphi tras el renombrado
 gh repo create achalmed/lliphi --public --source=. --remote=origin --description "Temas para KDE Plasma: casi negro y gris suave con acento rojo; claro y oscuro desde una sola fuente de tokens" --push
 git tag -a v0.1.0 -m "Lliphi 0.1.0: primer lote (esquemas, temas globales, estilo de Plasma, Konsole, fondos)"
 git push origin v0.1.0

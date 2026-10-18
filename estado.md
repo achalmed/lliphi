@@ -3,11 +3,11 @@ tipo: estado
 estado: activo
 actualizado: 2026-10-18
 ---
-# estado.md — tema-plasma (nombre provisional de la carpeta y del proyecto)
+# estado.md — lliphi (nombre provisional de la carpeta y del proyecto)
 
 Lo primero que se lee y lo último que se escribe en cada sesión. El encargo es
 `prompts/07 produccion/temas_de_escritorio/prompt_01_ecosistema_de_temas_kde.md` (fases 1 a 9).
-Hasta que el autor elija el nombre (fase 3), la carpeta se llama `tema-plasma` y no está en `meta/workspace.yml`.
+Hasta que el autor elija el nombre (fase 3), la carpeta se llama `lliphi` y no está en `meta/workspace.yml`.
 
 ## Hecho
 
@@ -41,5 +41,5 @@ Hasta que el autor elija el nombre (fase 3), la carpeta se llama `tema-plasma` y
 - 2026-10-18 · dueño: autor · **validar LibreOffice**: con LibreOffice cerrado, `unopkg add generado/libreoffice/lliphi.oxt`, elegir «Lliphi Oscuro» en Herramientas → Opciones → LibreOffice → Colores de la aplicación y mirar Writer (página, límites, campos), Calc (cuadrícula, resaltado de valores, saltos) y la IDE de BASIC; si algún color del documento molesta, ajustar la tabla `entradas()` de `herramientas/destinos/libreoffice.py`; decidir si se activa `LibreOfficeTheme` para la interfaz; captura a `muestras/capturas/` y módulo a «probado».
 - 2026-10-18 · dueño: asistente · navegador (Zen/Firefox) desde los mismos tokens; cursores; `[Icons][Theme]` en los temas globales cuando el autor apruebe los iconos; subir `VERSION` a 0.2.0 al publicar el lote 2 (los módulos ya declaran `desde: 0.2.0`).
 - 2026-10-18 · dueño: autor · validar con inicio de sesión real como `prueba-tema` (SDDM, splash, bloqueo, escala 150 %, una aplicación GTK): `python3 /tmp/lliphi-dist/herramientas/instalar.py --aplicar --aplicar-tema oscuro`.
-- 2026-10-18 · dueño: director · renombrar la carpeta `tema-plasma` → `lliphi` con `core/renombrar.py` y darla de alta en `meta/workspace.yml`.
+- 2026-10-18 · dueño: director · renombrar la carpeta `lliphi` → `lliphi` con `core/renombrar.py` y darla de alta en `meta/workspace.yml`.
 - 2026-10-18 · dueño: autor · importar en Zotero `scripts-biblioteca/ingesta/salida_ris/ingesta_20261018_130400.ris` (15 ítems de esta serie) y pegar las claves en `#zotero_key`.
