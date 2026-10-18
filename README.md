@@ -41,6 +41,8 @@ quarto render sitio                                   # el sitio → sitio/_site
 ## Límite honesto
 
 Primer lote (0.1.0): esquemas, temas globales, estilo de Plasma, Konsole y fondos; probado en Kubuntu 26.04 con
-Plasma 6.6 en Wayland desde una sesión anidada. Pendientes: validación con inicio de sesión real (SDDM, bloqueo,
-escalas), GTK, iconos y cursores propios, terminales y editores (lote 2), publicación en KDE Store. Las vistas
+Plasma 6.6 en Wayland desde una sesión anidada. Segundo lote (sin publicar): terminales (Alacritty, Kitty), editores
+(VS Code, Zed) e iconos de carpeta, generados y probados por estructura, sin verificación visual en las aplicaciones.
+Pendientes: validación con inicio de sesión real (SDDM, bloqueo, escalas), GTK, cursores, navegador, publicación en
+KDE Store. Las vistas
 previas de los paquetes son capturas reales; los bocetos están rotulados como bocetos.

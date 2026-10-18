@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GENERADO por herramientas/generar.py desde tokens/; no editar -->
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <defs>
+    <style id="current-color-scheme" type="text/css">
+      .ColorScheme-Text { color:#1d1f24; }
+      .ColorScheme-Highlight { color:#c53133; }
+      .ColorScheme-HighlightedText { color:#fcfcfc; }
+    </style>
+  </defs>
+  <path id="cuerpo" class="ColorScheme-Highlight" fill="currentColor" d="M4,16 Q4,12 8,12 H26 Q30,12 32.4,14.4 L38,20 H56 Q60,20 60,24 V52 Q60,56 56,56 H8 Q4,56 4,52 Z"/>
+  <path id="solapa" class="ColorScheme-HighlightedText" fill="currentColor" fill-opacity="0.22" d="M4,29 H60 V52 Q60,56 56,56 H8 Q4,56 4,52 Z"/>
+  <g id="distintivo" class="ColorScheme-HighlightedText" fill="currentColor" fill-opacity="0.95"><circle cx="32" cy="42.5" r="7" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M25,42.5 H39 M32,35.5 V49.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><ellipse cx="32" cy="42.5" rx="3.1" ry="7" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/></g>
+</svg>

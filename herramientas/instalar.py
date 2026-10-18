@@ -58,6 +58,7 @@ MODULOS = {
     "terminales": [(f"terminales/alacritty/{ID}-{v}.toml", f"alacritty/themes/{ID}-{v}.toml", "config") for v in ("claro", "oscuro")]
                 + [(f"terminales/kitty/{ID}-{v}.conf", f"kitty/themes/{ID}-{v}.conf", "config") for v in ("claro", "oscuro")],
     "editores": [(f"editores/vscode/{ID}", f"{ID}.{ID}", "vscode"), (f"editores/zed/{ID}.json", f"zed/themes/{ID}.json", "config")],
+    "iconos": [(f"icons/{ID}", f"icons/{ID}"), (f"icons/{ID}-oscuro", f"icons/{ID}-oscuro")],
 }
 BASES = {"data": DATA, "config": CONFIG, "vscode": VSCODE}
 

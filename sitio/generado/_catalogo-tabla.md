@@ -5,5 +5,6 @@
 | [Estilo de Plasma](generado/catalogo/estilo.qmd) | Panel, diálogos, tooltips y fondos de widgets con los radios y márgenes de Lliphi; sigue el esquema de color y el acento del sistema. | probado | 0.1.0 |
 | [Fondos de pantalla](generado/catalogo/fondos.qmd) | Paquete «Lliphi Horizonte» con imagen clara y oscura (Plasma elige según el esquema) en 1080p, 1440p y 4K, y acento declarado. | probado | 0.1.0 |
 | [Temas globales](generado/catalogo/global.qmd) | Dos paquetes look-and-feel que aplican esquema, estilo de Plasma, iconos, cursores, decoración y, si lo pides, la disposición del escritorio. | probado | 0.1.0 |
+| [Iconos de carpeta](generado/catalogo/iconos.qmd) | Dos temas de iconos que heredan todo de Breeze y cambian solo las carpetas: dibujadas aquí, en el acento, con distintivos para los lugares de uso común; siguen el acento del usuario en KDE. | experimental | 0.2.0 |
 | [Konsole](generado/catalogo/konsole.qmd) | Esquemas de color para la terminal con una paleta ANSI de dieciséis colores medida sobre el fondo. | experimental | 0.1.0 |
 | [Terminales: Alacritty y Kitty](generado/catalogo/terminales.qmd) | Los mismos dieciséis colores ANSI, fondo, selección y cursor de Konsole para Alacritty (TOML) y Kitty (conf), en claro y oscuro. | experimental | 0.2.0 |

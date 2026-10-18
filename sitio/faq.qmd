@@ -15,8 +15,9 @@ No. Lliphi usa el estilo de widgets Breeze, que lee el esquema de color. Kvantum
 
 ## ¿Por qué las carpetas de Dolphin siguen azules?
 
-Los iconos son Breeze, cuyas carpetas son azules. Un módulo de iconos que solo recoloree las carpetas está en la
-hoja de ruta; mientras tanto, cualquier tema de iconos que siga el esquema (o uno rojo) se combina bien.
+Los iconos son Breeze. El módulo `iconos` añade dos temas (`lliphi`, `lliphi-oscuro`) que heredan todo de Breeze y
+cambian solo las carpetas, dibujadas en el acento; se eligen en Preferencias del sistema → Iconos. Cualquier otro tema
+de iconos que siga el esquema se combina igual de bien.
 
 ## ¿Puedo usar otro acento?
 

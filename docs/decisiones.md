@@ -74,4 +74,12 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   (o `$VSCODE_EXTENSIONS`); el instalador añade esa base para ese único módulo, sin versión en el nombre de la carpeta
   (`lliphi.lliphi`) para que actualizar no deje carpetas viejas. Alternativa descartada: publicar en el Marketplace o
   empaquetar un `.vsix`, que exigen `vsce` y una cuenta; queda para cuando el autor publique.
+- **3.13 (2026-10-18) Iconos: solo carpetas, dos temas por herencia, 64 px escalable.** Un tema propio completo
+  compite con Breeze y envejece con cada KDE; aquí se dibujan únicamente `folder`, `folder-open`, sus sinónimos y los
+  lugares de uso común, con un distintivo geométrico desde 22 px (a 16 px no cabe). Hay dos temas porque la herencia
+  (`breeze` o `breeze-dark`) es lo único que ven las aplicaciones GTK; en KDE, `FollowsColorScheme=true` y las clases
+  `ColorScheme-Highlight` / `ColorScheme-HighlightedText` hacen que la carpeta siga el acento y su texto de contraste.
+  El directorio de 64 px es `Scalable` hasta 512 para que las vistas grandes de Dolphin no caigan en la carpeta de
+  Breeze. Alternativa descartada: directorios `@2x`/`@3x` (los SVG ya escalan; se añadirán si la validación real
+  muestra desalineación en 150 %).
 

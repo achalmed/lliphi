@@ -15,7 +15,7 @@ hoja de ruta). La tabla se genera del repositorio (`modulos/*/modulo.json`).
 |---|---|
 | decoración de ventanas | Breeze, coloreada por el esquema (`[WM]` y `Colors:Header`). Aurorae se reescribió en Plasma 6.6; no se depende de él. |
 | aplicaciones GTK | Plasma genera el tema GTK desde el esquema (`breeze-gtk`): con el esquema de Lliphi aplicado, GTK 3 y 4 lo siguen. |
-| iconos y cursores | Breeze y `breeze_cursors`, que siguen el esquema. Un módulo de iconos propio está en la hoja de ruta. |
+| iconos y cursores | Breeze y `breeze_cursors`, que siguen el esquema. El módulo `iconos` cambia solo las carpetas y hereda el resto. |
 | Kvantum, estilos de widgets en C++ | no se usan: Breeze basta y no se rompe con cada Qt. |
 
 ## Hoja de ruta
@@ -23,5 +23,5 @@ hoja de ruta). La tabla se genera del repositorio (`modulos/*/modulo.json`).
 | lote | módulos | condición |
 |---|---|---|
 | 2 | terminales (Alacritty, Kitty) **hecho** · editores (VS Code, Zed) **hecho** · navegador (Zen/Firefox) | generados desde los mismos tokens |
-| 3 | iconos (solo lo que cambia, hereda de Breeze), cursores | si aportan algo visible |
+| 3 | iconos de carpeta (hereda el resto de Breeze) **hecho** · cursores | si aportan algo visible |
 | 4 | SDDM y Plymouth (root, con confirmación), Kvantum opcional, variante translúcida con contraste medido | tras probar el primer lote en más distribuciones |

@@ -220,6 +220,40 @@ def test_zed_tema():
         assert st["players"] and {"cursor", "background", "selection"} <= set(st["players"][0])
 
 
+def test_iconos_tema_carpetas():
+    sys.path.insert(0, str(RAIZ / "herramientas"))
+    from destinos.iconos import LUGARES, TAMANOS  # noqa: E402
+    hexes = {t["$value"]["hex"].lower() for t in _tokens_planos(TOKENS).values() if isinstance(t["$value"], dict) and "hex" in t["$value"]}
+    for tema, hereda in ((MARCA["id"], "breeze,hicolor"), (f"{MARCA['id']}-oscuro", "breeze-dark,breeze,hicolor")):
+        base = GEN / "icons" / tema
+        cp = configparser.ConfigParser(interpolation=None, strict=False); cp.optionxform = str
+        cp.read(base / "index.theme", encoding="utf-8")
+        it = cp["Icon Theme"]
+        assert it["Inherits"] == hereda and it["FollowsColorScheme"] == "true" and it["Example"] == "folder"
+        dirs = it["Directories"].split(",")
+        assert dirs == [f"places/{S}" for S in TAMANOS]
+        for d in dirs:
+            assert cp[d]["Context"] == "Places" and cp[d]["Type"] in ("Fixed", "Scalable") and (base / d).is_dir()
+            if cp[d]["Type"] == "Scalable":
+                assert int(cp[d]["MinSize"]) <= int(cp[d]["Size"]) <= int(cp[d]["MaxSize"])
+        for S in TAMANOS:
+            for nombre, (dibujo, badge) in LUGARES.items():
+                svg = base / "places" / str(S) / f"{nombre}.svg"
+                assert svg.exists(), svg
+                raiz = ET.parse(svg).getroot()
+                assert raiz.get("viewBox") == f"0 0 {S} {S}"
+                texto = svg.read_text(encoding="utf-8")
+                assert 'id="current-color-scheme"' in texto and "ColorScheme-Highlight" in texto and 'fill="currentColor"' in texto
+                for h in re.findall(r"#[0-9a-fA-F]{6}\b", texto):
+                    assert h.lower() in hexes, (svg.name, h)
+                if badge and S >= 22:
+                    assert 'id="distintivo"' in texto, svg
+            # los sinónimos son byte a byte iguales a su base
+            assert (base / "places" / str(S) / "inode-directory.svg").read_bytes() == (base / "places" / str(S) / "folder.svg").read_bytes()
+            assert (base / "places" / str(S) / "folder-open.svg").read_bytes() != (base / "places" / str(S) / "folder.svg").read_bytes()
+        assert not list(base.rglob("*-symbolic.svg")), "los simbólicos se heredan de Breeze"
+
+
 def test_fondo_paquete():
     base = GEN / "wallpapers" / MARCA["id_fondo"]
     meta = json.loads((base / "metadata.json").read_text(encoding="utf-8"))
@@ -254,6 +288,7 @@ def test_instalar_y_desinstalar_restaura(tmp_path: Path):
     assert (tmp_path / ".config/kitty/themes" / f"{MARCA['id']}-claro.conf").exists()
     assert (tmp_path / ".config/zed/themes" / f"{MARCA['id']}.json").exists()
     assert (tmp_path / ".vscode/extensions" / f"{MARCA['id']}.{MARCA['id']}" / "package.json").exists()
+    assert (tmp_path / ".local/share/icons" / f"{MARCA['id']}-oscuro" / "index.theme").exists()
     manifiesto = tmp_path / ".local/state" / MARCA["id"] / "instalado.json"
     assert manifiesto.exists()
     respaldo = Path(json.loads(manifiesto.read_text())["respaldo"])

@@ -68,9 +68,12 @@ cada módulo declara desde qué versión existe.
 | `fondos` | un paquete con `images/` e `images_dark/` y acento declarado | KPackage Wallpaper | pendiente | 1 |
 | `decoracion` | ninguna propia: Breeze coloreada por `[WM]` y `Colors:Header` | KDecoration | implementado por herencia | 1 |
 | `gtk` | ninguna propia: `breeze-gtk` genera desde el esquema; documentación de lo que ocurre | kde-gtk-config | implementado por herencia | 1 |
-| `iconos`, `cursores` | herencia de `breeze`/`breeze_cursors`; módulos propios solo si aportan | freedesktop | pendiente | 3 |
+| `iconos` | `lliphi`, `lliphi-oscuro`: solo carpetas (y lugares) en el acento, heredan el resto de Breeze | freedesktop | implementado (lote 2) | 3 |
+| `cursores` | herencia de `breeze_cursors`; módulo propio solo si aporta | freedesktop | pendiente | 3 |
 | `aurorae` | solo en SVG (V2) y solo si Breeze no basta | Aurorae V2 | pendiente | 3 |
-| `kvantum`, `editores` (VS Code, Zed, Kate ya sigue el esquema), `navegadores` (Zen/Firefox), `terminales` (Alacritty, Kitty), `productividad`, `ciencia` (RStudio, Positron, JupyterLab, matplotlib) | archivos por aplicación generados de los tokens | varias | pendiente | 2–4 |
+| `terminales` | Alacritty (`[colors]` TOML) y Kitty (`.conf`), claro y oscuro, desde el grupo `terminal` | varias | implementado (lote 2) | 2 |
+| `editores` | extensión mínima de VS Code y tema de Zed; sintaxis desde los ANSI con una tabla única | varias | implementado (lote 2) | 2 |
+| `kvantum`, `navegadores` (Zen/Firefox), `productividad`, `ciencia` (RStudio, Positron, JupyterLab, matplotlib) | archivos por aplicación generados de los tokens | varias | pendiente | 2–4 |
 | `sddm`, `plymouth` | con confirmación explícita y root | SDDM, Plymouth | pendiente | 4 |
 
 ## 4. Instalación, actualización, desinstalación

@@ -112,382 +112,109 @@
     "text": "Código, incidencias y cambios\n\nCódigo: generado/terminales y su generador herramientas/destinos/terminales.py.\nIncidencias: https://github.com/achalmed/lliphi/issues.\nCambios: registro de cambios."
   },
   {
-    "objectID": "generado/catalogo/global.html",
-    "href": "generado/catalogo/global.html",
-    "title": "Temas globales",
+    "objectID": "generado/catalogo/iconos.html",
+    "href": "generado/catalogo/iconos.html",
+    "title": "Iconos de carpeta",
     "section": "",
-    "text": "estado\nprobado\n\n\ntecnología\nKPackage Plasma/LookAndFeel\n\n\ndesde la versión\n0.1.0\n\n\narchivos\norg.lliphi.claro/, org.lliphi.oscuro/\n\n\nlicencia\nCC-BY-SA-4.0"
+    "text": "estado\nexperimental\n\n\ntecnología\nfreedesktop Icon Theme (index.theme, FollowsColorScheme, SVG con current-color-scheme)\n\n\ndesde la versión\n0.2.0\n\n\narchivos\nlliphi/, lliphi-oscuro/\n\n\nlicencia\nCC-BY-SA-4.0\nLa imagen de arriba es un render de los SVG (Inkscape) a 16, 22, 32, 48 y 64 px, no una captura del escritorio."
   },
   {
-    "objectID": "generado/catalogo/global.html#instalar-a-mano",
-    "href": "generado/catalogo/global.html#instalar-a-mano",
-    "title": "Temas globales",
+    "objectID": "generado/catalogo/iconos.html#instalar-a-mano",
+    "href": "generado/catalogo/iconos.html#instalar-a-mano",
+    "title": "Iconos de carpeta",
     "section": "Instalar a mano",
-    "text": "Instalar a mano\nkpackagetool6 -t Plasma/LookAndFeel -i org.lliphi.oscuro\nkpackagetool6 -t Plasma/LookAndFeel -i org.lliphi.claro\nplasma-apply-lookandfeel -a org.lliphi.oscuro          # añade --resetLayout para la disposición (borra la actual)\nO en Preferencias del sistema → Apariencia y estilo → Tema global: marca «Disposición del escritorio» solo si quieres el panel superior y el dock de Lliphi (sustituye tu disposición actual; el instalador del proyecto respalda plasma-org.kde.plasma.desktop-appletsrc antes)."
+    "text": "Instalar a mano\n\nCopia lliphi/ y lliphi-oscuro/ a ~/.local/share/icons/.\nPreferencias del sistema → Apariencia y estilo → Iconos → elige Lliphi (con la variante clara) o Lliphi Oscuro (con la oscura). También: kcmshell6 kcm_icons.\n\nLas dos variantes solo se diferencian en lo que heredan (breeze o breeze-dark), que es lo que ven las aplicaciones GTK; en las aplicaciones KDE las carpetas toman el color de acento del esquema activo (FollowsColorScheme). Todo lo que no es una carpeta sigue siendo Breeze."
   },
   {
-    "objectID": "generado/catalogo/global.html#actualizar",
-    "href": "generado/catalogo/global.html#actualizar",
-    "title": "Temas globales",
+    "objectID": "generado/catalogo/iconos.html#actualizar",
+    "href": "generado/catalogo/iconos.html#actualizar",
+    "title": "Iconos de carpeta",
     "section": "Actualizar",
-    "text": "Actualizar\nkpackagetool6 -t Plasma/LookAndFeel -u org.lliphi.oscuro"
+    "text": "Actualizar\nSustituye las dos carpetas. Si Plasma no refresca los iconos, cierra la sesión y vuelve a entrar."
   },
   {
-    "objectID": "generado/catalogo/global.html#desinstalar",
-    "href": "generado/catalogo/global.html#desinstalar",
-    "title": "Temas globales",
+    "objectID": "generado/catalogo/iconos.html#desinstalar",
+    "href": "generado/catalogo/iconos.html#desinstalar",
+    "title": "Iconos de carpeta",
     "section": "Desinstalar",
-    "text": "Desinstalar\nplasma-apply-lookandfeel -a org.kde.breeze.desktop     # vuelve a Breeze (o al tema que uses)\nkpackagetool6 -t Plasma/LookAndFeel -r org.lliphi.oscuro\nkpackagetool6 -t Plasma/LookAndFeel -r org.lliphi.claro\nEl tema global no instala los esquemas, el estilo ni el fondo por sí solo: los declara. Instálalos con el instalador del proyecto o módulo a módulo."
+    "text": "Desinstalar\nElige otro tema de iconos en Preferencias del sistema y borra ~/.local/share/icons/lliphi y ~/.local/share/icons/lliphi-oscuro. El instalador (desinstalar) hace lo segundo."
   },
   {
-    "objectID": "generado/catalogo/global.html#código-incidencias-y-cambios",
-    "href": "generado/catalogo/global.html#código-incidencias-y-cambios",
-    "title": "Temas globales",
+    "objectID": "generado/catalogo/iconos.html#código-incidencias-y-cambios",
+    "href": "generado/catalogo/iconos.html#código-incidencias-y-cambios",
+    "title": "Iconos de carpeta",
     "section": "Código, incidencias y cambios",
-    "text": "Código, incidencias y cambios\n\nCódigo: generado/look-and-feel y su generador herramientas/destinos/lookandfeel.py.\nIncidencias: https://github.com/achalmed/lliphi/issues.\nCambios: registro de cambios."
+    "text": "Código, incidencias y cambios\n\nCódigo: generado/icons y su generador herramientas/destinos/iconos.py.\nIncidencias: https://github.com/achalmed/lliphi/issues.\nCambios: registro de cambios."
   },
   {
-    "objectID": "generado/catalogo/estilo.html",
-    "href": "generado/catalogo/estilo.html",
-    "title": "Estilo de Plasma",
+    "objectID": "generado/catalogo/fondos.html",
+    "href": "generado/catalogo/fondos.html",
+    "title": "Fondos de pantalla",
     "section": "",
-    "text": "estado\nprobado\n\n\ntecnología\nPlasma SVG (desktoptheme)\n\n\ndesde la versión\n0.1.0\n\n\narchivos\nlliphi/\n\n\nlicencia\nCC-BY-SA-4.0"
+    "text": "estado\nprobado\n\n\ntecnología\npaquete de fondo de Plasma (images/, images_dark/)\n\n\ndesde la versión\n0.1.0\n\n\narchivos\norg.lliphi.horizonte/\n\n\nlicencia\nCC-BY-SA-4.0"
   },
   {
-    "objectID": "generado/catalogo/estilo.html#instalar-a-mano",
-    "href": "generado/catalogo/estilo.html#instalar-a-mano",
-    "title": "Estilo de Plasma",
+    "objectID": "generado/catalogo/fondos.html#instalar-a-mano",
+    "href": "generado/catalogo/fondos.html#instalar-a-mano",
+    "title": "Fondos de pantalla",
     "section": "Instalar a mano",
-    "text": "Instalar a mano\nkpackagetool6 -t Plasma/Theme -i lliphi\nplasma-apply-desktoptheme lliphi\nEl estilo no trae colors: toma los colores del esquema activo. Con Lliphi Oscuro es casi negro; con Lliphi Claro, gris suave; con cualquier otro esquema, el de ese esquema, y el acento del sistema manda en la selección y el foco."
+    "text": "Instalar a mano\ncp -r org.lliphi.horizonte ~/.local/share/wallpapers/\nplasma-apply-wallpaperimage ~/.local/share/wallpapers/org.lliphi.horizonte\nPlasma elige images_dark/ cuando el esquema de color es oscuro (Plasma ≥ 6.6); en versiones anteriores usa siempre la imagen clara. En Plasma 6.6 el paquete se aplica por ruta, no por nombre."
   },
   {
-    "objectID": "generado/catalogo/estilo.html#actualizar",
-    "href": "generado/catalogo/estilo.html#actualizar",
-    "title": "Estilo de Plasma",
+    "objectID": "generado/catalogo/fondos.html#actualizar",
+    "href": "generado/catalogo/fondos.html#actualizar",
+    "title": "Fondos de pantalla",
     "section": "Actualizar",
-    "text": "Actualizar\nkpackagetool6 -t Plasma/Theme -u lliphi\nSi tras actualizar ves el estilo viejo, cierra la sesión y vuelve a entrar: Plasma guarda los SVG en caché por versión."
+    "text": "Actualizar\nSustituye la carpeta y vuelve a aplicarla."
   },
   {
-    "objectID": "generado/catalogo/estilo.html#desinstalar",
-    "href": "generado/catalogo/estilo.html#desinstalar",
-    "title": "Estilo de Plasma",
+    "objectID": "generado/catalogo/fondos.html#desinstalar",
+    "href": "generado/catalogo/fondos.html#desinstalar",
+    "title": "Fondos de pantalla",
     "section": "Desinstalar",
-    "text": "Desinstalar\nplasma-apply-desktoptheme default\nkpackagetool6 -t Plasma/Theme -r lliphi"
+    "text": "Desinstalar\nElige otro fondo (clic derecho en el escritorio → Configurar escritorio y fondo) y borra ~/.local/share/wallpapers/org.lliphi.horizonte."
   },
   {
-    "objectID": "generado/catalogo/estilo.html#código-incidencias-y-cambios",
-    "href": "generado/catalogo/estilo.html#código-incidencias-y-cambios",
-    "title": "Estilo de Plasma",
+    "objectID": "generado/catalogo/fondos.html#código-incidencias-y-cambios",
+    "href": "generado/catalogo/fondos.html#código-incidencias-y-cambios",
+    "title": "Fondos de pantalla",
     "section": "Código, incidencias y cambios",
-    "text": "Código, incidencias y cambios\n\nCódigo: generado/desktoptheme y su generador herramientas/destinos/desktoptheme.py.\nIncidencias: https://github.com/achalmed/lliphi/issues.\nCambios: registro de cambios."
+    "text": "Código, incidencias y cambios\n\nCódigo: generado/wallpapers y su generador herramientas/destinos/fondo.py.\nIncidencias: https://github.com/achalmed/lliphi/issues.\nCambios: registro de cambios."
   },
   {
-    "objectID": "generado/catalogo/editores.html",
-    "href": "generado/catalogo/editores.html",
-    "title": "Editores: VS Code y Zed",
+    "objectID": "generado/catalogo/esquema.html",
+    "href": "generado/catalogo/esquema.html",
+    "title": "Esquemas de color",
     "section": "",
-    "text": "estado\nexperimental\n\n\ntecnología\nVS Code color theme (colors, tokenColors, semanticTokenColors) · Zed theme v0.2.0\n\n\ndesde la versión\n0.2.0\n\n\narchivos\nvscode/lliphi/, zed/lliphi.json\n\n\nlicencia\nCC-BY-SA-4.0"
+    "text": "estado\nprobado\n\n\ntecnología\nKColorScheme (.colors)\n\n\ndesde la versión\n0.1.0\n\n\narchivos\nLliphiClaro.colors, LliphiOscuro.colors\n\n\nlicencia\nCC-BY-SA-4.0"
   },
   {
-    "objectID": "generado/catalogo/editores.html#instalar-a-mano",
-    "href": "generado/catalogo/editores.html#instalar-a-mano",
-    "title": "Editores: VS Code y Zed",
+    "objectID": "generado/catalogo/esquema.html#instalar-a-mano",
+    "href": "generado/catalogo/esquema.html#instalar-a-mano",
+    "title": "Esquemas de color",
     "section": "Instalar a mano",
-    "text": "Instalar a mano\nEl instalador (python3 herramientas/instalar.py --modulos editores --aplicar) copia la extensión a ~/.vscode/extensions/lliphi.lliphi/ (o a $VSCODE_EXTENSIONS si está definida) y el tema de Zed a ~/.config/zed/themes/lliphi.json. Ninguno de los dos editores lo activa solo.\n\nVS Code\n\nCopia la carpeta vscode/lliphi/ a ~/.vscode/extensions/lliphi.lliphi/ (VSCodium: ~/.vscode-oss/extensions/).\nReinicia VS Code y elige el tema: Ctrl+K Ctrl+T → «Lliphi Oscuro» o «Lliphi Claro»; o en settings.json:\n\n\"workbench.colorTheme\": \"Lliphi Oscuro\"\nPara que siga al sistema: \"window.autoDetectColorScheme\": true, \"workbench.preferredDarkColorTheme\": \"Lliphi Oscuro\", \"workbench.preferredLightColorTheme\": \"Lliphi Claro\".\n\n\nZed\n\nCopia zed/lliphi.json a ~/.config/zed/themes/.\nEn Zed: paleta de órdenes → theme selector: toggle → «Lliphi Oscuro» o «Lliphi Claro»; o en settings.json:\n\n\"theme\": { \"mode\": \"system\", \"dark\": \"Lliphi Oscuro\", \"light\": \"Lliphi Claro\" }\nZed relee la carpeta de temas al vuelo."
+    "text": "Instalar a mano\n\nCopia LliphiClaro.colors y LliphiOscuro.colors a ~/.local/share/color-schemes/ (crea la carpeta si no existe).\nPreferencias del sistema → Apariencia y estilo → Colores → elige «Lliphi Claro» o «Lliphi Oscuro»; o en un terminal:\n\nplasma-apply-colorscheme LliphiOscuro"
   },
   {
-    "objectID": "generado/catalogo/editores.html#actualizar",
-    "href": "generado/catalogo/editores.html#actualizar",
-    "title": "Editores: VS Code y Zed",
+    "objectID": "generado/catalogo/esquema.html#actualizar",
+    "href": "generado/catalogo/esquema.html#actualizar",
+    "title": "Esquemas de color",
     "section": "Actualizar",
-    "text": "Actualizar\nSustituye la carpeta de la extensión y el archivo de Zed; los nombres de los temas no cambian."
+    "text": "Actualizar\nSustituye los dos archivos por los de la versión nueva y vuelve a aplicar el esquema (Plasma no relee un esquema ya aplicado hasta que lo aplicas otra vez)."
   },
   {
-    "objectID": "generado/catalogo/editores.html#desinstalar",
-    "href": "generado/catalogo/editores.html#desinstalar",
-    "title": "Editores: VS Code y Zed",
+    "objectID": "generado/catalogo/esquema.html#desinstalar",
+    "href": "generado/catalogo/esquema.html#desinstalar",
+    "title": "Esquemas de color",
     "section": "Desinstalar",
-    "text": "Desinstalar\nElige otro tema en cada editor y borra ~/.vscode/extensions/lliphi.lliphi/ y ~/.config/zed/themes/lliphi.json. El instalador (desinstalar) hace lo segundo y no toca los settings.json, que son tuyos."
+    "text": "Desinstalar\nElige otro esquema en Preferencias y borra los dos archivos de ~/.local/share/color-schemes/."
   },
   {
-    "objectID": "generado/catalogo/editores.html#código-incidencias-y-cambios",
-    "href": "generado/catalogo/editores.html#código-incidencias-y-cambios",
-    "title": "Editores: VS Code y Zed",
+    "objectID": "generado/catalogo/esquema.html#código-incidencias-y-cambios",
+    "href": "generado/catalogo/esquema.html#código-incidencias-y-cambios",
+    "title": "Esquemas de color",
     "section": "Código, incidencias y cambios",
-    "text": "Código, incidencias y cambios\n\nCódigo: generado/editores y su generador herramientas/destinos/editores.py.\nIncidencias: https://github.com/achalmed/lliphi/issues.\nCambios: registro de cambios."
-  },
-  {
-    "objectID": "filosofia.html",
-    "href": "filosofia.html",
-    "title": "Filosofía",
-    "section": "",
-    "text": "El autor usaba dos temas globales de Plasma: Nothing (jomada, Seducción Linux), casi negro con un acento rojo y un dock flotante, y WhiteSur (vinceliuice), con la geometría redondeada, los márgenes generosos y la familia claro/oscuro de macOS. Quería la fusión de ambos, pero sin lo que arrastran: colores fijados en centenares de SVG, dependencias de otros temas, imitación literal de otra plataforma y ninguna forma de medir si el texto se lee."
-  },
-  {
-    "objectID": "filosofia.html#de-dónde-viene",
-    "href": "filosofia.html#de-dónde-viene",
-    "title": "Filosofía",
-    "section": "",
-    "text": "El autor usaba dos temas globales de Plasma: Nothing (jomada, Seducción Linux), casi negro con un acento rojo y un dock flotante, y WhiteSur (vinceliuice), con la geometría redondeada, los márgenes generosos y la familia claro/oscuro de macOS. Quería la fusión de ambos, pero sin lo que arrastran: colores fijados en centenares de SVG, dependencias de otros temas, imitación literal de otra plataforma y ninguna forma de medir si el texto se lee."
-  },
-  {
-    "objectID": "filosofia.html#seis-principios",
-    "href": "filosofia.html#seis-principios",
-    "title": "Filosofía",
-    "section": "Seis principios",
-    "text": "Seis principios\n\nSuavidad con estructura. Superficies neutras de poca saturación, jerarquía por luminosidad (vista más clara u oscura que la ventana, botón distinto de ambas) y bordes de un píxel en vez de sombras pesadas.\nUn acento, y que siga al sistema. Rojo por defecto; el esquema deja que Plasma lo sustituya por el acento del usuario o del fondo sin romper el contraste.\nDos variantes, una lógica. Mismos tokens semánticos, radios, espacios y estados; cambian solo las primitivas.\nLegible antes que bonito. Contraste medido (WCAG 2.2) como prueba automática.\nNada de Apple ni de nadie. La originalidad está en proporciones, radios, paleta y estados, no en copiar.\nMínimo que hereda. Breeze colorea; Lliphi no reemplaza lo que ya funciona."
-  },
-  {
-    "objectID": "filosofia.html#lo-que-lliphi-no-es",
-    "href": "filosofia.html#lo-que-lliphi-no-es",
-    "title": "Filosofía",
-    "section": "Lo que Lliphi no es",
-    "text": "Lo que Lliphi no es\n\nNo es una imitación de macOS ni de Windows: no hay semáforos, logotipos ni fuentes de esas plataformas.\nNo exige Kvantum ni estilos de widgets compilados: con Breeze basta y sobrevive a cada versión de Qt.\nNo instala nada con privilegios: SDDM y Plymouth, si algún día llegan, serán un módulo aparte con confirmación.\nNo promete compatibilidad universal: la matriz dice qué está probado y dónde."
-  },
-  {
-    "objectID": "filosofia.html#cómo-se-decide",
-    "href": "filosofia.html#cómo-se-decide",
-    "title": "Filosofía",
-    "section": "Cómo se decide",
-    "text": "Cómo se decide\nCada decisión de diseño y de técnica está escrita, con fecha y motivo, en docs/decisiones.md; la dirección artística, con la paleta y el contraste medido, en docs/direccion-artistica.md."
-  },
-  {
-    "objectID": "descargas.html",
-    "href": "descargas.html",
-    "title": "Descargas y versiones",
-    "section": "",
-    "text": "0.1.0 — primer lote. Las versiones siguen SemVer: la primera cifra cambia si cambian los nombres de los paquetes o la forma de instalar; la segunda, si entra un módulo o cambia el diseño; la tercera, correcciones."
-  },
-  {
-    "objectID": "descargas.html#versión-actual",
-    "href": "descargas.html#versión-actual",
-    "title": "Descargas y versiones",
-    "section": "",
-    "text": "0.1.0 — primer lote. Las versiones siguen SemVer: la primera cifra cambia si cambian los nombres de los paquetes o la forma de instalar; la segunda, si entra un módulo o cambia el diseño; la tercera, correcciones."
-  },
-  {
-    "objectID": "descargas.html#formas-de-obtenerlo",
-    "href": "descargas.html#formas-de-obtenerlo",
-    "title": "Descargas y versiones",
-    "section": "Formas de obtenerlo",
-    "text": "Formas de obtenerlo\n\n\n\nforma\npara quién\ncómo\n\n\n\n\nrepositorio\nquien quiera el instalador y las herramientas\ngit clone https://github.com/achalmed/lliphi.git\n\n\nversión etiquetada\nquien quiera una versión fija\ngithub.com/achalmed/lliphi/releases: código y, por módulo, un .tar.gz listo para kpackagetool6 o para copiar\n\n\nKDE Store\nquien instale desde Preferencias del sistema\npendiente de publicación (ver registro de cambios)"
-  },
-  {
-    "objectID": "descargas.html#comprobar-lo-descargado",
-    "href": "descargas.html#comprobar-lo-descargado",
-    "title": "Descargas y versiones",
-    "section": "Comprobar lo descargado",
-    "text": "Comprobar lo descargado\nCada versión publicada lleva su SHA256SUMS. En Linux:\nsha256sum -c SHA256SUMS"
-  },
-  {
-    "objectID": "descargas.html#qué-contiene-una-versión",
-    "href": "descargas.html#qué-contiene-una-versión",
-    "title": "Descargas y versiones",
-    "section": "Qué contiene una versión",
-    "text": "Qué contiene una versión\n\ngenerado/: los módulos tal como se instalan (esquemas, temas globales, estilo de Plasma, Konsole, fondos).\nherramientas/instalar.py: el instalador, sin dependencias.\ntokens/: la fuente de verdad del color y de la marca.\ndocs/, CHANGELOG.md, LICENSES/, REUSE.toml."
-  },
-  {
-    "objectID": "compatibilidad.html",
-    "href": "compatibilidad.html",
-    "title": "Compatibilidad",
-    "section": "",
-    "text": "«Probado» significa visto en un escritorio real con capturas; «esperado» es lo que la documentación de KDE indica y aún no se ha probado aquí. La matriz completa y actualizada está en docs/compatibilidad.md."
-  },
-  {
-    "objectID": "compatibilidad.html#por-componente-y-versión-de-plasma",
-    "href": "compatibilidad.html#por-componente-y-versión-de-plasma",
-    "title": "Compatibilidad",
-    "section": "Por componente y versión de Plasma",
-    "text": "Por componente y versión de Plasma\n\n\n\n\n\n\n\n\n\ncomponente\nPlasma 6.0–6.1\n6.2–6.5\n6.6\n\n\n\n\nesquemas de color\nesperado\nesperado\nprobado\n\n\ntemas globales (heredan de Breeze)\nesperado\nesperado\nprobado\n\n\nestilo de Plasma\nesperado\nesperado\nprobado\n\n\ndecoración Breeze coloreada\nesperado\nesperado\nprobado\n\n\nKonsole\nesperado\nesperado\nexperimental\n\n\nfondo con variante oscura (images_dark/)\nsolo la clara\nsolo la clara\nprobado (por ruta del paquete)\n\n\nGTK generado por Plasma\nesperado\nesperado\npendiente\n\n\nescalas 150 % y 200 %\n—\n—\npendiente\n\n\nSDDM, splash, bloqueo\nfuera del primer lote"
-  },
-  {
-    "objectID": "compatibilidad.html#por-distribución",
-    "href": "compatibilidad.html#por-distribución",
-    "title": "Compatibilidad",
-    "section": "Por distribución",
-    "text": "Por distribución\n\n\n\n\n\n\n\n\ndistribución\nPlasma\nestado\n\n\n\n\nKubuntu 26.04 LTS (Wayland)\n6.6\nprobado (máquina del autor)\n\n\nKDE neon, Fedora KDE 43, Arch y derivadas, openSUSE Tumbleweed\n6.5–6.6\nesperado igual: solo rutas de usuario y herramientas de Plasma\n\n\nDebian 13\n6.3\nesperado; sin variante oscura del fondo\n\n\nKubuntu 24.04 (Plasma 5.27)\n5\nno\n\n\nX11\n6.x\nesperado igual: nada depende del protocolo gráfico\n\n\n\n¿Lo probaste en otra distribución? Abre una incidencia con la versión de Plasma (plasmashell --version) y una captura; la matriz se actualiza con cada informe."
-  },
-  {
-    "objectID": "cambios.html",
-    "href": "cambios.html",
-    "title": "Registro de cambios",
-    "section": "",
-    "text": "Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión del proyecto vive en VERSION."
-  },
-  {
-    "objectID": "cambios.html#unreleased",
-    "href": "cambios.html#unreleased",
-    "title": "Registro de cambios",
-    "section": "[Unreleased]",
-    "text": "[Unreleased]\n\nAdded\n\nMódulo terminales: esquemas para Alacritty ([colors] en TOML) y Kitty (.conf) en claro y oscuro, con los dieciséis ANSI de Konsole y la selección, el cursor y los enlaces del esquema de Plasma; el instalador admite destinos en $XDG_CONFIG_HOME (alacritty/themes/, kitty/themes/).\nMódulo editores: extensión mínima de VS Code (dos temas con colors, tokenColors y semanticTokenColors) y tema de Zed (v0.2.0, dos variantes en un archivo); la sintaxis sale de los ANSI con una tabla única (palabras clave rojo, cadenas verde, números amarillo, funciones azul, comentarios en el texto inactivo). El instalador copia la extensión a ~/.vscode/extensions/ (o $VSCODE_EXTENSIONS), su única ruta de lectura."
-  },
-  {
-    "objectID": "cambios.html#section",
-    "href": "cambios.html#section",
-    "title": "Registro de cambios",
-    "section": "[0.1.0] - 2026-10-18",
-    "text": "[0.1.0] - 2026-10-18\n\nAdded\n\nTokens de diseño (DTCG 2025.10, color en OKLCH) con contraste medido; variantes clara y oscura y acento rojo.\nGeneradores: esquemas de color de Plasma, temas globales, estilo de Plasma que sigue el esquema del sistema, esquemas de Konsole y paquete de fondos con variante oscura.\nInstalador en Python con simulación por defecto, respaldo verificado, manifiesto y UNDO.sh.\nPruebas: tokens, contraste, deriva de lo generado, estructura de paquetes, instalación reversible y REUSE.\nSitio oficial (Quarto) con galería de capturas reales, catálogo generado de modulos/, guías e integración propuesta con el hub del autor; integración continua; empaquetado por módulo con SHA256SUMS."
-  },
-  {
-    "objectID": "actualizar-y-desinstalar.html",
-    "href": "actualizar-y-desinstalar.html",
-    "title": "Actualizar y desinstalar",
-    "section": "",
-    "text": "cd lliphi\ngit pull\npython3 herramientas/instalar.py --aplicar\nEl instalador retira la versión anterior según su manifiesto y copia la nueva; los respaldos anteriores se conservan (cada instalación crea su carpeta con fecha). Si cambió el estilo de Plasma y ves el anterior, cierra la sesión y vuelve a entrar: Plasma guarda los SVG en caché por versión.\nVer qué hay instalado y si algo se modificó fuera del instalador:\npython3 herramientas/instalar.py estado"
-  },
-  {
-    "objectID": "actualizar-y-desinstalar.html#actualizar",
-    "href": "actualizar-y-desinstalar.html#actualizar",
-    "title": "Actualizar y desinstalar",
-    "section": "",
-    "text": "cd lliphi\ngit pull\npython3 herramientas/instalar.py --aplicar\nEl instalador retira la versión anterior según su manifiesto y copia la nueva; los respaldos anteriores se conservan (cada instalación crea su carpeta con fecha). Si cambió el estilo de Plasma y ves el anterior, cierra la sesión y vuelve a entrar: Plasma guarda los SVG en caché por versión.\nVer qué hay instalado y si algo se modificó fuera del instalador:\npython3 herramientas/instalar.py estado"
-  },
-  {
-    "objectID": "actualizar-y-desinstalar.html#desinstalar",
-    "href": "actualizar-y-desinstalar.html#desinstalar",
-    "title": "Actualizar y desinstalar",
-    "section": "Desinstalar",
-    "text": "Desinstalar\npython3 herramientas/instalar.py desinstalar            # simula\npython3 herramientas/instalar.py desinstalar --aplicar  # retira lo instalado\nAntes, elige otro tema global en Preferencias del sistema (o plasma-apply-lookandfeel -a org.kde.breeze.desktop) para que Plasma no se quede apuntando a un tema que ya no existe."
-  },
-  {
-    "objectID": "actualizar-y-desinstalar.html#volver-exactamente-a-lo-de-antes",
-    "href": "actualizar-y-desinstalar.html#volver-exactamente-a-lo-de-antes",
-    "title": "Actualizar y desinstalar",
-    "section": "Volver exactamente a lo de antes",
-    "text": "Volver exactamente a lo de antes\nEl respaldo de cada instalación incluye un UNDO.sh:\nbash ~/.local/state/lliphi/respaldos/&lt;fecha&gt;/UNDO.sh\nRestaura byte a byte los archivos de configuración respaldados (los compara con su suma SHA-256), retira los módulos de Lliphi y borra el manifiesto. Después, cierra la sesión y vuelve a entrar."
-  },
-  {
-    "objectID": "actualizar-y-desinstalar.html#volver-a-una-versión-anterior-de-lliphi",
-    "href": "actualizar-y-desinstalar.html#volver-a-una-versión-anterior-de-lliphi",
-    "title": "Actualizar y desinstalar",
-    "section": "Volver a una versión anterior de Lliphi",
-    "text": "Volver a una versión anterior de Lliphi\ngit checkout v0.1.0            # la etiqueta de la versión que quieres\npython3 herramientas/instalar.py --aplicar"
-  },
-  {
-    "objectID": "catalogo.html",
-    "href": "catalogo.html",
-    "title": "Catálogo",
-    "section": "",
-    "text": "Un módulo es una pieza que se instala, se actualiza y se desinstala por separado. Estados: probado (visto en un escritorio real con capturas), experimental (instalado, sin verificación visual completa), pendiente (en la hoja de ruta). La tabla se genera del repositorio (modulos/*/modulo.json)."
-  },
-  {
-    "objectID": "catalogo.html#lo-que-no-es-un-módulo-propio-y-por-qué",
-    "href": "catalogo.html#lo-que-no-es-un-módulo-propio-y-por-qué",
-    "title": "Catálogo",
-    "section": "Lo que no es un módulo propio, y por qué",
-    "text": "Lo que no es un módulo propio, y por qué\n\n\n\n\n\n\n\npieza\ncómo la cubre Lliphi\n\n\n\n\ndecoración de ventanas\nBreeze, coloreada por el esquema ([WM] y Colors:Header). Aurorae se reescribió en Plasma 6.6; no se depende de él.\n\n\naplicaciones GTK\nPlasma genera el tema GTK desde el esquema (breeze-gtk): con el esquema de Lliphi aplicado, GTK 3 y 4 lo siguen.\n\n\niconos y cursores\nBreeze y breeze_cursors, que siguen el esquema. Un módulo de iconos propio está en la hoja de ruta.\n\n\nKvantum, estilos de widgets en C++\nno se usan: Breeze basta y no se rompe con cada Qt."
-  },
-  {
-    "objectID": "catalogo.html#hoja-de-ruta",
-    "href": "catalogo.html#hoja-de-ruta",
-    "title": "Catálogo",
-    "section": "Hoja de ruta",
-    "text": "Hoja de ruta\n\n\n\n\n\n\n\n\nlote\nmódulos\ncondición\n\n\n\n\n2\nterminales (Alacritty, Kitty) hecho · editores (VS Code, Zed) hecho · navegador (Zen/Firefox)\ngenerados desde los mismos tokens\n\n\n3\niconos (solo lo que cambia, hereda de Breeze), cursores\nsi aportan algo visible\n\n\n4\nSDDM y Plymouth (root, con confirmación), Kvantum opcional, variante translúcida con contraste medido\ntras probar el primer lote en más distribuciones"
-  },
-  {
-    "objectID": "contribuir.html",
-    "href": "contribuir.html",
-    "title": "Contribuir",
-    "section": "",
-    "text": "Abre una incidencia con: distribución y versión de Plasma (plasmashell --version), sesión (Wayland o X11), la variante (clara u oscura), qué esperabas, qué pasó y una captura. Si es de un módulo, nómbralo (esquema, global, estilo, konsole, fondos)."
-  },
-  {
-    "objectID": "contribuir.html#informar-de-un-problema",
-    "href": "contribuir.html#informar-de-un-problema",
-    "title": "Contribuir",
-    "section": "",
-    "text": "Abre una incidencia con: distribución y versión de Plasma (plasmashell --version), sesión (Wayland o X11), la variante (clara u oscura), qué esperabas, qué pasó y una captura. Si es de un módulo, nómbralo (esquema, global, estilo, konsole, fondos)."
-  },
-  {
-    "objectID": "contribuir.html#proponer-un-cambio-de-diseño",
-    "href": "contribuir.html#proponer-un-cambio-de-diseño",
-    "title": "Contribuir",
-    "section": "Proponer un cambio de diseño",
-    "text": "Proponer un cambio de diseño\nPrimero una incidencia con la propuesta y, si puedes, una captura o boceto. Los cambios de paleta pasan por herramientas/paleta.py: toda propuesta debe seguir dando 4.5:1 en texto y 3:1 en foco y controles."
-  },
-  {
-    "objectID": "contribuir.html#programar",
-    "href": "contribuir.html#programar",
-    "title": "Contribuir",
-    "section": "Programar",
-    "text": "Programar\ngit clone https://github.com/achalmed/lliphi.git && cd lliphi\npython3 -m venv .venv && .venv/bin/pip install -e \".[dev]\"\n.venv/bin/python herramientas/paleta.py --aplicar     # tokens\n.venv/bin/python herramientas/generar.py --aplicar    # todo lo generado\n.venv/bin/pytest                                      # pruebas\n.venv/bin/reuse lint                                  # licencias\nReglas:\n\nLo generado no se edita: cambia los tokens o el generador; generar.py verificar (y la prueba test_generado_sin_deriva) rechaza ediciones a mano en generado/ y sitio/generado/.\nNingún color fuera de los tokens: la prueba test_ningun_hex_fuera_del_maestro lo vigila.\nNada de terceros: ni SVG, ni iconos, ni código copiado de otros temas. Todo archivo lleva su licencia (REUSE).\nUn módulo nuevo es una carpeta en modulos/&lt;id&gt;/ con modulo.json e INSTALL.md, un generador en herramientas/destinos/, su entrada en MODULOS del instalador, su prueba y su fila en la matriz de compatibilidad.\nMensajes de commit en español, con Conventional Commits."
-  },
-  {
-    "objectID": "contribuir.html#criterios-de-aceptación-de-una-pieza",
-    "href": "contribuir.html#criterios-de-aceptación-de-una-pieza",
-    "title": "Contribuir",
-    "section": "Criterios de aceptación de una pieza",
-    "text": "Criterios de aceptación de una pieza\n\nSe genera de los tokens y pasa la prueba de deriva.\nContraste en verde en las dos variantes.\nSe instala y se desinstala con el instalador, y UNDO.sh deja todo como estaba (prueba test_instalar_y_desinstalar_restaura).\nCapturas reales de la pieza en las dos variantes en muestras/capturas/.\nLicencia declarada por archivo y reuse lint en verde."
-  },
-  {
-    "objectID": "faq.html",
-    "href": "faq.html",
-    "title": "Preguntas frecuentes",
-    "section": "",
-    "text": "No, salvo que lo pidas: el instalador no toca la disposición. Si en Preferencias del sistema marcas «Disposición del escritorio» al aplicar el tema global (o usas --resetLayout), Plasma sustituye tu disposición por la de Lliphi (barra superior fina y dock flotante). El instalador respalda plasma-org.kde.plasma.desktop-appletsrc antes, y UNDO.sh lo restaura."
-  },
-  {
-    "objectID": "faq.html#cambia-mis-paneles-y-widgets",
-    "href": "faq.html#cambia-mis-paneles-y-widgets",
-    "title": "Preguntas frecuentes",
-    "section": "",
-    "text": "No, salvo que lo pidas: el instalador no toca la disposición. Si en Preferencias del sistema marcas «Disposición del escritorio» al aplicar el tema global (o usas --resetLayout), Plasma sustituye tu disposición por la de Lliphi (barra superior fina y dock flotante). El instalador respalda plasma-org.kde.plasma.desktop-appletsrc antes, y UNDO.sh lo restaura."
-  },
-  {
-    "objectID": "faq.html#necesita-kvantum",
-    "href": "faq.html#necesita-kvantum",
-    "title": "Preguntas frecuentes",
-    "section": "¿Necesita Kvantum?",
-    "text": "¿Necesita Kvantum?\nNo. Lliphi usa el estilo de widgets Breeze, que lee el esquema de color. Kvantum queda como módulo opcional futuro."
-  },
-  {
-    "objectID": "faq.html#por-qué-las-carpetas-de-dolphin-siguen-azules",
-    "href": "faq.html#por-qué-las-carpetas-de-dolphin-siguen-azules",
-    "title": "Preguntas frecuentes",
-    "section": "¿Por qué las carpetas de Dolphin siguen azules?",
-    "text": "¿Por qué las carpetas de Dolphin siguen azules?\nLos iconos son Breeze, cuyas carpetas son azules. Un módulo de iconos que solo recoloree las carpetas está en la hoja de ruta; mientras tanto, cualquier tema de iconos que siga el esquema (o uno rojo) se combina bien."
-  },
-  {
-    "objectID": "faq.html#puedo-usar-otro-acento",
-    "href": "faq.html#puedo-usar-otro-acento",
-    "title": "Preguntas frecuentes",
-    "section": "¿Puedo usar otro acento?",
-    "text": "¿Puedo usar otro acento?\nSí: Preferencias del sistema → Colores → acento. Y el proyecto genera variantes con acento azul o verde azulado (personalizar)."
-  },
-  {
-    "objectID": "faq.html#funciona-en-x11",
-    "href": "faq.html#funciona-en-x11",
-    "title": "Preguntas frecuentes",
-    "section": "¿Funciona en X11?",
-    "text": "¿Funciona en X11?\nDebería: nada del tema depende del protocolo gráfico. Está probado en Wayland."
-  },
-  {
-    "objectID": "faq.html#y-en-plasma-5",
-    "href": "faq.html#y-en-plasma-5",
-    "title": "Preguntas frecuentes",
-    "section": "¿Y en Plasma 5?",
-    "text": "¿Y en Plasma 5?\nNo. El contrato de paquetes (metadata.json, kpackagetool6) es el de Plasma 6."
-  },
-  {
-    "objectID": "faq.html#el-estilo-de-plasma-no-cambia-tras-actualizar",
-    "href": "faq.html#el-estilo-de-plasma-no-cambia-tras-actualizar",
-    "title": "Preguntas frecuentes",
-    "section": "El estilo de Plasma no cambia tras actualizar",
-    "text": "El estilo de Plasma no cambia tras actualizar\nPlasma guarda los SVG en caché por versión del paquete. Cierra la sesión y vuelve a entrar; si persiste, borra ~/.cache/plasma-svgelements* y ~/.cache/plasma_theme_*."
-  },
-  {
-    "objectID": "faq.html#cómo-vuelvo-a-como-estaba",
-    "href": "faq.html#cómo-vuelvo-a-como-estaba",
-    "title": "Preguntas frecuentes",
-    "section": "¿Cómo vuelvo a como estaba?",
-    "text": "¿Cómo vuelvo a como estaba?\nbash ~/.local/state/lliphi/respaldos/&lt;fecha&gt;/UNDO.sh (actualizar y desinstalar)."
-  },
-  {
-    "objectID": "faq.html#puedo-copiar-partes-para-mi-propio-tema",
-    "href": "faq.html#puedo-copiar-partes-para-mi-propio-tema",
-    "title": "Preguntas frecuentes",
-    "section": "¿Puedo copiar partes para mi propio tema?",
-    "text": "¿Puedo copiar partes para mi propio tema?\nSí: el código es MIT y los activos gráficos CC BY-SA 4.0 (atribución y misma licencia para lo derivado). Nada del proyecto proviene de otros temas, así que no arrastra licencias ajenas (licencias)."
+    "text": "Código, incidencias y cambios\n\nCódigo: generado/color-schemes y su generador herramientas/destinos/esquema.py.\nIncidencias: https://github.com/achalmed/lliphi/issues.\nCambios: registro de cambios."
   },
   {
     "objectID": "galeria.html",
@@ -539,74 +266,382 @@
     "text": "Bocetos (no son capturas)\nDibujos previos a la implementación, hechos con los tokens para decidir la dirección artística.\n\n\n\n\nBoceto oscuro\n\n\n\n\n\nBoceto claro"
   },
   {
-    "objectID": "generado/catalogo/esquema.html",
-    "href": "generado/catalogo/esquema.html",
-    "title": "Esquemas de color",
+    "objectID": "faq.html",
+    "href": "faq.html",
+    "title": "Preguntas frecuentes",
     "section": "",
-    "text": "estado\nprobado\n\n\ntecnología\nKColorScheme (.colors)\n\n\ndesde la versión\n0.1.0\n\n\narchivos\nLliphiClaro.colors, LliphiOscuro.colors\n\n\nlicencia\nCC-BY-SA-4.0"
+    "text": "No, salvo que lo pidas: el instalador no toca la disposición. Si en Preferencias del sistema marcas «Disposición del escritorio» al aplicar el tema global (o usas --resetLayout), Plasma sustituye tu disposición por la de Lliphi (barra superior fina y dock flotante). El instalador respalda plasma-org.kde.plasma.desktop-appletsrc antes, y UNDO.sh lo restaura."
   },
   {
-    "objectID": "generado/catalogo/esquema.html#instalar-a-mano",
-    "href": "generado/catalogo/esquema.html#instalar-a-mano",
-    "title": "Esquemas de color",
-    "section": "Instalar a mano",
-    "text": "Instalar a mano\n\nCopia LliphiClaro.colors y LliphiOscuro.colors a ~/.local/share/color-schemes/ (crea la carpeta si no existe).\nPreferencias del sistema → Apariencia y estilo → Colores → elige «Lliphi Claro» o «Lliphi Oscuro»; o en un terminal:\n\nplasma-apply-colorscheme LliphiOscuro"
-  },
-  {
-    "objectID": "generado/catalogo/esquema.html#actualizar",
-    "href": "generado/catalogo/esquema.html#actualizar",
-    "title": "Esquemas de color",
-    "section": "Actualizar",
-    "text": "Actualizar\nSustituye los dos archivos por los de la versión nueva y vuelve a aplicar el esquema (Plasma no relee un esquema ya aplicado hasta que lo aplicas otra vez)."
-  },
-  {
-    "objectID": "generado/catalogo/esquema.html#desinstalar",
-    "href": "generado/catalogo/esquema.html#desinstalar",
-    "title": "Esquemas de color",
-    "section": "Desinstalar",
-    "text": "Desinstalar\nElige otro esquema en Preferencias y borra los dos archivos de ~/.local/share/color-schemes/."
-  },
-  {
-    "objectID": "generado/catalogo/esquema.html#código-incidencias-y-cambios",
-    "href": "generado/catalogo/esquema.html#código-incidencias-y-cambios",
-    "title": "Esquemas de color",
-    "section": "Código, incidencias y cambios",
-    "text": "Código, incidencias y cambios\n\nCódigo: generado/color-schemes y su generador herramientas/destinos/esquema.py.\nIncidencias: https://github.com/achalmed/lliphi/issues.\nCambios: registro de cambios."
-  },
-  {
-    "objectID": "generado/catalogo/fondos.html",
-    "href": "generado/catalogo/fondos.html",
-    "title": "Fondos de pantalla",
+    "objectID": "faq.html#cambia-mis-paneles-y-widgets",
+    "href": "faq.html#cambia-mis-paneles-y-widgets",
+    "title": "Preguntas frecuentes",
     "section": "",
-    "text": "estado\nprobado\n\n\ntecnología\npaquete de fondo de Plasma (images/, images_dark/)\n\n\ndesde la versión\n0.1.0\n\n\narchivos\norg.lliphi.horizonte/\n\n\nlicencia\nCC-BY-SA-4.0"
+    "text": "No, salvo que lo pidas: el instalador no toca la disposición. Si en Preferencias del sistema marcas «Disposición del escritorio» al aplicar el tema global (o usas --resetLayout), Plasma sustituye tu disposición por la de Lliphi (barra superior fina y dock flotante). El instalador respalda plasma-org.kde.plasma.desktop-appletsrc antes, y UNDO.sh lo restaura."
   },
   {
-    "objectID": "generado/catalogo/fondos.html#instalar-a-mano",
-    "href": "generado/catalogo/fondos.html#instalar-a-mano",
-    "title": "Fondos de pantalla",
-    "section": "Instalar a mano",
-    "text": "Instalar a mano\ncp -r org.lliphi.horizonte ~/.local/share/wallpapers/\nplasma-apply-wallpaperimage ~/.local/share/wallpapers/org.lliphi.horizonte\nPlasma elige images_dark/ cuando el esquema de color es oscuro (Plasma ≥ 6.6); en versiones anteriores usa siempre la imagen clara. En Plasma 6.6 el paquete se aplica por ruta, no por nombre."
+    "objectID": "faq.html#necesita-kvantum",
+    "href": "faq.html#necesita-kvantum",
+    "title": "Preguntas frecuentes",
+    "section": "¿Necesita Kvantum?",
+    "text": "¿Necesita Kvantum?\nNo. Lliphi usa el estilo de widgets Breeze, que lee el esquema de color. Kvantum queda como módulo opcional futuro."
   },
   {
-    "objectID": "generado/catalogo/fondos.html#actualizar",
-    "href": "generado/catalogo/fondos.html#actualizar",
-    "title": "Fondos de pantalla",
-    "section": "Actualizar",
-    "text": "Actualizar\nSustituye la carpeta y vuelve a aplicarla."
+    "objectID": "faq.html#por-qué-las-carpetas-de-dolphin-siguen-azules",
+    "href": "faq.html#por-qué-las-carpetas-de-dolphin-siguen-azules",
+    "title": "Preguntas frecuentes",
+    "section": "¿Por qué las carpetas de Dolphin siguen azules?",
+    "text": "¿Por qué las carpetas de Dolphin siguen azules?\nLos iconos son Breeze. El módulo iconos añade dos temas (lliphi, lliphi-oscuro) que heredan todo de Breeze y cambian solo las carpetas, dibujadas en el acento; se eligen en Preferencias del sistema → Iconos. Cualquier otro tema de iconos que siga el esquema se combina igual de bien."
   },
   {
-    "objectID": "generado/catalogo/fondos.html#desinstalar",
-    "href": "generado/catalogo/fondos.html#desinstalar",
-    "title": "Fondos de pantalla",
+    "objectID": "faq.html#puedo-usar-otro-acento",
+    "href": "faq.html#puedo-usar-otro-acento",
+    "title": "Preguntas frecuentes",
+    "section": "¿Puedo usar otro acento?",
+    "text": "¿Puedo usar otro acento?\nSí: Preferencias del sistema → Colores → acento. Y el proyecto genera variantes con acento azul o verde azulado (personalizar)."
+  },
+  {
+    "objectID": "faq.html#funciona-en-x11",
+    "href": "faq.html#funciona-en-x11",
+    "title": "Preguntas frecuentes",
+    "section": "¿Funciona en X11?",
+    "text": "¿Funciona en X11?\nDebería: nada del tema depende del protocolo gráfico. Está probado en Wayland."
+  },
+  {
+    "objectID": "faq.html#y-en-plasma-5",
+    "href": "faq.html#y-en-plasma-5",
+    "title": "Preguntas frecuentes",
+    "section": "¿Y en Plasma 5?",
+    "text": "¿Y en Plasma 5?\nNo. El contrato de paquetes (metadata.json, kpackagetool6) es el de Plasma 6."
+  },
+  {
+    "objectID": "faq.html#el-estilo-de-plasma-no-cambia-tras-actualizar",
+    "href": "faq.html#el-estilo-de-plasma-no-cambia-tras-actualizar",
+    "title": "Preguntas frecuentes",
+    "section": "El estilo de Plasma no cambia tras actualizar",
+    "text": "El estilo de Plasma no cambia tras actualizar\nPlasma guarda los SVG en caché por versión del paquete. Cierra la sesión y vuelve a entrar; si persiste, borra ~/.cache/plasma-svgelements* y ~/.cache/plasma_theme_*."
+  },
+  {
+    "objectID": "faq.html#cómo-vuelvo-a-como-estaba",
+    "href": "faq.html#cómo-vuelvo-a-como-estaba",
+    "title": "Preguntas frecuentes",
+    "section": "¿Cómo vuelvo a como estaba?",
+    "text": "¿Cómo vuelvo a como estaba?\nbash ~/.local/state/lliphi/respaldos/&lt;fecha&gt;/UNDO.sh (actualizar y desinstalar)."
+  },
+  {
+    "objectID": "faq.html#puedo-copiar-partes-para-mi-propio-tema",
+    "href": "faq.html#puedo-copiar-partes-para-mi-propio-tema",
+    "title": "Preguntas frecuentes",
+    "section": "¿Puedo copiar partes para mi propio tema?",
+    "text": "¿Puedo copiar partes para mi propio tema?\nSí: el código es MIT y los activos gráficos CC BY-SA 4.0 (atribución y misma licencia para lo derivado). Nada del proyecto proviene de otros temas, así que no arrastra licencias ajenas (licencias)."
+  },
+  {
+    "objectID": "contribuir.html",
+    "href": "contribuir.html",
+    "title": "Contribuir",
+    "section": "",
+    "text": "Abre una incidencia con: distribución y versión de Plasma (plasmashell --version), sesión (Wayland o X11), la variante (clara u oscura), qué esperabas, qué pasó y una captura. Si es de un módulo, nómbralo (esquema, global, estilo, konsole, fondos)."
+  },
+  {
+    "objectID": "contribuir.html#informar-de-un-problema",
+    "href": "contribuir.html#informar-de-un-problema",
+    "title": "Contribuir",
+    "section": "",
+    "text": "Abre una incidencia con: distribución y versión de Plasma (plasmashell --version), sesión (Wayland o X11), la variante (clara u oscura), qué esperabas, qué pasó y una captura. Si es de un módulo, nómbralo (esquema, global, estilo, konsole, fondos)."
+  },
+  {
+    "objectID": "contribuir.html#proponer-un-cambio-de-diseño",
+    "href": "contribuir.html#proponer-un-cambio-de-diseño",
+    "title": "Contribuir",
+    "section": "Proponer un cambio de diseño",
+    "text": "Proponer un cambio de diseño\nPrimero una incidencia con la propuesta y, si puedes, una captura o boceto. Los cambios de paleta pasan por herramientas/paleta.py: toda propuesta debe seguir dando 4.5:1 en texto y 3:1 en foco y controles."
+  },
+  {
+    "objectID": "contribuir.html#programar",
+    "href": "contribuir.html#programar",
+    "title": "Contribuir",
+    "section": "Programar",
+    "text": "Programar\ngit clone https://github.com/achalmed/lliphi.git && cd lliphi\npython3 -m venv .venv && .venv/bin/pip install -e \".[dev]\"\n.venv/bin/python herramientas/paleta.py --aplicar     # tokens\n.venv/bin/python herramientas/generar.py --aplicar    # todo lo generado\n.venv/bin/pytest                                      # pruebas\n.venv/bin/reuse lint                                  # licencias\nReglas:\n\nLo generado no se edita: cambia los tokens o el generador; generar.py verificar (y la prueba test_generado_sin_deriva) rechaza ediciones a mano en generado/ y sitio/generado/.\nNingún color fuera de los tokens: la prueba test_ningun_hex_fuera_del_maestro lo vigila.\nNada de terceros: ni SVG, ni iconos, ni código copiado de otros temas. Todo archivo lleva su licencia (REUSE).\nUn módulo nuevo es una carpeta en modulos/&lt;id&gt;/ con modulo.json e INSTALL.md, un generador en herramientas/destinos/, su entrada en MODULOS del instalador, su prueba y su fila en la matriz de compatibilidad.\nMensajes de commit en español, con Conventional Commits."
+  },
+  {
+    "objectID": "contribuir.html#criterios-de-aceptación-de-una-pieza",
+    "href": "contribuir.html#criterios-de-aceptación-de-una-pieza",
+    "title": "Contribuir",
+    "section": "Criterios de aceptación de una pieza",
+    "text": "Criterios de aceptación de una pieza\n\nSe genera de los tokens y pasa la prueba de deriva.\nContraste en verde en las dos variantes.\nSe instala y se desinstala con el instalador, y UNDO.sh deja todo como estaba (prueba test_instalar_y_desinstalar_restaura).\nCapturas reales de la pieza en las dos variantes en muestras/capturas/.\nLicencia declarada por archivo y reuse lint en verde."
+  },
+  {
+    "objectID": "catalogo.html",
+    "href": "catalogo.html",
+    "title": "Catálogo",
+    "section": "",
+    "text": "Un módulo es una pieza que se instala, se actualiza y se desinstala por separado. Estados: probado (visto en un escritorio real con capturas), experimental (instalado, sin verificación visual completa), pendiente (en la hoja de ruta). La tabla se genera del repositorio (modulos/*/modulo.json)."
+  },
+  {
+    "objectID": "catalogo.html#lo-que-no-es-un-módulo-propio-y-por-qué",
+    "href": "catalogo.html#lo-que-no-es-un-módulo-propio-y-por-qué",
+    "title": "Catálogo",
+    "section": "Lo que no es un módulo propio, y por qué",
+    "text": "Lo que no es un módulo propio, y por qué\n\n\n\n\n\n\n\npieza\ncómo la cubre Lliphi\n\n\n\n\ndecoración de ventanas\nBreeze, coloreada por el esquema ([WM] y Colors:Header). Aurorae se reescribió en Plasma 6.6; no se depende de él.\n\n\naplicaciones GTK\nPlasma genera el tema GTK desde el esquema (breeze-gtk): con el esquema de Lliphi aplicado, GTK 3 y 4 lo siguen.\n\n\niconos y cursores\nBreeze y breeze_cursors, que siguen el esquema. El módulo iconos cambia solo las carpetas y hereda el resto.\n\n\nKvantum, estilos de widgets en C++\nno se usan: Breeze basta y no se rompe con cada Qt."
+  },
+  {
+    "objectID": "catalogo.html#hoja-de-ruta",
+    "href": "catalogo.html#hoja-de-ruta",
+    "title": "Catálogo",
+    "section": "Hoja de ruta",
+    "text": "Hoja de ruta\n\n\n\n\n\n\n\n\nlote\nmódulos\ncondición\n\n\n\n\n2\nterminales (Alacritty, Kitty) hecho · editores (VS Code, Zed) hecho · navegador (Zen/Firefox)\ngenerados desde los mismos tokens\n\n\n3\niconos de carpeta (hereda el resto de Breeze) hecho · cursores\nsi aportan algo visible\n\n\n4\nSDDM y Plymouth (root, con confirmación), Kvantum opcional, variante translúcida con contraste medido\ntras probar el primer lote en más distribuciones"
+  },
+  {
+    "objectID": "actualizar-y-desinstalar.html",
+    "href": "actualizar-y-desinstalar.html",
+    "title": "Actualizar y desinstalar",
+    "section": "",
+    "text": "cd lliphi\ngit pull\npython3 herramientas/instalar.py --aplicar\nEl instalador retira la versión anterior según su manifiesto y copia la nueva; los respaldos anteriores se conservan (cada instalación crea su carpeta con fecha). Si cambió el estilo de Plasma y ves el anterior, cierra la sesión y vuelve a entrar: Plasma guarda los SVG en caché por versión.\nVer qué hay instalado y si algo se modificó fuera del instalador:\npython3 herramientas/instalar.py estado"
+  },
+  {
+    "objectID": "actualizar-y-desinstalar.html#actualizar",
+    "href": "actualizar-y-desinstalar.html#actualizar",
+    "title": "Actualizar y desinstalar",
+    "section": "",
+    "text": "cd lliphi\ngit pull\npython3 herramientas/instalar.py --aplicar\nEl instalador retira la versión anterior según su manifiesto y copia la nueva; los respaldos anteriores se conservan (cada instalación crea su carpeta con fecha). Si cambió el estilo de Plasma y ves el anterior, cierra la sesión y vuelve a entrar: Plasma guarda los SVG en caché por versión.\nVer qué hay instalado y si algo se modificó fuera del instalador:\npython3 herramientas/instalar.py estado"
+  },
+  {
+    "objectID": "actualizar-y-desinstalar.html#desinstalar",
+    "href": "actualizar-y-desinstalar.html#desinstalar",
+    "title": "Actualizar y desinstalar",
     "section": "Desinstalar",
-    "text": "Desinstalar\nElige otro fondo (clic derecho en el escritorio → Configurar escritorio y fondo) y borra ~/.local/share/wallpapers/org.lliphi.horizonte."
+    "text": "Desinstalar\npython3 herramientas/instalar.py desinstalar            # simula\npython3 herramientas/instalar.py desinstalar --aplicar  # retira lo instalado\nAntes, elige otro tema global en Preferencias del sistema (o plasma-apply-lookandfeel -a org.kde.breeze.desktop) para que Plasma no se quede apuntando a un tema que ya no existe."
   },
   {
-    "objectID": "generado/catalogo/fondos.html#código-incidencias-y-cambios",
-    "href": "generado/catalogo/fondos.html#código-incidencias-y-cambios",
-    "title": "Fondos de pantalla",
+    "objectID": "actualizar-y-desinstalar.html#volver-exactamente-a-lo-de-antes",
+    "href": "actualizar-y-desinstalar.html#volver-exactamente-a-lo-de-antes",
+    "title": "Actualizar y desinstalar",
+    "section": "Volver exactamente a lo de antes",
+    "text": "Volver exactamente a lo de antes\nEl respaldo de cada instalación incluye un UNDO.sh:\nbash ~/.local/state/lliphi/respaldos/&lt;fecha&gt;/UNDO.sh\nRestaura byte a byte los archivos de configuración respaldados (los compara con su suma SHA-256), retira los módulos de Lliphi y borra el manifiesto. Después, cierra la sesión y vuelve a entrar."
+  },
+  {
+    "objectID": "actualizar-y-desinstalar.html#volver-a-una-versión-anterior-de-lliphi",
+    "href": "actualizar-y-desinstalar.html#volver-a-una-versión-anterior-de-lliphi",
+    "title": "Actualizar y desinstalar",
+    "section": "Volver a una versión anterior de Lliphi",
+    "text": "Volver a una versión anterior de Lliphi\ngit checkout v0.1.0            # la etiqueta de la versión que quieres\npython3 herramientas/instalar.py --aplicar"
+  },
+  {
+    "objectID": "cambios.html",
+    "href": "cambios.html",
+    "title": "Registro de cambios",
+    "section": "",
+    "text": "Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión del proyecto vive en VERSION."
+  },
+  {
+    "objectID": "cambios.html#unreleased",
+    "href": "cambios.html#unreleased",
+    "title": "Registro de cambios",
+    "section": "[Unreleased]",
+    "text": "[Unreleased]\n\nAdded\n\nMódulo terminales: esquemas para Alacritty ([colors] en TOML) y Kitty (.conf) en claro y oscuro, con los dieciséis ANSI de Konsole y la selección, el cursor y los enlaces del esquema de Plasma; el instalador admite destinos en $XDG_CONFIG_HOME (alacritty/themes/, kitty/themes/).\nMódulo editores: extensión mínima de VS Code (dos temas con colors, tokenColors y semanticTokenColors) y tema de Zed (v0.2.0, dos variantes en un archivo); la sintaxis sale de los ANSI con una tabla única (palabras clave rojo, cadenas verde, números amarillo, funciones azul, comentarios en el texto inactivo). El instalador copia la extensión a ~/.vscode/extensions/ (o $VSCODE_EXTENSIONS), su única ruta de lectura.\nMódulo iconos: dos temas de iconos (lliphi hereda de Breeze, lliphi-oscuro de Breeze Dark) que entregan solo las carpetas, dibujadas aquí en el acento con ColorScheme-Highlight y distintivos para los lugares de uso común, en 16, 22, 32, 48 y 64 px (este último escalable hasta 512); FollowsColorScheme las tiñe con el acento del usuario."
+  },
+  {
+    "objectID": "cambios.html#section",
+    "href": "cambios.html#section",
+    "title": "Registro de cambios",
+    "section": "[0.1.0] - 2026-10-18",
+    "text": "[0.1.0] - 2026-10-18\n\nAdded\n\nTokens de diseño (DTCG 2025.10, color en OKLCH) con contraste medido; variantes clara y oscura y acento rojo.\nGeneradores: esquemas de color de Plasma, temas globales, estilo de Plasma que sigue el esquema del sistema, esquemas de Konsole y paquete de fondos con variante oscura.\nInstalador en Python con simulación por defecto, respaldo verificado, manifiesto y UNDO.sh.\nPruebas: tokens, contraste, deriva de lo generado, estructura de paquetes, instalación reversible y REUSE.\nSitio oficial (Quarto) con galería de capturas reales, catálogo generado de modulos/, guías e integración propuesta con el hub del autor; integración continua; empaquetado por módulo con SHA256SUMS."
+  },
+  {
+    "objectID": "compatibilidad.html",
+    "href": "compatibilidad.html",
+    "title": "Compatibilidad",
+    "section": "",
+    "text": "«Probado» significa visto en un escritorio real con capturas; «esperado» es lo que la documentación de KDE indica y aún no se ha probado aquí. La matriz completa y actualizada está en docs/compatibilidad.md."
+  },
+  {
+    "objectID": "compatibilidad.html#por-componente-y-versión-de-plasma",
+    "href": "compatibilidad.html#por-componente-y-versión-de-plasma",
+    "title": "Compatibilidad",
+    "section": "Por componente y versión de Plasma",
+    "text": "Por componente y versión de Plasma\n\n\n\n\n\n\n\n\n\ncomponente\nPlasma 6.0–6.1\n6.2–6.5\n6.6\n\n\n\n\nesquemas de color\nesperado\nesperado\nprobado\n\n\ntemas globales (heredan de Breeze)\nesperado\nesperado\nprobado\n\n\nestilo de Plasma\nesperado\nesperado\nprobado\n\n\ndecoración Breeze coloreada\nesperado\nesperado\nprobado\n\n\nKonsole\nesperado\nesperado\nexperimental\n\n\nfondo con variante oscura (images_dark/)\nsolo la clara\nsolo la clara\nprobado (por ruta del paquete)\n\n\nGTK generado por Plasma\nesperado\nesperado\npendiente\n\n\nescalas 150 % y 200 %\n—\n—\npendiente\n\n\nSDDM, splash, bloqueo\nfuera del primer lote"
+  },
+  {
+    "objectID": "compatibilidad.html#por-distribución",
+    "href": "compatibilidad.html#por-distribución",
+    "title": "Compatibilidad",
+    "section": "Por distribución",
+    "text": "Por distribución\n\n\n\n\n\n\n\n\ndistribución\nPlasma\nestado\n\n\n\n\nKubuntu 26.04 LTS (Wayland)\n6.6\nprobado (máquina del autor)\n\n\nKDE neon, Fedora KDE 43, Arch y derivadas, openSUSE Tumbleweed\n6.5–6.6\nesperado igual: solo rutas de usuario y herramientas de Plasma\n\n\nDebian 13\n6.3\nesperado; sin variante oscura del fondo\n\n\nKubuntu 24.04 (Plasma 5.27)\n5\nno\n\n\nX11\n6.x\nesperado igual: nada depende del protocolo gráfico\n\n\n\n¿Lo probaste en otra distribución? Abre una incidencia con la versión de Plasma (plasmashell --version) y una captura; la matriz se actualiza con cada informe."
+  },
+  {
+    "objectID": "descargas.html",
+    "href": "descargas.html",
+    "title": "Descargas y versiones",
+    "section": "",
+    "text": "0.1.0 — primer lote. Las versiones siguen SemVer: la primera cifra cambia si cambian los nombres de los paquetes o la forma de instalar; la segunda, si entra un módulo o cambia el diseño; la tercera, correcciones."
+  },
+  {
+    "objectID": "descargas.html#versión-actual",
+    "href": "descargas.html#versión-actual",
+    "title": "Descargas y versiones",
+    "section": "",
+    "text": "0.1.0 — primer lote. Las versiones siguen SemVer: la primera cifra cambia si cambian los nombres de los paquetes o la forma de instalar; la segunda, si entra un módulo o cambia el diseño; la tercera, correcciones."
+  },
+  {
+    "objectID": "descargas.html#formas-de-obtenerlo",
+    "href": "descargas.html#formas-de-obtenerlo",
+    "title": "Descargas y versiones",
+    "section": "Formas de obtenerlo",
+    "text": "Formas de obtenerlo\n\n\n\nforma\npara quién\ncómo\n\n\n\n\nrepositorio\nquien quiera el instalador y las herramientas\ngit clone https://github.com/achalmed/lliphi.git\n\n\nversión etiquetada\nquien quiera una versión fija\ngithub.com/achalmed/lliphi/releases: código y, por módulo, un .tar.gz listo para kpackagetool6 o para copiar\n\n\nKDE Store\nquien instale desde Preferencias del sistema\npendiente de publicación (ver registro de cambios)"
+  },
+  {
+    "objectID": "descargas.html#comprobar-lo-descargado",
+    "href": "descargas.html#comprobar-lo-descargado",
+    "title": "Descargas y versiones",
+    "section": "Comprobar lo descargado",
+    "text": "Comprobar lo descargado\nCada versión publicada lleva su SHA256SUMS. En Linux:\nsha256sum -c SHA256SUMS"
+  },
+  {
+    "objectID": "descargas.html#qué-contiene-una-versión",
+    "href": "descargas.html#qué-contiene-una-versión",
+    "title": "Descargas y versiones",
+    "section": "Qué contiene una versión",
+    "text": "Qué contiene una versión\n\ngenerado/: los módulos tal como se instalan (esquemas, temas globales, estilo de Plasma, Konsole, fondos).\nherramientas/instalar.py: el instalador, sin dependencias.\ntokens/: la fuente de verdad del color y de la marca.\ndocs/, CHANGELOG.md, LICENSES/, REUSE.toml."
+  },
+  {
+    "objectID": "filosofia.html",
+    "href": "filosofia.html",
+    "title": "Filosofía",
+    "section": "",
+    "text": "El autor usaba dos temas globales de Plasma: Nothing (jomada, Seducción Linux), casi negro con un acento rojo y un dock flotante, y WhiteSur (vinceliuice), con la geometría redondeada, los márgenes generosos y la familia claro/oscuro de macOS. Quería la fusión de ambos, pero sin lo que arrastran: colores fijados en centenares de SVG, dependencias de otros temas, imitación literal de otra plataforma y ninguna forma de medir si el texto se lee."
+  },
+  {
+    "objectID": "filosofia.html#de-dónde-viene",
+    "href": "filosofia.html#de-dónde-viene",
+    "title": "Filosofía",
+    "section": "",
+    "text": "El autor usaba dos temas globales de Plasma: Nothing (jomada, Seducción Linux), casi negro con un acento rojo y un dock flotante, y WhiteSur (vinceliuice), con la geometría redondeada, los márgenes generosos y la familia claro/oscuro de macOS. Quería la fusión de ambos, pero sin lo que arrastran: colores fijados en centenares de SVG, dependencias de otros temas, imitación literal de otra plataforma y ninguna forma de medir si el texto se lee."
+  },
+  {
+    "objectID": "filosofia.html#seis-principios",
+    "href": "filosofia.html#seis-principios",
+    "title": "Filosofía",
+    "section": "Seis principios",
+    "text": "Seis principios\n\nSuavidad con estructura. Superficies neutras de poca saturación, jerarquía por luminosidad (vista más clara u oscura que la ventana, botón distinto de ambas) y bordes de un píxel en vez de sombras pesadas.\nUn acento, y que siga al sistema. Rojo por defecto; el esquema deja que Plasma lo sustituya por el acento del usuario o del fondo sin romper el contraste.\nDos variantes, una lógica. Mismos tokens semánticos, radios, espacios y estados; cambian solo las primitivas.\nLegible antes que bonito. Contraste medido (WCAG 2.2) como prueba automática.\nNada de Apple ni de nadie. La originalidad está en proporciones, radios, paleta y estados, no en copiar.\nMínimo que hereda. Breeze colorea; Lliphi no reemplaza lo que ya funciona."
+  },
+  {
+    "objectID": "filosofia.html#lo-que-lliphi-no-es",
+    "href": "filosofia.html#lo-que-lliphi-no-es",
+    "title": "Filosofía",
+    "section": "Lo que Lliphi no es",
+    "text": "Lo que Lliphi no es\n\nNo es una imitación de macOS ni de Windows: no hay semáforos, logotipos ni fuentes de esas plataformas.\nNo exige Kvantum ni estilos de widgets compilados: con Breeze basta y sobrevive a cada versión de Qt.\nNo instala nada con privilegios: SDDM y Plymouth, si algún día llegan, serán un módulo aparte con confirmación.\nNo promete compatibilidad universal: la matriz dice qué está probado y dónde."
+  },
+  {
+    "objectID": "filosofia.html#cómo-se-decide",
+    "href": "filosofia.html#cómo-se-decide",
+    "title": "Filosofía",
+    "section": "Cómo se decide",
+    "text": "Cómo se decide\nCada decisión de diseño y de técnica está escrita, con fecha y motivo, en docs/decisiones.md; la dirección artística, con la paleta y el contraste medido, en docs/direccion-artistica.md."
+  },
+  {
+    "objectID": "generado/catalogo/editores.html",
+    "href": "generado/catalogo/editores.html",
+    "title": "Editores: VS Code y Zed",
+    "section": "",
+    "text": "estado\nexperimental\n\n\ntecnología\nVS Code color theme (colors, tokenColors, semanticTokenColors) · Zed theme v0.2.0\n\n\ndesde la versión\n0.2.0\n\n\narchivos\nvscode/lliphi/, zed/lliphi.json\n\n\nlicencia\nCC-BY-SA-4.0"
+  },
+  {
+    "objectID": "generado/catalogo/editores.html#instalar-a-mano",
+    "href": "generado/catalogo/editores.html#instalar-a-mano",
+    "title": "Editores: VS Code y Zed",
+    "section": "Instalar a mano",
+    "text": "Instalar a mano\nEl instalador (python3 herramientas/instalar.py --modulos editores --aplicar) copia la extensión a ~/.vscode/extensions/lliphi.lliphi/ (o a $VSCODE_EXTENSIONS si está definida) y el tema de Zed a ~/.config/zed/themes/lliphi.json. Ninguno de los dos editores lo activa solo.\n\nVS Code\n\nCopia la carpeta vscode/lliphi/ a ~/.vscode/extensions/lliphi.lliphi/ (VSCodium: ~/.vscode-oss/extensions/).\nReinicia VS Code y elige el tema: Ctrl+K Ctrl+T → «Lliphi Oscuro» o «Lliphi Claro»; o en settings.json:\n\n\"workbench.colorTheme\": \"Lliphi Oscuro\"\nPara que siga al sistema: \"window.autoDetectColorScheme\": true, \"workbench.preferredDarkColorTheme\": \"Lliphi Oscuro\", \"workbench.preferredLightColorTheme\": \"Lliphi Claro\".\n\n\nZed\n\nCopia zed/lliphi.json a ~/.config/zed/themes/.\nEn Zed: paleta de órdenes → theme selector: toggle → «Lliphi Oscuro» o «Lliphi Claro»; o en settings.json:\n\n\"theme\": { \"mode\": \"system\", \"dark\": \"Lliphi Oscuro\", \"light\": \"Lliphi Claro\" }\nZed relee la carpeta de temas al vuelo."
+  },
+  {
+    "objectID": "generado/catalogo/editores.html#actualizar",
+    "href": "generado/catalogo/editores.html#actualizar",
+    "title": "Editores: VS Code y Zed",
+    "section": "Actualizar",
+    "text": "Actualizar\nSustituye la carpeta de la extensión y el archivo de Zed; los nombres de los temas no cambian."
+  },
+  {
+    "objectID": "generado/catalogo/editores.html#desinstalar",
+    "href": "generado/catalogo/editores.html#desinstalar",
+    "title": "Editores: VS Code y Zed",
+    "section": "Desinstalar",
+    "text": "Desinstalar\nElige otro tema en cada editor y borra ~/.vscode/extensions/lliphi.lliphi/ y ~/.config/zed/themes/lliphi.json. El instalador (desinstalar) hace lo segundo y no toca los settings.json, que son tuyos."
+  },
+  {
+    "objectID": "generado/catalogo/editores.html#código-incidencias-y-cambios",
+    "href": "generado/catalogo/editores.html#código-incidencias-y-cambios",
+    "title": "Editores: VS Code y Zed",
     "section": "Código, incidencias y cambios",
-    "text": "Código, incidencias y cambios\n\nCódigo: generado/wallpapers y su generador herramientas/destinos/fondo.py.\nIncidencias: https://github.com/achalmed/lliphi/issues.\nCambios: registro de cambios."
+    "text": "Código, incidencias y cambios\n\nCódigo: generado/editores y su generador herramientas/destinos/editores.py.\nIncidencias: https://github.com/achalmed/lliphi/issues.\nCambios: registro de cambios."
+  },
+  {
+    "objectID": "generado/catalogo/estilo.html",
+    "href": "generado/catalogo/estilo.html",
+    "title": "Estilo de Plasma",
+    "section": "",
+    "text": "estado\nprobado\n\n\ntecnología\nPlasma SVG (desktoptheme)\n\n\ndesde la versión\n0.1.0\n\n\narchivos\nlliphi/\n\n\nlicencia\nCC-BY-SA-4.0"
+  },
+  {
+    "objectID": "generado/catalogo/estilo.html#instalar-a-mano",
+    "href": "generado/catalogo/estilo.html#instalar-a-mano",
+    "title": "Estilo de Plasma",
+    "section": "Instalar a mano",
+    "text": "Instalar a mano\nkpackagetool6 -t Plasma/Theme -i lliphi\nplasma-apply-desktoptheme lliphi\nEl estilo no trae colors: toma los colores del esquema activo. Con Lliphi Oscuro es casi negro; con Lliphi Claro, gris suave; con cualquier otro esquema, el de ese esquema, y el acento del sistema manda en la selección y el foco."
+  },
+  {
+    "objectID": "generado/catalogo/estilo.html#actualizar",
+    "href": "generado/catalogo/estilo.html#actualizar",
+    "title": "Estilo de Plasma",
+    "section": "Actualizar",
+    "text": "Actualizar\nkpackagetool6 -t Plasma/Theme -u lliphi\nSi tras actualizar ves el estilo viejo, cierra la sesión y vuelve a entrar: Plasma guarda los SVG en caché por versión."
+  },
+  {
+    "objectID": "generado/catalogo/estilo.html#desinstalar",
+    "href": "generado/catalogo/estilo.html#desinstalar",
+    "title": "Estilo de Plasma",
+    "section": "Desinstalar",
+    "text": "Desinstalar\nplasma-apply-desktoptheme default\nkpackagetool6 -t Plasma/Theme -r lliphi"
+  },
+  {
+    "objectID": "generado/catalogo/estilo.html#código-incidencias-y-cambios",
+    "href": "generado/catalogo/estilo.html#código-incidencias-y-cambios",
+    "title": "Estilo de Plasma",
+    "section": "Código, incidencias y cambios",
+    "text": "Código, incidencias y cambios\n\nCódigo: generado/desktoptheme y su generador herramientas/destinos/desktoptheme.py.\nIncidencias: https://github.com/achalmed/lliphi/issues.\nCambios: registro de cambios."
+  },
+  {
+    "objectID": "generado/catalogo/global.html",
+    "href": "generado/catalogo/global.html",
+    "title": "Temas globales",
+    "section": "",
+    "text": "estado\nprobado\n\n\ntecnología\nKPackage Plasma/LookAndFeel\n\n\ndesde la versión\n0.1.0\n\n\narchivos\norg.lliphi.claro/, org.lliphi.oscuro/\n\n\nlicencia\nCC-BY-SA-4.0"
+  },
+  {
+    "objectID": "generado/catalogo/global.html#instalar-a-mano",
+    "href": "generado/catalogo/global.html#instalar-a-mano",
+    "title": "Temas globales",
+    "section": "Instalar a mano",
+    "text": "Instalar a mano\nkpackagetool6 -t Plasma/LookAndFeel -i org.lliphi.oscuro\nkpackagetool6 -t Plasma/LookAndFeel -i org.lliphi.claro\nplasma-apply-lookandfeel -a org.lliphi.oscuro          # añade --resetLayout para la disposición (borra la actual)\nO en Preferencias del sistema → Apariencia y estilo → Tema global: marca «Disposición del escritorio» solo si quieres el panel superior y el dock de Lliphi (sustituye tu disposición actual; el instalador del proyecto respalda plasma-org.kde.plasma.desktop-appletsrc antes)."
+  },
+  {
+    "objectID": "generado/catalogo/global.html#actualizar",
+    "href": "generado/catalogo/global.html#actualizar",
+    "title": "Temas globales",
+    "section": "Actualizar",
+    "text": "Actualizar\nkpackagetool6 -t Plasma/LookAndFeel -u org.lliphi.oscuro"
+  },
+  {
+    "objectID": "generado/catalogo/global.html#desinstalar",
+    "href": "generado/catalogo/global.html#desinstalar",
+    "title": "Temas globales",
+    "section": "Desinstalar",
+    "text": "Desinstalar\nplasma-apply-lookandfeel -a org.kde.breeze.desktop     # vuelve a Breeze (o al tema que uses)\nkpackagetool6 -t Plasma/LookAndFeel -r org.lliphi.oscuro\nkpackagetool6 -t Plasma/LookAndFeel -r org.lliphi.claro\nEl tema global no instala los esquemas, el estilo ni el fondo por sí solo: los declara. Instálalos con el instalador del proyecto o módulo a módulo."
+  },
+  {
+    "objectID": "generado/catalogo/global.html#código-incidencias-y-cambios",
+    "href": "generado/catalogo/global.html#código-incidencias-y-cambios",
+    "title": "Temas globales",
+    "section": "Código, incidencias y cambios",
+    "text": "Código, incidencias y cambios\n\nCódigo: generado/look-and-feel y su generador herramientas/destinos/lookandfeel.py.\nIncidencias: https://github.com/achalmed/lliphi/issues.\nCambios: registro de cambios."
   },
   {
     "objectID": "generado/catalogo/konsole.html",

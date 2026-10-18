@@ -1,0 +1,16 @@
+{
+  "nombre": "Iconos de carpeta",
+  "resumen": "Dos temas de iconos que heredan todo de Breeze y cambian solo las carpetas: dibujadas aquí, en el acento, con distintivos para los lugares de uso común; siguen el acento del usuario en KDE.",
+  "estado": "experimental",
+  "tecnologia": "freedesktop Icon Theme (`index.theme`, `FollowsColorScheme`, SVG con `current-color-scheme`)",
+  "desde": "0.2.0",
+  "archivos": [
+    "lliphi/",
+    "lliphi-oscuro/"
+  ],
+  "carpeta": "icons",
+  "generador": "iconos.py",
+  "capturas": [
+    "../capturas/iconos-carpetas-render.png"
+  ]
+}

@@ -24,6 +24,7 @@ probado aquí. Se actualiza en cada fase de validación.
 | Zed (`themes/<id>.json`, esquema v0.2.0) | independiente de Plasma | — | pendiente | Zed ≥ 0.130 (temas de usuario en `~/.config/zed/themes/`) |
 | fondo con `images_dark/` | no (solo `images/`) | no | **probado** por ruta del paquete; por nombre no resolvió | `images_dark/` llega en 6.6; antes se usa la imagen clara |
 | acento declarado por el fondo | esperado | esperado | pendiente | `X-KDE-PlasmaImageWallpaper-AccentColor` |
+| iconos de carpeta (`lliphi`, `lliphi-oscuro`; heredan de Breeze; `FollowsColorScheme`) | esperado | esperado | pendiente | KIconLoader (KF 6) recolorea `current-color-scheme`; GTK ve los colores de respaldo del SVG |
 | GTK generado por Plasma | esperado | esperado | pendiente | `kde-gtk-config`, `breeze-gtk` |
 | Aurorae propio | no se ofrece | no se ofrece | no se ofrece | motor V2 solo desde 6.6 |
 | «guardar como tema global» de 6.6 | — | — | no se usa | bug 516318 |
@@ -43,5 +44,5 @@ probado aquí. Se actualiza en cada fase de validación.
 
 ## 3. Lo que no depende de la versión
 
-Esquemas de color, Konsole, Alacritty, Kitty, VS Code, Zed, tokens, instalador (rutas XDG), sitio y documentación. Lo que sí: paquetes de fondo con
+Esquemas de color, Konsole, Alacritty, Kitty, VS Code, Zed, iconos de carpeta, tokens, instalador (rutas XDG), sitio y documentación. Lo que sí: paquetes de fondo con
 `images_dark/`, funciones de 6.6 y cualquier Aurorae.
