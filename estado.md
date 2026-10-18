@@ -35,6 +35,7 @@ Hasta que el autor elija el nombre (fase 3), la carpeta se llama `lliphi` y no e
 
 ## Por hacer
 
+- 2026-10-18 · dueño: autor · el hub (`web` 6ffafae, con el enlace a Lliphi) está empujado pero Netlify no lo había desplegado 40 minutos después (la portada sigue sin el enlace): revisar en app.netlify.com → Deploys del sitio `achalmaedison` si el despliegue automático desde GitHub sigue activo.
 - 2026-10-18 · dueño: autor · **el disco interno `/dev/nvme0n1` (INTEL HBRPEKNX0101AH) aparece como «likely to fail soon» en Plasma** (aviso de Device Health visto en la sesión de prueba): respaldar y comprobar con `sudo smartctl -a /dev/nvme0n1`.
 - 2026-10-18 · dueño: autor · KDE Store: subir las fichas con `dist/FICHA-KDE-STORE.md` (requiere su cuenta en pling); Netlify opcional (el sitio ya está en GitHub Pages).
 - 2026-10-18 · dueño: asistente · versión 0.2.0 con el lote 2 cuando el autor lo apruebe (`VERSION`, `CHANGELOG`, etiqueta, `empaquetar`, release).
