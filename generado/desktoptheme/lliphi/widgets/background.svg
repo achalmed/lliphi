@@ -42,40 +42,40 @@
   <rect id="shadow-hint-right-margin" x="206" y="74" width="14" height="4" fill="#000" fill-opacity="0"/>
   <rect id="shadow-hint-right-inset" x="228" y="74" width="0.01" height="4" fill="#000" fill-opacity="0"/>
   <g id="topleft">
-    <path d="M26.0,14.0 H28 V28 H14.0 V26.0 A12.0,12.0 0 0 1 26.0,14.0 Z" class="ColorScheme-Background" fill="currentColor" fill-opacity="0.97"/>
+    <path d="M26.0,14.0 H28 V28 H14.0 V26.0 A12.0,12.0 0 0 1 26.0,14.0 Z" class="ColorScheme-Background" fill="currentColor" fill-opacity="0.85"/>
     <path fill-rule="evenodd" d="M26.0,14.0 H28 V28 H14.0 V26.0 A12.0,12.0 0 0 1 26.0,14.0 Z M26.0,15.0 H28 V28 H15.0 V26.0 A11.0,11.0 0 0 1 26.0,15.0 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.16"/>
   </g>
   <g id="topright">
-    <path d="M60,14.0 H62.0 A12.0,12.0 0 0 1 74.0,26.0 V28 H60 Z" class="ColorScheme-Background" fill="currentColor" fill-opacity="0.97"/>
+    <path d="M60,14.0 H62.0 A12.0,12.0 0 0 1 74.0,26.0 V28 H60 Z" class="ColorScheme-Background" fill="currentColor" fill-opacity="0.85"/>
     <path fill-rule="evenodd" d="M60,14.0 H62.0 A12.0,12.0 0 0 1 74.0,26.0 V28 H60 Z M60,15.0 H62.0 A11.0,11.0 0 0 1 73.0,26.0 V28 H60 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.16"/>
   </g>
   <g id="bottomleft">
-    <path d="M14.0,60 H28 V74.0 H26.0 A12.0,12.0 0 0 1 14.0,62.0 Z" class="ColorScheme-Background" fill="currentColor" fill-opacity="0.97"/>
+    <path d="M14.0,60 H28 V74.0 H26.0 A12.0,12.0 0 0 1 14.0,62.0 Z" class="ColorScheme-Background" fill="currentColor" fill-opacity="0.85"/>
     <path fill-rule="evenodd" d="M14.0,60 H28 V74.0 H26.0 A12.0,12.0 0 0 1 14.0,62.0 Z M15.0,60 H28 V73.0 H26.0 A11.0,11.0 0 0 1 15.0,62.0 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.16"/>
   </g>
   <g id="bottomright">
-    <path d="M60,60 H74.0 V62.0 A12.0,12.0 0 0 1 62.0,74.0 H60 Z" class="ColorScheme-Background" fill="currentColor" fill-opacity="0.97"/>
+    <path d="M60,60 H74.0 V62.0 A12.0,12.0 0 0 1 62.0,74.0 H60 Z" class="ColorScheme-Background" fill="currentColor" fill-opacity="0.85"/>
     <path fill-rule="evenodd" d="M60,60 H74.0 V62.0 A12.0,12.0 0 0 1 62.0,74.0 H60 Z M60,60 H73.0 V62.0 A11.0,11.0 0 0 1 62.0,73.0 H60 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.16"/>
   </g>
   <g id="top">
-    <rect x="28" y="14.0" width="32" height="14.0" class="ColorScheme-Background" fill="currentColor" fill-opacity="0.97"/>
+    <rect x="28" y="14.0" width="32" height="14.0" class="ColorScheme-Background" fill="currentColor" fill-opacity="0.85"/>
     <path fill-rule="evenodd" d="M28,14.0 h32 v14.0 h-32 Z M28,15.0 h32 v13.0 h-32 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.16"/>
     <rect x="28" y="14" width="32" height="1" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.1"/>
   </g>
   <g id="bottom">
-    <rect x="28" y="60" width="32" height="14.0" class="ColorScheme-Background" fill="currentColor" fill-opacity="0.97"/>
+    <rect x="28" y="60" width="32" height="14.0" class="ColorScheme-Background" fill="currentColor" fill-opacity="0.85"/>
     <path fill-rule="evenodd" d="M28,60 h32 v14.0 h-32 Z M28,60 h32 v13.0 h-32 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.16"/>
   </g>
   <g id="left">
-    <rect x="14.0" y="28" width="14.0" height="32" class="ColorScheme-Background" fill="currentColor" fill-opacity="0.97"/>
+    <rect x="14.0" y="28" width="14.0" height="32" class="ColorScheme-Background" fill="currentColor" fill-opacity="0.85"/>
     <path fill-rule="evenodd" d="M14.0,28 h14.0 v32 h-14.0 Z M15.0,28 h13.0 v32 h-13.0 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.16"/>
   </g>
   <g id="right">
-    <rect x="60" y="28" width="14.0" height="32" class="ColorScheme-Background" fill="currentColor" fill-opacity="0.97"/>
+    <rect x="60" y="28" width="14.0" height="32" class="ColorScheme-Background" fill="currentColor" fill-opacity="0.85"/>
     <path fill-rule="evenodd" d="M60,28 h14.0 v32 h-14.0 Z M60,28 h13.0 v32 h-13.0 Z" class="ColorScheme-Text" fill="currentColor" fill-opacity="0.16"/>
   </g>
   <g id="center">
-    <rect x="28" y="28" width="32" height="32" class="ColorScheme-Background" fill="currentColor" fill-opacity="0.97"/>
+    <rect x="28" y="28" width="32" height="32" class="ColorScheme-Background" fill="currentColor" fill-opacity="0.85"/>
   </g>
   <rect id="hint-top-margin" x="82" y="14" width="4" height="12" fill="#000" fill-opacity="0"/>
   <rect id="hint-top-inset" x="102" y="14" width="4" height="0.01" fill="#000" fill-opacity="0"/>

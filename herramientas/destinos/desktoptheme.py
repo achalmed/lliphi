@@ -373,17 +373,16 @@ def generar(tokens: dict, marca: dict, destino: Path) -> list[Path]:
         "[AdaptiveTransparency]", "enabled=true", ""]), hechos)
     op_panel, op_dialogo = ef.get("opacidad-panel", 0.58), ef.get("opacidad-dialogo", 0.72)
     textura = ef.get("textura", 0.07)
-    # fondos de cristal (Plasma los usa cuando hay desenfoque) y fondos casi opacos (sin compositor)
-    for carpeta, opacidad_p, opacidad_d in (("translucent", op_panel, op_dialogo), ("", 0.96, 0.97)):
+    # Fondos de cristal en las tres variantes que pide Plasma: normal, translucent/ y también solid/, porque el lanzador
+    # (Kickoff) y el panel en modo opaco piden «solid» y, si el tema no la trae, Plasma usa la de Breeze (opaca).
+    # Validado en la sesión del autor (docs/validacion.md §6); es lo que hace WhiteSur.
+    for carpeta, opacidad_p, opacidad_d in (("translucent", op_panel, op_dialogo), ("solid", op_panel, op_dialogo), ("", op_panel, op_dialogo)):
         pref = base / carpeta if carpeta else base
         escribir(pref / "widgets" / "panel-background.svg", svg_fondo(colores, r["panel-flotante"], 8, opacidad_p, 16, 0.38, con_thick=True, textura=textura), hechos)
         escribir(pref / "dialogs" / "background.svg", svg_fondo(colores, r["ventana"], 12, opacidad_d, 32, 0.42), hechos)
         escribir(pref / "widgets" / "tooltip.svg", svg_fondo(colores, r["menu"], 8, opacidad_d, 14, 0.36), hechos)
         escribir(pref / "widgets" / "background.svg", svg_fondo(colores, r["ventana"], 12, opacidad_d, 14, 0.30), hechos)
         escribir(pref / "widgets" / "translucentbackground.svg", svg_fondo(colores, r["ventana"], 12, opacidad_d, 14, 0.30), hechos)
-    # opaque/: sin compositor, lo mismo que los normales
-    escribir(base / "opaque" / "widgets" / "panel-background.svg", svg_fondo(colores, r["panel-flotante"], 8, 1.0, 16, 0.38, con_thick=True, textura=textura), hechos)
-    escribir(base / "opaque" / "dialogs" / "background.svg", svg_fondo(colores, r["ventana"], 12, 1.0, 32, 0.42), hechos)
     # widgets propios
     escribir(base / "widgets" / "tasks.svg", svg_tasks(colores, r["control"] + 2), hechos)
     escribir(base / "widgets" / "button.svg", svg_button(colores, r["control"]), hechos)
