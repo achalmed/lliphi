@@ -40,14 +40,14 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-154fb5346bc749451a5dc6160cde49d6.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-90c99b95acd437ed1f92bab1e8363ca1.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-154fb5346bc749451a5dc6160cde49d6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-6a4ab9419083cd495fad7fe09e1fdd1e.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-f9225577189a6dfb0b5679b03e915b06.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-6a4ab9419083cd495fad7fe09e1fdd1e.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-6c256bcde432c86c62b95551ce0b5bd8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-570c1f1c706665dc6aa97faa2292c035.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-6c256bcde432c86c62b95551ce0b5bd8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-508f8fa5076a166f52186d66484153bb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-c54e8b41dfa8054eb9f0b14841d109ef.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-508f8fa5076a166f52186d66484153bb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -376,6 +376,12 @@ ul.task-list li input[type="checkbox"] {
 <p>Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión del proyecto vive en <code>VERSION</code>.</p>
 <section id="unreleased" class="level2">
 <h2 class="anchored" data-anchor-id="unreleased">[Unreleased]</h2>
+<section id="changed" class="level3">
+<h3 class="anchored" data-anchor-id="changed">Changed</h3>
+<ul>
+<li>Cambio de enfoque: el estilo de Plasma y el tema Kvantum derivan de WhiteSur-kde (GPL-3.0) recoloreados con los tokens y sin lo que imita a Apple; iconos Papirus (carpetas rojas), cursores Bibata y tipografía IBM Plex como dependencias descargadas; retirado el módulo de iconos propio.</li>
+</ul>
+</section>
 <section id="added" class="level3">
 <h3 class="anchored" data-anchor-id="added">Added</h3>
 <ul>
@@ -384,6 +390,7 @@ ul.task-list li input[type="checkbox"] {
 <li>Módulo <code>editores</code>: la misma extensión se instala en Positron (<code>~/.positron/extensions/</code> o <code>$POSITRON_EXTENSIONS</code>) y en VSCodium (<code>~/.vscode-oss/extensions/</code> o <code>$VSCODIUM_EXTENSIONS</code>) cuando existe la carpeta del editor; si no, el instalador omite el par y lo dice en la simulación, sin crearla.</li>
 <li>Módulo <code>iconos</code>: dos temas de iconos (<code>lliphi</code> hereda de Breeze, <code>lliphi-oscuro</code> de Breeze Dark) que entregan solo las carpetas, dibujadas aquí en el acento con <code>ColorScheme-Highlight</code> y distintivos para los lugares de uso común, en 16, 22, 32, 48 y 64 px (este último escalable hasta 512); <code>FollowsColorScheme</code> las tiñe con el acento del usuario.</li>
 <li>Módulo <code>libreoffice</code>: dos esquemas de «Colores de la aplicación» (Lliphi Claro y Lliphi Oscuro) con las 91 entradas del esquema de LibreOffice 26.2 (documento, Writer, Calc, Draw, HTML, autores, BASIC, SQL e interfaz), generados desde los semánticos y los ANSI con la tabla de sintaxis de los editores; como extensión <code>.oxt</code> reproducible (<code>unopkg add</code>) y como fragmentos <code>&lt;oor:items&gt;</code> para <code>registrymodifications.xcu</code>. El instalador no toca LibreOffice.</li>
+<li>Módulo <code>decoracion</code>: decoración de ventanas Aurorae en dos temas (<code>lliphi</code> oscuro y <code>lliphi-claro</code>) derivada de WhiteSur-dark (marco, radios, sombra, disposición) y Nothing (botones circulares con glifo al pasar el ratón), ambos GPL-3.0-or-later y copiados sin cambios a <code>fuentes/aurorae/base/</code> (<code>ORIGEN.md</code>); el generador reescribe solo los colores con los tokens (cerrar en el acento, el resto en gris, sin semáforo), la barra de 30 px y los botones a la derecha. <code>generado/aurorae/</code> es GPL-3.0-or-later (<code>REUSE.toml</code>); los temas globales pasan a <code>library=org.kde.kwin.aurorae.v2</code>, <code>theme=__aurorae__svg__&lt;id&gt;</code> y botones <code>IAX</code> a la derecha; el instalador escribe esas claves en <code>kwinrc</code> al aplicar.</li>
 </ul>
 </section>
 </section>

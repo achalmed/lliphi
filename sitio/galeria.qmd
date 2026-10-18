@@ -68,6 +68,22 @@ maquetas). Los dos bocetos del final están rotulados como tales.
 ![Claro](generado/capturas/claro-08-positron.png){.lightbox group="positron"}
 :::
 
+## 0.2.0: derivado de WhiteSur y Nothing
+
+::: {.ll-par}
+![Lanzador: estilo de WhiteSur recoloreado, Hack, Papirus](generado/capturas/oscuro-16-lanzador-whitesur.png){.lightbox group="v2"}
+
+![Dolphin: decoración de Nothing, dock de WhiteSur](generado/capturas/oscuro-15-decoracion-nothing.png){.lightbox group="v2"}
+:::
+
+::: {.ll-par}
+![Lanzador de cristal en la sesión real (oscuro)](generado/capturas/oscuro-14-lanzador-cristal.png){.lightbox group="cristal"}
+
+![Lanzador de cristal en la sesión real (claro)](generado/capturas/claro-14-lanzador-cristal.png){.lightbox group="cristal"}
+:::
+
+![Comparación 0.1.0 → 0.2.0](generado/capturas/comparacion-0.1-0.2.png){.lightbox}
+
 ## Bocetos (no son capturas)
 
 Dibujos previos a la implementación, hechos con los tokens para decidir la dirección artística.

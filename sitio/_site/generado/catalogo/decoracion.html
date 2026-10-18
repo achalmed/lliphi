@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Iconos de carpeta – Lliphi</title>
+<title>Decoración de ventanas – Lliphi</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -22,6 +22,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -40,14 +75,14 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-154fb5346bc749451a5dc6160cde49d6.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-90c99b95acd437ed1f92bab1e8363ca1.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-154fb5346bc749451a5dc6160cde49d6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-6a4ab9419083cd495fad7fe09e1fdd1e.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-f9225577189a6dfb0b5679b03e915b06.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-6a4ab9419083cd495fad7fe09e1fdd1e.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-6c256bcde432c86c62b95551ce0b5bd8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-570c1f1c706665dc6aa97faa2292c035.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-6c256bcde432c86c62b95551ce0b5bd8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-508f8fa5076a166f52186d66484153bb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-c54e8b41dfa8054eb9f0b14841d109ef.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-508f8fa5076a166f52186d66484153bb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -78,14 +113,14 @@ ul.task-list li input[type="checkbox"] {
 <style>html{ scroll-behavior: smooth; }</style>
 
 
-<meta property="og:title" content="Iconos de carpeta – Lliphi">
-<meta property="og:description" content="Dos temas de iconos que heredan todo de Breeze y cambian solo las carpetas: dibujadas aquí, en el acento, con distintivos para los lugares de uso común; siguen el acento del usuario en KDE.">
-<meta property="og:image" content="https://achalmed.github.io/lliphi/generado/capturas/iconos-carpetas-render.png">
+<meta property="og:title" content="Decoración de ventanas – Lliphi">
+<meta property="og:description" content="Dos temas Aurorae (oscuro y claro) con el marco, los radios y la sombra de WhiteSur y los botones circulares de Nothing, recoloreados con los tokens: barra de 30 px con el título centrado, botones a la derecha, cerrar en el acento y el resto en gris; sin semáforo.">
+<meta property="og:image" content="https://achalmed.github.io/lliphi/generado/capturas/oscuro-09-decoracion.png">
 <meta property="og:site_name" content="Lliphi">
 <meta property="og:locale" content="es_ES">
-<meta property="og:image:alt" content="../capturas/iconos-carpetas-render.png">
-<meta property="og:image:height" content="675">
-<meta property="og:image:width" content="1755">
+<meta property="og:image:alt" content="../capturas/oscuro-09-decoracion.png">
+<meta property="og:image:height" content="900">
+<meta property="og:image:width" content="1600">
 </head>
 
 <body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
@@ -367,8 +402,8 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Iconos de carpeta</h1>
-<p class="subtitle lead">Dos temas de iconos que heredan todo de Breeze y cambian solo las carpetas: dibujadas aquí, en el acento, con distintivos para los lugares de uso común; siguen el acento del usuario en KDE.</p>
+<h1 class="title">Decoración de ventanas</h1>
+<p class="subtitle lead">Dos temas Aurorae (oscuro y claro) con el marco, los radios y la sombra de WhiteSur y los botones circulares de Nothing, recoloreados con los tokens: barra de 30 px con el título centrado, botones a la derecha, cerrar en el acento y el resto en gris; sin semáforo.</p>
 </div>
 
 
@@ -397,7 +432,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td>tecnología</td>
-<td>freedesktop Icon Theme (<code>index.theme</code>, <code>FollowsColorScheme</code>, SVG con <code>current-color-scheme</code>)</td>
+<td>Aurorae SVG (motor V2 de Plasma 6.6, <code>kwin-style-aurorae</code>); derivado de WhiteSur-dark y Nothing, GPL-3.0-or-later</td>
 </tr>
 <tr class="odd">
 <td>desde la versión</td>
@@ -405,37 +440,43 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td>archivos</td>
-<td><code>lliphi/</code>, <code>lliphi-oscuro/</code></td>
+<td><code>lliphi/</code>, <code>lliphi-claro/</code></td>
 </tr>
 <tr class="odd">
 <td>licencia</td>
-<td>CC-BY-SA-4.0</td>
+<td>GPL-3.0-or-later</td>
 </tr>
 </tbody>
 </table>
-<p><img src="../capturas/iconos-carpetas-render.png" class="img-fluid" alt="../capturas/iconos-carpetas-render.png"> <img src="../capturas/oscuro-06-dolphin-iconos-carpeta.png" class="img-fluid" alt="../capturas/oscuro-06-dolphin-iconos-carpeta.png"> <img src="../capturas/claro-06-dolphin-iconos-carpeta.png" class="img-fluid" alt="../capturas/claro-06-dolphin-iconos-carpeta.png"> <img src="../capturas/oscuro-07-dolphin-iconos-grandes.png" class="img-fluid" alt="../capturas/oscuro-07-dolphin-iconos-grandes.png"> <img src="../capturas/claro-07-dolphin-iconos-grandes.png" class="img-fluid" alt="../capturas/claro-07-dolphin-iconos-grandes.png"></p>
-<p>La imagen de arriba es un render de los SVG (Inkscape) a 16, 22, 32, 48 y 64 px, no una captura del escritorio.</p>
+<p><img src="../capturas/oscuro-09-decoracion.png" class="img-fluid" alt="../capturas/oscuro-09-decoracion.png"> <img src="../capturas/claro-09-decoracion.png" class="img-fluid" alt="../capturas/claro-09-decoracion.png"></p>
+<p>Requiere Plasma 6.6 o posterior con el motor Aurorae (<code>kwin-style-aurorae</code> en Kubuntu; en 6.6 Aurorae se dividió en V1, solo QML, y V2, el motor SVG que lee estos temas; el KCM los registra con <code>library=org.kde.kwin.aurorae.v2</code>).</p>
 <section id="instalar-a-mano" class="level2">
 <h2 class="anchored" data-anchor-id="instalar-a-mano">Instalar a mano</h2>
 <ol type="1">
-<li>Copia <code>lliphi/</code> y <code>lliphi-oscuro/</code> a <code>~/.local/share/icons/</code>.</li>
-<li>Preferencias del sistema → Apariencia y estilo → Iconos → elige <strong>Lliphi</strong> (con la variante clara) o <strong>Lliphi Oscuro</strong> (con la oscura). También: <code>kcmshell6 kcm_icons</code>.</li>
+<li>Copia <code>lliphi/</code> y <code>lliphi-claro/</code> a <code>~/.local/share/aurorae/themes/</code>.</li>
+<li>Preferencias del sistema → Apariencia y estilo → Colores y temas → Decoración de ventanas → elige <strong>Lliphi</strong> (con la variante oscura) o <strong>Lliphi Claro</strong> (con la clara). También: <code>kcmshell6 kcm_kwindecoration</code>.</li>
 </ol>
-<p>Las dos variantes solo se diferencian en lo que heredan (<code>breeze</code> o <code>breeze-dark</code>), que es lo que ven las aplicaciones GTK; en las aplicaciones KDE las carpetas toman el color de acento del esquema activo (<code>FollowsColorScheme</code>). Todo lo que no es una carpeta sigue siendo Breeze.</p>
+<p>Sin la interfaz:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">kwriteconfig6</span> <span class="at">--file</span> kwinrc <span class="at">--group</span> org.kde.kdecoration2 <span class="at">--key</span> library org.kde.kwin.aurorae.v2</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">kwriteconfig6</span> <span class="at">--file</span> kwinrc <span class="at">--group</span> org.kde.kdecoration2 <span class="at">--key</span> theme __aurorae__svg__lliphi      <span class="co"># o __aurorae__svg__lliphi-claro</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">kwriteconfig6</span> <span class="at">--file</span> kwinrc <span class="at">--group</span> org.kde.kdecoration2 <span class="at">--key</span> ButtonsOnLeft <span class="st">""</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">kwriteconfig6</span> <span class="at">--file</span> kwinrc <span class="at">--group</span> org.kde.kdecoration2 <span class="at">--key</span> ButtonsOnRight IAX</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ex">qdbus6</span> org.kde.KWin /KWin reconfigure</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Los temas globales <code>org.lliphi.oscuro</code> y <code>org.lliphi.claro</code> ya traen estas claves en sus <code>defaults</code>: al aplicar el tema global con el instalador (<code>--aplicar-tema</code>) o con <code>plasma-apply-lookandfeel -a</code> la decoración se activa sola.</p>
 </section>
 <section id="actualizar" class="level2">
 <h2 class="anchored" data-anchor-id="actualizar">Actualizar</h2>
-<p>Sustituye las dos carpetas. Si Plasma no refresca los iconos, cierra la sesión y vuelve a entrar.</p>
+<p>Sustituye las dos carpetas y vuelve a elegir el tema (o cambia a otro y vuelve): KWin no relee los SVG de un tema ya cargado solo con <code>reconfigure</code>.</p>
 </section>
 <section id="desinstalar" class="level2">
 <h2 class="anchored" data-anchor-id="desinstalar">Desinstalar</h2>
-<p>Elige otro tema de iconos en Preferencias del sistema y borra <code>~/.local/share/icons/lliphi</code> y <code>~/.local/share/icons/lliphi-oscuro</code>. El instalador (<code>desinstalar</code>) hace lo segundo.</p>
+<p>Elige otra decoración (Brisa) en Preferencias del sistema y borra <code>~/.local/share/aurorae/themes/lliphi</code> y <code>~/.local/share/aurorae/themes/lliphi-claro</code>. El instalador (<code>desinstalar</code>) hace lo segundo; <code>UNDO.sh</code> restaura además el <code>kwinrc</code> previo.</p>
 </section>
 <section id="código-incidencias-y-cambios" class="level2">
 <h2 class="anchored" data-anchor-id="código-incidencias-y-cambios">Código, incidencias y cambios</h2>
 <ul>
-<li>Código: <a href="https://github.com/achalmed/lliphi/tree/main/generado/icons"><code>generado/icons</code></a> y su generador <a href="https://github.com/achalmed/lliphi/blob/main/herramientas/destinos/iconos.py"><code>herramientas/destinos/iconos.py</code></a>.</li>
-<li>Incidencias: <a href="https://github.com/achalmed/lliphi/issues?q=label%3Aiconos">https://github.com/achalmed/lliphi/issues</a>.</li>
+<li>Código: <a href="https://github.com/achalmed/lliphi/tree/main/generado/aurorae"><code>generado/aurorae</code></a> y su generador <a href="https://github.com/achalmed/lliphi/blob/main/herramientas/destinos/aurorae.py"><code>herramientas/destinos/aurorae.py</code></a>.</li>
+<li>Incidencias: <a href="https://github.com/achalmed/lliphi/issues?q=label%3Adecoracion">https://github.com/achalmed/lliphi/issues</a>.</li>
 <li>Cambios: <a href="../../cambios.html">registro de cambios</a>.</li>
 </ul>
 

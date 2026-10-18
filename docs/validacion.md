@@ -194,3 +194,19 @@ Resultado: **probado** en las dos variantes (Plasma 6.6.6, motor V2). La decorac
 9. **`plasma-apply-lookandfeel -a`** aplicó esquema, estilo e iconos de los `defaults` pero no escribió
    `[kwinrc][org.kde.kdecoration2]` en la sesión anidada; el instalador escribe esas claves con `kwriteconfig6` y llama a
    `org.kde.KWin.reconfigure` cuando aplica el tema con el módulo `decoracion` instalado.
+
+## 7. 0.2.0 derivado de lo existente (2026-10-18, tarde)
+
+Tras el rechazo del autor a lo dibujado desde cero, 0.2.0 se construye de bases existentes (docs/decisiones.md §4):
+
+| pieza | base | comprobado |
+|---|---|---|
+| estilo de Plasma `lliphi-oscuro` / `lliphi-claro` | WhiteSur-kde (desktoptheme), recoloreado, sin `colors` | sesión anidada: panel, dock flotante, lanzador, notificación (`oscuro-15`, `oscuro-16`); sesión del autor: cristal con desenfoque (§6) |
+| Kvantum `LliphiOscuro` / `LliphiClaro` | WhiteSur-kde (Kvantum), colores del kvconfig y hex del svg desde los tokens | sesión del autor: Dolphin con ventana translúcida y controles de WhiteSur |
+| decoración `lliphi` / `lliphi-claro` | Nothing (Aurorae), recoloreada, sin sombra de texto, título 18 px | sesión anidada: Dolphin con los botones circulares de Nothing a la derecha y cerrar en acento (`oscuro-15`) |
+| iconos | Papirus-Dark / Papirus-Light con carpetas en rojo (`dependencias.py`) | sesión del autor: carpetas rojas en Dolphin |
+| cursores | Bibata Modern Classic / Ice | aplicado en la sesión del autor |
+| tipografía | Hack 10 (interfaz, terminal, títulos en negrita) | sesión del autor y anidada |
+
+Límites: la anidada no muestra el desenfoque (§6); la variante clara de 0.2.0 solo se ha visto en el lanzador de cristal
+de la sesión real (`claro-14`), no en Dolphin ni en la decoración. Hoja comparativa: `muestras/comparacion-0.1-0.2.png`.

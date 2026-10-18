@@ -147,109 +147,109 @@
     "text": "Código, incidencias y cambios\n\nCódigo: generado/konsole y su generador herramientas/destinos/konsole.py.\nIncidencias: https://github.com/achalmed/lliphi/issues.\nCambios: registro de cambios."
   },
   {
-    "objectID": "generado/catalogo/global.html",
-    "href": "generado/catalogo/global.html",
-    "title": "Temas globales",
+    "objectID": "generado/catalogo/fondos.html",
+    "href": "generado/catalogo/fondos.html",
+    "title": "Fondos de pantalla",
     "section": "",
-    "text": "estado\nprobado\n\n\ntecnología\nKPackage Plasma/LookAndFeel\n\n\ndesde la versión\n0.1.0\n\n\narchivos\norg.lliphi.claro/, org.lliphi.oscuro/\n\n\nlicencia\nCC-BY-SA-4.0"
+    "text": "estado\nprobado\n\n\ntecnología\npaquete de fondo de Plasma (images/, images_dark/)\n\n\ndesde la versión\n0.1.0\n\n\narchivos\norg.lliphi.horizonte/\n\n\nlicencia\nCC-BY-SA-4.0"
   },
   {
-    "objectID": "generado/catalogo/global.html#instalar-a-mano",
-    "href": "generado/catalogo/global.html#instalar-a-mano",
-    "title": "Temas globales",
+    "objectID": "generado/catalogo/fondos.html#instalar-a-mano",
+    "href": "generado/catalogo/fondos.html#instalar-a-mano",
+    "title": "Fondos de pantalla",
     "section": "Instalar a mano",
-    "text": "Instalar a mano\nkpackagetool6 -t Plasma/LookAndFeel -i org.lliphi.oscuro\nkpackagetool6 -t Plasma/LookAndFeel -i org.lliphi.claro\nplasma-apply-lookandfeel -a org.lliphi.oscuro          # añade --resetLayout para la disposición (borra la actual)\nO en Preferencias del sistema → Apariencia y estilo → Tema global: marca «Disposición del escritorio» solo si quieres el panel superior y el dock de Lliphi (sustituye tu disposición actual; el instalador del proyecto respalda plasma-org.kde.plasma.desktop-appletsrc antes)."
+    "text": "Instalar a mano\ncp -r org.lliphi.horizonte ~/.local/share/wallpapers/\nplasma-apply-wallpaperimage ~/.local/share/wallpapers/org.lliphi.horizonte\nPlasma elige images_dark/ cuando el esquema de color es oscuro (Plasma ≥ 6.6); en versiones anteriores usa siempre la imagen clara. En Plasma 6.6 el paquete se aplica por ruta, no por nombre."
   },
   {
-    "objectID": "generado/catalogo/global.html#actualizar",
-    "href": "generado/catalogo/global.html#actualizar",
-    "title": "Temas globales",
+    "objectID": "generado/catalogo/fondos.html#actualizar",
+    "href": "generado/catalogo/fondos.html#actualizar",
+    "title": "Fondos de pantalla",
     "section": "Actualizar",
-    "text": "Actualizar\nkpackagetool6 -t Plasma/LookAndFeel -u org.lliphi.oscuro"
+    "text": "Actualizar\nSustituye la carpeta y vuelve a aplicarla."
   },
   {
-    "objectID": "generado/catalogo/global.html#desinstalar",
-    "href": "generado/catalogo/global.html#desinstalar",
-    "title": "Temas globales",
+    "objectID": "generado/catalogo/fondos.html#desinstalar",
+    "href": "generado/catalogo/fondos.html#desinstalar",
+    "title": "Fondos de pantalla",
     "section": "Desinstalar",
-    "text": "Desinstalar\nplasma-apply-lookandfeel -a org.kde.breeze.desktop     # vuelve a Breeze (o al tema que uses)\nkpackagetool6 -t Plasma/LookAndFeel -r org.lliphi.oscuro\nkpackagetool6 -t Plasma/LookAndFeel -r org.lliphi.claro\nEl tema global no instala los esquemas, el estilo ni el fondo por sí solo: los declara. Instálalos con el instalador del proyecto o módulo a módulo."
+    "text": "Desinstalar\nElige otro fondo (clic derecho en el escritorio → Configurar escritorio y fondo) y borra ~/.local/share/wallpapers/org.lliphi.horizonte."
   },
   {
-    "objectID": "generado/catalogo/global.html#código-incidencias-y-cambios",
-    "href": "generado/catalogo/global.html#código-incidencias-y-cambios",
-    "title": "Temas globales",
+    "objectID": "generado/catalogo/fondos.html#código-incidencias-y-cambios",
+    "href": "generado/catalogo/fondos.html#código-incidencias-y-cambios",
+    "title": "Fondos de pantalla",
     "section": "Código, incidencias y cambios",
-    "text": "Código, incidencias y cambios\n\nCódigo: generado/look-and-feel y su generador herramientas/destinos/lookandfeel.py.\nIncidencias: https://github.com/achalmed/lliphi/issues.\nCambios: registro de cambios."
+    "text": "Código, incidencias y cambios\n\nCódigo: generado/wallpapers y su generador herramientas/destinos/fondo.py.\nIncidencias: https://github.com/achalmed/lliphi/issues.\nCambios: registro de cambios."
   },
   {
-    "objectID": "generado/catalogo/estilo.html",
-    "href": "generado/catalogo/estilo.html",
-    "title": "Estilo de Plasma",
+    "objectID": "generado/catalogo/esquema.html",
+    "href": "generado/catalogo/esquema.html",
+    "title": "Esquemas de color",
     "section": "",
-    "text": "estado\nprobado\n\n\ntecnología\nPlasma SVG (desktoptheme)\n\n\ndesde la versión\n0.1.0\n\n\narchivos\nlliphi/\n\n\nlicencia\nCC-BY-SA-4.0"
+    "text": "estado\nprobado\n\n\ntecnología\nKColorScheme (.colors)\n\n\ndesde la versión\n0.1.0\n\n\narchivos\nLliphiClaro.colors, LliphiOscuro.colors\n\n\nlicencia\nCC-BY-SA-4.0"
   },
   {
-    "objectID": "generado/catalogo/estilo.html#instalar-a-mano",
-    "href": "generado/catalogo/estilo.html#instalar-a-mano",
-    "title": "Estilo de Plasma",
+    "objectID": "generado/catalogo/esquema.html#instalar-a-mano",
+    "href": "generado/catalogo/esquema.html#instalar-a-mano",
+    "title": "Esquemas de color",
     "section": "Instalar a mano",
-    "text": "Instalar a mano\nkpackagetool6 -t Plasma/Theme -i lliphi\nplasma-apply-desktoptheme lliphi\nEl estilo no trae colors: toma los colores del esquema activo. Con Lliphi Oscuro es casi negro; con Lliphi Claro, gris suave; con cualquier otro esquema, el de ese esquema, y el acento del sistema manda en la selección y el foco."
+    "text": "Instalar a mano\n\nCopia LliphiClaro.colors y LliphiOscuro.colors a ~/.local/share/color-schemes/ (crea la carpeta si no existe).\nPreferencias del sistema → Apariencia y estilo → Colores → elige «Lliphi Claro» o «Lliphi Oscuro»; o en un terminal:\n\nplasma-apply-colorscheme LliphiOscuro"
   },
   {
-    "objectID": "generado/catalogo/estilo.html#actualizar",
-    "href": "generado/catalogo/estilo.html#actualizar",
-    "title": "Estilo de Plasma",
+    "objectID": "generado/catalogo/esquema.html#actualizar",
+    "href": "generado/catalogo/esquema.html#actualizar",
+    "title": "Esquemas de color",
     "section": "Actualizar",
-    "text": "Actualizar\nkpackagetool6 -t Plasma/Theme -u lliphi\nSi tras actualizar ves el estilo viejo, cierra la sesión y vuelve a entrar: Plasma guarda los SVG en caché por versión."
+    "text": "Actualizar\nSustituye los dos archivos por los de la versión nueva y vuelve a aplicar el esquema (Plasma no relee un esquema ya aplicado hasta que lo aplicas otra vez)."
   },
   {
-    "objectID": "generado/catalogo/estilo.html#desinstalar",
-    "href": "generado/catalogo/estilo.html#desinstalar",
-    "title": "Estilo de Plasma",
+    "objectID": "generado/catalogo/esquema.html#desinstalar",
+    "href": "generado/catalogo/esquema.html#desinstalar",
+    "title": "Esquemas de color",
     "section": "Desinstalar",
-    "text": "Desinstalar\nplasma-apply-desktoptheme default\nkpackagetool6 -t Plasma/Theme -r lliphi"
+    "text": "Desinstalar\nElige otro esquema en Preferencias y borra los dos archivos de ~/.local/share/color-schemes/."
   },
   {
-    "objectID": "generado/catalogo/estilo.html#código-incidencias-y-cambios",
-    "href": "generado/catalogo/estilo.html#código-incidencias-y-cambios",
-    "title": "Estilo de Plasma",
+    "objectID": "generado/catalogo/esquema.html#código-incidencias-y-cambios",
+    "href": "generado/catalogo/esquema.html#código-incidencias-y-cambios",
+    "title": "Esquemas de color",
     "section": "Código, incidencias y cambios",
-    "text": "Código, incidencias y cambios\n\nCódigo: generado/desktoptheme y su generador herramientas/destinos/desktoptheme.py.\nIncidencias: https://github.com/achalmed/lliphi/issues.\nCambios: registro de cambios."
+    "text": "Código, incidencias y cambios\n\nCódigo: generado/color-schemes y su generador herramientas/destinos/esquema.py.\nIncidencias: https://github.com/achalmed/lliphi/issues.\nCambios: registro de cambios."
   },
   {
-    "objectID": "generado/catalogo/editores.html",
-    "href": "generado/catalogo/editores.html",
-    "title": "Editores: VS Code, Positron y Zed",
+    "objectID": "generado/catalogo/decoracion.html",
+    "href": "generado/catalogo/decoracion.html",
+    "title": "Decoración de ventanas",
     "section": "",
-    "text": "estado\nexperimental\n\n\ntecnología\nVS Code color theme (colors, tokenColors, semanticTokenColors), leído también por Positron (~/.positron/extensions/) y VSCodium (~/.vscode-oss/extensions/) · Zed theme v0.2.0\n\n\ndesde la versión\n0.2.0\n\n\narchivos\nvscode/lliphi/, zed/lliphi.json\n\n\nlicencia\nCC-BY-SA-4.0"
+    "text": "estado\nprobado\n\n\ntecnología\nAurorae SVG (motor V2 de Plasma 6.6, kwin-style-aurorae); derivado de WhiteSur-dark y Nothing, GPL-3.0-or-later\n\n\ndesde la versión\n0.2.0\n\n\narchivos\nlliphi/, lliphi-claro/\n\n\nlicencia\nGPL-3.0-or-later\nRequiere Plasma 6.6 o posterior con el motor Aurorae (kwin-style-aurorae en Kubuntu; en 6.6 Aurorae se dividió en V1, solo QML, y V2, el motor SVG que lee estos temas; el KCM los registra con library=org.kde.kwin.aurorae.v2)."
   },
   {
-    "objectID": "generado/catalogo/editores.html#instalar-a-mano",
-    "href": "generado/catalogo/editores.html#instalar-a-mano",
-    "title": "Editores: VS Code, Positron y Zed",
+    "objectID": "generado/catalogo/decoracion.html#instalar-a-mano",
+    "href": "generado/catalogo/decoracion.html#instalar-a-mano",
+    "title": "Decoración de ventanas",
     "section": "Instalar a mano",
-    "text": "Instalar a mano\nEl instalador (python3 herramientas/instalar.py --modulos editores --aplicar) copia la extensión a ~/.vscode/extensions/lliphi.lliphi/ (o a $VSCODE_EXTENSIONS si está definida) y el tema de Zed a ~/.config/zed/themes/lliphi.json. Si existe ~/.positron copia la misma extensión a ~/.positron/extensions/lliphi.lliphi/ (o $POSITRON_EXTENSIONS), y si existe ~/.vscode-oss, a ~/.vscode-oss/extensions/lliphi.lliphi/ (o $VSCODIUM_EXTENSIONS); si no existen, lo omite y lo dice en la simulación, sin crear nada. Ningún editor activa el tema solo.\n\nVS Code\n\nCopia la carpeta vscode/lliphi/ a ~/.vscode/extensions/lliphi.lliphi/.\nReinicia VS Code y elige el tema: Ctrl+K Ctrl+T → «Lliphi Oscuro» o «Lliphi Claro»; o en settings.json:\n\n\"workbench.colorTheme\": \"Lliphi Oscuro\"\nPara que siga al sistema: \"window.autoDetectColorScheme\": true, \"workbench.preferredDarkColorTheme\": \"Lliphi Oscuro\", \"workbench.preferredLightColorTheme\": \"Lliphi Claro\".\n\n\nPositron y VSCodium\nPositron (Posit) y VSCodium son derivados de VS Code y leen la misma extensión, cada uno desde su carpeta: Positron, ~/.positron/extensions/; VSCodium, ~/.vscode-oss/extensions/. Copia allí vscode/lliphi/ como lliphi.lliphi/, reinicia el editor y elige el tema como en VS Code (Ctrl+K Ctrl+T o workbench.colorTheme). Positron guarda su settings.json en ~/.config/Positron/User/; VSCodium, en ~/.config/VSCodium/User/.\n\n\nZed\n\nCopia zed/lliphi.json a ~/.config/zed/themes/.\nEn Zed: paleta de órdenes → theme selector: toggle → «Lliphi Oscuro» o «Lliphi Claro»; o en settings.json:\n\n\"theme\": { \"mode\": \"system\", \"dark\": \"Lliphi Oscuro\", \"light\": \"Lliphi Claro\" }\nZed relee la carpeta de temas al vuelo."
+    "text": "Instalar a mano\n\nCopia lliphi/ y lliphi-claro/ a ~/.local/share/aurorae/themes/.\nPreferencias del sistema → Apariencia y estilo → Colores y temas → Decoración de ventanas → elige Lliphi (con la variante oscura) o Lliphi Claro (con la clara). También: kcmshell6 kcm_kwindecoration.\n\nSin la interfaz:\nkwriteconfig6 --file kwinrc --group org.kde.kdecoration2 --key library org.kde.kwin.aurorae.v2\nkwriteconfig6 --file kwinrc --group org.kde.kdecoration2 --key theme __aurorae__svg__lliphi      # o __aurorae__svg__lliphi-claro\nkwriteconfig6 --file kwinrc --group org.kde.kdecoration2 --key ButtonsOnLeft \"\"\nkwriteconfig6 --file kwinrc --group org.kde.kdecoration2 --key ButtonsOnRight IAX\nqdbus6 org.kde.KWin /KWin reconfigure\nLos temas globales org.lliphi.oscuro y org.lliphi.claro ya traen estas claves en sus defaults: al aplicar el tema global con el instalador (--aplicar-tema) o con plasma-apply-lookandfeel -a la decoración se activa sola."
   },
   {
-    "objectID": "generado/catalogo/editores.html#actualizar",
-    "href": "generado/catalogo/editores.html#actualizar",
-    "title": "Editores: VS Code, Positron y Zed",
+    "objectID": "generado/catalogo/decoracion.html#actualizar",
+    "href": "generado/catalogo/decoracion.html#actualizar",
+    "title": "Decoración de ventanas",
     "section": "Actualizar",
-    "text": "Actualizar\nSustituye la carpeta de la extensión y el archivo de Zed; los nombres de los temas no cambian."
+    "text": "Actualizar\nSustituye las dos carpetas y vuelve a elegir el tema (o cambia a otro y vuelve): KWin no relee los SVG de un tema ya cargado solo con reconfigure."
   },
   {
-    "objectID": "generado/catalogo/editores.html#desinstalar",
-    "href": "generado/catalogo/editores.html#desinstalar",
-    "title": "Editores: VS Code, Positron y Zed",
+    "objectID": "generado/catalogo/decoracion.html#desinstalar",
+    "href": "generado/catalogo/decoracion.html#desinstalar",
+    "title": "Decoración de ventanas",
     "section": "Desinstalar",
-    "text": "Desinstalar\nElige otro tema en cada editor y borra ~/.vscode/extensions/lliphi.lliphi/, ~/.positron/extensions/lliphi.lliphi/, ~/.vscode-oss/extensions/lliphi.lliphi/ (las que existan) y ~/.config/zed/themes/lliphi.json. El instalador (desinstalar) hace lo segundo y no toca los settings.json, que son tuyos."
+    "text": "Desinstalar\nElige otra decoración (Brisa) en Preferencias del sistema y borra ~/.local/share/aurorae/themes/lliphi y ~/.local/share/aurorae/themes/lliphi-claro. El instalador (desinstalar) hace lo segundo; UNDO.sh restaura además el kwinrc previo."
   },
   {
-    "objectID": "generado/catalogo/editores.html#código-incidencias-y-cambios",
-    "href": "generado/catalogo/editores.html#código-incidencias-y-cambios",
-    "title": "Editores: VS Code, Positron y Zed",
+    "objectID": "generado/catalogo/decoracion.html#código-incidencias-y-cambios",
+    "href": "generado/catalogo/decoracion.html#código-incidencias-y-cambios",
+    "title": "Decoración de ventanas",
     "section": "Código, incidencias y cambios",
-    "text": "Código, incidencias y cambios\n\nCódigo: generado/editores y su generador herramientas/destinos/editores.py.\nIncidencias: https://github.com/achalmed/lliphi/issues.\nCambios: registro de cambios."
+    "text": "Código, incidencias y cambios\n\nCódigo: generado/aurorae y su generador herramientas/destinos/aurorae.py.\nIncidencias: https://github.com/achalmed/lliphi/issues.\nCambios: registro de cambios."
   },
   {
     "objectID": "filosofia.html",
@@ -354,7 +354,7 @@
     "href": "cambios.html#unreleased",
     "title": "Registro de cambios",
     "section": "[Unreleased]",
-    "text": "[Unreleased]\n\nAdded\n\nMódulo terminales: esquemas para Alacritty ([colors] en TOML) y Kitty (.conf) en claro y oscuro, con los dieciséis ANSI de Konsole y la selección, el cursor y los enlaces del esquema de Plasma; el instalador admite destinos en $XDG_CONFIG_HOME (alacritty/themes/, kitty/themes/).\nMódulo editores: extensión mínima de VS Code (dos temas con colors, tokenColors y semanticTokenColors) y tema de Zed (v0.2.0, dos variantes en un archivo); la sintaxis sale de los ANSI con una tabla única (palabras clave rojo, cadenas verde, números amarillo, funciones azul, comentarios en el texto inactivo). El instalador copia la extensión a ~/.vscode/extensions/ (o $VSCODE_EXTENSIONS), su única ruta de lectura.\nMódulo editores: la misma extensión se instala en Positron (~/.positron/extensions/ o $POSITRON_EXTENSIONS) y en VSCodium (~/.vscode-oss/extensions/ o $VSCODIUM_EXTENSIONS) cuando existe la carpeta del editor; si no, el instalador omite el par y lo dice en la simulación, sin crearla.\nMódulo iconos: dos temas de iconos (lliphi hereda de Breeze, lliphi-oscuro de Breeze Dark) que entregan solo las carpetas, dibujadas aquí en el acento con ColorScheme-Highlight y distintivos para los lugares de uso común, en 16, 22, 32, 48 y 64 px (este último escalable hasta 512); FollowsColorScheme las tiñe con el acento del usuario.\nMódulo libreoffice: dos esquemas de «Colores de la aplicación» (Lliphi Claro y Lliphi Oscuro) con las 91 entradas del esquema de LibreOffice 26.2 (documento, Writer, Calc, Draw, HTML, autores, BASIC, SQL e interfaz), generados desde los semánticos y los ANSI con la tabla de sintaxis de los editores; como extensión .oxt reproducible (unopkg add) y como fragmentos &lt;oor:items&gt; para registrymodifications.xcu. El instalador no toca LibreOffice."
+    "text": "[Unreleased]\n\nChanged\n\nCambio de enfoque: el estilo de Plasma y el tema Kvantum derivan de WhiteSur-kde (GPL-3.0) recoloreados con los tokens y sin lo que imita a Apple; iconos Papirus (carpetas rojas), cursores Bibata y tipografía IBM Plex como dependencias descargadas; retirado el módulo de iconos propio.\n\n\n\nAdded\n\nMódulo terminales: esquemas para Alacritty ([colors] en TOML) y Kitty (.conf) en claro y oscuro, con los dieciséis ANSI de Konsole y la selección, el cursor y los enlaces del esquema de Plasma; el instalador admite destinos en $XDG_CONFIG_HOME (alacritty/themes/, kitty/themes/).\nMódulo editores: extensión mínima de VS Code (dos temas con colors, tokenColors y semanticTokenColors) y tema de Zed (v0.2.0, dos variantes en un archivo); la sintaxis sale de los ANSI con una tabla única (palabras clave rojo, cadenas verde, números amarillo, funciones azul, comentarios en el texto inactivo). El instalador copia la extensión a ~/.vscode/extensions/ (o $VSCODE_EXTENSIONS), su única ruta de lectura.\nMódulo editores: la misma extensión se instala en Positron (~/.positron/extensions/ o $POSITRON_EXTENSIONS) y en VSCodium (~/.vscode-oss/extensions/ o $VSCODIUM_EXTENSIONS) cuando existe la carpeta del editor; si no, el instalador omite el par y lo dice en la simulación, sin crearla.\nMódulo iconos: dos temas de iconos (lliphi hereda de Breeze, lliphi-oscuro de Breeze Dark) que entregan solo las carpetas, dibujadas aquí en el acento con ColorScheme-Highlight y distintivos para los lugares de uso común, en 16, 22, 32, 48 y 64 px (este último escalable hasta 512); FollowsColorScheme las tiñe con el acento del usuario.\nMódulo libreoffice: dos esquemas de «Colores de la aplicación» (Lliphi Claro y Lliphi Oscuro) con las 91 entradas del esquema de LibreOffice 26.2 (documento, Writer, Calc, Draw, HTML, autores, BASIC, SQL e interfaz), generados desde los semánticos y los ANSI con la tabla de sintaxis de los editores; como extensión .oxt reproducible (unopkg add) y como fragmentos &lt;oor:items&gt; para registrymodifications.xcu. El instalador no toca LibreOffice.\nMódulo decoracion: decoración de ventanas Aurorae en dos temas (lliphi oscuro y lliphi-claro) derivada de WhiteSur-dark (marco, radios, sombra, disposición) y Nothing (botones circulares con glifo al pasar el ratón), ambos GPL-3.0-or-later y copiados sin cambios a fuentes/aurorae/base/ (ORIGEN.md); el generador reescribe solo los colores con los tokens (cerrar en el acento, el resto en gris, sin semáforo), la barra de 30 px y los botones a la derecha. generado/aurorae/ es GPL-3.0-or-later (REUSE.toml); los temas globales pasan a library=org.kde.kwin.aurorae.v2, theme=__aurorae__svg__&lt;id&gt; y botones IAX a la derecha; el instalador escribe esas claves en kwinrc al aplicar."
   },
   {
     "objectID": "cambios.html#section",
@@ -581,6 +581,13 @@
     "text": "Positron con la extensión de VS Code (lote 2)\n\n\n\n\nOscuro\n\n\n\n\n\nClaro"
   },
   {
+    "objectID": "galeria.html#derivado-de-whitesur-y-nothing",
+    "href": "galeria.html#derivado-de-whitesur-y-nothing",
+    "title": "Galería",
+    "section": "0.2.0: derivado de WhiteSur y Nothing",
+    "text": "0.2.0: derivado de WhiteSur y Nothing\n\n\n\n\nLanzador: estilo de WhiteSur recoloreado, Hack, Papirus\n\n\n\n\n\nDolphin: decoración de Nothing, dock de WhiteSur\n\n\n\n\n\n\n\nLanzador de cristal en la sesión real (oscuro)\n\n\n\n\n\nLanzador de cristal en la sesión real (claro)\n\n\n\n\n\n\nComparación 0.1.0 → 0.2.0"
+  },
+  {
     "objectID": "galeria.html#bocetos-no-son-capturas",
     "href": "galeria.html#bocetos-no-son-capturas",
     "title": "Galería",
@@ -588,109 +595,109 @@
     "text": "Bocetos (no son capturas)\nDibujos previos a la implementación, hechos con los tokens para decidir la dirección artística.\n\n\n\n\nBoceto oscuro\n\n\n\n\n\nBoceto claro"
   },
   {
-    "objectID": "generado/catalogo/esquema.html",
-    "href": "generado/catalogo/esquema.html",
-    "title": "Esquemas de color",
+    "objectID": "generado/catalogo/editores.html",
+    "href": "generado/catalogo/editores.html",
+    "title": "Editores: VS Code, Positron y Zed",
     "section": "",
-    "text": "estado\nprobado\n\n\ntecnología\nKColorScheme (.colors)\n\n\ndesde la versión\n0.1.0\n\n\narchivos\nLliphiClaro.colors, LliphiOscuro.colors\n\n\nlicencia\nCC-BY-SA-4.0"
+    "text": "estado\nexperimental\n\n\ntecnología\nVS Code color theme (colors, tokenColors, semanticTokenColors), leído también por Positron (~/.positron/extensions/) y VSCodium (~/.vscode-oss/extensions/) · Zed theme v0.2.0\n\n\ndesde la versión\n0.2.0\n\n\narchivos\nvscode/lliphi/, zed/lliphi.json\n\n\nlicencia\nCC-BY-SA-4.0"
   },
   {
-    "objectID": "generado/catalogo/esquema.html#instalar-a-mano",
-    "href": "generado/catalogo/esquema.html#instalar-a-mano",
-    "title": "Esquemas de color",
+    "objectID": "generado/catalogo/editores.html#instalar-a-mano",
+    "href": "generado/catalogo/editores.html#instalar-a-mano",
+    "title": "Editores: VS Code, Positron y Zed",
     "section": "Instalar a mano",
-    "text": "Instalar a mano\n\nCopia LliphiClaro.colors y LliphiOscuro.colors a ~/.local/share/color-schemes/ (crea la carpeta si no existe).\nPreferencias del sistema → Apariencia y estilo → Colores → elige «Lliphi Claro» o «Lliphi Oscuro»; o en un terminal:\n\nplasma-apply-colorscheme LliphiOscuro"
+    "text": "Instalar a mano\nEl instalador (python3 herramientas/instalar.py --modulos editores --aplicar) copia la extensión a ~/.vscode/extensions/lliphi.lliphi/ (o a $VSCODE_EXTENSIONS si está definida) y el tema de Zed a ~/.config/zed/themes/lliphi.json. Si existe ~/.positron copia la misma extensión a ~/.positron/extensions/lliphi.lliphi/ (o $POSITRON_EXTENSIONS), y si existe ~/.vscode-oss, a ~/.vscode-oss/extensions/lliphi.lliphi/ (o $VSCODIUM_EXTENSIONS); si no existen, lo omite y lo dice en la simulación, sin crear nada. Ningún editor activa el tema solo.\n\nVS Code\n\nCopia la carpeta vscode/lliphi/ a ~/.vscode/extensions/lliphi.lliphi/.\nReinicia VS Code y elige el tema: Ctrl+K Ctrl+T → «Lliphi Oscuro» o «Lliphi Claro»; o en settings.json:\n\n\"workbench.colorTheme\": \"Lliphi Oscuro\"\nPara que siga al sistema: \"window.autoDetectColorScheme\": true, \"workbench.preferredDarkColorTheme\": \"Lliphi Oscuro\", \"workbench.preferredLightColorTheme\": \"Lliphi Claro\".\n\n\nPositron y VSCodium\nPositron (Posit) y VSCodium son derivados de VS Code y leen la misma extensión, cada uno desde su carpeta: Positron, ~/.positron/extensions/; VSCodium, ~/.vscode-oss/extensions/. Copia allí vscode/lliphi/ como lliphi.lliphi/, reinicia el editor y elige el tema como en VS Code (Ctrl+K Ctrl+T o workbench.colorTheme). Positron guarda su settings.json en ~/.config/Positron/User/; VSCodium, en ~/.config/VSCodium/User/.\n\n\nZed\n\nCopia zed/lliphi.json a ~/.config/zed/themes/.\nEn Zed: paleta de órdenes → theme selector: toggle → «Lliphi Oscuro» o «Lliphi Claro»; o en settings.json:\n\n\"theme\": { \"mode\": \"system\", \"dark\": \"Lliphi Oscuro\", \"light\": \"Lliphi Claro\" }\nZed relee la carpeta de temas al vuelo."
   },
   {
-    "objectID": "generado/catalogo/esquema.html#actualizar",
-    "href": "generado/catalogo/esquema.html#actualizar",
-    "title": "Esquemas de color",
+    "objectID": "generado/catalogo/editores.html#actualizar",
+    "href": "generado/catalogo/editores.html#actualizar",
+    "title": "Editores: VS Code, Positron y Zed",
     "section": "Actualizar",
-    "text": "Actualizar\nSustituye los dos archivos por los de la versión nueva y vuelve a aplicar el esquema (Plasma no relee un esquema ya aplicado hasta que lo aplicas otra vez)."
+    "text": "Actualizar\nSustituye la carpeta de la extensión y el archivo de Zed; los nombres de los temas no cambian."
   },
   {
-    "objectID": "generado/catalogo/esquema.html#desinstalar",
-    "href": "generado/catalogo/esquema.html#desinstalar",
-    "title": "Esquemas de color",
+    "objectID": "generado/catalogo/editores.html#desinstalar",
+    "href": "generado/catalogo/editores.html#desinstalar",
+    "title": "Editores: VS Code, Positron y Zed",
     "section": "Desinstalar",
-    "text": "Desinstalar\nElige otro esquema en Preferencias y borra los dos archivos de ~/.local/share/color-schemes/."
+    "text": "Desinstalar\nElige otro tema en cada editor y borra ~/.vscode/extensions/lliphi.lliphi/, ~/.positron/extensions/lliphi.lliphi/, ~/.vscode-oss/extensions/lliphi.lliphi/ (las que existan) y ~/.config/zed/themes/lliphi.json. El instalador (desinstalar) hace lo segundo y no toca los settings.json, que son tuyos."
   },
   {
-    "objectID": "generado/catalogo/esquema.html#código-incidencias-y-cambios",
-    "href": "generado/catalogo/esquema.html#código-incidencias-y-cambios",
-    "title": "Esquemas de color",
+    "objectID": "generado/catalogo/editores.html#código-incidencias-y-cambios",
+    "href": "generado/catalogo/editores.html#código-incidencias-y-cambios",
+    "title": "Editores: VS Code, Positron y Zed",
     "section": "Código, incidencias y cambios",
-    "text": "Código, incidencias y cambios\n\nCódigo: generado/color-schemes y su generador herramientas/destinos/esquema.py.\nIncidencias: https://github.com/achalmed/lliphi/issues.\nCambios: registro de cambios."
+    "text": "Código, incidencias y cambios\n\nCódigo: generado/editores y su generador herramientas/destinos/editores.py.\nIncidencias: https://github.com/achalmed/lliphi/issues.\nCambios: registro de cambios."
   },
   {
-    "objectID": "generado/catalogo/fondos.html",
-    "href": "generado/catalogo/fondos.html",
-    "title": "Fondos de pantalla",
+    "objectID": "generado/catalogo/estilo.html",
+    "href": "generado/catalogo/estilo.html",
+    "title": "Estilo de Plasma",
     "section": "",
-    "text": "estado\nprobado\n\n\ntecnología\npaquete de fondo de Plasma (images/, images_dark/)\n\n\ndesde la versión\n0.1.0\n\n\narchivos\norg.lliphi.horizonte/\n\n\nlicencia\nCC-BY-SA-4.0"
+    "text": "estado\nprobado\n\n\ntecnología\nPlasma SVG (desktoptheme)\n\n\ndesde la versión\n0.1.0\n\n\narchivos\nlliphi/\n\n\nlicencia\nCC-BY-SA-4.0"
   },
   {
-    "objectID": "generado/catalogo/fondos.html#instalar-a-mano",
-    "href": "generado/catalogo/fondos.html#instalar-a-mano",
-    "title": "Fondos de pantalla",
+    "objectID": "generado/catalogo/estilo.html#instalar-a-mano",
+    "href": "generado/catalogo/estilo.html#instalar-a-mano",
+    "title": "Estilo de Plasma",
     "section": "Instalar a mano",
-    "text": "Instalar a mano\ncp -r org.lliphi.horizonte ~/.local/share/wallpapers/\nplasma-apply-wallpaperimage ~/.local/share/wallpapers/org.lliphi.horizonte\nPlasma elige images_dark/ cuando el esquema de color es oscuro (Plasma ≥ 6.6); en versiones anteriores usa siempre la imagen clara. En Plasma 6.6 el paquete se aplica por ruta, no por nombre."
+    "text": "Instalar a mano\nkpackagetool6 -t Plasma/Theme -i lliphi\nplasma-apply-desktoptheme lliphi\nEl estilo no trae colors: toma los colores del esquema activo. Con Lliphi Oscuro es casi negro; con Lliphi Claro, gris suave; con cualquier otro esquema, el de ese esquema, y el acento del sistema manda en la selección y el foco."
   },
   {
-    "objectID": "generado/catalogo/fondos.html#actualizar",
-    "href": "generado/catalogo/fondos.html#actualizar",
-    "title": "Fondos de pantalla",
+    "objectID": "generado/catalogo/estilo.html#actualizar",
+    "href": "generado/catalogo/estilo.html#actualizar",
+    "title": "Estilo de Plasma",
     "section": "Actualizar",
-    "text": "Actualizar\nSustituye la carpeta y vuelve a aplicarla."
+    "text": "Actualizar\nkpackagetool6 -t Plasma/Theme -u lliphi\nSi tras actualizar ves el estilo viejo, cierra la sesión y vuelve a entrar: Plasma guarda los SVG en caché por versión."
   },
   {
-    "objectID": "generado/catalogo/fondos.html#desinstalar",
-    "href": "generado/catalogo/fondos.html#desinstalar",
-    "title": "Fondos de pantalla",
+    "objectID": "generado/catalogo/estilo.html#desinstalar",
+    "href": "generado/catalogo/estilo.html#desinstalar",
+    "title": "Estilo de Plasma",
     "section": "Desinstalar",
-    "text": "Desinstalar\nElige otro fondo (clic derecho en el escritorio → Configurar escritorio y fondo) y borra ~/.local/share/wallpapers/org.lliphi.horizonte."
+    "text": "Desinstalar\nplasma-apply-desktoptheme default\nkpackagetool6 -t Plasma/Theme -r lliphi"
   },
   {
-    "objectID": "generado/catalogo/fondos.html#código-incidencias-y-cambios",
-    "href": "generado/catalogo/fondos.html#código-incidencias-y-cambios",
-    "title": "Fondos de pantalla",
+    "objectID": "generado/catalogo/estilo.html#código-incidencias-y-cambios",
+    "href": "generado/catalogo/estilo.html#código-incidencias-y-cambios",
+    "title": "Estilo de Plasma",
     "section": "Código, incidencias y cambios",
-    "text": "Código, incidencias y cambios\n\nCódigo: generado/wallpapers y su generador herramientas/destinos/fondo.py.\nIncidencias: https://github.com/achalmed/lliphi/issues.\nCambios: registro de cambios."
+    "text": "Código, incidencias y cambios\n\nCódigo: generado/desktoptheme y su generador herramientas/destinos/desktoptheme.py.\nIncidencias: https://github.com/achalmed/lliphi/issues.\nCambios: registro de cambios."
   },
   {
-    "objectID": "generado/catalogo/iconos.html",
-    "href": "generado/catalogo/iconos.html",
-    "title": "Iconos de carpeta",
+    "objectID": "generado/catalogo/global.html",
+    "href": "generado/catalogo/global.html",
+    "title": "Temas globales",
     "section": "",
-    "text": "estado\nprobado\n\n\ntecnología\nfreedesktop Icon Theme (index.theme, FollowsColorScheme, SVG con current-color-scheme)\n\n\ndesde la versión\n0.2.0\n\n\narchivos\nlliphi/, lliphi-oscuro/\n\n\nlicencia\nCC-BY-SA-4.0\nLa imagen de arriba es un render de los SVG (Inkscape) a 16, 22, 32, 48 y 64 px, no una captura del escritorio."
+    "text": "estado\nprobado\n\n\ntecnología\nKPackage Plasma/LookAndFeel\n\n\ndesde la versión\n0.1.0\n\n\narchivos\norg.lliphi.claro/, org.lliphi.oscuro/\n\n\nlicencia\nCC-BY-SA-4.0"
   },
   {
-    "objectID": "generado/catalogo/iconos.html#instalar-a-mano",
-    "href": "generado/catalogo/iconos.html#instalar-a-mano",
-    "title": "Iconos de carpeta",
+    "objectID": "generado/catalogo/global.html#instalar-a-mano",
+    "href": "generado/catalogo/global.html#instalar-a-mano",
+    "title": "Temas globales",
     "section": "Instalar a mano",
-    "text": "Instalar a mano\n\nCopia lliphi/ y lliphi-oscuro/ a ~/.local/share/icons/.\nPreferencias del sistema → Apariencia y estilo → Iconos → elige Lliphi (con la variante clara) o Lliphi Oscuro (con la oscura). También: kcmshell6 kcm_icons.\n\nLas dos variantes solo se diferencian en lo que heredan (breeze o breeze-dark), que es lo que ven las aplicaciones GTK; en las aplicaciones KDE las carpetas toman el color de acento del esquema activo (FollowsColorScheme). Todo lo que no es una carpeta sigue siendo Breeze."
+    "text": "Instalar a mano\nkpackagetool6 -t Plasma/LookAndFeel -i org.lliphi.oscuro\nkpackagetool6 -t Plasma/LookAndFeel -i org.lliphi.claro\nplasma-apply-lookandfeel -a org.lliphi.oscuro          # añade --resetLayout para la disposición (borra la actual)\nO en Preferencias del sistema → Apariencia y estilo → Tema global: marca «Disposición del escritorio» solo si quieres el panel superior y el dock de Lliphi (sustituye tu disposición actual; el instalador del proyecto respalda plasma-org.kde.plasma.desktop-appletsrc antes)."
   },
   {
-    "objectID": "generado/catalogo/iconos.html#actualizar",
-    "href": "generado/catalogo/iconos.html#actualizar",
-    "title": "Iconos de carpeta",
+    "objectID": "generado/catalogo/global.html#actualizar",
+    "href": "generado/catalogo/global.html#actualizar",
+    "title": "Temas globales",
     "section": "Actualizar",
-    "text": "Actualizar\nSustituye las dos carpetas. Si Plasma no refresca los iconos, cierra la sesión y vuelve a entrar."
+    "text": "Actualizar\nkpackagetool6 -t Plasma/LookAndFeel -u org.lliphi.oscuro"
   },
   {
-    "objectID": "generado/catalogo/iconos.html#desinstalar",
-    "href": "generado/catalogo/iconos.html#desinstalar",
-    "title": "Iconos de carpeta",
+    "objectID": "generado/catalogo/global.html#desinstalar",
+    "href": "generado/catalogo/global.html#desinstalar",
+    "title": "Temas globales",
     "section": "Desinstalar",
-    "text": "Desinstalar\nElige otro tema de iconos en Preferencias del sistema y borra ~/.local/share/icons/lliphi y ~/.local/share/icons/lliphi-oscuro. El instalador (desinstalar) hace lo segundo."
+    "text": "Desinstalar\nplasma-apply-lookandfeel -a org.kde.breeze.desktop     # vuelve a Breeze (o al tema que uses)\nkpackagetool6 -t Plasma/LookAndFeel -r org.lliphi.oscuro\nkpackagetool6 -t Plasma/LookAndFeel -r org.lliphi.claro\nEl tema global no instala los esquemas, el estilo ni el fondo por sí solo: los declara. Instálalos con el instalador del proyecto o módulo a módulo."
   },
   {
-    "objectID": "generado/catalogo/iconos.html#código-incidencias-y-cambios",
-    "href": "generado/catalogo/iconos.html#código-incidencias-y-cambios",
-    "title": "Iconos de carpeta",
+    "objectID": "generado/catalogo/global.html#código-incidencias-y-cambios",
+    "href": "generado/catalogo/global.html#código-incidencias-y-cambios",
+    "title": "Temas globales",
     "section": "Código, incidencias y cambios",
-    "text": "Código, incidencias y cambios\n\nCódigo: generado/icons y su generador herramientas/destinos/iconos.py.\nIncidencias: https://github.com/achalmed/lliphi/issues.\nCambios: registro de cambios."
+    "text": "Código, incidencias y cambios\n\nCódigo: generado/look-and-feel y su generador herramientas/destinos/lookandfeel.py.\nIncidencias: https://github.com/achalmed/lliphi/issues.\nCambios: registro de cambios."
   },
   {
     "objectID": "generado/catalogo/libreoffice.html",
