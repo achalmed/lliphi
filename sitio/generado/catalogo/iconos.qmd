@@ -5,13 +5,17 @@ subtitle: "Dos temas de iconos que heredan todo de Breeze y cambian solo las car
 
 | | |
 |---|---|
-| estado | **experimental** |
+| estado | **probado** |
 | tecnología | freedesktop Icon Theme (`index.theme`, `FollowsColorScheme`, SVG con `current-color-scheme`) |
 | desde la versión | 0.2.0 |
 | archivos | `lliphi/`, `lliphi-oscuro/` |
 | licencia | CC-BY-SA-4.0 |
 
 ![../capturas/iconos-carpetas-render.png](../capturas/iconos-carpetas-render.png)
+![../capturas/oscuro-06-dolphin-iconos-carpeta.png](../capturas/oscuro-06-dolphin-iconos-carpeta.png)
+![../capturas/claro-06-dolphin-iconos-carpeta.png](../capturas/claro-06-dolphin-iconos-carpeta.png)
+![../capturas/oscuro-07-dolphin-iconos-grandes.png](../capturas/oscuro-07-dolphin-iconos-grandes.png)
+![../capturas/claro-07-dolphin-iconos-grandes.png](../capturas/claro-07-dolphin-iconos-grandes.png)
 
 La imagen de arriba es un render de los SVG (Inkscape) a 16, 22, 32, 48 y 64 px, no una captura del escritorio.
 

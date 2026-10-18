@@ -10,5 +10,8 @@
   ],
   "carpeta": "editores",
   "generador": "editores.py",
-  "capturas": []
+  "capturas": [
+    "../capturas/oscuro-08-positron.png",
+    "../capturas/claro-08-positron.png"
+  ]
 }

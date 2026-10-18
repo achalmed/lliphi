@@ -11,6 +11,8 @@ subtitle: "Temas claro y oscuro para VS Code y sus derivados Positron y VSCodium
 | archivos | `vscode/lliphi/`, `zed/lliphi.json` |
 | licencia | CC-BY-SA-4.0 |
 
+![../capturas/oscuro-08-positron.png](../capturas/oscuro-08-positron.png)
+![../capturas/claro-08-positron.png](../capturas/claro-08-positron.png)
 
 ## Instalar a mano
 

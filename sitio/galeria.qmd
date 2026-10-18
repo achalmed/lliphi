@@ -46,6 +46,28 @@ maquetas). Los dos bocetos del final están rotulados como tales.
 ![Claro](generado/capturas/claro-05-kate.png){.lightbox group="kate"}
 :::
 
+## Dolphin con los iconos de carpeta (lote 2)
+
+::: {.ll-par}
+![Oscuro](generado/capturas/oscuro-06-dolphin-iconos-carpeta.png){.lightbox group="iconos"}
+
+![Claro](generado/capturas/claro-06-dolphin-iconos-carpeta.png){.lightbox group="iconos"}
+:::
+
+::: {.ll-par}
+![Oscuro, iconos grandes](generado/capturas/oscuro-07-dolphin-iconos-grandes.png){.lightbox group="iconos-grandes"}
+
+![Claro, iconos grandes](generado/capturas/claro-07-dolphin-iconos-grandes.png){.lightbox group="iconos-grandes"}
+:::
+
+## Positron con la extensión de VS Code (lote 2)
+
+::: {.ll-par}
+![Oscuro](generado/capturas/oscuro-08-positron.png){.lightbox group="positron"}
+
+![Claro](generado/capturas/claro-08-positron.png){.lightbox group="positron"}
+:::
+
 ## Bocetos (no son capturas)
 
 Dibujos previos a la implementación, hechos con los tokens para decidir la dirección artística.

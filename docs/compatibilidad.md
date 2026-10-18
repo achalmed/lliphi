@@ -18,15 +18,15 @@ probado aquí. Se actualiza en cada fase de validación.
 | estilo de Plasma (hereda de Breeze; `plasmarc` con `[ContrastEffect]`, `[AdaptiveTransparency]`) | esperado | esperado | **probado** (sesión anidada, 2026-10-18) | `AdaptiveTransparency` no documentado: se prueba |
 | decoración Breeze coloreada | esperado | esperado | **probado** (sesión anidada, 2026-10-18) | `[WM]`, `Colors:Header` |
 | Konsole `.colorscheme` | esperado | esperado | pendiente | Konsole ≥ 22 |
-| Alacritty `[colors]` (TOML) | independiente de Plasma | — | pendiente | Alacritty ≥ 0.13 (configuración TOML; `general.import` desde 0.14) |
-| Kitty `.conf` (`color0..15`, selección, cursor, pestañas) | independiente de Plasma | — | pendiente | Kitty ≥ 0.26 (`include`, `kitten themes`) |
-| VS Code (extensión de tema: `colors`, `tokenColors`, `semanticTokenColors`) | independiente de Plasma | — | pendiente | VS Code ≥ 1.80 (`editorIndentGuide.background1`, `activityBarTop.*`) |
-| Positron y VSCodium (la misma extensión, en `~/.positron/extensions/` y `~/.vscode-oss/extensions/`) | independiente de Plasma | — | pendiente | Positron ≥ 2025.x y VSCodium ≥ 1.80 (base de VS Code ≥ 1.80); el instalador los cubre solo si existe su carpeta |
-| Zed (`themes/<id>.json`, esquema v0.2.0) | independiente de Plasma | — | pendiente | Zed ≥ 0.130 (temas de usuario en `~/.config/zed/themes/`) |
+| Alacritty `[colors]` (TOML) | independiente de Plasma | — | experimental (no instalado aquí; TOML válido con todas las secciones `colors.*`, 2026-10-18) | Alacritty ≥ 0.13 (configuración TOML; `general.import` desde 0.14) |
+| Kitty `.conf` (`color0..15`, selección, cursor, pestañas) | independiente de Plasma | — | experimental (no instalado aquí; 37 claves y cabecera `## name:`, 2026-10-18) | Kitty ≥ 0.26 (`include`, `kitten themes`) |
+| VS Code (extensión de tema: `colors`, `tokenColors`, `semanticTokenColors`) | independiente de Plasma | — | experimental (VS Code no instalado aquí; la misma extensión está probada en Positron) | VS Code ≥ 1.80 (`editorIndentGuide.background1`, `activityBarTop.*`) |
+| Positron y VSCodium (la misma extensión, en `~/.positron/extensions/` y `~/.vscode-oss/extensions/`) | independiente de Plasma | — | **probado** en Positron 2026.06.0 (sesión anidada, 2026-10-18: interfaz, sintaxis y terminal en las dos variantes); VSCodium no instalado aquí (experimental) | Positron ≥ 2025.x y VSCodium ≥ 1.80 (base de VS Code ≥ 1.80); el instalador los cubre solo si existe su carpeta |
+| Zed (`themes/<id>.json`, esquema v0.2.0) | independiente de Plasma | — | experimental (no instalado aquí; JSON válido por estructura, 2026-10-18) | Zed ≥ 0.130 (temas de usuario en `~/.config/zed/themes/`) |
 | LibreOffice «Colores de la aplicación» (`.oxt` de configuración y fragmento `.xcu`) | independiente de Plasma | — | pendiente | LibreOffice ≥ 24.8 (lista de 91 entradas tomada del esquema de 26.2; versiones anteriores ignoran las que no conocen); la interfaz la da Plasma salvo que se active `LibreOfficeTheme` |
 | fondo con `images_dark/` | no (solo `images/`) | no | **probado** por ruta del paquete; por nombre no resolvió | `images_dark/` llega en 6.6; antes se usa la imagen clara |
 | acento declarado por el fondo | esperado | esperado | pendiente | `X-KDE-PlasmaImageWallpaper-AccentColor` |
-| iconos de carpeta (`lliphi`, `lliphi-oscuro`; heredan de Breeze; `FollowsColorScheme`) | esperado | esperado | pendiente | KIconLoader (KF 6) recolorea `current-color-scheme`; GTK ve los colores de respaldo del SVG |
+| iconos de carpeta (`lliphi`, `lliphi-oscuro`; heredan de Breeze; `FollowsColorScheme`) | esperado | esperado | **probado** (Dolphin en sesión anidada, 2026-10-18: 22, 32 y 64 px escalable, dos variantes; defecto 1 de `validacion.md` §5.3) | KIconLoader (KF 6) recolorea `current-color-scheme`; GTK ve los colores de respaldo del SVG |
 | GTK generado por Plasma | esperado | esperado | pendiente | `kde-gtk-config`, `breeze-gtk` |
 | Aurorae propio | no se ofrece | no se ofrece | no se ofrece | motor V2 solo desde 6.6 |
 | «guardar como tema global» de 6.6 | — | — | no se usa | bug 516318 |
