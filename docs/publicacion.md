@@ -5,8 +5,10 @@ titulo: 'Publicación (fase 9): lo que queda preparado y los comandos exactos qu
 ---
 # Publicación
 
-Todo lo de esta página está **preparado, no ejecutado**: crear el remoto, empujar, etiquetar, publicar en Netlify y
-en KDE Store son acciones externas que ejecuta el autor (decisión 1.2).
+Estado el 2026-10-18: el autor pidió al asistente ejecutar la publicación. **Hecho**: remoto `achalmed/lliphi`,
+etiqueta `v0.1.0` (en el commit del primer lote), release con `dist/`, sitio en GitHub Pages (`achalmed.github.io/lliphi`,
+workflow `.github/workflows/sitio.yml`), enlace en el hub. **Pendiente del autor**: KDE Store (cuenta) y, si lo quiere,
+Netlify. Lo que sigue describe el procedimiento para las versiones siguientes.
 
 ## 1. Lo que ya está en el repositorio
 
@@ -29,7 +31,10 @@ git push origin v0.1.0
 gh release create v0.1.0 dist/*.tar.gz dist/SHA256SUMS --title "Lliphi 0.1.0" --notes-file dist/NOTAS-0.1.0.md
 ```
 
-### Sitio en Netlify
+### Sitio: GitHub Pages (hecho) o Netlify (opcional)
+
+GitHub Pages publica `sitio/_site` en cada push que lo cambie (`gh api -X POST repos/achalmed/lliphi/pages -f build_type=workflow`
+ya ejecutado). Si se prefiere Netlify:
 
 En app.netlify.com: *Add new site → Import an existing project* → repositorio `achalmed/lliphi`, **base directory**
 `sitio`, **publish directory** `sitio/_site`, *build command* vacío; nombre del sitio `lliphi`

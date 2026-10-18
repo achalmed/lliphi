@@ -13,6 +13,7 @@ Hasta que el autor elija el nombre (fase 3), la carpeta se llama `lliphi` y no e
 
 | fecha | qué | dónde se ve |
 |---|---|---|
+| 2026-10-18 | **publicado y aplicado por el asistente a pedido del autor**: repositorio público `achalmed/lliphi`, etiqueta y versión v0.1.0 con los cinco paquetes y `SHA256SUMS`, sitio en GitHub Pages (`achalmed.github.io/lliphi`, workflow `sitio`), CI en verde, enlace en el menú «More» del hub (`web` 6ffafae), tema aplicado en la sesión del autor (respaldo `~/.local/state/lliphi/respaldos/2026-10-18_154947/UNDO.sh`), alta en `meta/workspace.yml` y renombrado de la carpeta; fuentes importadas en Zotero por el conector; bundles y espejo respaldados | `docs/publicacion.md`, `docs/integracion-hub.md` |
 | 2026-10-18 | lote 2, validación visual en sesión anidada (`HOME` aparte, compositor externo `--virtual`, DBus de prueba): iconos de carpeta en Dolphin a 22/32/64 px y la extensión de VS Code en Positron 2026.06.0, en las dos variantes, con colores medidos contra los tokens (capturas 06–08); Alacritty, Kitty, VS Code, VSCodium y Zed no están instalados (archivos validados por estructura); defecto anotado: la carpeta se funde con la fila seleccionada (`validacion.md` §5.3); `iconos` pasa a «probado» | `docs/validacion.md` §5, `docs/compatibilidad.md`, `muestras/capturas/` |
 | 2026-10-18 | lote 2, LibreOffice: `herramientas/destinos/libreoffice.py` → `generado/libreoffice/` (extensión `lliphi.oxt` de solo configuración, reproducible, probada con `unopkg add` en un perfil desechable; fragmentos `lliphi.xcu`, `-claro`, `-oscuro` para `registrymodifications.xcu`); 91 entradas tomadas del esquema real de 26.2 (`main.xcd`); BASIC/SQL/HTML con la tabla de los editores; módulo, prueba, compatibilidad, changelog, decisión 3.14; el instalador no toca LibreOffice | `modulos/libreoffice/`, `sitio/generado/catalogo/libreoffice.qmd` |
 | 2026-10-18 | lote 2, editores: la extensión de VS Code se instala también en Positron (`~/.positron/extensions/`) y VSCodium (`~/.vscode-oss/extensions/`) con bases condicionales del instalador (solo si existe la carpeta del editor; ampliación de la decisión 3.12); prueba con `.positron/` en el HOME temporal | `herramientas/instalar.py`, `modulos/editores/INSTALL.md` |
@@ -30,16 +31,15 @@ Hasta que el autor elija el nombre (fase 3), la carpeta se llama `lliphi` y no e
 
 ## En curso
 
-- nada: el primer lote (0.1.0) está completo y probado; la publicación es del autor (`docs/publicacion.md`).
+- nada: 0.1.0 publicado; el lote 2 (terminales, editores, LibreOffice, iconos) está en `main` sin versión: entra en 0.2.0 cuando el autor lo decida.
 
 ## Por hacer
 
 - 2026-10-18 · dueño: autor · **el disco interno `/dev/nvme0n1` (INTEL HBRPEKNX0101AH) aparece como «likely to fail soon» en Plasma** (aviso de Device Health visto en la sesión de prueba): respaldar y comprobar con `sudo smartctl -a /dev/nvme0n1`.
-- 2026-10-18 · dueño: autor · **publicar 0.1.0**: crear el remoto `achalmed/lliphi`, empujar, etiquetar `v0.1.0`, `gh release create` con `dist/`, sitio en Netlify (`lliphi`), parche del hub y fichas en KDE Store; comandos en `docs/publicacion.md`.
+- 2026-10-18 · dueño: autor · KDE Store: subir las fichas con `dist/FICHA-KDE-STORE.md` (requiere su cuenta en pling); Netlify opcional (el sitio ya está en GitHub Pages).
+- 2026-10-18 · dueño: asistente · versión 0.2.0 con el lote 2 cuando el autor lo apruebe (`VERSION`, `CHANGELOG`, etiqueta, `empaquetar`, release).
 - 2026-10-18 · dueño: autor · **validar el lote 2 en lo que aquí no está instalado**: Alacritty, Kitty, VS Code, VSCodium y Zed con los pasos de cada `INSTALL.md` (iconos y Positron ya validados en sesión anidada, `docs/validacion.md` §5); Dolphin a 150 % en sesión real (si los distintivos se desalinean, añadir directorios `@2x`); capturas a `muestras/capturas/`.
 - 2026-10-18 · dueño: asistente · **iconos, defecto 1 de `validacion.md` §5.3**: la carpeta (acento) se funde con la fila seleccionada activa en el panel de lugares; decidir en `herramientas/destinos/iconos.py` (contorno `HighlightedText` a baja opacidad o cuerpo en acento suave) y regenerar.
 - 2026-10-18 · dueño: autor · **validar LibreOffice**: con LibreOffice cerrado, `unopkg add generado/libreoffice/lliphi.oxt`, elegir «Lliphi Oscuro» en Herramientas → Opciones → LibreOffice → Colores de la aplicación y mirar Writer (página, límites, campos), Calc (cuadrícula, resaltado de valores, saltos) y la IDE de BASIC; si algún color del documento molesta, ajustar la tabla `entradas()` de `herramientas/destinos/libreoffice.py`; decidir si se activa `LibreOfficeTheme` para la interfaz; captura a `muestras/capturas/` y módulo a «probado».
 - 2026-10-18 · dueño: asistente · navegador (Zen/Firefox) desde los mismos tokens; cursores; `[Icons][Theme]` en los temas globales cuando el autor apruebe los iconos; subir `VERSION` a 0.2.0 al publicar el lote 2 (los módulos ya declaran `desde: 0.2.0`).
 - 2026-10-18 · dueño: autor · validar con inicio de sesión real como `prueba-tema` (SDDM, splash, bloqueo, escala 150 %, una aplicación GTK): `python3 /tmp/lliphi-dist/herramientas/instalar.py --aplicar --aplicar-tema oscuro`.
-- 2026-10-18 · dueño: director · renombrar la carpeta `lliphi` → `lliphi` con `core/renombrar.py` y darla de alta en `meta/workspace.yml`.
-- 2026-10-18 · dueño: autor · importar en Zotero `scripts-biblioteca/ingesta/salida_ris/ingesta_20261018_130400.ris` (15 ítems de esta serie) y pegar las claves en `#zotero_key`.
