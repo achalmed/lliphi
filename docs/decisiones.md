@@ -144,3 +144,4 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   `acento.texto`, `#77aff1`→`acento.suave`. No se aplica nada en la sesión del autor: la variante clara se le propone con
   la captura y la prueba en su sesión queda a su mano (instrucciones en `estado.md`). Observado y dejado como está: las
   carpetas de `breeze` (claro) son azules fijas, a diferencia de `breeze-dark` que sigue el acento: es la mejora 3 (iconos).
+  Aprobada por el autor a las 18:58.
