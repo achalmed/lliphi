@@ -3,7 +3,7 @@
   <identifier value="org.lliphi.libreoffice"/>
   <version value="0.1.0"/>
   <display-name><name lang="es">Lliphi para LibreOffice</name></display-name>
-  <publisher><name xlink:href="https://lliphi.netlify.app" lang="es">Edison Achalma</name></publisher>
+  <publisher><name xlink:href="https://achalmed.github.io/lliphi/" lang="es">Edison Achalma</name></publisher>
   <dependencies><lo:LibreOffice-minimal-version value="24.8" lo:name="LibreOffice 24.8"/></dependencies>
   <extension-description><src lang="es" xlink:href="descripcion.txt"/></extension-description>
 </description>
