@@ -567,6 +567,20 @@
     "text": "Kate\n\n\n\n\nOscuro\n\n\n\n\n\nClaro"
   },
   {
+    "objectID": "galeria.html#dolphin-con-los-iconos-de-carpeta-lote-2",
+    "href": "galeria.html#dolphin-con-los-iconos-de-carpeta-lote-2",
+    "title": "Galería",
+    "section": "Dolphin con los iconos de carpeta (lote 2)",
+    "text": "Dolphin con los iconos de carpeta (lote 2)\n\n\n\n\nOscuro\n\n\n\n\n\nClaro\n\n\n\n\n\n\n\nOscuro, iconos grandes\n\n\n\n\n\nClaro, iconos grandes"
+  },
+  {
+    "objectID": "galeria.html#positron-con-la-extensión-de-vs-code-lote-2",
+    "href": "galeria.html#positron-con-la-extensión-de-vs-code-lote-2",
+    "title": "Galería",
+    "section": "Positron con la extensión de VS Code (lote 2)",
+    "text": "Positron con la extensión de VS Code (lote 2)\n\n\n\n\nOscuro\n\n\n\n\n\nClaro"
+  },
+  {
     "objectID": "galeria.html#bocetos-no-son-capturas",
     "href": "galeria.html#bocetos-no-son-capturas",
     "title": "Galería",
@@ -648,7 +662,7 @@
     "href": "generado/catalogo/iconos.html",
     "title": "Iconos de carpeta",
     "section": "",
-    "text": "estado\nexperimental\n\n\ntecnología\nfreedesktop Icon Theme (index.theme, FollowsColorScheme, SVG con current-color-scheme)\n\n\ndesde la versión\n0.2.0\n\n\narchivos\nlliphi/, lliphi-oscuro/\n\n\nlicencia\nCC-BY-SA-4.0\nLa imagen de arriba es un render de los SVG (Inkscape) a 16, 22, 32, 48 y 64 px, no una captura del escritorio."
+    "text": "estado\nprobado\n\n\ntecnología\nfreedesktop Icon Theme (index.theme, FollowsColorScheme, SVG con current-color-scheme)\n\n\ndesde la versión\n0.2.0\n\n\narchivos\nlliphi/, lliphi-oscuro/\n\n\nlicencia\nCC-BY-SA-4.0\nLa imagen de arriba es un render de los SVG (Inkscape) a 16, 22, 32, 48 y 64 px, no una captura del escritorio."
   },
   {
     "objectID": "generado/catalogo/iconos.html#instalar-a-mano",
