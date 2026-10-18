@@ -1,6 +1,7 @@
 """Decoración de ventanas de Lliphi, DERIVADA del tema Aurorae «Nothing» (jomada, Seducción Linux, GPL-3.0-or-later;
 `fuentes/base/Nothing-aurorae`), por decisión del autor (2026-10-18): los botones circulares con glifo al pasar el
-ratón y el marco sobrio de Nothing, recoloreados con los tokens de Lliphi y sin la sombra blanca del texto.
+ratón y el marco sobrio de Nothing. La variante oscura es Nothing tal cual (más una barra de 18 px); la clara se recolorea
+con los tokens porque Nothing no tiene variante clara.
 
 Variantes: `lliphi` (oscuro) y `lliphi-claro`. La posición de los botones la fija el instalador en `kwinrc`
 (`ButtonsOnRight=IAX`). Lo derivado es GPL-3.0-or-later (REUSE.toml)."""
@@ -16,8 +17,9 @@ BASE = RAIZ / "fuentes" / "base" / "Nothing-aurorae"
 
 # hex fijos de Nothing → token; el marco oscuro de Nothing es #1b1b1d (título) con bordes #111216 y #202b30
 MAPA = {
-    "oscuro": {"#1b1b1d": "fondo.encabezado", "#111216": "fondo.vista", "#202b30": "borde.separador",
-               "#eb3131": "acento.base", "#d46969": "acento.suave", "#a82323": "acento.texto"},
+    # oscuro: Nothing tal cual (decisión del autor: «la decoración me gusta más de Nothing así como está»); solo se
+    # añaden dos plus en el rc (barra de 18 px y sin cambiar nada de los botones)
+    "oscuro": {},
     "claro": {"#1b1b1d": "fondo.encabezado", "#111216": "borde.separador", "#202b30": "borde.separador",
               "#eb3131": "acento.base", "#d46969": "acento.suave", "#a82323": "acento.texto",
               "#e6e6df": "fondo.boton", "#dadad3": "borde.separador", "#f4f0ed": "fondo.vista", "#e5e5de": "fondo.boton",
@@ -41,11 +43,11 @@ def generar(tokens: dict, marca: dict, destino: Path) -> list[Path]:
             texto = re.sub(r"#[0-9a-fA-F]{6}\b", lambda m: mapa.get(m.group(0).lower(), m.group(0)), svg.read_text(encoding="utf-8", errors="ignore"))
             escribir(base / svg.name, texto, hechos)
         rc = (BASE / "Nothingrc").read_text(encoding="utf-8")
-        rc = re.sub(r"^ActiveTextColor=.*$", f"ActiveTextColor={rgb(t['texto.normal'])}", rc, flags=re.M)
-        rc = re.sub(r"^InactiveTextColor=.*$", f"InactiveTextColor={rgb(t['texto.inactivo'])}", rc, flags=re.M)
-        rc = re.sub(r"^UseTextShadow=.*$", "UseTextShadow=false", rc, flags=re.M)
-        rc = re.sub(r"^TitleHeight=.*$", "TitleHeight=18", rc, flags=re.M)
-        rc = re.sub(r"^ButtonSpacing=.*$", "ButtonSpacing=6", rc, flags=re.M)
+        if variante == "claro":   # la clara sí se recolorea: Nothing no tiene variante clara
+            rc = re.sub(r"^ActiveTextColor=.*$", f"ActiveTextColor={rgb(t['texto.normal'])}", rc, flags=re.M)
+            rc = re.sub(r"^InactiveTextColor=.*$", f"InactiveTextColor={rgb(t['texto.inactivo'])}", rc, flags=re.M)
+            rc = re.sub(r"^UseTextShadow=.*$", "UseTextShadow=false", rc, flags=re.M)
+        rc = re.sub(r"^TitleHeight=.*$", "TitleHeight=18", rc, flags=re.M)   # plus: barra algo más alta
         escribir(base / f"{id_}rc", "# GENERADO por herramientas/generar.py desde tokens/ y fuentes/base/Nothing-aurorae; no editar\n" + rc, hechos)
         nombre = marca["nombre_esquema"][variante]
         escribir(base / "metadata.json", json.dumps({

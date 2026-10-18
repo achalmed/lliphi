@@ -245,7 +245,7 @@ def instalar(modulos: list[str], aplicar: bool, aplicar_tema: str | None) -> int
             # defaults (comprobado en sesión anidada, docs/validacion.md §6); se escribe aquí y se avisa a KWin
             deco = ID if aplicar_tema == "oscuro" else f"{ID}-claro"
             if "decoracion" in modulos and (DATA / "aurorae" / "themes" / deco).exists() and shutil.which("kwriteconfig6"):
-                for clave, valor in (("library", "org.kde.kwin.aurorae.v2"), ("theme", f"__aurorae__svg__{deco}"), ("ButtonsOnLeft", ""), ("ButtonsOnRight", "IAX")):
+                for clave, valor in (("library", "org.kde.kwin.aurorae.v2"), ("theme", f"__aurorae__svg__{deco}"), ("ButtonsOnLeft", "XIA"), ("ButtonsOnRight", "")):
                     subprocess.run(["kwriteconfig6", "--file", "kwinrc", "--group", "org.kde.kdecoration2", "--key", clave, valor], capture_output=True, text=True)
                 if shutil.which("qdbus6"):
                     subprocess.run(["qdbus6", "org.kde.KWin", "/KWin", "org.kde.KWin.reconfigure"], capture_output=True, text=True)

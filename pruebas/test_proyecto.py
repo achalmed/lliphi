@@ -116,7 +116,7 @@ def test_tema_global_estructura():
         assert meta["X-KDE-fallbackPackage"] == "org.kde.breeze.desktop"
         d = (base / "contents" / "defaults").read_text(encoding="utf-8")
         assert f"ColorScheme={MARCA['id_esquema'][v]}" in d and f"name={MARCA['id']}" in d
-        assert "kvantum" in d.lower() and "ButtonsOnLeft=\n" in d and "ButtonsOnRight=IAX" in d
+        assert "kvantum" in d.lower() and "ButtonsOnLeft=XIA" in d
         deco = MARCA["id"] if v == "oscuro" else MARCA["id"] + "-claro"
         assert "library=org.kde.kwin.aurorae.v2" in d and f"theme=__aurorae__svg__{deco}" in d
         assert (base / "contents" / "layouts" / "org.kde.plasma.desktop-layout.js").exists()
@@ -237,7 +237,7 @@ def test_decoracion_aurorae():
         meta = json.loads((base / "metadata.json").read_text(encoding="utf-8"))
         assert meta["KPlugin"]["Id"] == id_ and meta["KPlugin"]["License"] == "GPL-3.0-or-later"
         rc = (base / f"{id_}rc").read_text(encoding="utf-8")
-        assert "UseTextShadow=false" in rc and re.search(r"^ActiveTextColor=\d+,\d+,\d+$", rc, re.M)
+        assert re.search(r"^ActiveTextColor=\d+,\d+,\d+$", rc, re.M)
         for svg in base.glob("*.svg"):
             ET.parse(svg)
     assert (RAIZ / "fuentes" / "base" / "Nothing-aurorae" / "ORIGEN.md").exists()
