@@ -73,7 +73,10 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
 - **3.12 (2026-10-18) La extensión de VS Code se instala fuera de XDG.** VS Code solo lee `~/.vscode/extensions/`
   (o `$VSCODE_EXTENSIONS`); el instalador añade esa base para ese único módulo, sin versión en el nombre de la carpeta
   (`lliphi.lliphi`) para que actualizar no deje carpetas viejas. Alternativa descartada: publicar en el Marketplace o
-  empaquetar un `.vsix`, que exigen `vsce` y una cuenta; queda para cuando el autor publique.
+  empaquetar un `.vsix`, que exigen `vsce` y una cuenta; queda para cuando el autor publique. Ampliación (2026-10-18):
+  Positron y VSCodium, derivados de VS Code, leen la misma extensión desde `~/.positron/extensions/` y
+  `~/.vscode-oss/extensions/`; el instalador añade esas dos bases como **condicionales**: solo copia si ya existe la
+  carpeta del editor y nunca la crea, porque crear `~/.positron` en una máquina sin Positron sería basura.
 - **3.13 (2026-10-18) Iconos: solo carpetas, dos temas por herencia, 64 px escalable.** Un tema propio completo
   compite con Breeze y envejece con cada KDE; aquí se dibujan únicamente `folder`, `folder-open`, sus sinónimos y los
   lugares de uso común, con un distintivo geométrico desde 22 px (a 16 px no cabe). Hay dos temas porque la herencia

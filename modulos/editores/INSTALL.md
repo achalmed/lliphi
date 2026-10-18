@@ -2,11 +2,14 @@
 
 El instalador (`python3 herramientas/instalar.py --modulos editores --aplicar`) copia la extensión a
 `~/.vscode/extensions/lliphi.lliphi/` (o a `$VSCODE_EXTENSIONS` si está definida) y el tema de Zed a
-`~/.config/zed/themes/lliphi.json`. Ninguno de los dos editores lo activa solo.
+`~/.config/zed/themes/lliphi.json`. Si existe `~/.positron` copia la misma extensión a
+`~/.positron/extensions/lliphi.lliphi/` (o `$POSITRON_EXTENSIONS`), y si existe `~/.vscode-oss`, a
+`~/.vscode-oss/extensions/lliphi.lliphi/` (o `$VSCODIUM_EXTENSIONS`); si no existen, lo omite y lo dice en la
+simulación, sin crear nada. Ningún editor activa el tema solo.
 
 ### VS Code
 
-1. Copia la carpeta `vscode/lliphi/` a `~/.vscode/extensions/lliphi.lliphi/` (VSCodium: `~/.vscode-oss/extensions/`).
+1. Copia la carpeta `vscode/lliphi/` a `~/.vscode/extensions/lliphi.lliphi/`.
 2. Reinicia VS Code y elige el tema: `Ctrl+K Ctrl+T` → «Lliphi Oscuro» o «Lliphi Claro»; o en `settings.json`:
 
 ```json
@@ -15,6 +18,13 @@ El instalador (`python3 herramientas/instalar.py --modulos editores --aplicar`) 
 
 Para que siga al sistema: `"window.autoDetectColorScheme": true`, `"workbench.preferredDarkColorTheme": "Lliphi Oscuro"`,
 `"workbench.preferredLightColorTheme": "Lliphi Claro"`.
+
+### Positron y VSCodium
+
+Positron (Posit) y VSCodium son derivados de VS Code y leen la misma extensión, cada uno desde su carpeta:
+Positron, `~/.positron/extensions/`; VSCodium, `~/.vscode-oss/extensions/`. Copia allí `vscode/lliphi/` como
+`lliphi.lliphi/`, reinicia el editor y elige el tema como en VS Code (`Ctrl+K Ctrl+T` o `workbench.colorTheme`).
+Positron guarda su `settings.json` en `~/.config/Positron/User/`; VSCodium, en `~/.config/VSCodium/User/`.
 
 ### Zed
 
@@ -33,5 +43,6 @@ Sustituye la carpeta de la extensión y el archivo de Zed; los nombres de los te
 
 ## Desinstalar
 
-Elige otro tema en cada editor y borra `~/.vscode/extensions/lliphi.lliphi/` y `~/.config/zed/themes/lliphi.json`.
+Elige otro tema en cada editor y borra `~/.vscode/extensions/lliphi.lliphi/`, `~/.positron/extensions/lliphi.lliphi/`,
+`~/.vscode-oss/extensions/lliphi.lliphi/` (las que existan) y `~/.config/zed/themes/lliphi.json`.
 El instalador (`desinstalar`) hace lo segundo y no toca los `settings.json`, que son tuyos.

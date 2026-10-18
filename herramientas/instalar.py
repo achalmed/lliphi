@@ -4,7 +4,10 @@
 Solo escribe en `$XDG_DATA_HOME` (`~/.local/share`) y `$XDG_CONFIG_HOME` (`~/.config`); nunca en `/usr`.
 Los módulos de terminales y editores dejan sus archivos en `$XDG_CONFIG_HOME/<aplicación>/themes/`; cada aplicación los
 importa desde su propia configuración, que el instalador no toca (lo dice `modulos/<id>/INSTALL.md`). La única excepción
-a XDG es la extensión de VS Code, que solo se lee desde `~/.vscode/extensions/` (o `$VSCODE_EXTENSIONS`; decisión 3.12).
+a XDG es la extensión de VS Code, que solo se lee desde `~/.vscode/extensions/` (o `$VSCODE_EXTENSIONS`; decisión 3.12);
+la misma extensión va a Positron (`~/.positron/extensions/` o `$POSITRON_EXTENSIONS`) y a VSCodium
+(`~/.vscode-oss/extensions/` o `$VSCODIUM_EXTENSIONS`) solo si existe la carpeta del editor (`~/.positron`,
+`~/.vscode-oss`); si no, el par se omite y la simulación lo dice, sin crearla.
 Antes de tocar nada respalda los archivos de configuración que cambia Plasma al aplicar un tema, con su
 SHA-256 verificada, en `$XDG_STATE_HOME/<id>/respaldos/<fecha>/` y deja allí un `UNDO.sh` que restaura
 byte a byte y desinstala. Lo instalado queda anotado en `$XDG_STATE_HOME/<id>/instalado.json`.
@@ -40,6 +43,8 @@ DATA = Path(os.environ.get("XDG_DATA_HOME") or HOME / ".local" / "share")
 CONFIG = Path(os.environ.get("XDG_CONFIG_HOME") or HOME / ".config")
 STATE = Path(os.environ.get("XDG_STATE_HOME") or HOME / ".local" / "state") / ID
 VSCODE = Path(os.environ.get("VSCODE_EXTENSIONS") or HOME / ".vscode" / "extensions")
+POSITRON = Path(os.environ.get("POSITRON_EXTENSIONS") or HOME / ".positron" / "extensions")
+VSCODIUM = Path(os.environ.get("VSCODIUM_EXTENSIONS") or HOME / ".vscode-oss" / "extensions")
 MANIFIESTO = STATE / "instalado.json"
 
 # archivos de configuración que Plasma reescribe al aplicar un tema global: se respaldan siempre
@@ -48,7 +53,8 @@ CONFIGS = ["kdeglobals", "plasmarc", "kwinrc", "kcminputrc", "ksplashrc", "kscre
            "konsolerc"]
 
 # módulo → [(origen relativo a generado/, destino relativo a la base, base)]; la base es "data" (XDG_DATA_HOME, por
-# omisión si el par tiene dos elementos), "config" (XDG_CONFIG_HOME) o "vscode" (~/.vscode/extensions)
+# omisión si el par tiene dos elementos), "config" (XDG_CONFIG_HOME), "vscode" (~/.vscode/extensions) o una base condicional
+# ("positron", "vscodium"): solo se instala si existe la carpeta del editor (CONDICIONALES); si no, se omite y se avisa
 MODULOS = {
     "esquema": [(f"color-schemes/{MARCA['id_esquema'][v]}.colors", f"color-schemes/{MARCA['id_esquema'][v]}.colors") for v in ("claro", "oscuro")],
     "estilo": [(f"desktoptheme/{ID}", f"plasma/desktoptheme/{ID}")],
@@ -57,20 +63,28 @@ MODULOS = {
     "fondos": [(f"wallpapers/{MARCA['id_fondo']}", f"wallpapers/{MARCA['id_fondo']}")],
     "terminales": [(f"terminales/alacritty/{ID}-{v}.toml", f"alacritty/themes/{ID}-{v}.toml", "config") for v in ("claro", "oscuro")]
                 + [(f"terminales/kitty/{ID}-{v}.conf", f"kitty/themes/{ID}-{v}.conf", "config") for v in ("claro", "oscuro")],
-    "editores": [(f"editores/vscode/{ID}", f"{ID}.{ID}", "vscode"), (f"editores/zed/{ID}.json", f"zed/themes/{ID}.json", "config")],
+    "editores": [(f"editores/vscode/{ID}", f"{ID}.{ID}", "vscode"), (f"editores/vscode/{ID}", f"{ID}.{ID}", "positron"),
+                 (f"editores/vscode/{ID}", f"{ID}.{ID}", "vscodium"), (f"editores/zed/{ID}.json", f"zed/themes/{ID}.json", "config")],
     "iconos": [(f"icons/{ID}", f"icons/{ID}"), (f"icons/{ID}-oscuro", f"icons/{ID}-oscuro")],
 }
-BASES = {"data": DATA, "config": CONFIG, "vscode": VSCODE}
+BASES = {"data": DATA, "config": CONFIG, "vscode": VSCODE, "positron": POSITRON, "vscodium": VSCODIUM}
+# base condicional → (carpeta que debe existir, nombre del editor); el instalador nunca crea esa carpeta
+CONDICIONALES = {"positron": (POSITRON.parent, "Positron"), "vscodium": (VSCODIUM.parent, "VSCodium")}
 
 
-def pares_de(modulos: list[str]) -> list[tuple[Path, Path]]:
-    """(origen absoluto en generado/, destino absoluto) de cada archivo o carpeta de los módulos pedidos."""
-    pares = []
+def pares_de(modulos: list[str]) -> tuple[list[tuple[Path, Path]], list[str]]:
+    """(origen absoluto en generado/, destino absoluto) de cada archivo o carpeta de los módulos pedidos, y los avisos
+    de los pares omitidos porque su base condicional no existe (no se instala Positron donde no hay Positron)."""
+    pares, omitidos = [], []
     for m in modulos:
         for par in MODULOS[m]:
             origen, destino, *base = par
-            pares.append((GENERADO / origen, BASES[base[0] if base else "data"] / destino))
-    return pares
+            b = base[0] if base else "data"
+            if b in CONDICIONALES and not CONDICIONALES[b][0].is_dir():
+                omitidos.append(f"omitido {origen} → {BASES[b] / destino}: no existe {CONDICIONALES[b][0]} ({CONDICIONALES[b][1]} no está instalado)")
+                continue
+            pares.append((GENERADO / origen, BASES[b] / destino))
+    return pares, omitidos
 DEPENDENCIAS = {"global": ["plasma-apply-lookandfeel"], "esquema": ["plasma-apply-colorscheme"]}
 
 
@@ -151,7 +165,9 @@ def instalar(modulos: list[str], aplicar: bool, aplicar_tema: str | None) -> int
     if faltan:
         print("faltan dependencias:\n  " + "\n  ".join(faltan)); return 2
     print(f"{'Instalando' if aplicar else 'SIMULACIÓN de'} {MARCA['nombre']} {VERSION} en {DATA}")
-    pares = pares_de(modulos)
+    pares, omitidos = pares_de(modulos)
+    for aviso in omitidos:
+        print(f"  {aviso}")
     conflictos = [d for o, d in pares if ajeno(o, d)]
     if conflictos:
         print("en el destino hay archivos que no instaló este proyecto; no se tocan:\n  " + "\n  ".join(map(str, conflictos)))

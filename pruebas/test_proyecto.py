@@ -277,9 +277,11 @@ def test_instalar_y_desinstalar_restaura(tmp_path: Path):
     env = _entorno(tmp_path)
     (tmp_path / ".config").mkdir()
     (tmp_path / ".config" / "kdeglobals").write_text("[General]\nColorScheme=BreezeDark\n", encoding="utf-8")
+    (tmp_path / ".positron").mkdir()          # Positron instalado; VSCodium (~/.vscode-oss) no: se omite sin crearlo
     antes = {p.relative_to(tmp_path): p.read_bytes() for p in tmp_path.rglob("*") if p.is_file()}
     sim = correr("herramientas/instalar.py", env=env)
     assert sim.returncode == 0 and "SIM" in sim.stdout and not (tmp_path / ".local/share").exists(), sim.stdout
+    assert "omitido" in sim.stdout and "VSCodium" in sim.stdout and "Positron no está" not in sim.stdout, sim.stdout
     ap = correr("herramientas/instalar.py", "--aplicar", env=env)
     assert ap.returncode == 0, ap.stdout + ap.stderr
     assert (tmp_path / ".local/share/plasma/look-and-feel" / MARCA["id_global"]["oscuro"] / "metadata.json").exists()
@@ -288,6 +290,8 @@ def test_instalar_y_desinstalar_restaura(tmp_path: Path):
     assert (tmp_path / ".config/kitty/themes" / f"{MARCA['id']}-claro.conf").exists()
     assert (tmp_path / ".config/zed/themes" / f"{MARCA['id']}.json").exists()
     assert (tmp_path / ".vscode/extensions" / f"{MARCA['id']}.{MARCA['id']}" / "package.json").exists()
+    assert (tmp_path / ".positron/extensions" / f"{MARCA['id']}.{MARCA['id']}" / "package.json").exists()
+    assert not (tmp_path / ".vscode-oss").exists()
     assert (tmp_path / ".local/share/icons" / f"{MARCA['id']}-oscuro" / "index.theme").exists()
     manifiesto = tmp_path / ".local/state" / MARCA["id"] / "instalado.json"
     assert manifiesto.exists()
@@ -311,6 +315,7 @@ def test_instalar_y_desinstalar_restaura(tmp_path: Path):
     assert not (tmp_path / ".local/share/plasma/look-and-feel" / MARCA["id_global"]["oscuro"]).exists()
     assert not (tmp_path / ".config/kitty/themes" / f"{MARCA['id']}-claro.conf").exists()
     assert not (tmp_path / ".vscode/extensions" / f"{MARCA['id']}.{MARCA['id']}").exists()
+    assert not (tmp_path / ".positron/extensions" / f"{MARCA['id']}.{MARCA['id']}").exists() and (tmp_path / ".positron").is_dir()
     assert not manifiesto.exists()
 
 

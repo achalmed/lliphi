@@ -1,6 +1,6 @@
 | módulo | qué entrega | estado | desde |
 |---|---|---|---|
-| [Editores: VS Code y Zed](generado/catalogo/editores.qmd) | Temas claro y oscuro para VS Code (extensión mínima) y Zed con la interfaz del esquema, la sintaxis derivada de los dieciséis ANSI y la terminal integrada de Konsole. | experimental | 0.2.0 |
+| [Editores: VS Code, Positron y Zed](generado/catalogo/editores.qmd) | Temas claro y oscuro para VS Code y sus derivados Positron y VSCodium (una misma extensión mínima) y para Zed, con la interfaz del esquema, la sintaxis derivada de los dieciséis ANSI y la terminal integrada de Konsole. | experimental | 0.2.0 |
 | [Esquemas de color](generado/catalogo/esquema.qmd) | Lliphi Claro y Lliphi Oscuro para todas las aplicaciones Qt y KDE (y, a través de Plasma, GTK). | probado | 0.1.0 |
 | [Estilo de Plasma](generado/catalogo/estilo.qmd) | Panel, diálogos, tooltips y fondos de widgets con los radios y márgenes de Lliphi; sigue el esquema de color y el acento del sistema. | probado | 0.1.0 |
 | [Fondos de pantalla](generado/catalogo/fondos.qmd) | Paquete «Lliphi Horizonte» con imagen clara y oscura (Plasma elige según el esquema) en 1080p, 1440p y 4K, y acento declarado. | probado | 0.1.0 |
