@@ -164,4 +164,4 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   toma `Lliphi Oscuro` (fondo casi negro, ANSI de los tokens, opacidad 0,86 con desenfoque) y conserva FiraCode Nerd Font,
   que el prompt y `lsd` necesitan para sus iconos. El instalador, con `--aplicar-tema`, respalda el perfil por defecto
   (`konsolerc` → `DefaultProfile`), cambia solo `ColorScheme` en `[Appearance]` y edita el archivo real para no romper el
-  enlace de dotfiles; `UNDO.sh` lo restaura. Comparación en `muestras/comparacion-linea-base-konsole.png`.
+  enlace de dotfiles; `UNDO.sh` lo restaura. Comparación en `muestras/comparacion-linea-base-konsole.png`. Aprobada por el autor el 2026-10-19.

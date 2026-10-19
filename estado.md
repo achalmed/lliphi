@@ -39,7 +39,7 @@ Hasta que el autor elija el nombre (fase 3), la carpeta se llama `lliphi` y no e
 
 ## En curso
 
-- **mejora 5 (2026-10-19 07:41), espera el visto bueno del autor**: Konsole con Lliphi Oscuro (solo `ColorScheme` del
+- **mejora 5 (2026-10-19 07:41), aprobada por el autor**: Konsole con Lliphi Oscuro (solo `ColorScheme` del
   perfil; la fuente sigue siendo FiraCode Nerd Font). UNDO en `respaldos/2026-10-19_073925_mejora5-konsole/`. El cambio vive
   en `~/.dotfiles/konsole/.local/share/konsole/achalmaedison.profile`, sin commit en dotfiles: lo decide el autor.
 - **mejora 4 (2026-10-19 07:36), aprobada por el autor**: la línea base se restauró en su sesión a las 07:29 a
