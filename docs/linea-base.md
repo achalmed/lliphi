@@ -17,7 +17,7 @@ y pidió un solo cambio: la tipografía, a una de estilo Apple. Desde aquí se m
 | estilo de Plasma | `WhiteSur-dark` (con su `colors`) | WhiteSur-kde | `lliphi-oscuro` = copia tal cual, metadata propia, fondo de Lliphi en `plasmarc` |
 | estilo de widgets | `kvantum-dark`, tema Kvantum `LliphiOscuro` | WhiteSur-kde recoloreado con los tokens (rojo) | `generado/kvantum/LliphiOscuro` |
 | decoración | Aurorae V2 `__aurorae__svg__Nothing`, botones `XIA` a la izquierda | Nothing (GPL-3.0-or-later) | `lliphi` = Nothing tal cual con barra de 18 px |
-| iconos | `breeze-dark` → `Papirus-Dark` con carpetas rojas (mejora 3, decisiones 4.7, aprobada) | KDE → Papirus (GPL-3.0, descargado por `dependencias.py`) | `defaults` e instalador; Breeze de reserva |
+| iconos | `breeze-dark` → `Papirus-Dark-Lliphi` (carpetas rojas) en el oscuro y `Papirus` tal cual (azules) en el claro (mejora 3 y decisiones 4.15) | KDE → Papirus (GPL-3.0, descargado por `dependencias.py`) | `defaults` e instalador; Breeze de reserva |
 | cursores | `WhiteSur-cursors` | KDE Store 1411743 (GPL-3.0) | `defaults`; dependencia externa (no se redistribuye) |
 | menús Qt | Breeze `MenuOpacity=80` | — | instalador |
 | tipografía (cambiada hoy) | **Inter 10** (interfaz, menús, barras; Inter Medium en títulos), **JetBrainsMono Nerd Font 10** (monoespaciada, también en Konsole; mejora 9) | Inter (OFL, instalada), JetBrains Mono Nerd Font (OFL, `dependencias.py`) | `defaults` e instalador |
@@ -62,3 +62,7 @@ el esquema rojo de los tokens. Quedan en el repositorio como piezas opcionales.
 9. **Hecha y aprobada por el autor (2026-10-19)**: JetBrains Mono (Nerd Font) como única monoespaciada,
    en el sistema y en Konsole (decisiones 4.14); comparación en `muestras/comparacion-linea-base-monoespaciada.png`. Aplicada
    con `instalar.py --aplicar --aplicar-tema oscuro` (`respaldos/2026-10-19_080755/`, que guarda el perfil de Konsole con FiraCode).
+10. **Hecha (2026-10-19 08:35), pendiente del visto bueno del autor**: el claro validado en una sesión virtual aparte; arreglados
+    las carpetas por variante (superpuesto `Papirus-Dark-Lliphi`, decisiones 4.15), el fondo claro y el bloqueo legible
+    (decisiones 4.16); comparación en `muestras/comparacion-linea-base-claro-validado.png`. En la sesión del autor: iconos
+    `Papirus-Dark-Lliphi`.

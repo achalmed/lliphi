@@ -5,6 +5,7 @@ Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión de
 ## [Unreleased]
 
 ### Added
+- Tema de iconos superpuesto `Papirus-Dark-Lliphi` (carpetas rojas para el oscuro); Papirus queda como se publica.
 - `dependencias.py` descarga JetBrains Mono Nerd Font (OFL) al usuario.
 - Un acento por variante: rojo de Nothing en el oscuro y azul de WhiteSur (#315bef) en el claro.
 - Inicio de sesión SDDM (mejora 7), derivado de WhiteSur-dark: fondo de Lliphi, Inter y foco en el acento;
@@ -23,6 +24,8 @@ Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión de
   Lliphi sin sombra, en las dos variantes.
 
 ### Fixed
+- Variante clara (mejora 10): fondo oscuro en lugar del claro, carpetas rojas en lugar de azules y reloj ilegible en el
+  bloqueo de pantalla.
 - El instalador no recargaba las fuentes en vivo: los títulos de ventana seguían en la fuente anterior hasta reiniciar la
   sesión. Ahora emite `refreshFonts` y `notifyChange` de fuentes.
 

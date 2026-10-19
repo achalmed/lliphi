@@ -261,8 +261,20 @@ def instalar(modulos: list[str], aplicar: bool, aplicar_tema: str | None) -> int
                 return 1
             # el fondo por ruta (Plasma 6.6 no resuelve el nombre del paquete de usuario) y los iconos de carpeta
             fondo = DATA / "wallpapers" / MARCA["id_fondo"]
+            if aplicar_tema == "claro":
+                # mejora 10 (decisiones 4.16): con el paquete, Plasma elige la imagen clara u oscura por los colores del
+                # estilo de Plasma, y el de WhiteSur claro tiene el panel oscuro: saldría el fondo oscuro. Se fija la clara.
+                fondo = fondo / "contents" / "images" / "3840x2160.png"
             if "fondos" in modulos and fondo.exists() and shutil.which("plasma-apply-wallpaperimage"):
                 subprocess.run(["plasma-apply-wallpaperimage", str(fondo)], capture_output=True, text=True)
+            # mejora 10 (decisiones 4.16): el bloqueo de Plasma escribe siempre en blanco; con el fondo claro el reloj no se
+            # lee. En las dos variantes el bloqueo usa la imagen oscura de Lliphi (como el inicio de sesión de la mejora 7)
+            oscura = DATA / "wallpapers" / MARCA["id_fondo"] / "contents" / "images_dark" / "3840x2160.png"
+            if "fondos" in modulos and oscura.exists() and shutil.which("kwriteconfig6"):
+                for clave in ("Image", "PreviewImage"):
+                    subprocess.run(["kwriteconfig6", "--file", "kscreenlockerrc", "--group", "Greeter", "--group", "Wallpaper",
+                                    "--group", "org.kde.image", "--group", "General", "--key", clave, oscura.as_uri()], capture_output=True, text=True)
+                print("  bloqueo de pantalla: fondo oscuro de Lliphi")
                 print(f"  fondo aplicado: {fondo}")
             # menús translúcidos con desenfoque en las aplicaciones Qt (función de serie de Breeze): el vidrio llega a las apps
             tokens = json.loads((RAIZ / "tokens" / "tokens.json").read_text(encoding="utf-8"))
@@ -291,8 +303,11 @@ def instalar(modulos: list[str], aplicar: bool, aplicar_tema: str | None) -> int
                 subprocess.run(["dbus-send", "--session", "--type=signal", "/KDEPlatformTheme", "org.kde.KDEPlatformTheme.refreshFonts"], capture_output=True, text=True)
                 subprocess.run(["dbus-send", "--session", "--type=signal", "/KGlobalSettings", "org.kde.KGlobalSettings.notifyChange", "int32:1", "int32:0"], capture_output=True, text=True)
                 print("  tipografía: Inter 10 (interfaz), Inter Medium 10 (títulos) y JetBrainsMono Nerd Font 10 (monoespaciada), recargada en vivo")
-            # mejora 3: Papirus con carpetas rojas si dependencias.py lo trajo; si no, Breeze (del que Papirus hereda)
-            iconos = "Papirus-Dark" if aplicar_tema == "oscuro" else "Papirus"
+            # mejora 3 y decisiones 4.15: carpetas en el acento de la variante; el oscuro usa el superpuesto rojo
+            # Papirus-Dark-Lliphi (dependencias.py) y el claro Papirus tal cual (azul); si faltan, Breeze
+            iconos = "Papirus-Dark-Lliphi" if aplicar_tema == "oscuro" else "Papirus"
+            if iconos == "Papirus-Dark-Lliphi" and not (DATA / "icons" / iconos).exists():
+                iconos = "Papirus-Dark"
             if not (DATA / "icons" / iconos).exists():
                 print(f"  {iconos} no está en {DATA / 'icons'} (ejecuta herramientas/dependencias.py --aplicar); se usa Breeze")
                 iconos = "breeze-dark" if aplicar_tema == "oscuro" else "breeze"

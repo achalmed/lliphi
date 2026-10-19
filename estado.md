@@ -13,6 +13,7 @@ Hasta que el autor elija el nombre (fase 3), la carpeta se llama `lliphi` y no e
 
 | fecha | qué | dónde se ve |
 |---|---|---|
+| 2026-10-19 | mejora 10: claro validado en sesión virtual; carpetas por variante con el superpuesto `Papirus-Dark-Lliphi`, fondo claro fijado, bloqueo con fondo oscuro | `docs/validacion.md` §8, `docs/decisiones.md` 4.15–4.16, `muestras/comparacion-linea-base-claro-validado.png` |
 | 2026-10-19 | mejora 9: JetBrains Mono Nerd Font como única monoespaciada (sistema y Konsole), descargada por `dependencias.py` | `docs/decisiones.md` 4.14, `muestras/comparacion-linea-base-monoespaciada.png` |
 | 2026-10-19 | mejora 8: acento por variante (rojo oscuro, azul de WhiteSur claro) y acento en el estilo de Plasma | `docs/decisiones.md` 4.12–4.13, `muestras/comparacion-linea-base-acento-plasma.png` |
 | 2026-10-19 | mejora 7: inicio de sesión SDDM derivado de WhiteSur-dark (fondo de Lliphi, Inter, foco rojo); instalador con pkexec y UNDO | `docs/decisiones.md` 4.11, `muestras/comparacion-linea-base-inicio-de-sesion.png` |
@@ -43,6 +44,10 @@ Hasta que el autor elija el nombre (fase 3), la carpeta se llama `lliphi` y no e
 
 ## En curso
 
+- **mejora 10 (2026-10-19 08:35), espera el visto bueno del autor**: variante clara validada en pantalla y corregida (carpetas
+  por variante, fondo claro, bloqueo legible). En la sesión del autor solo cambió el tema de iconos a `Papirus-Dark-Lliphi`
+  (mismo aspecto, Home y Escritorio ahora rojos). Incidente resuelto: la sesión de prueba dejó `LockedHint=yes` en la sesión
+  real; se restauró a `no` (docs/validacion.md §8).
 - **mejora 9 (2026-10-19 08:08), aprobada por el autor**: JetBrains Mono (Nerd Font) como única monoespaciada
   (sistema y Konsole); Inter se queda; IBM Plex Sans descartada para el escritorio (decisiones 4.14).
 - **mejora 8 (2026-10-19 08:05), aprobada por el autor**: un acento por variante (rojo oscuro, azul de WhiteSur

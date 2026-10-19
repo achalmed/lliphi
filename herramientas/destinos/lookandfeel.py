@@ -59,8 +59,9 @@ def defaults(marca: dict, variante: str) -> str:
     return "\n".join([
         "# GENERADO por herramientas/generar.py desde tokens/; no editar", "",
         "[kdeglobals][KDE]", f"widgetStyle={'kvantum' if variante == 'claro' else 'kvantum-dark'}", "",
-        # mejora 3 (decisiones 4.7): Papirus con las carpetas en rojo (herramientas/dependencias.py); hereda de breeze
-        "[kdeglobals][Icons]", f"Theme={'Papirus' if variante == 'claro' else 'Papirus-Dark'}", "",
+        # mejora 3 y decisiones 4.15: carpetas en el acento (herramientas/dependencias.py): Papirus tal cual (azul) en el
+        # claro y el superpuesto Papirus-Dark-Lliphi (rojo) en el oscuro; ambos heredan de breeze
+        "[kdeglobals][Icons]", f"Theme={'Papirus' if variante == 'claro' else 'Papirus-Dark-Lliphi'}", "",
         "[kdeglobals][General]", f"ColorScheme={marca['id_esquema'][variante]}", "font=Inter,10,-1,5,400,0,0,0,0,0", "fixed=JetBrainsMono Nerd Font,10,-1,5,400,0,0,0,0,0",
         "menuFont=Inter,10,-1,5,400,0,0,0,0,0", "toolBarFont=Inter,10,-1,5,400,0,0,0,0,0",
         "smallestReadableFont=Inter,8,-1,5,400,0,0,0,0,0", "",

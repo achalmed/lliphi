@@ -497,3 +497,14 @@ def test_inicio_de_sesion_sddm():
     assert "defaultFont" not in (base / "Main.qml").read_text(encoding="utf-8"), "Kirigami.Theme.defaultFont es de solo lectura: rompe el tema"
     r = correr("herramientas/instalar_sddm.py")
     assert r.returncode in (0, 3) and "pkexec" not in r.stderr
+
+
+def test_variante_clara_validada():
+    """Mejora 10 (decisiones 4.15–4.16): carpetas por variante sin tocar Papirus, fondo claro fijado y bloqueo oscuro."""
+    for v, iconos in (("oscuro", "Papirus-Dark-Lliphi"), ("claro", "Papirus")):
+        defaults = (GEN / "look-and-feel" / MARCA["id_global"][v] / "contents" / "defaults").read_text(encoding="utf-8")
+        assert f"Theme={iconos}" in defaults, v
+    dep = (RAIZ / "herramientas" / "dependencias.py").read_text(encoding="utf-8")
+    assert 'SUPERPUESTO = {"id": "Papirus-Dark-Lliphi"' in dep and 'COLOR_ORIGINAL = "blue"' in dep
+    ins = (RAIZ / "herramientas" / "instalar.py").read_text(encoding="utf-8")
+    assert '"images" / "3840x2160.png"' in ins and '"images_dark" / "3840x2160.png"' in ins and '"kscreenlockerrc"' in ins

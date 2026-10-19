@@ -230,3 +230,29 @@ las carpetas de `breeze` claro son azules fijas (mejora 3); en la vista de icono
 rosa tenue porque WhiteSur dibuja los elementos de vista con el acento a baja opacidad (igual que su azul original); el
 panel de la anidada no muestra la translucidez de WhiteSur (límite del §6). El estilo de Plasma `lliphi-claro` con su
 `colors` no sigue el acento del esquema, como el oscuro.
+
+## 8. Mejora 10: variante clara con el azul de WhiteSur (2026-10-19)
+
+Método del §5 con un `HOME` aparte nuevo y tres ajustes:
+
+1. **Directorio de ejecución corto.** Con el `HOME` en una ruta larga, el socket de Wayland supera los 108 bytes de una ruta
+   de socket Unix y KWin no arranca; `XDG_RUNTIME_DIR=/tmp/llc-run`.
+2. **Capturas.** KWin rechaza `CaptureScreen` con «not authorized» aunque Spectacle tenga su permiso; la sesión de prueba
+   arranca con `KWIN_SCREENSHOT_NO_PERMISSION_CHECKS=1` (solo en ella). Spectacle se lanza en el display del KWin exterior
+   (`wayland-0` con un directorio de ejecución propio) y las aplicaciones en el interior (`wayland-1`). Todo lo que se ejecuta
+   dentro hereda el entorno completo del `plasmashell` de prueba (`/proc/<pid>/environ`); con un entorno parcial,
+   `plasma-apply-lookandfeel` intenta X11 y no escribe nada.
+3. **El bloqueo de la sesión de prueba alcanza a la real.** Las dos sesiones comparten la sesión de logind del autor: cuando
+   la de prueba se bloqueó por inactividad, puso `LockedHint=yes` en la sesión real (aunque la pantalla real seguía
+   desbloqueada), y cada sesión de prueba nueva leía esa marca y se bloqueaba al arrancar. Se cerró la de prueba, se devolvió
+   la marca con `SetLockedHint false` (la pantalla real ya estaba desbloqueada) y se desactivó el bloqueo automático en el
+   `HOME` de prueba (`[Daemon] Autolock=false`). Ojo: `Timeout=0` en `kscreenlockerrc` no desactiva nada. **No bloquear nunca
+   una sesión de prueba.**
+
+| caso | resultado | captura |
+|---|---|---|
+| escritorio, Dolphin y Konsole | fondo claro (tras el arreglo), carpetas de Papirus azules, selección y foco `#315bef`, Konsole Lliphi Claro con JetBrains Mono | `claro-19-dolphin-konsole.png` |
+| Preferencias → Colores y plasmoide de batería | «Lliphi Claro» con resaltado azul; barras de Plasma en azul | comparación |
+| pantalla de carga | «Lliphi» en texto oscuro con el punto azul; indicador oscuro | `claro-20-carga.png` |
+| bloqueo de pantalla | antes: reloj blanco ilegible sobre el fondo claro; después: fondo oscuro de Lliphi | `claro-21-bloqueo.png` |
+| decoración | cerrar rojo de Nothing; minimizar y maximizar neutros | en todas |

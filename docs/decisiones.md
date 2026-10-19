@@ -200,3 +200,16 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   suavizado ya era el recomendado (antialias, `hintslight`, subpíxel RGB) y no se toca. La fuente se descarga de la versión
   publicada de ryanoasis/nerd-fonts (OFL-1.1) con `dependencias.py`, en el usuario y sin root; el instalador solo la pone en
   Konsole si está instalada. Comparación en `muestras/comparacion-linea-base-monoespaciada.png`. Aprobada por el autor el 2026-10-19.
+- **4.15 (2026-10-19) Carpetas en el acento de cada variante sin tocar Papirus.** La mejora 3 coloreaba de rojo las carpetas
+  modificando los enlaces dentro de Papirus; con la regla 4.12 el claro las necesita azules, y no se puede: Papirus-Dark comparte
+  con Papirus los tamaños grandes por enlaces simbólicos. Ahora `dependencias.py` deja Papirus como en su versión publicada
+  (carpetas azules, para el claro) y crea `Papirus-Dark-Lliphi`, un tema superpuesto que hereda de Papirus-Dark y solo declara
+  enlaces a las variantes rojas de todo icono que acaba en una carpeta azul (lugares, `inode-directory`, `user-home`…). El
+  oscuro usa ese superpuesto. Efecto secundario bueno: Home y Escritorio, que antes quedaban azules en el oscuro, ahora son rojos.
+- **4.16 (2026-10-19) Mejora 10: el claro, validado en pantalla y corregido.** En una sesión de Plasma virtual aparte se
+  encontraron y corrigieron dos fallos más: (1) el fondo salía oscuro en el claro, porque Plasma elige la imagen clara u oscura
+  del paquete por los colores del estilo de Plasma, y el de WhiteSur claro tiene el panel oscuro; el instalador fija ahora la
+  imagen clara por ruta; (2) el bloqueo de pantalla escribe siempre en blanco y sobre el fondo claro el reloj no se leía; el
+  instalador pone en las dos variantes la imagen oscura de Lliphi en el bloqueo, como el inicio de sesión. Se conserva a
+  propósito el panel oscuro de WhiteSur claro, aprobado en la mejora 2. Comparación en
+  `muestras/comparacion-linea-base-claro-validado.png`; método y trampas en `docs/validacion.md` §8.
