@@ -171,4 +171,4 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   dentro del paquete y, en lugar del logotipo de Apple, «Lliphi» en Inter Light con el punto en el rojo del acento. Se
   previsualizan sin cerrar la sesión con `ksplashqml org.lliphi.oscuro --test --window` y
   `ksmserver-logout-greeter --windowed --lookandfeel org.lliphi.oscuro` (este con `timeout -s KILL 8`: tiene una cuenta atrás
-  de 30 s que ejecuta la acción). Comparación en `muestras/comparacion-linea-base-pantallas.png`, con la foto del autor pixelada.
+  de 30 s que ejecuta la acción). Comparación en `muestras/comparacion-linea-base-pantallas.png`, con la foto del autor pixelada. Aprobada por el autor el 2026-10-19.

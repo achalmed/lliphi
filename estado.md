@@ -40,7 +40,7 @@ Hasta que el autor elija el nombre (fase 3), la carpeta se llama `lliphi` y no e
 
 ## En curso
 
-- **mejora 6 (2026-10-19 07:47), espera el visto bueno del autor**: pantallas de carga y de salida derivadas de WhiteSur-dark
+- **mejora 6 (2026-10-19 07:47), aprobada por el autor**: pantallas de carga y de salida derivadas de WhiteSur-dark
   (docs/linea-base.md §2.6, decisiones 4.10). La de carga solo se verá de verdad en el próximo inicio de sesión; aquí se
   comprobó en modo de prueba en ventana.
 - **mejora 5 (2026-10-19 07:41), aprobada por el autor**: Konsole con Lliphi Oscuro (solo `ColorScheme` del
