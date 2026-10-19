@@ -46,3 +46,8 @@ el esquema rojo de los tokens. Quedan en el repositorio como piezas opcionales.
    FiraCode Nerd Font (decisiones 4.9); comparación en `muestras/comparacion-linea-base-konsole.png`. Aplicada en el perfil
    `achalmaedison.profile` (enlace a `~/.dotfiles`, que queda con ese cambio sin commit); se revierte con
    `~/.local/state/lliphi/respaldos/2026-10-19_073925_mejora5-konsole/UNDO.sh`.
+6. **Hecha (2026-10-19 07:47), pendiente del visto bueno del autor**: pantallas de carga y de salida derivadas de WhiteSur-dark
+   con el fondo de Lliphi y el nombre en Inter (decisiones 4.10); comparación en `muestras/comparacion-linea-base-pantallas.png`.
+   Instalada con `instalar.py --modulos global --aplicar`; para volver a las de Breeze basta reinstalar el tema global desde el
+   commit anterior (`git checkout d10cfa2 -- herramientas/destinos/lookandfeel.py`, regenerar e instalar) o, solo para la carga,
+   `kwriteconfig6 --file ksplashrc --group KSplash --key Theme org.kde.Breeze`.

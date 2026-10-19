@@ -165,3 +165,10 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   que el prompt y `lsd` necesitan para sus iconos. El instalador, con `--aplicar-tema`, respalda el perfil por defecto
   (`konsolerc` → `DefaultProfile`), cambia solo `ColorScheme` en `[Appearance]` y edita el archivo real para no romper el
   enlace de dotfiles; `UNDO.sh` lo restaura. Comparación en `muestras/comparacion-linea-base-konsole.png`. Aprobada por el autor el 2026-10-19.
+- **4.10 (2026-10-19) Mejora 6: pantallas de carga y de salida derivadas de WhiteSur-dark.** El tema global declaraba su
+  propia pantalla de carga sin traerla, y Plasma caía en la de Breeze sobre negro; el diálogo de salida también era el de
+  Breeze. Ahora ambos paquetes incluyen `contents/splash/` y `contents/logout/` de WhiteSur-dark con el fondo de Lliphi
+  dentro del paquete y, en lugar del logotipo de Apple, «Lliphi» en Inter Light con el punto en el rojo del acento. Se
+  previsualizan sin cerrar la sesión con `ksplashqml org.lliphi.oscuro --test --window` y
+  `ksmserver-logout-greeter --windowed --lookandfeel org.lliphi.oscuro` (este con `timeout -s KILL 8`: tiene una cuenta atrás
+  de 30 s que ejecuta la acción). Comparación en `muestras/comparacion-linea-base-pantallas.png`, con la foto del autor pixelada.

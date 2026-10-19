@@ -13,6 +13,7 @@ Hasta que el autor elija el nombre (fase 3), la carpeta se llama `lliphi` y no e
 
 | fecha | qué | dónde se ve |
 |---|---|---|
+| 2026-10-19 | mejora 6: pantallas de carga y de salida de WhiteSur-dark con el fondo y el nombre de Lliphi | `docs/decisiones.md` 4.10, `muestras/comparacion-linea-base-pantallas.png` |
 | 2026-10-19 | mejora 5: Konsole con Lliphi Oscuro; el instalador fija el esquema en el perfil por defecto con respaldo | `docs/decisiones.md` 4.9, `muestras/comparacion-linea-base-konsole.png` |
 | 2026-10-19 | mejora 4: decoración Nothing con dos plus y títulos en Inter Medium (el instalador ahora emite `refreshFonts`) | `docs/decisiones.md` 4.8, `muestras/comparacion-linea-base-decoracion.png` |
 | 2026-10-18 | **mejora 3 sobre la línea base: iconos Papirus con carpetas rojas, aprobada por el autor a las 19:12** (decisiones 4.7): `Papirus-Dark`/`Papirus` en `defaults` del tema global, en el instalador (`plasma-changeicons`, Breeze de reserva) y en `dependencias.py` por defecto; prueba ampliada; **aplicado en la sesión del autor solo con `plasma-changeicons Papirus-Dark`** (respaldo `respaldos/2026-10-18_mejora3-iconos/REVERTIR-iconos.sh`) | `muestras/comparacion-linea-base-iconos.png`, `muestras/capturas/oscuro-21-*.png` |
@@ -39,6 +40,9 @@ Hasta que el autor elija el nombre (fase 3), la carpeta se llama `lliphi` y no e
 
 ## En curso
 
+- **mejora 6 (2026-10-19 07:47), espera el visto bueno del autor**: pantallas de carga y de salida derivadas de WhiteSur-dark
+  (docs/linea-base.md §2.6, decisiones 4.10). La de carga solo se verá de verdad en el próximo inicio de sesión; aquí se
+  comprobó en modo de prueba en ventana.
 - **mejora 5 (2026-10-19 07:41), aprobada por el autor**: Konsole con Lliphi Oscuro (solo `ColorScheme` del
   perfil; la fuente sigue siendo FiraCode Nerd Font). UNDO en `respaldos/2026-10-19_073925_mejora5-konsole/`. El cambio vive
   en `~/.dotfiles/konsole/.local/share/konsole/achalmaedison.profile`, sin commit en dotfiles: lo decide el autor.

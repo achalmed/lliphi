@@ -87,7 +87,7 @@ def test_ningun_hex_fuera_del_maestro():
         if f.suffix in (".colors", ".colorscheme", "") and f.is_file() and f.name != "defaults" and "aurorae" not in f.parts and not copia_whitesur:
             for m in re.findall(r"=(\d{1,3},\d{1,3},\d{1,3})\b", f.read_text(encoding="utf-8")):
                 assert m in permitidos_rgb, (f.name, m)
-        if f.suffix == ".svg" and "desktoptheme" not in f.parts and "kvantum" not in f.parts and "aurorae" not in f.parts and "icons" not in f.parts:
+        if f.suffix == ".svg" and "desktoptheme" not in f.parts and "kvantum" not in f.parts and "aurorae" not in f.parts and "icons" not in f.parts and "look-and-feel" not in f.parts:
             for h in re.findall(r"#[0-9a-fA-F]{6}\b", f.read_text(encoding="utf-8")):
                 assert h.lower() in hexes | {"#000000"}, (f.name, h)
         if f.suffix in (".toml", ".conf", ".json"):
@@ -447,3 +447,18 @@ def test_perfil_konsole_toma_el_esquema(tmp_path, monkeypatch):
     real.write_text("[General]\nName=yo\n", encoding="utf-8")
     instalar.fijar_esquema_konsole(perfil, "Lliphi Claro")
     assert real.read_text(encoding="utf-8").rstrip().endswith("[Appearance]\nColorScheme=Lliphi Claro")
+
+
+def test_pantallas_carga_y_salida():
+    """Mejora 6: splash y logout derivados de WhiteSur-dark, sin el logotipo de Apple, con el fondo dentro del paquete."""
+    for v in ("claro", "oscuro"):
+        base = GEN / "look-and-feel" / MARCA["id_global"][v] / "contents"
+        splash = (base / "splash" / "Splash.qml").read_text(encoding="utf-8")
+        assert "logo.svg" not in splash and 'font.family: "Inter"' in splash and MARCA["nombre"] in splash
+        assert not (base / "splash" / "images" / "logo.svg").exists()
+        assert (base / "splash" / "images" / "background.png").exists() and (base / "splash" / "images" / "loading-00.svg").exists()
+        salida = (base / "logout" / "Logout.qml").read_text(encoding="utf-8")
+        assert 'source: "background.png"' in salida and "wallpapers/WhiteSur" not in salida
+        for f in ("background.png", "LogoutButton.qml", "timer.js"):
+            assert (base / "logout" / f).exists(), (v, f)
+        assert f"Theme={MARCA['id_global'][v]}" in (base / "defaults").read_text(encoding="utf-8")

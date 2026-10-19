@@ -39,4 +39,4 @@ LayoutName=org.kde.breeze.desktop
 LayoutName=org.kde.breeze.desktop
 
 [KSplash]
-Theme=org.kde.breeze
+Theme=org.lliphi.claro

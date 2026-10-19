@@ -2,15 +2,22 @@
 
 Estructura (Calibre 10525; `/usr/share/plasma/look-and-feel/org.kde.breezedark.desktop`): `metadata.json` con
 `KPackageStructure` y `KPlugin`, `contents/defaults` con la sintaxis `[archivo][grupo]`, `contents/layouts/
-org.kde.plasma.desktop-layout.js` y `contents/previews/`. Hereda splash, bloqueo y cierre de sesión de Breeze
-con `X-KDE-fallbackPackage`; no trae ninguno propio en el primer lote."""
+org.kde.plasma.desktop-layout.js` y `contents/previews/`. El bloqueo lo hereda de Breeze con `X-KDE-fallbackPackage`.
+
+Mejora 6 (decisiones 4.10): la pantalla de carga (`contents/splash/`) y el diálogo de salida (`contents/logout/`) derivan
+de los de WhiteSur-dark (GPL-3.0; `fuentes/base/WhiteSur-kde/plasma/look-and-feel/`): fondo de Lliphi (el mismo que da
+`fondo.py`, copiado dentro del paquete para no depender de rutas relativas) y, en lugar del logotipo de Apple, el nombre
+del tema escrito en Inter con el punto en el color del acento. El indicador giratorio es el de WhiteSur; en la variante
+clara se oscurece con el token de texto. Lo derivado es GPL-3.0-or-later (REUSE.toml)."""
 from __future__ import annotations
 
 import json
 import shutil
 from pathlib import Path
 
-from . import RAIZ, VERSION, autores, escribir
+from . import RAIZ, VERSION, autores, escribir, fondo, semanticos
+
+WHITESUR = RAIZ / "fuentes" / "base" / "WhiteSur-kde" / "plasma" / "look-and-feel" / "com.github.vinceliuice.WhiteSur-dark" / "contents"
 
 LAYOUT = """// GENERADO por herramientas/generar.py desde tokens/; no editar.
 // Disposición de {nombre}: barra superior fina (lanzador, reloj, bandeja) y dock inferior flotante que se
@@ -66,7 +73,7 @@ def defaults(marca: dict, variante: str) -> str:
         f"theme=__aurorae__svg__{marca['id'] if variante == 'oscuro' else marca['id'] + '-claro'}", "ButtonsOnLeft=XIA", "ButtonsOnRight=", "",
         "[kwinrc][WindowSwitcher]", "LayoutName=org.kde.breeze.desktop", "",
         "[kwinrc][DesktopSwitcher]", "LayoutName=org.kde.breeze.desktop", "",
-        "[KSplash]", "Theme=org.kde.breeze", "",
+        "[KSplash]", f"Theme={marca['id_global'][variante]}", "",   # mejora 6: la pantalla de carga propia
     ])
 
 
@@ -88,6 +95,64 @@ def metadata(marca: dict, variante: str) -> str:
     }, ensure_ascii=False, indent=4) + "\n"
 
 
+LOGO_WHITESUR = """        Image {
+            id: logo
+            //match SDDM/lockscreen avatar positioning
+            property real size: units.gridUnit * 8
+
+            anchors.centerIn: parent
+
+            source: "images/logo.svg"
+
+//            sourceSize.width: 503
+//            sourceSize.height: 99
+        }"""
+
+LOGO_LLIPHI = """        Text {{
+            id: logo
+            // Lliphi: el nombre en Inter en lugar del logotipo de Apple de WhiteSur
+            anchors.centerIn: parent
+            textFormat: Text.StyledText
+            text: "{nombre}<font color='{acento}'>.</font>"
+            color: "{texto}"
+            font.family: "Inter"
+            font.weight: Font.Light
+            font.pixelSize: units.gridUnit * 4
+            font.letterSpacing: units.gridUnit * 0.15
+        }}"""
+
+FONDO_WHITESUR = 'source: "../../../../../wallpapers/WhiteSur-dark/contents/images/3840x2160.jpg"'
+
+
+def pantallas(tokens: dict, marca: dict, variante: str, base: Path, hechos: list[Path]) -> None:
+    """Mejora 6: pantalla de carga y diálogo de salida derivados de WhiteSur-dark."""
+    t = semanticos(tokens, variante)
+    cabecera = f"// GENERADO por herramientas/generar.py desde fuentes/base/WhiteSur-kde (GPL-3.0) y tokens/; no editar\n"
+    # pantalla de carga
+    for f in sorted((WHITESUR / "splash").rglob("*")):
+        if not f.is_file() or f.name in ("logo.svg", "Splash.qml", "background.png"):
+            continue
+        rel = f.relative_to(WHITESUR)
+        if f.suffix == ".svg":   # indicador blanco de WhiteSur; en la clara, el gris del texto
+            svg = f.read_text(encoding="utf-8")
+            escribir(base / "contents" / rel, svg if variante == "oscuro" else svg.replace("#ffffff", t["texto.normal"]), hechos)
+    qml = (WHITESUR / "splash" / "Splash.qml").read_text(encoding="utf-8")
+    assert LOGO_WHITESUR in qml, "cambió el Splash.qml de WhiteSur: revisar la sustitución del logotipo"
+    qml = qml.replace(LOGO_WHITESUR, LOGO_LLIPHI.format(nombre=marca["nombre"], acento=t["acento.base"], texto=t["texto.normal"]))
+    escribir(base / "contents" / "splash" / "Splash.qml", cabecera + qml, hechos)
+    imagen = fondo.imagen(t, 2560, 1440, variante)
+    for ruta in (base / "contents" / "splash" / "images" / "background.png", base / "contents" / "logout" / "background.png"):
+        ruta.parent.mkdir(parents=True, exist_ok=True)
+        imagen.save(ruta, optimize=True)
+        hechos.append(ruta)
+    # diálogo de salida: el de WhiteSur con el fondo de Lliphi dentro del paquete
+    for nombre in ("LogoutButton.qml", "timer.js"):
+        escribir(base / "contents" / "logout" / nombre, (WHITESUR / "logout" / nombre).read_text(encoding="utf-8"), hechos)
+    qml = (WHITESUR / "logout" / "Logout.qml").read_text(encoding="utf-8")
+    assert FONDO_WHITESUR in qml, "cambió el Logout.qml de WhiteSur: revisar la ruta del fondo"
+    escribir(base / "contents" / "logout" / "Logout.qml", cabecera + qml.replace(FONDO_WHITESUR, 'source: "background.png"'), hechos)
+
+
 def generar(tokens: dict, marca: dict, destino: Path) -> list[Path]:
     hechos: list[Path] = []
     for variante in ("claro", "oscuro"):
@@ -96,6 +161,7 @@ def generar(tokens: dict, marca: dict, destino: Path) -> list[Path]:
         escribir(base / "contents" / "defaults", defaults(marca, variante), hechos)
         escribir(base / "contents" / "layouts" / "org.kde.plasma.desktop-layout.js",
                  LAYOUT.format(nombre=marca["nombre"], fondo=marca["id_fondo"]), hechos)
+        pantallas(tokens, marca, variante, base, hechos)
         # Vistas previas: capturas reales de la fase 7 (muestras/capturas); si faltan, el boceto rotulado.
         captura = RAIZ / "muestras" / "capturas" / f"{variante}-02-lanzador.png"
         origen_previa = captura if captura.exists() else RAIZ / "muestras" / f"boceto-{variante}.png"

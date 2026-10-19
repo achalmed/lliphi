@@ -4,6 +4,16 @@ Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión de
 ## [Unreleased]
 
 ### Changed
+- Konsole (mejora 5): con `--aplicar-tema`, el perfil por defecto toma el esquema de Lliphi, con respaldo y
+  reversión; la fuente del perfil no se toca y un perfil enlazado (dotfiles) sigue enlazado.
+- Decoración (mejora 4): sobre Nothing, el anillo del botón de minimizar pasa de cian a gris y el título usa los grises de
+  Lliphi sin sombra, en las dos variantes.
+
+### Fixed
+- El instalador no recargaba las fuentes en vivo: los títulos de ventana seguían en la fuente anterior hasta reiniciar la
+  sesión. Ahora emite `refreshFonts` y `notifyChange` de fuentes.
+
+### Changed
 - Mejora 1 sobre la línea base (decisiones 4.5): `LliphiOscuro.colors` y `LliphiClaro.colors` son WhiteSurDark y
   WhiteSur con solo el acento tomado de los tokens (foco, hover, enlace, texto activo y el grupo de selección en rojo);
   cada otro valor se copia byte a byte, lo verifica `test_esquema_linea_base_solo_acento`. Captura de comparación en
