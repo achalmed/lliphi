@@ -41,7 +41,7 @@ Hasta que el autor elija el nombre (fase 3), la carpeta se llama `lliphi` y no e
 
 ## En curso
 
-- **mejora 7 (2026-10-19 07:55), espera el visto bueno del autor**: inicio de sesión SDDM de Lliphi instalado en
+- **mejora 7 (2026-10-19 07:55), aprobada por el autor**: inicio de sesión SDDM de Lliphi instalado en
   `/usr/share/sddm/themes/lliphi` con `/etc/sddm.conf.d/99-lliphi.conf`; comprobado en `sddm-greeter-qt6 --test-mode`, falta
   verlo en un inicio real. La copia instalada lleva la vista previa provisional (el `preview.png` final se generó después;
   solo lo muestra el módulo de SDDM de Preferencias y se actualiza en la próxima instalación).

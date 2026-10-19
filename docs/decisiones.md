@@ -178,4 +178,4 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   fuente en `[Theme] Font` de `/etc/sddm.conf.d/99-lliphi.conf` y en `font=` de `theme.conf`. `Kirigami.Theme.defaultFont` es
   de solo lectura: asignarlo hace que SDDM muestre su pantalla de error. Es la única pieza con root:
   `herramientas/instalar_sddm.py --aplicar` usa pkexec (la contraseña la escribe el autor) y deja `UNDO.sh`. Las caras de los
-  usuarios son las de AccountsService, no del tema. Comparación en `muestras/comparacion-linea-base-inicio-de-sesion.png`.
+  usuarios son las de AccountsService, no del tema. Comparación en `muestras/comparacion-linea-base-inicio-de-sesion.png`. Aprobada por el autor el 2026-10-19.
