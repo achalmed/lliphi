@@ -37,6 +37,11 @@ Hasta que el autor elija el nombre (fase 3), la carpeta se llama `lliphi` y no e
 
 ## En curso
 
+- **2026-10-19 07:30, deriva en la sesión del autor**: a las 23:16 del 18 se aplicó el tema global WhiteSur-dark (cambió
+  `kdeglobals` y a las 23:53 `kwinrc`, enlazados a `~/.dotfiles`): esquema `WhiteSurDark` (azul), iconos `WhiteSur-dark`,
+  decoración `__aurorae__svg__WhiteSur-dark`. Siguen Kvantum `LliphiOscuro`, Inter/Hack, cursores WhiteSur y `XIA`. No se
+  revierte sin el autor: se le pregunta si vuelve a la línea base de Lliphi (`instalar.py --aplicar --aplicar-tema oscuro`,
+  con UNDO) antes de la mejora 4.
 - **línea base cerrada (19:12)**: las tres mejoras de `docs/linea-base.md` §2 (acento rojo, variante clara, Papirus con
   carpetas rojas) están hechas, aprobadas por el autor y aplicadas en su sesión (la clara solo en sesión anidada); el tema
   global reproduce esa configuración. No hay tarea abierta: lo siguiente sale de §Por hacer (publicar una versión con las
