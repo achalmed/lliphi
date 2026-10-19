@@ -42,3 +42,7 @@ el esquema rojo de los tokens. Quedan en el repositorio como piezas opcionales.
    fuentes en vivo); decisiones 4.8; comparación en `muestras/comparacion-linea-base-decoracion.png`. Aplicada en la sesión
    con `instalar.py --modulos decoracion --aplicar`; se revierte con el `UNDO.sh` de
    `~/.local/state/lliphi/respaldos/2026-10-19_073454/`.
+5. **Hecha (2026-10-19 07:41), pendiente del visto bueno del autor**: Konsole con el esquema Lliphi Oscuro y la misma
+   FiraCode Nerd Font (decisiones 4.9); comparación en `muestras/comparacion-linea-base-konsole.png`. Aplicada en el perfil
+   `achalmaedison.profile` (enlace a `~/.dotfiles`, que queda con ese cambio sin commit); se revierte con
+   `~/.local/state/lliphi/respaldos/2026-10-19_073925_mejora5-konsole/UNDO.sh`.

@@ -128,6 +128,43 @@ def ajeno(origen: Path, destino: Path) -> bool:
     return sha_dir(destino) != sha_dir(origen)
 
 
+def perfil_konsole() -> Path | None:
+    """El perfil por defecto de Konsole (`konsolerc` → [Desktop Entry] DefaultProfile), si existe en XDG_DATA_HOME."""
+    rc = CONFIG / "konsolerc"
+    if not rc.exists():
+        return None
+    grupo = None
+    for linea in rc.read_text(encoding="utf-8", errors="ignore").splitlines():
+        if linea.startswith("["):
+            grupo = linea.strip()
+        elif grupo == "[Desktop Entry]" and linea.startswith("DefaultProfile="):
+            perfil = DATA / "konsole" / linea.split("=", 1)[1].strip()
+            return perfil if perfil.exists() else None
+    return None
+
+
+def fijar_esquema_konsole(perfil: Path, esquema: str) -> None:
+    """Mejora 5: escribe `ColorScheme=<esquema>` en [Appearance] y deja intacto lo demás (fuente, historial…).
+    Se edita el archivo real: si el perfil es un enlace (dotfiles con stow) el enlace se conserva."""
+    real = perfil.resolve()
+    lineas = real.read_text(encoding="utf-8").splitlines()
+    grupo, hecho, salida = None, False, []
+    for linea in lineas:
+        if linea.startswith("["):
+            if grupo == "[Appearance]" and not hecho:
+                salida.append(f"ColorScheme={esquema}"); hecho = True
+            grupo = linea.strip()
+        elif grupo == "[Appearance]" and linea.startswith("ColorScheme="):
+            linea, hecho = f"ColorScheme={esquema}", True
+        salida.append(linea)
+    if not hecho:
+        if grupo == "[Appearance]":
+            salida.append(f"ColorScheme={esquema}")
+        else:
+            salida += ["", "[Appearance]", f"ColorScheme={esquema}"]
+    real.write_text("\n".join(salida) + "\n", encoding="utf-8")
+
+
 def respaldar(aplicar: bool) -> Path:
     sello = datetime.now().strftime("%Y-%m-%d_%H%M%S")
     carpeta = STATE / "respaldos" / sello
@@ -143,6 +180,16 @@ def respaldar(aplicar: bool) -> Path:
                     raise SystemExit(f"respaldo no verificado: {rel}")
             sumas[rel] = sha(origen)
             print(f"  {'respaldado' if aplicar else 'SIM respaldar'} {rel}")
+    perfil = perfil_konsole()
+    if perfil:
+        destino = carpeta / "data" / "konsole" / perfil.name
+        if aplicar:
+            destino.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(perfil.resolve(), destino)
+            if sha(perfil) != sha(destino):
+                raise SystemExit(f"respaldo no verificado: konsole/{perfil.name}")
+        sumas[f"konsole/{perfil.name}"] = sha(perfil)
+        print(f"  {'respaldado' if aplicar else 'SIM respaldar'} perfil de Konsole {perfil.name}")
     if aplicar:
         carpeta.mkdir(parents=True, exist_ok=True)
         (carpeta / "sumas.json").write_text(json.dumps(sumas, indent=2) + "\n", encoding="utf-8")
@@ -154,6 +201,9 @@ def escribir_undo(carpeta: Path, rutas: list[Path]) -> None:
               "set -euo pipefail", f'CONFIG="{CONFIG}"', f'RESPALDO="{carpeta}"', ""]
     for rel in CONFIGS:
         lineas.append(f'[ -f "$RESPALDO/config/{rel}" ] && mkdir -p "$(dirname "$CONFIG/{rel}")" && cp -p "$RESPALDO/config/{rel}" "$CONFIG/{rel}" && echo "restaurado {rel}"')
+    perfil = perfil_konsole()
+    if perfil:
+        lineas.append(f'[ -f "$RESPALDO/data/konsole/{perfil.name}" ] && cp -p "$RESPALDO/data/konsole/{perfil.name}" "{perfil}" && echo "restaurado perfil de Konsole {perfil.name}"')
     for r in rutas:
         lineas.append(f'rm -rf "{r}" && echo "retirado {r}"')
     lineas += [f'rm -f "{MANIFIESTO}"', 'echo "Listo. Cierra la sesión y vuelve a entrar para que Plasma relea la configuración."']
@@ -257,6 +307,14 @@ def instalar(modulos: list[str], aplicar: bool, aplicar_tema: str | None) -> int
                 if shutil.which("qdbus6"):
                     subprocess.run(["qdbus6", "org.kde.KWin", "/KWin", "org.kde.KWin.reconfigure"], capture_output=True, text=True)
                 print(f"  decoración aplicada: __aurorae__svg__{deco}")
+            # mejora 5: el perfil por defecto de Konsole toma el esquema de Lliphi; la fuente y lo demás no se tocan
+            perfil = perfil_konsole()
+            esquema_konsole = MARCA["nombre_esquema"][aplicar_tema]
+            if "konsole" in modulos and perfil and (DATA / "konsole" / f"{esquema_konsole}.colorscheme").exists():
+                fijar_esquema_konsole(perfil, esquema_konsole)
+                print(f"  Konsole: perfil {perfil.name} con el esquema {esquema_konsole} (ventanas nuevas)")
+            elif "konsole" in modulos:
+                print("  Konsole: sin perfil por defecto propio; elige el esquema en Configurar Konsole → Perfiles")
     print("hecho." if aplicar else "nada escrito; añade --aplicar para instalar.")
     return 0
 

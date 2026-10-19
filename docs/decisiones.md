@@ -160,3 +160,8 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   Inter Medium en `[WM] activeFont` pero emitía la señal de paleta (`notifyChange 0`) y no la de fuentes, así que KWin seguía
   dibujando los títulos en Hack hasta reiniciar la sesión; ahora emite `org.kde.KDEPlatformTheme.refreshFonts`, la misma del
   módulo de Tipografías. Comparación en `muestras/comparacion-linea-base-decoracion.png`. Aprobada por el autor el 2026-10-19.
+- **4.9 (2026-10-19) Mejora 5: Konsole con el esquema Lliphi Oscuro.** El perfil por defecto del autor usaba Breeze; ahora
+  toma `Lliphi Oscuro` (fondo casi negro, ANSI de los tokens, opacidad 0,86 con desenfoque) y conserva FiraCode Nerd Font,
+  que el prompt y `lsd` necesitan para sus iconos. El instalador, con `--aplicar-tema`, respalda el perfil por defecto
+  (`konsolerc` → `DefaultProfile`), cambia solo `ColorScheme` en `[Appearance]` y edita el archivo real para no romper el
+  enlace de dotfiles; `UNDO.sh` lo restaura. Comparación en `muestras/comparacion-linea-base-konsole.png`.

@@ -13,6 +13,7 @@ Hasta que el autor elija el nombre (fase 3), la carpeta se llama `lliphi` y no e
 
 | fecha | qué | dónde se ve |
 |---|---|---|
+| 2026-10-19 | mejora 5: Konsole con Lliphi Oscuro; el instalador fija el esquema en el perfil por defecto con respaldo | `docs/decisiones.md` 4.9, `muestras/comparacion-linea-base-konsole.png` |
 | 2026-10-19 | mejora 4: decoración Nothing con dos plus y títulos en Inter Medium (el instalador ahora emite `refreshFonts`) | `docs/decisiones.md` 4.8, `muestras/comparacion-linea-base-decoracion.png` |
 | 2026-10-18 | **mejora 3 sobre la línea base: iconos Papirus con carpetas rojas, aprobada por el autor a las 19:12** (decisiones 4.7): `Papirus-Dark`/`Papirus` en `defaults` del tema global, en el instalador (`plasma-changeicons`, Breeze de reserva) y en `dependencias.py` por defecto; prueba ampliada; **aplicado en la sesión del autor solo con `plasma-changeicons Papirus-Dark`** (respaldo `respaldos/2026-10-18_mejora3-iconos/REVERTIR-iconos.sh`) | `muestras/comparacion-linea-base-iconos.png`, `muestras/capturas/oscuro-21-*.png` |
 | 2026-10-18 | **mejora 2 sobre la línea base: variante clara comprobada en sesión anidada, aprobada por el autor a las 18:58** (decisiones 4.6, `validacion.md` §7): `org.lliphi.claro` (WhiteSur claro + `LliphiClaro` rojo + `lliphi-claro` + Kvantum `LliphiClaro`) instalado y aplicado en `/tmp/casa-lliphi-m2`; corregido el Kvantum claro (foco y deslizadores azules `#0860f2`); 19 pruebas en verde, sin deriva. **Nada aplicado en la sesión del autor** | `muestras/comparacion-linea-base-clara.png`, `muestras/capturas/claro-10-*.png`, `claro-11-*.png` |
@@ -38,6 +39,9 @@ Hasta que el autor elija el nombre (fase 3), la carpeta se llama `lliphi` y no e
 
 ## En curso
 
+- **mejora 5 (2026-10-19 07:41), espera el visto bueno del autor**: Konsole con Lliphi Oscuro (solo `ColorScheme` del
+  perfil; la fuente sigue siendo FiraCode Nerd Font). UNDO en `respaldos/2026-10-19_073925_mejora5-konsole/`. El cambio vive
+  en `~/.dotfiles/konsole/.local/share/konsole/achalmaedison.profile`, sin commit en dotfiles: lo decide el autor.
 - **mejora 4 (2026-10-19 07:36), aprobada por el autor**: la línea base se restauró en su sesión a las 07:29 a
   petición suya (`instalar.py --aplicar --aplicar-tema oscuro`; UNDO en `respaldos/2026-10-19_072920/`, que devuelve el
   WhiteSur-dark que había aplicado la noche anterior). Mejora 4 = decoración Nothing con anillo de minimizar gris, título en los

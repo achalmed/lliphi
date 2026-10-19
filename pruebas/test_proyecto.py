@@ -418,3 +418,32 @@ def test_reuse_lint():
     reuse = shutil.which("reuse") or str(RAIZ / ".venv/bin/reuse")
     r = subprocess.run([reuse, "lint"], cwd=RAIZ, capture_output=True, text=True)
     assert r.returncode == 0, r.stdout[-3000:]
+
+
+def test_perfil_konsole_toma_el_esquema(tmp_path, monkeypatch):
+    """Mejora 5: el perfil por defecto de Konsole toma el esquema de Lliphi sin perder la fuente ni el enlace de dotfiles."""
+    import importlib.util
+    monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path / "data"))
+    monkeypatch.setenv("XDG_CONFIG_HOME", str(tmp_path / "config"))
+    monkeypatch.setenv("XDG_STATE_HOME", str(tmp_path / "state"))
+    spec = importlib.util.spec_from_file_location("instalar_prueba", RAIZ / "herramientas" / "instalar.py")
+    instalar = importlib.util.module_from_spec(spec); spec.loader.exec_module(instalar)
+    real = tmp_path / "dotfiles" / "yo.profile"
+    real.parent.mkdir(parents=True)
+    real.write_text("[Appearance]\nColorScheme=Breeze\nFont=FiraCode Nerd Font,10\n\n[General]\nName=yo\n", encoding="utf-8")
+    (tmp_path / "data" / "konsole").mkdir(parents=True)
+    enlace = tmp_path / "data" / "konsole" / "yo.profile"
+    enlace.symlink_to(real)
+    (tmp_path / "config").mkdir()
+    (tmp_path / "config" / "konsolerc").write_text("[Desktop Entry]\nDefaultProfile=yo.profile\n", encoding="utf-8")
+    perfil = instalar.perfil_konsole()
+    assert perfil == enlace
+    instalar.fijar_esquema_konsole(perfil, "Lliphi Oscuro")
+    texto = real.read_text(encoding="utf-8")
+    assert enlace.is_symlink()
+    assert "ColorScheme=Lliphi Oscuro" in texto and "ColorScheme=Breeze" not in texto
+    assert "Font=FiraCode Nerd Font,10" in texto and "Name=yo" in texto
+    # un perfil sin [Appearance] la gana al final
+    real.write_text("[General]\nName=yo\n", encoding="utf-8")
+    instalar.fijar_esquema_konsole(perfil, "Lliphi Claro")
+    assert real.read_text(encoding="utf-8").rstrip().endswith("[Appearance]\nColorScheme=Lliphi Claro")

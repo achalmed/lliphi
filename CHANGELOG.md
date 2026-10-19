@@ -5,6 +5,8 @@ Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión de
 ## [Unreleased]
 
 ### Changed
+- Konsole (mejora 5): con `--aplicar-tema`, el perfil por defecto toma el esquema de Lliphi, con respaldo y
+  reversión; la fuente del perfil no se toca y un perfil enlazado (dotfiles) sigue enlazado.
 - Decoración (mejora 4): sobre Nothing, el anillo del botón de minimizar pasa de cian a gris y el título usa los grises de
   Lliphi sin sombra, en las dos variantes.
 
