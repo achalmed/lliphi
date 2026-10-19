@@ -17,7 +17,7 @@ y pidió un solo cambio: la tipografía, a una de estilo Apple. Desde aquí se m
 | estilo de Plasma | `WhiteSur-dark` (con su `colors`) | WhiteSur-kde | `lliphi-oscuro` = copia tal cual, metadata propia, fondo de Lliphi en `plasmarc` |
 | estilo de widgets | `kvantum-dark`, tema Kvantum `LliphiOscuro` | WhiteSur-kde recoloreado con los tokens (rojo) | `generado/kvantum/LliphiOscuro` |
 | decoración | Aurorae V2 `__aurorae__svg__Nothing`, botones `XIA` a la izquierda | Nothing (GPL-3.0-or-later) | `lliphi` = Nothing tal cual con barra de 18 px |
-| iconos | `breeze-dark` → `Papirus-Dark` con carpetas rojas (mejora 3, decisiones 4.7, en evaluación) | KDE → Papirus (GPL-3.0, descargado por `dependencias.py`) | `defaults` e instalador; Breeze de reserva |
+| iconos | `breeze-dark` → `Papirus-Dark` con carpetas rojas (mejora 3, decisiones 4.7, aprobada) | KDE → Papirus (GPL-3.0, descargado por `dependencias.py`) | `defaults` e instalador; Breeze de reserva |
 | cursores | `WhiteSur-cursors` | KDE Store 1411743 (GPL-3.0) | `defaults`; dependencia externa (no se redistribuye) |
 | menús Qt | Breeze `MenuOpacity=80` | — | instalador |
 | tipografía (cambiada hoy) | **Inter 10** (interfaz, menús, barras; Inter Medium en títulos), **Hack 10** (monoespaciada) | Inter (OFL, instalada), Hack (MIT, instalada) | `defaults` e instalador |
@@ -26,7 +26,7 @@ y pidió un solo cambio: la tipografía, a una de estilo Apple. Desde aquí se m
 Lo que **no** está activo: el estilo de Plasma de cristal propio de 0.2.0 (`lliphi` con SVG generados), Papirus, Bibata y
 el esquema rojo de los tokens. Quedan en el repositorio como piezas opcionales.
 
-## 2. Qué sigue (una mejora por vez, con captura y visto bueno)
+## 2. Mejoras (una por vez, con captura y visto bueno): las tres aprobadas, línea base cerrada el 2026-10-18 a las 19:12
 
 1. **Hecha y aprobada por el autor (18:35)**: acento rojo de Lliphi en el esquema sin tocar lo demás (`LliphiOscuro.colors`,
    decisiones 4.5); comparación en `muestras/comparacion-linea-base-acento.png`; aplicada en la sesión con
@@ -34,6 +34,6 @@ el esquema rojo de los tokens. Quedan en el repositorio como piezas opcionales.
 2. **Hecha y aprobada por el autor (18:58)**: variante clara equivalente (`org.lliphi.claro`: WhiteSur + `LliphiClaro` rojo +
    `lliphi-claro` + Kvantum `LliphiClaro`) comprobada en sesión anidada (decisiones 4.6, `validacion.md` §7); comparación
    en `muestras/comparacion-linea-base-clara.png`. No aplicada en la sesión del autor.
-3. **Hecha, en evaluación (19:05)**: Papirus-Dark con carpetas rojas junto a esta base (decisiones 4.7); aplicada en la
+3. **Hecha y aprobada por el autor (19:12)**: Papirus-Dark con carpetas rojas junto a esta base (decisiones 4.7); aplicada en la
    sesión con `plasma-changeicons Papirus-Dark`; comparación en `muestras/comparacion-linea-base-iconos.png`; se revierte
    con `plasma-changeicons breeze-dark`.

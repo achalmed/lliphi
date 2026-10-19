@@ -153,4 +153,4 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   (claro) pasan a `defaults` del tema global, al instalador (`plasma-changeicons`, con Breeze de reserva) y a las
   dependencias por defecto; Bibata sigue opcional. Aplicado en la sesión del autor solo con
   `plasma-changeicons Papirus-Dark` (reversión: `plasma-changeicons breeze-dark`). Pendiente de su visto bueno sobre
-  `muestras/comparacion-linea-base-iconos.png`.
+  `muestras/comparacion-linea-base-iconos.png`. Aprobada por el autor a las 19:12: con ella se cierra la línea base.
