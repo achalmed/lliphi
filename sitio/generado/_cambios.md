@@ -3,6 +3,10 @@ Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión de
 
 ## [Unreleased]
 
+### Added
+- Pantallas de carga y de salida (mejora 6), derivadas de WhiteSur-dark: fondo de Lliphi y el nombre en Inter con el
+  punto en el acento en lugar del logotipo de Apple. Antes el tema declaraba una pantalla de carga que no traía.
+
 ### Changed
 - Konsole (mejora 5): con `--aplicar-tema`, el perfil por defecto toma el esquema de Lliphi, con respaldo y
   reversión; la fuente del perfil no se toca y un perfil enlazado (dotfiles) sigue enlazado.

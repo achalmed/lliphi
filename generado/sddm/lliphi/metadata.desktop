@@ -1,0 +1,16 @@
+[SddmGreeterTheme]
+Name=Lliphi
+Description=Inicio de sesión de Lliphi, derivado de WhiteSur-dark
+Author=Edison Achalma
+Copyright=(c) 2014 David Edmundson; WhiteSur-dark de Vince Liuice
+License=GPL-3.0-or-later
+Type=sddm-theme
+Version=0.2.0
+Website=https://achalmaedison.netlify.app
+Screenshot=preview.png
+MainScript=Main.qml
+ConfigFile=theme.conf
+TranslationsDirectory=translations
+Theme-Id=lliphi
+Theme-API=2.0
+QtVersion=6

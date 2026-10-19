@@ -18,12 +18,12 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from destinos import RAIZ, cargar, kvantum  # noqa: E402
-from destinos import aurorae, desktoptheme, editores, esquema, fondo, konsole, kvantum, libreoffice, lookandfeel, sitio, terminales  # noqa: E402
+from destinos import aurorae, desktoptheme, editores, esquema, fondo, konsole, kvantum, libreoffice, lookandfeel, sddm, sitio, terminales  # noqa: E402
 
 GENERADO = RAIZ / "generado"
 DESTINOS = {"esquema": esquema, "global": lookandfeel, "estilo": desktoptheme, "konsole": konsole, "fondos": fondo,
             "terminales": terminales, "editores": editores, "libreoffice": libreoffice,
-            "decoracion": aurorae, "sitio": sitio, "kvantum": kvantum}
+            "decoracion": aurorae, "sitio": sitio, "kvantum": kvantum, "sddm": sddm}
 # el sitio se genera dentro de sitio/generado/ (Quarto solo renderiza lo que cuelga de su proyecto)
 BASES = {"sitio": RAIZ / "sitio" / "generado"}
 

@@ -51,3 +51,7 @@ el esquema rojo de los tokens. Quedan en el repositorio como piezas opcionales.
    Instalada con `instalar.py --modulos global --aplicar`; para volver a las de Breeze basta reinstalar el tema global desde el
    commit anterior (`git checkout d10cfa2 -- herramientas/destinos/lookandfeel.py`, regenerar e instalar) o, solo para la carga,
    `kwriteconfig6 --file ksplashrc --group KSplash --key Theme org.kde.Breeze`.
+7. **Hecha (2026-10-19 07:55), pendiente del visto bueno del autor**: inicio de sesión SDDM derivado de WhiteSur-dark
+   (decisiones 4.11); comparación en `muestras/comparacion-linea-base-inicio-de-sesion.png`. Instalado con
+   `herramientas/instalar_sddm.py --aplicar` (pkexec); se verá en el próximo inicio. Se revierte con
+   `~/.local/state/lliphi/respaldos/2026-10-19_075442_sddm/UNDO.sh` (vuelve al de Kubuntu).

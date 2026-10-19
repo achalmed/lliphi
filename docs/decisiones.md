@@ -172,3 +172,10 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   previsualizan sin cerrar la sesión con `ksplashqml org.lliphi.oscuro --test --window` y
   `ksmserver-logout-greeter --windowed --lookandfeel org.lliphi.oscuro` (este con `timeout -s KILL 8`: tiene una cuenta atrás
   de 30 s que ejecuta la acción). Comparación en `muestras/comparacion-linea-base-pantallas.png`, con la foto del autor pixelada. Aprobada por el autor el 2026-10-19.
+- **4.11 (2026-10-19) Mejora 7: inicio de sesión (SDDM) derivado de WhiteSur-dark.** Sustituye al de Kubuntu: fondo de
+  Lliphi, Inter y un borde en el rojo del acento cuando el campo tiene el foco; sin logotipo. El saludador de SDDM no lee la
+  configuración del autor, así que el rojo va en el propio tema (`Kirigami.Theme.highlightColor` y el borde del campo) y la
+  fuente en `[Theme] Font` de `/etc/sddm.conf.d/99-lliphi.conf` y en `font=` de `theme.conf`. `Kirigami.Theme.defaultFont` es
+  de solo lectura: asignarlo hace que SDDM muestre su pantalla de error. Es la única pieza con root:
+  `herramientas/instalar_sddm.py --aplicar` usa pkexec (la contraseña la escribe el autor) y deja `UNDO.sh`. Las caras de los
+  usuarios son las de AccountsService, no del tema. Comparación en `muestras/comparacion-linea-base-inicio-de-sesion.png`.

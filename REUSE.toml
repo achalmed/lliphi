@@ -32,3 +32,11 @@ precedence = "aggregate"
 SPDX-FileCopyrightText = ["vinceliuice (WhiteSur-dark)", "2018 David Edmundson (timer.js)", "2026 Edison Achalma (adaptación a Lliphi)"]
 SPDX-License-Identifier = "GPL-3.0-or-later"
 # Logout.qml, LogoutButton.qml y timer.js traen además su cabecera SPDX de KDE (GPL-2.0-or-later, compatible): se conserva
+
+# Inicio de sesión SDDM (mejora 7): deriva del de WhiteSur-dark (vinceliuice), que deriva del de Breeze (David Edmundson);
+# los QML conservan su cabecera SPDX LGPL-2.0-or-later de KDE
+[[annotations]]
+path = ["generado/sddm/**"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = ["2014-2016 David Edmundson (Breeze)", "vinceliuice (WhiteSur-dark)", "2026 Edison Achalma (adaptación a Lliphi)"]
+SPDX-License-Identifier = "GPL-3.0-or-later"

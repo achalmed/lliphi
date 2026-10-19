@@ -13,6 +13,7 @@ Hasta que el autor elija el nombre (fase 3), la carpeta se llama `lliphi` y no e
 
 | fecha | qué | dónde se ve |
 |---|---|---|
+| 2026-10-19 | mejora 7: inicio de sesión SDDM derivado de WhiteSur-dark (fondo de Lliphi, Inter, foco rojo); instalador con pkexec y UNDO | `docs/decisiones.md` 4.11, `muestras/comparacion-linea-base-inicio-de-sesion.png` |
 | 2026-10-19 | mejora 6: pantallas de carga y de salida de WhiteSur-dark con el fondo y el nombre de Lliphi | `docs/decisiones.md` 4.10, `muestras/comparacion-linea-base-pantallas.png` |
 | 2026-10-19 | mejora 5: Konsole con Lliphi Oscuro; el instalador fija el esquema en el perfil por defecto con respaldo | `docs/decisiones.md` 4.9, `muestras/comparacion-linea-base-konsole.png` |
 | 2026-10-19 | mejora 4: decoración Nothing con dos plus y títulos en Inter Medium (el instalador ahora emite `refreshFonts`) | `docs/decisiones.md` 4.8, `muestras/comparacion-linea-base-decoracion.png` |
@@ -40,6 +41,10 @@ Hasta que el autor elija el nombre (fase 3), la carpeta se llama `lliphi` y no e
 
 ## En curso
 
+- **mejora 7 (2026-10-19 07:55), espera el visto bueno del autor**: inicio de sesión SDDM de Lliphi instalado en
+  `/usr/share/sddm/themes/lliphi` con `/etc/sddm.conf.d/99-lliphi.conf`; comprobado en `sddm-greeter-qt6 --test-mode`, falta
+  verlo en un inicio real. La copia instalada lleva la vista previa provisional (el `preview.png` final se generó después;
+  solo lo muestra el módulo de SDDM de Preferencias y se actualiza en la próxima instalación).
 - **mejora 6 (2026-10-19 07:47), aprobada por el autor**: pantallas de carga y de salida derivadas de WhiteSur-dark
   (docs/linea-base.md §2.6, decisiones 4.10). La de carga solo se verá de verdad en el próximo inicio de sesión; aquí se
   comprobó en modo de prueba en ventana.

@@ -462,3 +462,19 @@ def test_pantallas_carga_y_salida():
         for f in ("background.png", "LogoutButton.qml", "timer.js"):
             assert (base / "logout" / f).exists(), (v, f)
         assert f"Theme={MARCA['id_global'][v]}" in (base / "defaults").read_text(encoding="utf-8")
+
+
+def test_inicio_de_sesion_sddm():
+    """Mejora 7: tema SDDM derivado de WhiteSur-dark con fondo de Lliphi, Inter, foco en el acento y sin logotipo."""
+    base = GEN / "sddm" / MARCA["id"]
+    for f in ("Main.qml", "Login.qml", "Input.qml", "Background.qml", "metadata.desktop", "theme.conf", "background.png", "preview.png"):
+        assert (base / f).exists(), f
+    conf = (base / "theme.conf").read_text(encoding="utf-8")
+    assert "font=Inter" in conf and "showlogo=hidden" in conf and "background=background.png" in conf
+    meta = (base / "metadata.desktop").read_text(encoding="utf-8")
+    assert f"Name={MARCA['nombre']}" in meta and f"Theme-Id={MARCA['id']}" in meta and "QtVersion=6" in meta
+    assert "Kirigami.Theme.highlightColor" in (base / "Main.qml").read_text(encoding="utf-8")
+    assert "border.color" in (base / "Input.qml").read_text(encoding="utf-8")
+    assert "defaultFont" not in (base / "Main.qml").read_text(encoding="utf-8"), "Kirigami.Theme.defaultFont es de solo lectura: rompe el tema"
+    r = correr("herramientas/instalar_sddm.py")
+    assert r.returncode in (0, 3) and "pkexec" not in r.stderr
