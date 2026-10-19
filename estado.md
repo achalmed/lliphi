@@ -13,6 +13,7 @@ Hasta que el autor elija el nombre (fase 3), la carpeta se llama `lliphi` y no e
 
 | fecha | qué | dónde se ve |
 |---|---|---|
+| 2026-10-19 | mejora 9: JetBrains Mono Nerd Font como única monoespaciada (sistema y Konsole), descargada por `dependencias.py` | `docs/decisiones.md` 4.14, `muestras/comparacion-linea-base-monoespaciada.png` |
 | 2026-10-19 | mejora 8: acento por variante (rojo oscuro, azul de WhiteSur claro) y acento en el estilo de Plasma | `docs/decisiones.md` 4.12–4.13, `muestras/comparacion-linea-base-acento-plasma.png` |
 | 2026-10-19 | mejora 7: inicio de sesión SDDM derivado de WhiteSur-dark (fondo de Lliphi, Inter, foco rojo); instalador con pkexec y UNDO | `docs/decisiones.md` 4.11, `muestras/comparacion-linea-base-inicio-de-sesion.png` |
 | 2026-10-19 | mejora 6: pantallas de carga y de salida de WhiteSur-dark con el fondo y el nombre de Lliphi | `docs/decisiones.md` 4.10, `muestras/comparacion-linea-base-pantallas.png` |
@@ -42,6 +43,8 @@ Hasta que el autor elija el nombre (fase 3), la carpeta se llama `lliphi` y no e
 
 ## En curso
 
+- **mejora 9 (2026-10-19 08:08), espera el visto bueno del autor**: JetBrains Mono (Nerd Font) como única monoespaciada
+  (sistema y Konsole); Inter se queda; IBM Plex Sans descartada para el escritorio (decisiones 4.14).
 - **mejora 8 (2026-10-19 08:05), espera el visto bueno del autor**: un acento por variante (rojo oscuro, azul de WhiteSur
   claro) y el acento en el estilo de Plasma. La variante clara solo se comprobó en archivos y pruebas, no en pantalla.
 - **mejora 7 (2026-10-19 07:55), aprobada por el autor**: inicio de sesión SDDM de Lliphi instalado en

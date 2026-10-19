@@ -4,7 +4,9 @@
 Línea base (docs/linea-base.md):
 - Cursores: WhiteSur-cursors (GPL-3.0; vinceliuice; KDE Store 1411743). El repositorio no publica versiones: se toma
   `dist/` del tarball de la rama principal.
-- Tipografías: Inter (OFL) y Hack (MIT) vienen de la distribución (`fonts-inter`, `fonts-hack`); aquí solo se comprueban.
+- Tipografías (mejora 9, decisiones 4.14): Inter (OFL) viene de la distribución (`fonts-inter`) y aquí solo se comprueba;
+  la monoespaciada es JetBrains Mono en su versión Nerd Font (OFL; ryanoasis/nerd-fonts), que añade los iconos que usan
+  el prompt y `lsd`: se descarga de la última versión publicada a `$XDG_DATA_HOME/fonts/JetBrainsMonoNerdFont/`.
 - Iconos (mejora 3, decisiones 4.7): Papirus (Papirus, Papirus-Dark, Papirus-Light; GPL-3.0; PapirusDevelopmentTeam) con
   las carpetas en rojo, como hace `papirus-folders` (se enlazan los `folder-red-*` sobre los `folder-*`); heredan de Breeze.
 Opcionales (`--opcionales`; piezas probadas en 0.2.0 que el autor dejó fuera de la línea base):
@@ -36,6 +38,9 @@ ICONOS = DATA / "icons"
 
 PAPIRUS = {"repo": "PapirusDevelopmentTeam/papirus-icon-theme", "temas": ["Papirus", "Papirus-Dark", "Papirus-Light"], "licencia": "GPL-3.0-only"}
 BIBATA = {"repo": "ful1e5/Bibata_Cursor", "activos": {"Bibata-Modern-Classic.tar.xz": "Bibata-Modern-Classic", "Bibata-Modern-Ice.tar.xz": "Bibata-Modern-Ice"}, "licencia": "GPL-3.0-only"}
+FUENTE_MONO = {"repo": "ryanoasis/nerd-fonts", "activo": "JetBrainsMono.tar.xz", "familia": "JetBrainsMono Nerd Font",
+               "carpeta": "JetBrainsMonoNerdFont", "licencia": "OFL-1.1"}
+FUENTES = Path(os.environ.get("XDG_DATA_HOME") or HOME / ".local" / "share") / "fonts"
 WHITESUR_CURSORES = {"repo": "vinceliuice/WhiteSur-cursors", "tema": "WhiteSur-cursors", "licencia": "GPL-3.0-only"}
 COLOR_CARPETAS = "red"   # el acento de Lliphi; papirus-folders admite red, orange, yellow, green, teal, blue, violet, …
 
@@ -130,11 +135,34 @@ def whitesur_cursores(aplicar: bool) -> None:
     print(f"  {tema} instalado: {len(miembros)} archivos")
 
 
-def fuentes() -> None:
+def familias() -> set[str]:
     r = subprocess.run(["fc-list", ":", "family"], capture_output=True, text=True).stdout.splitlines()
-    for f, paquete in (("Inter", "fonts-inter"), ("Hack", "fonts-hack")):
-        hay = any(f in linea.split(",") for linea in r)
-        print(f"  {'ok ' if hay else 'FALTA'} tipografía {f}" + ("" if hay else f" (sudo apt install {paquete})"))
+    return {f.strip() for linea in r for f in linea.split(",")}
+
+
+def fuente_mono(aplicar: bool) -> None:
+    if FUENTE_MONO["familia"] in familias():
+        print(f"  {FUENTE_MONO['familia']} ya está instalada"); return
+    destino = FUENTES / FUENTE_MONO["carpeta"]
+    print(f"  {'descargar' if aplicar else 'SIM descargar'} {FUENTE_MONO['familia']} ({FUENTE_MONO['licencia']}) → {destino}")
+    if not aplicar:
+        return
+    rel = api(f"https://api.github.com/repos/{FUENTE_MONO['repo']}/releases/latest")
+    url = next(a["browser_download_url"] for a in rel["assets"] if a["name"] == FUENTE_MONO["activo"])
+    destino.mkdir(parents=True, exist_ok=True)
+    with tarfile.open(fileobj=io.BytesIO(descargar(url)), mode="r:xz") as tar:
+        # solo la familia «Nerd Font» (no las variantes Mono ni Propo) y su licencia
+        miembros = [m for m in tar.getmembers() if m.isfile() and (
+            (m.name.startswith("JetBrainsMonoNerdFont-") and m.name.endswith(".ttf")) or m.name in ("OFL.txt", "README.md"))]
+        tar.extractall(destino, members=miembros, filter="data")
+    if shutil.which("fc-cache"):
+        subprocess.run(["fc-cache", "-f", str(destino)], capture_output=True)
+    print(f"  {FUENTE_MONO['familia']} {rel['tag_name']} instalada: {len(miembros)} archivos")
+
+
+def fuentes() -> None:
+    hay = "Inter" in familias()
+    print(f"  {'ok ' if hay else 'FALTA'} tipografía Inter" + ("" if hay else " (sudo apt install fonts-inter)"))
 
 
 def main() -> int:
@@ -143,6 +171,7 @@ def main() -> int:
     ICONOS.mkdir(parents=True, exist_ok=True)
     whitesur_cursores(aplicar)
     papirus(aplicar)          # mejora 3 (decisiones 4.7): Papirus con carpetas rojas es parte de la línea base
+    fuente_mono(aplicar)     # mejora 9 (decisiones 4.14): JetBrains Mono Nerd Font
     fuentes()
     if "--opcionales" in sys.argv:
         bibata(aplicar)

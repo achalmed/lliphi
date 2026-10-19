@@ -191,3 +191,12 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   plasmoides salían azules mientras las aplicaciones ya iban en rojo. Ahora pasa por la misma sustitución de solo acento que el
   esquema (`esquema.con_acento`): rojo en el oscuro y el azul de WhiteSur en el claro. Comparación en
   `muestras/comparacion-linea-base-acento-plasma.png`, tomada con `plasmawindowed` para fotografiar solo el plasmoide.
+- **4.14 (2026-10-19) Mejora 9: una sola monoespaciada, JetBrains Mono (Nerd Font).** El autor trajo una recomendación
+  tipográfica (Inter, IBM Plex Sans, JetBrains Mono, Red Hat Text, Atkinson Hyperlegible) y delegó la decisión. Se decide:
+  (1) **Inter se queda** para la interfaz, con Inter Medium en los títulos (aprobado en la mejora 4); (2) **JetBrains Mono**
+  sustituye a Hack como monoespaciada del sistema y a FiraCode en Konsole, en su versión Nerd Font para conservar los iconos del
+  prompt y de `lsd`: una sola monoespaciada en todo el escritorio en vez de dos; (3) **IBM Plex Sans no entra**: es tipografía de
+  documentos, no de escritorio, y la interfaz ya tiene a Inter; Red Hat Text y Atkinson tampoco, por la misma razón; (4) el
+  suavizado ya era el recomendado (antialias, `hintslight`, subpíxel RGB) y no se toca. La fuente se descarga de la versión
+  publicada de ryanoasis/nerd-fonts (OFL-1.1) con `dependencias.py`, en el usuario y sin root; el instalador solo la pone en
+  Konsole si está instalada. Comparación en `muestras/comparacion-linea-base-monoespaciada.png`.

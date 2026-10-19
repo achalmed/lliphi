@@ -461,6 +461,11 @@ def test_perfil_konsole_toma_el_esquema(tmp_path, monkeypatch):
     real.write_text("[General]\nName=yo\n", encoding="utf-8")
     instalar.fijar_esquema_konsole(perfil, "Lliphi Claro")
     assert real.read_text(encoding="utf-8").rstrip().endswith("[Appearance]\nColorScheme=Lliphi Claro")
+    # mejora 9: con fuente, cambia Font y conserva lo demás
+    real.write_text("[Appearance]\nColorScheme=Breeze\nFont=FiraCode Nerd Font,10\n\n[General]\nName=yo\n", encoding="utf-8")
+    instalar.fijar_esquema_konsole(perfil, "Lliphi Oscuro", instalar.FUENTE_KONSOLE)
+    texto = real.read_text(encoding="utf-8")
+    assert f"Font={instalar.FUENTE_KONSOLE}" in texto and "FiraCode" not in texto and texto.count("ColorScheme=") == 1 and "Name=yo" in texto
 
 
 def test_pantallas_carga_y_salida():

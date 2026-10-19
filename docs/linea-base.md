@@ -20,7 +20,7 @@ y pidió un solo cambio: la tipografía, a una de estilo Apple. Desde aquí se m
 | iconos | `breeze-dark` → `Papirus-Dark` con carpetas rojas (mejora 3, decisiones 4.7, aprobada) | KDE → Papirus (GPL-3.0, descargado por `dependencias.py`) | `defaults` e instalador; Breeze de reserva |
 | cursores | `WhiteSur-cursors` | KDE Store 1411743 (GPL-3.0) | `defaults`; dependencia externa (no se redistribuye) |
 | menús Qt | Breeze `MenuOpacity=80` | — | instalador |
-| tipografía (cambiada hoy) | **Inter 10** (interfaz, menús, barras; Inter Medium en títulos), **Hack 10** (monoespaciada) | Inter (OFL, instalada), Hack (MIT, instalada) | `defaults` e instalador |
+| tipografía (cambiada hoy) | **Inter 10** (interfaz, menús, barras; Inter Medium en títulos), **JetBrainsMono Nerd Font 10** (monoespaciada, también en Konsole; mejora 9) | Inter (OFL, instalada), JetBrains Mono Nerd Font (OFL, `dependencias.py`) | `defaults` e instalador |
 | disposición | panel superior (`location=3`) y panel inferior (`location=4`) del autor | WhiteSur | no se toca (el instalador respalda `appletsrc`) |
 
 Lo que **no** está activo: el estilo de Plasma de cristal propio de 0.2.0 (`lliphi` con SVG generados), Papirus, Bibata y
@@ -59,3 +59,6 @@ el esquema rojo de los tokens. Quedan en el repositorio como piezas opcionales.
    de WhiteSur en el claro; decisiones 4.12) y ese acento en el estilo de Plasma (decisiones 4.13); comparación en
    `muestras/comparacion-linea-base-acento-plasma.png`. Instalada con `instalar.py --aplicar`
    (`respaldos/2026-10-19_080440/`); el estilo se recargó con `plasma-apply-desktoptheme`.
+9. **Hecha (2026-10-19 08:08), pendiente del visto bueno del autor**: JetBrains Mono (Nerd Font) como única monoespaciada,
+   en el sistema y en Konsole (decisiones 4.14); comparación en `muestras/comparacion-linea-base-monoespaciada.png`. Aplicada
+   con `instalar.py --aplicar --aplicar-tema oscuro` (`respaldos/2026-10-19_080755/`, que guarda el perfil de Konsole con FiraCode).

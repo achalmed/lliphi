@@ -143,25 +143,30 @@ def perfil_konsole() -> Path | None:
     return None
 
 
-def fijar_esquema_konsole(perfil: Path, esquema: str) -> None:
-    """Mejora 5: escribe `ColorScheme=<esquema>` en [Appearance] y deja intacto lo demás (fuente, historial…).
+FUENTE_KONSOLE = "JetBrainsMono Nerd Font,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1"   # mejora 9 (decisiones 4.14)
+
+
+def fijar_esquema_konsole(perfil: Path, esquema: str, fuente: str | None = None) -> None:
+    """Mejora 5: escribe `ColorScheme=<esquema>` en [Appearance] y deja intacto lo demás (historial…). Mejora 9: con
+    `fuente`, escribe también `Font=` (solo se pasa si la familia está instalada, para no perder los iconos del prompt).
     Se edita el archivo real: si el perfil es un enlace (dotfiles con stow) el enlace se conserva."""
     real = perfil.resolve()
     lineas = real.read_text(encoding="utf-8").splitlines()
-    grupo, hecho, salida = None, False, []
+    claves = {"ColorScheme": esquema, **({"Font": fuente} if fuente else {})}
+    grupo, hechas, salida = None, set(), []
     for linea in lineas:
         if linea.startswith("["):
-            if grupo == "[Appearance]" and not hecho:
-                salida.append(f"ColorScheme={esquema}"); hecho = True
+            if grupo == "[Appearance]":
+                salida += [f"{k}={v}" for k, v in claves.items() if k not in hechas]; hechas |= set(claves)
             grupo = linea.strip()
-        elif grupo == "[Appearance]" and linea.startswith("ColorScheme="):
-            linea, hecho = f"ColorScheme={esquema}", True
+        elif grupo == "[Appearance]" and (clave := linea.split("=", 1)[0]) in claves:
+            linea = f"{clave}={claves[clave]}"; hechas.add(clave)
         salida.append(linea)
-    if not hecho:
+    if hechas != set(claves):
         if grupo == "[Appearance]":
-            salida.append(f"ColorScheme={esquema}")
+            salida += [f"{k}={v}" for k, v in claves.items() if k not in hechas]
         else:
-            salida += ["", "[Appearance]", f"ColorScheme={esquema}"]
+            salida += ["", "[Appearance]", *[f"{k}={v}" for k, v in claves.items()]]
     real.write_text("\n".join(salida) + "\n", encoding="utf-8")
 
 
@@ -274,9 +279,9 @@ def instalar(modulos: list[str], aplicar: bool, aplicar_tema: str | None) -> int
                 if shutil.which("kwriteconfig6"):
                     subprocess.run(["kwriteconfig6", "--file", "kdeglobals", "--group", "KDE", "--key", "widgetStyle", "kvantum-dark" if aplicar_tema == "oscuro" else "kvantum"], capture_output=True, text=True)
                 print(f"  Kvantum: tema {tema_kv}, estilo kvantum")
-            # tipografía Inter y Hack en toda la sesión (lo que fija defaults solo lo lee el KCM al aplicar el tema)
+            # tipografía Inter y JetBrains Mono (Nerd Font) en toda la sesión (lo que fija defaults solo lo lee el KCM al aplicar el tema)
             if shutil.which("kwriteconfig6"):
-                for clave, valor in (("font", "Inter,10,-1,5,400,0,0,0,0,0"), ("fixed", "Hack,10,-1,5,400,0,0,0,0,0"),
+                for clave, valor in (("font", "Inter,10,-1,5,400,0,0,0,0,0"), ("fixed", "JetBrainsMono Nerd Font,10,-1,5,400,0,0,0,0,0"),
                                      ("menuFont", "Inter,10,-1,5,400,0,0,0,0,0"), ("toolBarFont", "Inter,10,-1,5,400,0,0,0,0,0"),
                                      ("smallestReadableFont", "Inter,8,-1,5,400,0,0,0,0,0")):
                     subprocess.run(["kwriteconfig6", "--file", "kdeglobals", "--group", "General", "--key", clave, valor], capture_output=True, text=True)
@@ -285,7 +290,7 @@ def instalar(modulos: list[str], aplicar: bool, aplicar_tema: str | None) -> int
                 # es la que emite el módulo de Tipografías (plasma-integration la escucha); notifyChange 1 = FontChanged
                 subprocess.run(["dbus-send", "--session", "--type=signal", "/KDEPlatformTheme", "org.kde.KDEPlatformTheme.refreshFonts"], capture_output=True, text=True)
                 subprocess.run(["dbus-send", "--session", "--type=signal", "/KGlobalSettings", "org.kde.KGlobalSettings.notifyChange", "int32:1", "int32:0"], capture_output=True, text=True)
-                print("  tipografía: Inter 10 (interfaz), Inter Medium 10 (títulos) y Hack 10 (terminal), recargada en vivo")
+                print("  tipografía: Inter 10 (interfaz), Inter Medium 10 (títulos) y JetBrainsMono Nerd Font 10 (monoespaciada), recargada en vivo")
             # mejora 3: Papirus con carpetas rojas si dependencias.py lo trajo; si no, Breeze (del que Papirus hereda)
             iconos = "Papirus-Dark" if aplicar_tema == "oscuro" else "Papirus"
             if not (DATA / "icons" / iconos).exists():
@@ -311,8 +316,10 @@ def instalar(modulos: list[str], aplicar: bool, aplicar_tema: str | None) -> int
             perfil = perfil_konsole()
             esquema_konsole = MARCA["nombre_esquema"][aplicar_tema]
             if "konsole" in modulos and perfil and (DATA / "konsole" / f"{esquema_konsole}.colorscheme").exists():
-                fijar_esquema_konsole(perfil, esquema_konsole)
-                print(f"  Konsole: perfil {perfil.name} con el esquema {esquema_konsole} (ventanas nuevas)")
+                hay_mono = subprocess.run(["fc-list", ":family=JetBrainsMono Nerd Font"], capture_output=True, text=True).stdout.strip() != ""
+                fijar_esquema_konsole(perfil, esquema_konsole, FUENTE_KONSOLE if hay_mono else None)
+                print(f"  Konsole: perfil {perfil.name} con el esquema {esquema_konsole}"
+                      + (" y JetBrainsMono Nerd Font" if hay_mono else " (la fuente no se toca: falta JetBrainsMono Nerd Font)") + " (ventanas nuevas)")
             elif "konsole" in modulos:
                 print("  Konsole: sin perfil por defecto propio; elige el esquema en Configurar Konsole → Perfiles")
     print("hecho." if aplicar else "nada escrito; añade --aplicar para instalar.")

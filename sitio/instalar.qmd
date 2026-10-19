@@ -64,6 +64,7 @@ buscar «Lliphi». Hasta entonces, usa el instalador o la instalación a mano.
 
 ## Tipografía y cursores
 
-El tema global trae **Inter** (interfaz, OFL) y **Hack** (terminal y código, MIT); si no están instaladas, Plasma usa
-las tuyas (`sudo apt install fonts-inter fonts-hack`). Los cursores son **WhiteSur-cursors** (GPL-3.0; no se
-redistribuyen aquí): `python3 herramientas/dependencias.py --aplicar` los descarga a `~/.local/share/icons/`.
+El tema global trae **Inter** (interfaz, OFL) y **JetBrains Mono** en su versión Nerd Font (terminal y código, OFL),
+que también va al perfil de Konsole. Inter viene de la distribución (`sudo apt install fonts-inter`); JetBrains Mono la
+descarga `python3 herramientas/dependencias.py --aplicar` a `~/.local/share/fonts/`. Los cursores son **WhiteSur-cursors** (GPL-3.0; no se
+redistribuyen aquí): el mismo `dependencias.py` los descarga a `~/.local/share/icons/`.
