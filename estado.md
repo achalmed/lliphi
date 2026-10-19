@@ -43,9 +43,9 @@ Hasta que el autor elija el nombre (fase 3), la carpeta se llama `lliphi` y no e
 
 ## En curso
 
-- **mejora 9 (2026-10-19 08:08), espera el visto bueno del autor**: JetBrains Mono (Nerd Font) como única monoespaciada
+- **mejora 9 (2026-10-19 08:08), aprobada por el autor**: JetBrains Mono (Nerd Font) como única monoespaciada
   (sistema y Konsole); Inter se queda; IBM Plex Sans descartada para el escritorio (decisiones 4.14).
-- **mejora 8 (2026-10-19 08:05), espera el visto bueno del autor**: un acento por variante (rojo oscuro, azul de WhiteSur
+- **mejora 8 (2026-10-19 08:05), aprobada por el autor**: un acento por variante (rojo oscuro, azul de WhiteSur
   claro) y el acento en el estilo de Plasma. La variante clara solo se comprobó en archivos y pruebas, no en pantalla.
 - **mejora 7 (2026-10-19 07:55), aprobada por el autor**: inicio de sesión SDDM de Lliphi instalado en
   `/usr/share/sddm/themes/lliphi` con `/etc/sddm.conf.d/99-lliphi.conf`; comprobado en `sddm-greeter-qt6 --test-mode`, falta
