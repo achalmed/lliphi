@@ -1,10 +1,10 @@
 # GENERADO por herramientas/generar.py desde tokens/ y fuentes/base/Nothing-aurorae; no editar
 [General]
-ActiveTextColor=202,211,245
-InactiveTextColor=154,161,188
+ActiveTextColor=234,235,237
+InactiveTextColor=151,152,156
 TitleAlignment=Center
 TitleVerticalAlignment=Center
-UseTextShadow=true
+UseTextShadow=false
 ActiveTextShadowColor=255,255,255,255
 InactiveTextShadowColor=255,255,255,255
 TextShadowOffsetX=0             

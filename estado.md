@@ -13,6 +13,7 @@ Hasta que el autor elija el nombre (fase 3), la carpeta se llama `lliphi` y no e
 
 | fecha | qué | dónde se ve |
 |---|---|---|
+| 2026-10-19 | mejora 4: decoración Nothing con dos plus y títulos en Inter Medium (el instalador ahora emite `refreshFonts`) | `docs/decisiones.md` 4.8, `muestras/comparacion-linea-base-decoracion.png` |
 | 2026-10-18 | **mejora 3 sobre la línea base: iconos Papirus con carpetas rojas, aprobada por el autor a las 19:12** (decisiones 4.7): `Papirus-Dark`/`Papirus` en `defaults` del tema global, en el instalador (`plasma-changeicons`, Breeze de reserva) y en `dependencias.py` por defecto; prueba ampliada; **aplicado en la sesión del autor solo con `plasma-changeicons Papirus-Dark`** (respaldo `respaldos/2026-10-18_mejora3-iconos/REVERTIR-iconos.sh`) | `muestras/comparacion-linea-base-iconos.png`, `muestras/capturas/oscuro-21-*.png` |
 | 2026-10-18 | **mejora 2 sobre la línea base: variante clara comprobada en sesión anidada, aprobada por el autor a las 18:58** (decisiones 4.6, `validacion.md` §7): `org.lliphi.claro` (WhiteSur claro + `LliphiClaro` rojo + `lliphi-claro` + Kvantum `LliphiClaro`) instalado y aplicado en `/tmp/casa-lliphi-m2`; corregido el Kvantum claro (foco y deslizadores azules `#0860f2`); 19 pruebas en verde, sin deriva. **Nada aplicado en la sesión del autor** | `muestras/comparacion-linea-base-clara.png`, `muestras/capturas/claro-10-*.png`, `claro-11-*.png` |
 | 2026-10-18 | **mejora 1 sobre la línea base: acento rojo en el esquema, aprobada por el autor a las 18:35** (decisiones 4.5): `LliphiOscuro.colors` y `LliphiClaro.colors` = WhiteSurDark/WhiteSur con solo foco, hover, enlace, texto activo y selección tomados de los tokens (el resto byte a byte; prueba `test_esquema_linea_base_solo_acento`, 19 en verde, `verificar` sin deriva); instalado con respaldo (`respaldos/2026-10-18_182307/UNDO.sh`) y **aplicado en la sesión del autor solo con `plasma-apply-colorscheme LliphiOscuro`** (tema global, estilo, Kvantum y decoración intactos); comparación antes/después con Dolphin y Preferencias | `muestras/comparacion-linea-base-acento.png`, `muestras/capturas/oscuro-18-*.png`, `oscuro-19-*.png` |
@@ -37,15 +38,11 @@ Hasta que el autor elija el nombre (fase 3), la carpeta se llama `lliphi` y no e
 
 ## En curso
 
-- **2026-10-19 07:30, deriva en la sesión del autor**: a las 23:16 del 18 se aplicó el tema global WhiteSur-dark (cambió
-  `kdeglobals` y a las 23:53 `kwinrc`, enlazados a `~/.dotfiles`): esquema `WhiteSurDark` (azul), iconos `WhiteSur-dark`,
-  decoración `__aurorae__svg__WhiteSur-dark`. Siguen Kvantum `LliphiOscuro`, Inter/Hack, cursores WhiteSur y `XIA`. No se
-  revierte sin el autor: se le pregunta si vuelve a la línea base de Lliphi (`instalar.py --aplicar --aplicar-tema oscuro`,
-  con UNDO) antes de la mejora 4.
-- **línea base cerrada (19:12)**: las tres mejoras de `docs/linea-base.md` §2 (acento rojo, variante clara, Papirus con
-  carpetas rojas) están hechas, aprobadas por el autor y aplicadas en su sesión (la clara solo en sesión anidada); el tema
-  global reproduce esa configuración. No hay tarea abierta: lo siguiente sale de §Por hacer (publicar una versión con las
-  tres mejoras, KDE Store, validaciones pendientes del autor).
+- **mejora 4 (2026-10-19 07:36), espera el visto bueno del autor**: la línea base se restauró en su sesión a las 07:29 a
+  petición suya (`instalar.py --aplicar --aplicar-tema oscuro`; UNDO en `respaldos/2026-10-19_072920/`, que devuelve el
+  WhiteSur-dark que había aplicado la noche anterior). Mejora 4 = decoración Nothing con anillo de minimizar gris, título en los
+  grises de Lliphi sin sombra y en Inter Medium (corregido el instalador, que no recargaba las fuentes); aplicada solo la
+  decoración (`respaldos/2026-10-19_073454/UNDO.sh` la revierte). Comparación: `muestras/comparacion-linea-base-decoracion.png`.
 
 ## Por hacer
 

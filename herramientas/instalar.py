@@ -224,15 +224,18 @@ def instalar(modulos: list[str], aplicar: bool, aplicar_tema: str | None) -> int
                 if shutil.which("kwriteconfig6"):
                     subprocess.run(["kwriteconfig6", "--file", "kdeglobals", "--group", "KDE", "--key", "widgetStyle", "kvantum-dark" if aplicar_tema == "oscuro" else "kvantum"], capture_output=True, text=True)
                 print(f"  Kvantum: tema {tema_kv}, estilo kvantum")
-            # tipografía IBM Plex en toda la sesión (lo que fija defaults solo lo lee el KCM al aplicar el tema)
+            # tipografía Inter y Hack en toda la sesión (lo que fija defaults solo lo lee el KCM al aplicar el tema)
             if shutil.which("kwriteconfig6"):
                 for clave, valor in (("font", "Inter,10,-1,5,400,0,0,0,0,0"), ("fixed", "Hack,10,-1,5,400,0,0,0,0,0"),
                                      ("menuFont", "Inter,10,-1,5,400,0,0,0,0,0"), ("toolBarFont", "Inter,10,-1,5,400,0,0,0,0,0"),
                                      ("smallestReadableFont", "Inter,8,-1,5,400,0,0,0,0,0")):
                     subprocess.run(["kwriteconfig6", "--file", "kdeglobals", "--group", "General", "--key", clave, valor], capture_output=True, text=True)
                 subprocess.run(["kwriteconfig6", "--file", "kdeglobals", "--group", "WM", "--key", "activeFont", "Inter,10,-1,5,500,0,0,0,0,0"], capture_output=True, text=True)
-                subprocess.run(["dbus-send", "--session", "--type=signal", "/KGlobalSettings", "org.kde.KGlobalSettings.notifyChange", "int32:0", "int32:0"], capture_output=True, text=True)
-                print("  tipografía: Inter 10 (interfaz) y Hack 10 (terminal)")
+                # sin esta señal KWin y las aplicaciones abiertas siguen con la fuente anterior hasta reiniciar la sesión:
+                # es la que emite el módulo de Tipografías (plasma-integration la escucha); notifyChange 1 = FontChanged
+                subprocess.run(["dbus-send", "--session", "--type=signal", "/KDEPlatformTheme", "org.kde.KDEPlatformTheme.refreshFonts"], capture_output=True, text=True)
+                subprocess.run(["dbus-send", "--session", "--type=signal", "/KGlobalSettings", "org.kde.KGlobalSettings.notifyChange", "int32:1", "int32:0"], capture_output=True, text=True)
+                print("  tipografía: Inter 10 (interfaz), Inter Medium 10 (títulos) y Hack 10 (terminal), recargada en vivo")
             # mejora 3: Papirus con carpetas rojas si dependencias.py lo trajo; si no, Breeze (del que Papirus hereda)
             iconos = "Papirus-Dark" if aplicar_tema == "oscuro" else "Papirus"
             if not (DATA / "icons" / iconos).exists():

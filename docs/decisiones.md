@@ -154,3 +154,9 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   dependencias por defecto; Bibata sigue opcional. Aplicado en la sesión del autor solo con
   `plasma-changeicons Papirus-Dark` (reversión: `plasma-changeicons breeze-dark`). Pendiente de su visto bueno sobre
   `muestras/comparacion-linea-base-iconos.png`. Aprobada por el autor a las 19:12: con ella se cierra la línea base.
+- **4.8 (2026-10-19) Mejora 4: decoración Nothing con dos plus** (sin tocar formas ni tamaños): el anillo cian del botón de
+  minimizar (`#9cdde4`) pasa al gris del anillo de maximizar (`#bdbab8`), y el título usa los grises de los tokens
+  (`texto.normal`, `texto.inactivo`) sin sombra en vez del lavanda de Nothing. Además se corrige un fallo del instalador: escribía
+  Inter Medium en `[WM] activeFont` pero emitía la señal de paleta (`notifyChange 0`) y no la de fuentes, así que KWin seguía
+  dibujando los títulos en Hack hasta reiniciar la sesión; ahora emite `org.kde.KDEPlatformTheme.refreshFonts`, la misma del
+  módulo de Tipografías. Comparación en `muestras/comparacion-linea-base-decoracion.png`.

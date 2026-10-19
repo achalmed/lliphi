@@ -272,8 +272,10 @@ def test_decoracion_aurorae():
         assert meta["KPlugin"]["Id"] == id_ and meta["KPlugin"]["License"] == "GPL-3.0-or-later"
         rc = (base / f"{id_}rc").read_text(encoding="utf-8")
         assert re.search(r"^ActiveTextColor=\d+,\d+,\d+$", rc, re.M)
+        assert re.search(r"^UseTextShadow=false$", rc, re.M), (v, "mejora 4: título sin sombra")
         for svg in base.glob("*.svg"):
             ET.parse(svg)
+            assert "#9cdde4" not in svg.read_text(encoding="utf-8").lower(), (v, svg.name, "mejora 4: sin el cian de Nothing")
     assert (RAIZ / "fuentes" / "base" / "Nothing-aurorae" / "ORIGEN.md").exists()
 
 def test_libreoffice_esquemas():
