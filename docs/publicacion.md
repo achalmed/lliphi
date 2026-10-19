@@ -6,7 +6,7 @@ titulo: 'Publicación (fase 9): lo que queda preparado y los comandos exactos qu
 # Publicación
 
 Estado el 2026-10-18: el autor pidió al asistente ejecutar la publicación. **Hecho**: remoto `achalmed/lliphi`,
-etiquetas `v0.1.0` y `v0.2.0` con sus releases (`dist/`), sitio en GitHub Pages (`achalmed.github.io/lliphi`,
+etiquetas `v0.1.0`, `v0.2.0` y `v0.3.0` (2026-10-19, 11 paquetes con `lliphi-sddm`) con sus releases (`dist/`), sitio en GitHub Pages (`achalmed.github.io/lliphi`,
 workflow `.github/workflows/sitio.yml`), enlace en el hub. **Pendiente del autor**: KDE Store (cuenta) y, si lo quiere,
 Netlify. Lo que sigue describe el procedimiento para las versiones siguientes.
 
@@ -61,4 +61,6 @@ CC BY-SA 4.0 (activos) y MIT (código). El procedimiento de alta en la tienda no
   usuarios.
 - Alta del repositorio en `meta/workspace.yml` y renombrado de la carpeta (`core/renombrar.py`): cambio estructural
   del director con etiqueta, simulación y respaldo.
-- Versiones siguientes: `VERSION`, `CHANGELOG.md`, `git tag -a`, `empaquetar`, `gh release create`.
+- Versiones siguientes (así se hizo la 0.3.0): rama `wip/<fecha>-version-<x.y.z>` local con `VERSION`, `CHANGELOG.md`,
+  sitio renderizado y `empaquetar`; el autor aprueba las notas (`dist/NOTAS-<versión>.md`); después fusión rápida en main,
+  `git tag -a`, push de main y de la etiqueta (despliega el sitio) y `gh release create … --notes-file dist/NOTAS-<versión>.md`.

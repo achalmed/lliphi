@@ -13,6 +13,7 @@ Hasta que el autor elija el nombre (fase 3), la carpeta se llama `lliphi` y no e
 
 | fecha | qué | dónde se ve |
 |---|---|---|
+| 2026-10-19 | **0.3.0 publicada**: etiqueta `v0.3.0`, release con 11 paquetes (nuevo `lliphi-sddm`) y `SHA256SUMS`, sitio desplegado con la galería de las diez mejoras; CI y sitio en verde | github.com/achalmed/lliphi/releases/tag/v0.3.0, achalmed.github.io/lliphi |
 | 2026-10-19 | mejora 10: claro validado en sesión virtual; carpetas por variante con el superpuesto `Papirus-Dark-Lliphi`, fondo claro fijado, bloqueo con fondo oscuro | `docs/validacion.md` §8, `docs/decisiones.md` 4.15–4.16, `muestras/comparacion-linea-base-claro-validado.png` |
 | 2026-10-19 | mejora 9: JetBrains Mono Nerd Font como única monoespaciada (sistema y Konsole), descargada por `dependencias.py` | `docs/decisiones.md` 4.14, `muestras/comparacion-linea-base-monoespaciada.png` |
 | 2026-10-19 | mejora 8: acento por variante (rojo oscuro, azul de WhiteSur claro) y acento en el estilo de Plasma | `docs/decisiones.md` 4.12–4.13, `muestras/comparacion-linea-base-acento-plasma.png` |
@@ -44,10 +45,6 @@ Hasta que el autor elija el nombre (fase 3), la carpeta se llama `lliphi` y no e
 
 ## En curso
 
-- **versión 0.3.0 preparada (2026-10-19), espera el visto bueno del autor para publicar**: rama local
-  `wip/2026-10-19-version-0.3.0` (sin subir) con `VERSION`, CHANGELOG, sitio renderizado, README y ficha de la tienda;
-  `dist/` con 11 paquetes (nuevo: `lliphi-sddm`), `SHA256SUMS` y `NOTAS-0.3.0.md`. Publicar = fusionar en main, etiqueta
-  `v0.3.0`, push (despliega el sitio) y `gh release create`.
 - **mejora 10 (2026-10-19 08:35), aprobada por el autor**: variante clara validada en pantalla y corregida (carpetas
   por variante, fondo claro, bloqueo legible). En la sesión del autor solo cambió el tema de iconos a `Papirus-Dark-Lliphi`
   (mismo aspecto, Home y Escritorio ahora rojos). Incidente resuelto: la sesión de prueba dejó `LockedHint=yes` en la sesión
