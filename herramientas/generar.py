@@ -66,7 +66,8 @@ def empaquetar() -> int:
     dist.mkdir(exist_ok=True)
     paquetes = {"esquema": ["color-schemes"], "global": ["look-and-feel"], "estilo": ["desktoptheme"],
                 "konsole": ["konsole"], "fondos": ["wallpapers"], "terminales": ["terminales"],
-                "editores": ["editores"], "libreoffice": ["libreoffice"], "decoracion": ["aurorae"], "kvantum": ["kvantum"]}
+                "editores": ["editores"], "libreoffice": ["libreoffice"], "decoracion": ["aurorae"], "kvantum": ["kvantum"],
+                "sddm": ["sddm"]}
     sumas = []
     for modulo, carpetas in paquetes.items():
         ruta = dist / f"{marca['id']}-{modulo}-{version}.tar.gz"
@@ -86,14 +87,15 @@ def empaquetar() -> int:
 
 {marca['descripcion']}
 
-Dos variantes, **{marca['nombre_esquema']['claro']}** y **{marca['nombre_esquema']['oscuro']}**, generadas desde una
-sola fuente de tokens con contraste medido (WCAG 2.2). El estilo de Plasma sigue el esquema y el acento del sistema;
-decoración de ventanas propia (Aurorae, Plasma ≥ 6.6); sin Kvantum; instalación reversible con el instalador del repositorio.
+Dos variantes, **{marca['nombre_esquema']['oscuro']}** (rojo de Nothing) y **{marca['nombre_esquema']['claro']}** (azul
+de WhiteSur). Parte de WhiteSur-kde (estilo de Plasma, Kvantum, pantallas de carga, salida e inicio de sesión) y de la
+decoración Aurorae de Nothing, con el acento de cada variante, Inter en la interfaz y JetBrains Mono Nerd Font como
+monoespaciada; iconos Papirus con las carpetas en el acento.
 
 - Sitio y guías: {marca['sitio_tema']}
 - Código (Source): {marca['repositorio']}
-- Licencia: activos CC BY-SA 4.0, código MIT (REUSE 3.3)
-- Requiere Plasma 6 (probado en 6.6)
+- Licencia: código MIT, activos CC BY-SA 4.0, lo derivado de WhiteSur y Nothing GPL-3.0-or-later (REUSE 3.3)
+- Requiere Plasma 6 (probado en 6.6); dependencias: WhiteSur-cursors, Papirus, Inter, JetBrains Mono Nerd Font
 """, encoding="utf-8")
     print(f"  dist/SHA256SUMS · dist/NOTAS-{version}.md · dist/FICHA-KDE-STORE.md")
     return 0

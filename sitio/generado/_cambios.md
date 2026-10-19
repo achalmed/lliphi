@@ -3,50 +3,37 @@ Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión de
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-10-19
+
+Lliphi parte ahora de la configuración que el autor eligió en su escritorio (WhiteSur-dark, decoración de Nothing,
+Kvantum, cursores WhiteSur) y la mejora en diez pasos, cada uno con captura y su visto bueno (`docs/linea-base.md`).
+Regla de color: **rojo de Nothing (#c93436) en el oscuro y azul de WhiteSur (#315bef) en el claro**.
+
 ### Added
-- Tema de iconos superpuesto `Papirus-Dark-Lliphi` (carpetas rojas para el oscuro); Papirus queda como se publica.
-- `dependencias.py` descarga JetBrains Mono Nerd Font (OFL) al usuario.
-- Un acento por variante: rojo de Nothing en el oscuro y azul de WhiteSur (#315bef) en el claro.
-- Inicio de sesión SDDM (mejora 7), derivado de WhiteSur-dark: fondo de Lliphi, Inter y foco en el acento;
-  `herramientas/instalar_sddm.py` lo instala con pkexec y deja `UNDO.sh`.
-- Pantallas de carga y de salida (mejora 6), derivadas de WhiteSur-dark: fondo de Lliphi y el nombre en Inter con el
-  punto en el acento en lugar del logotipo de Apple. Antes el tema declaraba una pantalla de carga que no traía.
+- Pantallas de carga y de salida derivadas de WhiteSur-dark, con el fondo de Lliphi y el nombre en Inter en lugar del
+  logotipo de Apple; antes el tema declaraba una pantalla de carga que no traía (mejora 6).
+- Inicio de sesión SDDM derivado de WhiteSur-dark: fondo de Lliphi, Inter y foco en el acento.
+  `herramientas/instalar_sddm.py` lo instala con pkexec y deja `UNDO.sh` (mejora 7).
+- Tema de iconos superpuesto `Papirus-Dark-Lliphi` (carpetas rojas para el oscuro); Papirus queda como se publica, con
+  sus carpetas azules para el claro (mejoras 3 y 10).
+- `dependencias.py` instala WhiteSur-cursors, Papirus y JetBrains Mono Nerd Font en el usuario, sin root.
+- Bloqueo de pantalla con el fondo oscuro de Lliphi en las dos variantes (mejora 10).
 
 ### Changed
-- Tipografía monoespaciada (mejora 9): JetBrains Mono Nerd Font en lugar de Hack, también en el perfil de Konsole
-  cuando está instalada.
-- Estilo de Plasma (mejora 8): su `colors` toma el acento de la variante; antes conservaba el azul de WhiteSur en
-  interruptores, deslizadores y resaltados del panel.
-- Konsole (mejora 5): con `--aplicar-tema`, el perfil por defecto toma el esquema de Lliphi, con respaldo y
-  reversión; la fuente del perfil no se toca y un perfil enlazado (dotfiles) sigue enlazado.
-- Decoración (mejora 4): sobre Nothing, el anillo del botón de minimizar pasa de cian a gris y el título usa los grises de
-  Lliphi sin sombra, en las dos variantes.
+- Esquemas y estilo de Plasma: los de WhiteSur con solo el acento sustituido por el de cada variante; todo lo demás se
+  copia byte a byte (mejoras 1, 2 y 8). El estilo de Plasma ya no deja interruptores ni deslizadores en azul en el oscuro.
+- Decoración: la de Nothing, con el anillo de minimizar en gris, el título en los grises de Lliphi sin sombra y el
+  botón de cerrar siempre rojo (mejora 4).
+- Konsole: con `--aplicar-tema`, el perfil por defecto toma el esquema y la monoespaciada de Lliphi, con respaldo; un
+  perfil enlazado desde dotfiles sigue enlazado (mejoras 5 y 9).
+- Tipografía: Inter en la interfaz e Inter Medium en los títulos; JetBrains Mono Nerd Font como única monoespaciada,
+  en lugar de Hack e IBM Plex (mejora 9).
+- Los esquemas generados por entero desde los tokens se conservan como `Lliphi*-tokens.colors`.
 
 ### Fixed
-- Variante clara (mejora 10): fondo oscuro en lugar del claro, carpetas rojas en lugar de azules y reloj ilegible en el
-  bloqueo de pantalla.
-- El instalador no recargaba las fuentes en vivo: los títulos de ventana seguían en la fuente anterior hasta reiniciar la
-  sesión. Ahora emite `refreshFonts` y `notifyChange` de fuentes.
-
-### Changed
-- Mejora 1 sobre la línea base (decisiones 4.5): `LliphiOscuro.colors` y `LliphiClaro.colors` son WhiteSurDark y
-  WhiteSur con solo el acento tomado de los tokens (foco, hover, enlace, texto activo y el grupo de selección en rojo);
-  cada otro valor se copia byte a byte, lo verifica `test_esquema_linea_base_solo_acento`. Captura de comparación en
-  `muestras/comparacion-linea-base-acento.png`; aprobada por el autor.
-- Mejora 2 (decisiones 4.6): variante clara equivalente (`org.lliphi.claro` = WhiteSur claro + `LliphiClaro` con el
-  acento rojo + `lliphi-claro` + Kvantum `LliphiClaro`) comprobada en sesión anidada; el Kvantum claro no recoloreaba el
-  foco ni los deslizadores porque el acento de `WhiteSur.svg` es `#0860f2` (y `#0e4bb4`, `#0852ce`, `#1352c4`, `#77aff1`),
-  no `#315bef`: ahora se mapean a los tokens. Capturas `claro-10`, `claro-11` y `muestras/comparacion-linea-base-clara.png`.
-- Mejora 3 (decisiones 4.7): los iconos de la línea base pasan de Breeze a **Papirus con las carpetas en rojo**
-  (`Papirus-Dark` oscuro, `Papirus` claro; heredan de Breeze): `dependencias.py` los instala por defecto (Bibata sigue en
-  `--opcionales`), el tema global los declara en `defaults` y el instalador los aplica con `plasma-changeicons` (si no
-  están, Breeze). Captura `oscuro-21` y `muestras/comparacion-linea-base-iconos.png`; aprobada por el autor. Con las tres
-  mejoras aprobadas, la línea base queda cerrada (`docs/linea-base.md` §2).
-- Línea base fijada por el autor (`docs/linea-base.md`, decisiones 4.4): el tema global reproduce su configuración
-  activa, WhiteSur-dark tal cual (esquema `WhiteSurDark` y estilo de Plasma con su `colors`, sin recolorear),
-  decoración Nothing, Kvantum Lliphi, iconos `breeze-dark`, cursores WhiteSur-cursors; la única novedad es la
-  tipografía: Inter (interfaz) y Hack (monoespaciada). El esquema rojo de los tokens queda como `Lliphi*-tokens.colors`.
-- `dependencias.py` instala WhiteSur-cursors por defecto; Papirus y Bibata pasan a `--opcionales`.
+- Los títulos de ventana no tomaban la fuente nueva hasta reiniciar la sesión: el instalador ahora emite `refreshFonts`.
+- Variante clara: fondo oscuro en lugar del claro, carpetas rojas en lugar de azules y reloj ilegible en el bloqueo
+  (mejora 10, validada en una sesión de Plasma aparte).
 
 ## [0.2.0] - 2026-10-18
 

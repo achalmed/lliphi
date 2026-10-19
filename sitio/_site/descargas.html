@@ -75,14 +75,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-6a4ab9419083cd495fad7fe09e1fdd1e.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-f9225577189a6dfb0b5679b03e915b06.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-6a4ab9419083cd495fad7fe09e1fdd1e.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-0d252ae2fbe79a478f6ff67d18aed7a4.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-51766760202033628d871637a5741b23.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-0d252ae2fbe79a478f6ff67d18aed7a4.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-508f8fa5076a166f52186d66484153bb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-c54e8b41dfa8054eb9f0b14841d109ef.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-508f8fa5076a166f52186d66484153bb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-f2bb7cc28fae1761bedb2448be2f28a4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-e5ee3699f70c2470051a9b95f3918c83.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-f2bb7cc28fae1761bedb2448be2f28a4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -421,7 +421,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="versión-actual" class="level2">
 <h2 class="anchored" data-anchor-id="versión-actual">Versión actual</h2>
-<p><strong>0.1.0</strong> — primer lote. Las versiones siguen <a href="https://semver.org/lang/es/">SemVer</a>: la primera cifra cambia si cambian los nombres de los paquetes o la forma de instalar; la segunda, si entra un módulo o cambia el diseño; la tercera, correcciones.</p>
+<p><strong>0.3.0</strong> — la línea base del autor y diez mejoras (<a href="./cambios.html">registro de cambios</a>). Las versiones siguen <a href="https://semver.org/lang/es/">SemVer</a>: la primera cifra cambia si cambian los nombres de los paquetes o la forma de instalar; la segunda, si entra un módulo o cambia el diseño; la tercera, correcciones.</p>
 </section>
 <section id="formas-de-obtenerlo" class="level2">
 <h2 class="anchored" data-anchor-id="formas-de-obtenerlo">Formas de obtenerlo</h2>
@@ -460,8 +460,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="qué-contiene-una-versión" class="level2">
 <h2 class="anchored" data-anchor-id="qué-contiene-una-versión">Qué contiene una versión</h2>
 <ul>
-<li><code>generado/</code>: los módulos tal como se instalan (esquemas, temas globales, estilo de Plasma, Konsole, fondos).</li>
-<li><code>herramientas/instalar.py</code>: el instalador, sin dependencias.</li>
+<li>Un <code>.tar.gz</code> por módulo: esquemas, temas globales (con pantallas de carga y de salida), estilo de Plasma, Kvantum, decoración, Konsole, fondos, terminales, editores, LibreOffice e inicio de sesión SDDM.</li>
+<li><code>herramientas/dependencias.py</code>: descarga al usuario WhiteSur-cursors, Papirus y JetBrains Mono Nerd Font.</li>
+<li><code>herramientas/instalar.py</code>: el instalador, sin dependencias; <code>herramientas/instalar_sddm.py</code> para el inicio de sesión.</li>
 <li><code>tokens/</code>: la fuente de verdad del color y de la marca.</li>
 <li><code>docs/</code>, <code>CHANGELOG.md</code>, <code>LICENSES/</code>, <code>REUSE.toml</code>.</li>
 </ul>

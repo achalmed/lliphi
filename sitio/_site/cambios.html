@@ -40,14 +40,14 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-6a4ab9419083cd495fad7fe09e1fdd1e.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-f9225577189a6dfb0b5679b03e915b06.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-6a4ab9419083cd495fad7fe09e1fdd1e.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-0d252ae2fbe79a478f6ff67d18aed7a4.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-51766760202033628d871637a5741b23.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-0d252ae2fbe79a478f6ff67d18aed7a4.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-508f8fa5076a166f52186d66484153bb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-c54e8b41dfa8054eb9f0b14841d109ef.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-508f8fa5076a166f52186d66484153bb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-f2bb7cc28fae1761bedb2448be2f28a4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-e5ee3699f70c2470051a9b95f3918c83.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-f2bb7cc28fae1761bedb2448be2f28a4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -378,15 +378,46 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="unreleased">[Unreleased]</h2>
 </section>
 <section id="section" class="level2">
-<h2 class="anchored" data-anchor-id="section">[0.2.0] - 2026-10-18</h2>
+<h2 class="anchored" data-anchor-id="section">[0.3.0] - 2026-10-19</h2>
+<p>Lliphi parte ahora de la configuración que el autor eligió en su escritorio (WhiteSur-dark, decoración de Nothing, Kvantum, cursores WhiteSur) y la mejora en diez pasos, cada uno con captura y su visto bueno (<code>docs/linea-base.md</code>). Regla de color: <strong>rojo de Nothing (#c93436) en el oscuro y azul de WhiteSur (#315bef) en el claro</strong>.</p>
+<section id="added" class="level3">
+<h3 class="anchored" data-anchor-id="added">Added</h3>
+<ul>
+<li>Pantallas de carga y de salida derivadas de WhiteSur-dark, con el fondo de Lliphi y el nombre en Inter en lugar del logotipo de Apple; antes el tema declaraba una pantalla de carga que no traía (mejora 6).</li>
+<li>Inicio de sesión SDDM derivado de WhiteSur-dark: fondo de Lliphi, Inter y foco en el acento. <code>herramientas/instalar_sddm.py</code> lo instala con pkexec y deja <code>UNDO.sh</code> (mejora 7).</li>
+<li>Tema de iconos superpuesto <code>Papirus-Dark-Lliphi</code> (carpetas rojas para el oscuro); Papirus queda como se publica, con sus carpetas azules para el claro (mejoras 3 y 10).</li>
+<li><code>dependencias.py</code> instala WhiteSur-cursors, Papirus y JetBrains Mono Nerd Font en el usuario, sin root.</li>
+<li>Bloqueo de pantalla con el fondo oscuro de Lliphi en las dos variantes (mejora 10).</li>
+</ul>
+</section>
 <section id="changed" class="level3">
 <h3 class="anchored" data-anchor-id="changed">Changed</h3>
+<ul>
+<li>Esquemas y estilo de Plasma: los de WhiteSur con solo el acento sustituido por el de cada variante; todo lo demás se copia byte a byte (mejoras 1, 2 y 8). El estilo de Plasma ya no deja interruptores ni deslizadores en azul en el oscuro.</li>
+<li>Decoración: la de Nothing, con el anillo de minimizar en gris, el título en los grises de Lliphi sin sombra y el botón de cerrar siempre rojo (mejora 4).</li>
+<li>Konsole: con <code>--aplicar-tema</code>, el perfil por defecto toma el esquema y la monoespaciada de Lliphi, con respaldo; un perfil enlazado desde dotfiles sigue enlazado (mejoras 5 y 9).</li>
+<li>Tipografía: Inter en la interfaz e Inter Medium en los títulos; JetBrains Mono Nerd Font como única monoespaciada, en lugar de Hack e IBM Plex (mejora 9).</li>
+<li>Los esquemas generados por entero desde los tokens se conservan como <code>Lliphi*-tokens.colors</code>.</li>
+</ul>
+</section>
+<section id="fixed" class="level3">
+<h3 class="anchored" data-anchor-id="fixed">Fixed</h3>
+<ul>
+<li>Los títulos de ventana no tomaban la fuente nueva hasta reiniciar la sesión: el instalador ahora emite <code>refreshFonts</code>.</li>
+<li>Variante clara: fondo oscuro en lugar del claro, carpetas rojas en lugar de azules y reloj ilegible en el bloqueo (mejora 10, validada en una sesión de Plasma aparte).</li>
+</ul>
+</section>
+</section>
+<section id="section-1" class="level2">
+<h2 class="anchored" data-anchor-id="section-1">[0.2.0] - 2026-10-18</h2>
+<section id="changed-1" class="level3">
+<h3 class="anchored" data-anchor-id="changed-1">Changed</h3>
 <ul>
 <li>Cambio de enfoque: el estilo de Plasma y el tema Kvantum derivan de WhiteSur-kde (GPL-3.0) recoloreados con los tokens y sin lo que imita a Apple; iconos Papirus (carpetas rojas), cursores Bibata y tipografía IBM Plex como dependencias descargadas; retirado el módulo de iconos propio.</li>
 </ul>
 </section>
-<section id="added" class="level3">
-<h3 class="anchored" data-anchor-id="added">Added</h3>
+<section id="added-1" class="level3">
+<h3 class="anchored" data-anchor-id="added-1">Added</h3>
 <ul>
 <li>Módulo <code>terminales</code>: esquemas para Alacritty (<code>[colors]</code> en TOML) y Kitty (<code>.conf</code>) en claro y oscuro, con los dieciséis ANSI de Konsole y la selección, el cursor y los enlaces del esquema de Plasma; el instalador admite destinos en <code>$XDG_CONFIG_HOME</code> (<code>alacritty/themes/</code>, <code>kitty/themes/</code>).</li>
 <li>Módulo <code>editores</code>: extensión mínima de VS Code (dos temas con <code>colors</code>, <code>tokenColors</code> y <code>semanticTokenColors</code>) y tema de Zed (v0.2.0, dos variantes en un archivo); la sintaxis sale de los ANSI con una tabla única (palabras clave rojo, cadenas verde, números amarillo, funciones azul, comentarios en el texto inactivo). El instalador copia la extensión a <code>~/.vscode/extensions/</code> (o <code>$VSCODE_EXTENSIONS</code>), su única ruta de lectura.</li>
@@ -397,10 +428,10 @@ ul.task-list li input[type="checkbox"] {
 </ul>
 </section>
 </section>
-<section id="section-1" class="level2">
-<h2 class="anchored" data-anchor-id="section-1">[0.1.0] - 2026-10-18</h2>
-<section id="added-1" class="level3">
-<h3 class="anchored" data-anchor-id="added-1">Added</h3>
+<section id="section-2" class="level2">
+<h2 class="anchored" data-anchor-id="section-2">[0.1.0] - 2026-10-18</h2>
+<section id="added-2" class="level3">
+<h3 class="anchored" data-anchor-id="added-2">Added</h3>
 <ul>
 <li>Tokens de diseño (DTCG 2025.10, color en OKLCH) con contraste medido; variantes clara y oscura y acento rojo.</li>
 <li>Generadores: esquemas de color de Plasma, temas globales, estilo de Plasma que sigue el esquema del sistema, esquemas de Konsole y paquete de fondos con variante oscura.</li>

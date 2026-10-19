@@ -19,7 +19,7 @@
         "Name": "Lliphi Oscuro",
         "Description": "Decoración de Lliphi, derivada de Nothing",
         "Id": "lliphi",
-        "Version": "0.2.0",
+        "Version": "0.3.0",
         "License": "GPL-3.0-or-later",
         "X-KDE-PluginInfo-blur": false,
         "X-KPackage-Dependencies": []

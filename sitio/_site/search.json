@@ -70,11 +70,11 @@
     "text": "3. Desde Preferencias del sistema (KDE Store)\nCuando el tema esté publicado en la tienda, bastará Preferencias del sistema → Tema global → Obtener nuevo… y buscar «Lliphi». Hasta entonces, usa el instalador o la instalación a mano."
   },
   {
-    "objectID": "instalar.html#tipografía-recomendada",
-    "href": "instalar.html#tipografía-recomendada",
+    "objectID": "instalar.html#tipografía-y-cursores",
+    "href": "instalar.html#tipografía-y-cursores",
     "title": "Instalar",
-    "section": "Tipografía recomendada",
-    "text": "Tipografía recomendada\nLliphi no cambia tus fuentes. Se diseñó con Inter (interfaz) e IBM Plex Mono (terminal y código), ambas libres (OFL). Si quieres el mismo aspecto: Preferencias del sistema → Apariencia y estilo → Tipografías."
+    "section": "Tipografía y cursores",
+    "text": "Tipografía y cursores\nEl tema global trae Inter (interfaz, OFL) y JetBrains Mono en su versión Nerd Font (terminal y código, OFL), que también va al perfil de Konsole. Inter viene de la distribución (sudo apt install fonts-inter); JetBrains Mono la descarga python3 herramientas/dependencias.py --aplicar a ~/.local/share/fonts/. Los cursores son WhiteSur-cursors (GPL-3.0; no se redistribuyen aquí): el mismo dependencias.py los descarga a ~/.local/share/icons/."
   },
   {
     "objectID": "generado/catalogo/terminales.html",
@@ -291,14 +291,14 @@
     "href": "descargas.html",
     "title": "Descargas y versiones",
     "section": "",
-    "text": "0.1.0 — primer lote. Las versiones siguen SemVer: la primera cifra cambia si cambian los nombres de los paquetes o la forma de instalar; la segunda, si entra un módulo o cambia el diseño; la tercera, correcciones."
+    "text": "0.3.0 — la línea base del autor y diez mejoras (registro de cambios). Las versiones siguen SemVer: la primera cifra cambia si cambian los nombres de los paquetes o la forma de instalar; la segunda, si entra un módulo o cambia el diseño; la tercera, correcciones."
   },
   {
     "objectID": "descargas.html#versión-actual",
     "href": "descargas.html#versión-actual",
     "title": "Descargas y versiones",
     "section": "",
-    "text": "0.1.0 — primer lote. Las versiones siguen SemVer: la primera cifra cambia si cambian los nombres de los paquetes o la forma de instalar; la segunda, si entra un módulo o cambia el diseño; la tercera, correcciones."
+    "text": "0.3.0 — la línea base del autor y diez mejoras (registro de cambios). Las versiones siguen SemVer: la primera cifra cambia si cambian los nombres de los paquetes o la forma de instalar; la segunda, si entra un módulo o cambia el diseño; la tercera, correcciones."
   },
   {
     "objectID": "descargas.html#formas-de-obtenerlo",
@@ -319,7 +319,7 @@
     "href": "descargas.html#qué-contiene-una-versión",
     "title": "Descargas y versiones",
     "section": "Qué contiene una versión",
-    "text": "Qué contiene una versión\n\ngenerado/: los módulos tal como se instalan (esquemas, temas globales, estilo de Plasma, Konsole, fondos).\nherramientas/instalar.py: el instalador, sin dependencias.\ntokens/: la fuente de verdad del color y de la marca.\ndocs/, CHANGELOG.md, LICENSES/, REUSE.toml."
+    "text": "Qué contiene una versión\n\nUn .tar.gz por módulo: esquemas, temas globales (con pantallas de carga y de salida), estilo de Plasma, Kvantum, decoración, Konsole, fondos, terminales, editores, LibreOffice e inicio de sesión SDDM.\nherramientas/dependencias.py: descarga al usuario WhiteSur-cursors, Papirus y JetBrains Mono Nerd Font.\nherramientas/instalar.py: el instalador, sin dependencias; herramientas/instalar_sddm.py para el inicio de sesión.\ntokens/: la fuente de verdad del color y de la marca.\ndocs/, CHANGELOG.md, LICENSES/, REUSE.toml."
   },
   {
     "objectID": "compatibilidad.html",
@@ -360,12 +360,19 @@
     "objectID": "cambios.html#section",
     "href": "cambios.html#section",
     "title": "Registro de cambios",
-    "section": "[0.2.0] - 2026-10-18",
-    "text": "[0.2.0] - 2026-10-18\n\nChanged\n\nCambio de enfoque: el estilo de Plasma y el tema Kvantum derivan de WhiteSur-kde (GPL-3.0) recoloreados con los tokens y sin lo que imita a Apple; iconos Papirus (carpetas rojas), cursores Bibata y tipografía IBM Plex como dependencias descargadas; retirado el módulo de iconos propio.\n\n\n\nAdded\n\nMódulo terminales: esquemas para Alacritty ([colors] en TOML) y Kitty (.conf) en claro y oscuro, con los dieciséis ANSI de Konsole y la selección, el cursor y los enlaces del esquema de Plasma; el instalador admite destinos en $XDG_CONFIG_HOME (alacritty/themes/, kitty/themes/).\nMódulo editores: extensión mínima de VS Code (dos temas con colors, tokenColors y semanticTokenColors) y tema de Zed (v0.2.0, dos variantes en un archivo); la sintaxis sale de los ANSI con una tabla única (palabras clave rojo, cadenas verde, números amarillo, funciones azul, comentarios en el texto inactivo). El instalador copia la extensión a ~/.vscode/extensions/ (o $VSCODE_EXTENSIONS), su única ruta de lectura.\nMódulo editores: la misma extensión se instala en Positron (~/.positron/extensions/ o $POSITRON_EXTENSIONS) y en VSCodium (~/.vscode-oss/extensions/ o $VSCODIUM_EXTENSIONS) cuando existe la carpeta del editor; si no, el instalador omite el par y lo dice en la simulación, sin crearla.\nMódulo iconos: dos temas de iconos (lliphi hereda de Breeze, lliphi-oscuro de Breeze Dark) que entregan solo las carpetas, dibujadas aquí en el acento con ColorScheme-Highlight y distintivos para los lugares de uso común, en 16, 22, 32, 48 y 64 px (este último escalable hasta 512); FollowsColorScheme las tiñe con el acento del usuario.\nMódulo libreoffice: dos esquemas de «Colores de la aplicación» (Lliphi Claro y Lliphi Oscuro) con las 91 entradas del esquema de LibreOffice 26.2 (documento, Writer, Calc, Draw, HTML, autores, BASIC, SQL e interfaz), generados desde los semánticos y los ANSI con la tabla de sintaxis de los editores; como extensión .oxt reproducible (unopkg add) y como fragmentos &lt;oor:items&gt; para registrymodifications.xcu. El instalador no toca LibreOffice.\nMódulo decoracion: decoración de ventanas Aurorae en dos temas (lliphi oscuro y lliphi-claro) derivada de WhiteSur-dark (marco, radios, sombra, disposición) y Nothing (botones circulares con glifo al pasar el ratón), ambos GPL-3.0-or-later y copiados sin cambios a fuentes/aurorae/base/ (ORIGEN.md); el generador reescribe solo los colores con los tokens (cerrar en el acento, el resto en gris, sin semáforo), la barra de 30 px y los botones a la derecha. generado/aurorae/ es GPL-3.0-or-later (REUSE.toml); los temas globales pasan a library=org.kde.kwin.aurorae.v2, theme=__aurorae__svg__&lt;id&gt; y botones IAX a la derecha; el instalador escribe esas claves en kwinrc al aplicar."
+    "section": "[0.3.0] - 2026-10-19",
+    "text": "[0.3.0] - 2026-10-19\nLliphi parte ahora de la configuración que el autor eligió en su escritorio (WhiteSur-dark, decoración de Nothing, Kvantum, cursores WhiteSur) y la mejora en diez pasos, cada uno con captura y su visto bueno (docs/linea-base.md). Regla de color: rojo de Nothing (#c93436) en el oscuro y azul de WhiteSur (#315bef) en el claro.\n\nAdded\n\nPantallas de carga y de salida derivadas de WhiteSur-dark, con el fondo de Lliphi y el nombre en Inter en lugar del logotipo de Apple; antes el tema declaraba una pantalla de carga que no traía (mejora 6).\nInicio de sesión SDDM derivado de WhiteSur-dark: fondo de Lliphi, Inter y foco en el acento. herramientas/instalar_sddm.py lo instala con pkexec y deja UNDO.sh (mejora 7).\nTema de iconos superpuesto Papirus-Dark-Lliphi (carpetas rojas para el oscuro); Papirus queda como se publica, con sus carpetas azules para el claro (mejoras 3 y 10).\ndependencias.py instala WhiteSur-cursors, Papirus y JetBrains Mono Nerd Font en el usuario, sin root.\nBloqueo de pantalla con el fondo oscuro de Lliphi en las dos variantes (mejora 10).\n\n\n\nChanged\n\nEsquemas y estilo de Plasma: los de WhiteSur con solo el acento sustituido por el de cada variante; todo lo demás se copia byte a byte (mejoras 1, 2 y 8). El estilo de Plasma ya no deja interruptores ni deslizadores en azul en el oscuro.\nDecoración: la de Nothing, con el anillo de minimizar en gris, el título en los grises de Lliphi sin sombra y el botón de cerrar siempre rojo (mejora 4).\nKonsole: con --aplicar-tema, el perfil por defecto toma el esquema y la monoespaciada de Lliphi, con respaldo; un perfil enlazado desde dotfiles sigue enlazado (mejoras 5 y 9).\nTipografía: Inter en la interfaz e Inter Medium en los títulos; JetBrains Mono Nerd Font como única monoespaciada, en lugar de Hack e IBM Plex (mejora 9).\nLos esquemas generados por entero desde los tokens se conservan como Lliphi*-tokens.colors.\n\n\n\nFixed\n\nLos títulos de ventana no tomaban la fuente nueva hasta reiniciar la sesión: el instalador ahora emite refreshFonts.\nVariante clara: fondo oscuro en lugar del claro, carpetas rojas en lugar de azules y reloj ilegible en el bloqueo (mejora 10, validada en una sesión de Plasma aparte)."
   },
   {
     "objectID": "cambios.html#section-1",
     "href": "cambios.html#section-1",
+    "title": "Registro de cambios",
+    "section": "[0.2.0] - 2026-10-18",
+    "text": "[0.2.0] - 2026-10-18\n\nChanged\n\nCambio de enfoque: el estilo de Plasma y el tema Kvantum derivan de WhiteSur-kde (GPL-3.0) recoloreados con los tokens y sin lo que imita a Apple; iconos Papirus (carpetas rojas), cursores Bibata y tipografía IBM Plex como dependencias descargadas; retirado el módulo de iconos propio.\n\n\n\nAdded\n\nMódulo terminales: esquemas para Alacritty ([colors] en TOML) y Kitty (.conf) en claro y oscuro, con los dieciséis ANSI de Konsole y la selección, el cursor y los enlaces del esquema de Plasma; el instalador admite destinos en $XDG_CONFIG_HOME (alacritty/themes/, kitty/themes/).\nMódulo editores: extensión mínima de VS Code (dos temas con colors, tokenColors y semanticTokenColors) y tema de Zed (v0.2.0, dos variantes en un archivo); la sintaxis sale de los ANSI con una tabla única (palabras clave rojo, cadenas verde, números amarillo, funciones azul, comentarios en el texto inactivo). El instalador copia la extensión a ~/.vscode/extensions/ (o $VSCODE_EXTENSIONS), su única ruta de lectura.\nMódulo editores: la misma extensión se instala en Positron (~/.positron/extensions/ o $POSITRON_EXTENSIONS) y en VSCodium (~/.vscode-oss/extensions/ o $VSCODIUM_EXTENSIONS) cuando existe la carpeta del editor; si no, el instalador omite el par y lo dice en la simulación, sin crearla.\nMódulo iconos: dos temas de iconos (lliphi hereda de Breeze, lliphi-oscuro de Breeze Dark) que entregan solo las carpetas, dibujadas aquí en el acento con ColorScheme-Highlight y distintivos para los lugares de uso común, en 16, 22, 32, 48 y 64 px (este último escalable hasta 512); FollowsColorScheme las tiñe con el acento del usuario.\nMódulo libreoffice: dos esquemas de «Colores de la aplicación» (Lliphi Claro y Lliphi Oscuro) con las 91 entradas del esquema de LibreOffice 26.2 (documento, Writer, Calc, Draw, HTML, autores, BASIC, SQL e interfaz), generados desde los semánticos y los ANSI con la tabla de sintaxis de los editores; como extensión .oxt reproducible (unopkg add) y como fragmentos &lt;oor:items&gt; para registrymodifications.xcu. El instalador no toca LibreOffice.\nMódulo decoracion: decoración de ventanas Aurorae en dos temas (lliphi oscuro y lliphi-claro) derivada de WhiteSur-dark (marco, radios, sombra, disposición) y Nothing (botones circulares con glifo al pasar el ratón), ambos GPL-3.0-or-later y copiados sin cambios a fuentes/aurorae/base/ (ORIGEN.md); el generador reescribe solo los colores con los tokens (cerrar en el acento, el resto en gris, sin semáforo), la barra de 30 px y los botones a la derecha. generado/aurorae/ es GPL-3.0-or-later (REUSE.toml); los temas globales pasan a library=org.kde.kwin.aurorae.v2, theme=__aurorae__svg__&lt;id&gt; y botones IAX a la derecha; el instalador escribe esas claves en kwinrc al aplicar."
+  },
+  {
+    "objectID": "cambios.html#section-2",
+    "href": "cambios.html#section-2",
     "title": "Registro de cambios",
     "section": "[0.1.0] - 2026-10-18",
     "text": "[0.1.0] - 2026-10-18\n\nAdded\n\nTokens de diseño (DTCG 2025.10, color en OKLCH) con contraste medido; variantes clara y oscura y acento rojo.\nGeneradores: esquemas de color de Plasma, temas globales, estilo de Plasma que sigue el esquema del sistema, esquemas de Konsole y paquete de fondos con variante oscura.\nInstalador en Python con simulación por defecto, respaldo verificado, manifiesto y UNDO.sh.\nPruebas: tokens, contraste, deriva de lo generado, estructura de paquetes, instalación reversible y REUSE.\nSitio oficial (Quarto) con galería de capturas reales, catálogo generado de modulos/, guías e integración propuesta con el hub del autor; integración continua; empaquetado por módulo con SHA256SUMS."
@@ -588,6 +595,13 @@
     "text": "Positron con la extensión de VS Code (lote 2)\n\n\n\n\nOscuro\n\n\n\n\n\nClaro"
   },
   {
+    "objectID": "galeria.html#diez-mejoras-sobre-la-línea-base",
+    "href": "galeria.html#diez-mejoras-sobre-la-línea-base",
+    "title": "Galería",
+    "section": "0.3.0: diez mejoras sobre la línea base",
+    "text": "0.3.0: diez mejoras sobre la línea base\nLa base es la configuración que el autor eligió en su escritorio; cada mejora se aprobó viendo su antes y después.\n\n\n\n1. Acento rojo en el esquema\n\n\n\n\n\n2. Variante clara equivalente\n\n\n\n\n\n3. Iconos Papirus con carpetas en el acento\n\n\n\n\n\n4. Decoración de Nothing con dos detalles\n\n\n\n\n\n5. Konsole con Lliphi Oscuro\n\n\n\n\n\n6. Pantallas de carga y de salida\n\n\n\n\n\n7. Inicio de sesión\n\n\n\n\n\n8. Un acento por variante, también en Plasma\n\n\n\n\n\n9. JetBrains Mono como monoespaciada\n\n\n\n\n\n10. La variante clara, validada y corregida"
+  },
+  {
     "objectID": "galeria.html#derivado-de-whitesur-y-nothing",
     "href": "galeria.html#derivado-de-whitesur-y-nothing",
     "title": "Galería",
@@ -746,7 +760,7 @@
     "href": "index.html",
     "title": "Lliphi",
     "section": "",
-    "text": "Lliphi Oscuro: lanzador, panel y dock\n\n\n\n\n\nLliphi Claro: lanzador, panel y dock\nLliphi («relámpago» en quechua) nace de dos temas que el autor usaba —la sobriedad casi negra y el acento rojo de Nothing, la geometría redondeada y la familia claro/oscuro de WhiteSur— y de lo que a ambos les faltaba: una sola fuente de verdad para los colores, contraste medido, instalación reversible, repositorio y sitio."
+    "text": "Lliphi Oscuro: Dolphin y Konsole\n\n\n\n\n\nLliphi Claro: Dolphin y Konsole\nLliphi («relámpago» en quechua) nace de dos temas que el autor usaba —la sobriedad casi negra y el acento rojo de Nothing, la geometría redondeada y la familia claro/oscuro de WhiteSur— y de lo que a ambos les faltaba: una sola fuente de verdad para los colores, contraste medido, instalación reversible, repositorio y sitio."
   },
   {
     "objectID": "index.html#empezar",
@@ -760,7 +774,7 @@
     "href": "index.html#estado-del-proyecto",
     "title": "Lliphi",
     "section": "Estado del proyecto",
-    "text": "Estado del proyecto\nVersión 0.1.0, primer lote: esquemas de color, temas globales, estilo de Plasma, Konsole y fondos. Lo probado, lo experimental y lo pendiente se distinguen en cada página del catálogo y en compatibilidad."
+    "text": "Estado del proyecto\nVersión 0.3.0: la configuración que el autor eligió (WhiteSur-dark con la decoración de Nothing) más diez mejoras, cada una con captura de antes y después en la galería. Lo probado, lo experimental y lo pendiente se distinguen en cada página del catálogo y en compatibilidad."
   },
   {
     "objectID": "licencias.html",
@@ -789,12 +803,5 @@
     "title": "Licencias y créditos",
     "section": "Créditos e inspiración",
     "text": "Créditos e inspiración\n\nNothing (jomada, Seducción Linux, GPL 3+): la sobriedad casi negra, el acento rojo, la barra fina y el dock que se oculta, como ideas.\nWhiteSur (vinceliuice, GPLv3): la jerarquía de planos, los radios, los márgenes y la familia claro/oscuro, como ideas.\nBreeze (KDE Visual Design Group): el contrato de estilos de Plasma y el mínimo que hereda.\nDracula y Catppuccin: el modelo de ecosistema (paleta única, catálogo, plantillas) y el de generación con comprobación de deriva.\nDocumentación: KDE Developer (estilos de Plasma, Aurorae, fondos), freedesktop.org (Icon Theme, XDG Base Directory), W3C Design Tokens Community Group (Format Module 2025.10), WCAG 2.2, REUSE 3.3, SPDX.\nNombre: lliphi, «relámpago», del Diccionario bilingüe quechua–castellano de Teófilo Laime Ajacopa (2007).\n\nAutor: Edison Achalma."
-  },
-  {
-    "objectID": "instalar.html#tipografía-y-cursores",
-    "href": "instalar.html#tipografía-y-cursores",
-    "title": "Instalar",
-    "section": "Tipografía y cursores",
-    "text": "Tipografía y cursores\nEl tema global trae Inter (interfaz, OFL) y JetBrains Mono en su versión Nerd Font (terminal y código, OFL), que también va al perfil de Konsole. Inter viene de la distribución (sudo apt install fonts-inter); JetBrains Mono la descarga python3 herramientas/dependencias.py --aplicar a ~/.local/share/fonts/. Los cursores son WhiteSur-cursors (GPL-3.0; no se redistribuyen aquí): el mismo dependencias.py los descarga a ~/.local/share/icons/."
   }
 ]

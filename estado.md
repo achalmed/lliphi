@@ -44,6 +44,10 @@ Hasta que el autor elija el nombre (fase 3), la carpeta se llama `lliphi` y no e
 
 ## En curso
 
+- **versión 0.3.0 preparada (2026-10-19), espera el visto bueno del autor para publicar**: rama local
+  `wip/2026-10-19-version-0.3.0` (sin subir) con `VERSION`, CHANGELOG, sitio renderizado, README y ficha de la tienda;
+  `dist/` con 11 paquetes (nuevo: `lliphi-sddm`), `SHA256SUMS` y `NOTAS-0.3.0.md`. Publicar = fusionar en main, etiqueta
+  `v0.3.0`, push (despliega el sitio) y `gh release create`.
 - **mejora 10 (2026-10-19 08:35), aprobada por el autor**: variante clara validada en pantalla y corregida (carpetas
   por variante, fondo claro, bloqueo legible). En la sesión del autor solo cambió el tema de iconos a `Papirus-Dark-Lliphi`
   (mismo aspecto, Home y Escritorio ahora rojos). Incidente resuelto: la sesión de prueba dejó `LockedHint=yes` en la sesión

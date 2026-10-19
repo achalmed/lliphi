@@ -5,7 +5,7 @@ subtitle: "Dónde está cada versión y qué contiene"
 
 ## Versión actual
 
-**0.1.0** — primer lote. Las versiones siguen [SemVer](https://semver.org/lang/es/): la primera cifra cambia si
+**0.3.0** — la línea base del autor y diez mejoras ([registro de cambios](cambios.qmd)). Las versiones siguen [SemVer](https://semver.org/lang/es/): la primera cifra cambia si
 cambian los nombres de los paquetes o la forma de instalar; la segunda, si entra un módulo o cambia el diseño;
 la tercera, correcciones.
 
@@ -27,7 +27,9 @@ sha256sum -c SHA256SUMS
 
 ## Qué contiene una versión
 
-- `generado/`: los módulos tal como se instalan (esquemas, temas globales, estilo de Plasma, Konsole, fondos).
-- `herramientas/instalar.py`: el instalador, sin dependencias.
+- Un `.tar.gz` por módulo: esquemas, temas globales (con pantallas de carga y de salida), estilo de Plasma, Kvantum,
+  decoración, Konsole, fondos, terminales, editores, LibreOffice e inicio de sesión SDDM.
+- `herramientas/dependencias.py`: descarga al usuario WhiteSur-cursors, Papirus y JetBrains Mono Nerd Font.
+- `herramientas/instalar.py`: el instalador, sin dependencias; `herramientas/instalar_sddm.py` para el inicio de sesión.
 - `tokens/`: la fuente de verdad del color y de la marca.
 - `docs/`, `CHANGELOG.md`, `LICENSES/`, `REUSE.toml`.

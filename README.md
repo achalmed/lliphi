@@ -1,9 +1,11 @@
 # Lliphi
 
-Ecosistema de temas para KDE Plasma 6: casi negro y gris suave con un solo acento rojo, variantes clara y oscura
-generadas desde una sola fuente de tokens, contraste medido e instalación reversible. Sitio: [achalmed.github.io/lliphi](https://achalmed.github.io/lliphi/).
+Ecosistema de temas para KDE Plasma 6 derivado de WhiteSur y Nothing: el oscuro con el rojo de Nothing, el claro con
+el azul de WhiteSur, Inter y JetBrains Mono, generado desde una sola fuente de tokens e instalado de forma reversible. Sitio: [achalmed.github.io/lliphi](https://achalmed.github.io/lliphi/).
 
-![Lliphi Oscuro](muestras/capturas/oscuro-02-lanzador.png)
+![Lliphi Oscuro](muestras/capturas/oscuro-22-dolphin-konsole.png)
+
+![Lliphi Claro](muestras/capturas/claro-19-dolphin-konsole.png)
 
 ## Uso
 
@@ -14,7 +16,7 @@ python3 herramientas/instalar.py desinstalar --aplicar            # retira lo in
 bash ~/.local/state/lliphi/respaldos/<fecha>/UNDO.sh              # vuelve exactamente a lo de antes
 ```
 
-Requiere Plasma 6 (probado en 6.6) y Python ≥ 3.10; nunca pide `sudo`. Para desarrollar:
+Requiere Plasma 6 (probado en 6.6) y Python ≥ 3.10; nunca pide `sudo`, salvo el inicio de sesión SDDM (`herramientas/instalar_sddm.py`, con pkexec). Para desarrollar:
 
 ```bash
 python3 -m venv .venv && .venv/bin/pip install -e ".[dev]"

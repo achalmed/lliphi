@@ -3,7 +3,7 @@
   "nombre": "Lliphi",
   "id": "lliphi",
   "dominio_inverso": "org.lliphi",
-  "descripcion": "Tema para KDE Plasma: casi negro y gris suave con un acento rojo; mínimo, legible y reversible.",
+  "descripcion": "Tema para KDE Plasma derivado de WhiteSur y Nothing: el oscuro con el rojo de Nothing, el claro con el azul de WhiteSur; reversible.",
   "autor": "Edison Achalma",
   "correo": "",
   "sitio": "https://achalmaedison.netlify.app",

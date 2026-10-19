@@ -8,11 +8,11 @@
             }
         ],
         "Category": "",
-        "Description": "Lliphi Claro: Tema para KDE Plasma: casi negro y gris suave con un acento rojo; mínimo, legible y reversible.",
+        "Description": "Lliphi Claro: Tema para KDE Plasma derivado de WhiteSur y Nothing: el oscuro con el rojo de Nothing, el claro con el azul de WhiteSur; reversible.",
         "Id": "org.lliphi.claro",
         "License": "CC-BY-SA-4.0",
         "Name": "Lliphi Claro",
-        "Version": "0.2.0",
+        "Version": "0.3.0",
         "Website": "https://achalmaedison.netlify.app"
     },
     "X-KDE-fallbackPackage": "org.kde.breeze.desktop",

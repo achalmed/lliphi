@@ -1,13 +1,13 @@
 ---
 title: "Lliphi"
-subtitle: "Un ecosistema de temas para KDE Plasma: casi negro y gris suave, un solo acento rojo, claro y oscuro desde la misma fuente."
+subtitle: "Temas para KDE Plasma derivados de WhiteSur y Nothing: el oscuro con el rojo de Nothing, el claro con el azul de WhiteSur."
 toc: false
 ---
 
 ::: {.ll-portada}
-![Lliphi Oscuro: lanzador, panel y dock](generado/capturas/oscuro-02-lanzador.png){.lightbox}
+![Lliphi Oscuro: Dolphin y Konsole](generado/capturas/oscuro-22-dolphin-konsole.png){.lightbox}
 
-![Lliphi Claro: lanzador, panel y dock](generado/capturas/claro-02-lanzador.png){.lightbox}
+![Lliphi Claro: Dolphin y Konsole](generado/capturas/claro-19-dolphin-konsole.png){.lightbox}
 :::
 
 *Lliphi* («relámpago» en quechua) nace de dos temas que el autor usaba —la sobriedad casi negra y el acento rojo de
@@ -24,20 +24,20 @@ Los colores viven en un archivo de tokens (OKLCH, formato Design Tokens 2025.10)
 Cada par texto/fondo cumple WCAG 2.2 (4.5:1) y cada foco, acento y borde de control supera 3:1, en las dos variantes. El script lo mide y las pruebas lo exigen.
 :::
 ::: {.ll-rasgo}
-### Sigue tu acento
-El estilo de Plasma no fija colores: toma el esquema activo y el acento que elijas en Preferencias. Rojo por defecto; azul o verde azulado como variantes generadas.
+### Un acento por variante
+El oscuro lleva el rojo de Nothing (#c93436); el claro, el azul de WhiteSur (#315bef). Esquemas, estilo de Plasma, Kvantum, carpetas, Konsole, pantallas de carga e inicio de sesión siguen esa regla.
 :::
 ::: {.ll-rasgo}
 ### Reversible de verdad
-El instalador simula por defecto, escribe solo en tu carpeta de usuario, respalda tu configuración con suma SHA-256 y deja un `UNDO.sh`. Nada de `sudo`.
+El instalador simula por defecto, escribe solo en tu carpeta de usuario, respalda tu configuración con suma SHA-256 y deja un `UNDO.sh`. Solo el inicio de sesión pide contraseña, con pkexec, y también deja su `UNDO.sh`.
 :::
 ::: {.ll-rasgo}
-### Mínimo que hereda
-Lo que Breeze hace bien (iconos, decoración de ventanas, tema GTK generado) no se reemplaza: se colorea con el esquema. Menos archivos, menos roturas.
+### Derivado, no dibujado
+Parte de lo mejor que ya existe: el estilo de Plasma, Kvantum, pantallas e inicio de sesión de WhiteSur; la decoración de Nothing; los iconos de Papirus; Inter y JetBrains Mono. Lliphi cambia solo lo necesario y lo deja medido.
 :::
 ::: {.ll-rasgo}
 ### Sin marcas ajenas
-Ni semáforos, ni logotipos, ni fuentes propietarias, ni SVG copiados. Código MIT y activos CC BY-SA 4.0, declarados archivo por archivo (REUSE 3.3).
+Sin el logotipo de Apple ni fuentes propietarias. Código MIT, activos CC BY-SA 4.0 y lo derivado de WhiteSur y Nothing en GPL-3.0-or-later, declarado archivo por archivo (REUSE 3.3).
 :::
 :::
 
@@ -54,5 +54,6 @@ Requiere Plasma 6 (probado en 6.6) y Python 3.10 o posterior; nada más. La guí
 
 ## Estado del proyecto
 
-Versión **0.1.0**, primer lote: esquemas de color, temas globales, estilo de Plasma, Konsole y fondos. Lo probado,
-lo experimental y lo pendiente se distinguen en cada página del catálogo y en [compatibilidad](compatibilidad.qmd).
+Versión **0.3.0**: la configuración que el autor eligió (WhiteSur-dark con la decoración de Nothing) más diez mejoras,
+cada una con captura de antes y después en la [galería](galeria.qmd). Lo probado, lo experimental y lo pendiente se
+distinguen en cada página del catálogo y en [compatibilidad](compatibilidad.qmd).

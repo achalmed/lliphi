@@ -6,6 +6,30 @@ subtitle: "Capturas reales de Plasma 6.6, variante clara y oscura, caso por caso
 Todas las imágenes son capturas de una sesión real de Plasma 6.6 con el tema instalado y aplicado (nada de
 maquetas). Los dos bocetos del final están rotulados como tales.
 
+## 0.3.0: diez mejoras sobre la línea base
+
+La base es la configuración que el autor eligió en su escritorio; cada mejora se aprobó viendo su antes y después.
+
+![1. Acento rojo en el esquema](generado/capturas/comparacion-linea-base-acento.png){.lightbox group="v3"}
+
+![2. Variante clara equivalente](generado/capturas/comparacion-linea-base-clara.png){.lightbox group="v3"}
+
+![3. Iconos Papirus con carpetas en el acento](generado/capturas/comparacion-linea-base-iconos.png){.lightbox group="v3"}
+
+![4. Decoración de Nothing con dos detalles](generado/capturas/comparacion-linea-base-decoracion.png){.lightbox group="v3"}
+
+![5. Konsole con Lliphi Oscuro](generado/capturas/comparacion-linea-base-konsole.png){.lightbox group="v3"}
+
+![6. Pantallas de carga y de salida](generado/capturas/comparacion-linea-base-pantallas.png){.lightbox group="v3"}
+
+![7. Inicio de sesión](generado/capturas/comparacion-linea-base-inicio-de-sesion.png){.lightbox group="v3"}
+
+![8. Un acento por variante, también en Plasma](generado/capturas/comparacion-linea-base-acento-plasma.png){.lightbox group="v3"}
+
+![9. JetBrains Mono como monoespaciada](generado/capturas/comparacion-linea-base-monoespaciada.png){.lightbox group="v3"}
+
+![10. La variante clara, validada y corregida](generado/capturas/comparacion-linea-base-claro-validado.png){.lightbox group="v3"}
+
 ## Escritorio
 
 ::: {.ll-par}

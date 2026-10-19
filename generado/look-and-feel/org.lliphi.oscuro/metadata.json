@@ -8,11 +8,11 @@
             }
         ],
         "Category": "",
-        "Description": "Lliphi Oscuro: Tema para KDE Plasma: casi negro y gris suave con un acento rojo; mínimo, legible y reversible.",
+        "Description": "Lliphi Oscuro: Tema para KDE Plasma derivado de WhiteSur y Nothing: el oscuro con el rojo de Nothing, el claro con el azul de WhiteSur; reversible.",
         "Id": "org.lliphi.oscuro",
         "License": "CC-BY-SA-4.0",
         "Name": "Lliphi Oscuro",
-        "Version": "0.2.0",
+        "Version": "0.3.0",
         "Website": "https://achalmaedison.netlify.app"
     },
     "X-KDE-fallbackPackage": "org.kde.breeze.desktop",

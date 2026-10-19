@@ -89,6 +89,10 @@ def generar(tokens: dict, marca: dict, destino: Path) -> list[Path]:
             d.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(c, d)
             hechos.append(d)
+    for o in sorted((RAIZ / "muestras").glob("comparacion-linea-base-*.png")):   # galería de la 0.3.0
+        d = base / "capturas" / o.name
+        d.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(o, d); hechos.append(d)
     for b in ("boceto-claro.png", "boceto-oscuro.png"):
         o = RAIZ / "muestras" / b
         if o.exists():
