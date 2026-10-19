@@ -27,7 +27,7 @@ MAPA = {
     # en NEUTRO y en el rc
     "oscuro": {},
     "claro": {"#1b1b1d": "fondo.encabezado", "#111216": "borde.separador", "#202b30": "borde.separador",
-              "#eb3131": "acento.base", "#d46969": "acento.suave", "#a82323": "acento.texto",
+              # el rojo del botón de cerrar de Nothing se queda tal cual: en el claro el acento es azul (decisiones 4.12)
               "#e6e6df": "fondo.boton", "#dadad3": "borde.separador", "#f4f0ed": "fondo.vista", "#e5e5de": "fondo.boton",
               "#dadad4": "borde.separador", "#d1d1ca": "borde.separador", "#f5f5ee": "fondo.vista"},
 }

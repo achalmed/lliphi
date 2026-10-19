@@ -179,3 +179,15 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   de solo lectura: asignarlo hace que SDDM muestre su pantalla de error. Es la única pieza con root:
   `herramientas/instalar_sddm.py --aplicar` usa pkexec (la contraseña la escribe el autor) y deja `UNDO.sh`. Las caras de los
   usuarios son las de AccountsService, no del tema. Comparación en `muestras/comparacion-linea-base-inicio-de-sesion.png`. Aprobada por el autor el 2026-10-19.
+- **4.12 (2026-10-19) Un acento por variante, cada uno de su tema de partida** (decisión del autor: «el rojo para el
+  tema oscuro y el azul para el tema claro, y así aprovechamos los dos colores de Nothing y WhiteSur»). `paleta.py` tiene
+  `ACENTO = {"claro": "azul-whitesur", "oscuro": "rojo"}`: el oscuro conserva el rojo de Nothing (#c93436) y el claro toma el
+  azul exacto de WhiteSur (#315bef, 5,4:1 con blanco), con un azul suave (#4777f0) apenas más oscuro que el #4f7fef de WhiteSur
+  para que el hover cumpla 3:1 sobre los botones. Todo lo que sale de los tokens (esquemas, Kvantum, Konsole, editores,
+  terminales, pantalla de carga) sigue la regla. Excepción: el botón de cerrar de Nothing sigue rojo en la decoración clara,
+  porque su rojo significa «cerrar», no acento. `--acento X` sigue poniendo el mismo acento en las dos variantes para probar.
+- **4.13 (2026-10-19) Mejora 8: el acento llega al estilo de Plasma.** El `colors` del estilo (copiado de WhiteSur en la línea
+  base) seguía con el azul de WhiteSur en 28 claves, así que interruptores, deslizadores y resaltados del panel, la bandeja y los
+  plasmoides salían azules mientras las aplicaciones ya iban en rojo. Ahora pasa por la misma sustitución de solo acento que el
+  esquema (`esquema.con_acento`): rojo en el oscuro y el azul de WhiteSur en el claro. Comparación en
+  `muestras/comparacion-linea-base-acento-plasma.png`, tomada con `plasmawindowed` para fotografiar solo el plasmoide.

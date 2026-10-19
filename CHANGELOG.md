@@ -5,12 +5,15 @@ Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión de
 ## [Unreleased]
 
 ### Added
+- Un acento por variante: rojo de Nothing en el oscuro y azul de WhiteSur (#315bef) en el claro.
 - Inicio de sesión SDDM (mejora 7), derivado de WhiteSur-dark: fondo de Lliphi, Inter y foco en el acento;
   `herramientas/instalar_sddm.py` lo instala con pkexec y deja `UNDO.sh`.
 - Pantallas de carga y de salida (mejora 6), derivadas de WhiteSur-dark: fondo de Lliphi y el nombre en Inter con el
   punto en el acento en lugar del logotipo de Apple. Antes el tema declaraba una pantalla de carga que no traía.
 
 ### Changed
+- Estilo de Plasma (mejora 8): su `colors` toma el acento de la variante; antes conservaba el azul de WhiteSur en
+  interruptores, deslizadores y resaltados del panel.
 - Konsole (mejora 5): con `--aplicar-tema`, el perfil por defecto toma el esquema de Lliphi, con respaldo y
   reversión; la fuente del perfil no se toca y un perfil enlazado (dotfiles) sigue enlazado.
 - Decoración (mejora 4): sobre Nothing, el anillo del botón de minimizar pasa de cian a gris y el título usa los grises de

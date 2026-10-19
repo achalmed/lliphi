@@ -137,7 +137,21 @@ def test_esquema_linea_base_solo_acento():
                 assert g == f"{m.group(1)}={t[nombre]}{m.group(3)}", (v, grupo, b, g)
                 cambiadas += 1
         assert 20 < cambiadas < 60, (v, cambiadas)
-        assert not any(azul in l for l in gen for azul in esquema.AZULES_WHITESUR), v
+        if v == "oscuro":   # decisiones 4.12: en el oscuro no queda ningún azul de WhiteSur…
+            assert not any(azul in l for l in gen for azul in esquema.AZULES_WHITESUR), v
+        else:               # …y en el claro el acento ES el azul de WhiteSur
+            assert t["acento.base"] == "49,91,239" and "DecorationFocus=49,91,239" in gen, v
+
+
+def test_acento_por_variante():
+    """Decisiones 4.12: rojo de Nothing en el oscuro, azul de WhiteSur en el claro; el estilo de Plasma los sigue (mejora 8)."""
+    assert TOKENS["acento"] == {"claro": "azul-whitesur", "oscuro": "rojo"}
+    assert TOKENS["semanticos"]["oscuro"]["acento"]["base"]["$value"]["hex"] == "#c93436"
+    assert TOKENS["semanticos"]["claro"]["acento"]["base"]["$value"]["hex"] == "#315bef"
+    oscuro = (GEN / "desktoptheme" / f"{MARCA['id']}-oscuro" / "colors").read_text(encoding="utf-8")
+    assert "49,91,239" not in oscuro and "201,52,54" in oscuro
+    assert "49,91,239" in (GEN / "desktoptheme" / f"{MARCA['id']}-claro" / "colors").read_text(encoding="utf-8")
+    assert "#eb3131" in (GEN / "aurorae" / f"{MARCA['id']}-claro" / "close.svg").read_text(encoding="utf-8").lower()
 
 
 def test_tema_global_estructura():

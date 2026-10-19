@@ -55,3 +55,7 @@ el esquema rojo de los tokens. Quedan en el repositorio como piezas opcionales.
    (decisiones 4.11); comparación en `muestras/comparacion-linea-base-inicio-de-sesion.png`. Instalado con
    `herramientas/instalar_sddm.py --aplicar` (pkexec); se verá en el próximo inicio. Se revierte con
    `~/.local/state/lliphi/respaldos/2026-10-19_075442_sddm/UNDO.sh` (vuelve al de Kubuntu).
+8. **Hecha (2026-10-19 08:05), pendiente del visto bueno del autor**: acento por variante (rojo de Nothing en el oscuro, azul
+   de WhiteSur en el claro; decisiones 4.12) y ese acento en el estilo de Plasma (decisiones 4.13); comparación en
+   `muestras/comparacion-linea-base-acento-plasma.png`. Instalada con `instalar.py --aplicar`
+   (`respaldos/2026-10-19_080440/`); el estilo se recargó con `plasma-apply-desktoptheme`.

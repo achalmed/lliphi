@@ -21,7 +21,7 @@ RAIZ = Path(__file__).resolve().parent.parent
 TOKENS = RAIZ / "tokens" / "tokens.json"
 
 # ---------------------------------------------------------------------------
-# 1. Primitivas: una familia de neutros por variante y un acento común.
+# 1. Primitivas: una familia de neutros por variante y un acento por variante (rojo oscuro, azul claro).
 #    Día: neutros cálidos (matiz 80, papel). Noche: neutros fríos (matiz 255, pizarra).
 #    El acento es un verde azulado sereno (matiz 195) con dos luminosidades.
 # ---------------------------------------------------------------------------
@@ -41,14 +41,22 @@ ACENTOS = {
                    (0.555, 0.185, 25), (0.68, 0.17, 25), (0.78, 0.13, 25)),
     "azul":       ((0.50, 0.17, 262), (0.60, 0.15, 262), (0.46, 0.17, 262),
                    (0.56, 0.17, 262), (0.70, 0.13, 262), (0.80, 0.10, 262)),
+    # el azul exacto de WhiteSur (#315bef, 5,4:1 con blanco), su texto (#2a4fd0) y un suave (#4777f0) apenas más
+    # oscuro que el #4f7fef de WhiteSur para que el hover cumpla 3:1 sobre los botones claros
+    "azul-whitesur": ((0.538, 0.227, 266.26), (0.60, 0.19, 265), (0.487, 0.203, 266.26),
+                      (0.56, 0.17, 262), (0.70, 0.13, 262), (0.80, 0.10, 262)),
     "verde-azul": ((0.50, 0.085, 195), (0.575, 0.09, 195), (0.44, 0.095, 195),
                    (0.545, 0.10, 195), (0.68, 0.095, 195), (0.76, 0.09, 195)),
 }
-ACENTO = "rojo"
+# Decisión del autor (2026-10-19, decisiones 4.12): un acento por variante, cada uno de su tema de partida:
+# el rojo de Nothing en el oscuro y el azul de WhiteSur en el claro.
+ACENTO = {"claro": "azul-whitesur", "oscuro": "rojo"}
 
 
-def primitivas(acento: str = ACENTO) -> dict[str, dict[str, Color]]:
-    a = ACENTOS[acento]
+def primitivas(acento: dict[str, str] | str = ACENTO) -> dict[str, dict[str, Color]]:
+    if isinstance(acento, str):
+        acento = {"claro": acento, "oscuro": acento}
+    a = ACENTOS[acento["claro"]][:3] + ACENTOS[acento["oscuro"]][3:]
     h = MATIZ_NEUTRO
     return {
         "claro": {
@@ -293,7 +301,7 @@ def escribir_tokens() -> None:
 
 
 if __name__ == "__main__":
-    if "--acento" in sys.argv:
+    if "--acento" in sys.argv:   # el mismo acento en las dos variantes (para probar otros)
         ACENTO = sys.argv[sys.argv.index("--acento") + 1]
         PRIMITIVAS = primitivas(ACENTO)
     bien = informe()

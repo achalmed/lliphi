@@ -13,6 +13,7 @@ Hasta que el autor elija el nombre (fase 3), la carpeta se llama `lliphi` y no e
 
 | fecha | qué | dónde se ve |
 |---|---|---|
+| 2026-10-19 | mejora 8: acento por variante (rojo oscuro, azul de WhiteSur claro) y acento en el estilo de Plasma | `docs/decisiones.md` 4.12–4.13, `muestras/comparacion-linea-base-acento-plasma.png` |
 | 2026-10-19 | mejora 7: inicio de sesión SDDM derivado de WhiteSur-dark (fondo de Lliphi, Inter, foco rojo); instalador con pkexec y UNDO | `docs/decisiones.md` 4.11, `muestras/comparacion-linea-base-inicio-de-sesion.png` |
 | 2026-10-19 | mejora 6: pantallas de carga y de salida de WhiteSur-dark con el fondo y el nombre de Lliphi | `docs/decisiones.md` 4.10, `muestras/comparacion-linea-base-pantallas.png` |
 | 2026-10-19 | mejora 5: Konsole con Lliphi Oscuro; el instalador fija el esquema en el perfil por defecto con respaldo | `docs/decisiones.md` 4.9, `muestras/comparacion-linea-base-konsole.png` |
@@ -41,6 +42,8 @@ Hasta que el autor elija el nombre (fase 3), la carpeta se llama `lliphi` y no e
 
 ## En curso
 
+- **mejora 8 (2026-10-19 08:05), espera el visto bueno del autor**: un acento por variante (rojo oscuro, azul de WhiteSur
+  claro) y el acento en el estilo de Plasma. La variante clara solo se comprobó en archivos y pruebas, no en pantalla.
 - **mejora 7 (2026-10-19 07:55), aprobada por el autor**: inicio de sesión SDDM de Lliphi instalado en
   `/usr/share/sddm/themes/lliphi` con `/etc/sddm.conf.d/99-lliphi.conf`; comprobado en `sddm-greeter-qt6 --test-mode`, falta
   verlo en un inicio real. La copia instalada lleva la vista previa provisional (el `preview.png` final se generó después;

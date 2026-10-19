@@ -32,7 +32,7 @@ Image {
             // Lliphi: el nombre en Inter en lugar del logotipo de Apple de WhiteSur
             anchors.centerIn: parent
             textFormat: Text.StyledText
-            text: "Lliphi<font color='#c53133'>.</font>"
+            text: "Lliphi<font color='#315bef'>.</font>"
             color: "#1d1f24"
             font.family: "Inter"
             font.weight: Font.Light

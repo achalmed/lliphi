@@ -20,14 +20,15 @@ import re
 import shutil
 from pathlib import Path
 
-from . import RAIZ, VERSION, autores, escribir, semanticos
+from . import RAIZ, VERSION, aplanar, autores, escribir, rgb, semanticos
+from .esquema import con_acento
 
 BASE = RAIZ / "fuentes" / "base" / "WhiteSur-kde" / "plasma" / "desktoptheme"
 ORIGEN = {"oscuro": "WhiteSur-dark", "claro": "WhiteSur"}
 
 # hex fijo de WhiteSur → token semántico de Lliphi (los colores de marcador de Plasma —magenta, cian, verde, naranja—
 # y los del stylesheet de Breeze no se tocan: Plasma los sustituye o los ignora)
-MAPA = {"oscuro": {}, "claro": {}}   # línea base del autor: WhiteSur tal cual, sin recolorear
+MAPA = {"oscuro": {}, "claro": {}}   # línea base del autor: WhiteSur tal cual, sin recolorear (salvo el acento de `colors`)
 
 
 def recolorear(texto: str, mapa: dict[str, str]) -> str:
@@ -50,6 +51,11 @@ def generar(tokens: dict, marca: dict, destino: Path) -> list[Path]:
             if f.suffix == ".svgz":
                 texto = gzip.open(f).read().decode("utf-8", errors="ignore")
                 escribir(base / rel.with_suffix(".svg"), recolorear(texto, mapa), hechos)   # sin comprimir: diff legible
+            elif f.name == "colors":
+                # mejora 8 (decisiones 4.13): el `colors` de WhiteSur con solo el acento de la variante (rojo en el
+                # oscuro, azul de WhiteSur en el claro), igual que el esquema de la mejora 1; lo demás, byte a byte
+                trgb = {k: rgb(v) for k, v in aplanar(tokens["semanticos"][variante]).items()}
+                escribir(base / rel, con_acento(f.read_text(encoding="utf-8"), trgb), hechos)
             elif f.suffix == ".svg":
                 escribir(base / rel, recolorear(f.read_text(encoding="utf-8", errors="ignore"), mapa), hechos)
             else:
