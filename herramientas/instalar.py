@@ -233,7 +233,11 @@ def instalar(modulos: list[str], aplicar: bool, aplicar_tema: str | None) -> int
                 subprocess.run(["kwriteconfig6", "--file", "kdeglobals", "--group", "WM", "--key", "activeFont", "Inter,10,-1,5,500,0,0,0,0,0"], capture_output=True, text=True)
                 subprocess.run(["dbus-send", "--session", "--type=signal", "/KGlobalSettings", "org.kde.KGlobalSettings.notifyChange", "int32:0", "int32:0"], capture_output=True, text=True)
                 print("  tipografía: Inter 10 (interfaz) y Hack 10 (terminal)")
-            iconos = "breeze-dark" if aplicar_tema == "oscuro" else "breeze"
+            # mejora 3: Papirus con carpetas rojas si dependencias.py lo trajo; si no, Breeze (del que Papirus hereda)
+            iconos = "Papirus-Dark" if aplicar_tema == "oscuro" else "Papirus"
+            if not (DATA / "icons" / iconos).exists():
+                print(f"  {iconos} no está en {DATA / 'icons'} (ejecuta herramientas/dependencias.py --aplicar); se usa Breeze")
+                iconos = "breeze-dark" if aplicar_tema == "oscuro" else "breeze"
             if (DATA / "icons" / iconos).exists():
                 if shutil.which("plasma-changeicons"):
                     subprocess.run(["plasma-changeicons", iconos], capture_output=True, text=True)

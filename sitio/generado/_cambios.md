@@ -12,6 +12,10 @@ Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión de
   acento rojo + `lliphi-claro` + Kvantum `LliphiClaro`) comprobada en sesión anidada; el Kvantum claro no recoloreaba el
   foco ni los deslizadores porque el acento de `WhiteSur.svg` es `#0860f2` (y `#0e4bb4`, `#0852ce`, `#1352c4`, `#77aff1`),
   no `#315bef`: ahora se mapean a los tokens. Capturas `claro-10`, `claro-11` y `muestras/comparacion-linea-base-clara.png`.
+- Mejora 3 (decisiones 4.7): los iconos de la línea base pasan de Breeze a **Papirus con las carpetas en rojo**
+  (`Papirus-Dark` oscuro, `Papirus` claro; heredan de Breeze): `dependencias.py` los instala por defecto (Bibata sigue en
+  `--opcionales`), el tema global los declara en `defaults` y el instalador los aplica con `plasma-changeicons` (si no
+  están, Breeze). Captura `oscuro-21` y `muestras/comparacion-linea-base-iconos.png`; pendiente del visto bueno del autor.
 - Línea base fijada por el autor (`docs/linea-base.md`, decisiones 4.4): el tema global reproduce su configuración
   activa, WhiteSur-dark tal cual (esquema `WhiteSurDark` y estilo de Plasma con su `colors`, sin recolorear),
   decoración Nothing, Kvantum Lliphi, iconos `breeze-dark`, cursores WhiteSur-cursors; la única novedad es la

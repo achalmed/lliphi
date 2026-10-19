@@ -145,3 +145,12 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   la captura y la prueba en su sesión queda a su mano (instrucciones en `estado.md`). Observado y dejado como está: las
   carpetas de `breeze` (claro) son azules fijas, a diferencia de `breeze-dark` que sigue el acento: es la mejora 3 (iconos).
   Aprobada por el autor a las 18:58.
+- **4.7 (2026-10-18, 19:05) Mejora 3: Papirus con carpetas rojas, tal cual, como iconos de la línea base**
+  (`docs/linea-base.md` §2.3). Papirus (GPL-3.0) ya estaba descargado por `herramientas/dependencias.py` con los
+  `folder-red-*` enlazados sobre `folder-*` (lo que hace `papirus-folders`); se usa su rojo propio (`#e25252` /
+  `#bf4b4b`), no el de los tokens (`#c93436`): derivar de lo que existe sin redibujar; si el autor quiere el rojo exacto,
+  el paso siguiente sería sustituir esos dos hex en los `folder-red-*` descargados. `Papirus-Dark` (oscuro) y `Papirus`
+  (claro) pasan a `defaults` del tema global, al instalador (`plasma-changeicons`, con Breeze de reserva) y a las
+  dependencias por defecto; Bibata sigue opcional. Aplicado en la sesión del autor solo con
+  `plasma-changeicons Papirus-Dark` (reversión: `plasma-changeicons breeze-dark`). Pendiente de su visto bueno sobre
+  `muestras/comparacion-linea-base-iconos.png`.

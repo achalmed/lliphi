@@ -5,9 +5,9 @@ Línea base (docs/linea-base.md):
 - Cursores: WhiteSur-cursors (GPL-3.0; vinceliuice; KDE Store 1411743). El repositorio no publica versiones: se toma
   `dist/` del tarball de la rama principal.
 - Tipografías: Inter (OFL) y Hack (MIT) vienen de la distribución (`fonts-inter`, `fonts-hack`); aquí solo se comprueban.
+- Iconos (mejora 3, decisiones 4.7): Papirus (Papirus, Papirus-Dark, Papirus-Light; GPL-3.0; PapirusDevelopmentTeam) con
+  las carpetas en rojo, como hace `papirus-folders` (se enlazan los `folder-red-*` sobre los `folder-*`); heredan de Breeze.
 Opcionales (`--opcionales`; piezas probadas en 0.2.0 que el autor dejó fuera de la línea base):
-- Iconos: Papirus (Papirus, Papirus-Dark, Papirus-Light; GPL-3.0; PapirusDevelopmentTeam) con las carpetas en el
-  color del acento, como hace `papirus-folders` (se enlazan los `folder-red-*` sobre los `folder-*`).
 - Cursores: Bibata Modern Classic (oscuro) y Modern Ice (claro) (GPL-3.0; ful1e5).
 
 Se descargan de GitHub a `$XDG_DATA_HOME/icons/`; nada en `/usr`. Lo descargado no se redistribuye en este
@@ -15,7 +15,7 @@ repositorio: se cita y se enlaza (docs/licencias en el sitio).
 
 Uso:  python3 herramientas/dependencias.py                         # simula: qué descargaría y dónde
       python3 herramientas/dependencias.py --aplicar               # descarga e instala lo que falte de la línea base
-      python3 herramientas/dependencias.py --aplicar --opcionales  # además Papirus y Bibata
+      python3 herramientas/dependencias.py --aplicar --opcionales  # además Bibata
 Solo biblioteca estándar (urllib, tarfile).
 """
 from __future__ import annotations
@@ -142,9 +142,9 @@ def main() -> int:
     print(f"{'Instalando' if aplicar else 'SIMULACIÓN de'} dependencias en {ICONOS}")
     ICONOS.mkdir(parents=True, exist_ok=True)
     whitesur_cursores(aplicar)
+    papirus(aplicar)          # mejora 3 (decisiones 4.7): Papirus con carpetas rojas es parte de la línea base
     fuentes()
     if "--opcionales" in sys.argv:
-        papirus(aplicar)
         bibata(aplicar)
     return 0
 

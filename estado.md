@@ -13,6 +13,7 @@ Hasta que el autor elija el nombre (fase 3), la carpeta se llama `lliphi` y no e
 
 | fecha | qué | dónde se ve |
 |---|---|---|
+| 2026-10-18 | **mejora 3 sobre la línea base: iconos Papirus con carpetas rojas** (decisiones 4.7): `Papirus-Dark`/`Papirus` en `defaults` del tema global, en el instalador (`plasma-changeicons`, Breeze de reserva) y en `dependencias.py` por defecto; prueba ampliada; **aplicado en la sesión del autor solo con `plasma-changeicons Papirus-Dark`** (respaldo `respaldos/2026-10-18_mejora3-iconos/REVERTIR-iconos.sh`) | `muestras/comparacion-linea-base-iconos.png`, `muestras/capturas/oscuro-21-*.png` |
 | 2026-10-18 | **mejora 2 sobre la línea base: variante clara comprobada en sesión anidada, aprobada por el autor a las 18:58** (decisiones 4.6, `validacion.md` §7): `org.lliphi.claro` (WhiteSur claro + `LliphiClaro` rojo + `lliphi-claro` + Kvantum `LliphiClaro`) instalado y aplicado en `/tmp/casa-lliphi-m2`; corregido el Kvantum claro (foco y deslizadores azules `#0860f2`); 19 pruebas en verde, sin deriva. **Nada aplicado en la sesión del autor** | `muestras/comparacion-linea-base-clara.png`, `muestras/capturas/claro-10-*.png`, `claro-11-*.png` |
 | 2026-10-18 | **mejora 1 sobre la línea base: acento rojo en el esquema, aprobada por el autor a las 18:35** (decisiones 4.5): `LliphiOscuro.colors` y `LliphiClaro.colors` = WhiteSurDark/WhiteSur con solo foco, hover, enlace, texto activo y selección tomados de los tokens (el resto byte a byte; prueba `test_esquema_linea_base_solo_acento`, 19 en verde, `verificar` sin deriva); instalado con respaldo (`respaldos/2026-10-18_182307/UNDO.sh`) y **aplicado en la sesión del autor solo con `plasma-apply-colorscheme LliphiOscuro`** (tema global, estilo, Kvantum y decoración intactos); comparación antes/después con Dolphin y Preferencias | `muestras/comparacion-linea-base-acento.png`, `muestras/capturas/oscuro-18-*.png`, `oscuro-19-*.png` |
 | 2026-10-18 | **línea base fijada por el autor** = su configuración activa (WhiteSur-dark tal cual + Nothing + Kvantum Lliphi + breeze-dark + cursores WhiteSur) con Inter/Hack; los generadores la reproducen (esquema y estilo copiados sin recolorear); el esquema rojo de los tokens queda como `-tokens` | `docs/linea-base.md`, `docs/decisiones.md` 4.4 |
@@ -37,10 +38,16 @@ Hasta que el autor elija el nombre (fase 3), la carpeta se llama `lliphi` y no e
 ## En curso
 
 - mejoras una a una sobre la línea base (`docs/linea-base.md` §2): la 1 (acento rojo) **aprobada por el autor
-  (18:35)** y aplicada; la 2 (variante clara) **aprobada (18:58)**; en curso la 3: iconos Papirus con carpetas rojas junto a esta base, con captura y visto bueno.
+  (18:35)** y aplicada; la 2 (variante clara) **aprobada (18:58)**; la 3 (Papirus con carpetas rojas) hecha y aplicada, a la espera de su visto bueno. Con las tres cerradas, la línea base queda completa (`docs/linea-base.md` §2).
 
 ## Por hacer
 
+- 2026-10-18 · dueño: autor · **¿aprobados los iconos Papirus con carpetas rojas?** Mirar `muestras/comparacion-linea-base-iconos.png`
+  (o el escritorio: `Papirus-Dark` quedó aplicado). Si no gusta: `/usr/lib/x86_64-linux-gnu/libexec/plasma-changeicons breeze-dark`
+  (o `~/.local/state/lliphi/respaldos/2026-10-18_mejora3-iconos/REVERTIR-iconos.sh`). Si quiere el rojo exacto de los tokens en
+  las carpetas (`#c93436` en vez del `#e25252` de Papirus), decirlo: es un paso más en `dependencias.py`. Nota: durante la captura
+  el autor estaba presentando pantalla en una videollamada; la captura «antes» salió del Meet y se borró sin versionar; como
+  «antes» sirve `oscuro-19` (mejora 1, iconos breeze-dark).
 - 2026-10-18 · dueño: asistente · `test_instalar_y_desinstalar_restaura` falla en la línea de los iconos (`index.theme` no instalado): otra sesión retiró `herramientas/destinos/iconos.py` y el módulo `iconos` a la vez que se cerraba la decoración; al cerrar ese cambio, ajustar la prueba o reponer el módulo.
 - 2026-10-18 · dueño: autor · el hub (`web` 6ffafae, con el enlace a Lliphi) está empujado pero Netlify no lo había desplegado 40 minutos después (la portada sigue sin el enlace): revisar en app.netlify.com → Deploys del sitio `achalmaedison` si el despliegue automático desde GitHub sigue activo.
 - 2026-10-18 · dueño: autor · **el disco interno `/dev/nvme0n1` (INTEL HBRPEKNX0101AH) aparece como «likely to fail soon» en Plasma** (aviso de Device Health visto en la sesión de prueba): respaldar y comprobar con `sudo smartctl -a /dev/nvme0n1`.
