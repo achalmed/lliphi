@@ -38,7 +38,7 @@ Hasta que el autor elija el nombre (fase 3), la carpeta se llama `lliphi` y no e
 
 ## En curso
 
-- **mejora 4 (2026-10-19 07:36), espera el visto bueno del autor**: la línea base se restauró en su sesión a las 07:29 a
+- **mejora 4 (2026-10-19 07:36), aprobada por el autor**: la línea base se restauró en su sesión a las 07:29 a
   petición suya (`instalar.py --aplicar --aplicar-tema oscuro`; UNDO en `respaldos/2026-10-19_072920/`, que devuelve el
   WhiteSur-dark que había aplicado la noche anterior). Mejora 4 = decoración Nothing con anillo de minimizar gris, título en los
   grises de Lliphi sin sombra y en Inter Medium (corregido el instalador, que no recargaba las fuentes); aplicada solo la

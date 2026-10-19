@@ -37,7 +37,7 @@ el esquema rojo de los tokens. Quedan en el repositorio como piezas opcionales.
 3. **Hecha y aprobada por el autor (19:12)**: Papirus-Dark con carpetas rojas junto a esta base (decisiones 4.7); aplicada en la
    sesión con `plasma-changeicons Papirus-Dark`; comparación en `muestras/comparacion-linea-base-iconos.png`; se revierte
    con `plasma-changeicons breeze-dark`.
-4. **Hecha (2026-10-19 07:36), pendiente del visto bueno del autor**: decoración Nothing con dos plus (anillo de minimizar en
+4. **Hecha y aprobada por el autor (2026-10-19)**: decoración Nothing con dos plus (anillo de minimizar en
    gris, título en los grises de Lliphi sin sombra) y títulos en Inter Medium de verdad (el instalador ahora recarga las
    fuentes en vivo); decisiones 4.8; comparación en `muestras/comparacion-linea-base-decoracion.png`. Aplicada en la sesión
    con `instalar.py --modulos decoracion --aplicar`; se revierte con el `UNDO.sh` de

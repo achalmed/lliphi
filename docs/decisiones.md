@@ -159,4 +159,4 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   (`texto.normal`, `texto.inactivo`) sin sombra en vez del lavanda de Nothing. Además se corrige un fallo del instalador: escribía
   Inter Medium en `[WM] activeFont` pero emitía la señal de paleta (`notifyChange 0`) y no la de fuentes, así que KWin seguía
   dibujando los títulos en Hack hasta reiniciar la sesión; ahora emite `org.kde.KDEPlatformTheme.refreshFonts`, la misma del
-  módulo de Tipografías. Comparación en `muestras/comparacion-linea-base-decoracion.png`.
+  módulo de Tipografías. Comparación en `muestras/comparacion-linea-base-decoracion.png`. Aprobada por el autor el 2026-10-19.
