@@ -212,4 +212,4 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   imagen clara por ruta; (2) el bloqueo de pantalla escribe siempre en blanco y sobre el fondo claro el reloj no se leía; el
   instalador pone en las dos variantes la imagen oscura de Lliphi en el bloqueo, como el inicio de sesión. Se conserva a
   propósito el panel oscuro de WhiteSur claro, aprobado en la mejora 2. Comparación en
-  `muestras/comparacion-linea-base-claro-validado.png`; método y trampas en `docs/validacion.md` §8.
+  `muestras/comparacion-linea-base-claro-validado.png`; método y trampas en `docs/validacion.md` §8. Aprobada por el autor el 2026-10-19.

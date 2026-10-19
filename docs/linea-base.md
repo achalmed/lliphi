@@ -62,7 +62,7 @@ el esquema rojo de los tokens. Quedan en el repositorio como piezas opcionales.
 9. **Hecha y aprobada por el autor (2026-10-19)**: JetBrains Mono (Nerd Font) como única monoespaciada,
    en el sistema y en Konsole (decisiones 4.14); comparación en `muestras/comparacion-linea-base-monoespaciada.png`. Aplicada
    con `instalar.py --aplicar --aplicar-tema oscuro` (`respaldos/2026-10-19_080755/`, que guarda el perfil de Konsole con FiraCode).
-10. **Hecha (2026-10-19 08:35), pendiente del visto bueno del autor**: el claro validado en una sesión virtual aparte; arreglados
+10. **Hecha y aprobada por el autor (2026-10-19)**: el claro validado en una sesión virtual aparte; arreglados
     las carpetas por variante (superpuesto `Papirus-Dark-Lliphi`, decisiones 4.15), el fondo claro y el bloqueo legible
     (decisiones 4.16); comparación en `muestras/comparacion-linea-base-claro-validado.png`. En la sesión del autor: iconos
     `Papirus-Dark-Lliphi`.
