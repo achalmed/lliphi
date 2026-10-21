@@ -13,6 +13,7 @@ Hasta que el autor elija el nombre (fase 3), la carpeta se llama `lliphi` y no e
 
 | fecha | qué | dónde se ve |
 |---|---|---|
+| 2026-10-21 | **incidente**: el widget de notas del escritorio del autor desapareció el 2026-10-18 entre las 17:43 y las 17:54, al aplicar el tema global con la disposición de Lliphi; Plasma borró su nota (`4c3e15fd…`) y el `fstrim` del 19 a la 01:03 impidió recuperarla. Se repuso el widget en su sitio con la nota que quedaba (`97428f42…`, de julio) y el instalador ahora respalda `~/.local/share/plasma_notes` y su `UNDO.sh` la devuelve | `herramientas/instalar.py` |
 | 2026-10-19 | **0.3.0 publicada**: etiqueta `v0.3.0`, release con 11 paquetes (nuevo `lliphi-sddm`) y `SHA256SUMS`, sitio desplegado con la galería de las diez mejoras; CI y sitio en verde | github.com/achalmed/lliphi/releases/tag/v0.3.0, achalmed.github.io/lliphi |
 | 2026-10-19 | mejora 10: claro validado en sesión virtual; carpetas por variante con el superpuesto `Papirus-Dark-Lliphi`, fondo claro fijado, bloqueo con fondo oscuro | `docs/validacion.md` §8, `docs/decisiones.md` 4.15–4.16, `muestras/comparacion-linea-base-claro-validado.png` |
 | 2026-10-19 | mejora 9: JetBrains Mono Nerd Font como única monoespaciada (sistema y Konsole), descargada por `dependencias.py` | `docs/decisiones.md` 4.14, `muestras/comparacion-linea-base-monoespaciada.png` |

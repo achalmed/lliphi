@@ -3,6 +3,10 @@ Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión de
 
 ## [Unreleased]
 
+### Fixed
+- El instalador respalda las notas del widget de Plasma (`~/.local/share/plasma_notes`) y `UNDO.sh` las devuelve: si un
+  cambio de disposición quita el widget, Plasma borra su nota.
+
 ## [0.3.0] - 2026-10-19
 
 Lliphi parte ahora de la configuración que el autor eligió en su escritorio (WhiteSur-dark, decoración de Nothing,

@@ -185,6 +185,12 @@ def respaldar(aplicar: bool) -> Path:
                     raise SystemExit(f"respaldo no verificado: {rel}")
             sumas[rel] = sha(origen)
             print(f"  {'respaldado' if aplicar else 'SIM respaldar'} {rel}")
+    # las notas del widget de Plasma: si un cambio de disposición quita el widget, Plasma borra su archivo (2026-10-19)
+    notas = DATA / "plasma_notes"
+    if notas.is_dir() and any(notas.iterdir()):
+        if aplicar:
+            shutil.copytree(notas, carpeta / "data" / "plasma_notes", dirs_exist_ok=True)
+        print(f"  {'respaldado' if aplicar else 'SIM respaldar'} notas de Plasma ({sum(1 for _ in notas.iterdir())})")
     perfil = perfil_konsole()
     if perfil:
         destino = carpeta / "data" / "konsole" / perfil.name
@@ -206,6 +212,7 @@ def escribir_undo(carpeta: Path, rutas: list[Path]) -> None:
               "set -euo pipefail", f'CONFIG="{CONFIG}"', f'RESPALDO="{carpeta}"', ""]
     for rel in CONFIGS:
         lineas.append(f'[ -f "$RESPALDO/config/{rel}" ] && mkdir -p "$(dirname "$CONFIG/{rel}")" && cp -p "$RESPALDO/config/{rel}" "$CONFIG/{rel}" && echo "restaurado {rel}"')
+    lineas.append(f'[ -d "$RESPALDO/data/plasma_notes" ] && mkdir -p "{DATA / "plasma_notes"}" && cp -rn "$RESPALDO/data/plasma_notes/." "{DATA / "plasma_notes"}/" && echo "restauradas las notas de Plasma que faltaban"')
     perfil = perfil_konsole()
     if perfil:
         lineas.append(f'[ -f "$RESPALDO/data/konsole/{perfil.name}" ] && cp -p "$RESPALDO/data/konsole/{perfil.name}" "{perfil}" && echo "restaurado perfil de Konsole {perfil.name}"')
