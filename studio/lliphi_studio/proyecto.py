@@ -257,6 +257,14 @@ def versiones() -> dict[str, str]:
     return salida
 
 
+def fondo(variante: str) -> Path | None:
+    """La imagen del fondo de Lliphi de una variante (la más pequeña), para ver lo translúcido como en el escritorio."""
+    base = raiz() / "generado" / "fondos" / marca()["id_fondo"] / "contents"
+    carpeta = base / ("images_dark" if variante == "oscuro" else "images")
+    imagenes = sorted(carpeta.glob("*.png")) or sorted((base / "images").glob("*.png"))
+    return imagenes[0] if imagenes else None
+
+
 def data_home() -> Path:
     return Path(os.environ.get("XDG_DATA_HOME") or home() / ".local" / "share")
 
