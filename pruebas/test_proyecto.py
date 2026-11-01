@@ -599,6 +599,33 @@ def test_fondo_paquete():
     assert max(oscuro) < 40 and min(claro) > 215
 
 
+def _hex(h: str) -> tuple[int, int, int]:
+    return tuple(int(h.lstrip("#")[i:i + 2], 16) for i in (0, 2, 4))
+
+
+def test_fondo_forma():
+    """«Lliphi Forma» (decisiones 4.23): claro y oscuro en los tres tamaños, en JPEG; neutro liso en la esquina y el
+    semicírculo en el rojo de Lliphi en su sitio."""
+    fondos = registro.codigo("fondos")
+    base = GEN / "fondos" / fondos.id_forma(MARCA)
+    meta = json.loads((base / "metadata.json").read_text(encoding="utf-8"))
+    assert meta["KPlugin"]["Id"] == fondos.id_forma(MARCA) and meta["KPlugin"]["Name"].endswith("Forma")
+    PIL = pytest.importorskip("PIL.Image")
+    rojo = _hex(TOKENS["primitivas"]["oscuro"]["acento"]["$value"]["hex"])
+    for carpeta in ("images", "images_dark"):
+        for ancho, alto in fondos.TAMANOS:
+            im = PIL.open(base / "contents" / carpeta / f"{ancho}x{alto}.jpg")
+            assert im.size == (ancho, alto) and im.mode == "RGB"
+        im = PIL.open(base / "contents" / carpeta / "1920x1080.jpg")
+        s = round(1080 * 0.25)
+        x0 = 960 - (2 * s + s // 2 + round(s * 1.62) - round(s * 0.02)) // 2
+        punto = im.getpixel((x0 + 2 * s + s // 4, 540))          # dentro del semicírculo
+        assert all(abs(punto[i] - rojo[i]) < 40 for i in range(3)), (carpeta, punto)
+    esquina_o = PIL.open(base / "contents" / "images_dark" / "1920x1080.jpg").getpixel((10, 10))
+    esquina_c = PIL.open(base / "contents" / "images" / "1920x1080.jpg").getpixel((10, 10))
+    assert max(esquina_o) < 40 and 150 < min(esquina_c) < 230
+
+
 # ---------------------------------------------------------------- instalación reversible
 
 def _entorno(tmp: Path) -> dict:

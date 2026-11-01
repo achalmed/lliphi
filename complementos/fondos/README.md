@@ -1,8 +1,14 @@
 # Fondos de pantalla (`fondos`)
 
-El paquete de fondo «Lliphi Horizonte» (`org.lliphi.horizonte`): un degradado de dos neutros con una franja diagonal
-del acento, en 1080p, 1440p y 4K, con imagen clara (`images/`) y oscura (`images_dark/`, Plasma ≥ 6.6) y el acento
-declarado (`X-KDE-PlasmaImageWallpaper-AccentColor`).
+Dos paquetes de fondo, cada uno con imagen clara (`images/`) y oscura (`images_dark/`, Plasma ≥ 6.6), en 1080p,
+1440p y 4K y con el acento declarado (`X-KDE-PlasmaImageWallpaper-AccentColor`):
+
+- «Lliphi Horizonte» (`org.lliphi.horizonte`), el que nombra el tema global: un degradado de dos neutros con una franja
+  diagonal del acento (PNG).
+- «Lliphi Forma» (`org.lliphi.forma`, decisiones 4.23): dos cuadrados de vidrio esmerilado, un semicírculo en el rojo de
+  Lliphi y una píldora que se deshace hacia abajo con una matriz de puntos tenue, sobre neutro liso con grano fino
+  (JPEG de calidad 90 sin submuestreo: el grano no comprime en PNG). Se dibuja a 4K y se reduce; reproducible
+  (semillas fijas).
 
 Es un **complemento**: existía antes de la reingeniería y se conserva fuera del tema global, porque no es parte de un
 `Plasma/LookAndFeel`. Arquitectura: [`docs/arquitectura.md`](../../docs/arquitectura.md).

@@ -206,6 +206,14 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   (carpetas azules, para el claro) y crea `Papirus-Dark-Lliphi`, un tema superpuesto que hereda de Papirus-Dark y solo declara
   enlaces a las variantes rojas de todo icono que acaba en una carpeta azul (lugares, `inode-directory`, `user-home`…). El
   oscuro usa ese superpuesto. Efecto secundario bueno: Home y Escritorio, que antes quedaban azules en el oscuro, ahora son rojos.
+- **4.23 (2026-11-01) Un segundo fondo: «Lliphi Forma».** El autor pidió dos fondos, claro y oscuro, como «Nothing2» y
+  «Nothing3» de jomada (formas sobre gris claro y sobre negro) o mejores. No se copian: `complementos/fondos` genera una
+  composición propia desde los tokens, en un segundo paquete (`org.lliphi.forma`): dos cuadrados de vidrio esmerilado
+  (una rejilla de grises al azar, ampliada y desenfocada, con grano), un semicírculo en el rojo de Lliphi (el acento del
+  oscuro, en las dos variantes, como el botón de cerrar), una píldora con degradado vertical que se deshace hacia abajo
+  y, como aporte propio, una matriz de puntos tenue en su mitad de arriba (el guiño a la tipografía de puntos), con
+  sombras suaves y grano fino. Se guarda en JPEG (6 MB el paquete; en PNG el grano daba 14 MB). «Lliphi Horizonte»
+  sigue siendo el fondo del tema global, del bloqueo y de SDDM.
 - **4.22 (2026-11-01) Iconos: Colloid Grey.** Decisión del autor: los iconos de Lliphi pasan a ser Colloid Grey
   (vinceliuice/Colloid-icon-theme, GPL-3.0), `Colloid-Grey-Light` en el claro (simbólicos oscuros, `#363636`) y
   `Colloid-Grey-Dark` en el oscuro (simbólicos claros, `#dedede`). Papirus y su superpuesto de carpetas rojas (4.7,

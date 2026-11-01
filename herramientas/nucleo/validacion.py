@@ -191,7 +191,8 @@ def estructura(inf: Informe, m: registro.Modulo, marca: dict) -> None:
         for p in hijos:
             _metadata(inf, m.id, p, None)
             for sub in ("images", "images_dark"):
-                inf.exigir(any((p / "contents" / sub).glob("*.png")), m.id, f"{p.name}: contents/{sub}/ sin imágenes")
+                inf.exigir(any((p / "contents" / sub).glob("*.png")) or any((p / "contents" / sub).glob("*.jpg")),
+                           m.id, f"{p.name}: contents/{sub}/ sin imágenes")
     elif formato == "Kvantum":
         for p in hijos:   # el tema y su variante oscura (<tema>Dark), que Kvantum elige con el estilo kvantum-dark
             for nombre in (p.name, f"{p.name}Dark"):

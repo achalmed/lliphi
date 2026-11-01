@@ -4,8 +4,11 @@ Estructura (Calibre 10529; `/usr/share/wallpapers/Next`): `metadata.json` (`KPlu
 `License`, `Authors`; `X-KDE-PlasmaImageWallpaper-AccentColor` con `{Light, Dark}`), `contents/images/
 <AnchoxAlto>.png` (variante clara) e `contents/images_dark/` (oscura, Plasma ≥ 6.6), `contents/screenshot.png`.
 
-La imagen es un degradado suave de dos neutros de la variante con una franja diagonal del acento a baja
-opacidad: sobria, sin texto ni logotipo. Requiere Pillow; sin él, el destino se omite con aviso."""
+Dos paquetes: «Lliphi Horizonte» (`<dominio>.horizonte`, el del tema global), un degradado suave de dos neutros con
+una franja diagonal del acento a baja opacidad; y «Lliphi Forma» (`<dominio>.forma`, decisiones 4.23), una composición
+de formas sobre neutro liso: dos cuadrados de vidrio esmerilado, un semicírculo en el rojo de Lliphi y una píldora que
+se deshace hacia abajo, con una matriz de puntos tenue (el guiño a la tipografía de puntos de Nothing) y grano fino;
+claro y oscuro. Sin texto ni logotipo. Requiere Pillow; sin él, el destino se omite con aviso."""
 from __future__ import annotations
 
 import json
@@ -47,6 +50,127 @@ def imagen(t: dict[str, str], ancho: int, alto: int, variante: str):
     return base
 
 
+def _mezcla(a, b, k: float) -> tuple[int, int, int]:
+    return tuple(round(a[i] + (b[i] - a[i]) * k) for i in range(3))
+
+
+def forma_paleta(tokens: dict, variante: str) -> dict:
+    """Los colores de «Lliphi Forma» desde las primitivas: el fondo, la luz media y la variación de cada cuadrado, los
+    dos extremos de la píldora, los puntos y el rojo (el acento del oscuro en las dos variantes, como el botón de
+    cerrar de la decoración)."""
+    pc = {k: _hex(v["$value"]["hex"]) for k, v in tokens["primitivas"]["claro"].items()}
+    po = {k: _hex(v["$value"]["hex"]) for k, v in tokens["primitivas"]["oscuro"].items()}
+    rojo = po["acento"]
+    if variante == "claro":
+        return {"fondo": _mezcla(pc["neutro-4"], pc["neutro-5"], 0.18), "a": (0.80, 0.15), "b": (0.50, 0.14),
+                "pildora": (po["neutro-3b"], pc["neutro-4"]), "puntos": pc["neutro-0"], "rojo": rojo,
+                "sombra": 0.45, "puntos_alfa": 70, "luz": 0.06}
+    return {"fondo": po["neutro-0"], "a": (0.40, 0.12), "b": (0.26, 0.10), "pildora": (po["neutro-5"], po["neutro-2"]),
+            "puntos": po["neutro-7"], "rojo": rojo, "sombra": 0.6, "puntos_alfa": 55, "luz": 0.035}
+
+
+def _mosaico(lado: int, media: float, var: float, semilla: int):
+    """Un cuadrado de vidrio esmerilado: una rejilla de 6 × 6 grises al azar (semilla fija: reproducible), ampliada,
+    desenfocada y con grano."""
+    import random
+    from PIL import Image, ImageChops, ImageFilter
+    rnd = random.Random(semilla)
+    peq = Image.new("L", (6, 6))
+    peq.putdata([max(0, min(255, round(255 * (media + rnd.uniform(-var, var))))) for _ in range(36)])
+    m = peq.resize((lado, lado), Image.NEAREST).filter(ImageFilter.GaussianBlur(lado * 0.035))
+    grano = _ruido(lado, lado, 18, semilla + 100).filter(ImageFilter.GaussianBlur(0.6))
+    return ImageChops.add(m, grano, scale=1.0, offset=-128)
+
+
+def _ruido(ancho: int, alto: int, sigma: float, semilla: int):
+    """Ruido gaussiano en gris centrado en 128, reproducible (Image.effect_noise no admite semilla)."""
+    import random
+    from PIL import Image
+    rnd = random.Random(semilla)
+    teja = Image.new("L", (256, 256))
+    teja.putdata([max(0, min(255, round(rnd.gauss(128, sigma)))) for _ in range(256 * 256)])
+    salida = Image.new("L", (ancho, alto))
+    for y in range(0, alto, 256):
+        for x in range(0, ancho, 256):
+            salida.paste(teja.rotate(90 * ((x // 256 + y // 256) % 4)), (x, y))
+    return salida
+
+
+def forma(tokens: dict, variante: str, ancho: int = 3840, alto: int = 2160):
+    """«Lliphi Forma» de una variante, al tamaño pedido."""
+    from PIL import Image, ImageChops, ImageDraw, ImageFilter
+    p = forma_paleta(tokens, variante)
+    lienzo = Image.new("RGB", (ancho, alto), p["fondo"])
+    vin = Image.new("L", (ancho // 8, alto // 8), 0)       # el centro, apenas más claro
+    ImageDraw.Draw(vin).ellipse((-ancho // 32, -alto // 16, ancho // 8 + ancho // 32, alto // 8 + alto // 16), fill=255)
+    vin = vin.filter(ImageFilter.GaussianBlur(ancho // 64)).resize((ancho, alto), Image.BICUBIC)
+    lienzo = Image.composite(Image.new("RGB", (ancho, alto), _mezcla(p["fondo"], (255, 255, 255), p["luz"])), lienzo, vin)
+    s = round(alto * 0.25)                                 # lado de los cuadrados
+    r = s // 2
+    pw, ph = round(s * 1.62), round(s * 0.74)
+    x0 = ancho // 2 - (2 * s + r + pw - round(s * 0.02)) // 2
+    y0 = alto // 2 - s // 2
+    xs = x0 + 2 * s + r                                    # el canto plano del semicírculo
+    px, py = xs - round(s * 0.02), y0 + (s - ph) // 2
+    radio_c, pluma = round(s * 0.05), max(2, round(s * 0.012))
+    # 1: las sombras de todo, desenfocadas
+    sombra = Image.new("L", (ancho, alto), 0)
+    ds = ImageDraw.Draw(sombra)
+    for i in range(2):
+        ds.rounded_rectangle((x0 + i * s, y0 + s * 0.06, x0 + (i + 1) * s, y0 + s * 1.06), radio_c, fill=110)
+    ds.pieslice((xs - r, y0 + s * 0.06, xs + r, y0 + s * 1.06), 90, 270, fill=120)
+    ds.rounded_rectangle((px, py + ph * 0.10, px + pw, py + ph * 0.75), round(ph * 0.48), fill=100)
+    sombra = sombra.filter(ImageFilter.GaussianBlur(s * 0.10)).point(lambda v: round(v * p["sombra"]))
+    lienzo = Image.composite(Image.new("RGB", (ancho, alto), (0, 0, 0)), lienzo, sombra)
+    # 2: los cuadrados esmerilados
+    mascara_c = Image.new("L", (s, s), 0)
+    ImageDraw.Draw(mascara_c).rounded_rectangle((pluma, pluma, s - pluma, s - pluma), radio_c, fill=255)
+    mascara_c = mascara_c.filter(ImageFilter.GaussianBlur(pluma * 0.6))
+    for i, (media, var) in enumerate((p["a"], p["b"])):
+        m = _mosaico(s, media, var, 7 + i)
+        lienzo.paste(Image.merge("RGB", (m, m, m)), (x0 + i * s, y0), mascara_c)
+    # 3: el semicírculo, con una luz leve arriba a la izquierda
+    sc = Image.new("RGB", (2 * r, 2 * r), p["rojo"])
+    d = ImageDraw.Draw(sc)
+    for k in range(r, 0, -1):
+        t = k / r
+        dx = r * 0.12 * (1 - t)
+        d.ellipse((r - k - dx, r - k - dx, r + k - dx, r + k - dx), fill=_mezcla(p["rojo"], _mezcla(p["rojo"], (255, 255, 255), 0.18), (1 - t) * 0.6))
+    medio = Image.new("L", (2 * r, 2 * r), 0)
+    ImageDraw.Draw(medio).pieslice((0, 0, 2 * r - 1, 2 * r - 1), 90, 270, fill=255)
+    lienzo.paste(sc, (xs - r, y0), medio.filter(ImageFilter.GaussianBlur(1.2)))
+    # 4: la píldora: degradado vertical, matriz de puntos arriba, se deshace abajo
+    arriba, abajo = p["pildora"]
+    grad = Image.new("RGB", (1, ph))
+    for y in range(ph):
+        grad.putpixel((0, y), _mezcla(arriba, abajo, (y / ph) ** 1.6))
+    grad = grad.resize((pw, ph), Image.BICUBIC)
+    grano = _ruido(pw, ph, 10, 31)
+    grad = Image.merge("RGB", [ImageChops.add(c, grano, scale=1.0, offset=-128) for c in grad.split()])
+    puntos = Image.new("L", (pw, ph), 0)
+    dp = ImageDraw.Draw(puntos)
+    paso = max(6, round(ph / 11))
+    rp = max(1, round(paso * 0.14))
+    for yy in range(paso, ph // 2, paso):
+        for xx in range(round(ph / 2), pw - round(ph / 2), paso):
+            dp.ellipse((xx - rp, yy - rp, xx + rp, yy + rp), fill=p["puntos_alfa"])
+    grad = Image.composite(Image.new("RGB", (pw, ph), p["puntos"]), grad, puntos)
+    mascara = Image.new("L", (pw, ph), 0)
+    ImageDraw.Draw(mascara).rounded_rectangle((0, 0, pw - 1, ph - 1), round(ph * 0.48), fill=255)
+    desvanece = Image.new("L", (1, ph))
+    for y in range(ph):
+        desvanece.putpixel((0, y), 255 if y < ph * 0.55 else round(255 * max(0.0, 1 - (y - ph * 0.55) / (ph * 0.45)) ** 0.8))
+    mascara = ImageChops.multiply(mascara, desvanece.resize((pw, ph))).filter(ImageFilter.GaussianBlur(1.0))
+    lienzo.paste(grad, (px, py), mascara)
+    # 5: grano fino en todo el lienzo
+    g = _ruido(ancho, alto, 6, 53)
+    return Image.merge("RGB", [ImageChops.add(c, g, scale=1.0, offset=-128) for c in lienzo.split()])
+
+
+def id_forma(marca: dict) -> str:
+    return f"{marca['dominio_inverso']}.forma"
+
+
 def generar(tokens: dict, marca: dict, destino: Path) -> list[Path]:
     try:
         import PIL  # noqa: F401
@@ -71,6 +195,27 @@ def generar(tokens: dict, marca: dict, destino: Path) -> list[Path]:
     captura = base / "contents" / "screenshot.png"
     imagen(oscuro, 480, 270, "oscuro").save(captura, optimize=True)
     hechos.append(captura)
+    # «Lliphi Forma»: se dibuja una vez a 4K por variante y se reduce a los otros tamaños (mismo dibujo en todos)
+    from PIL import Image
+    base = destino / id_forma(marca)
+    meta = {"KPlugin": {"Authors": autores(marca), "Id": id_forma(marca), "License": marca["licencia_activos"],
+                        "Name": f"{marca['nombre']} Forma", "Version": VERSION},
+            "X-KDE-PlasmaImageWallpaper-AccentColor": {"Light": oscuro["acento.base"], "Dark": oscuro["acento.base"]}}
+    base.mkdir(parents=True, exist_ok=True)
+    (base / "metadata.json").write_text(json.dumps(meta, ensure_ascii=False, indent=4) + "\n", encoding="utf-8")
+    hechos.append(base / "metadata.json")
+    for carpeta, variante in (("images", "claro"), ("images_dark", "oscuro")):
+        grande = forma(tokens, variante, *TAMANOS[-1])
+        for ancho, alto in TAMANOS:
+            # JPEG de calidad alta y sin submuestreo del color: el grano no comprime en PNG (≈ 14 MB el paquete)
+            ruta = base / "contents" / carpeta / f"{ancho}x{alto}.jpg"
+            ruta.parent.mkdir(parents=True, exist_ok=True)
+            (grande if (ancho, alto) == TAMANOS[-1] else grande.resize((ancho, alto), Image.LANCZOS)).save(
+                ruta, quality=90, subsampling=0, optimize=True)
+            hechos.append(ruta)
+        if variante == "oscuro":
+            grande.resize((480, 270), Image.LANCZOS).save(base / "contents" / "screenshot.jpg", quality=90, optimize=True)
+            hechos.append(base / "contents" / "screenshot.jpg")
     return hechos
 
 
