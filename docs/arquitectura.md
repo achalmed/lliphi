@@ -198,7 +198,19 @@ dependencias), la instalación reversible en un `HOME` temporal con `comprobar`,
 `verificar`, `validar`, `pytest`, `reuse lint` y el render del sitio. La validación visual se hace en una sesión de Plasma
 anidada (`validacion.md` §5–§9).
 
-## 8. Desarrollar o modificar un módulo
+## 8. Sesión de prueba y Lliphi Studio
+
+`herramientas/sesion.py` arranca un Plasma anidado (`kwin_wayland` en ventana o `--virtual`) con su propio `HOME` en
+`$XDG_CACHE_HOME/lliphi/sesiones/`, instala y aplica Lliphi dentro y deja abrir aplicaciones, ejecutar un guion de
+scripting de Plasma y capturar; es la receta de `validacion.md` §8–§9 hecha orden. Toda orden que corre dentro toma el
+entorno del `plasmashell` de prueba y se niega si su `HOME` no es el de prueba; `cerrar` termina por PID solo lo de
+prueba y compara el `LockedHint` de la sesión real.
+
+`studio/` es la ventana opcional (PySide6 sobre `gui-comun`): cliente del proyecto, lee los manifiestos, los tokens, lo
+generado y el estado de la instalación, escribe solo los `ajustes.json` y corre las órdenes de arriba
+([`studio/README.md`](../studio/README.md)). Ningún módulo sabe que existe.
+
+## 9. Desarrollar o modificar un módulo
 
 1. Lee su `README.md`. Cambia su fuente (su `construir.py`, `escritorio.js`, la paleta…), nunca `generado/`.
 2. `generar.py --modulos <id>` para ver qué cambia; `--aplicar` para escribirlo; `validar` y `pytest`.
@@ -210,7 +222,7 @@ anidada (`validacion.md` §5–§9).
 añádelo a su `dependencias.referencia`; si va dentro del paquete, `clase: componente` e `integracion.en: global`, y a
 `dependencias.integra`. Sin tocar el núcleo, el instalador ni el sitio: los tres lo descubren.
 
-## 9. Compatibilidad
+## 10. Compatibilidad
 
 Comprobado en Plasma 6.6.6 (Kubuntu 26.04, Wayland, KF 6.24, Qt 6.10). Lo que depende de la versión: el motor SVG V2 de
 Aurorae (`org.kde.kwin.aurorae.v2`, 6.6), `images_dark/` en los fondos (6.6), el bloqueo en el paquete de shell. Matriz

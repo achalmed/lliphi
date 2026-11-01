@@ -18,6 +18,18 @@ Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión de
   `iconos-cursores` (iconos y cursores); el inicio de sesión, a `complementos/sddm/`.
 
 ### Added
+- **Lliphi Studio** (`studio/`): la ventana opcional de la familia de studios (PySide6 sobre `gui-comun` 1.4.0, acento
+  carmesí) con nueve secciones: Dashboard, Color (editor de la paleta con contraste y daltonismo), Plasma (marcos de
+  nueve piezas comparados con WhiteSur), Ventanas (Aurorae), Iconos y cursores (Xcursor animado, organizador),
+  Pantallas (la carga de verdad en su QML), Disposición, Vista en vivo y Construir y desplegar. Escribe solo los
+  `ajustes.json` de los módulos; 16 pruebas propias sobre una copia del proyecto.
+- **Sesión de prueba** (`herramientas/sesion.py`): la receta de `docs/validacion.md` §8–§9 como orden: Plasma anidado
+  con su propio HOME en la caché, sin systemd ni bloqueo, con `arrancar`, `estado`, `recargar`, `ejecutar`, `guion`,
+  `capturar` y `cerrar`; se niega a correr nada fuera del HOME de prueba.
+- **Ajustes declarativos** (`ajustes.json`) en `esquema` (la paleta OKLCH), `decoracion` (rc, título, botones),
+  `disposicion` (paneles y widgets) e `iconos-cursores` (temas y color del superpuesto), sin cambio en lo generado salvo
+  el script de disposición, que ahora recorre los paneles. `paleta.py --ajustes --json`, `generar.py verificar|validar
+  --json` e `instalar.py estado --json`.
 - LibreOffice: una **paleta** `.soc` por variante (como la de Dracula para LibreOffice) con los neutros, el acento, los
   estados y los dieciséis ANSI, para los selectores de color de los documentos; va suelta y dentro de `lliphi.oxt`
   (carpeta `palette/` registrada en las rutas de paletas con `paletas.xcu`). Prueba `test_libreoffice_paletas`.

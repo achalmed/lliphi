@@ -28,6 +28,16 @@ python3 -m venv .venv && .venv/bin/pip install -e ".[dev]"
 .venv/bin/python herramientas/generar.py validar      # módulos, dependencias, estructura KDE e integración
 .venv/bin/pytest && .venv/bin/reuse lint              # pruebas y licencias
 quarto render sitio                                   # el sitio → sitio/_site
+python3 herramientas/sesion.py arrancar --aplicar     # sesión de prueba: Plasma anidado con su propio HOME (cerrar: sesion.py cerrar)
+```
+
+**Lliphi Studio** (`studio/`, opcional): la ventana de escritorio para trabajar los seis módulos (Dashboard, Color,
+Plasma, Ventanas, Iconos y cursores, Pantallas, Disposición, Vista en vivo, Construir y desplegar). Edita solo los
+`ajustes.json` de los módulos y corre estas mismas órdenes; ver [`studio/README.md`](studio/README.md).
+
+```bash
+python3 -m pip install --user PySide6 "git+https://github.com/achalmed/gui-comun@v1.4.0"
+python3 studio/main.py
 ```
 
 ## Arquitectura
@@ -55,7 +65,8 @@ Un **tema global** que integra **seis módulos**, más los **complementos** que 
 | `global/` | el tema global: manifiesto, construcción (integra), aplicación y tipografía |
 | `modulos/<id>/` | los seis módulos: `modulo.json`, `README.md`, `INSTALL.md`, `construir.py` y, si aplica, `aplicar.py` y `externas.py` |
 | `complementos/<id>/` | lo que no es parte del tema global, con el mismo contrato |
-| `herramientas/` | `generar.py` (construir, verificar, validar, empaquetar), `instalar.py` (instalar, aplicar, comprobar, desinstalar, dependencias, sddm), `nucleo/` y herramientas de muestras |
+| `herramientas/` | `generar.py` (construir, verificar, validar, empaquetar), `instalar.py` (instalar, aplicar, comprobar, desinstalar, dependencias, sddm), `sesion.py` (la sesión de prueba), `nucleo/` y herramientas de muestras |
+| `studio/` | Lliphi Studio, la ventana opcional (PySide6 sobre `gui-comun`) y sus pruebas |
 | `fuentes/base/` | bases de terceros (WhiteSur-kde, Nothing) con su licencia y `ORIGEN.md` |
 | `generado/<id>/` | lo que entrega cada módulo, tal como se instala; **no se edita**, `generar.py verificar` lo comprueba |
 | `pruebas/` | tokens, contraste, deriva, estructura de paquetes, arquitectura, instalación reversible, REUSE |
