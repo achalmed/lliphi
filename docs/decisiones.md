@@ -206,6 +206,11 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   (carpetas azules, para el claro) y crea `Papirus-Dark-Lliphi`, un tema superpuesto que hereda de Papirus-Dark y solo declara
   enlaces a las variantes rojas de todo icono que acaba en una carpeta azul (lugares, `inode-directory`, `user-home`…). El
   oscuro usa ese superpuesto. Efecto secundario bueno: Home y Escritorio, que antes quedaban azules en el oscuro, ahora son rojos.
+- **4.20 (2026-11-01) El menú abierto de la barra de menús, en el acento.** El autor vio que en el claro el elemento
+  abierto de la barra de menús («Settings» desplegado) y el elegido dentro del menú son del mismo azul, y en el oscuro
+  no: el elegido es el acento (`#c93436`, la selección de la paleta) y el de la barra salía en el rojo claro de pasar el
+  ratón (`#ef6661`), porque WhiteSur oscuro pinta `menubaritem-pressed`/`-toggled` con su tono claro (`#5294e2`). Se
+  decide, en `complementos/kvantum/ajustes.json` (`menu_abierto`), pintar esas piezas en el oscuro con `acento.base`.
 - **4.19 (2026-11-01) Un solo tema de Kvantum con sus dos variantes.** El autor aplicó Lliphi Claro desde Preferencias
   del sistema y las ventanas quedaron mezcladas: esquema claro (texto oscuro) sobre el Kvantum oscuro. El tema global
   solo puede declarar el estilo de las aplicaciones (`kvantum` o `kvantum-dark`); qué tema de Kvantum se usa lo dice

@@ -121,6 +121,10 @@ def test_cabecera_en_una_sola_banda():
     ventana = TOKENS["semanticos"]["oscuro"]["fondo"]["ventana"]["$value"]["hex"]
     piezas = re.findall(r'<[^<>]*\bid="(toolbar-normal(?:-inactive)?(?:-(?:top|left|right|topleft|topright))?)"[^<>]*?fill:(#[0-9a-fA-F]{6})', svg)
     assert piezas and all(color.lower() == ventana for _id, color in piezas), piezas
+    acento = TOKENS["semanticos"]["oscuro"]["acento"]["base"]["$value"]["hex"]
+    menu = re.findall(r'<[^<>]*\bid="menubaritem-(?:pressed|toggled)[^"]*"[^<>]*?fill:(#[0-9a-fA-F]{6})', svg)
+    assert menu and {c.lower() for c in menu} == {acento}          # decisiones 4.20: como el elegido dentro del menú
+    assert re.search(rf"^highlight\.color={acento}$", kv, re.M)
     claro = (GEN / "kvantum" / MARCA["nombre"] / f"{MARCA['nombre']}.kvconfig").read_text(encoding="utf-8")
     assert re.search(r"^translucent_windows=true$", claro, re.M)
 

@@ -18,6 +18,8 @@ Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión de
   `iconos-cursores` (iconos y cursores); el inicio de sesión, a `complementos/sddm/`.
 
 ### Changed
+- **Menú abierto en el acento** (decisiones 4.20): en el oscuro, el elemento abierto de la barra de menús toma el rojo
+  del elemento elegido dentro del menú, como ya pasaba en el claro.
 - **Kvantum, un solo tema `Lliphi`** con el claro y el oscuro (`LliphiDark`) en su carpeta (decisiones 4.19): cambiar
   de variante desde Preferencias del sistema cambia también Kvantum; antes quedaba el Kvantum de la variante anterior.
 - **Título y barra de herramientas en una sola banda** (mejora 12, decisiones 4.18): en el oscuro, Kvantum pinta la

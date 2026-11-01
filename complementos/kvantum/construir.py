@@ -60,6 +60,14 @@ def barra(svg: str, color: str) -> str:
     return re.sub(r'<[^<>]*\bid="toolbar-normal[^"]*"[^<>]*>', pieza, svg)
 
 
+def menu_abierto(svg: str, color: str) -> str:
+    """El elemento abierto de la barra de menús (`menubaritem-pressed*`, `menubaritem-toggled*`) en un color: WhiteSur
+    oscuro lo pinta con su tono claro (#5294e2, el de pasar el ratón), distinto del elemento elegido dentro del menú."""
+    def pieza(m: re.Match) -> str:
+        return re.sub(r"fill:#5294e2\b", f"fill:{color}", m.group(0), flags=re.I)
+    return re.sub(r'<[^<>]*\bid="menubaritem-(?:pressed|toggled)[^"]*"[^<>]*>', pieza, svg)
+
+
 def generar(tokens: dict, marca: dict, destino: Path) -> list[Path]:
     hechos: list[Path] = []
     aj = json.loads(AJUSTES.read_text(encoding="utf-8"))
@@ -77,6 +85,8 @@ def generar(tokens: dict, marca: dict, destino: Path) -> list[Path]:
         mapa = {h: t[tok] for h, tok in HEX[variante].items()}
         if aj["barra_de_herramientas"][variante]:   # antes del mapa general: #2d2d2d también lo usan otros controles
             svg = barra(svg, t[aj["barra_de_herramientas"][variante]])
+        if aj["menu_abierto"][variante]:            # antes del mapa general: #5294e2 es también el tono de pasar
+            svg = menu_abierto(svg, t[aj["menu_abierto"][variante]])
         svg = re.sub(r"#[0-9a-fA-F]{6}\b", lambda m: mapa.get(m.group(0).lower(), m.group(0)), svg)
         escribir(destino / tema / f"{archivo}.kvconfig", "# GENERADO por herramientas/generar.py desde tokens/ y fuentes/base/WhiteSur-kde; no editar\n" + kv, hechos)
         escribir(destino / tema / f"{archivo}.svg", svg, hechos)

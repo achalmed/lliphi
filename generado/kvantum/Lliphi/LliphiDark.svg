@@ -2702,14 +2702,14 @@
        y="822.5"
        x="365"
        width="10"
-       style="fill:#ef6661;fill-opacity:1" />
+       style="fill:#c93436;fill-opacity:1" />
     <rect
        id="menubaritem-toggled-bottom"
        height="10"
        y="822.5"
        x="407.5"
        width="10"
-       style="fill:#ef6661;fill-opacity:1" />
+       style="fill:#c93436;fill-opacity:1" />
   </g>
   <rect
      id="dock-normal"
@@ -3798,112 +3798,112 @@
        inkscape:connector-curvature="0" />
   </g>
   <rect
-     style="fill:#ef6661;fill-opacity:1;stroke:none"
+     style="fill:#c93436;fill-opacity:1;stroke:none"
      width="10"
      x="278"
      y="614.95276"
      height="10"
      id="menubaritem-pressed" />
   <rect
-     style="fill:#ef6661;fill-opacity:1;stroke:none"
+     style="fill:#c93436;fill-opacity:1;stroke:none"
      width="10"
      x="268"
      y="614.95276"
      height="10"
      id="menubaritem-pressed-left" />
   <rect
-     style="fill:#ef6661;fill-opacity:1;stroke:none"
+     style="fill:#c93436;fill-opacity:1;stroke:none"
      width="10"
      x="268"
      y="624.95276"
      height="10"
      id="menubaritem-pressed-bottomleft" />
   <rect
-     style="fill:#ef6661;fill-opacity:1;stroke:none"
+     style="fill:#c93436;fill-opacity:1;stroke:none"
      width="10"
      x="288"
      y="614.95276"
      height="10"
      id="menubaritem-pressed-right" />
   <rect
-     style="fill:#ef6661;fill-opacity:1;stroke:none"
+     style="fill:#c93436;fill-opacity:1;stroke:none"
      width="10"
      x="288"
      y="624.95276"
      height="10"
      id="menubaritem-pressed-bottomright" />
   <rect
-     style="fill:#ef6661;fill-opacity:1;stroke:none"
+     style="fill:#c93436;fill-opacity:1;stroke:none"
      width="10"
      x="278"
      y="604.95276"
      height="10"
      id="menubaritem-pressed-top" />
   <rect
-     style="fill:#ef6661;fill-opacity:1;stroke:none"
+     style="fill:#c93436;fill-opacity:1;stroke:none"
      width="10"
      x="268"
      y="604.95276"
      height="10"
      id="menubaritem-pressed-topleft" />
   <rect
-     style="fill:#ef6661;fill-opacity:1;stroke:none"
+     style="fill:#c93436;fill-opacity:1;stroke:none"
      width="10"
      x="288"
      y="604.95276"
      height="10"
      id="menubaritem-pressed-topright" />
   <rect
-     style="fill:#ef6661;fill-opacity:1;stroke:none"
+     style="fill:#c93436;fill-opacity:1;stroke:none"
      width="10"
      x="320.5"
      y="614.95276"
      height="10"
      id="menubaritem-toggled" />
   <rect
-     style="fill:#ef6661;fill-opacity:1;stroke:none"
+     style="fill:#c93436;fill-opacity:1;stroke:none"
      width="10"
      x="310.5"
      y="614.95276"
      height="10"
      id="menubaritem-toggled-left" />
   <rect
-     style="fill:#ef6661;fill-opacity:1;stroke:none"
+     style="fill:#c93436;fill-opacity:1;stroke:none"
      width="10"
      x="310.5"
      y="624.95276"
      height="10"
      id="menubaritem-toggled-bottomleft" />
   <rect
-     style="fill:#ef6661;fill-opacity:1;stroke:none"
+     style="fill:#c93436;fill-opacity:1;stroke:none"
      width="10"
      x="330.5"
      y="614.95276"
      height="10"
      id="menubaritem-toggled-right" />
   <rect
-     style="fill:#ef6661;fill-opacity:1;stroke:none"
+     style="fill:#c93436;fill-opacity:1;stroke:none"
      width="10"
      x="330.5"
      y="624.95276"
      height="10"
      id="menubaritem-toggled-bottomright" />
   <rect
-     style="fill:#ef6661;fill-opacity:1;stroke:none"
+     style="fill:#c93436;fill-opacity:1;stroke:none"
      width="10"
      x="320.5"
      y="604.95276"
      height="10"
      id="menubaritem-toggled-top" />
   <rect
-     style="fill:#ef6661;fill-opacity:1;stroke:none"
+     style="fill:#c93436;fill-opacity:1;stroke:none"
      width="10"
      x="310.5"
      y="604.95276"
      height="10"
      id="menubaritem-toggled-topleft" />
   <rect
-     style="fill:#ef6661;fill-opacity:1;stroke:none"
+     style="fill:#c93436;fill-opacity:1;stroke:none"
      width="10"
      x="330.5"
      y="604.95276"
