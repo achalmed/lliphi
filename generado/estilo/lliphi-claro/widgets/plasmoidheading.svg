@@ -25,9 +25,9 @@
      inkscape:window-height="1012"
      id="namedview39"
      showgrid="true"
-     inkscape:zoom="10.12021"
-     inkscape:cx="64.326729"
-     inkscape:cy="13.932517"
+     inkscape:zoom="80.96168"
+     inkscape:cx="96.663014"
+     inkscape:cy="5.8546216"
      inkscape:window-x="0"
      inkscape:window-y="34"
      inkscape:window-maximized="1"
@@ -69,7 +69,7 @@
     <path
        id="rect3152"
        d="m 51,44 v 0.999997 H 19 V 44 Z"
-       style="fill:#ffffff;opacity:0.1" />
+       style="fill:#000000;opacity:0.15" />
     <path
        id="path851"
        d="M 51,39.000016 V 44 H 19 v -4.999984 z"
@@ -91,7 +91,7 @@
     <path
        id="path3176"
        d="m 57,44 h -6 v 0.999997 h 6 v -0.833331 z"
-       style="fill:#ffffff;opacity:0.1" />
+       style="fill:#000000;opacity:0.15" />
     <path
        id="path853"
        d="M 57,39.000016 H 51 V 44 h 6 v -4.166654 z"
@@ -106,7 +106,7 @@
     <path
        id="path3182"
        d="M 19,44.999997 V 44 h -6 v 0.999997 c 6,7e-6 0,0 4,0 h 1 z"
-       style="fill:#ffffff;opacity:0.1" />
+       style="fill:#000000;opacity:0.15" />
     <path
        id="path855"
        d="M 19,44 V 39.000016 H 13 V 44 c 6,3.5e-5 0,0 4,0 h 1 z"
@@ -147,7 +147,7 @@
     <path
        id="path967"
        d="M 99,6.9999822 V 5.9999852 H 67 v 0.999997 z"
-       style="fill:#ffffff;opacity:0.1" />
+       style="fill:#000000;opacity:0.15" />
   </g>
   <path
      id="footer-left"
@@ -168,7 +168,7 @@
     <path
        id="path969"
        d="m 105,6.9999822 h -6 v -0.999997 h 6 V 6.833316 Z"
-       style="fill:#ffffff;opacity:0.1" />
+       style="fill:#000000;opacity:0.15" />
   </g>
   <g
      id="footer-topleft"
@@ -182,7 +182,7 @@
     <path
        id="path971"
        d="m 67,5.9999852 v 0.999997 h -6 v -0.999997 c 6,-6.7e-6 0,0 4,0 h 1 z"
-       style="fill:#ffffff;opacity:0.1" />
+       style="fill:#000000;opacity:0.15" />
   </g>
   <path
      id="footer-bottomleft"

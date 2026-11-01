@@ -206,6 +206,17 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   (carpetas azules, para el claro) y crea `Papirus-Dark-Lliphi`, un tema superpuesto que hereda de Papirus-Dark y solo declara
   enlaces a las variantes rojas de todo icono que acaba en una carpeta azul (lugares, `inode-directory`, `user-home`…). El
   oscuro usa ese superpuesto. Efecto secundario bueno: Home y Escritorio, que antes quedaban azules en el oscuro, ahora son rojos.
+- **4.32 (2026-11-01) Lliphi Claro con panel claro.** El autor vio en Preferencias del sistema → Estilo de Plasma que
+  «Lliphi Claro» se veía oscuro y preguntó por qué, si su nombre dice claro. El estilo del claro partía de «WhiteSur»,
+  que pinta panel, dock, menús emergentes y widgets en gris oscuro (`54,54,54`, texto blanco); se había conservado a
+  propósito en la mejora 2 y en 4.16. El autor decide ahora que el claro sea claro: la base pasa a «WhiteSur-alt», la
+  variante de WhiteSur con los mismos dibujos y el panel claro (blanco, texto gris oscuro). El fondo de paneles y dock
+  toma el `fondo.ventana` del propio claro (antes, el del oscuro: 4.21) al 88 % y sin sombra; `panel()` sustituye el
+  blanco al 45 % de WhiteSur-alt como sustituía el negro al 45 % de WhiteSur-dark. El generador retira los archivos que
+  WhiteSur-alt no trae y añade los suyos. En la misma revisión se vio en la máquina del autor un estilo «Lliphi» que sigue
+  al esquema de color: es el de la primera versión (instalado el 2026-10-18), que el instalador ya no genera; se retira
+  a los respaldos. Probado en la sesión de prueba: panel, dock y lanzador claros, y la vista previa clara
+  (`muestras/capturas/claro-33-panel-claro.png`, `claro-34-estilo-plasma.png`).
 - **4.31 (2026-11-01) El deslizador y la barra de progreso inactivos, con el rojo entero.** El autor comparó en
   Preferencias del sistema → Estilo de las aplicaciones las vistas previas de `kvantum` y `kvantum-dark`: en la clara
   el deslizador y la barra de progreso salían en el azul entero; en la oscura, en un rojo apagado. La vista previa se
@@ -358,7 +369,7 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   paginador (números, sin siluetas) tras un separador. Límites: el separador de Plasma 6 solo dibuja su línea en modo
   edición (fuera de él da el espacio), y el paginador se oculta con un solo escritorio, y se configura con «solo la pantalla actual»: si no, toma la proporción de todo el escritorio y con dos monitores cada escritorio sale muy ancho. Comparación en
   `muestras/comparacion-linea-base-dock.png` (sesión de prueba, cuatro escritorios).
-- **4.16 (2026-10-19) Mejora 10: el claro, validado en pantalla y corregido.** En una sesión de Plasma virtual aparte se
+- **4.16 (2026-10-19) Mejora 10: el claro, validado en pantalla y corregido** (el panel oscuro, superado por 4.32). En una sesión de Plasma virtual aparte se
   encontraron y corrigieron dos fallos más: (1) el fondo salía oscuro en el claro, porque Plasma elige la imagen clara u oscura
   del paquete por los colores del estilo de Plasma, y el de WhiteSur claro tiene el panel oscuro; el instalador fija ahora la
   imagen clara por ruta; (2) el bloqueo de pantalla escribe siempre en blanco y sobre el fondo claro el reloj no se leía; el

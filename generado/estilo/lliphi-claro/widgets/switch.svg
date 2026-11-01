@@ -130,9 +130,9 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      showgrid="true"
-     inkscape:zoom="4"
-     inkscape:cx="17"
-     inkscape:cy="21"
+     inkscape:zoom="8"
+     inkscape:cx="19.625"
+     inkscape:cy="38.375"
      inkscape:window-width="3440"
      inkscape:window-height="1373"
      inkscape:window-x="0"
@@ -222,7 +222,7 @@
        width="22"
        height="22"
        rx="11"
-       style="fill:#ffffff" />
+       style="fill:#f9f9f9" />
   </g>
   <g
      transform="translate(-30,-11)"
@@ -261,7 +261,7 @@
        height="22"
        rx="11"
        ry="11"
-       style="fill:#ffffff" />
+       style="fill:#f9f9f9" />
   </g>
   <g
      id="handle-pressed"
@@ -273,7 +273,7 @@
        width="22"
        height="22"
        rx="11"
-       style="fill:#f2f2f2" />
+       style="fill:#ececec" />
   </g>
   <g
      id="active-right"

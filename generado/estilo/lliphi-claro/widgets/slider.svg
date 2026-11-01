@@ -1,77 +1,598 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="76" height="66" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink">
- <metadata>
-  <rdf:RDF>
-   <cc:Work rdf:about="">
-    <dc:format>image/svg+xml</dc:format>
-    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:title/>
-   </cc:Work>
-  </rdf:RDF>
- </metadata>
- <defs>
-  <radialGradient id="radialGradient915" cx="41" cy="20" r="16" gradientUnits="userSpaceOnUse">
-   <stop offset="0"/>
-   <stop stop-opacity="0" offset="1"/>
-  </radialGradient>
- </defs>
- <g id="vertical-slider-handle" transform="matrix(.75 0 0 .75 -18.75 -3)" stroke-width=".91667">
-  <rect x="25" y="4" width="32" height="32" opacity="0"/>
-  <circle cx="41" cy="20" r="16" fill="url(#radialGradient915)" opacity=".05" stroke-width="1.8333"/>
-  <circle cx="41" cy="20" r="9.3333" opacity=".1" stroke-width="1.0694"/>
-  <circle cx="41" cy="20" r="8" fill="#fff"/>
- </g>
- <g id="vertical-slider-hover" transform="matrix(.75 0 0 .75 6.25 -3)" stroke-width=".91667">
-  <circle cx="41" cy="20" r="16" fill="url(#radialGradient915)" opacity=".15" stroke-width=".91667"/>
-  <rect x="25" y="4" width="32" height="32" opacity="0"/>
-  <circle cx="41" cy="20" r="9.3333" opacity=".15" stroke-width=".53472"/>
-  <circle cx="41" cy="20" r="8" fill="#fff"/>
- </g>
- <g id="vertical-slider-focus" transform="matrix(.75 0 0 .75 31.25 -3)" stroke-width=".91667">
-  <circle cx="41" cy="20" r="16" fill="url(#radialGradient915)" opacity=".2" stroke-width=".91667"/>
-  <rect x="25" y="4" width="32" height="32" opacity="0"/>
-  <circle cx="41" cy="20" r="9.3333" opacity=".15" stroke-width=".53472"/>
-  <circle cx="41" cy="20" r="8" fill="#fff"/>
- </g>
- <g id="groove-topleft">
-  <path d="m7-24c-3.3644 0-6 2.6356-6 6h6z" opacity=".13" stroke-width="5.9416"/>
-  <path d="m7-24c-3.3644 0-6 2.6356-6 6h1c0-2.8037 2.1963-5 5-5v-1z" opacity=".06"/>
- </g>
- <rect id="hint-tile-center" x="-14" y="-24" width="12" height="12" rx="0" ry="12" fill="#4e9a06" stroke-width="6"/>
- <path id="groove-center" d="m7-18v1h3v-1z" opacity=".13" stroke-width="1.732"/>
- <circle id="hint-handle-size" cx="51" cy="-15" r="12" fill="#ff2a2a"/>
- <g id="groove-highlight-top">
-  <path d="m23-24v6h3v-6z" opacity="0" stroke-width="4.2426"/>
-  <path d="m23-23v5h3v-5z" fill="#fff" stroke-width="3.873"/>
- </g>
- <g id="groove-highlight-topleft">
-  <path d="m23-24c-3.3644 0-6 2.6356-6 6h6z" opacity="0" stroke-width="5.9416"/>
-  <path d="m23-23c-2.8037 0-5 2.1963-5 5h5z" fill="#fff" stroke-width="4.9513"/>
- </g>
- <path id="groove-highlight-center" d="m23-18v1h3v-1z" fill="#fff" stroke-width="1.732"/>
- <g id="groove-highlight-left">
-  <path d="m17-18v1h6v-1z" opacity="0" stroke-width="2.4494"/>
-  <path d="m18-18v1h5v-1z" fill="#fff" stroke-width="2.236"/>
- </g>
- <g id="groove-top">
-  <path d="m7-24v6h3v-6z" opacity=".13" stroke-width="4.2426"/>
-  <path d="m7-24v1h3v-1z" opacity=".06" stroke-width="1.732"/>
- </g>
- <use id="groove-topright" transform="matrix(-1,0,0,1,17,0)" width="100%" height="100%" xlink:href="#groove-topleft"/>
- <g id="groove-left">
-  <path d="m1-18v1h6v-1z" opacity=".13" stroke-width="2.4494"/>
-  <path d="m1-18v1h1v-1z" opacity=".06" stroke-width=".99997"/>
- </g>
- <use id="groove-right" transform="matrix(-1,0,0,1,17,0)" width="100%" height="100%" xlink:href="#groove-left"/>
- <use id="groove-bottomleft" transform="matrix(1,0,0,-1,0,-35)" width="100%" height="100%" xlink:href="#groove-topleft"/>
- <use id="groove-bottomright" transform="rotate(180,8.5,-17.5)" width="100%" height="100%" xlink:href="#groove-topleft"/>
- <use id="groove-bottom" transform="matrix(1,0,0,-1,0,-35)" width="100%" height="100%" xlink:href="#groove-top"/>
- <use id="groove-highlight-topright" transform="matrix(-1,0,0,1,49,0)" width="100%" height="100%" xlink:href="#groove-highlight-topleft"/>
- <use id="groove-highlight-bottomleft" transform="matrix(1,0,0,-1,0,-35)" width="100%" height="100%" xlink:href="#groove-highlight-topleft"/>
- <use id="groove-highlight-bottomright" transform="matrix(0,-1,-1,0,8,6)" width="100%" height="100%" xlink:href="#groove-highlight-topleft"/>
- <use id="groove-highlight-bottom" transform="matrix(1,0,0,-1,0,-35)" width="100%" height="100%" xlink:href="#groove-highlight-top"/>
- <use id="groove-highlight-right" transform="matrix(-1,0,0,1,49,0)" width="100%" height="100%" xlink:href="#groove-highlight-left"/>
- <use id="horizontal-slider-handle" transform="translate(0,30)" width="100%" height="100%" xlink:href="#vertical-slider-handle"/>
- <use id="horizontal-slider-hover" transform="translate(0,30)" width="100%" height="100%" xlink:href="#vertical-slider-hover"/>
- <use id="horizontal-slider-focus" transform="translate(0,30)" width="100%" height="100%" xlink:href="#vertical-slider-focus"/>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="128"
+   height="128"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="1.1 (c4e8f9ed74, 2021-05-24)"
+   version="1.0"
+   sodipodi:docname="slider.svgz"
+   inkscape:output_extension="org.inkscape.output.svgz.inkscape"
+   inkscape:export-filename="arrow-up.png"
+   inkscape:export-xdpi="11.25"
+   inkscape:export-ydpi="11.25"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#eff0f1"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     gridtolerance="10000"
+     guidetolerance="10"
+     objecttolerance="10"
+     inkscape:pageopacity="1"
+     inkscape:pageshadow="2"
+     inkscape:zoom="2.9204984"
+     inkscape:cx="33.384713"
+     inkscape:cy="91.25155"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     width="128px"
+     height="128px"
+     showgrid="true"
+     inkscape:window-width="1920"
+     inkscape:window-height="1024"
+     inkscape:window-x="0"
+     inkscape:window-y="28"
+     inkscape:snap-nodes="true"
+     inkscape:snap-global="true"
+     inkscape:window-maximized="1"
+     inkscape:snap-page="true"
+     inkscape:pagecheckerboard="0">
+    <inkscape:grid
+       id="GridFromPre046Settings"
+       type="xygrid"
+       originx="0"
+       originy="0"
+       spacingx="1"
+       spacingy="1"
+       color="#0000ff"
+       empcolor="#0000ff"
+       opacity="0.01960784"
+       empopacity="0.03921569"
+       empspacing="2"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true" />
+  </sodipodi:namedview>
+  <defs
+     id="defs4">
+    <style
+       id="current-color-scheme"
+       type="text/css">
+      .ColorScheme-Text {
+        color:#31363b;
+        stop-color:#31363b;
+      }
+      .ColorScheme-Background {
+        color:#eff0f1;
+        stop-color:#eff0f1;
+      }
+      .ColorScheme-Highlight {
+        color:#3daee9;
+        stop-color:#3daee9;
+      }
+      .ColorScheme-ViewText {
+        color:#31363b;
+        stop-color:#31363b;
+      }
+      .ColorScheme-ViewBackground {
+        color:#fcfcfc;
+        stop-color:#fcfcfc;
+      }
+      .ColorScheme-ViewHover {
+        color:#93cee9;
+        stop-color:#93cee9;
+      }
+      .ColorScheme-ViewFocus{
+        color:#3daee9;
+        stop-color:#3daee9;
+      }
+      .ColorScheme-ButtonText {
+        color:#31363b;
+        stop-color:#31363b;
+      }
+      .ColorScheme-ButtonBackground {
+        color:#eff0f1;
+        stop-color:#eff0f1;
+      }
+      .ColorScheme-ButtonHover {
+        color:#93cee9;
+        stop-color:#93cee9;
+      }
+      .ColorScheme-ButtonFocus{
+        color:#3daee9;
+        stop-color:#3daee9;
+      }
+      </style>
+    <radialGradient
+       id="radialGradient915"
+       cx="41"
+       cy="20"
+       r="16"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0"
+         id="stop4" />
+      <stop
+         stop-opacity="0"
+         offset="1"
+         id="stop6" />
+    </radialGradient>
+    <radialGradient
+       id="radialGradient1311"
+       cx="41"
+       cy="20"
+       r="16"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0"
+         id="stop1307" />
+      <stop
+         stop-opacity="0"
+         offset="1"
+         id="stop1309" />
+    </radialGradient>
+    <radialGradient
+       id="radialGradient1317"
+       cx="41"
+       cy="20"
+       r="16"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0"
+         id="stop1313" />
+      <stop
+         stop-opacity="0"
+         offset="1"
+         id="stop1315" />
+    </radialGradient>
+    <radialGradient
+       id="radialGradient1323"
+       cx="41"
+       cy="20"
+       r="16"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0"
+         id="stop1319" />
+      <stop
+         stop-opacity="0"
+         offset="1"
+         id="stop1321" />
+    </radialGradient>
+    <radialGradient
+       id="radialGradient1329"
+       cx="41"
+       cy="20"
+       r="16"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0"
+         id="stop1325" />
+      <stop
+         stop-opacity="0"
+         offset="1"
+         id="stop1327" />
+    </radialGradient>
+    <radialGradient
+       id="radialGradient1335"
+       cx="41"
+       cy="20"
+       r="16"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0"
+         id="stop1331" />
+      <stop
+         stop-opacity="0"
+         offset="1"
+         id="stop1333" />
+    </radialGradient>
+    <radialGradient
+       id="radialGradient1341"
+       cx="41"
+       cy="20"
+       r="16"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0"
+         id="stop1337" />
+      <stop
+         stop-opacity="0"
+         offset="1"
+         id="stop1339" />
+    </radialGradient>
+    <radialGradient
+       id="radialGradient1347"
+       cx="41"
+       cy="20"
+       r="16"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0"
+         id="stop1343" />
+      <stop
+         stop-opacity="0"
+         offset="1"
+         id="stop1345" />
+    </radialGradient>
+    <radialGradient
+       id="radialGradient1353"
+       cx="41"
+       cy="20"
+       r="16"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0"
+         id="stop1349" />
+      <stop
+         stop-opacity="0"
+         offset="1"
+         id="stop1351" />
+    </radialGradient>
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#radialGradient915"
+       id="radialGradient1405"
+       gradientUnits="userSpaceOnUse"
+       cx="41"
+       cy="20"
+       r="16" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#radialGradient915"
+       id="radialGradient1407"
+       gradientUnits="userSpaceOnUse"
+       cx="41"
+       cy="20"
+       r="16" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#radialGradient915"
+       id="radialGradient1409"
+       gradientUnits="userSpaceOnUse"
+       cx="41"
+       cy="20"
+       r="16" />
+  </defs>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       ry="2.077126"
+       rx="0"
+       y="4.6594176"
+       x="2.2599621"
+       height="2.077126"
+       width="2.0329318"
+       id="hint-tile-center"
+       style="fill:#4e9a06;fill-opacity:1;fill-rule:nonzero;stroke:none" />
+    <circle
+       style="fill:#31363b;fill-opacity:1;stroke:none;stroke-opacity:1"
+       id="hint-handle-size"
+       cx="52"
+       cy="16"
+       r="10" />
+    <g
+       id="vertical-slider-handle"
+       transform="matrix(0.75,0,0,0.75,-4.75,58)"
+       stroke-width="0.91667">
+      <rect
+         x="25"
+         y="4"
+         width="32"
+         height="32"
+         opacity="0"
+         id="rect11" />
+      <circle
+         cx="41"
+         cy="20"
+         r="16"
+         fill="url(#radialGradient915)"
+         opacity="0.05"
+         stroke-width="1.8333"
+         id="circle13"
+         style="fill:url(#radialGradient1405)" />
+      <circle
+         cx="41"
+         cy="20"
+         r="9.3332996"
+         opacity="0.1"
+         stroke-width="1.0694"
+         id="circle15" />
+      <circle
+         cx="41"
+         cy="20"
+         r="8"
+         fill="#ffffff"
+         id="circle17" />
+    </g>
+    <g
+       id="vertical-slider-hover"
+       transform="matrix(0.75,0,0,0.75,20.25,58)"
+       stroke-width="0.91667">
+      <circle
+         cx="41"
+         cy="20"
+         r="16"
+         fill="url(#radialGradient915)"
+         opacity="0.15"
+         stroke-width="0.91667"
+         id="circle20"
+         style="fill:url(#radialGradient1407)" />
+      <rect
+         x="25"
+         y="4"
+         width="32"
+         height="32"
+         opacity="0"
+         id="rect22" />
+      <circle
+         cx="41"
+         cy="20"
+         r="9.3332996"
+         opacity="0.15"
+         stroke-width="0.53472"
+         id="circle24" />
+      <circle
+         cx="41"
+         cy="20"
+         r="8"
+         fill="#ffffff"
+         id="circle26" />
+    </g>
+    <g
+       id="vertical-slider-focus"
+       transform="matrix(0.75,0,0,0.75,45.25,58)"
+       stroke-width="0.91667">
+      <circle
+         cx="41"
+         cy="20"
+         r="16"
+         fill="url(#radialGradient915)"
+         opacity="0.2"
+         stroke-width="0.91667"
+         id="circle29"
+         style="fill:url(#radialGradient1409)" />
+      <rect
+         x="25"
+         y="4"
+         width="32"
+         height="32"
+         opacity="0"
+         id="rect31" />
+      <circle
+         cx="41"
+         cy="20"
+         r="9.3332996"
+         opacity="0.15"
+         stroke-width="0.53472"
+         id="circle33" />
+      <circle
+         cx="41"
+         cy="20"
+         r="8"
+         fill="#ffffff"
+         id="circle35" />
+    </g>
+    <g
+       id="groove-topleft"
+       transform="translate(14,61)">
+      <path
+         d="m 7,-24 c -3.3644,0 -6,2.6356 -6,6 h 6 z"
+         opacity="0.13"
+         stroke-width="5.9416"
+         id="path38" />
+      <path
+         d="m 7,-24 c -3.3644,0 -6,2.6356 -6,6 h 1 c 0,-2.8037 2.1963,-5 5,-5 z"
+         opacity="0.06"
+         id="path40" />
+    </g>
+    <path
+       id="groove-center"
+       d="m 21,43 v 1 h 3 v -1 z"
+       opacity="0.13"
+       stroke-width="1.732" />
+    <g
+       id="groove-highlight-top"
+       transform="translate(14,61)">
+      <path
+         d="m 23,-24 v 6 h 3 v -6 z"
+         opacity="0"
+         stroke-width="4.2426"
+         id="path46" />
+      <path
+         d="m 23,-23 v 5 h 3 v -5 z"
+         fill="#ffffff"
+         stroke-width="3.873"
+         id="path48" />
+    </g>
+    <g
+       id="groove-highlight-topleft"
+       transform="translate(14,61)">
+      <path
+         d="m 23,-24 c -3.3644,0 -6,2.6356 -6,6 h 6 z"
+         opacity="0"
+         stroke-width="5.9416"
+         id="path51" />
+      <path
+         d="m 23,-23 c -2.8037,0 -5,2.1963 -5,5 h 5 z"
+         fill="#ffffff"
+         stroke-width="4.9513"
+         id="path53" />
+    </g>
+    <path
+       id="groove-highlight-center"
+       d="m 37,43 v 1 h 3 v -1 z"
+       fill="#ffffff"
+       stroke-width="1.732" />
+    <g
+       id="groove-highlight-left"
+       transform="translate(14,61)">
+      <path
+         d="m 17,-18 v 1 h 6 v -1 z"
+         opacity="0"
+         stroke-width="2.4494"
+         id="path57" />
+      <path
+         d="m 18,-18 v 1 h 5 v -1 z"
+         fill="#ffffff"
+         stroke-width="2.236"
+         id="path59" />
+    </g>
+    <g
+       id="groove-top"
+       transform="translate(14,61)">
+      <path
+         d="m 7,-24 v 6 h 3 v -6 z"
+         opacity="0.13"
+         stroke-width="4.2426"
+         id="path62" />
+      <path
+         d="m 7,-24 v 1 h 3 v -1 z"
+         opacity="0.06"
+         stroke-width="1.732"
+         id="path64" />
+    </g>
+    <use
+       id="groove-topright"
+       transform="matrix(-1,0,0,1,45,0)"
+       width="100%"
+       height="100%"
+       xlink:href="#groove-topleft"
+       x="0"
+       y="0" />
+    <g
+       id="groove-left"
+       transform="translate(14,61)">
+      <path
+         d="m 1,-18 v 1 h 6 v -1 z"
+         opacity="0.13"
+         stroke-width="2.4494"
+         id="path68" />
+      <path
+         d="m 1,-18 v 1 h 1 v -1 z"
+         opacity="0.06"
+         stroke-width="0.99997"
+         id="path70" />
+    </g>
+    <use
+       id="groove-right"
+       transform="matrix(-1,0,0,1,45,0)"
+       width="100%"
+       height="100%"
+       xlink:href="#groove-left"
+       x="0"
+       y="0" />
+    <use
+       id="groove-bottomleft"
+       transform="matrix(1,0,0,-1,0,87)"
+       width="100%"
+       height="100%"
+       xlink:href="#groove-topleft"
+       x="0"
+       y="0" />
+    <use
+       id="groove-bottomright"
+       transform="rotate(180,22.5,43.5)"
+       width="100%"
+       height="100%"
+       xlink:href="#groove-topleft"
+       x="0"
+       y="0" />
+    <use
+       id="groove-bottom"
+       transform="matrix(1,0,0,-1,0,87)"
+       width="100%"
+       height="100%"
+       xlink:href="#groove-top"
+       x="0"
+       y="0" />
+    <use
+       id="groove-highlight-topright"
+       transform="matrix(-1,0,0,1,77,0)"
+       width="100%"
+       height="100%"
+       xlink:href="#groove-highlight-topleft"
+       x="0"
+       y="0" />
+    <use
+       id="groove-highlight-bottomleft"
+       transform="matrix(1,0,0,-1,0,87)"
+       width="100%"
+       height="100%"
+       xlink:href="#groove-highlight-topleft"
+       x="0"
+       y="0" />
+    <use
+       id="groove-highlight-bottomright"
+       transform="matrix(0,-1,-1,0,83,81)"
+       width="100%"
+       height="100%"
+       xlink:href="#groove-highlight-topleft"
+       x="0"
+       y="0" />
+    <use
+       id="groove-highlight-bottom"
+       transform="matrix(1,0,0,-1,0,87)"
+       width="100%"
+       height="100%"
+       xlink:href="#groove-highlight-top"
+       x="0"
+       y="0" />
+    <use
+       id="groove-highlight-right"
+       transform="matrix(-1,0,0,1,77,0)"
+       width="100%"
+       height="100%"
+       xlink:href="#groove-highlight-left"
+       x="0"
+       y="0" />
+    <use
+       id="horizontal-slider-handle"
+       transform="translate(0,30)"
+       width="100%"
+       height="100%"
+       xlink:href="#vertical-slider-handle"
+       x="0"
+       y="0" />
+    <use
+       id="horizontal-slider-hover"
+       transform="translate(0,30)"
+       width="100%"
+       height="100%"
+       xlink:href="#vertical-slider-hover"
+       x="0"
+       y="0" />
+    <use
+       id="horizontal-slider-focus"
+       transform="translate(0,30)"
+       width="100%"
+       height="100%"
+       xlink:href="#vertical-slider-focus"
+       x="0"
+       y="0" />
+  </g>
 </svg>

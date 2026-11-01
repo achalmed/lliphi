@@ -2,7 +2,8 @@
 
 Al cambiar entre Lliphi Claro y Lliphi Oscuro, con el tema global de Preferencias del sistema o con el esquema de
 color, Plasma no cambia el fondo; y con un paquete de imagen clara y oscura elegiría por los colores del estilo de
-Plasma, que en Lliphi Claro declara su panel oscuro (decisiones 4.16). Este complemento lo resuelve (decisiones 4.26):
+Plasma, que no siempre son los de la variante (hasta 4.32, Lliphi Claro declaraba su panel oscuro: decisiones 4.16).
+Este complemento lo resuelve (decisiones 4.26):
 un programa que escucha el aviso de KDE de cambio de colores (`org.kde.KGlobalSettings.notifyChange`) y pone en cada
 escritorio la imagen de la variante (`contents/images/` o `contents/images_dark/`) **del mismo fondo de Lliphi que ya
 tenga** (Horizonte, Forma, Relámpago o sus versiones firmadas), del mismo tamaño si lo hay. Si el esquema o el fondo

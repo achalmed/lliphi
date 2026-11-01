@@ -36,7 +36,8 @@ def paneles(ajustes: dict | None = None) -> list[dict]:
 
 def fondo(marca: dict, variante: str) -> str:
     """La imagen del fondo del escritorio de la variante, relativa a la carpeta de fondos. Por ruta y no el paquete: con el
-    paquete Plasma elige por los colores del estilo de Plasma, y el claro tiene el panel oscuro (decisiones 4.16, 4.27)."""
+    paquete Plasma elige por los colores del estilo de Plasma, que no siempre son los de la variante (hasta 4.32 el
+    claro declaraba el panel oscuro; decisiones 4.16, 4.27)."""
     return f"{marca['fondo_escritorio']}/contents/{'images' if variante == 'claro' else 'images_dark'}/3840x2160.jpg"
 
 

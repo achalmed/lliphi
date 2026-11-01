@@ -1,7 +1,8 @@
 # Estilo de Plasma (`estilo`)
 
 **Plasma Style** del encargo: `lliphi-claro` y `lliphi-oscuro`, los SVG del panel, los diálogos, los tooltips, los
-widgets y los fondos translúcidos de Plasma, derivados del estilo de WhiteSur-kde (GPL-3.0; decisión 3.11).
+widgets y los fondos translúcidos de Plasma, derivados del estilo de WhiteSur-kde (GPL-3.0; decisión 3.11): el oscuro de
+WhiteSur-dark y el claro de WhiteSur-alt, la variante de panel claro (decisión 4.32).
 
 ## Responsabilidad
 
@@ -26,7 +27,7 @@ Paquete `Plasma/Theme` en `~/.local/share/plasma/desktoptheme/<id>/`: `metadata.
 modulos/estilo/
 ├── modulo.json   paquete · Plasma/Theme · depende de esquema para construirse
 ├── ajustes.json  el dock de Lliphi (mejora 11): fondo de paneles por variante, mosaicos de tareas y paginador
-├── construir.py  copia y recolorea fuentes/base/WhiteSur-kde/plasma/desktoptheme/{WhiteSur,WhiteSur-dark}; dibuja
+├── construir.py  copia y recolorea fuentes/base/WhiteSur-kde/plasma/desktoptheme/{WhiteSur-alt,WhiteSur-dark}; dibuja
 │                 widgets/tasks.svg y widgets/pager.svg desde los ajustes; valores()
 ├── INSTALL.md · README.md
 ```

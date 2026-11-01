@@ -2,8 +2,8 @@
 """Lliphi: el fondo y Konsole siguen a la variante. GENERADO por herramientas/generar.py desde complementos/fondo-variante; no editar.
 
 Al cambiar el tema global (o el esquema de color) entre Lliphi Claro y Lliphi Oscuro, Plasma no cambia el fondo;
-y si el fondo es un paquete con imagen clara y oscura, elige por los colores del estilo de Plasma, que en el claro
-declara su panel oscuro. Este programa mira el esquema de color (`[General] ColorScheme` de kdeglobals) y pone en
+y si el fondo es un paquete con imagen clara y oscura, elige por los colores del estilo de Plasma, que no siempre son
+los de la variante. Este programa mira el esquema de color (`[General] ColorScheme` de kdeglobals) y pone en
 cada escritorio, del mismo paquete de fondo de Lliphi que ya tenga (`org.lliphi.*`), la imagen de la variante:
 `contents/images/` en el claro y `contents/images_dark/` en el oscuro. Si el esquema o el fondo no son de Lliphi,
 no toca nada.

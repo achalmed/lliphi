@@ -5,8 +5,8 @@ paquete de fondo de Lliphi que el usuario tenga elegido, y el esquema de Lliphi 
 empieza la sesión.
 
 Plasma no cambia el fondo al aplicar un tema global, y con un paquete de imagen clara y oscura elige por los colores
-del estilo de Plasma, que en Lliphi Claro declara su panel oscuro (decisiones 4.16): sin esto, el fondo se queda en la
-variante anterior. La fuente es `seguir.py`, con marcas que se sustituyen al construir (`@DOMINIO@`, los ids de los
+del estilo de Plasma, que no siempre son los de la variante (hasta 4.32, el claro declaraba su panel oscuro: 4.16): sin
+esto, el fondo se queda en la variante anterior. La fuente es `seguir.py`, con marcas que se sustituyen al construir (`@DOMINIO@`, los ids de los
 esquemas y el nombre). Se instala en `$XDG_DATA_HOME/lliphi/` y `$XDG_CONFIG_HOME/autostart/`."""
 from __future__ import annotations
 

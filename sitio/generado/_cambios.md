@@ -36,6 +36,8 @@ Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión de
   `sesion.py arrancar --escritorios N` y un reintento si el shell recién arrancado aún escribía su configuración.
 
 ### Added
+- **Lliphi Claro con panel claro** (decisiones 4.32): el estilo de Plasma del claro pasa de WhiteSur (panel, dock y menús
+  en gris oscuro) a WhiteSur-alt (los mismos dibujos, claros); el dock del claro toma su propio gris de ventana.
 - **Kvantum oscuro: deslizador y barra de progreso inactivos con el rojo entero** (decisiones 4.31), como el claro con el
   azul; WhiteSur los dejaba a media opacidad.
 - **Alacritty, Kitty y la terminal integrada de los editores, con la paleta de Konsole** (decisiones 4.30): las mismas

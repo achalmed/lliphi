@@ -24,7 +24,7 @@
      inkscape:pagecheckerboard="0"
      showgrid="true"
      inkscape:zoom="8.2074895"
-     inkscape:cx="56.77741"
+     inkscape:cx="56.655571"
      inkscape:cy="12.549513"
      inkscape:window-width="3840"
      inkscape:window-height="2034"
@@ -120,11 +120,10 @@
      id="hover-center"
      transform="translate(-69,-135)">
     <path
-       class="ColorScheme-Text"
+       class="ColorScheme-ButtonHover"
        d="m 118,144 h 22 v 22 h -22 z"
        fill="currentColor"
-       id="path34"
-       style="opacity:0.15" />
+       id="path34" />
   </g>
   <g
      id="hover-topleft"
@@ -134,11 +133,10 @@
        id="path1"
        style="fill:none" />
     <path
-       class="ColorScheme-Text"
+       class="ColorScheme-ButtonHover"
        d="M 2,30.4 C 0.6704,30.4 -0.4,29.3296 -0.4,28 H 2 Z"
        fill="currentColor"
-       id="path43"
-       style="opacity:0.15" />
+       id="path43" />
   </g>
   <g
      id="hover-top"
@@ -148,31 +146,28 @@
        id="path2"
        style="fill:none" />
     <path
-       class="ColorScheme-Text"
+       class="ColorScheme-ButtonHover"
        d="M 26,30.4 H 4 V 28 h 22 z"
        fill="currentColor"
-       id="path46"
-       style="opacity:0.15" />
+       id="path46" />
   </g>
   <g
      id="pressed-center"
      transform="translate(-29,-135)">
     <path
-       class="ColorScheme-Text"
+       class="ColorScheme-ButtonFocus"
        d="m 118,144 h 22 v 22 h -22 z"
        fill="currentColor"
-       id="path65"
-       style="opacity:0.25" />
+       id="path65" />
   </g>
   <g
      id="pressed-topleft"
      transform="matrix(2.5,0,0,-2.5,83,78)">
     <path
-       class="ColorScheme-Text"
+       class="ColorScheme-ButtonFocus"
        d="M 2,30.4 C 0.6704,30.4 -0.4,29.3296 -0.4,28 H 2 Z"
        fill="currentColor"
-       id="path74"
-       style="opacity:0.25" />
+       id="path74" />
     <path
        d="M 2,31.6 H -0.4 V 28 H 2 Z"
        id="path8"
@@ -186,11 +181,10 @@
        id="path9"
        style="fill:none" />
     <path
-       class="ColorScheme-Text"
+       class="ColorScheme-ButtonFocus"
        d="M 26,30.4 H 4 V 28 h 22 z"
        fill="currentColor"
-       id="path77"
-       style="opacity:0.25" />
+       id="path77" />
   </g>
   <use
      x="0"
@@ -232,11 +226,10 @@
      id="hover-right"
      transform="matrix(0,1,2.5,0,2,5)">
     <path
-       class="ColorScheme-Text"
+       class="ColorScheme-ButtonHover"
        d="M 26,30.4 H 4 V 28 h 22 z"
        fill="currentColor"
-       id="path7"
-       style="opacity:0.15" />
+       id="path7" />
   </g>
   <use
      x="0"
@@ -248,11 +241,10 @@
      id="hover-left"
      transform="matrix(0,-1,-2.5,0,118,35)">
     <path
-       class="ColorScheme-Text"
+       class="ColorScheme-ButtonHover"
        d="M 26,30.4 H 4 V 28 h 22 z"
        fill="currentColor"
-       id="path5"
-       style="opacity:0.15" />
+       id="path5" />
   </g>
   <use
      x="0"
@@ -276,11 +268,10 @@
      id="pressed-right"
      transform="matrix(0,1,2.5,0,42,5)">
     <path
-       class="ColorScheme-Text"
+       class="ColorScheme-ButtonFocus"
        d="M 26,30.4 H 4 V 28 h 22 z"
        fill="currentColor"
-       id="path14"
-       style="opacity:0.25" />
+       id="path14" />
   </g>
   <use
      x="0"
@@ -292,11 +283,10 @@
      id="pressed-left"
      transform="matrix(0,-1,-2.5,0,158,35)">
     <path
-       class="ColorScheme-Text"
+       class="ColorScheme-ButtonFocus"
        d="M 26,30.4 H 4 V 28 h 22 z"
        fill="currentColor"
-       id="path11"
-       style="opacity:0.25" />
+       id="path11" />
   </g>
   <path
      id="normal-hint-top-margin"

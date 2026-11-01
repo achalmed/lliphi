@@ -9,7 +9,8 @@ Qué se hace con la base:
 - Los hex fijos que quedan en los SVG (el negro translúcido del panel, los grises de los botones, el azul de Google
   de los indicadores) se sustituyen por los tokens de la variante.
 - `metadata.json` y `plasmarc` son de Lliphi (desenfoque y contraste activos; fondo de Lliphi).
-- Dos variantes porque la base las tiene: `lliphi-oscuro` ← WhiteSur-dark, `lliphi-claro` ← WhiteSur.
+- Dos variantes porque la base las tiene: `lliphi-oscuro` ← WhiteSur-dark, `lliphi-claro` ← WhiteSur-alt, la variante
+  de panel claro (hasta 4.32 era WhiteSur, que pinta panel, menús y ventanas emergentes en gris oscuro).
 - Dock de Lliphi (mejora 11, `ajustes.json`): el fondo de paneles del oscuro más opaco, en el gris de la ventana y sin la
   sombra de WhiteSur (el negro al 45 % se veía gris lavado con el desenfoque; la sombra, como manchas en las puntas del
   dock); los mosaicos del gestor de tareas
@@ -32,7 +33,7 @@ from nucleo import RAIZ, VERSION, aplanar, autores, escribir, registro, rgb, sem
 con_acento = registro.codigo("esquema").con_acento   # dependencia de construcción declarada en modulo.json
 
 BASE = RAIZ / "fuentes" / "base" / "WhiteSur-kde" / "plasma" / "desktoptheme"
-ORIGEN = {"oscuro": "WhiteSur-dark", "claro": "WhiteSur"}
+ORIGEN = {"oscuro": "WhiteSur-dark", "claro": "WhiteSur-alt"}   # el claro, con el panel claro (decisiones 4.32)
 
 # hex fijo de WhiteSur → token semántico de Lliphi (los colores de marcador de Plasma —magenta, cian, verde, naranja—
 # y los del stylesheet de Breeze no se tocan: Plasma los sustituye o los ignora)
@@ -123,10 +124,11 @@ def paginador_svg(aj: dict) -> str:
 
 
 def panel(texto: str, t: dict[str, str], aj: dict | None) -> str:
-    """El fondo de paneles: el negro al 45 % de WhiteSur pasa al relleno y la opacidad de los ajustes."""
+    """El fondo de paneles: el negro al 45 % de WhiteSur-dark (o el blanco al 45 % de WhiteSur-alt) pasa al relleno y la
+    opacidad de los ajustes."""
     if not aj:
         return texto
-    texto = texto.replace("opacity:0.45;fill:#000000", f"opacity:{aj['opacidad']};fill:{t[aj['relleno']]}")
+    texto = re.sub(r"opacity:0\.45;fill:#(?:000000|ffffff)\b", f"opacity:{aj['opacidad']};fill:{t[aj['relleno']]}", texto)
     if aj.get("sombra", True):
         return texto
     # sin sombra: fuera los elementos `shadow-*` (Plasma no dibuja la que falta); en las puntas del dock flotante la
@@ -148,7 +150,7 @@ def propio(rel: str, texto: str, t: dict[str, str], aj: dict, variante: str, tok
     """Lo que Lliphi cambia de un SVG de la base: el fondo de paneles, los mosaicos de tareas y el paginador."""
     if rel == "widgets/panel-background.svg":
         ajp = aj["panel"].get(variante)
-        if ajp and ajp.get("de") and tokens is not None:   # el claro conserva el panel oscuro (decisiones 4.16)
+        if ajp and ajp.get("de") and tokens is not None:   # el token de otra variante, si un ajuste lo pide
             t = semanticos(tokens, ajp["de"])
         return panel(texto, t, ajp)
     if rel == "widgets/tasks.svg":

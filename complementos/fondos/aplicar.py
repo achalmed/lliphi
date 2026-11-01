@@ -10,7 +10,7 @@ def aplicar(ctx) -> int:
     if not paquete.exists():
         paquete = ctx.DATA / "wallpapers" / ctx.marca["id_fondo"]
     # la imagen de la variante por ruta, no el paquete: con el paquete Plasma elige por los colores del estilo de Plasma,
-    # y el claro tiene el panel oscuro (mejora 10, decisiones 4.16): saldría la oscura
+    # que no siempre son los de la variante (hasta 4.32 el claro declaraba el panel oscuro y salía la imagen oscura: 4.16)
     carpeta = paquete / "contents" / ("images" if ctx.variante == "claro" else "images_dark")
     imagenes = sorted(carpeta.glob("*x*.*"), key=lambda p: [int(n) for n in p.stem.split("x")]) if carpeta.is_dir() else []
     fondo = imagenes[-1] if imagenes else paquete

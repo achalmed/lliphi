@@ -162,8 +162,10 @@ def test_dock_de_lliphi():
     ET.fromstring(panel)
     assert 'id="shadow-' not in panel and 'id="mask-topleft"' in panel and 'id="topleft"' in panel   # sin sombra, con máscara
     claro = (GEN / "estilo" / f"{MARCA['id']}-claro" / "widgets" / "panel-background.svg").read_text(encoding="utf-8")
-    # el claro, igual (decisiones 4.21), con el panel oscuro que conserva desde 4.16: el gris de la ventana del oscuro
-    assert f"opacity:{est['panel']['claro']['opacidad']};fill:{fondo}" in claro and 'id="shadow-' not in claro
+    # el claro, igual (decisiones 4.21), con su panel claro (4.32, base WhiteSur-alt): el gris de su propia ventana
+    fondo_claro = TOKENS["semanticos"]["claro"]["fondo"]["ventana"]["$value"]["hex"]
+    assert f"opacity:{est['panel']['claro']['opacidad']};fill:{fondo_claro}" in claro and 'id="shadow-' not in claro
+    assert "opacity:0.45;fill:#ffffff" not in claro
     dock = registro.codigo("disposicion").paneles()[1]
     pager = [w for w in dock["widgets"] if w["tipo"] == "org.kde.plasma.pager"]
     assert pager and pager[0]["config"]["General"]["displayedText"] == "0"
