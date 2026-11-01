@@ -26,7 +26,7 @@ def datos_lanzador() -> dict:
     from lliphi_studio.ventana import ACENTO, LOGO
     return dict(app_id=APP_ID, nombre="Lliphi Studio", comentario="El centro de control de Lliphi: paleta, estilo de "
                 "Plasma, decoración, iconos, pantallas, disposición, sesión de prueba y despliegue",
-                orden=[sys.executable, str(_AQUI / "main.py")], logo_svg=LOGO, acento=ACENTO, categorias="Settings;Graphics;",
+                orden=[sys.executable, str(_AQUI / "main.py")], logo_svg=LOGO, acento=ACENTO, categorias="Settings;DesktopSettings;",
                 palabras="lliphi;tema;plasma;kde;color;paleta;aurorae;iconos;cursores;")
 
 
