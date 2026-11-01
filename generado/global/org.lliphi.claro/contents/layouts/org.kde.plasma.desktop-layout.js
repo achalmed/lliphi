@@ -52,7 +52,8 @@ var paneles = [
                     "General": {
                         "displayedText": "0",
                         "showWindowOutlines": "false",
-                        "showWindowIcons": "false"
+                        "showWindowIcons": "false",
+                        "showOnlyCurrentScreen": "true"
                     }
                 }
             }

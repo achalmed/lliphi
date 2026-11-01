@@ -219,7 +219,7 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   acento el escritorio activo. Todo
   con las clases `ColorScheme-*` de Plasma, así que sigue el acento del sistema. En la disposición, el dock gana el
   paginador (números, sin siluetas) tras un separador. Límites: el separador de Plasma 6 solo dibuja su línea en modo
-  edición (fuera de él da el espacio), y el paginador se oculta con un solo escritorio. Comparación en
+  edición (fuera de él da el espacio), y el paginador se oculta con un solo escritorio, y se configura con «solo la pantalla actual»: si no, toma la proporción de todo el escritorio y con dos monitores cada escritorio sale muy ancho. Comparación en
   `muestras/comparacion-linea-base-dock.png` (sesión de prueba, cuatro escritorios).
 - **4.16 (2026-10-19) Mejora 10: el claro, validado en pantalla y corregido.** En una sesión de Plasma virtual aparte se
   encontraron y corrigieron dos fallos más: (1) el fondo salía oscuro en el claro, porque Plasma elige la imagen clara u oscura
