@@ -1,0 +1,41 @@
+---
+title: "El fondo sigue a la variante"
+subtitle: "Al cambiar entre Lliphi Claro y Lliphi Oscuro (con el tema global o el esquema), pone en cada escritorio la imagen clara u oscura del mismo fondo de Lliphi que tengas elegido."
+---
+
+| | |
+|---|---|
+| papel | complemento (paquete) |
+| estado | **probado** |
+| tecnología | programa de Python (solo biblioteca estándar) que escucha `org.kde.KGlobalSettings.notifyChange` con `dbus-monitor` y cambia el fondo por el scripting de Plasma; arranque automático (`autostart`) |
+| desde la versión | 0.3.0 |
+| archivos | `seguir-variante.py`, `lliphi-fondo-variante.desktop` |
+| licencia | MIT |
+
+
+# Instalar «el fondo sigue a la variante»
+
+## Instalar a mano
+
+```bash
+mkdir -p ~/.local/share/lliphi ~/.config/autostart
+cp seguir-variante.py ~/.local/share/lliphi/
+cp lliphi-fondo-variante.desktop ~/.config/autostart/
+python3 ~/.local/share/lliphi/seguir-variante.py --vigilar &   # o cierra y abre la sesión
+```
+
+## Actualizar
+
+Sustituye los dos archivos y vuelve a arrancar la vigilancia (o la sesión).
+
+## Desinstalar
+
+Borra `~/.local/share/lliphi/seguir-variante.py` y `~/.config/autostart/lliphi-fondo-variante.desktop`; la vigilancia
+en marcha termina al cerrar la sesión (o con `pkill -f seguir-variante.py`).
+
+
+## Código, incidencias y cambios
+
+- Código: [`complementos/fondo-variante/`](https://github.com/achalmed/lliphi/tree/main/complementos/fondo-variante) (manifiesto, fuente y su `README.md`); lo generado, en [`generado/fondo-variante`](https://github.com/achalmed/lliphi/tree/main/generado/fondo-variante).
+- Incidencias: [https://github.com/achalmed/lliphi/issues](https://github.com/achalmed/lliphi/issues?q=label%3Afondo-variante).
+- Cambios: [registro de cambios](../../cambios.qmd).

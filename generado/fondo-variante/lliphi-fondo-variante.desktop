@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Lliphi: el fondo sigue a la variante
+Comment=Pone la imagen clara u oscura del fondo de Lliphi al cambiar entre Lliphi Claro y Lliphi Oscuro
+Exec=sh -c 'exec python3 "${XDG_DATA_HOME:-$HOME/.local/share}/lliphi/seguir-variante.py" --vigilar'
+X-KDE-autostart-phase=2
+NoDisplay=true
+Terminal=false

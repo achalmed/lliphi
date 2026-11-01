@@ -206,6 +206,19 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   (carpetas azules, para el claro) y crea `Papirus-Dark-Lliphi`, un tema superpuesto que hereda de Papirus-Dark y solo declara
   enlaces a las variantes rojas de todo icono que acaba en una carpeta azul (lugares, `inode-directory`, `user-home`…). El
   oscuro usa ese superpuesto. Efecto secundario bueno: Home y Escritorio, que antes quedaban azules en el oscuro, ahora son rojos.
+- **4.26 (2026-11-01) El fondo sigue a la variante.** El autor cambió el tema global entre Lliphi Claro y Lliphi
+  Oscuro desde Preferencias del sistema y el fondo no cambió. Dos causas, comprobadas en la sesión de prueba:
+  `plasma-apply-lookandfeel` no toca el fondo, y con un paquete de imagen clara y oscura Plasma elige por los colores
+  del estilo de Plasma, que en el claro declaran el panel oscuro (4.16), así que mostraría la oscura. Se resuelve con
+  un complemento, `fondo-variante`: un programa de biblioteca estándar que escucha el aviso de KDE de cambio de colores
+  (`org.kde.KGlobalSettings.notifyChange`, con `dbus-monitor`), lee el esquema (`[General] ColorScheme`) y, si es de
+  Lliphi y el fondo de un escritorio también (`org.lliphi.*`), pone la imagen de la variante del **mismo** fondo
+  (`images/` o `images_dark/`, el mismo tamaño si lo hay, si no el mayor), por el scripting de Plasma. Arranca con la
+  sesión (`autostart`) y con `instalar.py --aplicar-tema`. Lo que no es de Lliphi no se toca: quien elige otro fondo o
+  otro esquema lo conserva. Se descartó cambiar el fondo dentro del tema global (`Plasma/LookAndFeel` no sabe del
+  fondo que el usuario eligió y lo pisaría siempre con Horizonte) y un servicio de systemd (la sesión de prueba
+  arranca sin systemd de usuario, 8.3). Probado en la sesión de prueba con Forma firmada: tema global al claro,
+  esquema solo al oscuro y tema global al oscuro, y el fondo siguió las tres veces.
 - **4.25 (2026-11-01) El rojo de Nothing, la tira de la paleta por luz y la firma en los fondos.** (1) El autor vio
   más bonito el rojo de Nothing (`#eb3131`, el mismo del botón de cerrar de la decoración) que el de Lliphi (`#c93436`).
   Con texto blanco encima, `#eb3131` da 4,08:1 y la selección exige 4,5:1; se toma su matiz y su croma (OKLCH 26,76° y

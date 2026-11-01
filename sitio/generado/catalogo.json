@@ -462,6 +462,34 @@
       "rol": "complemento",
       "ruta": "complementos/obsidian",
       "salida": "generado/obsidian"
+    },
+    {
+      "nombre": "El fondo sigue a la variante",
+      "resumen": "Al cambiar entre Lliphi Claro y Lliphi Oscuro (con el tema global o el esquema), pone en cada escritorio la imagen clara u oscura del mismo fondo de Lliphi que tengas elegido.",
+      "clase": "paquete",
+      "orden": 9,
+      "formato": "varios",
+      "tecnologia": "programa de Python (solo biblioteca estándar) que escucha `org.kde.KGlobalSettings.notifyChange` con `dbus-monitor` y cambia el fondo por el scripting de Plasma; arranque automático (`autostart`)",
+      "estado": "probado",
+      "desde": "0.3.0",
+      "licencia": "MIT",
+      "archivos": [
+        "seguir-variante.py",
+        "lliphi-fondo-variante.desktop"
+      ],
+      "capturas": [],
+      "dependencias": {
+        "herramientas_opcionales": [
+          "kreadconfig6",
+          "qdbus6",
+          "dbus-monitor",
+          "pgrep"
+        ]
+      },
+      "id": "fondo-variante",
+      "rol": "complemento",
+      "ruta": "complementos/fondo-variante",
+      "salida": "generado/fondo-variante"
     }
   ]
 }

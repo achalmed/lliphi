@@ -823,7 +823,7 @@ def test_registro_tema_global_y_seis_modulos():
     roles = {m.id: (m.rol, m.clase) for m in registro.todos()}
     assert roles["global"] == ("global", "paquete")
     assert {i: c for i, (r, c) in roles.items() if r == "modulo"} == SEIS
-    assert {i for i, (r, _) in roles.items() if r == "complemento"} == {"fondos", "kvantum", "konsole", "terminales", "editores", "libreoffice", "sddm", "obsidian"}
+    assert {i for i, (r, _) in roles.items() if r == "complemento"} == {"fondos", "kvantum", "konsole", "terminales", "editores", "libreoffice", "sddm", "obsidian", "fondo-variante"}
     g = registro.modulo("global")
     assert set(g.dependencias("integra")) == {"carga-bloqueo", "disposicion"}
     assert set(SEIS) <= set(g.dependencias("integra") + g.dependencias("referencia"))
@@ -924,3 +924,33 @@ def test_orden_de_aplicacion():
     assert "konsole" not in orden and "konsole" in instalacion.a_aplicar(registro.ids())
     for id_ in orden:
         assert callable(registro.codigo(id_, "aplicar").aplicar), id_
+
+
+def test_fondo_sigue_a_la_variante(tmp_path: Path, monkeypatch):
+    """Decisiones 4.26: al cambiar de variante, el programa elige la imagen de la variante del mismo fondo de Lliphi
+    (el mismo tamaño si lo hay; si no, el mayor) y no toca un fondo ajeno; el inicio automático no lleva rutas fijas."""
+    import importlib.util
+    datos = tmp_path / "data"
+    monkeypatch.setenv("XDG_DATA_HOME", str(datos))
+    spec = importlib.util.spec_from_file_location("seguir_variante", GEN / "fondo-variante" / "seguir-variante.py")
+    sv = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(sv)
+    assert sv.VARIANTES == {MARCA["id_esquema"]["claro"]: "claro", MARCA["id_esquema"]["oscuro"]: "oscuro"}
+    paquete = datos / "wallpapers" / f"{MARCA['dominio_inverso']}.forma"
+    for carpeta, tamanos in (("images", ("1920x1080", "3840x2160")), ("images_dark", ("1920x1080", "2560x1440"))):
+        (paquete / "contents" / carpeta).mkdir(parents=True)
+        for t in tamanos:
+            (paquete / "contents" / carpeta / f"{t}.jpg").write_bytes(b"")
+    oscura = (paquete / "contents" / "images_dark" / "1920x1080.jpg").as_uri()
+    assert sv.imagen_para(oscura, "claro") == (paquete / "contents" / "images" / "1920x1080.jpg").as_uri()
+    assert sv.imagen_para(oscura, "oscuro") == oscura                                 # ya es la de la variante
+    grande = (paquete / "contents" / "images_dark" / "2560x1440.jpg").as_uri()
+    assert sv.imagen_para(grande, "claro").endswith("images/3840x2160.jpg")           # sin el mismo tamaño, el mayor
+    assert sv.imagen_para(paquete.as_uri() + "/", "oscuro").endswith("images_dark/2560x1440.jpg")   # el paquete entero
+    ajeno = datos / "wallpapers" / "Next" / "contents" / "images" / "1920x1080.png"
+    assert sv.imagen_para(ajeno.as_uri(), "oscuro") is None
+    assert sv.imagen_para("file:///usr/share/wallpapers/Next/contents/images/1920x1080.png", "claro") is None
+    inicio = (GEN / "fondo-variante" / "lliphi-fondo-variante.desktop").read_text(encoding="utf-8")
+    assert "--vigilar" in inicio and "/home/" not in inicio and "$HOME" in inicio
+    texto = (GEN / "fondo-variante" / "seguir-variante.py").read_text(encoding="utf-8")
+    assert not re.search(r"@[A-Z_]+@", texto)                                     # ninguna marca sin sustituir

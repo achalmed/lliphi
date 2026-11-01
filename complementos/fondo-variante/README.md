@@ -1,0 +1,31 @@
+# El fondo sigue a la variante (`fondo-variante`)
+
+Al cambiar entre Lliphi Claro y Lliphi Oscuro, con el tema global de Preferencias del sistema o con el esquema de
+color, Plasma no cambia el fondo; y con un paquete de imagen clara y oscura elegiría por los colores del estilo de
+Plasma, que en Lliphi Claro declara su panel oscuro (decisiones 4.16). Este complemento lo resuelve (decisiones 4.26):
+un programa que escucha el aviso de KDE de cambio de colores (`org.kde.KGlobalSettings.notifyChange`) y pone en cada
+escritorio la imagen de la variante (`contents/images/` o `contents/images_dark/`) **del mismo fondo de Lliphi que ya
+tenga** (Horizonte, Forma, Relámpago o sus versiones firmadas), del mismo tamaño si lo hay. Si el esquema o el fondo
+no son de Lliphi, no hace nada.
+
+Es un **complemento**: no es parte de un `Plasma/LookAndFeel`. Arquitectura: [`docs/arquitectura.md`](../../docs/arquitectura.md).
+
+## Responsabilidad y formato
+
+- `seguir.py`: la fuente del programa, con marcas (`@DOMINIO@`, los ids de los esquemas, el nombre) que sustituye
+  `construir.py`; solo biblioteca estándar, con `kreadconfig6`, `qdbus6` y `dbus-monitor`. Simula por omisión;
+  `--aplicar` cambia una vez; `--vigilar` cambia ahora y cada vez que KDE avisa.
+- `construir.py`: escribe `seguir-variante.py` y el archivo de inicio automático `lliphi-fondo-variante.desktop`
+  (que resuelve la carpeta de datos al arrancar, sin rutas de la máquina).
+- `aplicar.py`: con `instalar.py --aplicar-tema`, pone ya la imagen de la variante y arranca la vigilancia.
+- Se instala en `$XDG_DATA_HOME/lliphi/seguir-variante.py` y `$XDG_CONFIG_HOME/autostart/`; `desinstalar` los
+  retira (la vigilancia en marcha termina al cerrar la sesión).
+
+## Desarrollar
+
+```bash
+.venv/bin/python herramientas/generar.py --modulos fondo-variante --aplicar
+python3 ~/.local/share/lliphi/seguir-variante.py            # simula en la sesión: qué cambiaría
+```
+
+Pruebas: `test_fondo_sigue_a_la_variante`.
