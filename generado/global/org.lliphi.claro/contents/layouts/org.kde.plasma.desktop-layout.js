@@ -1,34 +1,76 @@
 // GENERADO por herramientas/generar.py desde tokens/; no editar.
-// Disposición de Lliphi: barra superior fina (lanzador, reloj, bandeja) y dock inferior flotante que se
-// oculta bajo las ventanas. Se aplica solo si el usuario marca «Disposición del escritorio» al aplicar el tema.
+// Disposición de Lliphi: los paneles y sus widgets salen de modulos/disposicion/ajustes.json (por omisión, barra
+// superior fina y dock inferior flotante que se aparta de las ventanas). Se aplica solo si el usuario marca
+// «Disposición del escritorio» al aplicar el tema (o con plasma-apply-lookandfeel --resetLayout).
 
-var superior = new Panel;
-superior.location = "top";
-superior.height = Math.round(gridUnit * 2);           // ≈ 36 px con gridUnit 18
-superior.hiding = "none";
-superior.floating = false;
-superior.addWidget("org.kde.plasma.kickoff");
-superior.addWidget("org.kde.plasma.panelspacer");
-superior.addWidget("org.kde.plasma.digitalclock");
-superior.addWidget("org.kde.plasma.panelspacer");
-superior.addWidget("org.kde.plasma.systemtray");
+var paneles = [
+    {
+        "ubicacion": "top",
+        "alto": 2,
+        "ocultar": "none",
+        "flotante": false,
+        "widgets": [
+            {
+                "tipo": "org.kde.plasma.kickoff"
+            },
+            {
+                "tipo": "org.kde.plasma.panelspacer"
+            },
+            {
+                "tipo": "org.kde.plasma.digitalclock"
+            },
+            {
+                "tipo": "org.kde.plasma.panelspacer"
+            },
+            {
+                "tipo": "org.kde.plasma.systemtray"
+            }
+        ]
+    },
+    {
+        "ubicacion": "bottom",
+        "alto": 3,
+        "ocultar": "dodgewindows",
+        "flotante": true,
+        "longitud": "fit",
+        "alineacion": "center",
+        "widgets": [
+            {
+                "tipo": "org.kde.plasma.icontasks",
+                "config": {
+                    "General": {
+                        "launchers": "applications:org.kde.dolphin.desktop,applications:org.kde.konsole.desktop,applications:systemsettings.desktop"
+                    }
+                }
+            }
+        ]
+    }
+];
 
-var dock = new Panel;
-dock.location = "bottom";
-dock.height = Math.round(gridUnit * 3);              // ≈ 56 px
-dock.hiding = "dodgewindows";                        // se aparta cuando una ventana llega a él (Plasma 6 ya no tiene «windowscover»)
-dock.floating = true;
-dock.lengthMode = "fit";
-dock.alignment = "center";
-var tareas = dock.addWidget("org.kde.plasma.icontasks");
-tareas.currentConfigGroup = ["General"];
-tareas.writeConfig("launchers", "applications:org.kde.dolphin.desktop,applications:org.kde.konsole.desktop,applications:systemsettings.desktop");
+for (var i = 0; i < paneles.length; i++) {
+    var d = paneles[i];
+    var panel = new Panel;
+    panel.location = d.ubicacion;
+    panel.height = Math.round(gridUnit * d.alto);      // gridUnit ≈ 18 px
+    panel.hiding = d.ocultar;                          // none · autohide · dodgewindows · windowsgobelow
+    panel.floating = d.flotante;
+    if (d.longitud) panel.lengthMode = d.longitud;
+    if (d.alineacion) panel.alignment = d.alineacion;
+    for (var j = 0; j < d.widgets.length; j++) {
+        var w = d.widgets[j];
+        var widget = panel.addWidget(w.tipo);
+        for (var grupo in (w.config || {})) {
+            widget.currentConfigGroup = grupo.split("/");
+            for (var clave in w.config[grupo]) widget.writeConfig(clave, w.config[grupo][clave]);
+        }
+    }
+}
 
 var escritorios = desktopsForActivity(currentActivity());
-for (var i = 0; i < escritorios.length; i++) {
-    escritorios[i].wallpaperPlugin = "org.kde.image";
-    escritorios[i].currentConfigGroup = ["Wallpaper", "org.kde.image", "General"];
+for (var k = 0; k < escritorios.length; k++) {
+    escritorios[k].wallpaperPlugin = "org.kde.image";
+    escritorios[k].currentConfigGroup = ["Wallpaper", "org.kde.image", "General"];
     // por ruta del paquete: en Plasma 6.6 el nombre de un paquete de usuario no se resolvía (docs/validacion.md §3);
     // con un solo argumento, userDataPath devuelve la carpeta de datos y no la de fondos: el tipo va primero (validacion.md §9)
-    escritorios[i].writeConfig("Image", "file://" + userDataPath("data", "wallpapers") + "/org.lliphi.horizonte");
+    escritorios[k].writeConfig("Image", "file://" + userDataPath("data", "wallpapers") + "/org.lliphi.horizonte");
 }

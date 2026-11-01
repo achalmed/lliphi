@@ -1,0 +1,31 @@
+{
+  "$description": "Ajustes de la disposición del escritorio (fuente; construir.py escribe con ellos el script de disposición de Plasma y Lliphi Studio los edita). Cada panel: ubicacion (top, bottom, left, right), alto en gridUnit (≈ 18 px), ocultar (none, autohide, dodgewindows, windowsgobelow; Plasma 6 ya no tiene windowscover), flotante, longitud (fill, fit, custom) y alineacion (left, center, right) opcionales, y sus widgets en orden (tipo = id del plasmoide; config = {grupo: {clave: valor}}).",
+  "paneles": [
+    {
+      "variable": "superior",
+      "ubicacion": "top",
+      "alto": 2,
+      "ocultar": "none",
+      "flotante": false,
+      "widgets": [
+        {"tipo": "org.kde.plasma.kickoff"},
+        {"tipo": "org.kde.plasma.panelspacer"},
+        {"tipo": "org.kde.plasma.digitalclock"},
+        {"tipo": "org.kde.plasma.panelspacer"},
+        {"tipo": "org.kde.plasma.systemtray"}
+      ]
+    },
+    {
+      "variable": "dock",
+      "ubicacion": "bottom",
+      "alto": 3,
+      "ocultar": "dodgewindows",
+      "flotante": true,
+      "longitud": "fit",
+      "alineacion": "center",
+      "widgets": [
+        {"tipo": "org.kde.plasma.icontasks", "config": {"General": {"launchers": "applications:org.kde.dolphin.desktop,applications:org.kde.konsole.desktop,applications:systemsettings.desktop"}}}
+      ]
+    }
+  ]
+}

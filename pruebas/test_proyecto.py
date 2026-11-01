@@ -110,6 +110,63 @@ def test_ajustes_de_los_modulos(tmp_path: Path):
     assert json.loads(correr("herramientas/instalar.py", "estado", "--json", env=env).stdout)["instalado"] is False
 
 
+def test_disposicion_desde_ajustes():
+    """La disposición sale de ajustes.json; un valor que Plasma 6.6 no entiende se rechaza al construir."""
+    disp = registro.codigo("disposicion")
+    js = disp.script(MARCA)
+    assert '"ocultar": "dodgewindows"' in js and "@PANELES@" not in js and "@FONDO@" not in js
+    malo = {"paneles": [{"variable": "x", "ubicacion": "top", "alto": 2, "ocultar": "windowscover", "flotante": False,
+                         "widgets": [{"tipo": "org.kde.plasma.kickoff"}]}]}
+    with pytest.raises(ValueError):
+        disp.script(MARCA, malo)
+    generado = (GEN / "global" / MARCA["id_global"]["oscuro"] / "contents" / "layouts" / "org.kde.plasma.desktop-layout.js")
+    assert generado.read_text(encoding="utf-8") == js
+
+
+def _sesion(monkeypatch, tmp_path: Path):
+    sys.path.insert(0, str(RAIZ / "herramientas"))
+    import sesion
+    monkeypatch.setattr(sesion, "CACHE", tmp_path / "cache" / "sesiones")
+    monkeypatch.setattr(sesion, "ESTADO", tmp_path / "state" / "sesion-prueba.json")
+    monkeypatch.setattr(sesion, "DATA_REAL", tmp_path / "data")
+    return sesion
+
+
+def test_sesion_de_prueba_prepara_y_aisla(tmp_path: Path, monkeypatch):
+    """El HOME de prueba lleva systemd, bloqueo e inactividad apagados y los temas enlazados; el entorno no hereda el
+    bus ni el PATH del usuario."""
+    sesion = _sesion(monkeypatch, tmp_path)
+    (tmp_path / "data" / "icons" / "Papirus").mkdir(parents=True)
+    casa = sesion.CACHE / "x" / "casa"
+    sesion.preparar_casa(casa)
+    sesion.preparar_casa(casa)   # idempotente
+    assert "systemdBoot=false" in (casa / ".config" / "startkderc").read_text()
+    kscreen = (casa / ".config" / "kscreenlockerrc").read_text()
+    assert kscreen.count("[Daemon]") == 1 and "Autolock=false" in kscreen
+    assert "[AC][Display]" in (casa / ".config" / "powerdevilrc").read_text()
+    assert (casa / ".local" / "share" / "icons" / "Papirus").is_symlink()
+    monkeypatch.setenv("DBUS_SESSION_BUS_ADDRESS", "unix:path=/no")
+    env = sesion.entorno_inicial(casa, tmp_path / "run", virtual=True)
+    assert env["HOME"] == str(casa) and env["PATH"] == sesion.PATH
+    assert "DBUS_SESSION_BUS_ADDRESS" not in env and "WAYLAND_DISPLAY" not in env
+    assert sesion.entorno_inicial(casa, tmp_path / "run", virtual=False)["WAYLAND_DISPLAY"].startswith("/")
+
+
+def test_sesion_de_prueba_se_niega(tmp_path: Path, monkeypatch):
+    """Ninguna orden corre dentro sin una sesión de prueba viva y con su HOME bajo la caché de sesiones."""
+    sesion = _sesion(monkeypatch, tmp_path)
+    with pytest.raises(PermissionError):
+        sesion.entorno_dentro({"casa": str(Path.home())})
+    with pytest.raises(LookupError):
+        sesion.entorno_dentro({"casa": str(sesion.CACHE / "x" / "casa")})
+    assert sesion.ejecutar(["ejecutar", "--", "true"]) == 3
+    assert sesion.cerrar(["cerrar"]) == 0
+    env = {**os.environ, "XDG_CACHE_HOME": str(tmp_path / "c"), "XDG_STATE_HOME": str(tmp_path / "s")}
+    r = correr("herramientas/sesion.py", "arrancar", "--virtual", env=env)
+    assert r.returncode == 0 and "SIMULACIÓN" in r.stdout and not (tmp_path / "c").exists()
+    assert json.loads(correr("herramientas/sesion.py", "estado", "--json", env=env).stdout)["activa"] is False
+
+
 def test_generado_sin_deriva():
     r = correr("herramientas/generar.py", "verificar")
     assert r.returncode == 0, r.stdout[-2000:]
@@ -412,12 +469,16 @@ def test_libreoffice_esquemas():
         assert all(prop.get("{http://openoffice.org/2001/registry}op") == "fuse" for prop in doc.iter("prop")), archivo
     # la extensión: zip reproducible con manifest, description y el component-data con los dos esquemas
     with zipfile.ZipFile(base / f"{MARCA['id']}.oxt") as z:
-        assert set(z.namelist()) == {"META-INF/manifest.xml", "description.xml", "descripcion.txt", f"{MARCA['id']}.xcu"}
+        assert set(z.namelist()) == {"META-INF/manifest.xml", "description.xml", "descripcion.txt", f"{MARCA['id']}.xcu", "paletas.xcu",
+                                     f"palette/{MARCA['id']}-claro.soc", f"palette/{MARCA['id']}-oscuro.soc"}
         assert all(zi.date_time == (1980, 1, 1, 0, 0, 0) for zi in z.infolist()), "zip no reproducible"
         manifest = ET.fromstring(z.read("META-INF/manifest.xml"))
-        entrada = manifest.find("{http://openoffice.org/2001/manifest}file-entry")
-        assert entrada.get("{http://openoffice.org/2001/manifest}media-type") == "application/vnd.sun.star.configuration-data"
-        assert entrada.get("{http://openoffice.org/2001/manifest}full-path") == f"{MARCA['id']}.xcu"
+        entradas_manifest = manifest.findall("{http://openoffice.org/2001/manifest}file-entry")
+        assert all(x.get("{http://openoffice.org/2001/manifest}media-type") == "application/vnd.sun.star.configuration-data" for x in entradas_manifest)
+        assert [x.get("{http://openoffice.org/2001/manifest}full-path") for x in entradas_manifest] == [f"{MARCA['id']}.xcu", "paletas.xcu"]
+        rutas = ET.fromstring(z.read("paletas.xcu"))
+        assert rutas.get("{http://openoffice.org/2001/registry}name") == "Paths"
+        assert "%origin%/palette" in {n.get("{http://openoffice.org/2001/registry}name") for n in rutas.iter("node")}
         desc = ET.fromstring(z.read("description.xml"))
         assert desc.find("{http://openoffice.org/extensions/description/2006}identifier").get("value") == f"{MARCA['dominio_inverso']}.libreoffice"
         assert desc.find("{http://openoffice.org/extensions/description/2006}version").get("value") == (RAIZ / "VERSION").read_text().strip()
@@ -434,6 +495,25 @@ def test_libreoffice_esquemas():
                 valor = int(n.find("prop[@{http://openoffice.org/2001/registry}name='Color']/value").text)
                 assert valor in enteros and valor == int(e[n.get("{http://openoffice.org/2001/registry}name")][1:], 16)
         assert (base / "oxt" / f"{MARCA['id']}.xcu").read_bytes() == z.read(f"{MARCA['id']}.xcu")
+        for v in ("claro", "oscuro"):
+            assert z.read(f"palette/{MARCA['id']}-{v}.soc") == (base / f"{MARCA['id']}-{v}.soc").read_bytes()
+
+
+def test_libreoffice_paletas():
+    """Paletas .soc (como la de Dracula): XML válido, colores del maestro sin repetir, acento, estados y los dieciséis ANSI."""
+    hexes = {t["$value"]["hex"].lower() for t in _tokens_planos(TOKENS).values() if isinstance(t["$value"], dict) and "hex" in t["$value"]}
+    office, draw = "{http://openoffice.org/2000/office}", "{http://openoffice.org/2000/drawing}"
+    for v in ("claro", "oscuro"):
+        raiz = ET.parse(GEN / "libreoffice" / f"{MARCA['id']}-{v}.soc").getroot()
+        assert raiz.tag == f"{office}color-table"
+        colores = [(c.get(f"{draw}name"), c.get(f"{draw}color")) for c in raiz.findall(f"{draw}color")]
+        nombres, valores = [n for n, _ in colores], [h for _, h in colores]
+        assert len(set(nombres)) == len(nombres) and len(set(valores)) == len(valores), v
+        assert all(h in hexes for h in valores), v
+        sem = {k: t["$value"]["hex"] for k, t in _tokens_planos(TOKENS["semanticos"][v]).items()}
+        assert dict(colores)["Acento"] == sem["acento.base"] and dict(colores)["Texto"] == sem["texto.normal"]
+        assert set(_terminal(v)[f"color{i}"] for i in range(16)) <= set(valores), v
+        assert 28 <= len(colores) <= 36, (v, len(colores))
 
 
 def test_fondo_paquete():

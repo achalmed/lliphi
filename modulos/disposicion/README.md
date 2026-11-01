@@ -14,9 +14,13 @@ parte de lo existente).
 
 ## Responsabilidad
 
-- `escritorio.js`: la fuente, JavaScript de la API de scripting de escritorio de Plasma (`Panel`, `addWidget`,
-  `writeConfig`, `desktopsForActivity`, `userDataPath`). Dos marcas se sustituyen al construir: `@NOMBRE@` (nombre del
-  tema) y `@FONDO@` (id del paquete de fondo de `complementos/fondos`). El fondo se pone por ruta porque Plasma 6.6 no
+- `ajustes.json`: los paneles y sus widgets, declarativos (ubicación, alto en `gridUnit`, ocultar, flotante, longitud,
+  alineación; cada widget con su id y su configuración). Lo edita Lliphi Studio; `construir.py` rechaza un valor que el
+  scripting de Plasma 6.6 no entiende (`windowscover` ya no existe).
+- `escritorio.js`: la plantilla, JavaScript de la API de scripting de escritorio de Plasma (`Panel`, `addWidget`,
+  `writeConfig`, `desktopsForActivity`, `userDataPath`) que recorre los paneles. Tres marcas se sustituyen al construir:
+  `@NOMBRE@` (nombre del tema), `@PANELES@` (los paneles de `ajustes.json`) y `@FONDO@` (id del paquete de fondo de
+  `complementos/fondos`). El fondo se pone por ruta porque Plasma 6.6 no
   resolvía el nombre de un paquete de usuario (docs/validacion.md §3).
 - `construir.py`: escribe el script con la cabecera de generado; aporta `[kwinrc][WindowSwitcher]` y
   `[kwinrc][DesktopSwitcher]` (`LayoutName=org.kde.breeze.desktop`).
@@ -30,7 +34,8 @@ parte de lo existente).
 ```
 modulos/disposicion/
 ├── modulo.json    componente · integracion.en = global · referencia a fondos
-├── escritorio.js  la disposición (JavaScript de Plasma)
+├── ajustes.json   los paneles y sus widgets (fuente; lo edita Lliphi Studio)
+├── escritorio.js  la plantilla de la disposición (JavaScript de Plasma)
 ├── construir.py   valores() e integrar()
 ├── aplicar.py     respaldos()
 ├── INSTALL.md · README.md
