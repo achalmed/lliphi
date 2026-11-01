@@ -2,10 +2,10 @@
 # Lliphi Oscuro: en alacritty.toml añade  [general]  import = ["~/.config/alacritty/themes/lliphi-oscuro.toml"]
 
 [colors.primary]
-background = "#101012"
-foreground = "#eaebed"
-dim_foreground = "#97989c"
-bright_foreground = "#eaebed"
+background = "#1b1b1d"
+foreground = "#ffffff"
+dim_foreground = "#ffffff"
+bright_foreground = "#f0dada"
 
 [colors.cursor]
 text = "#fcfcfc"
@@ -20,20 +20,20 @@ text = "#fcfcfc"
 background = "#e22529"
 
 [colors.search.matches]
-foreground = "#101012"
-background = "#d0a43a"
+foreground = "#1b1b1d"
+background = "#c8ed17"
 
 [colors.search.focused_match]
 foreground = "#fcfcfc"
 background = "#e22529"
 
 [colors.hints.start]
-foreground = "#101012"
-background = "#d0a43a"
+foreground = "#1b1b1d"
+background = "#c8ed17"
 
 [colors.hints.end]
-foreground = "#101012"
-background = "#ebbd57"
+foreground = "#1b1b1d"
+background = "#a9c413"
 
 [colors.footer_bar]
 foreground = "#bcbec1"
@@ -44,21 +44,21 @@ foreground = "None"
 background = "None"
 
 [colors.normal]
-black = "#323336"
-red = "#f28881"
-green = "#69c27e"
-yellow = "#d0a43a"
-blue = "#7daafd"
-magenta = "#d98cd2"
-cyan = "#00c2ca"
-white = "#d0d1d4"
+black = "#2640d3"
+red = "#fe3762"
+green = "#20aba2"
+yellow = "#c8ed17"
+blue = "#eb3131"
+magenta = "#bd37f7"
+cyan = "#2fbfcf"
+white = "#99adb0"
 
 [colors.bright]
-black = "#626367"
-red = "#ffaba3"
-green = "#83dc97"
-yellow = "#ebbd57"
-blue = "#a4c5ff"
-magenta = "#f4a5ec"
-cyan = "#34dde5"
-white = "#f1f2f3"
+black = "#223cbf"
+red = "#e73259"
+green = "#1c948c"
+yellow = "#a9c413"
+blue = "#dd2e2e"
+magenta = "#aa32e1"
+cyan = "#2aaab8"
+white = "#819294"

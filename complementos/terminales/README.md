@@ -1,6 +1,7 @@
 # Terminales: Alacritty y Kitty (`terminales`)
 
-Los mismos colores de Konsole para Alacritty (`[colors]` TOML) y Kitty (`.conf`), claro y oscuro.
+Los mismos colores de Konsole (`konsole.ansi`: fondo, textos y los dieciséis ANSI, sobre el esquema de Nothing;
+decisiones 4.30) para Alacritty (`[colors]` TOML) y Kitty (`.conf`), claro y oscuro.
 
 Es un **complemento**: existía antes de la reingeniería y se conserva fuera del tema global, porque no es parte de un
 `Plasma/LookAndFeel`. Arquitectura: [`docs/arquitectura.md`](../../docs/arquitectura.md).

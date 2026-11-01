@@ -5,14 +5,17 @@
 - Kitty: `kitty/<id>-<variante>.conf` con `foreground`, `background`, `selection_*`, `cursor*`, `url_color`, los
   colores de bordes y pestañas y `color0..15`; se carga con `include` o como tema de `kitten themes`.
 
-Los dieciséis ANSI, el fondo y los textos salen de `terminal.<variante>`; la selección, el cursor y los enlaces,
-que Konsole no define, salen de los semánticos de la misma variante (`seleccion.*`, `acento.base`, `enlace`),
-de modo que las tres terminales coinciden con el esquema de Plasma. Ningún color se escribe aquí."""
+Los dieciséis ANSI, el fondo y los textos son los de Konsole (`konsole.ansi`, sobre el esquema de Nothing,
+decisiones 4.29 y 4.30), de modo que las tres terminales se ven igual; la selección, el cursor y los enlaces, que
+Konsole no define, salen de los semánticos de la misma variante (`seleccion.*`, `acento.base`, `enlace`). Ningún
+color se escribe aquí."""
 from __future__ import annotations
 
 from pathlib import Path
 
-from nucleo import escribir, hexa, semanticos
+from nucleo import escribir, registro, semanticos
+
+ansi = registro.codigo("konsole").ansi   # la paleta de Konsole (modulo.json: construcción tras konsole)
 
 NOMBRES_ANSI = ("black", "red", "green", "yellow", "blue", "magenta", "cyan", "white")
 CABECERA = "# GENERADO por herramientas/generar.py desde tokens/; no editar\n"
@@ -20,7 +23,7 @@ CABECERA = "# GENERADO por herramientas/generar.py desde tokens/; no editar\n"
 
 def colores(tokens: dict, variante: str) -> dict[str, str]:
     """Nombre → hex de todo lo que necesita una terminal en una variante."""
-    t = {k: hexa(v) for k, v in tokens["terminal"][variante].items()}
+    t = ansi(tokens, variante)
     s = semanticos(tokens, variante)
     t.update({"seleccion-fondo": s["seleccion.fondo"], "seleccion-texto": s["seleccion.texto"],
               "cursor": s["acento.base"], "cursor-texto": s["texto.sobre-acento"], "enlace": s["enlace"],

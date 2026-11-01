@@ -1,8 +1,8 @@
 # Editores: VS Code, Positron, VSCodium y Zed (`editores`)
 
 Una extensión de tema mínima de VS Code (que leen también Positron y VSCodium) y un tema de Zed, con la interfaz del
-esquema, la sintaxis derivada de los ANSI con una tabla única (`sintaxis()`, que reutiliza `libreoffice`) y la
-terminal integrada de Konsole.
+esquema, la sintaxis derivada de los ANSI de los tokens con una tabla única (`sintaxis()`, que reutiliza `libreoffice`) y la
+terminal integrada con los dieciséis ANSI de Konsole (`konsole.ansi`, sobre el esquema de Nothing; decisiones 4.30).
 
 Es un **complemento**: existía antes de la reingeniería y se conserva fuera del tema global, porque no es parte de un
 `Plasma/LookAndFeel`. Arquitectura: [`docs/arquitectura.md`](../../docs/arquitectura.md).

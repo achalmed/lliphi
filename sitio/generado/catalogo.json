@@ -342,7 +342,11 @@
         "kitty/lliphi-oscuro.conf"
       ],
       "capturas": [],
-      "dependencias": {},
+      "dependencias": {
+        "construccion": [
+          "konsole"
+        ]
+      },
       "id": "terminales",
       "rol": "complemento",
       "ruta": "complementos/terminales",
@@ -365,7 +369,11 @@
         "../capturas/oscuro-08-positron.png",
         "../capturas/claro-08-positron.png"
       ],
-      "dependencias": {},
+      "dependencias": {
+        "construccion": [
+          "konsole"
+        ]
+      },
       "id": "editores",
       "rol": "complemento",
       "ruta": "complementos/editores",

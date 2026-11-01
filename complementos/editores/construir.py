@@ -1,4 +1,5 @@
-"""Temas de editores, desde los semánticos (interfaz) y el grupo `terminal` (sintaxis y terminal integrada):
+"""Temas de editores, desde los semánticos (interfaz), el grupo `terminal` (sintaxis) y los ANSI de Konsole (terminal
+integrada, sobre el esquema de Nothing, decisiones 4.30; el fondo y el texto de la terminal siguen siendo los tokens):
 
 - VS Code: una extensión mínima `vscode/<id>/` (`package.json` que contribuye dos temas, `themes/*-color-theme.json`
   con `colors` y `tokenColors`, `README.md`). Se instala copiando la carpeta a `~/.vscode/extensions/`.
@@ -16,7 +17,9 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from nucleo import VERSION, escribir, hexa, semanticos
+from nucleo import VERSION, escribir, hexa, registro, semanticos
+
+ansi = registro.codigo("konsole").ansi   # la terminal integrada usa los ANSI de Konsole (decisiones 4.30)
 
 ANSI_VSCODE = ("Black", "Red", "Green", "Yellow", "Blue", "Magenta", "Cyan", "White")
 ANSI_ZED = ("black", "red", "green", "yellow", "blue", "magenta", "cyan", "white")
@@ -44,7 +47,7 @@ def alfa(hex6: str, aa: str) -> str:
 
 # ---------------------------------------------------------------- VS Code
 
-def colores_vscode(s: dict[str, str], t: dict[str, str]) -> dict[str, str]:
+def colores_vscode(s: dict[str, str], t: dict[str, str], k: dict[str, str]) -> dict[str, str]:
     c = {
         "focusBorder": s["foco"], "foreground": s["texto.normal"], "disabledForeground": s["texto.inactivo"],
         "descriptionForeground": s["texto.secundario"], "errorForeground": s["estado.error"], "icon.foreground": s["texto.secundario"],
@@ -148,8 +151,8 @@ def colores_vscode(s: dict[str, str], t: dict[str, str]) -> dict[str, str]:
         "terminalCursor.foreground": s["acento.base"], "terminalCursor.background": s["texto.sobre-acento"],
         "terminal.findMatchBackground": alfa(t["color3"], "66"), "terminal.findMatchHighlightBackground": alfa(t["color3"], "33"),
         "terminal.tab.activeBorder": s["acento.base"],
-        **{f"terminal.ansi{n}": t[f"color{i}"] for i, n in enumerate(ANSI_VSCODE)},
-        **{f"terminal.ansiBright{n}": t[f"color{i + 8}"] for i, n in enumerate(ANSI_VSCODE)},
+        **{f"terminal.ansi{n}": k[f"color{i}"] for i, n in enumerate(ANSI_VSCODE)},
+        **{f"terminal.ansiBright{n}": k[f"color{i + 8}"] for i, n in enumerate(ANSI_VSCODE)},
         # avisos, selector, vistas previas, diff, git
         "notifications.background": s["fondo.ventana"], "notifications.foreground": s["texto.normal"], "notifications.border": s["borde.separador"],
         "notificationCenterHeader.background": s["fondo.encabezado"], "notificationCenterHeader.foreground": s["texto.normal"],
@@ -253,7 +256,7 @@ def tema_vscode(tokens: dict, marca: dict, variante: str) -> dict:
     x = sintaxis(s, t)
     return {"$schema": "vscode://schemas/color-theme", "name": marca["nombre_esquema"][variante],
             "type": "light" if variante == "claro" else "dark", "semanticHighlighting": True,
-            "colors": colores_vscode(s, t), "tokenColors": token_colors(x), "semanticTokenColors": semantic_token_colors(x)}
+            "colors": colores_vscode(s, t, ansi(tokens, variante)), "tokenColors": token_colors(x), "semanticTokenColors": semantic_token_colors(x)}
 
 
 def package_json(marca: dict) -> dict:
@@ -268,7 +271,7 @@ def package_json(marca: dict) -> dict:
 
 # ---------------------------------------------------------------- Zed
 
-def estilo_zed(s: dict[str, str], t: dict[str, str]) -> dict:
+def estilo_zed(s: dict[str, str], t: dict[str, str], k: dict[str, str]) -> dict:
     x = sintaxis(s, t)
     estado = {"conflict": s["acento.texto"], "created": s["estado.exito"], "deleted": s["estado.error"], "error": s["estado.error"],
               "hidden": s["texto.inactivo"], "hint": s["texto.secundario"], "ignored": s["texto.inactivo"], "info": s["estado.info"],
@@ -307,9 +310,9 @@ def estilo_zed(s: dict[str, str], t: dict[str, str]) -> dict:
         "editor.document_highlight.bracket_background": alfa(s["acento.suave"], "33"),
         "terminal.background": t["fondo"], "terminal.foreground": t["texto"], "terminal.bright_foreground": t["texto-intenso"],
         "terminal.dim_foreground": t["texto-tenue"],
-        **{f"terminal.ansi.{n}": t[f"color{i}"] for i, n in enumerate(ANSI_ZED)},
-        **{f"terminal.ansi.bright_{n}": t[f"color{i + 8}"] for i, n in enumerate(ANSI_ZED)},
-        **{f"terminal.ansi.dim_{n}": t[f"color{i}"] for i, n in enumerate(ANSI_ZED)},
+        **{f"terminal.ansi.{n}": k[f"color{i}"] for i, n in enumerate(ANSI_ZED)},
+        **{f"terminal.ansi.bright_{n}": k[f"color{i + 8}"] for i, n in enumerate(ANSI_ZED)},
+        **{f"terminal.ansi.dim_{n}": k[f"color{i}"] for i, n in enumerate(ANSI_ZED)},
         "link_text.hover": s["acento.suave"],
         "version_control.added": s["estado.exito"], "version_control.modified": s["estado.advertencia"], "version_control.deleted": s["estado.error"],
         "version_control.conflict_marker.ours": alfa(s["estado.exito"], "33"), "version_control.conflict_marker.theirs": alfa(s["estado.info"], "33"),
@@ -347,7 +350,7 @@ def estilo_zed(s: dict[str, str], t: dict[str, str]) -> dict:
 def tema_zed(tokens: dict, marca: dict) -> dict:
     return {"$schema": "https://zed.dev/schema/themes/v0.2.0.json", "name": marca["nombre"], "author": marca["autor"],
             "themes": [{"name": marca["nombre_esquema"][v], "appearance": "light" if v == "claro" else "dark",
-                        "style": estilo_zed(*paleta(tokens, v))} for v in ("oscuro", "claro")]}
+                        "style": estilo_zed(*paleta(tokens, v), ansi(tokens, v))} for v in ("oscuro", "claro")]}
 
 
 # ---------------------------------------------------------------- salida

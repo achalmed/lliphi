@@ -14,7 +14,11 @@
     "kitty/lliphi-oscuro.conf"
   ],
   "capturas": [],
-  "dependencias": {},
+  "dependencias": {
+    "construccion": [
+      "konsole"
+    ]
+  },
   "instalacion": [
     {
       "origen": "alacritty/{id}-claro.toml",

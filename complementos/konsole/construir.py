@@ -118,6 +118,19 @@ def colores(tokens: dict, variante: str) -> dict[str, tuple[int, int, int]]:
     return c
 
 
+def ansi(tokens: dict, variante: str) -> dict[str, str]:
+    """La paleta de terminal de Konsole en hex, para las demás terminales (Alacritty, Kitty, la integrada de los
+    editores), con las claves del grupo `terminal` de los tokens: `color0..7` (normal), `color8..15` (el intenso de
+    Konsole), `fondo`, `texto`, `texto-tenue` y `texto-intenso`."""
+    c = colores(tokens, variante)
+    h = lambda x: "#%02x%02x%02x" % x  # noqa: E731
+    t = {"fondo": h(c["Background"]), "texto": h(c["Foreground"]), "texto-tenue": h(c["ForegroundFaint"]),
+         "texto-intenso": h(c["ForegroundIntense"])}
+    for i in range(8):
+        t[f"color{i}"], t[f"color{i + 8}"] = h(c[f"Color{i}"]), h(c[f"Color{i}Intense"])
+    return t
+
+
 def texto_konsole(tokens: dict, marca: dict, variante: str) -> str:
     c = colores(tokens, variante)
     grupos = ["Background", "BackgroundFaint", "BackgroundIntense",

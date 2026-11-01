@@ -237,10 +237,12 @@ def test_ningun_hex_fuera_del_maestro():
              if isinstance(t["$value"], dict) and "hex" in t["$value"]}
     rgbs = {",".join(str(int(h[i:i + 2], 16)) for i in (1, 3, 5)) for h in hexes}
     permitidos_rgb = rgbs | {"56,56,56", "112,111,110"}          # efectos de KColorScheme, de Breeze
+    # la paleta de terminal de Konsole (base Nothing, 4.29 y 4.30), que llevan también las terminales y los editores
+    hexes_konsole = {h for v in ("claro", "oscuro") for h in registro.codigo("konsole").ansi(TOKENS, v).values()}
     for f in GEN.rglob("*"):
         # línea base (decisiones 4.4 y 4.5): LliphiOscuro/LliphiClaro.colors son WhiteSur-kde con solo el acento de los tokens
         # (lo verifica test_esquema_linea_base_solo_acento) y el `colors` del estilo de Plasma es copia de WhiteSur-kde;
-        # solo las variantes `-tokens` y lo demás (Konsole, terminales) salen por entero del maestro
+        # solo las variantes `-tokens` y lo demás salen por entero del maestro; Konsole, de su base Nothing
         copia_whitesur = f.suffix == ".colors" and not f.stem.endswith("-tokens") or (f.name == "colors" and "estilo" in f.parts)
         copia_whitesur = copia_whitesur or f.suffix == ".colorscheme"     # Konsole: base Nothing (4.29), test_konsole_sobre_nothing
         if f.suffix in (".colors", ".colorscheme", "") and f.is_file() and f.name != "defaults" and "decoracion" not in f.parts and not copia_whitesur:
@@ -252,7 +254,7 @@ def test_ningun_hex_fuera_del_maestro():
         if f.suffix in (".toml", ".conf", ".json"):
             # los editores admiten #rrggbbaa: el color base debe ser del maestro; el alfa es libre
             for h in re.findall(r"#([0-9a-fA-F]{6})(?:[0-9a-fA-F]{2})?\b", f.read_text(encoding="utf-8")):
-                assert "#" + h.lower() in hexes, (f.name, h)
+                assert "#" + h.lower() in hexes | hexes_konsole, (f.name, h)
 
 
 # ---------------------------------------------------------------- estructura de los paquetes
@@ -421,10 +423,11 @@ def _terminal(variante: str) -> dict[str, str]:
 
 
 def test_terminales_alacritty_kitty():
+    """Decisiones 4.30: Alacritty y Kitty llevan la paleta de Konsole (fondo, textos y los dieciséis ANSI)."""
     import tomllib
     ansi = ("black", "red", "green", "yellow", "blue", "magenta", "cyan", "white")
     for v in ("claro", "oscuro"):
-        t = _terminal(v)
+        t = registro.codigo("konsole").ansi(TOKENS, v)
         sem = {k: x["$value"]["hex"] for k, x in _tokens_planos(TOKENS["semanticos"][v]).items()}
         a = tomllib.loads((GEN / "terminales" / "alacritty" / f"{MARCA['id']}-{v}.toml").read_text(encoding="utf-8"))["colors"]
         assert a["primary"] == {"background": t["fondo"], "foreground": t["texto"], "dim_foreground": t["texto-tenue"], "bright_foreground": t["texto-intenso"]}
@@ -465,7 +468,9 @@ def test_vscode_extension():
         assert tema["type"] == ("light" if v == "claro" else "dark")
         e = _sintaxis_esperada(v)
         assert tema["colors"]["editor.background"] == e["fondo"] and tema["colors"]["editor.foreground"] == e["texto"]
-        assert tema["colors"]["terminal.ansiRed"] == e["rojo"] and tema["colors"]["terminal.background"] == _terminal(v)["fondo"]
+        k = registro.codigo("konsole").ansi(TOKENS, v)                       # la terminal integrada, la de Konsole (4.30)
+        assert tema["colors"]["terminal.ansiRed"] == k["color1"] and tema["colors"]["terminal.ansiBrightBlue"] == k["color12"]
+        assert tema["colors"]["terminal.background"] == _terminal(v)["fondo"]
         colores_por_ambito = {a: tc["settings"]["foreground"] for tc in tema["tokenColors"] for a in tc["scope"]}
         for ambito, papel in por_ambito.items():
             assert colores_por_ambito[ambito] == e[papel], (v, ambito)
@@ -481,7 +486,8 @@ def test_zed_tema():
         assert tema["name"] == MARCA["nombre_esquema"][v]
         e = _sintaxis_esperada(v)
         st = tema["style"]
-        assert st["editor.background"] == e["fondo"] and st["text"] == e["texto"] and st["terminal.ansi.red"] == e["rojo"]
+        assert st["editor.background"] == e["fondo"] and st["text"] == e["texto"]
+        assert st["terminal.ansi.red"] == registro.codigo("konsole").ansi(TOKENS, v)["color1"]
         for papel, clave in (("palabra-clave", "keyword"), ("cadena", "string"), ("numero", "number"), ("funcion", "function"), ("comentario", "comment")):
             assert st["syntax"][clave]["color"] == e[papel], (v, clave)
         assert st["players"] and {"cursor", "background", "selection"} <= set(st["players"][0])

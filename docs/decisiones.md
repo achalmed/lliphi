@@ -206,6 +206,13 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   (carpetas azules, para el claro) y crea `Papirus-Dark-Lliphi`, un tema superpuesto que hereda de Papirus-Dark y solo declara
   enlaces a las variantes rojas de todo icono que acaba en una carpeta azul (lugares, `inode-directory`, `user-home`…). El
   oscuro usa ese superpuesto. Efecto secundario bueno: Home y Escritorio, que antes quedaban azules en el oscuro, ahora son rojos.
+- **4.30 (2026-11-01) Las demás terminales, con la paleta de Konsole.** A pedido del autor, tras 4.29: Alacritty,
+  Kitty y la terminal integrada de VS Code, Positron, VSCodium y Zed llevaban la paleta ANSI genérica de los tokens y
+  se veían como la ventana que el autor descartó. `complementos/konsole/construir.py` expone `ansi(tokens, variante)`
+  (el normal en `color0..7`, el intenso de Konsole en `color8..15`, el fondo y los textos) y las usan `terminales`
+  (todo) y `editores` (los dieciséis ANSI; el fondo y el texto de la terminal integrada siguen siendo los del
+  editor). La sintaxis de los editores, los colores con nombre de LibreOffice y los de Obsidian siguen en los tokens:
+  allí el azul ha de ser azul. `test_ningun_hex_fuera_del_maestro` admite la paleta de Konsole.
 - **4.29 (2026-11-01) Konsole sobre el esquema de Nothing.** El autor comparó una ventana con el esquema «Nothing»
   (el de su paquete de dotfiles, del tema Nothing de jomada, GPL-3.0-or-later) con otra en Lliphi Oscuro: la de Nothing
   combinaba con el tema y la nuestra no. La paleta ANSI genérica de los tokens (4.28 añadía solo el acento en el

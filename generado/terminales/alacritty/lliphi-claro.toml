@@ -2,10 +2,10 @@
 # Lliphi Claro: en alacritty.toml añade  [general]  import = ["~/.config/alacritty/themes/lliphi-claro.toml"]
 
 [colors.primary]
-background = "#fbfcfd"
+background = "#f2f3f5"
 foreground = "#1d1f24"
-dim_foreground = "#66676c"
-bright_foreground = "#1d1f24"
+dim_foreground = "#1d1f24"
+bright_foreground = "#202b4f"
 
 [colors.cursor]
 text = "#fcfcfc"
@@ -20,20 +20,20 @@ text = "#fcfcfc"
 background = "#315bef"
 
 [colors.search.matches]
-foreground = "#fbfcfd"
-background = "#7e5e00"
+foreground = "#f2f3f5"
+background = "#637703"
 
 [colors.search.focused_match]
 foreground = "#fcfcfc"
 background = "#315bef"
 
 [colors.hints.start]
-foreground = "#fbfcfd"
-background = "#7e5e00"
+foreground = "#f2f3f5"
+background = "#637703"
 
 [colors.hints.end]
-foreground = "#fbfcfd"
-background = "#624800"
+foreground = "#f2f3f5"
+background = "#546502"
 
 [colors.footer_bar]
 foreground = "#4b4d53"
@@ -44,21 +44,21 @@ foreground = "None"
 background = "None"
 
 [colors.normal]
-black = "#2c2e32"
-red = "#a43b38"
-green = "#007835"
-yellow = "#7e5e00"
-blue = "#345fb2"
-magenta = "#8e4088"
-cyan = "#007176"
-white = "#bdbec0"
+black = "#db1a22"
+red = "#2640d3"
+green = "#067c75"
+yellow = "#637703"
+blue = "#315bef"
+magenta = "#ae20e7"
+cyan = "#017b87"
+white = "#607275"
 
 [colors.bright]
-black = "#53555a"
-red = "#892122"
-green = "#005e28"
-yellow = "#624800"
-blue = "#1e4798"
-magenta = "#752870"
-cyan = "#00585c"
-white = "#e7e8e9"
+black = "#c00115"
+red = "#1b29be"
+green = "#036963"
+yellow = "#546502"
+blue = "#2a4fd0"
+magenta = "#9802cd"
+cyan = "#006872"
+white = "#4f6164"

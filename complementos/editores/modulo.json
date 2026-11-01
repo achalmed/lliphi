@@ -15,7 +15,11 @@
     "../capturas/oscuro-08-positron.png",
     "../capturas/claro-08-positron.png"
   ],
-  "dependencias": {},
+  "dependencias": {
+    "construccion": [
+      "konsole"
+    ]
+  },
   "instalacion": [
     {
       "origen": "vscode/{id}",
