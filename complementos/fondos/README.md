@@ -9,6 +9,10 @@ Dos paquetes de fondo, cada uno con imagen clara (`images/`) y oscura (`images_d
   Lliphi y una píldora que se deshace hacia abajo con una matriz de puntos tenue, sobre neutro liso con grano fino
   (JPEG de calidad 90 sin submuestreo: el grano no comprime en PNG). Se dibuja a 4K y se reduce; reproducible
   (semillas fijas).
+- «Lliphi Relámpago» (`org.lliphi.relampago`, decisiones 4.24): lo que representa al proyecto, con el acento de cada
+  variante (azul en el claro, rojo en el oscuro): el relámpago (*lliphi*, en quechua) en semitono de puntos con su
+  halo, el nombre en matriz de puntos con el punto de la marca y la rampa de los tokens. Las letras se dibujan como
+  puntos (5 × 7), sin tipografías, para que salga igual en cualquier máquina. Mismo formato que Forma.
 
 Es un **complemento**: existía antes de la reingeniería y se conserva fuera del tema global, porque no es parte de un
 `Plasma/LookAndFeel`. Arquitectura: [`docs/arquitectura.md`](../../docs/arquitectura.md).

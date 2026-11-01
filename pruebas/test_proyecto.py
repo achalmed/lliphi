@@ -626,6 +626,26 @@ def test_fondo_forma():
     assert max(esquina_o) < 40 and 150 < min(esquina_c) < 230
 
 
+def test_fondo_relampago():
+    """«Lliphi Relámpago» (decisiones 4.24): cada variante con su acento (azul el claro, rojo el oscuro) en el relámpago y
+    en el punto de la marca, en los tres tamaños."""
+    fondos = registro.codigo("fondos")
+    base = GEN / "fondos" / fondos.id_relampago(MARCA)
+    meta = json.loads((base / "metadata.json").read_text(encoding="utf-8"))
+    acentos = {v: TOKENS["semanticos"][v]["acento"]["base"]["$value"]["hex"] for v in ("claro", "oscuro")}
+    assert meta["X-KDE-PlasmaImageWallpaper-AccentColor"] == {"Light": acentos["claro"], "Dark": acentos["oscuro"]}
+    PIL = pytest.importorskip("PIL.Image")
+    for carpeta, v in (("images", "claro"), ("images_dark", "oscuro")):
+        for ancho, alto in fondos.TAMANOS:
+            assert PIL.open(base / "contents" / carpeta / f"{ancho}x{alto}.jpg").size == (ancho, alto)
+        im = PIL.open(base / "contents" / carpeta / "3840x2160.jpg").convert("RGB")
+        acento = _hex(TOKENS["primitivas"][v]["acento"]["$value"]["hex"])
+        # en el eje del relámpago, a la altura del quiebre, hay puntos del acento de la variante
+        fila = [im.getpixel((x, y)) for y in range(1040, 1120, 4) for x in range(round(3840 * 0.22), round(3840 * 0.42), 2)]
+        assert any(all(abs(p[i] - acento[i]) < 45 for i in range(3)) for p in fila), v
+    assert TOKENS["acento"] == {"claro": "azul-whitesur", "oscuro": "rojo"}
+
+
 # ---------------------------------------------------------------- instalación reversible
 
 def _entorno(tmp: Path) -> dict:

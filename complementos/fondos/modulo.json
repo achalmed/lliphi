@@ -1,6 +1,6 @@
 {
   "nombre": "Fondos de pantalla",
-  "resumen": "Dos paquetes de fondo con imagen clara y oscura (Plasma elige según el esquema) en 1080p, 1440p y 4K y acento declarado: «Lliphi Horizonte» (el del tema global) y «Lliphi Forma» (cuadrados esmerilados, el semicírculo rojo y una píldora con matriz de puntos).",
+  "resumen": "Tres paquetes de fondo con imagen clara y oscura (Plasma elige según el esquema) en 1080p, 1440p y 4K y acento declarado: «Lliphi Horizonte» (el del tema global), «Lliphi Forma» (cuadrados esmerilados, el semicírculo rojo y una píldora con matriz de puntos) y «Lliphi Relámpago» (el relámpago en semitono de puntos, el nombre y la paleta, con el azul en el claro y el rojo en el oscuro).",
   "clase": "paquete",
   "orden": 1,
   "formato": "Wallpaper/Images",
@@ -9,7 +9,8 @@
   "desde": "0.1.0",
   "archivos": [
     "org.lliphi.horizonte/",
-    "org.lliphi.forma/"
+    "org.lliphi.forma/",
+    "org.lliphi.relampago/"
   ],
   "capturas": [
     "../capturas/oscuro-01-escritorio.png",
@@ -31,6 +32,10 @@
     {
       "origen": "{dominio_inverso}.forma",
       "destino": "wallpapers/{dominio_inverso}.forma"
+    },
+    {
+      "origen": "{dominio_inverso}.relampago",
+      "destino": "wallpapers/{dominio_inverso}.relampago"
     }
   ]
 }

@@ -206,6 +206,14 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   (carpetas azules, para el claro) y crea `Papirus-Dark-Lliphi`, un tema superpuesto que hereda de Papirus-Dark y solo declara
   enlaces a las variantes rojas de todo icono que acaba en una carpeta azul (lugares, `inode-directory`, `user-home`…). El
   oscuro usa ese superpuesto. Efecto secundario bueno: Home y Escritorio, que antes quedaban azules en el oscuro, ahora son rojos.
+- **4.24 (2026-11-01) Un tercer fondo: «Lliphi Relámpago», con el acento de cada variante.** El autor pidió fondos con
+  elementos que representen al proyecto, cada variante con su color («para claro no es rojo»), sin quitar los que hay.
+  Se añade un tercer paquete (`org.lliphi.relampago`): el relámpago (*lliphi*, en quechua; `nombre.md`) en semitono de
+  puntos, más grandes hacia el eje de cada trazo, con un halo; el nombre en una matriz de puntos de 5 × 7 con el punto
+  de la marca («Lliphi.», como en la pantalla de carga); y la rampa de neutros y acentos de la variante, que son los
+  tokens de los que sale todo. El claro usa el azul de WhiteSur y el oscuro el rojo de Nothing (4.12). Las letras se
+  dibujan como puntos en el código para no depender de una tipografía instalada (la CI construye lo mismo). Horizonte y
+  Forma no cambian.
 - **4.23 (2026-11-01) Un segundo fondo: «Lliphi Forma».** El autor pidió dos fondos, claro y oscuro, como «Nothing2» y
   «Nothing3» de jomada (formas sobre gris claro y sobre negro) o mejores. No se copian: `complementos/fondos` genera una
   composición propia desde los tokens, en un segundo paquete (`org.lliphi.forma`): dos cuadrados de vidrio esmerilado

@@ -37,6 +37,8 @@ Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión de
   `sesion.py arrancar --escritorios N` y un reintento si el shell recién arrancado aún escribía su configuración.
 
 ### Added
+- **Fondo «Lliphi Relámpago»** (`org.lliphi.relampago`, decisiones 4.24): el relámpago en semitono de puntos, el nombre
+  en matriz de puntos y la paleta; azul en el claro y rojo en el oscuro.
 - **Fondo «Lliphi Forma»** (`org.lliphi.forma`, decisiones 4.23), claro y oscuro: cuadrados de vidrio esmerilado, un
   semicírculo en el rojo de Lliphi y una píldora con matriz de puntos, en 1080p, 1440p y 4K.
 - **Lliphi Studio** (`studio/`): la ventana opcional de la familia de studios (PySide6 sobre `gui-comun` 1.4.0, acento

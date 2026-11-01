@@ -1,6 +1,6 @@
 ---
 title: "Fondos de pantalla"
-subtitle: "Dos paquetes de fondo con imagen clara y oscura (Plasma elige según el esquema) en 1080p, 1440p y 4K y acento declarado: «Lliphi Horizonte» (el del tema global) y «Lliphi Forma» (cuadrados esmerilados, el semicírculo rojo y una píldora con matriz de puntos)."
+subtitle: "Tres paquetes de fondo con imagen clara y oscura (Plasma elige según el esquema) en 1080p, 1440p y 4K y acento declarado: «Lliphi Horizonte» (el del tema global), «Lliphi Forma» (cuadrados esmerilados, el semicírculo rojo y una píldora con matriz de puntos) y «Lliphi Relámpago» (el relámpago en semitono de puntos, el nombre y la paleta, con el azul en el claro y el rojo en el oscuro)."
 ---
 
 | | |
@@ -9,7 +9,7 @@ subtitle: "Dos paquetes de fondo con imagen clara y oscura (Plasma elige según 
 | estado | **probado** |
 | tecnología | paquete de fondo de Plasma (`images/`, `images_dark/`) |
 | desde la versión | 0.1.0 |
-| archivos | `org.lliphi.horizonte/`, `org.lliphi.forma/` |
+| archivos | `org.lliphi.horizonte/`, `org.lliphi.forma/`, `org.lliphi.relampago/` |
 | licencia | CC-BY-SA-4.0 |
 
 ![../capturas/oscuro-01-escritorio.png](../capturas/oscuro-01-escritorio.png)

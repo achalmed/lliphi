@@ -167,8 +167,99 @@ def forma(tokens: dict, variante: str, ancho: int = 3840, alto: int = 2160):
     return Image.merge("RGB", [ImageChops.add(c, g, scale=1.0, offset=-128) for c in lienzo.split()])
 
 
+# «Lliphi Relámpago»: las letras del nombre en una matriz de puntos de 5 × 7 (X = punto); sin tipografías, para que
+# la imagen salga igual en cualquier máquina
+LETRAS = {
+    "L": ["X....", "X....", "X....", "X....", "X....", "X....", "XXXXX"],
+    "I": ["XXXXX", "..X..", "..X..", "..X..", "..X..", "..X..", "XXXXX"],
+    "P": ["XXXX.", "X...X", "X...X", "XXXX.", "X....", "X....", "X...."],
+    "H": ["X...X", "X...X", "X...X", "XXXXX", "X...X", "X...X", "X...X"],
+}
+
+
+def relampago_paleta(tokens: dict, v: str) -> dict:
+    """Los colores de «Lliphi Relámpago» de una variante: su fondo, su texto, la rampa de neutros y SU acento (azul en
+    el claro, rojo en el oscuro)."""
+    p = {k: _hex(x["$value"]["hex"]) for k, x in tokens["primitivas"][v].items()}
+    if v == "claro":
+        return {"fondo": p["neutro-2"], "rejilla": p["neutro-4"], "texto": p["neutro-7"], "acento": p["acento"],
+                "suave": p["acento-suave"], "fuerte": p["acento-texto"],
+                "rampa": [p[k] for k in ("neutro-0", "neutro-1", "neutro-2", "neutro-3", "neutro-4", "neutro-5", "neutro-6", "neutro-7")],
+                "halo": 0.30}
+    return {"fondo": p["neutro-0"], "rejilla": p["neutro-3b"], "texto": p["neutro-7"], "acento": p["acento"],
+            "suave": p["acento-suave"], "fuerte": p["acento-texto"],
+            "rampa": [p[k] for k in ("neutro-0", "neutro-1", "neutro-2", "neutro-3", "neutro-3b", "neutro-4", "neutro-5", "neutro-7")],
+            "halo": 0.45}
+
+
+def relampago(tokens: dict, v: str, W: int = 3840, H: int = 2160):
+    """«Lliphi Relámpago» de una variante: el relámpago (lliphi, en quechua) en semitono de puntos con su halo, el nombre
+    en matriz de puntos con el punto de la marca en el acento y la rampa de los tokens de la variante."""
+    from PIL import Image, ImageChops, ImageDraw, ImageFilter
+    pa = relampago_paleta(tokens, v)
+    img = Image.new("RGB", (W, H), pa["fondo"])
+    d = ImageDraw.Draw(img)
+    # rejilla de puntos tenue en todo el fondo
+    paso = round(H / 54)
+    rp = max(1, round(paso * 0.07))
+    for y in range(paso // 2, H, paso):
+        for x in range(paso // 2, W, paso):
+            d.ellipse((x - rp, y - rp, x + rp, y + rp), fill=_mezcla(pa["fondo"], pa["rejilla"], 0.55))
+    # el relámpago: un zigzag; dentro, puntos más grandes cerca de su eje
+    cx, cy = round(W * 0.31), round(H * 0.5)
+    e = H * 0.36
+    poli = [(-0.10, -1.00), (0.42, -1.00), (0.10, -0.18), (0.48, -0.18), (-0.30, 1.00), (-0.04, 0.12), (-0.40, 0.12)]
+    pts = [(cx + x * e, cy + y * e) for x, y in poli]
+    mascara = Image.new("L", (W, H), 0)
+    ImageDraw.Draw(mascara).polygon(pts, fill=255)
+    # halo
+    halo = mascara.filter(ImageFilter.GaussianBlur(H * 0.05)).point(lambda a: round(a * pa["halo"]))
+    img = Image.composite(Image.new("RGB", (W, H), pa["acento"]), img, halo)
+    d = ImageDraw.Draw(img)
+    interior = mascara.filter(ImageFilter.GaussianBlur(H * 0.012))   # más denso en el centro de cada trazo
+    paso_r = round(H / 54)
+    mpx = interior.load()
+    for y in range(paso_r // 2, H, paso_r):
+        for x in range(paso_r // 2, W, paso_r):
+            a = mpx[x, y]
+            if a > 20:
+                r = paso_r * (0.16 + 0.30 * (a / 255))
+                col = _mezcla(pa["suave"], pa["acento"], a / 255)
+                d.ellipse((x - r, y - r, x + r, y + r), fill=col)
+    # el nombre en matriz de puntos, con el punto final en el acento
+    texto = "LLIPHI"
+    dp = round(H / 70)              # paso de los puntos del nombre
+    rr = dp * 0.36
+    x0 = round(W * 0.49)
+    y0 = round(H * 0.5 - 3.5 * dp)
+    x = x0
+    for letra in texto:
+        filas = LETRAS[letra]
+        for j, fila in enumerate(filas):
+            for i, c in enumerate(fila):
+                if c == "X":
+                    px, py = x + i * dp, y0 + j * dp
+                    d.ellipse((px - rr, py - rr, px + rr, py + rr), fill=pa["texto"])
+        x += 6 * dp
+    pr = dp * 0.62                   # el punto de la marca («Lliphi.»)
+    d.ellipse((x - pr + dp * 0.2, y0 + 6 * dp - pr, x + pr + dp * 0.2, y0 + 6 * dp + pr), fill=pa["acento"])
+    # la rampa de la paleta: los tokens de la variante
+    lado = round(dp * 1.6)
+    yr = y0 + 9 * dp + round(dp * 0.6)
+    for k, col in enumerate(pa["rampa"] + [pa["fuerte"], pa["acento"], pa["suave"]]):
+        xr = x0 - round(dp * 0.4) + k * (lado + round(dp * 0.45))
+        d.rounded_rectangle((xr, yr, xr + lado, yr + lado), round(lado * 0.25), fill=col,
+                            outline=_mezcla(pa["fondo"], pa["texto"], 0.15), width=max(1, round(H / 1080)))
+    g = _ruido(W, H, 5, 53)
+    return Image.merge("RGB", [ImageChops.add(c, g, scale=1.0, offset=-128) for c in img.split()])
+
+
 def id_forma(marca: dict) -> str:
     return f"{marca['dominio_inverso']}.forma"
+
+
+def id_relampago(marca: dict) -> str:
+    return f"{marca['dominio_inverso']}.relampago"
 
 
 def generar(tokens: dict, marca: dict, destino: Path) -> list[Path]:
@@ -195,19 +286,28 @@ def generar(tokens: dict, marca: dict, destino: Path) -> list[Path]:
     captura = base / "contents" / "screenshot.png"
     imagen(oscuro, 480, 270, "oscuro").save(captura, optimize=True)
     hechos.append(captura)
-    # «Lliphi Forma»: se dibuja una vez a 4K por variante y se reduce a los otros tamaños (mismo dibujo en todos)
     from PIL import Image
-    base = destino / id_forma(marca)
-    meta = {"KPlugin": {"Authors": autores(marca), "Id": id_forma(marca), "License": marca["licencia_activos"],
-                        "Name": f"{marca['nombre']} Forma", "Version": VERSION},
-            "X-KDE-PlasmaImageWallpaper-AccentColor": {"Light": oscuro["acento.base"], "Dark": oscuro["acento.base"]}}
+    for id_, nombre, dibujo, acentos in ((id_forma(marca), "Forma", forma, (oscuro["acento.base"], oscuro["acento.base"])),
+                                         (id_relampago(marca), "Relámpago", relampago, (claro["acento.base"], oscuro["acento.base"]))):
+        hechos += _paquete_jpeg(destino, marca, id_, f"{marca['nombre']} {nombre}", dibujo, acentos, tokens)
+    return hechos
+
+
+def _paquete_jpeg(destino: Path, marca: dict, id_: str, nombre: str, dibujo, acentos: tuple[str, str], tokens: dict) -> list[Path]:
+    """Un paquete de fondo dibujado una vez a 4K por variante y reducido a los otros tamaños (el mismo dibujo en
+    todos), en JPEG de calidad 90 sin submuestreo del color: el grano no comprime en PNG."""
+    from PIL import Image
+    hechos: list[Path] = []
+    base = destino / id_
+    meta = {"KPlugin": {"Authors": autores(marca), "Id": id_, "License": marca["licencia_activos"], "Name": nombre,
+                        "Version": VERSION},
+            "X-KDE-PlasmaImageWallpaper-AccentColor": {"Light": acentos[0], "Dark": acentos[1]}}
     base.mkdir(parents=True, exist_ok=True)
     (base / "metadata.json").write_text(json.dumps(meta, ensure_ascii=False, indent=4) + "\n", encoding="utf-8")
     hechos.append(base / "metadata.json")
     for carpeta, variante in (("images", "claro"), ("images_dark", "oscuro")):
-        grande = forma(tokens, variante, *TAMANOS[-1])
+        grande = dibujo(tokens, variante, *TAMANOS[-1])
         for ancho, alto in TAMANOS:
-            # JPEG de calidad alta y sin submuestreo del color: el grano no comprime en PNG (≈ 14 MB el paquete)
             ruta = base / "contents" / carpeta / f"{ancho}x{alto}.jpg"
             ruta.parent.mkdir(parents=True, exist_ok=True)
             (grande if (ancho, alto) == TAMANOS[-1] else grande.resize((ancho, alto), Image.LANCZOS)).save(
