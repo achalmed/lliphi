@@ -379,20 +379,16 @@ ul.task-list li input[type="checkbox"] {
 <section id="changed" class="level3">
 <h3 class="anchored" data-anchor-id="changed">Changed</h3>
 <ul>
-<li><strong>Arquitectura modular</strong> (docs/arquitectura.md, docs/migracion-modular.md): un tema global integrador (<code>global/</code>), seis módulos (<code>modulos/</code>: <code>esquema</code>, <code>estilo</code>, <code>decoracion</code>, <code>iconos-cursores</code>, <code>carga-bloqueo</code>, <code>disposicion</code>) y los complementos fuera del tema global (<code>complementos/</code>: <code>fondos</code>, <code>kvantum</code>, <code>konsole</code>, <code>terminales</code>, <code>editores</code>, <code>libreoffice</code>, <code>sddm</code>). Cada uno se describe en su <code>modulo.json</code> y tiene su <code>README.md</code>; el núcleo (<code>herramientas/nucleo/</code>) los descubre, así que desaparecen las tres tablas de módulos de <code>generar.py</code> e <code>instalar.py</code>.</li>
-<li>El tema global compone <code>contents/defaults</code> con lo que aporta cada módulo e integra la pantalla de carga, la de salida y la disposición, que KDE solo lee de dentro del paquete; ya no escribe identificadores ajenos.</li>
-<li><code>generado/</code> se ordena por módulo (<code>generado/&lt;id&gt;/</code>, lo mismo que va en su tarball). Lo que se instala no cambia: los 181 archivos instalados son idénticos a los de 0.3.0.</li>
-<li>La paleta pasa a <code>modulos/esquema/paleta.py</code>; las dependencias de terceros, a los <code>externas.py</code> de <code>global</code> (tipografía) e <code>iconos-cursores</code> (iconos y cursores); el inicio de sesión, a <code>complementos/sddm/</code>.</li>
-</ul>
-</section>
-<section id="changed-1" class="level3">
-<h3 class="anchored" data-anchor-id="changed-1">Changed</h3>
-<ul>
-<li><strong>Sin azules de WhiteSur en el oscuro y mejoras también en el claro</strong> (decisiones 4.21): los botones pulsados, por omisión y activados de Kvantum (y pestañas, grupos e iconos) toman el acento de la variante; en el claro, la barra de herramientas en el color del título y el dock sin sombra y más opaco.</li>
-<li><strong>Menú abierto en el acento</strong> (decisiones 4.20): en el oscuro, el elemento abierto de la barra de menús toma el rojo del elemento elegido dentro del menú, como ya pasaba en el claro.</li>
-<li><strong>Kvantum, un solo tema <code>Lliphi</code></strong> con el claro y el oscuro (<code>LliphiDark</code>) en su carpeta (decisiones 4.19): cambiar de variante desde Preferencias del sistema cambia también Kvantum; antes quedaba el Kvantum de la variante anterior.</li>
-<li><strong>Título y barra de herramientas en una sola banda</strong> (mejora 12, decisiones 4.18): en el oscuro, Kvantum pinta la barra de herramientas (y con ella la de menús) opaca en el gris de la ventana, el mismo que el título de la decoración; el resto de la ventana sigue translúcido (<code>complementos/kvantum/ajustes.json</code>); el claro no cambia.</li>
-<li><strong>Dock de Lliphi</strong> (mejora 11, decisiones 4.17): fondo de paneles del oscuro más opaco (88 %, gris de la ventana) y sin la sombra que manchaba las puntas; mosaicos de tareas propios (fondito claro tras cada aplicación, la activa teñida del acento con su barra) y paginador de números con un trazo encima (acento en el activo), desde <code>modulos/estilo/ajustes.json</code>; el dock suma el paginador. <code>sesion.py arrancar --escritorios N</code> y un reintento si el shell recién arrancado aún escribía su configuración.</li>
+<li><p><strong>Arquitectura modular</strong> (docs/arquitectura.md, docs/migracion-modular.md): un tema global integrador (<code>global/</code>), seis módulos (<code>modulos/</code>: <code>esquema</code>, <code>estilo</code>, <code>decoracion</code>, <code>iconos-cursores</code>, <code>carga-bloqueo</code>, <code>disposicion</code>) y los complementos fuera del tema global (<code>complementos/</code>: <code>fondos</code>, <code>kvantum</code>, <code>konsole</code>, <code>terminales</code>, <code>editores</code>, <code>libreoffice</code>, <code>sddm</code>). Cada uno se describe en su <code>modulo.json</code> y tiene su <code>README.md</code>; el núcleo (<code>herramientas/nucleo/</code>) los descubre, así que desaparecen las tres tablas de módulos de <code>generar.py</code> e <code>instalar.py</code>.</p></li>
+<li><p>El tema global compone <code>contents/defaults</code> con lo que aporta cada módulo e integra la pantalla de carga, la de salida y la disposición, que KDE solo lee de dentro del paquete; ya no escribe identificadores ajenos.</p></li>
+<li><p><code>generado/</code> se ordena por módulo (<code>generado/&lt;id&gt;/</code>, lo mismo que va en su tarball). Lo que se instala no cambia: los 181 archivos instalados son idénticos a los de 0.3.0.</p></li>
+<li><p>La paleta pasa a <code>modulos/esquema/paleta.py</code>; las dependencias de terceros, a los <code>externas.py</code> de <code>global</code> (tipografía) e <code>iconos-cursores</code> (iconos y cursores); el inicio de sesión, a <code>complementos/sddm/</code>.</p></li>
+<li><p><strong>Iconos Colloid Grey</strong> (decisiones 4.22): <code>Colloid-Grey-Light</code> en el claro y <code>Colloid-Grey-Dark</code> en el oscuro, con Papirus como reserva; el lanzador lleva el logotipo de Plasma (<code>plasma-symbolic</code>) en lugar del de Apple que Colloid pone en <code>start-here</code>.</p></li>
+<li><p><strong>Sin azules de WhiteSur en el oscuro y mejoras también en el claro</strong> (decisiones 4.21): los botones pulsados, por omisión y activados de Kvantum (y pestañas, grupos e iconos) toman el acento de la variante; en el claro, la barra de herramientas en el color del título y el dock sin sombra y más opaco.</p></li>
+<li><p><strong>Menú abierto en el acento</strong> (decisiones 4.20): en el oscuro, el elemento abierto de la barra de menús toma el rojo del elemento elegido dentro del menú, como ya pasaba en el claro.</p></li>
+<li><p><strong>Kvantum, un solo tema <code>Lliphi</code></strong> con el claro y el oscuro (<code>LliphiDark</code>) en su carpeta (decisiones 4.19): cambiar de variante desde Preferencias del sistema cambia también Kvantum; antes quedaba el Kvantum de la variante anterior.</p></li>
+<li><p><strong>Título y barra de herramientas en una sola banda</strong> (mejora 12, decisiones 4.18): en el oscuro, Kvantum pinta la barra de herramientas (y con ella la de menús) opaca en el gris de la ventana, el mismo que el título de la decoración; el resto de la ventana sigue translúcido (<code>complementos/kvantum/ajustes.json</code>); el claro no cambia.</p></li>
+<li><p><strong>Dock de Lliphi</strong> (mejora 11, decisiones 4.17): fondo de paneles del oscuro más opaco (88 %, gris de la ventana) y sin la sombra que manchaba las puntas; mosaicos de tareas propios (fondito claro tras cada aplicación, la activa teñida del acento con su barra) y paginador de números con un trazo encima (acento en el activo), desde <code>modulos/estilo/ajustes.json</code>; el dock suma el paginador. <code>sesion.py arrancar --escritorios N</code> y un reintento si el shell recién arrancado aún escribía su configuración.</p></li>
 </ul>
 </section>
 <section id="added" class="level3">
@@ -431,8 +427,8 @@ ul.task-list li input[type="checkbox"] {
 <li>Bloqueo de pantalla con el fondo oscuro de Lliphi en las dos variantes (mejora 10).</li>
 </ul>
 </section>
-<section id="changed-2" class="level3">
-<h3 class="anchored" data-anchor-id="changed-2">Changed</h3>
+<section id="changed-1" class="level3">
+<h3 class="anchored" data-anchor-id="changed-1">Changed</h3>
 <ul>
 <li>Esquemas y estilo de Plasma: los de WhiteSur con solo el acento sustituido por el de cada variante; todo lo demás se copia byte a byte (mejoras 1, 2 y 8). El estilo de Plasma ya no deja interruptores ni deslizadores en azul en el oscuro.</li>
 <li>Decoración: la de Nothing, con el anillo de minimizar en gris, el título en los grises de Lliphi sin sombra y el botón de cerrar siempre rojo (mejora 4).</li>
@@ -451,8 +447,8 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="section-1" class="level2">
 <h2 class="anchored" data-anchor-id="section-1">[0.2.0] - 2026-10-18</h2>
-<section id="changed-3" class="level3">
-<h3 class="anchored" data-anchor-id="changed-3">Changed</h3>
+<section id="changed-2" class="level3">
+<h3 class="anchored" data-anchor-id="changed-2">Changed</h3>
 <ul>
 <li>Cambio de enfoque: el estilo de Plasma y el tema Kvantum derivan de WhiteSur-kde (GPL-3.0) recoloreados con los tokens y sin lo que imita a Apple; iconos Papirus (carpetas rojas), cursores Bibata y tipografía IBM Plex como dependencias descargadas; retirado el módulo de iconos propio.</li>
 </ul>
