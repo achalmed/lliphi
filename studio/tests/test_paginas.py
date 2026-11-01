@@ -113,3 +113,79 @@ def test_ventanas_edita_el_rc_en_un_borrador(ventana, app, lliphi):
     assert {letra for _r, letra in pag.lienzo._zonas} >= {"X", "A", "I"}
     pag._descartar()
     assert proyecto.diff_ajustes("decoracion", pag.datos) == ""
+
+
+def _xcursor(ruta, tamanos=(24, 32), cuadros=2):
+    """Un archivo Xcursor de verdad, pequeño: un cuadrado por tamaño y cuadro."""
+    import struct
+    imagenes = []
+    for t in tamanos:
+        for c in range(cuadros):
+            pix = struct.pack("<I", 0xFF000000 | (0x30 * (c + 1))) * (t * t)
+            imagenes.append(struct.pack("<9I", 36, 0xFFFD0002, t, 1, t, t, 1, 2, 50) + pix)
+    toc_fin = 16 + 12 * len(imagenes)
+    toc, pos = b"", toc_fin
+    for (t, im) in zip([t for t in tamanos for _ in range(cuadros)], imagenes):
+        toc += struct.pack("<III", 0xFFFD0002, t, pos)
+        pos += len(im)
+    ruta.write_bytes(b"Xcur" + struct.pack("<III", 16, 0x10000, len(imagenes)) + toc + b"".join(imagenes))
+
+
+@pytest.fixture
+def temas_falsos(lliphi):
+    """Un tema de iconos que hereda de otro, con un icono, y un tema de cursores (en el XDG_DATA_HOME falso)."""
+    icons = proyecto.data_home() / "icons"
+    svg = '<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48"><rect width="48" height="48" fill="#c93436"/></svg>'
+    for tema, hereda, iconos_ in (("Falso", "Base", ["folder-red"]), ("Base", "", ["folder", "folder-blue"])):
+        (icons / tema / "48x48" / "places").mkdir(parents=True)
+        (icons / tema / "index.theme").write_text(
+            f"[Icon Theme]\nName={tema}\nInherits={hereda}\nDirectories=48x48/places\n\n[48x48/places]\nSize=48\nContext=Places\nType=Fixed\n",
+            encoding="utf-8")
+        for n in iconos_:
+            (icons / tema / "48x48" / "places" / f"{n}.svg").write_text(svg, encoding="utf-8")
+    (icons / "Cursores" / "cursors").mkdir(parents=True)
+    _xcursor(icons / "Cursores" / "cursors" / "left_ptr")
+    return icons
+
+
+def test_iconos_y_xcursor(temas_falsos):
+    from lliphi_studio import iconos
+    t = iconos.temas()
+    assert {"Falso", "Base", "Cursores"} <= set(t)
+    assert iconos.cadena("Falso", t)[:2] == ["Falso", "Base"]
+    ruta, de = iconos.buscar("Falso", "folder", 48, t)
+    assert de == "Base" and ruta.name == "folder.svg"                    # heredado
+    assert iconos.nombres(t["Falso"], "Places") == ["folder-red"]
+    im = iconos.leer_xcursor(temas_falsos / "Cursores" / "cursors" / "left_ptr")
+    assert iconos.tamanos(im) == [24, 32] and len(im) == 4 and im[0].retardo == 50 and len(im[0].pixeles) == 24 * 24 * 4
+    assert iconos.cursores(t["Cursores"]) == ["left_ptr"]
+
+
+def test_pagina_de_iconos_organiza_en_un_borrador(ventana, app, temas_falsos):
+    v = ventana("iconos")
+    pag = v.paginas["iconos"]
+    pag.c_oscuro.setCurrentText("Falso")
+    assert proyecto.leer_borrador("iconos-cursores")["iconos"]["oscuro"] == "Falso"
+    assert '"oscuro": "Falso"' in pag.editor.diff.toPlainText()
+    for i in range(pag.arbol.topLevelItemCount()):
+        g = pag.arbol.topLevelItem(i)
+        for j in range(g.childCount()):
+            if g.child(j).data(0, 0x0100) == ("Cursores", "Cursores"):
+                pag.arbol.setCurrentItem(g.child(j))
+    assert pag.pila.currentWidget() is pag.cursores and list(pag.cursores.cuadros) == ["left_ptr"]
+    pag.cursores.grab()
+    pag._descartar()
+    assert proyecto.diff_ajustes("iconos-cursores", pag.datos) == ""
+
+
+def test_pantallas_carga_de_verdad_y_maquetas(ventana, app):
+    v = ventana("pantallas")
+    pag = v.paginas["pantallas"]
+    assert pag.caso == "carga" and pag.qml is not None and not pag.qml.errors()
+    assert pag.qml.rootObject().property("stage") == 1
+    for fila in range(1, pag.lista.count()):
+        pag.lista.setCurrentRow(fila)
+        if pag.caso != "carga":
+            assert pag.pila.currentWidget() is pag.maqueta
+            pag.maqueta.grab()
+    assert "Splash.qml" in [pag.archivos.item(i).text() for i in range(pag.archivos.count())] or pag.caso != "carga"
