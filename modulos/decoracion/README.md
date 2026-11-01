@@ -8,7 +8,9 @@ sombra. Independiente de los demás módulos: KWin lo carga por su cuenta.
 
 - Copiar los SVG de Nothing (`decoration.svg`, `close.svg`, `maximize.svg`, `minimize.svg`, `restore.svg`,
   `alldesktops.svg`, `keepabove.svg`, `keepbelow.svg`) y recolorearlos: el oscuro es Nothing tal cual; el claro se
-  recolorea con los tokens porque Nothing no tiene variante clara.
+  recolorea con los tokens porque Nothing no tiene variante clara (cerrar en el acento azul y el centro de minimizar y
+  maximizar en gris: decisiones 4.33).
+- Dibujar `appmenu.svg`, el botón de menú de aplicación que Nothing no trae (`appmenu_svg()`, decisiones 4.33).
 - Los plus de la mejora 4 (decisiones 4.8): el anillo cian de minimizar en gris, el título en los grises de Lliphi y
   sin sombra, barra de 18 px; la tipografía del título (Inter Medium) la fija el tema global.
 - `metadata.json` (`KPackageStructure: KWin/Aurorae`), `metadata.desktop` y el `<id>rc`.

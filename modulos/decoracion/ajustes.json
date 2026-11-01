@@ -1,5 +1,5 @@
 {
-  "$description": "Ajustes de la decoración de ventanas (fuente; lo lee modulos/decoracion/construir.py y lo edita Lliphi Studio). rc: claves del Nothingrc de la base que se sustituyen en las dos variantes; titulo: claves de color del título tomadas de los tokens semánticos; botones: la posición que el tema global pone en kwinrc (X cerrar, I minimizar, A maximizar); recoloreo: hex de Nothing → token, por variante; neutro: hex de Nothing → hex, en las dos variantes.",
+  "$description": "Ajustes de la decoración de ventanas (fuente; lo lee modulos/decoracion/construir.py y lo edita Lliphi Studio). rc: claves del Nothingrc de la base que se sustituyen en las dos variantes; titulo: claves de color del título tomadas de los tokens semánticos; botones: la posición que el tema global pone en kwinrc (X cerrar, I minimizar, A maximizar); recoloreo: hex de Nothing → token, por variante (en el claro, el rojo de cerrar va al acento azul y el centro de minimizar y maximizar al gris de texto inactivo, para que se vean sobre el título claro: decisiones 4.33); neutro: hex de Nothing → hex, en las dos variantes.",
   "rc": {
     "UseTextShadow": "false",
     "TitleHeight": "18"
@@ -20,7 +20,10 @@
       "#202b30": "borde.separador",
       "#e6e6df": "fondo.boton",
       "#dadad3": "borde.separador",
-      "#f4f0ed": "fondo.vista",
+      "#f4f0ed": "texto.inactivo",
+      "#eb3131": "acento.base",
+      "#a82323": "acento.texto",
+      "#d46969": "acento.suave",
       "#e5e5de": "fondo.boton",
       "#dadad4": "borde.separador",
       "#d1d1ca": "borde.separador",

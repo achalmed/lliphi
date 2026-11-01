@@ -160,6 +160,18 @@ def propio(rel: str, texto: str, t: dict[str, str], aj: dict, variante: str, tok
     return texto
 
 
+def etiquetas_como_ventana(colors: str) -> str:
+    """`[Colors:Tooltip]` con los colores de `[Colors:Window]`: WhiteSur-alt dibuja la etiqueta clara (`tooltip.svg`)
+    pero su `colors` la declara oscura (fondo 54,54,54, texto 222,222,222), y el texto casi blanco no se leía sobre ella
+    (decisiones 4.33)."""
+    def seccion(nombre: str) -> re.Match | None:
+        return re.search(rf"^\[Colors:{nombre}\]\n(.*?)(?=^\[|\Z)", colors, flags=re.M | re.S)
+    ventana, etiqueta = seccion("Window"), seccion("Tooltip")
+    if not (ventana and etiqueta):
+        return colors
+    return colors[:etiqueta.start(1)] + ventana.group(1) + colors[etiqueta.end(1):]
+
+
 def recolorear(texto: str, mapa: dict[str, str]) -> str:
     return re.sub(r"#[0-9a-fA-F]{6}\b", lambda m: mapa.get(m.group(0).lower(), m.group(0)), texto)
 
@@ -186,7 +198,10 @@ def generar(tokens: dict, marca: dict, destino: Path) -> list[Path]:
                 # mejora 8 (decisiones 4.13): el `colors` de WhiteSur con solo el acento de la variante (rojo en el
                 # oscuro, azul de WhiteSur en el claro), igual que el esquema de la mejora 1; lo demás, byte a byte
                 trgb = {k: rgb(v) for k, v in aplanar(tokens["semanticos"][variante]).items()}
-                escribir(base / rel, con_acento(f.read_text(encoding="utf-8"), trgb), hechos)
+                colors = con_acento(f.read_text(encoding="utf-8"), trgb)
+                if aj.get("etiquetas_como_ventana", {}).get(variante):
+                    colors = etiquetas_como_ventana(colors)
+                escribir(base / rel, colors, hechos)
             elif f.suffix == ".svg":
                 texto = recolorear(f.read_text(encoding="utf-8", errors="ignore"), mapa)
                 escribir(base / rel, propio(str(rel), texto, t, aj, variante, tokens), hechos)

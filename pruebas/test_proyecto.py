@@ -332,7 +332,10 @@ def test_fondos_firmados():
     oscuro = (GEN / "estilo" / f"{MARCA['id']}-oscuro" / "colors").read_text(encoding="utf-8")
     assert "49,91,239" not in oscuro and "226,37,41" in oscuro
     assert "49,91,239" in (GEN / "estilo" / f"{MARCA['id']}-claro" / "colors").read_text(encoding="utf-8")
-    assert "#eb3131" in (GEN / "decoracion" / f"{MARCA['id']}-claro" / "close.svg").read_text(encoding="utf-8").lower()
+    # cerrar: rojo de Nothing en el oscuro; en el claro, el acento azul (decisiones 4.33; hasta entonces seguía rojo, 4.12)
+    cerrar_claro = (GEN / "decoracion" / f"{MARCA['id']}-claro" / "close.svg").read_text(encoding="utf-8").lower()
+    assert "#eb3131" not in cerrar_claro and "#315bef" in cerrar_claro
+    assert "#eb3131" in (GEN / "decoracion" / MARCA["id"] / "close.svg").read_text(encoding="utf-8").lower()
 
 
 def test_tema_global_estructura():
@@ -558,6 +561,26 @@ def test_decoracion_aurorae():
             ET.parse(svg)
             assert "#9cdde4" not in svg.read_text(encoding="utf-8").lower(), (v, svg.name, "mejora 4: sin el cian de Nothing")
     assert (RAIZ / "fuentes" / "base" / "Nothing-aurorae" / "ORIGEN.md").exists()
+
+
+def test_decoracion_menu_y_claro_visible():
+    """Decisiones 4.33: un botón de menú de aplicación propio (Nothing no lo trae y Aurorae repetía el icono de la
+    aplicación), con los cinco estados en el color del título; en el claro, el centro de minimizar y maximizar es gris
+    (casi blanco no se veía sobre el título claro); las etiquetas del estilo claro, con los colores de la ventana."""
+    for v, id_ in (("oscuro", MARCA["id"]), ("claro", f"{MARCA['id']}-claro")):
+        sem = {k: x["$value"]["hex"] for k, x in _tokens_planos(TOKENS["semanticos"][v]).items()}
+        menu = (GEN / "decoracion" / id_ / "appmenu.svg").read_text(encoding="utf-8")
+        ET.fromstring(menu)
+        for estado in ("active-center", "hover-center", "pressed-center", "inactive-center", "deactivated-center"):
+            assert f'id="{estado}"' in menu, (v, estado)
+        assert f"stroke:{sem['texto.normal']}" in menu and f"stroke:{sem['texto.inactivo']}" in menu
+    claro = {k: x["$value"]["hex"] for k, x in _tokens_planos(TOKENS["semanticos"]["claro"]).items()}
+    for boton in ("minimize.svg", "maximize.svg"):
+        texto = (GEN / "decoracion" / f"{MARCA['id']}-claro" / boton).read_text(encoding="utf-8").lower()
+        assert "#f4f0ed" not in texto and claro["texto.inactivo"] in texto, boton
+    cp = configparser.ConfigParser(interpolation=None, strict=False); cp.optionxform = str
+    cp.read(GEN / "estilo" / f"{MARCA['id']}-claro" / "colors", encoding="utf-8")
+    assert dict(cp["Colors:Tooltip"]) == dict(cp["Colors:Window"])
 
 def test_libreoffice_esquemas():
     """Fragmentos .xcu y extensión .oxt: estructura, 91 entradas por esquema, cada Color decimal es un hex de los tokens."""

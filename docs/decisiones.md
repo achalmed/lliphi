@@ -185,7 +185,7 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   azul exacto de WhiteSur (#315bef, 5,4:1 con blanco), con un azul suave (#4777f0) apenas más oscuro que el #4f7fef de WhiteSur
   para que el hover cumpla 3:1 sobre los botones. Todo lo que sale de los tokens (esquemas, Kvantum, Konsole, editores,
   terminales, pantalla de carga) sigue la regla. Excepción: el botón de cerrar de Nothing sigue rojo en la decoración clara,
-  porque su rojo significa «cerrar», no acento. `--acento X` sigue poniendo el mismo acento en las dos variantes para probar.
+  porque su rojo significa «cerrar», no acento (excepción revertida en 4.33: cerrar va en azul en el claro). `--acento X` sigue poniendo el mismo acento en las dos variantes para probar.
 - **4.13 (2026-10-19) Mejora 8: el acento llega al estilo de Plasma.** El `colors` del estilo (copiado de WhiteSur en la línea
   base) seguía con el azul de WhiteSur en 28 claves, así que interruptores, deslizadores y resaltados del panel, la bandeja y los
   plasmoides salían azules mientras las aplicaciones ya iban en rojo. Ahora pasa por la misma sustitución de solo acento que el
@@ -206,6 +206,18 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   (carpetas azules, para el claro) y crea `Papirus-Dark-Lliphi`, un tema superpuesto que hereda de Papirus-Dark y solo declara
   enlaces a las variantes rojas de todo icono que acaba en una carpeta azul (lugares, `inode-directory`, `user-home`…). El
   oscuro usa ese superpuesto. Efecto secundario bueno: Home y Escritorio, que antes quedaban azules en el oscuro, ahora son rojos.
+- **4.33 (2026-11-01) Decoración clara visible y en azul, botón de menú propio y etiquetas claras legibles.** El autor
+  señaló en la decoración clara tres fallos y un deseo: (1) cerrar seguía rojo, y en el claro debía ser azul; se
+  revierte la excepción de 4.12 y los rojos de `close.svg` (`#eb3131`, `#a82323`, `#d46969`) pasan al acento
+  (`acento.base`, `acento.texto`, `acento.suave`); (2) minimizar y maximizar tenían el centro casi blanco de Nothing
+  sobre el título claro y no se veían; el centro (`#f4f0ed`) pasa a `texto.inactivo`; (3) la etiqueta «Minimize» no se
+  leía: WhiteSur-alt (4.32) dibuja la etiqueta clara pero su `colors` la declara oscura (fondo 54,54,54, texto
+  222,222,222); con `etiquetas_como_ventana` el estilo claro le da los colores de la ventana; y (4) en la vista previa
+  de las decoraciones, el segundo botón de la izquierda repetía el icono de la aplicación, porque Nothing no trae
+  `appmenu.svg` y Aurorae dibuja entonces el icono de la ventana. Lliphi lo dibuja en las dos variantes: tres líneas
+  redondeadas de largo decreciente (un icono propio, distinto de las tres líneas iguales de Breeze) en el color del
+  título, con un círculo tenue al pasar y al pulsar. El oscuro conserva cerrar en rojo y los círculos blancos de Nothing.
+  Probado en la sesión de prueba (`muestras/capturas/claro-35-decoracion.png`).
 - **4.32 (2026-11-01) Lliphi Claro con panel claro.** El autor vio en Preferencias del sistema → Estilo de Plasma que
   «Lliphi Claro» se veía oscuro y preguntó por qué, si su nombre dice claro. El estilo del claro partía de «WhiteSur»,
   que pinta panel, dock, menús emergentes y widgets en gris oscuro (`54,54,54`, texto blanco); se había conservado a
