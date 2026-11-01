@@ -21,6 +21,7 @@ Lo derivado es GPL-3.0-or-later (REUSE.toml).
 """
 from __future__ import annotations
 
+import colorsys
 import gzip
 import json
 import xml.etree.ElementTree as ET
@@ -172,6 +173,43 @@ def etiquetas_como_ventana(colors: str) -> str:
     return colors[:etiqueta.start(1)] + ventana.group(1) + colors[etiqueta.end(1):]
 
 
+MARCAS = {"#0000ff", "#9999ff", "#8d8dff"}   # rectángulos de referencia que Plasma no dibuja
+
+
+def _es_azul(h: str) -> bool:
+    tono, luz, sat = colorsys.rgb_to_hls(*(int(h[i:i + 2], 16) / 255 for i in (1, 3, 5)))
+    return h.lower() not in MARCAS and sat >= 0.3 and 0.5 < tono < 0.75 and 0.15 < luz < 0.9
+
+
+def azules_al_acento(texto: str, t: dict[str, str]) -> str:
+    """Ningún azul fijo de WhiteSur (decisiones 4.36): WhiteSur-dark pinta la barra de volumen, el brillo y otros
+    controles con `class="ColorScheme-Highlight"` pero `fill:#4285f4` escrito (el azul de Google), así que la clase no
+    servía y en el oscuro salían azules. En un elemento con clase de color, el azul del relleno o del trazo pasa a
+    `currentColor` y se quita su `color:` en línea, para que mande la clase (y el acento del sistema); sin clase, pasa al
+    acento de la variante por su luz (`acento.base` los oscuros, `acento.suave` los claros). La hoja de estilo, los
+    `<stop>` (degradados con clase, de Breeze) y las marcas de referencia no se tocan."""
+    luz_base = colorsys.rgb_to_hls(*(int(t["acento.base"][i:i + 2], 16) / 255 for i in (1, 3, 5)))[1]
+
+    def fijo(h: str) -> str:
+        luz = colorsys.rgb_to_hls(*(int(h[i:i + 2], 16) / 255 for i in (1, 3, 5)))[1]
+        return t["acento.base"] if luz <= luz_base + 0.03 else t["acento.suave"]
+
+    def etiqueta(m: re.Match) -> str:
+        tag = m.group(0)
+        if tag.startswith(("<style", "<stop", "</")):
+            return tag
+        if re.search(r'\bclass="ColorScheme-', tag):
+            nuevo = re.sub(r"\b(fill|stroke)(:|=\")(#[0-9a-fA-F]{6})\b",   # en el estilo o como atributo
+                           lambda x: f"{x.group(1)}{x.group(2)}currentColor" if _es_azul(x.group(3)) else x.group(0), tag)
+            if nuevo != tag:
+                nuevo = re.sub(r"(?<![-\w])color:#[0-9a-fA-F]{6};?", "", nuevo)
+            return nuevo
+        return re.sub(r"#[0-9a-fA-F]{6}\b", lambda x: fijo(x.group(0)) if _es_azul(x.group(0)) else x.group(0), tag)
+
+    partes = re.split(r"(<style[^>]*>.*?</style>)", texto, flags=re.S)
+    return "".join(p if p.startswith("<style") else re.sub(r"<[^<>]+>", etiqueta, p) for p in partes)
+
+
 def recolorear(texto: str, mapa: dict[str, str]) -> str:
     return re.sub(r"#[0-9a-fA-F]{6}\b", lambda m: mapa.get(m.group(0).lower(), m.group(0)), texto)
 
@@ -193,7 +231,8 @@ def generar(tokens: dict, marca: dict, destino: Path) -> list[Path]:
             if f.suffix == ".svgz":
                 texto = gzip.open(f).read().decode("utf-8", errors="ignore")
                 rel = rel.with_suffix(".svg")   # sin comprimir: diff legible
-                escribir(base / rel, propio(str(rel), recolorear(texto, mapa), t, aj, variante, tokens), hechos)
+                texto = azules_al_acento(recolorear(texto, mapa), t) if aj.get("azules_al_acento") else recolorear(texto, mapa)
+                escribir(base / rel, propio(str(rel), texto, t, aj, variante, tokens), hechos)
             elif f.name == "colors":
                 # mejora 8 (decisiones 4.13): el `colors` de WhiteSur con solo el acento de la variante (rojo en el
                 # oscuro, azul de WhiteSur en el claro), igual que el esquema de la mejora 1; lo demás, byte a byte
@@ -204,6 +243,8 @@ def generar(tokens: dict, marca: dict, destino: Path) -> list[Path]:
                 escribir(base / rel, colors, hechos)
             elif f.suffix == ".svg":
                 texto = recolorear(f.read_text(encoding="utf-8", errors="ignore"), mapa)
+                if aj.get("azules_al_acento"):
+                    texto = azules_al_acento(texto, t)
                 escribir(base / rel, propio(str(rel), texto, t, aj, variante, tokens), hechos)
             else:
                 (base / rel).parent.mkdir(parents=True, exist_ok=True)

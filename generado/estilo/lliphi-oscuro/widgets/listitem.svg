@@ -266,7 +266,7 @@
      class="ColorScheme-ViewFocus"
      id="pressed-bottom" />
   <path
-     style="color:#3daee9;opacity:0.2;fill:#ffffff"
+     style="color:#f36259;opacity:0.2;fill:#ffffff"
      d="M 40 65 C 38.892 65 38 65.892 38 67 L 40 67 L 40 65 z "
      id="pressed-topleft" />
   <path
@@ -352,15 +352,15 @@
      x="49"
      id="section-hint-bottom-margin" />
   <path
-     style="color:#3daee9;opacity:0.2;fill:#ffffff"
+     style="color:#f36259;opacity:0.2;fill:#ffffff"
      d="M 51 65 L 51 67 L 53 67 C 53 65.892 52.108 65 51 65 z "
      id="pressed-topright" />
   <path
-     style="color:#3daee9;opacity:0.2;fill:#ffffff"
+     style="color:#f36259;opacity:0.2;fill:#ffffff"
      d="M 38 78 C 38 79.108 38.892 80 40 80 L 40 78 L 38 78 z "
      id="pressed-bottomleft" />
   <path
-     style="color:#3daee9;opacity:0.2;fill:#ffffff"
+     style="color:#f36259;opacity:0.2;fill:#ffffff"
      d="M 51 78 L 51 80 C 52.108 80 53 79.108 53 78 L 51 78 z "
      id="pressed-bottomright" />
   <path
@@ -394,19 +394,19 @@
      class="ColorScheme-ViewFocus"
      id="hover-bottom" />
   <path
-     style="color:#3daee9;opacity:0.15;fill:#ffffff;stroke-width:0.99999994"
+     style="color:#f36259;opacity:0.15;fill:#ffffff;stroke-width:0.99999994"
      d="M 75 65 C 73.892 65 73 65.892 73 67 L 75 67 L 75 65 z "
      id="hover-topleft" />
   <path
-     style="color:#3daee9;opacity:0.15;fill:#ffffff;stroke-width:0.99999994"
+     style="color:#f36259;opacity:0.15;fill:#ffffff;stroke-width:0.99999994"
      d="M 86 65 L 86 67 L 88 67 C 88 65.892 87.108 65 86 65 z "
      id="hover-topright" />
   <path
-     style="color:#3daee9;opacity:0.15;fill:#ffffff;stroke-width:0.99999994"
+     style="color:#f36259;opacity:0.15;fill:#ffffff;stroke-width:0.99999994"
      d="M 73 78 C 73 79.108 73.892 80 75 80 L 75 78 L 73 78 z "
      id="hover-bottomleft" />
   <path
-     style="color:#3daee9;opacity:0.15;fill:#ffffff;stroke-width:0.99999994"
+     style="color:#f36259;opacity:0.15;fill:#ffffff;stroke-width:0.99999994"
      d="M 86 78 L 86 80 C 87.108 80 88 79.108 88 78 L 86 78 z "
      id="hover-bottomright" />
 </svg>

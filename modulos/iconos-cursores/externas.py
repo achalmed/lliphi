@@ -191,7 +191,9 @@ def bandeja(aplicar: bool, silencio: bool = False) -> list[str]:
         if not aplicar:
             continue
         raiz = ICONOS / destino_id
-        if raiz.exists():
+        if raiz.is_symlink():          # p. ej. en la sesión de prueba, un enlace al tema del usuario: no se sigue
+            raiz.unlink()
+        elif raiz.exists():
             shutil.rmtree(raiz)
         directorios, fallos = [], 0
         for contexto, archivos in carpetas.items():

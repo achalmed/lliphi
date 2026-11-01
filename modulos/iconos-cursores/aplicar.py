@@ -13,7 +13,10 @@ def _hay(ctx, tema: str) -> bool:
 
 def aplicar(ctx) -> int:
     mod = ctx.codigo("iconos-cursores")
-    ctx.codigo("iconos-cursores", "externas").bandeja(True, silencio=True)   # el superpuesto de la bandeja (decisiones 4.35)
+    try:
+        ctx.codigo("iconos-cursores", "externas").bandeja(True, silencio=True)   # el superpuesto de la bandeja (4.35)
+    except OSError as e:
+        ctx.decir(f"no se pudo construir el superpuesto de la bandeja ({e}); se usa el tema tal cual")
     candidatos = [mod.tema(ctx.variante), mod.ICONOS[ctx.variante], mod.RESERVA.get(ctx.variante)]
     candidatos += ["Papirus-Dark" if ctx.variante == "oscuro" else "Papirus", "breeze-dark" if ctx.variante == "oscuro" else "breeze"]
     iconos = next((t for t in candidatos if t and _hay(ctx, t)), None)

@@ -118,7 +118,7 @@
      id="selected-topleft"
      style="opacity:1">
     <path
-       style="color:#3daee6;opacity:0.15;fill:#ffffff;stroke-width:3"
+       style="color:#f36259;opacity:0.15;fill:#ffffff;stroke-width:3"
        d="M 59,21 C 52.352,21 47,26.352 47,33 H 59 Z"
        transform="matrix(0.33333333,0,0,0.33333333,170.47333,818.86)"
        id="path10"
@@ -140,7 +140,7 @@
      id="selected-topright"
      style="opacity:1">
     <path
-       style="color:#3daee6;opacity:0.15;fill:#ffffff;stroke-width:0.66666573"
+       style="color:#f36259;opacity:0.15;fill:#ffffff;stroke-width:0.66666573"
        d="m 322.47333,825.86 v 2.66666 H 325.14 c 0,-1.47733 -1.18934,-2.66666 -2.66667,-2.66666 z"
        id="path16"
        inkscape:connector-curvature="0" />
@@ -228,7 +228,7 @@
      id="selected-bottomright"
      style="opacity:1">
     <path
-       style="color:#3daee6;opacity:0.15;fill:#ffffff;stroke-width:3"
+       style="color:#f36259;opacity:0.15;fill:#ffffff;stroke-width:3"
        d="m 77,51 v 12 c 6.648,0 12,-5.352 12,-12 z"
        transform="matrix(-0.33333333,0,0,-0.33333333,215.80667,846.86)"
        id="path149"
@@ -250,7 +250,7 @@
      id="selected-bottomleft"
      style="opacity:1">
     <path
-       style="color:#3daee6;opacity:0.15;fill:#ffffff;stroke-width:3"
+       style="color:#f36259;opacity:0.15;fill:#ffffff;stroke-width:3"
        d="m 47,51 c 0,6.648 5.352,12 12,12 V 51 Z"
        transform="matrix(-0.33333333,0,0,-0.33333333,340.80667,846.86)"
        id="path155"
@@ -332,7 +332,7 @@
      id="hover-topleft"
      style="opacity:1">
     <path
-       style="color:#3daee6;opacity:0.15;fill:#ffffff;stroke-width:3"
+       style="color:#f36259;opacity:0.15;fill:#ffffff;stroke-width:3"
        d="M 59,21 C 52.352,21 47,26.352 47,33 H 59 Z"
        transform="matrix(0.33333333,0,0,0.33333333,170.47333,818.86)"
        id="path10-91"
@@ -354,7 +354,7 @@
      id="hover-topright"
      style="opacity:1">
     <path
-       style="color:#3daee6;opacity:0.15;fill:#ffffff;stroke-width:0.66666573"
+       style="color:#f36259;opacity:0.15;fill:#ffffff;stroke-width:0.66666573"
        d="m 322.47333,825.86 v 2.66666 H 325.14 c 0,-1.47733 -1.18934,-2.66666 -2.66667,-2.66666 z"
        id="path16-1"
        inkscape:connector-curvature="0" />
@@ -375,7 +375,7 @@
      id="hover-bottomright"
      style="opacity:1">
     <path
-       style="color:#3daee6;opacity:0.15;fill:#ffffff;stroke-width:3"
+       style="color:#f36259;opacity:0.15;fill:#ffffff;stroke-width:3"
        d="m 77,51 v 12 c 6.648,0 12,-5.352 12,-12 z"
        transform="matrix(-0.33333333,0,0,-0.33333333,215.80667,846.86)"
        id="path149-0"
@@ -397,7 +397,7 @@
      id="hover-bottomleft"
      style="opacity:1">
     <path
-       style="color:#3daee6;opacity:0.15;fill:#ffffff;stroke-width:3"
+       style="color:#f36259;opacity:0.15;fill:#ffffff;stroke-width:3"
        d="m 47,51 c 0,6.648 5.352,12 12,12 V 51 Z"
        transform="matrix(-0.33333333,0,0,-0.33333333,340.80667,846.86)"
        id="path155-7"
@@ -425,7 +425,7 @@
      id="selected+hover-topleft"
      style="opacity:1">
     <path
-       style="color:#3daee6;opacity:0.2;fill:#ffffff;stroke-width:3"
+       style="color:#f36259;opacity:0.2;fill:#ffffff;stroke-width:3"
        d="M 59,21 C 52.352,21 47,26.352 47,33 H 59 Z"
        transform="matrix(0.33333333,0,0,0.33333333,170.47333,818.86)"
        id="path10-0"
@@ -447,7 +447,7 @@
      id="selected+hover-topright"
      style="opacity:1">
     <path
-       style="color:#3daee6;opacity:0.2;fill:#ffffff;stroke-width:0.66666573"
+       style="color:#f36259;opacity:0.2;fill:#ffffff;stroke-width:0.66666573"
        d="m 322.47333,825.86 v 2.66666 H 325.14 c 0,-1.47733 -1.18934,-2.66666 -2.66667,-2.66666 z"
        id="path16-6"
        inkscape:connector-curvature="0" />
@@ -468,7 +468,7 @@
      id="selected+hover-bottomright"
      style="opacity:1">
     <path
-       style="color:#3daee6;opacity:0.2;fill:#ffffff;stroke-width:3"
+       style="color:#f36259;opacity:0.2;fill:#ffffff;stroke-width:3"
        d="m 77,51 v 12 c 6.648,0 12,-5.352 12,-12 z"
        transform="matrix(-0.33333333,0,0,-0.33333333,215.80667,846.86)"
        id="path149-8"
@@ -490,7 +490,7 @@
      id="selected+hover-bottomleft"
      style="opacity:1">
     <path
-       style="color:#3daee6;opacity:0.2;fill:#ffffff;stroke-width:3"
+       style="color:#f36259;opacity:0.2;fill:#ffffff;stroke-width:3"
        d="m 47,51 c 0,6.648 5.352,12 12,12 V 51 Z"
        transform="matrix(-0.33333333,0,0,-0.33333333,340.80667,846.86)"
        id="path155-1"

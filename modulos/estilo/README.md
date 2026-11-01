@@ -8,6 +8,9 @@ WhiteSur-dark y el claro de WhiteSur-alt, la variante de panel claro (decisión 
 
 - Copiar los 38 SVG de WhiteSur (descomprimidos para que el diff se lea) y recolorear sus hex fijos con `MAPA`
   (vacío en la línea base del autor: WhiteSur tal cual).
+- Pasar al acento los azules fijos de WhiteSur (`azules_al_acento`, decisiones 4.36): con clase de color, a
+  `currentColor` (sigue el acento del sistema); sin clase, al acento de la variante. En el oscuro, la barra del volumen
+  y del brillo, el botón pulsado o el calendario salían azules.
 - El `colors` del estilo: el de WhiteSur con solo el acento de la variante (mejora 8, decisiones 4.13), con la misma
   función `con_acento()` del módulo `esquema`.
 - `metadata.json` y `plasmarc` propios: desenfoque y contraste (de los tokens `efectos`), transparencia adaptable y

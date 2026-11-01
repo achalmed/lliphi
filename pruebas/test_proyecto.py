@@ -546,6 +546,25 @@ def test_obsidian_tema():
     assert '.callout[data-callout-metadata="#ffd400" i]' in zotero and zotero['.callout[data-callout-metadata="#ffd400" i]']["--callout-color"] == "var(--color-yellow)"
 
 
+def test_estilo_sin_azules_fijos():
+    """Decisiones 4.36: ningún relleno ni trazo azul fijo de WhiteSur en los SVG del estilo de Plasma (la barra del
+    volumen y del brillo salían azules en el oscuro): con clase de color van en currentColor; sin clase, en el acento de
+    la variante. Quedan la hoja de estilo, los degradados de Breeze y las marcas de referencia."""
+    estilo = registro.codigo("estilo")
+    for v in ("claro", "oscuro"):
+        propios = {x["$value"]["hex"].lower() for x in _tokens_planos(TOKENS["semanticos"][v]).values()}
+        for f in (GEN / "estilo" / f"{MARCA['id']}-{v}").rglob("*.svg"):
+            texto = re.sub(r"<style[^>]*>.*?</style>", "", f.read_text(encoding="utf-8", errors="ignore"), flags=re.S)
+            for etiqueta in re.findall(r"<[^<>]+>", texto):
+                if etiqueta.startswith("<stop"):
+                    continue
+                for h in re.findall(r"\b(?:fill|stroke)(?::|=\")(#[0-9a-fA-F]{6})\b", etiqueta):
+                    assert not estilo._es_azul(h) or h.lower() in propios, (v, f.name, etiqueta[:120])
+    barra = (GEN / "estilo" / f"{MARCA['id']}-oscuro" / "widgets" / "bar_meter_horizontal.svg").read_text(encoding="utf-8")
+    activa = re.search(r'<[^<>]*\bid="bar-active-center"[^<>]*>', barra).group(0)
+    assert "ColorScheme-Highlight" in activa and "fill:currentColor" in activa
+
+
 def test_decoracion_aurorae():
     """La decoración deriva de Nothing: dos variantes con marco, botones, rc y metadatos; GPL declarada."""
     for v, id_ in (("oscuro", MARCA["id"]), ("claro", f"{MARCA['id']}-claro")):
@@ -894,6 +913,13 @@ def test_iconos_bandeja_a_medida(tmp_path, monkeypatch):
     assert cp["Icon Theme"]["Inherits"].startswith(base.name + ",") and cp["Icon Theme"]["FollowsColorScheme"] == "true"
     assert dict(cp["status/symbolic-22"]) == {"Size": "22", "Context": "Status", "Type": "Fixed"}
     assert 'viewBox="0 0 22 22"' in (iconos / nombre / "status" / "symbolic-22" / "algo-symbolic.svg").read_text(encoding="utf-8")
+    # si el superpuesto es un enlace (la sesión de prueba enlaza los temas del usuario), se quita el enlace y no se sigue
+    ajeno = tmp_path / "ajeno"
+    shutil.copytree(iconos / nombre, ajeno)
+    shutil.rmtree(iconos / nombre)
+    (iconos / nombre).symlink_to(ajeno)
+    ext.bandeja(True, silencio=True)
+    assert not (iconos / nombre).is_symlink() and (ajeno / "index.theme").exists()
 
 
 def test_variante_clara_validada():

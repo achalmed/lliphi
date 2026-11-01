@@ -36,6 +36,8 @@ Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión de
   `sesion.py arrancar --escritorios N` y un reintento si el shell recién arrancado aún escribía su configuración.
 
 ### Added
+- **Ningún azul fijo en el estilo de Plasma** (decisiones 4.36): la barra del volumen y del brillo, el botón pulsado, el
+  calendario y otros controles siguen el acento (rojo en el oscuro); antes, WhiteSur dejaba el azul escrito.
 - **Iconos de la bandeja del mismo tamaño** (decisiones 4.35): superpuestos `Colloid-Grey-Light-Lliphi` y
   `Colloid-Grey-Dark-Lliphi` con los iconos simbólicos de Colloid a 22 px con el margen de sus iconos de 22.
 - **Etiquetas emergentes legibles en el claro** (decisiones 4.34): Kvantum claro las dibuja claras y ahora con texto
