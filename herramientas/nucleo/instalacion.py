@@ -280,7 +280,7 @@ def desinstalar(aplicar: bool) -> int:
             shutil.rmtree(p) if p.is_dir() else p.unlink()
     respaldo = Path(m["respaldo"])
     print(f"  la configuración previa está en {respaldo} (UNDO.sh la restaura entera)")
-    print("  las dependencias de terceros (Papirus, Papirus-Dark-Lliphi, cursores, tipografías) no se retiran")
+    print("  las dependencias de terceros (Colloid, Papirus, Papirus-Dark-Lliphi, cursores, tipografías) no se retiran")
     if aplicar:
         MANIFIESTO.unlink()
         print("hecho. Si el tema estaba aplicado, elige otro en Preferencias del sistema → Apariencia o ejecuta UNDO.sh.")
@@ -342,8 +342,9 @@ def comprobar() -> int:
     iconos = registro.codigo("iconos-cursores")
     for v in ("claro", "oscuro"):
         tema = iconos.ICONOS[v]
-        linea(_tema_freedesktop(tema) or _tema_freedesktop("Papirus-Dark" if v == "oscuro" else "breeze"),
-              f"iconos {tema} ({v}) o su reserva", aviso=not _tema_freedesktop(tema))
+        reserva = iconos.RESERVA.get(v) or ("breeze-dark" if v == "oscuro" else "breeze")
+        linea(_tema_freedesktop(tema) or _tema_freedesktop(reserva),
+              f"iconos {tema} ({v}) o su reserva {reserva}", aviso=not _tema_freedesktop(tema))
     linea(any((d / iconos.CURSORES / "cursors").is_dir() for d in (DATA / "icons", HOME / ".icons", Path("/usr/share/icons"))),
           f"cursores {iconos.CURSORES} (instalar.py dependencias --aplicar)", aviso=True)
     familias = subprocess.run(["fc-list", ":", "family"], capture_output=True, text=True).stdout if shutil.which("fc-list") else ""

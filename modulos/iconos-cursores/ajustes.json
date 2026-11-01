@@ -1,9 +1,7 @@
 {
-  "$description": "Ajustes de iconos y cursores (fuente; lo leen construir.py y externas.py y lo edita Lliphi Studio). iconos: el tema de cada variante que nombra el tema global; cursores: el tema de cursores; superpuesto: el tema pequeño que hereda de su base y solo lleva sus carpetas en el color de Papirus elegido (folder-<color>-*); color_original: el color de carpetas de la versión publicada de Papirus.",
-  "iconos": {
-    "claro": "Papirus",
-    "oscuro": "Papirus-Dark-Lliphi"
-  },
+  "$description": "Ajustes de iconos y cursores (fuente; lo leen construir.py, aplicar.py y externas.py y lo edita Lliphi Studio). iconos: el tema de cada variante que nombra el tema global (decisión del autor, 2026-11-01: Colloid Grey, el Light con los iconos simbólicos oscuros para el claro y el Dark con los claros para el oscuro; vinceliuice/Colloid-icon-theme, GPL-3.0, no se redistribuye); reserva: el que se aplica si el de iconos no está instalado (Papirus y su superpuesto, que sí descarga instalar.py dependencias); cursores: el tema de cursores; superpuesto: el tema pequeño que hereda de su base y solo lleva sus carpetas en el color de Papirus elegido (folder-<color>-*); color_original: el color de carpetas de la versión publicada de Papirus.",
+  "iconos": {"claro": "Colloid-Grey-Light", "oscuro": "Colloid-Grey-Dark"},
+  "reserva": {"claro": "Papirus", "oscuro": "Papirus-Dark-Lliphi"},
   "cursores": "WhiteSur-cursors",
   "superpuesto": {
     "id": "Papirus-Dark-Lliphi",

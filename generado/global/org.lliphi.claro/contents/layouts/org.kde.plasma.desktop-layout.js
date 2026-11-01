@@ -11,7 +11,12 @@ var paneles = [
         "flotante": false,
         "widgets": [
             {
-                "tipo": "org.kde.plasma.kickoff"
+                "tipo": "org.kde.plasma.kickoff",
+                "config": {
+                    "General": {
+                        "icon": "plasma-symbolic"
+                    }
+                }
             },
             {
                 "tipo": "org.kde.plasma.panelspacer"

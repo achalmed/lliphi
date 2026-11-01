@@ -1,8 +1,9 @@
 """Iconos y cursores de Lliphi: dos recursos de terceros que el tema global nombra y que no se generan aquí.
 
-- **Iconos** (mejora 3 y decisiones 4.15): Papirus tal cual (carpetas azules) en el claro y el superpuesto
-  `Papirus-Dark-Lliphi` (carpetas rojas; hereda de Papirus-Dark) en el oscuro. Los instala y construye
-  `externas.py` en `$XDG_DATA_HOME/icons/`; los aplica `aplicar.py`.
+- **Iconos** (decisiones 4.22, decisión del autor): Colloid Grey, `Colloid-Grey-Light` en el claro y
+  `Colloid-Grey-Dark` en el oscuro. Si no están, la reserva es la de antes (mejora 3 y decisiones 4.15): Papirus tal
+  cual en el claro y el superpuesto `Papirus-Dark-Lliphi` (carpetas rojas) en el oscuro, que `externas.py` instala en
+  `$XDG_DATA_HOME/icons/`; los aplica `aplicar.py`.
 - **Cursores**: WhiteSur-cursors (línea base del autor, decisiones 4.4); Bibata como opcional.
 
 Es un módulo **externo**: no tiene carpeta en `generado/`; lo que entrega al tema global son sus identificadores."""
@@ -13,6 +14,7 @@ from pathlib import Path
 
 AJUSTES = json.loads((Path(__file__).resolve().parent / "ajustes.json").read_text(encoding="utf-8"))
 ICONOS = AJUSTES["iconos"]
+RESERVA = AJUSTES.get("reserva", {})
 CURSORES = AJUSTES["cursores"]
 
 

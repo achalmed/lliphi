@@ -17,7 +17,9 @@ Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión de
 - La paleta pasa a `modulos/esquema/paleta.py`; las dependencias de terceros, a los `externas.py` de `global` (tipografía) e
   `iconos-cursores` (iconos y cursores); el inicio de sesión, a `complementos/sddm/`.
 
-### Changed
+- **Iconos Colloid Grey** (decisiones 4.22): `Colloid-Grey-Light` en el claro y `Colloid-Grey-Dark` en el oscuro, con
+  Papirus como reserva; el lanzador lleva el logotipo de Plasma (`plasma-symbolic`) en lugar del de Apple que Colloid
+  pone en `start-here`.
 - **Sin azules de WhiteSur en el oscuro y mejoras también en el claro** (decisiones 4.21): los botones pulsados, por
   omisión y activados de Kvantum (y pestañas, grupos e iconos) toman el acento de la variante; en el claro, la barra de
   herramientas en el color del título y el dock sin sombra y más opaco.

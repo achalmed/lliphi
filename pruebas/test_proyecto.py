@@ -101,7 +101,8 @@ def test_ajustes_de_los_modulos(tmp_path: Path):
     assert dec.valores(MARCA, "oscuro")["kwinrc][org.kde.kdecoration2"]["ButtonsOnLeft"] == dec.ajustes()["botones"]["izquierda"]
     with pytest.raises(ValueError):
         dec._poner("[Layout]\nTitleHeight=12\n", "NoExiste", "1")
-    assert registro.codigo("iconos-cursores").ICONOS["oscuro"] == "Papirus-Dark-Lliphi"
+    assert registro.codigo("iconos-cursores").ICONOS == {"claro": "Colloid-Grey-Light", "oscuro": "Colloid-Grey-Dark"}
+    assert registro.codigo("iconos-cursores").RESERVA["oscuro"] == "Papirus-Dark-Lliphi"
     r = correr("herramientas/generar.py", "validar", "--json")
     assert r.returncode == 0 and json.loads(r.stdout)["valido"]
     datos = json.loads(correr("herramientas/generar.py", "verificar", "--json").stdout)
@@ -321,7 +322,7 @@ def test_tema_global_estructura():
         d = (base / "contents" / "defaults").read_text(encoding="utf-8")
         assert f"ColorScheme={MARCA['id_esquema'][v]}" in d and f"name={MARCA['id']}" in d
         assert "kvantum" in d.lower() and "ButtonsOnLeft=XIA" in d
-        assert f"[kdeglobals][Icons]\nTheme={'Papirus' if v == 'claro' else 'Papirus-Dark'}" in d   # mejora 3
+        assert f"[kdeglobals][Icons]\nTheme={'Colloid-Grey-Light' if v == 'claro' else 'Colloid-Grey-Dark'}" in d   # decisiones 4.22
         deco = MARCA["id"] if v == "oscuro" else MARCA["id"] + "-claro"
         assert "library=org.kde.kwin.aurorae.v2" in d and f"theme=__aurorae__svg__{deco}" in d
         assert (base / "contents" / "layouts" / "org.kde.plasma.desktop-layout.js").exists()
@@ -736,7 +737,7 @@ def test_inicio_de_sesion_sddm():
 
 def test_variante_clara_validada():
     """Mejora 10 (decisiones 4.15–4.16): carpetas por variante sin tocar Papirus, fondo claro fijado y bloqueo oscuro."""
-    for v, iconos in (("oscuro", "Papirus-Dark-Lliphi"), ("claro", "Papirus")):
+    for v, iconos in (("oscuro", "Colloid-Grey-Dark"), ("claro", "Colloid-Grey-Light")):   # decisiones 4.22
         defaults = (GEN / "global" / MARCA["id_global"][v] / "contents" / "defaults").read_text(encoding="utf-8")
         assert f"Theme={iconos}" in defaults, v
     dep = registro.codigo("iconos-cursores", "externas")

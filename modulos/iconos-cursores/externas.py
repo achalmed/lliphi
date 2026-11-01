@@ -149,9 +149,23 @@ def whitesur_cursores(aplicar: bool) -> None:
     print(f"  {tema} instalado: {len(miembros)} archivos")
 
 
+def colloid() -> None:
+    """Colloid Grey (los iconos de Lliphi, decisiones 4.22) se instala con el guion de su autor, que construye las
+    variantes desde las fuentes: aquí solo se comprueba y se dice cómo; Lliphi no ejecuta código descargado."""
+    temas = list(dict.fromkeys(_AJUSTES["iconos"].values()))
+    faltan = [t for t in temas if not (ICONOS / t / "index.theme").exists() and not (Path("/usr/share/icons") / t / "index.theme").exists()]
+    if not faltan:
+        print(f"  {', '.join(temas)} ya están en {ICONOS}")
+        return
+    print(f"  faltan {', '.join(faltan)} (Colloid, GPL-3.0; vinceliuice/Colloid-icon-theme). Instálalo con el guion de su autor:\n"
+          "    git clone https://github.com/vinceliuice/Colloid-icon-theme && cd Colloid-icon-theme && ./install.sh -t grey\n"
+          f"  mientras tanto se aplica la reserva ({', '.join(_AJUSTES.get('reserva', {}).values())})")
+
+
 def instalar(aplicar: bool, opcionales: bool = False) -> None:
     ICONOS.mkdir(parents=True, exist_ok=True)
+    colloid()
     whitesur_cursores(aplicar)
-    papirus(aplicar)          # mejora 3 (decisiones 4.7): Papirus con carpetas rojas es parte de la línea base
+    papirus(aplicar)          # la reserva (mejora 3, decisiones 4.7 y 4.22): Papirus y su superpuesto de carpetas rojas
     if opcionales:
         bibata(aplicar)

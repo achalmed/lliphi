@@ -7,8 +7,9 @@ instala en el usuario a petición y el tema global los nombra. Es un módulo **e
 
 | recurso | qué | mecanismo de instalación | quién lo aplica |
 |---|---|---|---|
-| iconos, claro | Papirus tal como se publica (carpetas azules) | `externas.papirus()`: tarball de la última versión de PapirusDevelopmentTeam → `~/.local/share/icons/{Papirus,Papirus-Dark,Papirus-Light}` | `[kdeglobals][Icons]` del tema global y `aplicar.py` (`plasma-changeicons`) |
-| iconos, oscuro | `Papirus-Dark-Lliphi`: tema superpuesto que hereda de Papirus-Dark y solo redefine las carpetas, con enlaces simbólicos a las `folder-red-*` de Papirus | `externas.carpetas_en_color()` (construido en la máquina, sobre el Papirus instalado) | ídem; si falta, Papirus-Dark y después Breeze |
+| iconos (decisiones 4.22) | `Colloid-Grey-Light` en el claro y `Colloid-Grey-Dark` en el oscuro (Colloid, GPL-3.0) | el guion de su autor (`install.sh -t grey`); `externas.colloid()` solo comprueba y dice cómo, no ejecuta código descargado | `[kdeglobals][Icons]` del tema global y `aplicar.py`; si falta, la reserva de abajo |
+| reserva, claro | Papirus tal como se publica (carpetas azules) | `externas.papirus()`: tarball de la última versión de PapirusDevelopmentTeam → `~/.local/share/icons/{Papirus,Papirus-Dark,Papirus-Light}` | `[kdeglobals][Icons]` del tema global y `aplicar.py` (`plasma-changeicons`) |
+| reserva, oscuro | `Papirus-Dark-Lliphi`: tema superpuesto que hereda de Papirus-Dark y solo redefine las carpetas, con enlaces simbólicos a las `folder-red-*` de Papirus | `externas.carpetas_en_color()` (construido en la máquina, sobre el Papirus instalado) | ídem; si falta, Papirus-Dark y después Breeze |
 | cursores | WhiteSur-cursors | `externas.whitesur_cursores()`: `dist/` del tarball de la rama principal → `~/.local/share/icons/WhiteSur-cursors` | `[kcminputrc][Mouse] cursorTheme` del tema global |
 | cursores (opcional) | Bibata Modern Classic e Ice | `externas.bibata()` con `--opcionales` | a mano |
 

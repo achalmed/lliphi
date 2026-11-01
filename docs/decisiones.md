@@ -206,6 +206,14 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   (carpetas azules, para el claro) y crea `Papirus-Dark-Lliphi`, un tema superpuesto que hereda de Papirus-Dark y solo declara
   enlaces a las variantes rojas de todo icono que acaba en una carpeta azul (lugares, `inode-directory`, `user-home`…). El
   oscuro usa ese superpuesto. Efecto secundario bueno: Home y Escritorio, que antes quedaban azules en el oscuro, ahora son rojos.
+- **4.22 (2026-11-01) Iconos: Colloid Grey.** Decisión del autor: los iconos de Lliphi pasan a ser Colloid Grey
+  (vinceliuice/Colloid-icon-theme, GPL-3.0), `Colloid-Grey-Light` en el claro (simbólicos oscuros, `#363636`) y
+  `Colloid-Grey-Dark` en el oscuro (simbólicos claros, `#dedede`). Papirus y su superpuesto de carpetas rojas (4.7,
+  4.15) quedan como reserva, que `aplicar.py` usa si Colloid no está instalado. Colloid no publica temas construidos:
+  se instala con el guion de su autor (`install.sh -t grey`); `instalar.py dependencias` lo comprueba y dice cómo, pero
+  no ejecuta código descargado. Colloid dibuja todos los `start-here` como el logotipo de Apple, y Lliphi quita lo que
+  imita a Apple (3.11): el lanzador de la barra superior lleva en la disposición su propio icono, `plasma-symbolic` (el
+  logotipo de Plasma del mismo Colloid, en el gris del tema).
 - **4.21 (2026-11-01) Ningún azul de WhiteSur en el oscuro, y las mejoras también en el claro.** Con Lliphi Oscuro,
   al pulsar un botón de Preferencias del sistema salía azul: los botones de Kvantum (`button-pressed`, `-default`,
   `-toggled`) y otras piezas (pestañas, grupos, un icono) conservaban catorce azules de WhiteSur que el mapa de colores

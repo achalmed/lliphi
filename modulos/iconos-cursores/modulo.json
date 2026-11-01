@@ -1,13 +1,13 @@
 {
   "nombre": "Iconos y cursores",
-  "resumen": "Papirus con las carpetas en el acento de cada variante (Papirus tal cual en el claro, el superpuesto Papirus-Dark-Lliphi con carpetas rojas en el oscuro) y los cursores WhiteSur; Bibata como opcional.",
+  "resumen": "Colloid Grey (Light en el claro, Dark en el oscuro) como iconos de cada variante, con Papirus y su superpuesto de carpetas rojas como reserva, y los cursores WhiteSur; Bibata como opcional.",
   "clase": "externo",
   "orden": 4,
   "formato": "freedesktop",
   "tecnologia": "temas de iconos y de cursores freedesktop (`index.theme`, `Inherits`, `cursors/`) en `~/.local/share/icons/`",
   "estado": "probado",
   "desde": "0.3.0",
-  "licencia": "GPL-3.0-only (Papirus, WhiteSur-cursors y Bibata; no se redistribuyen)",
+  "licencia": "GPL-3.0 (Colloid, Papirus, WhiteSur-cursors y Bibata; no se redistribuyen)",
   "archivos": [],
   "capturas": [
     "../capturas/oscuro-21-mejora-3-iconos-papirus.png"
@@ -20,6 +20,7 @@
       "gtk-update-icon-cache"
     ],
     "terceros": [
+      "Colloid Grey (GPL-3.0; vinceliuice/Colloid-icon-theme; se instala con su guion: install.sh -t grey)",
       "Papirus (GPL-3.0; PapirusDevelopmentTeam/papirus-icon-theme)",
       "WhiteSur-cursors (GPL-3.0; vinceliuice/WhiteSur-cursors)",
       "Bibata Modern (GPL-3.0; ful1e5/Bibata_Cursor), opcional"
