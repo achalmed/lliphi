@@ -197,3 +197,14 @@ def nota(texto: str) -> QLabel:
     l.setTextInteractionFlags(Qt.TextBrowserInteraction)
     l.setOpenExternalLinks(True)
     return l
+
+
+def envolver(panel: QWidget) -> QWidget:
+    """Un panel de propiedades con desplazamiento vertical (para ventanas bajas o con la consola abierta)."""
+    from PySide6.QtWidgets import QScrollArea
+    area = QScrollArea()
+    area.setWidgetResizable(True)
+    area.setFrameShape(QFrame.NoFrame)
+    area.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+    area.setWidget(panel)
+    return area

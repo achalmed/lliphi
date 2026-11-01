@@ -7,8 +7,8 @@ from lliphi_studio import ventana
 
 def test_la_ventana_y_sus_secciones(lliphi, app):
     v = ventana.Ventana()
-    ids = [p[0] for p in ventana.PAGINAS if p[0] in v.paginas]
-    assert v._page_order == ids and {"dashboard", "despliegue"} <= set(ids)
+    ids = [p[0] for p in ventana.PAGINAS]
+    assert v._page_order == ids and len(ids) == 9
     for id_ in ids:
         v.navigate(id_)
         assert v.ui.stack.currentWidget() is v.controllers[id_].widget

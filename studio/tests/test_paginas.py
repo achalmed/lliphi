@@ -189,3 +189,41 @@ def test_pantallas_carga_de_verdad_y_maquetas(ventana, app):
             assert pag.pila.currentWidget() is pag.maqueta
             pag.maqueta.grab()
     assert "Splash.qml" in [pag.archivos.item(i).text() for i in range(pag.archivos.count())] or pag.caso != "carga"
+
+
+def test_disposicion_edita_paneles_y_widgets(ventana, app, lliphi):
+    v = ventana("disposicion")
+    pag = v.paginas["disposicion"]
+    assert [p["ubicacion"] for p in pag.datos["paneles"]] == ["top", "bottom"]
+    pag.elegir((0, 0))
+    pag.anadir_widget("org.kde.plasma.pager")                       # tras el lanzador
+    assert [w["tipo"] for w in pag.datos["paneles"][0]["widgets"]][:2] == ["org.kde.plasma.kickoff", "org.kde.plasma.pager"]
+    pag.mover_widget((0, 1), 0)
+    assert pag.datos["paneles"][0]["widgets"][0]["tipo"] == "org.kde.plasma.pager"
+    pag.elegir((1, -1))
+    pag.p_ocultar.setCurrentText("autohide")
+    assert proyecto.leer_borrador("disposicion")["paneles"][1]["ocultar"] == "autohide"
+    js = pag.js.toPlainText()
+    assert '"org.kde.plasma.pager"' in js and '"ocultar": "autohide"' in js and js.startswith("// GENERADO")
+    assert pag.lienzo.lanzadores(pag.datos["paneles"][1]["widgets"][0]) == ["org.kde.dolphin", "org.kde.konsole", "systemsettings"]
+    pag.lienzo.grab()
+    assert {i for _r, i, _j in pag.lienzo._zonas} == {0, 1}
+    pag.datos["paneles"][1]["ocultar"] = "windowscover"              # ya no existe en Plasma 6: no construye
+    pag._mostrar()
+    assert "no construye" in pag.js.toPlainText()
+    antes = proyecto.modulo("disposicion").ajustes.read_bytes()
+    pag._guardar()
+    assert proyecto.modulo("disposicion").ajustes.read_bytes() == antes
+    pag._descartar()
+
+
+def test_vivo_sin_sesion(ventana, app):
+    v = ventana("vivo", "disposicion")
+    vivo = v.paginas["vivo"]
+    assert esperar(lambda: vivo.estado != {} or not vivo._leyendo, app)
+    assert esperar(lambda: not vivo._leyendo, app)
+    assert vivo.estado.get("activa") is False and not vivo.b_cerrar.isEnabled() and vivo.b_arrancar.isEnabled()
+    args = vivo._args()
+    assert args[:2] == ["--variante", "oscuro"] and "--virtual" not in args
+    v.paginas["disposicion"]._probar()                                # sin sesión: lleva a la Vista en vivo
+    assert v.ui.stack.currentWidget() is v.controllers["vivo"].widget
