@@ -3,9 +3,9 @@ refinamiento de WhiteSur (menús y tooltips translúcidos, controles redondeados
 
 Se toma `Kvantum/WhiteSur/WhiteSurDark.{kvconfig,svg}` y `WhiteSur.{kvconfig,svg}`, se escriben las claves de color del
 `.kvconfig` desde los tokens y se sustituyen los hex fijos del `.svg`. Lo derivado es GPL-3.0-or-later.
-`ajustes.json` dice si las ventanas son translúcidas (WhiteSur) o sólidas por variante: en el oscuro, sólidas, para que
-la barra de menús y la de herramientas tengan el mismo color que el título de la decoración (decisiones 4.18); es lo que
-hace la variante `WhiteSur-opaque` de la base (`translucent_windows=false`).
+`ajustes.json` dice, por variante, si las ventanas son translúcidas (WhiteSur) o sólidas (`WhiteSur-opaque`), y con qué
+token se pinta la barra de herramientas: en el oscuro, translúcidas (la vista de Dolphin y la terminal integrada dejan
+ver el fondo) y la barra, opaca en el color de la ventana, que es el del título de la decoración (decisiones 4.18).
 Se instala en `$XDG_CONFIG_HOME/Kvantum/<id>/` y se activa con `[General] theme=<id>` en `Kvantum/kvantum.kvconfig`
 (`herramientas/instalar.py`), con `widgetStyle=kvantum-dark` / `kvantum` en el tema global.
 """

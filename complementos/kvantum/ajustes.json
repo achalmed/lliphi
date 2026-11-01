@@ -1,5 +1,5 @@
 {
-  "$description": "Ajustes del tema de Kvantum (fuente; lo lee complementos/kvantum/construir.py). ventanas_translucidas: si el fondo de las ventanas es translúcido con desenfoque (como WhiteSur) o sólido, por variante. Sólido, la barra de menús y la de herramientas quedan del mismo color que el título de la decoración (pedido del autor, 2026-11-01); los menús y los tooltips conservan su desenfoque. barra_de_herramientas: el token con que se pinta la barra de herramientas (los elementos toolbar-normal* del SVG, activa e inactiva), por variante; null = el gris de WhiteSur. En el oscuro, fondo.ventana: el mismo tono que el título de la decoración.",
-  "ventanas_translucidas": {"oscuro": false, "claro": true},
+  "$description": "Ajustes del tema de Kvantum (fuente; lo lee complementos/kvantum/construir.py). ventanas_translucidas: si el fondo de las ventanas es translúcido con desenfoque (como WhiteSur) o sólido, por variante. Translúcido, la vista de Dolphin y la terminal integrada dejan ver el fondo; la cabecera no se ve afectada, porque la barra de herramientas (y con ella la de menús, unidas por merge_menubar_with_toolbar) se pinta con su propio elemento, opaco. barra_de_herramientas: el token con que se pinta la barra de herramientas (los elementos toolbar-normal* del SVG, activa e inactiva), por variante; null = el gris de WhiteSur. En el oscuro, fondo.ventana: el mismo tono que el título de la decoración.",
+  "ventanas_translucidas": {"oscuro": true, "claro": true},
   "barra_de_herramientas": {"oscuro": "fondo.ventana", "claro": null}
 }

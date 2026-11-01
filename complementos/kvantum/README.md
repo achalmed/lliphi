@@ -13,8 +13,8 @@ Es un **complemento**: existía antes de la reingeniería y se conserva fuera de
   se calculaba desde `$XDG_DATA_HOME/../..` y fallaba con rutas XDG no estándar).
 - `construir.py`: `generar()` y `valores()` (`[kdeglobals][KDE] widgetStyle=kvantum|kvantum-dark`).
 - `ajustes.json`: por variante, si las ventanas son translúcidas (como WhiteSur) o sólidas, y el token de la barra de
-  herramientas. En el oscuro, sólidas y la barra en `fondo.ventana`: título, menús y herramientas en una sola banda
-  (decisiones 4.18).
+  herramientas. En el oscuro, translúcidas y la barra opaca en `fondo.ventana`: título, menús y herramientas en una sola banda y
+  la vista y la terminal integrada con transparencia (decisiones 4.18).
 - `aplicar.py`: `Kvantum/kvantum.kvconfig` con el tema de la variante y el estilo de widgets en `kdeglobals`.
 - Requiere Kvantum para Qt 6 (`qt6-style-kvantum`). Lo generado: `generado/kvantum/`.
 

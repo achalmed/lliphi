@@ -211,10 +211,11 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   pidió lo mismo o mejor. En la de Lliphi el título es el `#1b1b1d` de Nothing y la barra salía `#363636`: Kvantum la
   pinta con su propio elemento (`toolbar-normal`) en el gris fijo de WhiteSur, que no se recoloreaba, y además la ventana
   era translúcida (WhiteSur, 75 % con desenfoque), así que todo lo que no es la decoración salía más claro y teñido por
-  el fondo. Se decide, en `complementos/kvantum/ajustes.json`, solo para el oscuro: ventanas sólidas (como la variante
-  `WhiteSur-opaque` de la base; menús y tooltips conservan su desenfoque) y la barra de herramientas, activa e inactiva,
-  en `fondo.ventana` (el mismo tono que el título, a una unidad). La línea oscura bajo la barra se queda como divisoria
-  con el contenido. El claro no cambia. Esto deja sin efecto, en el oscuro, el «cristal» de las ventanas de 4.2.
+  el fondo. Se decide, en `complementos/kvantum/ajustes.json`, solo para el oscuro: la barra de herramientas, activa e
+  inactiva, en `fondo.ventana` (el mismo tono que el título, a una unidad) y opaca; con `merge_menubar_with_toolbar`
+  arrastra la de menús. La ventana sigue translúcida: el autor pidió conservar la transparencia de la vista de Dolphin
+  y de la terminal integrada (una primera versión con ventanas sólidas la perdía). La línea oscura bajo la barra se
+  queda como divisoria con el contenido. El claro no cambia.
   Comparación en `muestras/comparacion-linea-base-cabecera.png` (sesión de prueba).
 - **4.17 (2026-11-01) Mejora 11: el dock de Lliphi.** El autor comparó el dock con otro que le gusta más (oscuro y
   sólido, sin recuadros bajo cada aplicación, y un paginador de números con una línea encima) y pidió que el de Lliphi se
