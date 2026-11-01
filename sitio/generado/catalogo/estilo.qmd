@@ -5,10 +5,11 @@ subtitle: "Panel, diálogos, tooltips y fondos de widgets con los radios y márg
 
 | | |
 |---|---|
+| papel | módulo (paquete) |
 | estado | **probado** |
 | tecnología | Plasma SVG (desktoptheme) |
 | desde la versión | 0.1.0 |
-| archivos | `lliphi/` |
+| archivos | `lliphi-claro/`, `lliphi-oscuro/` |
 | licencia | CC-BY-SA-4.0 |
 
 ![../capturas/oscuro-03-dolphin-konsole-notificacion.png](../capturas/oscuro-03-dolphin-konsole-notificacion.png)
@@ -40,7 +41,6 @@ kpackagetool6 -t Plasma/Theme -r lliphi
 
 ## Código, incidencias y cambios
 
-- Código: [`generado/desktoptheme`](https://github.com/achalmed/lliphi/tree/main/generado/desktoptheme) y su generador
-  [`herramientas/destinos/desktoptheme.py`](https://github.com/achalmed/lliphi/blob/main/herramientas/destinos/desktoptheme.py).
+- Código: [`modulos/estilo/`](https://github.com/achalmed/lliphi/tree/main/modulos/estilo) (manifiesto, fuente y su `README.md`); lo generado, en [`generado/estilo`](https://github.com/achalmed/lliphi/tree/main/generado/estilo).
 - Incidencias: [https://github.com/achalmed/lliphi/issues](https://github.com/achalmed/lliphi/issues?q=label%3Aestilo).
 - Cambios: [registro de cambios](../../cambios.qmd).

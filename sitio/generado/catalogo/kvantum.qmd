@@ -1,0 +1,41 @@
+---
+title: "Kvantum"
+subtitle: "Estilo de las aplicaciones Qt derivado del Kvantum de WhiteSur (menús y tooltips translúcidos, controles redondeados) en los colores de cada variante."
+---
+
+| | |
+|---|---|
+| papel | complemento (paquete) |
+| estado | **probado** |
+| tecnología | tema de Kvantum (`.kvconfig` + `.svg`) en `~/.config/Kvantum/`; derivado de WhiteSur-kde, GPL-3.0-or-later |
+| desde la versión | 0.2.0 |
+| archivos | `LliphiClaro/`, `LliphiOscuro/` |
+| licencia | GPL-3.0-or-later |
+
+
+## Instalar a mano
+
+```bash
+mkdir -p ~/.config/Kvantum
+cp -r LliphiOscuro LliphiClaro ~/.config/Kvantum/
+kvantummanager --set LliphiOscuro                       # o LliphiClaro
+```
+
+Y en Preferencias del sistema → Colores y temas → Estilo de las aplicaciones, elige «kvantum-dark» (oscuro) o
+«kvantum» (claro). Necesita Kvantum para Qt 6 (`qt6-style-kvantum` en Debian y Ubuntu). El tema global ya declara el
+estilo; el instalador escribe además `~/.config/Kvantum/kvantum.kvconfig`.
+
+## Actualizar
+
+Sustituye las dos carpetas y vuelve a elegir el tema.
+
+## Desinstalar
+
+Elige otro estilo de aplicaciones y borra `~/.config/Kvantum/LliphiOscuro` y `~/.config/Kvantum/LliphiClaro`.
+
+
+## Código, incidencias y cambios
+
+- Código: [`complementos/kvantum/`](https://github.com/achalmed/lliphi/tree/main/complementos/kvantum) (manifiesto, fuente y su `README.md`); lo generado, en [`generado/kvantum`](https://github.com/achalmed/lliphi/tree/main/generado/kvantum).
+- Incidencias: [https://github.com/achalmed/lliphi/issues](https://github.com/achalmed/lliphi/issues?q=label%3Akvantum).
+- Cambios: [registro de cambios](../../cambios.qmd).

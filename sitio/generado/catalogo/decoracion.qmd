@@ -1,12 +1,13 @@
 ---
 title: "Decoración de ventanas"
-subtitle: "Dos temas Aurorae (oscuro y claro) con el marco, los radios y la sombra de WhiteSur y los botones circulares de Nothing, recoloreados con los tokens: barra de 30 px con el título centrado, botones a la derecha, cerrar en el acento y el resto en gris; sin semáforo."
+subtitle: "Dos temas Aurorae (oscuro y claro) derivados de Nothing: sus botones circulares con glifo al pasar el ratón, con el anillo de minimizar en gris, el título en los grises de Lliphi sin sombra y en Inter Medium, barra de 18 px y botones a la izquierda; la variante clara, recoloreada con los tokens."
 ---
 
 | | |
 |---|---|
+| papel | módulo (paquete) |
 | estado | **probado** |
-| tecnología | Aurorae SVG (motor V2 de Plasma 6.6, `kwin-style-aurorae`); derivado de WhiteSur-dark y Nothing, GPL-3.0-or-later |
+| tecnología | Aurorae SVG (motor V2 de Plasma 6.6, `kwin-style-aurorae`); derivado de Nothing, GPL-3.0-or-later |
 | desde la versión | 0.2.0 |
 | archivos | `lliphi/`, `lliphi-claro/` |
 | licencia | GPL-3.0-or-later |
@@ -50,7 +51,6 @@ Elige otra decoración (Brisa) en Preferencias del sistema y borra `~/.local/sha
 
 ## Código, incidencias y cambios
 
-- Código: [`generado/aurorae`](https://github.com/achalmed/lliphi/tree/main/generado/aurorae) y su generador
-  [`herramientas/destinos/aurorae.py`](https://github.com/achalmed/lliphi/blob/main/herramientas/destinos/aurorae.py).
+- Código: [`modulos/decoracion/`](https://github.com/achalmed/lliphi/tree/main/modulos/decoracion) (manifiesto, fuente y su `README.md`); lo generado, en [`generado/decoracion`](https://github.com/achalmed/lliphi/tree/main/generado/decoracion).
 - Incidencias: [https://github.com/achalmed/lliphi/issues](https://github.com/achalmed/lliphi/issues?q=label%3Adecoracion).
 - Cambios: [registro de cambios](../../cambios.qmd).

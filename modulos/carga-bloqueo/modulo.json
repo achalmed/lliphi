@@ -1,0 +1,43 @@
+{
+  "nombre": "Pantallas de carga, salida y bloqueo",
+  "resumen": "Pantalla de carga y diálogo de salida derivados de WhiteSur-dark, con el fondo de Lliphi y el nombre en Inter en lugar del logotipo; el bloqueo de pantalla con el fondo oscuro de Lliphi en las dos variantes.",
+  "clase": "componente",
+  "orden": 5,
+  "formato": "Plasma/LookAndFeel",
+  "tecnologia": "`contents/splash/` y `contents/logout/` del tema global (QML de WhiteSur-dark, GPL-3.0) · fondo del bloqueo en `kscreenlockerrc` (el QML del bloqueo es del paquete de shell en Plasma 6.6)",
+  "estado": "probado",
+  "desde": "0.3.0",
+  "licencia": "GPL-3.0-or-later",
+  "archivos": [
+    "contents/splash/",
+    "contents/logout/"
+  ],
+  "capturas": [
+    "../capturas/comparacion-linea-base-pantallas.png"
+  ],
+  "dependencias": {
+    "construccion": [
+      "fondos"
+    ],
+    "bases": [
+      "fuentes/base/WhiteSur-kde"
+    ],
+    "python": [
+      "pillow"
+    ],
+    "herramientas_opcionales": [
+      "kwriteconfig6",
+      "ksplashqml"
+    ]
+  },
+  "integracion": {
+    "en": "global",
+    "rutas": [
+      "contents/splash/Splash.qml",
+      "contents/splash/images/background.png",
+      "contents/logout/Logout.qml",
+      "contents/logout/background.png"
+    ]
+  },
+  "instalacion": []
+}

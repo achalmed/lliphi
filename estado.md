@@ -1,7 +1,7 @@
 ---
 tipo: estado
 estado: activo
-actualizado: 2026-10-18
+actualizado: 2026-10-31
 ---
 # estado.md — lliphi (nombre provisional de la carpeta y del proyecto)
 
@@ -13,6 +13,7 @@ Hasta que el autor elija el nombre (fase 3), la carpeta se llama `lliphi` y no e
 
 | fecha | qué | dónde se ve |
 |---|---|---|
+| 2026-10-31 | **reingeniería modular** pedida por el autor: tema global integrador (`global/`), seis módulos (`modulos/`: esquema, estilo, decoracion, iconos-cursores, carga-bloqueo, disposicion), siete complementos (`complementos/`) y núcleo de construcción, validación e instalación (`herramientas/nucleo/`); `generar.py validar`, `instalar.py comprobar`/`dependencias`/`sddm`; README por módulo. Lo generado (204 archivos) y lo instalado (181) son idénticos a 0.3.0; 33 pruebas, REUSE y validación en verde; probado en sesión anidada (dos variantes). Respaldo: etiqueta `antes-arquitectura-modular-2026-10-31`, bundle, copia y `UNDO.sh` en `$RESPALDOS_DIR/renombres/2026-10-31-lliphi-arquitectura-modular/`. **En la rama `wip/2026-10-31-arquitectura-modular`, sin fusionar ni publicar** | `docs/arquitectura.md`, `docs/migracion-modular.md`, `docs/validacion.md` §9 |
 | 2026-10-21 | **incidente**: el widget de notas del escritorio del autor desapareció el 2026-10-18 entre las 17:43 y las 17:54, al aplicar el tema global con la disposición de Lliphi; Plasma borró su nota (`4c3e15fd…`) y el `fstrim` del 19 a la 01:03 impidió recuperarla. Se repuso el widget en su sitio con la nota que quedaba (`97428f42…`, de julio) y el instalador ahora respalda `~/.local/share/plasma_notes` y su `UNDO.sh` la devuelve | `herramientas/instalar.py` |
 | 2026-10-19 | **0.3.0 publicada**: etiqueta `v0.3.0`, release con 11 paquetes (nuevo `lliphi-sddm`) y `SHA256SUMS`, sitio desplegado con la galería de las diez mejoras; CI y sitio en verde | github.com/achalmed/lliphi/releases/tag/v0.3.0, achalmed.github.io/lliphi |
 | 2026-10-19 | mejora 10: claro validado en sesión virtual; carpetas por variante con el superpuesto `Papirus-Dark-Lliphi`, fondo claro fijado, bloqueo con fondo oscuro | `docs/validacion.md` §8, `docs/decisiones.md` 4.15–4.16, `muestras/comparacion-linea-base-claro-validado.png` |
@@ -72,7 +73,11 @@ Hasta que el autor elija el nombre (fase 3), la carpeta se llama `lliphi` y no e
 
 ## Por hacer
 
-- 2026-10-18 · dueño: asistente · `test_instalar_y_desinstalar_restaura` falla en la línea de los iconos (`index.theme` no instalado): otra sesión retiró `herramientas/destinos/iconos.py` y el módulo `iconos` a la vez que se cerraba la decoración; al cerrar ese cambio, ajustar la prueba o reponer el módulo.
+- 2026-10-31 · dueño: autor · revisar la rama `wip/2026-10-31-arquitectura-modular` (reingeniería modular) y decidir si se fusiona en `main` (N 11.7: ramas de 7 días como mucho, vence el 2026-11-07); no se ha empujado ni publicado nada. La `VERSION` sigue en 0.3.0: la versión de la publicación la decide el autor.
+- 2026-10-31 · dueño: autor · aprobar o no la corrección de dos defectos de la disposición que vienen de 0.3.0 (`docs/validacion.md` §9): el fondo de cada escritorio debería ser `userDataPath("data", "wallpapers")` y no `userDataPath("wallpapers")` (deja el escritorio negro al aplicar la disposición desde Preferencias), y `hiding = "windowscover"` ya no existe en Plasma 6.6 (el dock no se oculta); fuente: `modulos/disposicion/escritorio.js`.
+- 2026-10-31 · dueño: autor · ver en una sesión real (o con `prueba-tema`) si los paneles de la disposición se dibujan tras «Disposición del escritorio»: en la anidada Plasma dijo «Did not find a valid screen to place a new panel».
+- 2026-10-31 · dueño: asistente · defectos previos anotados en la auditoría (`docs/migracion-modular.md` §1), sin tocar: `herramientas/contacto.py` importa `destinos.iconos`, retirado antes, y no funciona; `REUSE.toml` cita `fuentes/aurorae/**`, que no existe, y declara CC BY-SA para el estilo de Plasma derivado de WhiteSur (sus metadatos dicen GPL-3.0-or-later); botones de Plasma Welcome casi ilegibles con Kvantum claro (captura `claro-22`).
+- 2026-10-31 · dueño: asistente · `desinstalar` no retira `Papirus-Dark-Lliphi`, que construye Lliphi (no es de terceros): decidir si se anota en el manifiesto.
 - 2026-10-18 · dueño: autor · el hub (`web` 6ffafae, con el enlace a Lliphi) está empujado pero Netlify no lo había desplegado 40 minutos después (la portada sigue sin el enlace): revisar en app.netlify.com → Deploys del sitio `achalmaedison` si el despliegue automático desde GitHub sigue activo.
 - 2026-10-18 · dueño: autor · **el disco interno `/dev/nvme0n1` (INTEL HBRPEKNX0101AH) aparece como «likely to fail soon» en Plasma** (aviso de Device Health visto en la sesión de prueba): respaldar y comprobar con `sudo smartctl -a /dev/nvme0n1`.
 - 2026-10-18 · dueño: autor · KDE Store: subir las fichas con `dist/FICHA-KDE-STORE.md` (requiere su cuenta en pling); Netlify opcional (el sitio ya está en GitHub Pages).

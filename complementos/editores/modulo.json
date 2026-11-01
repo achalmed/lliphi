@@ -1,0 +1,41 @@
+{
+  "nombre": "Editores: VS Code, Positron y Zed",
+  "resumen": "Temas claro y oscuro para VS Code y sus derivados Positron y VSCodium (una misma extensión mínima) y para Zed, con la interfaz del esquema, la sintaxis derivada de los dieciséis ANSI y la terminal integrada de Konsole.",
+  "clase": "paquete",
+  "orden": 5,
+  "formato": "varios",
+  "tecnologia": "VS Code color theme (`colors`, `tokenColors`, `semanticTokenColors`), leído también por Positron (`~/.positron/extensions/`) y VSCodium (`~/.vscode-oss/extensions/`) · Zed theme v0.2.0",
+  "estado": "experimental",
+  "desde": "0.2.0",
+  "archivos": [
+    "vscode/lliphi/",
+    "zed/lliphi.json"
+  ],
+  "capturas": [
+    "../capturas/oscuro-08-positron.png",
+    "../capturas/claro-08-positron.png"
+  ],
+  "dependencias": {},
+  "instalacion": [
+    {
+      "origen": "vscode/{id}",
+      "destino": "{id}.{id}",
+      "base": "vscode"
+    },
+    {
+      "origen": "vscode/{id}",
+      "destino": "{id}.{id}",
+      "base": "positron"
+    },
+    {
+      "origen": "vscode/{id}",
+      "destino": "{id}.{id}",
+      "base": "vscodium"
+    },
+    {
+      "origen": "zed/{id}.json",
+      "destino": "zed/themes/{id}.json",
+      "base": "config"
+    }
+  ]
+}

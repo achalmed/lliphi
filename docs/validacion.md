@@ -256,3 +256,36 @@ Método del §5 con un `HOME` aparte nuevo y tres ajustes:
 | pantalla de carga | «Lliphi» en texto oscuro con el punto azul; indicador oscuro | `claro-20-carga.png` |
 | bloqueo de pantalla | antes: reloj blanco ilegible sobre el fondo claro; después: fondo oscuro de Lliphi | `claro-21-bloqueo.png` |
 | decoración | cerrar rojo de Nothing; minimizar y maximizar neutros | en todas |
+
+## 9. Arquitectura modular (2026-10-31)
+
+Método del §8 (sesión anidada en compositor virtual, `HOME` aparte, `XDG_RUNTIME_DIR` corto, capturas desde el KWin
+exterior) con dos ajustes: entorno limpio (`env -i`) para que nada herede el bus ni el display del autor, y
+`startkderc` con `systemdBoot=false` en el `HOME` de prueba, para que la sesión anidada no arranque servicios en el
+systemd de usuario de la sesión real; bloqueo e inactividad desactivados desde el principio (§8.3). Todo lo que corre
+dentro toma el entorno del `plasmashell` de prueba (el guion se niega si el `HOME` no es el de prueba) y se cierra por
+PID tras comprobar el `HOME` en `/proc/<pid>/environ`. La sesión del autor no se tocó: `LockedHint=no` antes y después.
+
+| caso | resultado | evidencia |
+|---|---|---|
+| equivalencia de lo generado | 204 archivos de los paquetes idénticos byte a byte a 0.3.0 | `generar.py verificar` sobre lo trasladado con `git mv` |
+| equivalencia de lo instalado | 181 archivos idénticos (sumas) en un `HOME` de prueba; `UNDO.sh` con las mismas restauraciones | `docs/migracion-modular.md` §5 |
+| `instalar.py --aplicar --aplicar-tema oscuro` | todos los `aplicar()` en orden; `kdeglobals` (tema global, esquema, `kvantum-dark`, `Papirus-Dark-Lliphi`, Inter), `plasmarc`, decoración V2, `ksplashrc`, cursor, fondo del bloqueo y Kvantum leídos con `kreadconfig6` | `oscuro-23-arquitectura-modular.png` |
+| `--aplicar-tema claro` | lo mismo en la variante clara (`Papirus`, `lliphi-claro`, fondo claro por ruta) | `claro-22-arquitectura-modular.png` |
+| `instalar.py comprobar` | sin faltas; KDE encuentra tema global, estilo y decoración (`kpackagetool6 --show`) | |
+| disposición (`--resetLayout`) | el script crea los dos paneles con sus widgets (lo confirma el scripting de Plasma), pero (a) el fondo queda negro y (b) los paneles no se dibujan en la anidada | ver defectos |
+
+Defectos encontrados (los dos primeros vienen de 0.3.0: el script es byte a byte el mismo; no se corrigen sin el visto
+bueno del autor, regla 12 del encargo):
+
+1. **Fondo de la disposición**: `userDataPath("wallpapers")` devuelve la carpeta de datos, no la de fondos (comprobado
+   en el scripting de Plasma 6.6: `userDataPath("data", "wallpapers")` sí da `…/wallpapers`); el script escribe
+   `file://…/.local/share/org.lliphi.horizonte` y el escritorio queda negro. El instalador lo tapa al aplicar el fondo
+   por ruta, pero no al aplicar la disposición desde Preferencias.
+2. **Dock**: `hiding = "windowscover"` queda en `none` en Plasma 6.6 (el valor no existe ya); el dock no se oculta bajo
+   las ventanas.
+3. **Paneles invisibles tras `--resetLayout`** en la anidada: `kde.plasmashell: Did not find a valid screen to place a
+   new panel`. Puede ser solo de la sesión anidada; falta verlo en una sesión real.
+4. En la variante clara, los botones de Plasma Welcome se ven oscuros con el texto casi ilegible (Kvantum claro);
+   observado en la captura, sin investigar.
+

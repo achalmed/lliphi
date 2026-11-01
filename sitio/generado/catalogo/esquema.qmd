@@ -5,6 +5,7 @@ subtitle: "Lliphi Claro y Lliphi Oscuro para todas las aplicaciones Qt y KDE (y,
 
 | | |
 |---|---|
+| papel | módulo (paquete) |
 | estado | **probado** |
 | tecnología | KColorScheme (`.colors`) |
 | desde la versión | 0.1.0 |
@@ -34,7 +35,6 @@ Elige otro esquema en Preferencias y borra los dos archivos de `~/.local/share/c
 
 ## Código, incidencias y cambios
 
-- Código: [`generado/color-schemes`](https://github.com/achalmed/lliphi/tree/main/generado/color-schemes) y su generador
-  [`herramientas/destinos/esquema.py`](https://github.com/achalmed/lliphi/blob/main/herramientas/destinos/esquema.py).
+- Código: [`modulos/esquema/`](https://github.com/achalmed/lliphi/tree/main/modulos/esquema) (manifiesto, fuente y su `README.md`); lo generado, en [`generado/esquema`](https://github.com/achalmed/lliphi/tree/main/generado/esquema).
 - Incidencias: [https://github.com/achalmed/lliphi/issues](https://github.com/achalmed/lliphi/issues?q=label%3Aesquema).
 - Cambios: [registro de cambios](../../cambios.qmd).

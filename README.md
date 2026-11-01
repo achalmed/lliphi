@@ -11,31 +11,55 @@ el azul de WhiteSur, Inter y JetBrains Mono, generado desde una sola fuente de t
 
 ```bash
 python3 herramientas/instalar.py                                  # simula: qué respaldaría y copiaría
+python3 herramientas/instalar.py dependencias --aplicar           # Papirus, cursores WhiteSur y JetBrains Mono Nerd Font
 python3 herramientas/instalar.py --aplicar --aplicar-tema oscuro  # instala en ~/.local/share y aplica el tema
+python3 herramientas/instalar.py comprobar                        # todo instalado, de esta versión y reconocido por KDE
 python3 herramientas/instalar.py desinstalar --aplicar            # retira lo instalado
 bash ~/.local/state/lliphi/respaldos/<fecha>/UNDO.sh              # vuelve exactamente a lo de antes
 ```
 
-Requiere Plasma 6 (probado en 6.6) y Python ≥ 3.10; nunca pide `sudo`, salvo el inicio de sesión SDDM (`herramientas/instalar_sddm.py`, con pkexec). Para desarrollar:
+Requiere Plasma 6 (probado en 6.6) y Python ≥ 3.10; nunca pide `sudo`, salvo el inicio de sesión SDDM
+(`instalar.py sddm`, con pkexec). Para desarrollar:
 
 ```bash
 python3 -m venv .venv && .venv/bin/pip install -e ".[dev]"
-.venv/bin/python herramientas/paleta.py --aplicar     # tokens/tokens.json y contraste
+.venv/bin/python modulos/esquema/paleta.py --aplicar  # tokens/tokens.json y contraste
 .venv/bin/python herramientas/generar.py --aplicar    # generado/ y sitio/generado/
+.venv/bin/python herramientas/generar.py validar      # módulos, dependencias, estructura KDE e integración
 .venv/bin/pytest && .venv/bin/reuse lint              # pruebas y licencias
 quarto render sitio                                   # el sitio → sitio/_site
 ```
+
+## Arquitectura
+
+Un **tema global** que integra **seis módulos**, más los **complementos** que viven fuera del tema global, y un
+**núcleo** común de construcción, validación e instalación que los descubre por su `modulo.json`
+([`docs/arquitectura.md`](docs/arquitectura.md)).
+
+| módulo | id | entrega |
+|---|---|---|
+| Tema global (integrador) | `global` | `org.lliphi.claro`, `org.lliphi.oscuro` (`Plasma/LookAndFeel`) |
+| Esquema de color | `esquema` | `LliphiClaro.colors`, `LliphiOscuro.colors`; la paleta |
+| Estilo de Plasma | `estilo` | `lliphi-claro`, `lliphi-oscuro` (`Plasma/Theme`) |
+| Decoración de ventanas | `decoracion` | `lliphi`, `lliphi-claro` (Aurorae SVG) |
+| Iconos y cursores | `iconos-cursores` | Papirus, `Papirus-Dark-Lliphi`, WhiteSur-cursors (terceros, a petición) |
+| Carga, salida y bloqueo | `carga-bloqueo` | pantalla de carga y de salida (dentro del tema global); fondo del bloqueo |
+| Disposición del escritorio | `disposicion` | paneles y widgets (script dentro del tema global) |
+| Complementos | `fondos`, `kvantum`, `konsole`, `terminales`, `editores`, `libreoffice`, `sddm` | fondo, estilo de aplicaciones, terminales, editores, ofimática, inicio de sesión |
 
 ## Estructura
 
 | carpeta | qué es |
 |---|---|
-| `tokens/` | fuente de verdad: `tokens.json` (color en OKLCH, DTCG 2025.10; lo escribe `paleta.py`) y `marca.json` |
-| `herramientas/` | `paleta.py`, `generar.py` + `destinos/` (un generador por componente), `instalar.py`, `lamina.py`, `boceto.py` |
-| `generado/` | los módulos tal como se instalan; **no se edita**, `generar.py verificar` lo comprueba |
-| `modulos/` | un `modulo.json` + `INSTALL.md` por pieza publicable (de ahí sale el catálogo del sitio) |
-| `pruebas/` | tokens, contraste, deriva, estructura de paquetes, instalación reversible, REUSE |
-| `docs/` | entorno, investigación, análisis de los temas de partida, nombre, dirección artística, arquitectura, decisiones, compatibilidad, validación |
+| `tokens/` | fuente de verdad: `tokens.json` (color en OKLCH, DTCG 2025.10; lo escribe `modulos/esquema/paleta.py`) y `marca.json` |
+| `global/` | el tema global: manifiesto, construcción (integra), aplicación y tipografía |
+| `modulos/<id>/` | los seis módulos: `modulo.json`, `README.md`, `INSTALL.md`, `construir.py` y, si aplica, `aplicar.py` y `externas.py` |
+| `complementos/<id>/` | lo que no es parte del tema global, con el mismo contrato |
+| `herramientas/` | `generar.py` (construir, verificar, validar, empaquetar), `instalar.py` (instalar, aplicar, comprobar, desinstalar, dependencias, sddm), `nucleo/` y herramientas de muestras |
+| `fuentes/base/` | bases de terceros (WhiteSur-kde, Nothing) con su licencia y `ORIGEN.md` |
+| `generado/<id>/` | lo que entrega cada módulo, tal como se instala; **no se edita**, `generar.py verificar` lo comprueba |
+| `pruebas/` | tokens, contraste, deriva, estructura de paquetes, arquitectura, instalación reversible, REUSE |
+| `docs/` | arquitectura, migración modular, entorno, investigación, decisiones, compatibilidad, validación… |
 | `muestras/` | láminas, bocetos y `capturas/` reales por variante y caso |
 | `sitio/` | el sitio oficial (Quarto); `sitio/generado/` lo escribe `generar.py` |
 | `estado.md` | lo primero que se lee y lo último que se escribe en cada sesión de trabajo |
@@ -46,6 +70,7 @@ Primer lote (0.1.0): esquemas, temas globales, estilo de Plasma, Konsole y fondo
 Plasma 6.6 en Wayland desde una sesión anidada. Segundo lote (sin publicar): terminales (Alacritty, Kitty), editores
 (VS Code, Positron, VSCodium, Zed), LibreOffice e iconos de carpeta, generados y probados por estructura, sin
 verificación visual en las aplicaciones.
+La arquitectura modular (2026-10-31) instala exactamente lo mismo que 0.3.0, comprobado archivo a archivo.
 Pendientes: validación con inicio de sesión real (SDDM, bloqueo, escalas), GTK, cursores, navegador, publicación en
 KDE Store. Las vistas
 previas de los paquetes son capturas reales; los bocetos están rotulados como bocetos.

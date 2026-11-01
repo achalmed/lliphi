@@ -1,0 +1,53 @@
+{
+  "nombre": "Temas globales",
+  "resumen": "Dos paquetes look-and-feel que aplican esquema, estilo de Plasma, iconos, cursores, decoración y, si lo pides, la disposición del escritorio.",
+  "clase": "paquete",
+  "orden": 0,
+  "formato": "Plasma/LookAndFeel",
+  "tecnologia": "KPackage `Plasma/LookAndFeel`",
+  "estado": "probado",
+  "desde": "0.1.0",
+  "archivos": [
+    "org.lliphi.claro/",
+    "org.lliphi.oscuro/"
+  ],
+  "capturas": [
+    "../capturas/oscuro-02-lanzador.png",
+    "../capturas/claro-02-lanzador.png"
+  ],
+  "dependencias": {
+    "referencia": [
+      "esquema",
+      "estilo",
+      "decoracion",
+      "iconos-cursores",
+      "fondos",
+      "kvantum"
+    ],
+    "integra": [
+      "carga-bloqueo",
+      "disposicion"
+    ],
+    "herramientas": [
+      "plasma-apply-lookandfeel"
+    ],
+    "herramientas_opcionales": [
+      "kwriteconfig6",
+      "dbus-send"
+    ],
+    "terceros": [
+      "Inter (OFL-1.1; paquete fonts-inter de la distribución)",
+      "JetBrains Mono Nerd Font (OFL-1.1; ryanoasis/nerd-fonts)"
+    ]
+  },
+  "instalacion": [
+    {
+      "origen": "{id_global[claro]}",
+      "destino": "plasma/look-and-feel/{id_global[claro]}"
+    },
+    {
+      "origen": "{id_global[oscuro]}",
+      "destino": "plasma/look-and-feel/{id_global[oscuro]}"
+    }
+  ]
+}

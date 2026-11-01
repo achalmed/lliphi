@@ -1,0 +1,29 @@
+{
+  "nombre": "Disposición del escritorio",
+  "resumen": "Barra superior fina (lanzador, reloj, bandeja) y dock inferior flotante que se oculta bajo las ventanas, con el fondo de Lliphi en cada escritorio; selectores de ventanas y escritorios de Breeze.",
+  "clase": "componente",
+  "orden": 6,
+  "formato": "Plasma/LookAndFeel",
+  "tecnologia": "script de disposición de Plasma (`contents/layouts/org.kde.plasma.desktop-layout.js`, API de scripting de escritorio) dentro del tema global",
+  "estado": "probado",
+  "desde": "0.1.0",
+  "licencia": "MIT",
+  "archivos": [
+    "contents/layouts/org.kde.plasma.desktop-layout.js"
+  ],
+  "capturas": [
+    "../capturas/oscuro-01-escritorio.png"
+  ],
+  "dependencias": {
+    "referencia": [
+      "fondos"
+    ]
+  },
+  "integracion": {
+    "en": "global",
+    "rutas": [
+      "contents/layouts/org.kde.plasma.desktop-layout.js"
+    ]
+  },
+  "instalacion": []
+}

@@ -3,9 +3,13 @@ title: "Catálogo"
 subtitle: "Cada pieza del ecosistema, con su estado y su página"
 ---
 
-Un módulo es una pieza que se instala, se actualiza y se desinstala por separado. Estados: **probado** (visto en un
-escritorio real con capturas), **experimental** (instalado, sin verificación visual completa), **pendiente** (en la
-hoja de ruta). La tabla se genera del repositorio (`modulos/*/modulo.json`).
+Lliphi es un **tema global** que integra **seis módulos** (esquema de color, estilo de Plasma, decoración de ventanas,
+iconos y cursores, pantallas de carga, salida y bloqueo, y disposición del escritorio), más los **complementos** que
+viven fuera del tema global (fondo, Kvantum, terminales, editores, LibreOffice, inicio de sesión). Cada pieza se
+desarrolla, se instala y se desinstala por separado; la pantalla de carga y la disposición viajan dentro del tema
+global porque Plasma solo las lee de ahí. Estados: **probado** (visto en un escritorio real con capturas),
+**experimental** (instalado, sin verificación visual completa), **pendiente** (en la hoja de ruta). La tabla se genera
+del repositorio (el `modulo.json` de `global/`, `modulos/<id>/` y `complementos/<id>/`).
 
 {{< include generado/_catalogo-tabla.md >}}
 
@@ -13,10 +17,10 @@ hoja de ruta). La tabla se genera del repositorio (`modulos/*/modulo.json`).
 
 | pieza | cómo la cubre Lliphi |
 |---|---|
-| decoración de ventanas | Breeze, coloreada por el esquema (`[WM]` y `Colors:Header`). Aurorae se reescribió en Plasma 6.6; no se depende de él. |
 | aplicaciones GTK | Plasma genera el tema GTK desde el esquema (`breeze-gtk`): con el esquema de Lliphi aplicado, GTK 3 y 4 lo siguen. |
-| iconos y cursores | Breeze y `breeze_cursors`, que siguen el esquema. El módulo `iconos` cambia solo las carpetas y hereda el resto. |
-| Kvantum, estilos de widgets en C++ | no se usan: Breeze basta y no se rompe con cada Qt. |
+| interfaz del bloqueo de pantalla | En Plasma 6.6 es del paquete de shell de Plasma, no de un tema global; el módulo de carga, salida y bloqueo le pone el fondo de Lliphi, y los colores llegan por el esquema y el estilo. |
+| iconos y cursores | De terceros (Papirus, WhiteSur-cursors): el módulo de iconos y cursores los instala a petición y el tema global los nombra; Lliphi solo añade el superpuesto con las carpetas rojas. |
+| selectores de ventanas, OSD | Los de Breeze, heredados por `X-KDE-fallbackPackage`. |
 
 ## Hoja de ruta
 

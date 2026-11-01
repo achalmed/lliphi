@@ -1,0 +1,33 @@
+{
+  "nombre": "Inicio de sesión (SDDM)",
+  "resumen": "Pantalla de inicio de sesión derivada de WhiteSur-dark: fondo de Lliphi, Inter y foco en el acento. Es la única pieza que necesita root y no forma parte del tema global ni del bloqueo de pantalla.",
+  "clase": "paquete",
+  "orden": 7,
+  "formato": "SDDM",
+  "tecnologia": "tema de SDDM (`metadata.desktop` `[SddmGreeterTheme]`, QML de Qt 6) en `/usr/share/sddm/themes/` con `/etc/sddm.conf.d/99-lliphi.conf`",
+  "estado": "experimental",
+  "desde": "0.3.0",
+  "licencia": "GPL-3.0-or-later",
+  "archivos": [
+    "lliphi/"
+  ],
+  "capturas": [],
+  "dependencias": {
+    "construccion": [
+      "fondos"
+    ],
+    "bases": [
+      "fuentes/base/WhiteSur-kde"
+    ],
+    "python": [
+      "pillow"
+    ],
+    "herramientas": [
+      "pkexec"
+    ],
+    "herramientas_opcionales": [
+      "sddm-greeter-qt6"
+    ]
+  },
+  "instalacion": []
+}

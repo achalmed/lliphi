@@ -5,6 +5,7 @@ subtitle: "Dos paquetes look-and-feel que aplican esquema, estilo de Plasma, ico
 
 | | |
 |---|---|
+| papel | tema global (paquete) |
 | estado | **probado** |
 | tecnología | KPackage `Plasma/LookAndFeel` |
 | desde la versión | 0.1.0 |
@@ -43,7 +44,6 @@ El tema global **no instala** los esquemas, el estilo ni el fondo por sí solo: 
 
 ## Código, incidencias y cambios
 
-- Código: [`generado/look-and-feel`](https://github.com/achalmed/lliphi/tree/main/generado/look-and-feel) y su generador
-  [`herramientas/destinos/lookandfeel.py`](https://github.com/achalmed/lliphi/blob/main/herramientas/destinos/lookandfeel.py).
+- Código: [`global/`](https://github.com/achalmed/lliphi/tree/main/global) (manifiesto, fuente y su `README.md`); lo generado, en [`generado/global`](https://github.com/achalmed/lliphi/tree/main/generado/global).
 - Incidencias: [https://github.com/achalmed/lliphi/issues](https://github.com/achalmed/lliphi/issues?q=label%3Aglobal).
 - Cambios: [registro de cambios](../../cambios.qmd).

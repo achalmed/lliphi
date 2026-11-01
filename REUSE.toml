@@ -20,14 +20,14 @@ SPDX-License-Identifier = "CC-BY-SA-4.0"
 # Decoración Aurorae: deriva de WhiteSur-dark (vinceliuice) y Nothing (jomada), ambos GPL-3.0-or-later
 # (fuentes/aurorae/base/ORIGEN.md); la copia de partida y lo generado desde ella heredan la licencia.
 [[annotations]]
-path = ["fuentes/aurorae/**", "generado/aurorae/**"]
+path = ["fuentes/aurorae/**", "generado/decoracion/**"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = ["vinceliuice (WhiteSur-dark)", "jomada (Nothing)", "2026 Edison Achalma (adaptación a Lliphi)"]
 SPDX-License-Identifier = "GPL-3.0-or-later"
 
 # Pantallas de carga y de salida (mejora 6): derivan de las de WhiteSur-dark (vinceliuice; timer.js de David Edmundson)
 [[annotations]]
-path = ["generado/look-and-feel/*/contents/splash/**", "generado/look-and-feel/*/contents/logout/**"]
+path = ["generado/global/*/contents/splash/**", "generado/global/*/contents/logout/**"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = ["vinceliuice (WhiteSur-dark)", "2018 David Edmundson (timer.js)", "2026 Edison Achalma (adaptación a Lliphi)"]
 SPDX-License-Identifier = "GPL-3.0-or-later"

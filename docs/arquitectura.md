@@ -1,125 +1,209 @@
 ---
 tipo: doc
 estado: activo
-titulo: 'Arquitectura del repositorio (fase 5): fuente de verdad, generadores, módulos, instalación, pruebas y publicación'
+titulo: 'Arquitectura de Lliphi: tema global integrador, seis módulos, complementos y núcleo de construcción e instalación'
 ---
 # Arquitectura
 
-Fase 5 del encargo, 2026-10-18 (borrador hasta que el autor apruebe el nombre y la paleta). Las decisiones y su
-porqué están en `decisiones.md`; la mecánica de Plasma que las sostiene, en `investigacion.md` §2. El nombre
-«lliphi» es provisional (`tokens/marca.json`).
+Desde la reingeniería del 2026-10-31 (expediente: [`migracion-modular.md`](migracion-modular.md)); la arquitectura de
+la fase 5, hasta la versión 0.3.0, está en [`historial/arquitectura-0.3.md`](historial/arquitectura-0.3.md). Las
+decisiones de diseño visual y su porqué siguen en [`decisiones.md`](decisiones.md).
 
-## 1. Principio: una fuente, todo generado
+## 1. Principios
 
-```
-tokens/tokens.json  (DTCG 2025.10; lo escribe herramientas/paleta.py)
-tokens/marca.json   (nombre, ids, autor)
-        │
-        ▼  herramientas/generar.py  (un módulo por destino en herramientas/destinos/)
-generado/            ← nunca se edita; `herramientas/generar.py verificar` falla si difiere de lo que generaría
-  color-schemes/     LliphiClaro.colors, LliphiOscuro.colors
-  look-and-feel/     org.lliphi.claro/, org.lliphi.oscuro/   (metadata.json, contents/defaults, layouts, previews)
-  desktoptheme/      lliphi-claro/, lliphi-oscuro/           (metadata.json, colors, plasmarc, widgets/*.svg propios)
-  konsole/           Lliphi Claro.colorscheme, Lliphi Oscuro.colorscheme
-  wallpapers/        org.lliphi.sumaq/ (contents/images, images_dark, metadata.json con acento)
-  sitio/             datos del catálogo (JSON) que consume el sitio
-```
+1. **Una fuente, todo generado.** Los colores salen de `tokens/tokens.json` (lo escribe la paleta del módulo
+   `esquema`); lo que no sale de los tokens viene de bases de terceros con licencia (`fuentes/base/`). Lo que se
+   instala está en `generado/`, versionado para instalar sin herramientas, y nunca se edita a mano.
+2. **Cada módulo se describe a sí mismo.** Un `modulo.json` dice qué es, qué formato de KDE entrega, de quién depende
+   y qué se instala dónde; el núcleo lo descubre. No hay tablas de módulos que mantener a la par.
+3. **El tema global integra; no duplica.** Declara los componentes por su identificador y solo lleva dentro lo que KDE
+   exige que esté dentro (pantallas de carga y salida, disposición).
+4. **Cada pieza en el mecanismo de KDE que le corresponde.** Un esquema de color no es un KPackage; un estilo de Plasma
+   no lleva `KPackageStructure`; el bloqueo de pantalla no es del tema global (§3).
+5. **Desarrollo e instalación separados.** Todo el desarrollo vive en el repositorio; `~/.local/share`, `~/.config` y
+   `/usr/share` son solo destinos. Simular por omisión, respaldar con sumas, `UNDO.sh` siempre.
 
-Lo que no sale de los tokens (los SVG dibujados a mano, los fondos, los QML si algún día los hay) vive en
-`fuentes/` y el generador lo copia o lo parametriza. Los tres estratos no se mezclan: **fuentes** (originales,
-editables), **generado** (derivados, versionados para que el usuario pueda instalar sin herramientas) y
-**artefactos de publicación** (`dist/`: tarballs para KDE Store, no versionados).
-
-## 2. Árbol del repositorio
+## 2. Mapa
 
 ```
-lliphi/
-├── README.md · LICENSE · LICENSES/ · REUSE.toml · CHANGELOG.md · CITATION.cff · CONTRIBUTING.md
-├── estado.md                 (traspaso entre sesiones, regla 10 del ecosistema; no se publica en el sitio)
-├── pyproject.toml            (herramientas y pruebas; sin dependencias de pago)
-├── tokens/                   tokens.json (generado por paleta.py) · marca.json
-├── herramientas/             paleta.py · generar.py · destinos/{esquema,lookandfeel,desktoptheme,konsole,fondo,sitio}.py
-│                             · lamina.py · instalar.py · capturas.py
-├── fuentes/                  svg/ (SVG propios del estilo de Plasma) · fondos/ (originales) · marca/ (logotipo)
-├── generado/                 (ver §1)
-├── modulos/                  un INSTALL.md + manifiesto por pieza publicable (lo lee el sitio)
-├── pruebas/                  test_tokens.py · test_contraste.py · test_generado.py · test_instalar.py · test_sitio.py
-├── docs/                     entorno · investigacion · analisis-temas-de-partida · nombre · direccion-artistica
-│                             · arquitectura · decisiones · compatibilidad · instalar (tutorial) · personalizar (guía)
-│                             · referencia (tokens, módulos) · historial/
-├── muestras/                 láminas y capturas reales por variante y caso
-├── sitio/                    sitio oficial (Quarto, mismo motor que el hub del autor) → _site/
-└── dist/                     (no versionado) tarballs por módulo y versión
+                         tokens/ (paleta, marca) ◄── modulos/esquema/paleta.py
+                                  │
+        ┌─────────────────────────┼──────────────────────────────────────────┐
+        ▼                         ▼                                          ▼
+  modulos/ (los seis)       global/ (integrador)                   complementos/ (fuera del tema global)
+  esquema ─────────── id ───►┐                                      fondos ── id ──►┐  (imagen ► carga-bloqueo, sddm)
+  estilo ──────────── id ───►│ contents/defaults                    kvantum ── id ─►│
+  decoracion ──────── id ───►│   (valores() de cada módulo)         konsole · terminales · editores
+  iconos-cursores ─── id ───►│                                      libreoffice · sddm
+  carga-bloqueo ── archivos ►│ contents/splash, contents/logout
+  disposicion ──── archivos ►│ contents/layouts
+                             ▼
+        herramientas/nucleo/: registro · construccion · validacion · instalacion · sitio
+                │                                   │
+   generar.py: construir, verificar,      instalar.py: instalar, aplicar, comprobar,
+   validar, lista, empaquetar             estado, desinstalar, dependencias, sddm
+                │                                   │
+                ▼                                   ▼
+   generado/<id>/  ·  sitio/generado/  ·  dist/     ~/.local/share/{color-schemes,plasma/…,aurorae/themes,wallpapers,…}
+                                                    ~/.config/{Kvantum,alacritty,kitty,zed}  ·  /usr/share/sddm (pkexec)
 ```
 
-## 3. Módulos
+## 3. Componentes
 
-Cada módulo tiene un identificador, una carpeta en `generado/`, un `modulos/<id>/INSTALL.md` (instalación,
-actualización y desinstalación a mano), su entrada en la matriz de compatibilidad, su prueba y su estado
-(implementado, probado, experimental, pendiente). La versión del proyecto es una (SemVer en `CHANGELOG.md`);
-cada módulo declara desde qué versión existe.
+### 3.1 El tema global (`global/`)
 
-| id | qué entrega | tecnología | estado al nacer | lote |
+Dos paquetes `Plasma/LookAndFeel` (`org.lliphi.claro`, `org.lliphi.oscuro`) que se aplican con Preferencias del sistema
+→ Tema global o `plasma-apply-lookandfeel`. Responsabilidades: metadatos, la tipografía, la composición de
+`contents/defaults` con lo que aporta cada módulo (`valores()`), la integración de los componentes (`integrar()`), las
+vistas previas, la aplicación en la sesión (`aplicar.py`) y la lista de configuración que se respalda. Hereda de Breeze
+(`X-KDE-fallbackPackage`) lo que no trae. Detalle: [`global/README.md`](../global/README.md).
+
+### 3.2 Los seis módulos (`modulos/`)
+
+| encargo | id | clase | entrega | formato y destino |
 |---|---|---|---|---|
-| `esquema` | `LliphiClaro.colors`, `LliphiOscuro.colors` | KColorScheme | implementado (fase 4) | 1 |
-| `global` | `org.lliphi.claro`, `org.lliphi.oscuro` (look-and-feel con `X-KDE-fallbackPackage=org.kde.breeze.desktop`) | KPackage Plasma/LookAndFeel | pendiente | 1 |
-| `estilo` | `lliphi-claro`, `lliphi-oscuro` (desktoptheme mínimo: `colors`, `plasmarc`, SVG propios solo donde Breeze no basta: panel, diálogos, tooltip) | Plasma SVG | pendiente | 1 |
-| `konsole` | dos `.colorscheme` con paleta ANSI derivada y ≥ 4.5:1 | Konsole | pendiente | 1 |
-| `fondos` | un paquete con `images/` e `images_dark/` y acento declarado | KPackage Wallpaper | pendiente | 1 |
-| `decoracion` | ninguna propia: Breeze coloreada por `[WM]` y `Colors:Header` | KDecoration | implementado por herencia | 1 |
-| `gtk` | ninguna propia: `breeze-gtk` genera desde el esquema; documentación de lo que ocurre | kde-gtk-config | implementado por herencia | 1 |
-| `iconos` | `lliphi`, `lliphi-oscuro`: solo carpetas (y lugares) en el acento, heredan el resto de Breeze | freedesktop | implementado (lote 2) | 3 |
-| `cursores` | herencia de `breeze_cursors`; módulo propio solo si aporta | freedesktop | pendiente | 3 |
-| `aurorae` | solo en SVG (V2) y solo si Breeze no basta | Aurorae V2 | pendiente | 3 |
-| `terminales` | Alacritty (`[colors]` TOML) y Kitty (`.conf`), claro y oscuro, desde el grupo `terminal` | varias | implementado (lote 2) | 2 |
-| `editores` | extensión mínima de VS Code y tema de Zed; sintaxis desde los ANSI con una tabla única | varias | implementado (lote 2) | 2 |
-| `libreoffice` | dos esquemas de «Colores de la aplicación» (91 entradas de LibreOffice 26.2) como `.oxt` reproducible y fragmentos `.xcu`; BASIC y SQL con la tabla de los editores | varias | implementado (lote 2) | 2 |
-| `kvantum`, `navegadores` (Zen/Firefox), `productividad`, `ciencia` (RStudio, Positron, JupyterLab, matplotlib) | archivos por aplicación generados de los tokens | varias | pendiente | 2–4 |
-| `sddm`, `plymouth` | con confirmación explícita y root | SDDM, Plymouth | pendiente | 4 |
+| Color Scheme | `esquema` | paquete | `LliphiClaro.colors`, `LliphiOscuro.colors`; la paleta (`tokens/tokens.json`) | KColorScheme, `color-schemes/` |
+| Plasma Style | `estilo` | paquete | `lliphi-claro`, `lliphi-oscuro` | `Plasma/Theme`, `plasma/desktoptheme/` |
+| Window Decoration | `decoracion` | paquete | `lliphi`, `lliphi-claro` | `KWin/Aurorae` (SVG V2), `aurorae/themes/` |
+| Icons & Cursors | `iconos-cursores` | externo | Papirus y `Papirus-Dark-Lliphi`; WhiteSur-cursors (Bibata opcional) | freedesktop, `icons/` |
+| Splash & Lockscreen | `carga-bloqueo` | componente | `contents/splash/`, `contents/logout/`; fondo del bloqueo | dentro del `Plasma/LookAndFeel`; `kscreenlockerrc` |
+| Desktop Layout | `disposicion` | componente | `contents/layouts/org.kde.plasma.desktop-layout.js`; selectores de KWin | dentro del `Plasma/LookAndFeel` |
 
-## 4. Instalación, actualización, desinstalación
+**Clases.** Un *paquete* entrega archivos propios en `generado/<id>/` y los instala en su sitio de KDE. Un
+*componente* no tiene paquete propio porque KDE solo lo lee de dentro del tema global: lo desarrolla su módulo y el tema
+global lo integra al construirse. Un módulo *externo* gestiona recursos de terceros que no se redistribuyen: los
+instala a petición (`externas.py`) y aporta sus identificadores.
 
-`herramientas/instalar.py` (Python 3.10+, sin dependencias fuera de la biblioteca estándar; también se publica
-`instalar.sh` que lo llama):
+**Bloqueo de pantalla y SDDM.** En Plasma 6.6 la interfaz del bloqueo la carga `kscreenlocker_greet` del paquete de
+shell (`plasma/shells/org.kde.plasma.desktop/contents/lockscreen/`), no del tema global: lo que un tema controla es el
+fondo del bloqueo (`kscreenlockerrc`) y sus colores. El inicio de sesión es SDDM, otro programa y otro formato, fuera de
+la sesión del usuario y con root: es el complemento `sddm`, no parte de `carga-bloqueo`.
 
-- **simula por defecto**; `--aplicar` escribe; `--modulos esquema,global,…` elige; `--variante claro|oscuro|ambas`;
-- escribe solo en `$XDG_DATA_HOME` (`~/.local/share`) y `$XDG_CONFIG_HOME` (`~/.config`); nunca en `/usr`;
-- comprueba dependencias (`kpackagetool6`, `plasma-apply-*`, versión de Plasma ≥ 6.2 por `plasmashell --version`);
-- **respalda** antes de tocar: `kdeglobals`, `plasmarc`, `kwinrc`, `kcminputrc`, `ksplashrc`, `gtk-3.0/settings.ini`,
-  `gtk-4.0/settings.ini`, `plasma-org.kde.plasma.desktop-appletsrc`, en `~/.local/state/lliphi/respaldos/<fecha>/`,
-  con suma SHA-256 verificada, y deja ahí un `UNDO.sh` que restaura byte a byte y desinstala;
-- no pisa archivos ajenos: si existe un paquete con el mismo `Id` y no es de Lliphi (manifiesto propio), se detiene;
-- `--aplicar-tema` aplica con `plasma-apply-lookandfeel` (sin `--resetLayout` salvo `--disposicion`);
-- `desinstalar` elimina lo instalado según el manifiesto `~/.local/state/lliphi/instalado.json` y restaura;
-- `actualizar` = desinstalar lo de la versión anterior + instalar la nueva, conservando los respaldos.
+### 3.3 Complementos (`complementos/`)
 
-## 5. Verificación
+Lo que existía y no es parte de un `Plasma/LookAndFeel`: `fondos` (`Wallpaper/Images`; el tema global lo nombra y su
+imagen la usan `carga-bloqueo` y `sddm`), `kvantum` (estilo de aplicaciones; el tema global nombra `widgetStyle`),
+`konsole`, `terminales`, `editores`, `libreoffice` y `sddm`.
 
-| prueba | qué comprueba |
+### 3.4 Lo compartido
+
+`tokens/` (contrato de color y marca), `fuentes/base/` (WhiteSur-kde y Nothing con su licencia y `ORIGEN.md`),
+`muestras/` (capturas reales, láminas y bocetos; de ahí salen las vistas previas), `sitio/` (Quarto; el catálogo se
+genera desde los manifiestos) y `herramientas/{lamina,boceto,comparar,contacto}.py` (muestras).
+
+## 4. Contrato de un módulo
+
+```
+<raíz>/<id>/            raíz: global/ (solo el tema global), modulos/ o complementos/
+├── modulo.json         obligatorio
+├── README.md           obligatorio: responsabilidad, formato, estructura, dependencias, cómo desarrollarlo
+├── INSTALL.md          obligatorio: instalar, actualizar y desinstalar a mano (lo publica el sitio)
+├── construir.py        paquete: generar(); componente: integrar(); opcional: valores()
+├── aplicar.py          opcional: aplicar(ctx) y respaldos(ctx)
+├── externas.py         externo (y quien tenga terceros): instalar(aplicar, opcionales)
+└── …                   fuentes propias (p. ej. escritorio.js de disposicion)
+```
+
+`modulo.json`:
+
+| clave | qué |
 |---|---|
-| `test_tokens.py` | `tokens.json` válido (DTCG: `$type`, `$value`, sin alias rotos); los ids de `marca.json` son ASCII |
-| `test_contraste.py` | los 25 pares de `paleta.py` en las dos variantes (1.4.3 y 1.4.11) |
-| `test_generado.py` | `generar.py verificar`: lo versionado en `generado/` coincide con una generación nueva; ningún hex fuera del maestro; sintaxis de `.colors`, `metadata.json`, `plasmarc`, `.colorscheme`; SVG bien formados y con `hint-*` |
-| `test_instalar.py` | instalación en un `HOME` temporal: simula, aplica, verifica rutas, desinstala y compara el `HOME` antes y después |
-| `test_licencias.py` | `reuse lint` en verde; ningún archivo de `fuentes/` sin cabecera o `.license` |
-| `test_sitio.py` | el sitio renderiza, sin enlaces rotos, catálogo = módulos |
-| manual (fase 7) | capturas reales por variante y caso en `muestras/`, con el usuario `prueba-tema` |
+| `nombre`, `resumen`, `tecnologia`, `estado`, `desde`, `licencia`, `archivos`, `capturas` | ficha del catálogo del sitio; `archivos` se valida contra lo generado |
+| `clase` | `paquete` · `componente` · `externo` |
+| `orden` | posición dentro de su raíz (orden de aplicación y del catálogo) |
+| `formato` | `Plasma/LookAndFeel`, `KColorScheme`, `Plasma/Theme`, `KWin/Aurorae`, `Wallpaper/Images`, `Kvantum`, `Konsole`, `SDDM`, `freedesktop` o `varios`: decide qué comprueba `validar` |
+| `dependencias.construccion` | módulos cuyo código usa al construirse (`registro.codigo("<id>")`); la validación rechaza los no declarados |
+| `dependencias.integra` | solo el tema global: los componentes que lleva dentro |
+| `dependencias.referencia` | módulos cuyos identificadores declara (lo que el tema global nombra) |
+| `dependencias.herramientas` / `herramientas_opcionales` | órdenes del sistema obligatorias para instalar / que mejoran la aplicación |
+| `dependencias.python`, `terceros`, `bases` | Pillow, coloraide; paquetes de terceros; bases de `fuentes/base/` |
+| `integracion` | componente: `{"en": "global", "rutas": [...]}` que deben quedar dentro del paquete |
+| `instalacion` | paquete: `[{"origen", "destino", "base"}]`; `origen` relativo a `generado/<id>/`, `destino` a la base (`data`, `config`, `vscode`, `positron`, `vscodium`); admiten `{id}`, `{id_esquema[claro]}`… de `tokens/marca.json` |
 
-## 6. Publicación
+Funciones:
 
-- `CHANGELOG.md` (Keep a Changelog), etiquetas anotadas `v0.1.0`, GitHub Releases con los tarballs de `dist/`
-  (`herramientas/generar.py empaquetar`), notas de versión generadas del CHANGELOG.
-- KDE Store: una ficha por módulo publicable (global claro y oscuro, esquemas, Konsole, fondos), con `Source` al
-  repositorio; el autor sube a mano (fase 9).
-- Integración continua (GitHub Actions): `pytest`, `reuse lint`, `generar.py verificar`, render del sitio.
+- `generar(tokens, marca, destino) -> list[Path]`: escribe la salida del paquete bajo `destino` (= `generado/<id>/`).
+- `integrar(tokens, marca, variante, paquete, hechos)`: escribe dentro del paquete del tema global de la variante.
+- `valores(marca, variante) -> {"archivo][grupo": {clave: valor}}`: lo que aporta a `contents/defaults`; cada clave
+  tiene un solo dueño.
+- `aplicar(ctx) -> int`: lo que hace en la sesión con `--aplicar-tema`; `ctx` da `variante`, `modulos`, `marca`,
+  `tokens`, `DATA`, `CONFIG`, `kwrite()`, `ejecutar()`, `hay()`, `decir()` y `codigo()`. Distinto de 0 detiene la aplicación.
+- `respaldos(ctx) -> [(ruta, "reponer"|"completar", rótulo)]`: qué copiar antes de instalar y cómo devolverlo en `UNDO.sh`.
 
-## 7. Diagrama C4
+## 5. Construcción (`herramientas/generar.py`)
 
-Contexto: el **autor** (diseña, aprueba, publica) y el **usuario de Plasma** (instala, aplica, desinstala) usan el
-**repositorio Lliphi**; este lee la **documentación de KDE** y escribe en **Plasma 6** (archivos de usuario), en
-**GitHub** (código y versiones), en **KDE Store** (fichas) y en **Netlify** (sitio), y se enlaza con el **hub
-`achalmaedison.netlify.app`**.
+```bash
+.venv/bin/python herramientas/generar.py                       # simula: construye en temporal y dice qué cambiaría
+.venv/bin/python herramientas/generar.py --aplicar             # escribe generado/ y sitio/generado/
+.venv/bin/python herramientas/generar.py --modulos estilo,global [--aplicar]
+.venv/bin/python herramientas/generar.py verificar             # 1 si lo versionado difiere de una construcción nueva
+.venv/bin/python herramientas/generar.py validar               # §7
+.venv/bin/python herramientas/generar.py lista                 # módulos, clase, formato, dependencias
+.venv/bin/python herramientas/generar.py empaquetar            # dist/: un tarball por paquete, SHA256SUMS, notas, ficha
+```
 
-Contenedores del repositorio: *tokens* (JSON) → *generadores* (Python) → *generado* (paquetes de Plasma, esquemas,
-Konsole, fondos) → *instalador* (Python/Bash) → *escritorio del usuario*; en paralelo, *pruebas* (pytest, reuse)
-y *sitio* (Quarto) que lee *modulos/* y *generado/sitio/*.
+El registro ordena la construcción por dependencias (`construccion` e `integra`; un ciclo es error). Pedir un
+componente construye el tema global que lo integra; un externo no construye nada. `verificar` también señala carpetas de
+`generado/` que no son de ningún módulo. Requisitos: Python ≥ 3.10 (3.11 para `validar`), Pillow para fondos, pantallas
+y SDDM, coloraide para la paleta (`pip install -e ".[dev]"`).
+
+## 6. Instalación, aplicación y desinstalación (`herramientas/instalar.py`)
+
+```bash
+python3 herramientas/instalar.py                                   # simula
+python3 herramientas/instalar.py --aplicar [--modulos esquema,konsole]
+python3 herramientas/instalar.py --aplicar --aplicar-tema oscuro   # además aplica en la sesión
+python3 herramientas/instalar.py dependencias [--aplicar] [--opcionales]
+python3 herramientas/instalar.py comprobar | estado | desinstalar [--aplicar] | sddm [--aplicar]
+bash ~/.local/state/lliphi/respaldos/<fecha>/UNDO.sh                # vuelve exactamente a lo de antes
+```
+
+1. Comprueba Plasma ≥ 6 y las `herramientas` de lo que va a instalar (sale 2 si falta algo).
+2. Calcula los pares origen → destino de los manifiestos; omite y avisa las bases condicionales sin su editor.
+3. Se detiene (sale 3) si un destino tiene algo que no instaló Lliphi y no es idéntico.
+4. Respalda lo que declaran los `respaldos()` de todos los módulos con su SHA-256 verificada.
+5. Copia, anota `instalado.json` (rutas normalizadas, sumas, módulos, respaldo) y escribe `UNDO.sh`.
+6. Con `--aplicar-tema`: `aplicar()` del tema global (si `plasma-apply-lookandfeel` falla, no sigue) y después el de
+   cada módulo en el orden del registro; los componentes y externos del tema global se aplican siempre con él.
+
+`comprobar` (sale 4 si falta algo): cada ruta del manifiesto existe y es igual a `generado/`; KDE reconoce cada
+paquete (`kpackagetool6 --type <tipo> --show <id>` para tema global, estilo y decoración; los fondos no se resuelven
+así ni los del sistema); los temas de iconos y cursores y las tipografías que nombra el tema global existen (aviso).
+`desinstalar` retira lo del manifiesto, no lo de terceros. Nada de esto usa rutas absolutas del repositorio: todo
+cuelga de la raíz del proyecto y de las variables XDG.
+
+## 7. Validación y pruebas
+
+`generar.py validar` comprueba, para los catorce módulos: el manifiesto completo y coherente con su clase; que existan
+`README.md`, `INSTALL.md`, las capturas y las bases; dependencias existentes, sin ciclos y declaradas para todo
+`registro.codigo()`; cada origen de `instalacion` en `generado/`; la estructura real de lo generado según `formato`
+(§1.1 de `migracion-modular.md`: `KPackageStructure` donde corresponde, `KPlugin.Id` = carpeta, `Version` = `VERSION`,
+`[General] ColorScheme` = nombre, `X-Plasma-API`, SVG bien formados, `[SddmGreeterTheme]` con su `MainScript`…); y la
+**integración**: cada identificador de `contents/defaults` (esquema, estilo, decoración con `aurorae.v2`, fondo, Kvantum,
+iconos, cursores, pantalla de carga) existe en el módulo que lo entrega y cada ruta de cada componente está dentro del
+paquete. Avisa si aparece un `contents/lockscreen/` (Plasma 6.6 lo ignoraría).
+
+`pytest` (32 pruebas): tokens y contraste, deriva, estructura de cada formato, la línea base de los esquemas, la
+arquitectura (registro, validación en verde y con fallos provocados, composición de `defaults`, componentes, orden de
+dependencias), la instalación reversible en un `HOME` temporal con `comprobar`, `UNDO.sh` y el manifiesto heredado de
+0.3.0, Kvantum con `XDG_CONFIG_HOME` no estándar, los atajos de compatibilidad y `reuse lint`. La CI corre paleta,
+`verificar`, `validar`, `pytest`, `reuse lint` y el render del sitio. La validación visual se hace en una sesión de Plasma
+anidada (`validacion.md` §5–§9).
+
+## 8. Desarrollar o modificar un módulo
+
+1. Lee su `README.md`. Cambia su fuente (su `construir.py`, `escritorio.js`, la paleta…), nunca `generado/`.
+2. `generar.py --modulos <id>` para ver qué cambia; `--aplicar` para escribirlo; `validar` y `pytest`.
+3. Instálalo solo a él (`instalar.py --modulos <id> --aplicar`) y, si aporta a la sesión, pruébalo en una sesión anidada.
+4. Si cambia un identificador, cambia el `valores()` del dueño: el tema global lo recoge solo.
+5. Captura real a `muestras/capturas/` y fila en `compatibilidad.md`.
+
+**Un módulo nuevo**: carpeta en `modulos/` o `complementos/` con el contrato del §4; si el tema global lo nombra,
+añádelo a su `dependencias.referencia`; si va dentro del paquete, `clase: componente` e `integracion.en: global`, y a
+`dependencias.integra`. Sin tocar el núcleo, el instalador ni el sitio: los tres lo descubren.
+
+## 9. Compatibilidad
+
+Comprobado en Plasma 6.6.6 (Kubuntu 26.04, Wayland, KF 6.24, Qt 6.10). Lo que depende de la versión: el motor SVG V2 de
+Aurorae (`org.kde.kwin.aurorae.v2`, 6.6), `images_dark/` en los fondos (6.6), el bloqueo en el paquete de shell. Matriz
+completa por componente en [`compatibilidad.md`](compatibilidad.md).

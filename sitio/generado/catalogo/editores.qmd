@@ -5,6 +5,7 @@ subtitle: "Temas claro y oscuro para VS Code y sus derivados Positron y VSCodium
 
 | | |
 |---|---|
+| papel | complemento (paquete) |
 | estado | **experimental** |
 | tecnología | VS Code color theme (`colors`, `tokenColors`, `semanticTokenColors`), leído también por Positron (`~/.positron/extensions/`) y VSCodium (`~/.vscode-oss/extensions/`) · Zed theme v0.2.0 |
 | desde la versión | 0.2.0 |
@@ -66,7 +67,6 @@ El instalador (`desinstalar`) hace lo segundo y no toca los `settings.json`, que
 
 ## Código, incidencias y cambios
 
-- Código: [`generado/editores`](https://github.com/achalmed/lliphi/tree/main/generado/editores) y su generador
-  [`herramientas/destinos/editores.py`](https://github.com/achalmed/lliphi/blob/main/herramientas/destinos/editores.py).
+- Código: [`complementos/editores/`](https://github.com/achalmed/lliphi/tree/main/complementos/editores) (manifiesto, fuente y su `README.md`); lo generado, en [`generado/editores`](https://github.com/achalmed/lliphi/tree/main/generado/editores).
 - Incidencias: [https://github.com/achalmed/lliphi/issues](https://github.com/achalmed/lliphi/issues?q=label%3Aeditores).
 - Cambios: [registro de cambios](../../cambios.qmd).

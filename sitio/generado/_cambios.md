@@ -3,7 +3,29 @@ Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión de
 
 ## [Unreleased]
 
+### Changed
+- **Arquitectura modular** (docs/arquitectura.md, docs/migracion-modular.md): un tema global integrador (`global/`), seis
+  módulos (`modulos/`: `esquema`, `estilo`, `decoracion`, `iconos-cursores`, `carga-bloqueo`, `disposicion`) y los
+  complementos fuera del tema global (`complementos/`: `fondos`, `kvantum`, `konsole`, `terminales`, `editores`,
+  `libreoffice`, `sddm`). Cada uno se describe en su `modulo.json` y tiene su `README.md`; el núcleo
+  (`herramientas/nucleo/`) los descubre, así que desaparecen las tres tablas de módulos de `generar.py` e `instalar.py`.
+- El tema global compone `contents/defaults` con lo que aporta cada módulo e integra la pantalla de carga, la de salida
+  y la disposición, que KDE solo lee de dentro del paquete; ya no escribe identificadores ajenos.
+- `generado/` se ordena por módulo (`generado/<id>/`, lo mismo que va en su tarball). Lo que se instala no cambia: los
+  181 archivos instalados son idénticos a los de 0.3.0.
+- La paleta pasa a `modulos/esquema/paleta.py`; las dependencias de terceros, a los `externas.py` de `global` (tipografía) e
+  `iconos-cursores` (iconos y cursores); el inicio de sesión, a `complementos/sddm/`.
+
+### Added
+- `generar.py validar`: manifiestos, dependencias sin ciclos y declaradas, estructura real de cada formato de KDE y que
+  cada identificador que declara el tema global exista en el módulo que lo entrega; `generar.py lista`.
+- `instalar.py comprobar` (lo instalado está completo, es de esta versión y `kpackagetool6` lo reconoce),
+  `instalar.py dependencias` e `instalar.py sddm`; `dependencias.py` e `instalar_sddm.py` quedan como atajos.
+- Nueve pruebas de la arquitectura (33 en total) y el paso `validar` en la integración continua.
+
 ### Fixed
+- Kvantum se instalaba en `$XDG_DATA_HOME/../../.config/Kvantum`, que falla si las rutas XDG no son las de omisión;
+  ahora va a `$XDG_CONFIG_HOME/Kvantum`, y un manifiesto de 0.3.0 con la ruta antigua se sigue reconociendo.
 - El instalador respalda las notas del widget de Plasma (`~/.local/share/plasma_notes`) y `UNDO.sh` las devuelve: si un
   cambio de disposición quita el widget, Plasma borra su nota.
 

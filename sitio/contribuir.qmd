@@ -7,20 +7,22 @@ subtitle: "Informar, proponer, programar: qué se acepta y cómo se comprueba"
 
 Abre una [incidencia](https://github.com/achalmed/lliphi/issues) con: distribución y versión de Plasma
 (`plasmashell --version`), sesión (Wayland o X11), la variante (clara u oscura), qué esperabas, qué pasó y una
-captura. Si es de un módulo, nómbralo (esquema, global, estilo, konsole, fondos).
+captura. Si es de un módulo, nómbralo por su id (`global`, `esquema`, `estilo`, `decoracion`, `iconos-cursores`,
+`carga-bloqueo`, `disposicion`, o un complemento: `fondos`, `kvantum`, `konsole`…; lista en el [catálogo](catalogo.qmd)).
 
 ## Proponer un cambio de diseño
 
 Primero una incidencia con la propuesta y, si puedes, una captura o boceto. Los cambios de paleta pasan por
-`herramientas/paleta.py`: toda propuesta debe seguir dando 4.5:1 en texto y 3:1 en foco y controles.
+`modulos/esquema/paleta.py`: toda propuesta debe seguir dando 4.5:1 en texto y 3:1 en foco y controles.
 
 ## Programar
 
 ```bash
 git clone https://github.com/achalmed/lliphi.git && cd lliphi
 python3 -m venv .venv && .venv/bin/pip install -e ".[dev]"
-.venv/bin/python herramientas/paleta.py --aplicar     # tokens
+.venv/bin/python modulos/esquema/paleta.py --aplicar # tokens
 .venv/bin/python herramientas/generar.py --aplicar    # todo lo generado
+.venv/bin/python herramientas/generar.py validar      # módulos, dependencias, estructura KDE e integración
 .venv/bin/pytest                                      # pruebas
 .venv/bin/reuse lint                                  # licencias
 ```
@@ -31,8 +33,10 @@ Reglas:
   `test_generado_sin_deriva`) rechaza ediciones a mano en `generado/` y `sitio/generado/`.
 - **Ningún color fuera de los tokens**: la prueba `test_ningun_hex_fuera_del_maestro` lo vigila.
 - **Nada de terceros**: ni SVG, ni iconos, ni código copiado de otros temas. Todo archivo lleva su licencia (REUSE).
-- **Un módulo nuevo** es una carpeta en `modulos/<id>/` con `modulo.json` e `INSTALL.md`, un generador en
-  `herramientas/destinos/`, su entrada en `MODULOS` del instalador, su prueba y su fila en la matriz de compatibilidad.
+- **Un módulo nuevo** es una carpeta en `modulos/<id>/` o `complementos/<id>/` con `modulo.json`, `README.md`,
+  `INSTALL.md` y `construir.py` (el contrato está en `docs/arquitectura.md` §4), su prueba y su fila en la matriz de
+  compatibilidad. El núcleo, el instalador y este sitio lo descubren por su manifiesto: no hay tablas que tocar.
+- **Cada módulo se desarrolla aparte**: su `README.md` dice qué es suyo, de quién depende y cómo probarlo.
 - Mensajes de commit en español, con [Conventional Commits](https://www.conventionalcommits.org/es/).
 
 ## Criterios de aceptación de una pieza

@@ -5,6 +5,7 @@ subtitle: "Los mismos dieciséis colores ANSI, fondo, selección y cursor de Kon
 
 | | |
 |---|---|
+| papel | complemento (paquete) |
 | estado | **experimental** |
 | tecnología | Alacritty `[colors]` (TOML, ≥ 0.13) · Kitty `.conf` |
 | desde la versión | 0.2.0 |
@@ -48,7 +49,6 @@ pero no toca `alacritty.toml` ni `kitty.conf`, que son tuyos.
 
 ## Código, incidencias y cambios
 
-- Código: [`generado/terminales`](https://github.com/achalmed/lliphi/tree/main/generado/terminales) y su generador
-  [`herramientas/destinos/terminales.py`](https://github.com/achalmed/lliphi/blob/main/herramientas/destinos/terminales.py).
+- Código: [`complementos/terminales/`](https://github.com/achalmed/lliphi/tree/main/complementos/terminales) (manifiesto, fuente y su `README.md`); lo generado, en [`generado/terminales`](https://github.com/achalmed/lliphi/tree/main/generado/terminales).
 - Incidencias: [https://github.com/achalmed/lliphi/issues](https://github.com/achalmed/lliphi/issues?q=label%3Aterminales).
 - Cambios: [registro de cambios](../../cambios.qmd).

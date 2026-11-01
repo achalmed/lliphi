@@ -2,131 +2,378 @@
   "version": "0.3.0",
   "modulos": [
     {
-      "nombre": "Decoración de ventanas",
-      "resumen": "Dos temas Aurorae (oscuro y claro) con el marco, los radios y la sombra de WhiteSur y los botones circulares de Nothing, recoloreados con los tokens: barra de 30 px con el título centrado, botones a la derecha, cerrar en el acento y el resto en gris; sin semáforo.",
+      "nombre": "Temas globales",
+      "resumen": "Dos paquetes look-and-feel que aplican esquema, estilo de Plasma, iconos, cursores, decoración y, si lo pides, la disposición del escritorio.",
+      "clase": "paquete",
+      "orden": 0,
+      "formato": "Plasma/LookAndFeel",
+      "tecnologia": "KPackage `Plasma/LookAndFeel`",
       "estado": "probado",
-      "tecnologia": "Aurorae SVG (motor V2 de Plasma 6.6, `kwin-style-aurorae`); derivado de WhiteSur-dark y Nothing, GPL-3.0-or-later",
+      "desde": "0.1.0",
+      "archivos": [
+        "org.lliphi.claro/",
+        "org.lliphi.oscuro/"
+      ],
+      "capturas": [
+        "../capturas/oscuro-02-lanzador.png",
+        "../capturas/claro-02-lanzador.png"
+      ],
+      "dependencias": {
+        "referencia": [
+          "esquema",
+          "estilo",
+          "decoracion",
+          "iconos-cursores",
+          "fondos",
+          "kvantum"
+        ],
+        "integra": [
+          "carga-bloqueo",
+          "disposicion"
+        ],
+        "herramientas": [
+          "plasma-apply-lookandfeel"
+        ],
+        "herramientas_opcionales": [
+          "kwriteconfig6",
+          "dbus-send"
+        ],
+        "terceros": [
+          "Inter (OFL-1.1; paquete fonts-inter de la distribución)",
+          "JetBrains Mono Nerd Font (OFL-1.1; ryanoasis/nerd-fonts)"
+        ]
+      },
+      "id": "global",
+      "rol": "global",
+      "ruta": "global",
+      "salida": "generado/global"
+    },
+    {
+      "nombre": "Esquemas de color",
+      "resumen": "Lliphi Claro y Lliphi Oscuro para todas las aplicaciones Qt y KDE (y, a través de Plasma, GTK).",
+      "clase": "paquete",
+      "orden": 1,
+      "formato": "KColorScheme",
+      "tecnologia": "KColorScheme (`.colors`)",
+      "estado": "probado",
+      "desde": "0.1.0",
+      "archivos": [
+        "LliphiClaro.colors",
+        "LliphiOscuro.colors"
+      ],
+      "capturas": [
+        "../capturas/oscuro-04-preferencias-colores.png",
+        "../capturas/claro-04-preferencias-colores.png"
+      ],
+      "dependencias": {
+        "bases": [
+          "fuentes/base/WhiteSur-kde"
+        ],
+        "herramientas": [
+          "plasma-apply-colorscheme"
+        ],
+        "python": [
+          "coloraide (solo paleta.py)"
+        ]
+      },
+      "id": "esquema",
+      "rol": "modulo",
+      "ruta": "modulos/esquema",
+      "salida": "generado/esquema"
+    },
+    {
+      "nombre": "Estilo de Plasma",
+      "resumen": "Panel, diálogos, tooltips y fondos de widgets con los radios y márgenes de Lliphi; sigue el esquema de color y el acento del sistema.",
+      "clase": "paquete",
+      "orden": 2,
+      "formato": "Plasma/Theme",
+      "tecnologia": "Plasma SVG (desktoptheme)",
+      "estado": "probado",
+      "desde": "0.1.0",
+      "archivos": [
+        "lliphi-claro/",
+        "lliphi-oscuro/"
+      ],
+      "capturas": [
+        "../capturas/oscuro-03-dolphin-konsole-notificacion.png"
+      ],
+      "dependencias": {
+        "construccion": [
+          "esquema"
+        ],
+        "bases": [
+          "fuentes/base/WhiteSur-kde"
+        ]
+      },
+      "id": "estilo",
+      "rol": "modulo",
+      "ruta": "modulos/estilo",
+      "salida": "generado/estilo"
+    },
+    {
+      "nombre": "Decoración de ventanas",
+      "resumen": "Dos temas Aurorae (oscuro y claro) derivados de Nothing: sus botones circulares con glifo al pasar el ratón, con el anillo de minimizar en gris, el título en los grises de Lliphi sin sombra y en Inter Medium, barra de 18 px y botones a la izquierda; la variante clara, recoloreada con los tokens.",
+      "clase": "paquete",
+      "orden": 3,
+      "formato": "KWin/Aurorae",
+      "tecnologia": "Aurorae SVG (motor V2 de Plasma 6.6, `kwin-style-aurorae`); derivado de Nothing, GPL-3.0-or-later",
+      "estado": "probado",
       "desde": "0.2.0",
       "licencia": "GPL-3.0-or-later",
       "archivos": [
         "lliphi/",
         "lliphi-claro/"
       ],
-      "carpeta": "aurorae",
-      "generador": "aurorae.py",
       "capturas": [
         "../capturas/oscuro-09-decoracion.png",
         "../capturas/claro-09-decoracion.png"
       ],
-      "id": "decoracion"
+      "dependencias": {
+        "bases": [
+          "fuentes/base/Nothing-aurorae"
+        ],
+        "herramientas_opcionales": [
+          "kwriteconfig6",
+          "qdbus6"
+        ]
+      },
+      "id": "decoracion",
+      "rol": "modulo",
+      "ruta": "modulos/decoracion",
+      "salida": "generado/decoracion"
     },
     {
-      "nombre": "Editores: VS Code, Positron y Zed",
-      "resumen": "Temas claro y oscuro para VS Code y sus derivados Positron y VSCodium (una misma extensión mínima) y para Zed, con la interfaz del esquema, la sintaxis derivada de los dieciséis ANSI y la terminal integrada de Konsole.",
-      "estado": "experimental",
-      "tecnologia": "VS Code color theme (`colors`, `tokenColors`, `semanticTokenColors`), leído también por Positron (`~/.positron/extensions/`) y VSCodium (`~/.vscode-oss/extensions/`) · Zed theme v0.2.0",
-      "desde": "0.2.0",
-      "archivos": [
-        "vscode/lliphi/",
-        "zed/lliphi.json"
-      ],
-      "carpeta": "editores",
-      "generador": "editores.py",
-      "capturas": [
-        "../capturas/oscuro-08-positron.png",
-        "../capturas/claro-08-positron.png"
-      ],
-      "id": "editores"
-    },
-    {
-      "nombre": "Esquemas de color",
-      "resumen": "Lliphi Claro y Lliphi Oscuro para todas las aplicaciones Qt y KDE (y, a través de Plasma, GTK).",
+      "nombre": "Iconos y cursores",
+      "resumen": "Papirus con las carpetas en el acento de cada variante (Papirus tal cual en el claro, el superpuesto Papirus-Dark-Lliphi con carpetas rojas en el oscuro) y los cursores WhiteSur; Bibata como opcional.",
+      "clase": "externo",
+      "orden": 4,
+      "formato": "freedesktop",
+      "tecnologia": "temas de iconos y de cursores freedesktop (`index.theme`, `Inherits`, `cursors/`) en `~/.local/share/icons/`",
       "estado": "probado",
-      "tecnologia": "KColorScheme (`.colors`)",
-      "desde": "0.1.0",
-      "archivos": [
-        "LliphiClaro.colors",
-        "LliphiOscuro.colors"
-      ],
-      "carpeta": "color-schemes",
-      "generador": "esquema.py",
+      "desde": "0.3.0",
+      "licencia": "GPL-3.0-only (Papirus, WhiteSur-cursors y Bibata; no se redistribuyen)",
+      "archivos": [],
       "capturas": [
-        "../capturas/oscuro-04-preferencias-colores.png",
-        "../capturas/claro-04-preferencias-colores.png"
+        "../capturas/oscuro-21-mejora-3-iconos-papirus.png"
       ],
-      "id": "esquema"
+      "dependencias": {
+        "herramientas_opcionales": [
+          "plasma-changeicons",
+          "kwriteconfig6",
+          "dbus-send",
+          "gtk-update-icon-cache"
+        ],
+        "terceros": [
+          "Papirus (GPL-3.0; PapirusDevelopmentTeam/papirus-icon-theme)",
+          "WhiteSur-cursors (GPL-3.0; vinceliuice/WhiteSur-cursors)",
+          "Bibata Modern (GPL-3.0; ful1e5/Bibata_Cursor), opcional"
+        ]
+      },
+      "id": "iconos-cursores",
+      "rol": "modulo",
+      "ruta": "modulos/iconos-cursores",
+      "salida": ""
     },
     {
-      "nombre": "Estilo de Plasma",
-      "resumen": "Panel, diálogos, tooltips y fondos de widgets con los radios y márgenes de Lliphi; sigue el esquema de color y el acento del sistema.",
+      "nombre": "Pantallas de carga, salida y bloqueo",
+      "resumen": "Pantalla de carga y diálogo de salida derivados de WhiteSur-dark, con el fondo de Lliphi y el nombre en Inter en lugar del logotipo; el bloqueo de pantalla con el fondo oscuro de Lliphi en las dos variantes.",
+      "clase": "componente",
+      "orden": 5,
+      "formato": "Plasma/LookAndFeel",
+      "tecnologia": "`contents/splash/` y `contents/logout/` del tema global (QML de WhiteSur-dark, GPL-3.0) · fondo del bloqueo en `kscreenlockerrc` (el QML del bloqueo es del paquete de shell en Plasma 6.6)",
       "estado": "probado",
-      "tecnologia": "Plasma SVG (desktoptheme)",
-      "desde": "0.1.0",
+      "desde": "0.3.0",
+      "licencia": "GPL-3.0-or-later",
       "archivos": [
-        "lliphi/"
+        "contents/splash/",
+        "contents/logout/"
       ],
-      "carpeta": "desktoptheme",
-      "generador": "desktoptheme.py",
       "capturas": [
-        "../capturas/oscuro-03-dolphin-konsole-notificacion.png"
+        "../capturas/comparacion-linea-base-pantallas.png"
       ],
-      "id": "estilo"
+      "dependencias": {
+        "construccion": [
+          "fondos"
+        ],
+        "bases": [
+          "fuentes/base/WhiteSur-kde"
+        ],
+        "python": [
+          "pillow"
+        ],
+        "herramientas_opcionales": [
+          "kwriteconfig6",
+          "ksplashqml"
+        ]
+      },
+      "id": "carga-bloqueo",
+      "rol": "modulo",
+      "ruta": "modulos/carga-bloqueo",
+      "salida": "generado/global"
+    },
+    {
+      "nombre": "Disposición del escritorio",
+      "resumen": "Barra superior fina (lanzador, reloj, bandeja) y dock inferior flotante que se oculta bajo las ventanas, con el fondo de Lliphi en cada escritorio; selectores de ventanas y escritorios de Breeze.",
+      "clase": "componente",
+      "orden": 6,
+      "formato": "Plasma/LookAndFeel",
+      "tecnologia": "script de disposición de Plasma (`contents/layouts/org.kde.plasma.desktop-layout.js`, API de scripting de escritorio) dentro del tema global",
+      "estado": "probado",
+      "desde": "0.1.0",
+      "licencia": "MIT",
+      "archivos": [
+        "contents/layouts/org.kde.plasma.desktop-layout.js"
+      ],
+      "capturas": [
+        "../capturas/oscuro-01-escritorio.png"
+      ],
+      "dependencias": {
+        "referencia": [
+          "fondos"
+        ]
+      },
+      "id": "disposicion",
+      "rol": "modulo",
+      "ruta": "modulos/disposicion",
+      "salida": "generado/global"
     },
     {
       "nombre": "Fondos de pantalla",
       "resumen": "Paquete «Lliphi Horizonte» con imagen clara y oscura (Plasma elige según el esquema) en 1080p, 1440p y 4K, y acento declarado.",
-      "estado": "probado",
+      "clase": "paquete",
+      "orden": 1,
+      "formato": "Wallpaper/Images",
       "tecnologia": "paquete de fondo de Plasma (`images/`, `images_dark/`)",
+      "estado": "probado",
       "desde": "0.1.0",
       "archivos": [
         "org.lliphi.horizonte/"
       ],
-      "carpeta": "wallpapers",
-      "generador": "fondo.py",
       "capturas": [
         "../capturas/oscuro-01-escritorio.png",
         "../capturas/claro-01-escritorio.png"
       ],
-      "id": "fondos"
+      "dependencias": {
+        "python": [
+          "pillow"
+        ],
+        "herramientas_opcionales": [
+          "plasma-apply-wallpaperimage"
+        ]
+      },
+      "id": "fondos",
+      "rol": "complemento",
+      "ruta": "complementos/fondos",
+      "salida": "generado/fondos"
     },
     {
-      "nombre": "Temas globales",
-      "resumen": "Dos paquetes look-and-feel que aplican esquema, estilo de Plasma, iconos, cursores, decoración y, si lo pides, la disposición del escritorio.",
+      "nombre": "Kvantum",
+      "resumen": "Estilo de las aplicaciones Qt derivado del Kvantum de WhiteSur (menús y tooltips translúcidos, controles redondeados) en los colores de cada variante.",
+      "clase": "paquete",
+      "orden": 2,
+      "formato": "Kvantum",
+      "tecnologia": "tema de Kvantum (`.kvconfig` + `.svg`) en `~/.config/Kvantum/`; derivado de WhiteSur-kde, GPL-3.0-or-later",
       "estado": "probado",
-      "tecnologia": "KPackage `Plasma/LookAndFeel`",
-      "desde": "0.1.0",
+      "desde": "0.2.0",
+      "licencia": "GPL-3.0-or-later",
       "archivos": [
-        "org.lliphi.claro/",
-        "org.lliphi.oscuro/"
+        "LliphiClaro/",
+        "LliphiOscuro/"
       ],
-      "carpeta": "look-and-feel",
-      "generador": "lookandfeel.py",
-      "capturas": [
-        "../capturas/oscuro-02-lanzador.png",
-        "../capturas/claro-02-lanzador.png"
-      ],
-      "id": "global"
+      "capturas": [],
+      "dependencias": {
+        "bases": [
+          "fuentes/base/WhiteSur-kde"
+        ],
+        "herramientas_opcionales": [
+          "kwriteconfig6"
+        ],
+        "terceros": [
+          "Kvantum (qt6-style-kvantum de la distribución)"
+        ]
+      },
+      "id": "kvantum",
+      "rol": "complemento",
+      "ruta": "complementos/kvantum",
+      "salida": "generado/kvantum"
     },
     {
       "nombre": "Konsole",
       "resumen": "Esquemas de color para la terminal con una paleta ANSI de dieciséis colores medida sobre el fondo.",
-      "estado": "experimental",
+      "clase": "paquete",
+      "orden": 3,
+      "formato": "Konsole",
       "tecnologia": "Konsole `.colorscheme`",
+      "estado": "experimental",
       "desde": "0.1.0",
       "archivos": [
         "Lliphi Claro.colorscheme",
         "Lliphi Oscuro.colorscheme"
       ],
-      "carpeta": "konsole",
-      "generador": "konsole.py",
       "capturas": [],
-      "id": "konsole"
+      "dependencias": {
+        "herramientas_opcionales": [
+          "fc-list"
+        ]
+      },
+      "id": "konsole",
+      "rol": "complemento",
+      "ruta": "complementos/konsole",
+      "salida": "generado/konsole"
+    },
+    {
+      "nombre": "Terminales: Alacritty y Kitty",
+      "resumen": "Los mismos dieciséis colores ANSI, fondo, selección y cursor de Konsole para Alacritty (TOML) y Kitty (conf), en claro y oscuro.",
+      "clase": "paquete",
+      "orden": 4,
+      "formato": "varios",
+      "tecnologia": "Alacritty `[colors]` (TOML, ≥ 0.13) · Kitty `.conf`",
+      "estado": "experimental",
+      "desde": "0.2.0",
+      "archivos": [
+        "alacritty/lliphi-claro.toml",
+        "alacritty/lliphi-oscuro.toml",
+        "kitty/lliphi-claro.conf",
+        "kitty/lliphi-oscuro.conf"
+      ],
+      "capturas": [],
+      "dependencias": {},
+      "id": "terminales",
+      "rol": "complemento",
+      "ruta": "complementos/terminales",
+      "salida": "generado/terminales"
+    },
+    {
+      "nombre": "Editores: VS Code, Positron y Zed",
+      "resumen": "Temas claro y oscuro para VS Code y sus derivados Positron y VSCodium (una misma extensión mínima) y para Zed, con la interfaz del esquema, la sintaxis derivada de los dieciséis ANSI y la terminal integrada de Konsole.",
+      "clase": "paquete",
+      "orden": 5,
+      "formato": "varios",
+      "tecnologia": "VS Code color theme (`colors`, `tokenColors`, `semanticTokenColors`), leído también por Positron (`~/.positron/extensions/`) y VSCodium (`~/.vscode-oss/extensions/`) · Zed theme v0.2.0",
+      "estado": "experimental",
+      "desde": "0.2.0",
+      "archivos": [
+        "vscode/lliphi/",
+        "zed/lliphi.json"
+      ],
+      "capturas": [
+        "../capturas/oscuro-08-positron.png",
+        "../capturas/claro-08-positron.png"
+      ],
+      "dependencias": {},
+      "id": "editores",
+      "rol": "complemento",
+      "ruta": "complementos/editores",
+      "salida": "generado/editores"
     },
     {
       "nombre": "LibreOffice: colores de la aplicación",
       "resumen": "Dos esquemas de «Colores de la aplicación» (Lliphi Claro y Lliphi Oscuro) para Writer, Calc, Impress, Draw, Base y la IDE de BASIC: documento, cuadrícula, saltos, control de cambios, sintaxis BASIC y SQL desde los mismos tokens, como extensión .oxt o fragmento .xcu.",
-      "estado": "experimental",
+      "clase": "paquete",
+      "orden": 6,
+      "formato": "varios",
       "tecnologia": "`org.openoffice.Office.UI/ColorScheme/ColorSchemes` (91 entradas `Color` y `IsVisible`, esquema de LibreOffice 26.2) · extensión `.oxt` con `oor:component-data` · fragmento `<oor:items>` para `registrymodifications.xcu`",
+      "estado": "experimental",
       "desde": "0.2.0",
       "archivos": [
         "lliphi.oxt",
@@ -135,27 +382,52 @@
         "lliphi-oscuro.xcu",
         "oxt/"
       ],
-      "carpeta": "libreoffice",
-      "generador": "libreoffice.py",
       "capturas": [],
-      "id": "libreoffice"
+      "dependencias": {
+        "construccion": [
+          "editores"
+        ]
+      },
+      "id": "libreoffice",
+      "rol": "complemento",
+      "ruta": "complementos/libreoffice",
+      "salida": "generado/libreoffice"
     },
     {
-      "nombre": "Terminales: Alacritty y Kitty",
-      "resumen": "Los mismos dieciséis colores ANSI, fondo, selección y cursor de Konsole para Alacritty (TOML) y Kitty (conf), en claro y oscuro.",
+      "nombre": "Inicio de sesión (SDDM)",
+      "resumen": "Pantalla de inicio de sesión derivada de WhiteSur-dark: fondo de Lliphi, Inter y foco en el acento. Es la única pieza que necesita root y no forma parte del tema global ni del bloqueo de pantalla.",
+      "clase": "paquete",
+      "orden": 7,
+      "formato": "SDDM",
+      "tecnologia": "tema de SDDM (`metadata.desktop` `[SddmGreeterTheme]`, QML de Qt 6) en `/usr/share/sddm/themes/` con `/etc/sddm.conf.d/99-lliphi.conf`",
       "estado": "experimental",
-      "tecnologia": "Alacritty `[colors]` (TOML, ≥ 0.13) · Kitty `.conf`",
-      "desde": "0.2.0",
+      "desde": "0.3.0",
+      "licencia": "GPL-3.0-or-later",
       "archivos": [
-        "alacritty/lliphi-claro.toml",
-        "alacritty/lliphi-oscuro.toml",
-        "kitty/lliphi-claro.conf",
-        "kitty/lliphi-oscuro.conf"
+        "lliphi/"
       ],
-      "carpeta": "terminales",
-      "generador": "terminales.py",
       "capturas": [],
-      "id": "terminales"
+      "dependencias": {
+        "construccion": [
+          "fondos"
+        ],
+        "bases": [
+          "fuentes/base/WhiteSur-kde"
+        ],
+        "python": [
+          "pillow"
+        ],
+        "herramientas": [
+          "pkexec"
+        ],
+        "herramientas_opcionales": [
+          "sddm-greeter-qt6"
+        ]
+      },
+      "id": "sddm",
+      "rol": "complemento",
+      "ruta": "complementos/sddm",
+      "salida": "generado/sddm"
     }
   ]
 }

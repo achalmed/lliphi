@@ -1,0 +1,29 @@
+{
+  "nombre": "Iconos y cursores",
+  "resumen": "Papirus con las carpetas en el acento de cada variante (Papirus tal cual en el claro, el superpuesto Papirus-Dark-Lliphi con carpetas rojas en el oscuro) y los cursores WhiteSur; Bibata como opcional.",
+  "clase": "externo",
+  "orden": 4,
+  "formato": "freedesktop",
+  "tecnologia": "temas de iconos y de cursores freedesktop (`index.theme`, `Inherits`, `cursors/`) en `~/.local/share/icons/`",
+  "estado": "probado",
+  "desde": "0.3.0",
+  "licencia": "GPL-3.0-only (Papirus, WhiteSur-cursors y Bibata; no se redistribuyen)",
+  "archivos": [],
+  "capturas": [
+    "../capturas/oscuro-21-mejora-3-iconos-papirus.png"
+  ],
+  "dependencias": {
+    "herramientas_opcionales": [
+      "plasma-changeicons",
+      "kwriteconfig6",
+      "dbus-send",
+      "gtk-update-icon-cache"
+    ],
+    "terceros": [
+      "Papirus (GPL-3.0; PapirusDevelopmentTeam/papirus-icon-theme)",
+      "WhiteSur-cursors (GPL-3.0; vinceliuice/WhiteSur-cursors)",
+      "Bibata Modern (GPL-3.0; ful1e5/Bibata_Cursor), opcional"
+    ]
+  },
+  "instalacion": []
+}

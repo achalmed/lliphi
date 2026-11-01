@@ -66,5 +66,5 @@ buscar «Lliphi». Hasta entonces, usa el instalador o la instalación a mano.
 
 El tema global trae **Inter** (interfaz, OFL) y **JetBrains Mono** en su versión Nerd Font (terminal y código, OFL),
 que también va al perfil de Konsole. Inter viene de la distribución (`sudo apt install fonts-inter`); JetBrains Mono la
-descarga `python3 herramientas/dependencias.py --aplicar` a `~/.local/share/fonts/`. Los cursores son **WhiteSur-cursors** (GPL-3.0; no se
-redistribuyen aquí): el mismo `dependencias.py` los descarga a `~/.local/share/icons/`.
+descarga `python3 herramientas/instalar.py dependencias --aplicar` a `~/.local/share/fonts/`. Los cursores son **WhiteSur-cursors** (GPL-3.0; no se
+redistribuyen aquí): la misma orden los descarga a `~/.local/share/icons/`.

@@ -1,5 +1,6 @@
-"""Pruebas del proyecto: tokens válidos, contraste, deriva de lo generado, estructura de los paquetes,
-instalación reversible en un HOME temporal y licencias (REUSE). Se corren con `.venv/bin/pytest`."""
+"""Pruebas del proyecto: tokens válidos, contraste, deriva de lo generado, estructura de los paquetes, arquitectura
+modular (registro, validación, integración en el tema global), instalación reversible en un HOME temporal y licencias
+(REUSE). Se corren con `.venv/bin/pytest`."""
 from __future__ import annotations
 
 import configparser
@@ -19,6 +20,8 @@ PY = sys.executable
 TOKENS = json.loads((RAIZ / "tokens" / "tokens.json").read_text(encoding="utf-8"))
 MARCA = json.loads((RAIZ / "tokens" / "marca.json").read_text(encoding="utf-8"))
 GEN = RAIZ / "generado"
+sys.path.insert(0, str(RAIZ / "herramientas"))
+from nucleo import registro  # noqa: E402
 
 
 def correr(*args: str, env: dict | None = None) -> subprocess.CompletedProcess:
@@ -63,7 +66,7 @@ def test_marca_ids_ascii():
 # ---------------------------------------------------------------- contraste y deriva
 
 def test_contraste_todos_los_pares():
-    r = correr("herramientas/paleta.py")
+    r = correr("modulos/esquema/paleta.py")
     assert r.returncode == 0, r.stdout[-2000:]
     assert "FALLA" not in r.stdout
 
@@ -83,11 +86,11 @@ def test_ningun_hex_fuera_del_maestro():
         # línea base (decisiones 4.4 y 4.5): LliphiOscuro/LliphiClaro.colors son WhiteSur-kde con solo el acento de los tokens
         # (lo verifica test_esquema_linea_base_solo_acento) y el `colors` del estilo de Plasma es copia de WhiteSur-kde;
         # solo las variantes `-tokens` y lo demás (Konsole, terminales) salen por entero del maestro
-        copia_whitesur = f.suffix == ".colors" and not f.stem.endswith("-tokens") or (f.name == "colors" and "desktoptheme" in f.parts)
-        if f.suffix in (".colors", ".colorscheme", "") and f.is_file() and f.name != "defaults" and "aurorae" not in f.parts and not copia_whitesur:
+        copia_whitesur = f.suffix == ".colors" and not f.stem.endswith("-tokens") or (f.name == "colors" and "estilo" in f.parts)
+        if f.suffix in (".colors", ".colorscheme", "") and f.is_file() and f.name != "defaults" and "decoracion" not in f.parts and not copia_whitesur:
             for m in re.findall(r"=(\d{1,3},\d{1,3},\d{1,3})\b", f.read_text(encoding="utf-8")):
                 assert m in permitidos_rgb, (f.name, m)
-        if f.suffix == ".svg" and "desktoptheme" not in f.parts and "kvantum" not in f.parts and "aurorae" not in f.parts and "icons" not in f.parts and "look-and-feel" not in f.parts:
+        if f.suffix == ".svg" and "estilo" not in f.parts and "kvantum" not in f.parts and "decoracion" not in f.parts and "global" not in f.parts:
             for h in re.findall(r"#[0-9a-fA-F]{6}\b", f.read_text(encoding="utf-8")):
                 assert h.lower() in hexes | {"#000000"}, (f.name, h)
         if f.suffix in (".toml", ".conf", ".json"):
@@ -101,7 +104,7 @@ def test_ningun_hex_fuera_del_maestro():
 def test_esquemas_completos():
     for v in ("claro", "oscuro"):
         cp = configparser.ConfigParser(interpolation=None, strict=False); cp.optionxform = str
-        cp.read(GEN / "color-schemes" / f"{MARCA['id_esquema'][v]}.colors", encoding="utf-8")
+        cp.read(GEN / "esquema" / f"{MARCA['id_esquema'][v]}.colors", encoding="utf-8")
         for g in ("Colors:View", "Colors:Window", "Colors:Button", "Colors:Selection", "Colors:Tooltip", "Colors:Complementary", "Colors:Header", "Colors:Header][Inactive"):
             assert g in cp, g
             for k in ("BackgroundNormal", "BackgroundAlternate", "ForegroundNormal", "ForegroundInactive", "ForegroundActive",
@@ -115,13 +118,13 @@ def test_esquema_linea_base_solo_acento():
     """Mejora 1 (decisiones 4.5): Lliphi{Oscuro,Claro}.colors es WhiteSur{Dark,}.colors con solo el acento sustituido:
     cada clave cuyo valor en WhiteSur es uno de sus azules (o ForegroundLink en la selección) vale el token de su
     función; todas las demás líneas, incluidos [WM] y [ColorEffects:*], son idénticas a WhiteSur."""
-    sys.path.insert(0, str(RAIZ / "herramientas"))
-    from destinos import esquema, rgb, aplanar  # noqa: E402
+    from nucleo import rgb, aplanar  # noqa: E402
+    esquema = registro.codigo("esquema")
     for v, origen in (("oscuro", "WhiteSurDark.colors"), ("claro", "WhiteSur.colors")):
         t = {k: rgb(tok) for k, tok in aplanar(TOKENS["semanticos"][v]).items()}
         base = (RAIZ / "fuentes" / "base" / "WhiteSur-kde" / "color-schemes" / origen).read_text(encoding="utf-8").splitlines()
         base = [l for l in base if not l.startswith("Name[")]
-        gen = (GEN / "color-schemes" / f"{MARCA['id_esquema'][v]}.colors").read_text(encoding="utf-8").splitlines()[1:]
+        gen = (GEN / "esquema" / f"{MARCA['id_esquema'][v]}.colors").read_text(encoding="utf-8").splitlines()[1:]
         assert len(base) == len(gen), (v, len(base), len(gen))
         grupo, cambiadas = "", 0
         for b, g in zip(base, gen):
@@ -148,15 +151,15 @@ def test_acento_por_variante():
     assert TOKENS["acento"] == {"claro": "azul-whitesur", "oscuro": "rojo"}
     assert TOKENS["semanticos"]["oscuro"]["acento"]["base"]["$value"]["hex"] == "#c93436"
     assert TOKENS["semanticos"]["claro"]["acento"]["base"]["$value"]["hex"] == "#315bef"
-    oscuro = (GEN / "desktoptheme" / f"{MARCA['id']}-oscuro" / "colors").read_text(encoding="utf-8")
+    oscuro = (GEN / "estilo" / f"{MARCA['id']}-oscuro" / "colors").read_text(encoding="utf-8")
     assert "49,91,239" not in oscuro and "201,52,54" in oscuro
-    assert "49,91,239" in (GEN / "desktoptheme" / f"{MARCA['id']}-claro" / "colors").read_text(encoding="utf-8")
-    assert "#eb3131" in (GEN / "aurorae" / f"{MARCA['id']}-claro" / "close.svg").read_text(encoding="utf-8").lower()
+    assert "49,91,239" in (GEN / "estilo" / f"{MARCA['id']}-claro" / "colors").read_text(encoding="utf-8")
+    assert "#eb3131" in (GEN / "decoracion" / f"{MARCA['id']}-claro" / "close.svg").read_text(encoding="utf-8").lower()
 
 
 def test_tema_global_estructura():
     for v in ("claro", "oscuro"):
-        base = GEN / "look-and-feel" / MARCA["id_global"][v]
+        base = GEN / "global" / MARCA["id_global"][v]
         meta = json.loads((base / "metadata.json").read_text(encoding="utf-8"))
         assert meta["KPackageStructure"] == "Plasma/LookAndFeel"
         assert meta["KPlugin"]["Id"] == MARCA["id_global"][v] == base.name
@@ -174,7 +177,7 @@ def test_tema_global_estructura():
 def test_estilo_plasma_derivado():
     """El estilo de Plasma deriva de WhiteSur-kde: dos variantes, con su `colors` (línea base, decisiones 4.4), GPL declarada, SVG válidos."""
     for v in ("claro", "oscuro"):
-        base = GEN / "desktoptheme" / f"{MARCA['id']}-{v}"
+        base = GEN / "estilo" / f"{MARCA['id']}-{v}"
         meta = json.loads((base / "metadata.json").read_text(encoding="utf-8"))
         assert meta["KPlugin"]["Id"] == base.name and meta["KPlugin"]["License"] == "GPL-3.0-or-later"
         assert (base / "colors").exists(), "línea base: el estilo lleva el `colors` de WhiteSur tal cual"
@@ -279,7 +282,7 @@ def test_zed_tema():
 def test_decoracion_aurorae():
     """La decoración deriva de Nothing: dos variantes con marco, botones, rc y metadatos; GPL declarada."""
     for v, id_ in (("oscuro", MARCA["id"]), ("claro", f"{MARCA['id']}-claro")):
-        base = GEN / "aurorae" / id_
+        base = GEN / "decoracion" / id_
         for req in ("decoration.svg", "close.svg", "maximize.svg", "minimize.svg", "restore.svg", f"{id_}rc", "metadata.json", "metadata.desktop"):
             assert (base / req).exists(), (v, req)
         meta = json.loads((base / "metadata.json").read_text(encoding="utf-8"))
@@ -295,8 +298,7 @@ def test_decoracion_aurorae():
 def test_libreoffice_esquemas():
     """Fragmentos .xcu y extensión .oxt: estructura, 91 entradas por esquema, cada Color decimal es un hex de los tokens."""
     import zipfile
-    sys.path.insert(0, str(RAIZ / "herramientas"))
-    from destinos.libreoffice import VISIBLES, entradas  # noqa: E402
+    VISIBLES, entradas = registro.codigo("libreoffice").VISIBLES, registro.codigo("libreoffice").entradas
     hexes = {t["$value"]["hex"].lower() for t in _tokens_planos(TOKENS).values() if isinstance(t["$value"], dict) and "hex" in t["$value"]}
     enteros = {int(h[1:], 16) for h in hexes}
     base = GEN / "libreoffice"
@@ -348,12 +350,11 @@ def test_libreoffice_esquemas():
 
 
 def test_fondo_paquete():
-    base = GEN / "wallpapers" / MARCA["id_fondo"]
+    base = GEN / "fondos" / MARCA["id_fondo"]
     meta = json.loads((base / "metadata.json").read_text(encoding="utf-8"))
     assert meta["KPlugin"]["Id"] == MARCA["id_fondo"]
     assert set(meta["X-KDE-PlasmaImageWallpaper-AccentColor"]) == {"Light", "Dark"}
-    sys.path.insert(0, str(RAIZ / "herramientas"))
-    from destinos.fondo import TAMANOS  # noqa: E402
+    TAMANOS = registro.codigo("fondos").TAMANOS
     PIL = pytest.importorskip("PIL.Image")
     for carpeta in ("images", "images_dark"):
         for ancho, alto in TAMANOS:
@@ -405,6 +406,15 @@ def test_instalar_y_desinstalar_restaura(tmp_path: Path):
     assert (respaldo / "config" / "kdeglobals").exists() and (respaldo / "UNDO.sh").exists()
     est = correr("herramientas/instalar.py", "estado", env=env)
     assert "MOD" not in est.stdout
+    comp = correr("herramientas/instalar.py", "comprobar", env=env)
+    assert comp.returncode == 0 and "FALTA" not in comp.stdout, comp.stdout
+    # manifiesto de 0.3.0: Kvantum anotado como `…/.local/share/../../.config/Kvantum/…`; reinstalar no es conflicto
+    datos = json.loads(manifiesto.read_text())
+    kv = str(tmp_path / ".config/Kvantum" / MARCA["id_esquema"]["oscuro"])
+    datos["rutas"] = {(str(tmp_path / ".local/share/../../.config/Kvantum" / MARCA["id_esquema"]["oscuro"]) if k == kv else k): v for k, v in datos["rutas"].items()}
+    manifiesto.write_text(json.dumps(datos))
+    (Path(kv) / "otro.txt").write_text("x")
+    assert correr("herramientas/instalar.py", "--aplicar", "--modulos", "kvantum", env=env).returncode == 0
     # otro proyecto en el mismo destino → conflicto, no se pisa
     ajeno = tmp_path / ".local/share/plasma/desktoptheme" / f"{MARCA['id']}-oscuro" / "ajeno.txt"
     ajeno.write_text("x")
@@ -436,12 +446,7 @@ def test_reuse_lint():
 
 def test_perfil_konsole_toma_el_esquema(tmp_path, monkeypatch):
     """Mejora 5: el perfil por defecto de Konsole toma el esquema de Lliphi sin perder la fuente ni el enlace de dotfiles."""
-    import importlib.util
-    monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path / "data"))
-    monkeypatch.setenv("XDG_CONFIG_HOME", str(tmp_path / "config"))
-    monkeypatch.setenv("XDG_STATE_HOME", str(tmp_path / "state"))
-    spec = importlib.util.spec_from_file_location("instalar_prueba", RAIZ / "herramientas" / "instalar.py")
-    instalar = importlib.util.module_from_spec(spec); spec.loader.exec_module(instalar)
+    instalar = registro.codigo("konsole", "aplicar")
     real = tmp_path / "dotfiles" / "yo.profile"
     real.parent.mkdir(parents=True)
     real.write_text("[Appearance]\nColorScheme=Breeze\nFont=FiraCode Nerd Font,10\n\n[General]\nName=yo\n", encoding="utf-8")
@@ -450,7 +455,7 @@ def test_perfil_konsole_toma_el_esquema(tmp_path, monkeypatch):
     enlace.symlink_to(real)
     (tmp_path / "config").mkdir()
     (tmp_path / "config" / "konsolerc").write_text("[Desktop Entry]\nDefaultProfile=yo.profile\n", encoding="utf-8")
-    perfil = instalar.perfil_konsole()
+    perfil = instalar.perfil_konsole(tmp_path / "data", tmp_path / "config")
     assert perfil == enlace
     instalar.fijar_esquema_konsole(perfil, "Lliphi Oscuro")
     texto = real.read_text(encoding="utf-8")
@@ -471,7 +476,7 @@ def test_perfil_konsole_toma_el_esquema(tmp_path, monkeypatch):
 def test_pantallas_carga_y_salida():
     """Mejora 6: splash y logout derivados de WhiteSur-dark, sin el logotipo de Apple, con el fondo dentro del paquete."""
     for v in ("claro", "oscuro"):
-        base = GEN / "look-and-feel" / MARCA["id_global"][v] / "contents"
+        base = GEN / "global" / MARCA["id_global"][v] / "contents"
         splash = (base / "splash" / "Splash.qml").read_text(encoding="utf-8")
         assert "logo.svg" not in splash and 'font.family: "Inter"' in splash and MARCA["nombre"] in splash
         assert not (base / "splash" / "images" / "logo.svg").exists()
@@ -495,16 +500,128 @@ def test_inicio_de_sesion_sddm():
     assert "Kirigami.Theme.highlightColor" in (base / "Main.qml").read_text(encoding="utf-8")
     assert "border.color" in (base / "Input.qml").read_text(encoding="utf-8")
     assert "defaultFont" not in (base / "Main.qml").read_text(encoding="utf-8"), "Kirigami.Theme.defaultFont es de solo lectura: rompe el tema"
-    r = correr("herramientas/instalar_sddm.py")
-    assert r.returncode in (0, 3) and "pkexec" not in r.stderr
+    for orden in (("herramientas/instalar_sddm.py",), ("herramientas/instalar.py", "sddm")):   # el atajo de 0.3.0 y la orden nueva
+        r = correr(*orden)
+        assert r.returncode in (0, 3) and "pkexec" not in r.stderr and "Traceback" not in r.stderr, r.stderr
 
 
 def test_variante_clara_validada():
     """Mejora 10 (decisiones 4.15–4.16): carpetas por variante sin tocar Papirus, fondo claro fijado y bloqueo oscuro."""
     for v, iconos in (("oscuro", "Papirus-Dark-Lliphi"), ("claro", "Papirus")):
-        defaults = (GEN / "look-and-feel" / MARCA["id_global"][v] / "contents" / "defaults").read_text(encoding="utf-8")
+        defaults = (GEN / "global" / MARCA["id_global"][v] / "contents" / "defaults").read_text(encoding="utf-8")
         assert f"Theme={iconos}" in defaults, v
-    dep = (RAIZ / "herramientas" / "dependencias.py").read_text(encoding="utf-8")
-    assert 'SUPERPUESTO = {"id": "Papirus-Dark-Lliphi"' in dep and 'COLOR_ORIGINAL = "blue"' in dep
-    ins = (RAIZ / "herramientas" / "instalar.py").read_text(encoding="utf-8")
-    assert '"images" / "3840x2160.png"' in ins and '"images_dark" / "3840x2160.png"' in ins and '"kscreenlockerrc"' in ins
+    dep = registro.codigo("iconos-cursores", "externas")
+    assert dep.SUPERPUESTO["id"] == "Papirus-Dark-Lliphi" and dep.COLOR_ORIGINAL == "blue"
+    fondo = registro.modulo("fondos").archivo("aplicar.py").read_text(encoding="utf-8")
+    bloqueo = registro.modulo("carga-bloqueo").archivo("aplicar.py").read_text(encoding="utf-8")
+    assert '"images" / "3840x2160.png"' in fondo and '"images_dark" / "3840x2160.png"' in bloqueo and '"kscreenlockerrc"' in bloqueo
+
+
+# ---------------------------------------------------------------- arquitectura modular
+
+SEIS = {"esquema": "paquete", "estilo": "paquete", "decoracion": "paquete", "iconos-cursores": "externo",
+        "carga-bloqueo": "componente", "disposicion": "componente"}
+
+
+def test_registro_tema_global_y_seis_modulos():
+    """Un tema global integrador, los seis módulos del encargo con su clase y los complementos que ya existían."""
+    roles = {m.id: (m.rol, m.clase) for m in registro.todos()}
+    assert roles["global"] == ("global", "paquete")
+    assert {i: c for i, (r, c) in roles.items() if r == "modulo"} == SEIS
+    assert {i for i, (r, _) in roles.items() if r == "complemento"} == {"fondos", "kvantum", "konsole", "terminales", "editores", "libreoffice", "sddm"}
+    g = registro.modulo("global")
+    assert set(g.dependencias("integra")) == {"carga-bloqueo", "disposicion"}
+    assert set(SEIS) <= set(g.dependencias("integra") + g.dependencias("referencia"))
+    for m in registro.todos():
+        assert (m.carpeta / "README.md").is_file() and (m.carpeta / "INSTALL.md").is_file(), m.id
+    # lo generado está por módulo: solo los paquetes tienen carpeta
+    assert {p.name for p in GEN.iterdir()} == set(registro.ids("paquete"))
+
+
+def test_validar_en_verde():
+    r = correr("herramientas/generar.py", "validar")
+    assert r.returncode == 0, r.stdout[-3000:]
+
+
+def test_validacion_detecta_componente_faltante(tmp_path, monkeypatch):
+    """Si el tema global nombra un esquema que no se genera, o falta un archivo de un componente, la validación falla."""
+    from nucleo import validacion
+    copia = tmp_path / "generado"
+    shutil.copytree(GEN, copia)
+    (copia / "esquema" / f"{MARCA['id_esquema']['oscuro']}.colors").unlink()
+    (copia / "global" / MARCA["id_global"]["claro"] / "contents" / "splash" / "Splash.qml").unlink()
+    monkeypatch.setattr(registro, "GENERADO", copia)
+    inf = validacion.Informe()
+    validacion.integracion(inf, MARCA)
+    texto = "\n".join(inf.errores)
+    assert "ColorScheme=" in texto and "esquema" in texto, texto
+    assert "Splash.qml" in texto, texto
+
+
+def test_defaults_compuestos_por_los_modulos():
+    """Cada clave de `contents/defaults` tiene un solo dueño y el tema global no escribe identificadores ajenos."""
+    from nucleo import validacion
+    glob = registro.codigo("global")
+    for v in ("claro", "oscuro"):
+        d = validacion.defaults(GEN / "global" / MARCA["id_global"][v] / "contents" / "defaults")
+        esperado: dict = {}
+        for id_ in glob.aportes():
+            for grupo, claves in registro.codigo(id_).valores(MARCA, v).items():
+                for k, x in claves.items():
+                    assert k not in esperado.setdefault(grupo, {}), (grupo, k)
+                    esperado[grupo][k] = x
+        assert d == esperado, v
+    fuente = registro.modulo("global").archivo("construir.py").read_text(encoding="utf-8")
+    for ajeno in ("Papirus", "WhiteSur-cursors", "kvantum", "aurorae.v2", "__aurorae__", "LayoutName", MARCA["id_fondo"]):
+        assert ajeno not in fuente, ajeno
+
+
+def test_componentes_dentro_del_tema_global():
+    """La pantalla de carga, la de salida y la disposición viven dentro del paquete del tema global (donde Plasma las
+    lee) y en ningún otro sitio de generado/; el bloqueo no lleva QML propio (en Plasma 6.6 es del paquete de shell)."""
+    for id_ in ("carga-bloqueo", "disposicion"):
+        m = registro.modulo(id_)
+        assert m.datos["integracion"]["en"] == "global" and not (GEN / id_).exists()
+        for v in ("claro", "oscuro"):
+            for rel in m.datos["integracion"]["rutas"]:
+                assert (GEN / "global" / MARCA["id_global"][v] / rel).is_file(), (id_, v, rel)
+    for v in ("claro", "oscuro"):
+        assert not (GEN / "global" / MARCA["id_global"][v] / "contents" / "lockscreen").exists()
+    js = (GEN / "global" / MARCA["id_global"]["oscuro"] / "contents" / "layouts" / "org.kde.plasma.desktop-layout.js").read_text(encoding="utf-8")
+    assert "@NOMBRE@" not in js and "@FONDO@" not in js and f"/{MARCA['id_fondo']}" in js
+
+
+def test_codigo_solo_usa_lo_declarado():
+    """Un módulo solo carga el código de otro si lo declara (la validación lo comprueba; aquí, el orden de construcción)."""
+    orden = registro.orden_de_construccion(registro.ids())
+    for m in registro.todos():
+        for d in m.dependencias("construccion") + m.dependencias("integra"):
+            assert orden.index(d) < orden.index(m.id), (d, m.id)
+
+
+@pytest.mark.skipif(shutil.which("plasmashell") is None, reason="sin Plasma")
+def test_kvantum_en_xdg_config_home(tmp_path: Path):
+    """Kvantum va a $XDG_CONFIG_HOME aunque no sea ~/.config (en 0.3.0 se calculaba desde $XDG_DATA_HOME/../..)."""
+    env = _entorno(tmp_path)
+    env["XDG_CONFIG_HOME"] = str(tmp_path / "otra-config")
+    r = correr("herramientas/instalar.py", "--modulos", "kvantum", env=env)
+    assert r.returncode == 0 and f"→ {tmp_path / 'otra-config' / 'Kvantum' / MARCA['id_esquema']['claro']}" in r.stdout, r.stdout
+
+
+def test_atajos_de_compatibilidad():
+    """Las órdenes documentadas en 0.3.0 siguen valiendo."""
+    r = correr("herramientas/dependencias.py", "--help")
+    assert "Traceback" not in r.stderr
+    assert correr("herramientas/instalar.py", "--help").returncode == 0
+    assert "módulos desconocidos" in correr("herramientas/instalar.py", "--modulos", "nada").stdout
+
+
+def test_orden_de_aplicacion():
+    """Con --aplicar-tema se aplica primero el tema global y después cada módulo que tenga aplicar(); los componentes y
+    externos del tema global entran siempre, aunque no se pidan (no tienen archivos propios)."""
+    from nucleo import instalacion
+    orden = instalacion.a_aplicar(["esquema"])
+    assert orden[0] == "global" and {"iconos-cursores", "carga-bloqueo"} <= set(orden) and "disposicion" not in orden
+    assert "konsole" not in orden and "konsole" in instalacion.a_aplicar(registro.ids())
+    for id_ in orden:
+        assert callable(registro.codigo(id_, "aplicar").aplicar), id_

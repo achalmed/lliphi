@@ -1,0 +1,30 @@
+{
+  "nombre": "Konsole",
+  "resumen": "Esquemas de color para la terminal con una paleta ANSI de dieciséis colores medida sobre el fondo.",
+  "clase": "paquete",
+  "orden": 3,
+  "formato": "Konsole",
+  "tecnologia": "Konsole `.colorscheme`",
+  "estado": "experimental",
+  "desde": "0.1.0",
+  "archivos": [
+    "Lliphi Claro.colorscheme",
+    "Lliphi Oscuro.colorscheme"
+  ],
+  "capturas": [],
+  "dependencias": {
+    "herramientas_opcionales": [
+      "fc-list"
+    ]
+  },
+  "instalacion": [
+    {
+      "origen": "{nombre_esquema[claro]}.colorscheme",
+      "destino": "konsole/{nombre_esquema[claro]}.colorscheme"
+    },
+    {
+      "origen": "{nombre_esquema[oscuro]}.colorscheme",
+      "destino": "konsole/{nombre_esquema[oscuro]}.colorscheme"
+    }
+  ]
+}

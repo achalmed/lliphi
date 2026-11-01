@@ -15,17 +15,17 @@ El proyecto trae tres acentos medidos: `rojo` (por defecto), `azul` (el azul de 
 
 ```bash
 python3 -m venv .venv && .venv/bin/pip install -e ".[dev]"
-.venv/bin/python herramientas/paleta.py --acento azul --aplicar   # reescribe tokens/tokens.json y mide el contraste
+.venv/bin/python modulos/esquema/paleta.py --acento azul --aplicar   # reescribe tokens/tokens.json y mide el contraste
 .venv/bin/python herramientas/generar.py --aplicar                # regenera todo
 python3 herramientas/instalar.py --aplicar
 ```
 
-Para un matiz propio, edita `ACENTOS` en `herramientas/paleta.py` (luminosidad, croma y matiz en OKLCH): el script
+Para un matiz propio, edita `ACENTOS` en `modulos/esquema/paleta.py` (luminosidad, croma y matiz en OKLCH): el script
 falla si algún par de contraste baja de 4.5:1 (texto) o 3:1 (foco y controles).
 
 ## Cambiar neutros, radios o espacios
 
-- Neutros: `primitivas()` en `herramientas/paleta.py`.
+- Neutros: `primitivas()` en `modulos/esquema/paleta.py`.
 - Radios y espacios: la sección `radio` y `espaciado` de `tokens/tokens.json` se escriben desde `escribir_tokens()`
   en el mismo script; el estilo de Plasma y el sitio los leen de ahí.
 

@@ -1,0 +1,40 @@
+{
+  "nombre": "Terminales: Alacritty y Kitty",
+  "resumen": "Los mismos dieciséis colores ANSI, fondo, selección y cursor de Konsole para Alacritty (TOML) y Kitty (conf), en claro y oscuro.",
+  "clase": "paquete",
+  "orden": 4,
+  "formato": "varios",
+  "tecnologia": "Alacritty `[colors]` (TOML, ≥ 0.13) · Kitty `.conf`",
+  "estado": "experimental",
+  "desde": "0.2.0",
+  "archivos": [
+    "alacritty/lliphi-claro.toml",
+    "alacritty/lliphi-oscuro.toml",
+    "kitty/lliphi-claro.conf",
+    "kitty/lliphi-oscuro.conf"
+  ],
+  "capturas": [],
+  "dependencias": {},
+  "instalacion": [
+    {
+      "origen": "alacritty/{id}-claro.toml",
+      "destino": "alacritty/themes/{id}-claro.toml",
+      "base": "config"
+    },
+    {
+      "origen": "alacritty/{id}-oscuro.toml",
+      "destino": "alacritty/themes/{id}-oscuro.toml",
+      "base": "config"
+    },
+    {
+      "origen": "kitty/{id}-claro.conf",
+      "destino": "kitty/themes/{id}-claro.conf",
+      "base": "config"
+    },
+    {
+      "origen": "kitty/{id}-oscuro.conf",
+      "destino": "kitty/themes/{id}-oscuro.conf",
+      "base": "config"
+    }
+  ]
+}

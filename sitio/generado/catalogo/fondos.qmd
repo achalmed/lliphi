@@ -5,6 +5,7 @@ subtitle: "Paquete «Lliphi Horizonte» con imagen clara y oscura (Plasma elige 
 
 | | |
 |---|---|
+| papel | complemento (paquete) |
 | estado | **probado** |
 | tecnología | paquete de fondo de Plasma (`images/`, `images_dark/`) |
 | desde la versión | 0.1.0 |
@@ -34,7 +35,6 @@ Elige otro fondo (clic derecho en el escritorio → Configurar escritorio y fond
 
 ## Código, incidencias y cambios
 
-- Código: [`generado/wallpapers`](https://github.com/achalmed/lliphi/tree/main/generado/wallpapers) y su generador
-  [`herramientas/destinos/fondo.py`](https://github.com/achalmed/lliphi/blob/main/herramientas/destinos/fondo.py).
+- Código: [`complementos/fondos/`](https://github.com/achalmed/lliphi/tree/main/complementos/fondos) (manifiesto, fuente y su `README.md`); lo generado, en [`generado/fondos`](https://github.com/achalmed/lliphi/tree/main/generado/fondos).
 - Incidencias: [https://github.com/achalmed/lliphi/issues](https://github.com/achalmed/lliphi/issues?q=label%3Afondos).
 - Cambios: [registro de cambios](../../cambios.qmd).

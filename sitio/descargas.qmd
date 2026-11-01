@@ -29,7 +29,8 @@ sha256sum -c SHA256SUMS
 
 - Un `.tar.gz` por módulo: esquemas, temas globales (con pantallas de carga y de salida), estilo de Plasma, Kvantum,
   decoración, Konsole, fondos, terminales, editores, LibreOffice e inicio de sesión SDDM.
-- `herramientas/dependencias.py`: descarga al usuario WhiteSur-cursors, Papirus y JetBrains Mono Nerd Font.
-- `herramientas/instalar.py`: el instalador, sin dependencias; `herramientas/instalar_sddm.py` para el inicio de sesión.
+- `herramientas/instalar.py`: el instalador, sin dependencias; `instalar.py dependencias` descarga al usuario
+  WhiteSur-cursors, Papirus y JetBrains Mono Nerd Font; `instalar.py sddm`, el inicio de sesión; `instalar.py comprobar`
+  verifica lo instalado. Los atajos `dependencias.py` e `instalar_sddm.py` de la 0.3.0 siguen valiendo.
 - `tokens/`: la fuente de verdad del color y de la marca.
 - `docs/`, `CHANGELOG.md`, `LICENSES/`, `REUSE.toml`.
