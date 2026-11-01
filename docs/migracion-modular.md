@@ -180,7 +180,7 @@ intentaba llamar a su `aplicar()` (lo destapó la aplicación real; prueba `test
 ## 6. Vuelta atrás
 
 Mientras `main` no reciba otro commit: `bash "$RESPALDOS_DIR/renombres/2026-10-31-lliphi-arquitectura-modular/UNDO.sh"`
-(`git reset --keep` a la etiqueta). El trabajo está en la rama `wip/2026-10-31-arquitectura-modular`, sin fusionar ni
-publicar; después de fusionar, `git revert`. El respaldo completo (bundle verificado, copia y sumas) está en la misma
+(`git reset --keep` a la etiqueta). El trabajo se hizo en la rama `wip/2026-10-31-arquitectura-modular` y se fusionó en `main` y se
+empujó el 2026-11-01: desde entonces la vuelta atrás es `git revert` (N 3.17), nunca `reset` ni `push --force`. El respaldo completo (bundle verificado, copia y sumas) está en la misma
 carpeta.
 
