@@ -10,10 +10,11 @@ Qué se hace con la base:
   de los indicadores) se sustituyen por los tokens de la variante.
 - `metadata.json` y `plasmarc` son de Lliphi (desenfoque y contraste activos; fondo de Lliphi).
 - Dos variantes porque la base las tiene: `lliphi-oscuro` ← WhiteSur-dark, `lliphi-claro` ← WhiteSur.
-- Dock de Lliphi (mejora 11, `ajustes.json`): el fondo de paneles del oscuro más opaco y en el gris de la ventana (el
-  negro al 45 % de WhiteSur se veía gris lavado con el desenfoque); los mosaicos del gestor de tareas
-  (`widgets/tasks.svg`) y el marco de los escritorios del paginador (`widgets/pager.svg`) los dibuja Lliphi: sin el
-  recuadro gris de cada aplicación, la activa con un mosaico teñido del acento y su marca, y el paginador con una línea
+- Dock de Lliphi (mejora 11, `ajustes.json`): el fondo de paneles del oscuro más opaco, en el gris de la ventana y sin la
+  sombra de WhiteSur (el negro al 45 % se veía gris lavado con el desenfoque; la sombra, como manchas en las puntas del
+  dock); los mosaicos del gestor de tareas
+  (`widgets/tasks.svg`) y el marco de los escritorios del paginador (`widgets/pager.svg`) los dibuja Lliphi: un fondito
+  claro tras cada aplicación abierta, la activa con un mosaico teñido del acento y su marca, y el paginador con una línea
   fina arriba (en el acento, el escritorio activo). Usan las clases `ColorScheme-*` de Plasma: siguen el acento.
 Lo derivado es GPL-3.0-or-later (REUSE.toml).
 """
@@ -125,7 +126,22 @@ def panel(texto: str, t: dict[str, str], aj: dict | None) -> str:
     """El fondo de paneles: el negro al 45 % de WhiteSur pasa al relleno y la opacidad de los ajustes."""
     if not aj:
         return texto
-    return texto.replace("opacity:0.45;fill:#000000", f"opacity:{aj['opacidad']};fill:{t[aj['relleno']]}")
+    texto = texto.replace("opacity:0.45;fill:#000000", f"opacity:{aj['opacidad']};fill:{t[aj['relleno']]}")
+    if aj.get("sombra", True):
+        return texto
+    # sin sombra: fuera los elementos `shadow-*` (Plasma no dibuja la que falta); en las puntas del dock flotante la
+    # sombra de WhiteSur se veía como dos manchas oscuras (pedido del autor, 2026-11-01)
+    ET.register_namespace("", SVG)
+    for prefijo, uri in (("inkscape", "http://www.inkscape.org/namespaces/inkscape"),
+                         ("sodipodi", "http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"),
+                         ("xlink", "http://www.w3.org/1999/xlink")):
+        ET.register_namespace(prefijo, uri)
+    raiz = ET.fromstring(texto)
+    for padre in list(raiz.iter()):
+        for hijo in list(padre):
+            if (hijo.get("id") or "").startswith("shadow-"):
+                padre.remove(hijo)
+    return '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n' + ET.tostring(raiz, encoding="unicode") + "\n"
 
 
 def propio(rel: str, texto: str, t: dict[str, str], aj: dict, variante: str) -> str:

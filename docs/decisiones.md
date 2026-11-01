@@ -211,10 +211,12 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   vea así o mejor. Causas en el de 0.3.0: el fondo de paneles de WhiteSur es negro al 45 %, que con el desenfoque se ve
   gris lavado; los mosaicos de tareas de WhiteSur pintan un recuadro gris bajo cada aplicación abierta con un punto; y el
   paginador traía el azul fijo de WhiteSur. Se decide, en `modulos/estilo/ajustes.json`: (1) el fondo de paneles del
-  oscuro al 88 % y en el gris de la ventana (`fondo.ventana`); el claro, como estaba (su panel oscuro, aprobado en 4.16);
-  (2) `widgets/tasks.svg` lo dibuja Lliphi: sin fondo en reposo (solo una marca discreta), la aplicación activa con un
-  mosaico teñido del acento al 30 % y una barra en el rojo claro de foco, al pasar un gris suave, y avisos y progreso en
-  sus colores; (3) `widgets/pager.svg` también: un trazo corto sobre cada número, en el acento el escritorio activo. Todo
+  oscuro al 88 % y en el gris de la ventana (`fondo.ventana`), sin la sombra de WhiteSur, que en las puntas del dock
+  flotante se veía como dos manchas oscuras; el claro, como estaba (su panel oscuro, aprobado en 4.16); (2)
+  `widgets/tasks.svg` lo dibuja Lliphi: un fondito claro tras cada aplicación abierta (el autor pidió conservarlo), más
+  marcado al pasar, la activa con un mosaico teñido del acento al 30 % y una barra en el rojo claro de foco, y avisos y
+  progreso en sus colores; (3) `widgets/pager.svg` también: un trazo corto sobre cada número, separado de él, en el
+  acento el escritorio activo. Todo
   con las clases `ColorScheme-*` de Plasma, así que sigue el acento del sistema. En la disposición, el dock gana el
   paginador (números, sin siluetas) tras un separador. Límites: el separador de Plasma 6 solo dibuja su línea en modo
   edición (fuera de él da el espacio), y el paginador se oculta con un solo escritorio. Comparación en

@@ -128,6 +128,8 @@ def test_dock_de_lliphi():
     panel = (GEN / "estilo" / f"{MARCA['id']}-oscuro" / "widgets" / "panel-background.svg").read_text(encoding="utf-8")
     fondo = TOKENS["semanticos"]["oscuro"]["fondo"]["ventana"]["$value"]["hex"]
     assert "opacity:0.45;fill:#000000" not in panel and f"opacity:{est['panel']['oscuro']['opacidad']};fill:{fondo}" in panel
+    ET.fromstring(panel)
+    assert 'id="shadow-' not in panel and 'id="mask-topleft"' in panel and 'id="topleft"' in panel   # sin sombra, con máscara
     claro = (GEN / "estilo" / f"{MARCA['id']}-claro" / "widgets" / "panel-background.svg").read_text(encoding="utf-8")
     assert "opacity:0.45;fill:#000000" in claro            # el claro, como estaba (decisiones 4.16)
     dock = registro.codigo("disposicion").paneles()[1]
