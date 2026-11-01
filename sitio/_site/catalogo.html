@@ -382,11 +382,12 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Un módulo es una pieza que se instala, se actualiza y se desinstala por separado. Estados: <strong>probado</strong> (visto en un escritorio real con capturas), <strong>experimental</strong> (instalado, sin verificación visual completa), <strong>pendiente</strong> (en la hoja de ruta). La tabla se genera del repositorio (<code>modulos/*/modulo.json</code>).</p>
+<p>Lliphi es un <strong>tema global</strong> que integra <strong>seis módulos</strong> (esquema de color, estilo de Plasma, decoración de ventanas, iconos y cursores, pantallas de carga, salida y bloqueo, y disposición del escritorio), más los <strong>complementos</strong> que viven fuera del tema global (fondo, Kvantum, terminales, editores, LibreOffice, inicio de sesión). Cada pieza se desarrolla, se instala y se desinstala por separado; la pantalla de carga y la disposición viajan dentro del tema global porque Plasma solo las lee de ahí. Estados: <strong>probado</strong> (visto en un escritorio real con capturas), <strong>experimental</strong> (instalado, sin verificación visual completa), <strong>pendiente</strong> (en la hoja de ruta). La tabla se genera del repositorio (el <code>modulo.json</code> de <code>global/</code>, <code>modulos/&lt;id&gt;/</code> y <code>complementos/&lt;id&gt;/</code>).</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
 <th>módulo</th>
+<th>papel</th>
 <th>qué entrega</th>
 <th>estado</th>
 <th>desde</th>
@@ -394,58 +395,102 @@ ul.task-list li input[type="checkbox"] {
 </thead>
 <tbody>
 <tr class="odd">
+<td><a href="./generado/catalogo/global.html">Temas globales</a></td>
+<td>tema global</td>
+<td>Dos paquetes look-and-feel que aplican esquema, estilo de Plasma, iconos, cursores, decoración y, si lo pides, la disposición del escritorio.</td>
+<td>probado</td>
+<td>0.1.0</td>
+</tr>
+<tr class="even">
+<td><a href="./generado/catalogo/esquema.html">Esquemas de color</a></td>
+<td>módulo</td>
+<td>Lliphi Claro y Lliphi Oscuro para todas las aplicaciones Qt y KDE (y, a través de Plasma, GTK).</td>
+<td>probado</td>
+<td>0.1.0</td>
+</tr>
+<tr class="odd">
+<td><a href="./generado/catalogo/estilo.html">Estilo de Plasma</a></td>
+<td>módulo</td>
+<td>Panel, diálogos, tooltips y fondos de widgets con los radios y márgenes de Lliphi; sigue el esquema de color y el acento del sistema.</td>
+<td>probado</td>
+<td>0.1.0</td>
+</tr>
+<tr class="even">
 <td><a href="./generado/catalogo/decoracion.html">Decoración de ventanas</a></td>
-<td>Dos temas Aurorae (oscuro y claro) con el marco, los radios y la sombra de WhiteSur y los botones circulares de Nothing, recoloreados con los tokens: barra de 30 px con el título centrado, botones a la derecha, cerrar en el acento y el resto en gris; sin semáforo.</td>
+<td>módulo</td>
+<td>Dos temas Aurorae (oscuro y claro) derivados de Nothing: sus botones circulares con glifo al pasar el ratón, con el anillo de minimizar en gris, el título en los grises de Lliphi sin sombra y en Inter Medium, barra de 18 px y botones a la izquierda; la variante clara, recoloreada con los tokens.</td>
+<td>probado</td>
+<td>0.2.0</td>
+</tr>
+<tr class="odd">
+<td><a href="./generado/catalogo/iconos-cursores.html">Iconos y cursores</a></td>
+<td>módulo</td>
+<td>Papirus con las carpetas en el acento de cada variante (Papirus tal cual en el claro, el superpuesto Papirus-Dark-Lliphi con carpetas rojas en el oscuro) y los cursores WhiteSur; Bibata como opcional.</td>
+<td>probado</td>
+<td>0.3.0</td>
+</tr>
+<tr class="even">
+<td><a href="./generado/catalogo/carga-bloqueo.html">Pantallas de carga, salida y bloqueo</a></td>
+<td>módulo</td>
+<td>Pantalla de carga y diálogo de salida derivados de WhiteSur-dark, con el fondo de Lliphi y el nombre en Inter en lugar del logotipo; el bloqueo de pantalla con el fondo oscuro de Lliphi en las dos variantes.</td>
+<td>probado</td>
+<td>0.3.0</td>
+</tr>
+<tr class="odd">
+<td><a href="./generado/catalogo/disposicion.html">Disposición del escritorio</a></td>
+<td>módulo</td>
+<td>Barra superior fina (lanzador, reloj, bandeja) y dock inferior flotante que se oculta bajo las ventanas, con el fondo de Lliphi en cada escritorio; selectores de ventanas y escritorios de Breeze.</td>
+<td>probado</td>
+<td>0.1.0</td>
+</tr>
+<tr class="even">
+<td><a href="./generado/catalogo/fondos.html">Fondos de pantalla</a></td>
+<td>complemento</td>
+<td>Paquete «Lliphi Horizonte» con imagen clara y oscura (Plasma elige según el esquema) en 1080p, 1440p y 4K, y acento declarado.</td>
+<td>probado</td>
+<td>0.1.0</td>
+</tr>
+<tr class="odd">
+<td><a href="./generado/catalogo/kvantum.html">Kvantum</a></td>
+<td>complemento</td>
+<td>Estilo de las aplicaciones Qt derivado del Kvantum de WhiteSur (menús y tooltips translúcidos, controles redondeados) en los colores de cada variante.</td>
 <td>probado</td>
 <td>0.2.0</td>
 </tr>
 <tr class="even">
+<td><a href="./generado/catalogo/konsole.html">Konsole</a></td>
+<td>complemento</td>
+<td>Esquemas de color para la terminal con una paleta ANSI de dieciséis colores medida sobre el fondo.</td>
+<td>experimental</td>
+<td>0.1.0</td>
+</tr>
+<tr class="odd">
+<td><a href="./generado/catalogo/terminales.html">Terminales: Alacritty y Kitty</a></td>
+<td>complemento</td>
+<td>Los mismos dieciséis colores ANSI, fondo, selección y cursor de Konsole para Alacritty (TOML) y Kitty (conf), en claro y oscuro.</td>
+<td>experimental</td>
+<td>0.2.0</td>
+</tr>
+<tr class="even">
 <td><a href="./generado/catalogo/editores.html">Editores: VS Code, Positron y Zed</a></td>
+<td>complemento</td>
 <td>Temas claro y oscuro para VS Code y sus derivados Positron y VSCodium (una misma extensión mínima) y para Zed, con la interfaz del esquema, la sintaxis derivada de los dieciséis ANSI y la terminal integrada de Konsole.</td>
 <td>experimental</td>
 <td>0.2.0</td>
 </tr>
 <tr class="odd">
-<td><a href="./generado/catalogo/esquema.html">Esquemas de color</a></td>
-<td>Lliphi Claro y Lliphi Oscuro para todas las aplicaciones Qt y KDE (y, a través de Plasma, GTK).</td>
-<td>probado</td>
-<td>0.1.0</td>
-</tr>
-<tr class="even">
-<td><a href="./generado/catalogo/estilo.html">Estilo de Plasma</a></td>
-<td>Panel, diálogos, tooltips y fondos de widgets con los radios y márgenes de Lliphi; sigue el esquema de color y el acento del sistema.</td>
-<td>probado</td>
-<td>0.1.0</td>
-</tr>
-<tr class="odd">
-<td><a href="./generado/catalogo/fondos.html">Fondos de pantalla</a></td>
-<td>Paquete «Lliphi Horizonte» con imagen clara y oscura (Plasma elige según el esquema) en 1080p, 1440p y 4K, y acento declarado.</td>
-<td>probado</td>
-<td>0.1.0</td>
-</tr>
-<tr class="even">
-<td><a href="./generado/catalogo/global.html">Temas globales</a></td>
-<td>Dos paquetes look-and-feel que aplican esquema, estilo de Plasma, iconos, cursores, decoración y, si lo pides, la disposición del escritorio.</td>
-<td>probado</td>
-<td>0.1.0</td>
-</tr>
-<tr class="odd">
-<td><a href="./generado/catalogo/konsole.html">Konsole</a></td>
-<td>Esquemas de color para la terminal con una paleta ANSI de dieciséis colores medida sobre el fondo.</td>
-<td>experimental</td>
-<td>0.1.0</td>
-</tr>
-<tr class="even">
 <td><a href="./generado/catalogo/libreoffice.html">LibreOffice: colores de la aplicación</a></td>
+<td>complemento</td>
 <td>Dos esquemas de «Colores de la aplicación» (Lliphi Claro y Lliphi Oscuro) para Writer, Calc, Impress, Draw, Base y la IDE de BASIC: documento, cuadrícula, saltos, control de cambios, sintaxis BASIC y SQL desde los mismos tokens, como extensión .oxt o fragmento .xcu.</td>
 <td>experimental</td>
 <td>0.2.0</td>
 </tr>
-<tr class="odd">
-<td><a href="./generado/catalogo/terminales.html">Terminales: Alacritty y Kitty</a></td>
-<td>Los mismos dieciséis colores ANSI, fondo, selección y cursor de Konsole para Alacritty (TOML) y Kitty (conf), en claro y oscuro.</td>
+<tr class="even">
+<td><a href="./generado/catalogo/sddm.html">Inicio de sesión (SDDM)</a></td>
+<td>complemento</td>
+<td>Pantalla de inicio de sesión derivada de WhiteSur-dark: fondo de Lliphi, Inter y foco en el acento. Es la única pieza que necesita root y no forma parte del tema global ni del bloqueo de pantalla.</td>
 <td>experimental</td>
-<td>0.2.0</td>
+<td>0.3.0</td>
 </tr>
 </tbody>
 </table>
@@ -464,20 +509,20 @@ ul.task-list li input[type="checkbox"] {
 </thead>
 <tbody>
 <tr class="odd">
-<td>decoración de ventanas</td>
-<td>Breeze, coloreada por el esquema (<code>[WM]</code> y <code>Colors:Header</code>). Aurorae se reescribió en Plasma 6.6; no se depende de él.</td>
-</tr>
-<tr class="even">
 <td>aplicaciones GTK</td>
 <td>Plasma genera el tema GTK desde el esquema (<code>breeze-gtk</code>): con el esquema de Lliphi aplicado, GTK 3 y 4 lo siguen.</td>
 </tr>
+<tr class="even">
+<td>interfaz del bloqueo de pantalla</td>
+<td>En Plasma 6.6 es del paquete de shell de Plasma, no de un tema global; el módulo de carga, salida y bloqueo le pone el fondo de Lliphi, y los colores llegan por el esquema y el estilo.</td>
+</tr>
 <tr class="odd">
 <td>iconos y cursores</td>
-<td>Breeze y <code>breeze_cursors</code>, que siguen el esquema. El módulo <code>iconos</code> cambia solo las carpetas y hereda el resto.</td>
+<td>De terceros (Papirus, WhiteSur-cursors): el módulo de iconos y cursores los instala a petición y el tema global los nombra; Lliphi solo añade el superpuesto con las carpetas rojas.</td>
 </tr>
 <tr class="even">
-<td>Kvantum, estilos de widgets en C++</td>
-<td>no se usan: Breeze basta y no se rompe con cada Qt.</td>
+<td>selectores de ventanas, OSD</td>
+<td>Los de Breeze, heredados por <code>X-KDE-fallbackPackage</code>.</td>
 </tr>
 </tbody>
 </table>

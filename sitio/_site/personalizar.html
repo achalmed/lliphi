@@ -427,15 +427,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="generar-una-variante-con-otro-acento">Generar una variante con otro acento</h2>
 <p>El proyecto trae tres acentos medidos: <code>rojo</code> (por defecto), <code>azul</code> (el azul de WhiteSur, llevado a 4.5:1) y <code>verde-azul</code>.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> venv .venv <span class="kw">&amp;&amp;</span> <span class="ex">.venv/bin/pip</span> install <span class="at">-e</span> <span class="st">".[dev]"</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">.venv/bin/python</span> herramientas/paleta.py <span class="at">--acento</span> azul <span class="at">--aplicar</span>   <span class="co"># reescribe tokens/tokens.json y mide el contraste</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">.venv/bin/python</span> modulos/esquema/paleta.py <span class="at">--acento</span> azul <span class="at">--aplicar</span>   <span class="co"># reescribe tokens/tokens.json y mide el contraste</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">.venv/bin/python</span> herramientas/generar.py <span class="at">--aplicar</span>                <span class="co"># regenera todo</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> herramientas/instalar.py <span class="at">--aplicar</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Para un matiz propio, edita <code>ACENTOS</code> en <code>herramientas/paleta.py</code> (luminosidad, croma y matiz en OKLCH): el script falla si algún par de contraste baja de 4.5:1 (texto) o 3:1 (foco y controles).</p>
+<p>Para un matiz propio, edita <code>ACENTOS</code> en <code>modulos/esquema/paleta.py</code> (luminosidad, croma y matiz en OKLCH): el script falla si algún par de contraste baja de 4.5:1 (texto) o 3:1 (foco y controles).</p>
 </section>
 <section id="cambiar-neutros-radios-o-espacios" class="level2">
 <h2 class="anchored" data-anchor-id="cambiar-neutros-radios-o-espacios">Cambiar neutros, radios o espacios</h2>
 <ul>
-<li>Neutros: <code>primitivas()</code> en <code>herramientas/paleta.py</code>.</li>
+<li>Neutros: <code>primitivas()</code> en <code>modulos/esquema/paleta.py</code>.</li>
 <li>Radios y espacios: la sección <code>radio</code> y <code>espaciado</code> de <code>tokens/tokens.json</code> se escriben desde <code>escribir_tokens()</code> en el mismo script; el estilo de Plasma y el sitio los leen de ahí.</li>
 </ul>
 <p>Después, <code>generar.py --aplicar</code> y las pruebas (<code>.venv/bin/pytest</code>) comprueban que nada quedó editado a mano y que el contraste sigue en verde.</p>

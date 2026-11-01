@@ -461,8 +461,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="qué-contiene-una-versión">Qué contiene una versión</h2>
 <ul>
 <li>Un <code>.tar.gz</code> por módulo: esquemas, temas globales (con pantallas de carga y de salida), estilo de Plasma, Kvantum, decoración, Konsole, fondos, terminales, editores, LibreOffice e inicio de sesión SDDM.</li>
-<li><code>herramientas/dependencias.py</code>: descarga al usuario WhiteSur-cursors, Papirus y JetBrains Mono Nerd Font.</li>
-<li><code>herramientas/instalar.py</code>: el instalador, sin dependencias; <code>herramientas/instalar_sddm.py</code> para el inicio de sesión.</li>
+<li><code>herramientas/instalar.py</code>: el instalador, sin dependencias; <code>instalar.py dependencias</code> descarga al usuario WhiteSur-cursors, Papirus y JetBrains Mono Nerd Font; <code>instalar.py sddm</code>, el inicio de sesión; <code>instalar.py comprobar</code> verifica lo instalado. Los atajos <code>dependencias.py</code> e <code>instalar_sddm.py</code> de la 0.3.0 siguen valiendo.</li>
 <li><code>tokens/</code>: la fuente de verdad del color y de la marca.</li>
 <li><code>docs/</code>, <code>CHANGELOG.md</code>, <code>LICENSES/</code>, <code>REUSE.toml</code>.</li>
 </ul>

@@ -421,26 +421,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="informar-de-un-problema" class="level2">
 <h2 class="anchored" data-anchor-id="informar-de-un-problema">Informar de un problema</h2>
-<p>Abre una <a href="https://github.com/achalmed/lliphi/issues">incidencia</a> con: distribución y versión de Plasma (<code>plasmashell --version</code>), sesión (Wayland o X11), la variante (clara u oscura), qué esperabas, qué pasó y una captura. Si es de un módulo, nómbralo (esquema, global, estilo, konsole, fondos).</p>
+<p>Abre una <a href="https://github.com/achalmed/lliphi/issues">incidencia</a> con: distribución y versión de Plasma (<code>plasmashell --version</code>), sesión (Wayland o X11), la variante (clara u oscura), qué esperabas, qué pasó y una captura. Si es de un módulo, nómbralo por su id (<code>global</code>, <code>esquema</code>, <code>estilo</code>, <code>decoracion</code>, <code>iconos-cursores</code>, <code>carga-bloqueo</code>, <code>disposicion</code>, o un complemento: <code>fondos</code>, <code>kvantum</code>, <code>konsole</code>…; lista en el <a href="./catalogo.html">catálogo</a>).</p>
 </section>
 <section id="proponer-un-cambio-de-diseño" class="level2">
 <h2 class="anchored" data-anchor-id="proponer-un-cambio-de-diseño">Proponer un cambio de diseño</h2>
-<p>Primero una incidencia con la propuesta y, si puedes, una captura o boceto. Los cambios de paleta pasan por <code>herramientas/paleta.py</code>: toda propuesta debe seguir dando 4.5:1 en texto y 3:1 en foco y controles.</p>
+<p>Primero una incidencia con la propuesta y, si puedes, una captura o boceto. Los cambios de paleta pasan por <code>modulos/esquema/paleta.py</code>: toda propuesta debe seguir dando 4.5:1 en texto y 3:1 en foco y controles.</p>
 </section>
 <section id="programar" class="level2">
 <h2 class="anchored" data-anchor-id="programar">Programar</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/achalmed/lliphi.git <span class="kw">&amp;&amp;</span> <span class="bu">cd</span> lliphi</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> venv .venv <span class="kw">&amp;&amp;</span> <span class="ex">.venv/bin/pip</span> install <span class="at">-e</span> <span class="st">".[dev]"</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">.venv/bin/python</span> herramientas/paleta.py <span class="at">--aplicar</span>     <span class="co"># tokens</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">.venv/bin/python</span> modulos/esquema/paleta.py <span class="at">--aplicar</span> <span class="co"># tokens</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">.venv/bin/python</span> herramientas/generar.py <span class="at">--aplicar</span>    <span class="co"># todo lo generado</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ex">.venv/bin/pytest</span>                                      <span class="co"># pruebas</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="ex">.venv/bin/reuse</span> lint                                  <span class="co"># licencias</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ex">.venv/bin/python</span> herramientas/generar.py validar      <span class="co"># módulos, dependencias, estructura KDE e integración</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="ex">.venv/bin/pytest</span>                                      <span class="co"># pruebas</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="ex">.venv/bin/reuse</span> lint                                  <span class="co"># licencias</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Reglas:</p>
 <ul>
 <li><strong>Lo generado no se edita</strong>: cambia los tokens o el generador; <code>generar.py verificar</code> (y la prueba <code>test_generado_sin_deriva</code>) rechaza ediciones a mano en <code>generado/</code> y <code>sitio/generado/</code>.</li>
 <li><strong>Ningún color fuera de los tokens</strong>: la prueba <code>test_ningun_hex_fuera_del_maestro</code> lo vigila.</li>
 <li><strong>Nada de terceros</strong>: ni SVG, ni iconos, ni código copiado de otros temas. Todo archivo lleva su licencia (REUSE).</li>
-<li><strong>Un módulo nuevo</strong> es una carpeta en <code>modulos/&lt;id&gt;/</code> con <code>modulo.json</code> e <code>INSTALL.md</code>, un generador en <code>herramientas/destinos/</code>, su entrada en <code>MODULOS</code> del instalador, su prueba y su fila en la matriz de compatibilidad.</li>
+<li><strong>Un módulo nuevo</strong> es una carpeta en <code>modulos/&lt;id&gt;/</code> o <code>complementos/&lt;id&gt;/</code> con <code>modulo.json</code>, <code>README.md</code>, <code>INSTALL.md</code> y <code>construir.py</code> (el contrato está en <code>docs/arquitectura.md</code> §4), su prueba y su fila en la matriz de compatibilidad. El núcleo, el instalador y este sitio lo descubren por su manifiesto: no hay tablas que tocar.</li>
+<li><strong>Cada módulo se desarrolla aparte</strong>: su <code>README.md</code> dice qué es suyo, de quién depende y cómo probarlo.</li>
 <li>Mensajes de commit en español, con <a href="https://www.conventionalcommits.org/es/">Conventional Commits</a>.</li>
 </ul>
 </section>
