@@ -25,6 +25,10 @@ Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión de
 - Nueve pruebas de la arquitectura (33 en total) y el paso `validar` en la integración continua.
 
 ### Fixed
+- Disposición del escritorio: el fondo de cada escritorio apuntaba a la carpeta de datos y no a la de fondos
+  (`userDataPath("wallpapers")` → `userDataPath("data", "wallpapers")`) y el escritorio quedaba negro al aplicar la
+  disposición desde Preferencias; el dock pedía `windowscover`, que Plasma 6 ya no tiene, y no se ocultaba: ahora
+  `dodgewindows`, se aparta cuando una ventana llega a él.
 - Kvantum se instalaba en `$XDG_DATA_HOME/../../.config/Kvantum`, que falla si las rutas XDG no son las de omisión;
   ahora va a `$XDG_CONFIG_HOME/Kvantum`, y un manifiesto de 0.3.0 con la ruta antigua se sigue reconociendo.
 - El instalador respalda las notas del widget de Plasma (`~/.local/share/plasma_notes`) y `UNDO.sh` las devuelve: si un

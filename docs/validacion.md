@@ -275,8 +275,8 @@ PID tras comprobar el `HOME` en `/proc/<pid>/environ`. La sesión del autor no s
 | `instalar.py comprobar` | sin faltas; KDE encuentra tema global, estilo y decoración (`kpackagetool6 --show`) | |
 | disposición (`--resetLayout`) | el script crea los dos paneles con sus widgets (lo confirma el scripting de Plasma), pero (a) el fondo queda negro y (b) los paneles no se dibujan en la anidada | ver defectos |
 
-Defectos encontrados (los dos primeros vienen de 0.3.0: el script es byte a byte el mismo; no se corrigen sin el visto
-bueno del autor, regla 12 del encargo):
+Defectos encontrados (los dos primeros vienen de 0.3.0: el script era byte a byte el mismo; el autor aprobó corregirlos
+el 2026-11-01, ver al final de la sección):
 
 1. **Fondo de la disposición**: `userDataPath("wallpapers")` devuelve la carpeta de datos, no la de fondos (comprobado
    en el scripting de Plasma 6.6: `userDataPath("data", "wallpapers")` sí da `…/wallpapers`); el script escribe
@@ -288,4 +288,15 @@ bueno del autor, regla 12 del encargo):
    new panel`. Puede ser solo de la sesión anidada; falta verlo en una sesión real.
 4. En la variante clara, los botones de Plasma Welcome se ven oscuros con el texto casi ilegible (Kvantum claro);
    observado en la captura, sin investigar.
+
+**Corrección de la disposición (2026-11-01, aprobada por el autor).** En `modulos/disposicion/escritorio.js`: el fondo
+pasa a `userDataPath("data", "wallpapers")` y el dock a `hiding = "dodgewindows"`. Los valores que entiende el
+scripting de Plasma 6.6 se leyeron del propio `plasmashell` (cadenas UTF-16: `normal`, `autohide`, `dodgewindows`,
+`windowsgobelow`); «las ventanas pueden cubrirlo» desapareció en Plasma 6, y `dodgewindows` es lo que más se acerca a
+«se oculta bajo las ventanas»: el dock se aparta cuando una ventana llega a él. Comprobado en una sesión anidada nueva
+con `plasma-apply-lookandfeel -a org.lliphi.oscuro --resetLayout` y sin `--aplicar-tema` (el fondo lo pone la propia
+disposición): el scripting lee `bottom(hiding=dodgewindows, flotante=true)` y el fondo
+`…/wallpapers/org.lliphi.horizonte`; en la captura se ven la barra superior, el dock y el fondo
+(`oscuro-24-disposicion.png`). Esta vez los paneles se dibujaron, aunque el aviso «Did not find a valid screen» siguió
+saliendo tres veces: el defecto 3 parece del estado de la anidada anterior, no del script.
 

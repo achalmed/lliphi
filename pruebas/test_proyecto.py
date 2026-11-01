@@ -589,6 +589,10 @@ def test_componentes_dentro_del_tema_global():
         assert not (GEN / "global" / MARCA["id_global"][v] / "contents" / "lockscreen").exists()
     js = (GEN / "global" / MARCA["id_global"]["oscuro"] / "contents" / "layouts" / "org.kde.plasma.desktop-layout.js").read_text(encoding="utf-8")
     assert "@NOMBRE@" not in js and "@FONDO@" not in js and f"/{MARCA['id_fondo']}" in js
+    # validacion.md §9: el fondo por la carpeta de fondos (el tipo de userDataPath va primero) y un modo de ocultación que
+    # Plasma 6.6 entiende (normal, autohide, dodgewindows, windowsgobelow; «windowscover» ya no existe)
+    assert 'userDataPath("data", "wallpapers")' in js and 'userDataPath("wallpapers")' not in js
+    assert set(re.findall(r'\.hiding = "(\w+)"', js)) <= {"normal", "none", "autohide", "dodgewindows", "windowsgobelow"}
 
 
 def test_codigo_solo_usa_lo_declarado():

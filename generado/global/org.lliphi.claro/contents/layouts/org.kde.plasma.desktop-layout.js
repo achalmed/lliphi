@@ -16,7 +16,7 @@ superior.addWidget("org.kde.plasma.systemtray");
 var dock = new Panel;
 dock.location = "bottom";
 dock.height = Math.round(gridUnit * 3);              // ≈ 56 px
-dock.hiding = "windowscover";
+dock.hiding = "dodgewindows";                        // se aparta cuando una ventana llega a él (Plasma 6 ya no tiene «windowscover»)
 dock.floating = true;
 dock.lengthMode = "fit";
 dock.alignment = "center";
@@ -28,6 +28,7 @@ var escritorios = desktopsForActivity(currentActivity());
 for (var i = 0; i < escritorios.length; i++) {
     escritorios[i].wallpaperPlugin = "org.kde.image";
     escritorios[i].currentConfigGroup = ["Wallpaper", "org.kde.image", "General"];
-    // por ruta del paquete: en Plasma 6.6 el nombre de un paquete de usuario no se resolvía (docs/validacion.md §3)
-    escritorios[i].writeConfig("Image", "file://" + userDataPath("wallpapers") + "/org.lliphi.horizonte");
+    // por ruta del paquete: en Plasma 6.6 el nombre de un paquete de usuario no se resolvía (docs/validacion.md §3);
+    // con un solo argumento, userDataPath devuelve la carpeta de datos y no la de fondos: el tipo va primero (validacion.md §9)
+    escritorios[i].writeConfig("Image", "file://" + userDataPath("data", "wallpapers") + "/org.lliphi.horizonte");
 }
