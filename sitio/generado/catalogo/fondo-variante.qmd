@@ -1,13 +1,13 @@
 ---
-title: "El fondo sigue a la variante"
-subtitle: "Al cambiar entre Lliphi Claro y Lliphi Oscuro (con el tema global o el esquema), pone en cada escritorio la imagen clara u oscura del mismo fondo de Lliphi que tengas elegido."
+title: "El fondo y Konsole siguen a la variante"
+subtitle: "Al cambiar entre Lliphi Claro y Lliphi Oscuro (con el tema global o el esquema), pone en cada escritorio la imagen clara u oscura del mismo fondo de Lliphi que tengas elegido, y en Konsole el esquema de la variante, también en las ventanas abiertas."
 ---
 
 | | |
 |---|---|
 | papel | complemento (paquete) |
 | estado | **probado** |
-| tecnología | programa de Python (solo biblioteca estándar) que escucha `org.kde.KGlobalSettings.notifyChange` con `dbus-monitor` y cambia el fondo por el scripting de Plasma; arranque automático (`autostart`) |
+| tecnología | programa de Python (solo biblioteca estándar) que escucha `org.kde.KGlobalSettings.notifyChange` con `dbus-monitor`, cambia el fondo por el scripting de Plasma y Konsole por su perfil y la secuencia `ESC ] 50`; arranque automático (`autostart`) |
 | desde la versión | 0.3.0 |
 | archivos | `seguir-variante.py`, `lliphi-fondo-variante.desktop` |
 | licencia | MIT |

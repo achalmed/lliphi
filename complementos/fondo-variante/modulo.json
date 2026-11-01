@@ -1,10 +1,10 @@
 {
-  "nombre": "El fondo sigue a la variante",
-  "resumen": "Al cambiar entre Lliphi Claro y Lliphi Oscuro (con el tema global o el esquema), pone en cada escritorio la imagen clara u oscura del mismo fondo de Lliphi que tengas elegido.",
+  "nombre": "El fondo y Konsole siguen a la variante",
+  "resumen": "Al cambiar entre Lliphi Claro y Lliphi Oscuro (con el tema global o el esquema), pone en cada escritorio la imagen clara u oscura del mismo fondo de Lliphi que tengas elegido, y en Konsole el esquema de la variante, también en las ventanas abiertas.",
   "clase": "paquete",
   "orden": 9,
   "formato": "varios",
-  "tecnologia": "programa de Python (solo biblioteca estándar) que escucha `org.kde.KGlobalSettings.notifyChange` con `dbus-monitor` y cambia el fondo por el scripting de Plasma; arranque automático (`autostart`)",
+  "tecnologia": "programa de Python (solo biblioteca estándar) que escucha `org.kde.KGlobalSettings.notifyChange` con `dbus-monitor`, cambia el fondo por el scripting de Plasma y Konsole por su perfil y la secuencia `ESC ] 50`; arranque automático (`autostart`)",
   "estado": "probado",
   "desde": "0.3.0",
   "licencia": "MIT",
@@ -18,7 +18,7 @@
       "kreadconfig6",
       "qdbus6",
       "dbus-monitor",
-      "pgrep"
+      "pkill"
     ]
   },
   "instalacion": [

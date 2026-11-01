@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""@NOMBRE@: el fondo sigue a la variante. GENERADO por herramientas/generar.py desde complementos/fondo-variante; no editar.
+"""@NOMBRE@: el fondo y Konsole siguen a la variante. GENERADO por herramientas/generar.py desde complementos/fondo-variante; no editar.
 
 Al cambiar el tema global (o el esquema de color) entre @NOMBRE@ Claro y @NOMBRE@ Oscuro, Plasma no cambia el fondo;
 y si el fondo es un paquete con imagen clara y oscura, elige por los colores del estilo de Plasma, que en el claro
@@ -7,6 +7,11 @@ declara su panel oscuro. Este programa mira el esquema de color (`[General] Colo
 cada escritorio, del mismo paquete de fondo de @NOMBRE@ que ya tenga (`@DOMINIO@.*`), la imagen de la variante:
 `contents/images/` en el claro y `contents/images_dark/` en el oscuro. Si el esquema o el fondo no son de @NOMBRE@,
 no toca nada.
+
+Konsole tampoco sigue a la variante: si el perfil por defecto (`konsolerc` → DefaultProfile) usa un esquema de
+@NOMBRE@, se le pone el de la variante (ventanas nuevas) y se cambia en las sesiones abiertas con ese esquema, con la
+secuencia de Konsole `ESC ] 50 ; ColorScheme=… BEL` escrita en su terminal (la de `konsoleprofile`); un perfil con
+otro esquema no se toca.
 
 Uso:  seguir-variante.py              # simula: dice qué cambiaría
       seguir-variante.py --aplicar    # lo cambia una vez
@@ -28,7 +33,9 @@ from urllib.parse import unquote, urlparse
 DOMINIO = "@DOMINIO@"
 VARIANTES = {"@ESQUEMA_CLARO@": "claro", "@ESQUEMA_OSCURO@": "oscuro"}
 CARPETA = {"claro": "images", "oscuro": "images_dark"}
+KONSOLE = {"claro": "@KONSOLE_CLARO@", "oscuro": "@KONSOLE_OSCURO@"}
 DATA = Path(os.environ.get("XDG_DATA_HOME") or Path.home() / ".local" / "share")
+CONFIG = Path(os.environ.get("XDG_CONFIG_HOME") or Path.home() / ".config")
 LEER = """var d = desktops(); var r = [];
 for (var i = 0; i < d.length; i++) { d[i].currentConfigGroup = ["Wallpaper", "org.kde.image", "General"];
   r.push(i + "\\t" + d[i].wallpaperPlugin + "\\t" + d[i].readConfig("Image")); }
@@ -95,6 +102,78 @@ def aplicar(lista: list[tuple[int, str, str]]) -> None:
     guion(js)
 
 
+def perfil_konsole() -> Path | None:
+    """El perfil por defecto de Konsole, si es un archivo del usuario."""
+    rc = CONFIG / "konsolerc"
+    if not rc.exists():
+        return None
+    m = re.search(r"^DefaultProfile=(.+)$", rc.read_text(encoding="utf-8", errors="ignore"), re.M)
+    perfil = DATA / "konsole" / m.group(1).strip() if m else None
+    return perfil if perfil and perfil.exists() else None
+
+
+def esquema_del_perfil(perfil: Path) -> str | None:
+    grupo = None
+    for linea in perfil.read_text(encoding="utf-8", errors="ignore").splitlines():
+        if linea.startswith("["):
+            grupo = linea.strip()
+        elif grupo == "[Appearance]" and linea.startswith("ColorScheme="):
+            return linea.split("=", 1)[1].strip()
+    return None
+
+
+def fijar_esquema(perfil: Path, esquema: str) -> None:
+    """Cambia solo `ColorScheme=` de [Appearance]; en el archivo real, para no romper un enlace de dotfiles."""
+    real, grupo, salida = perfil.resolve(), None, []
+    for linea in real.read_text(encoding="utf-8").splitlines():
+        if linea.startswith("["):
+            grupo = linea.strip()
+        elif grupo == "[Appearance]" and linea.startswith("ColorScheme="):
+            linea = f"ColorScheme={esquema}"
+        salida.append(linea)
+    real.write_text("\n".join(salida) + "\n", encoding="utf-8")
+
+
+def terminales_abiertas() -> list[str]:
+    """Las terminales (/dev/pts/N) de las sesiones de Konsole abiertas, por su proceso."""
+    qdbus = herramienta("qdbus6")
+    if not qdbus:
+        return []
+    salida = []
+    servicios = subprocess.run([qdbus], capture_output=True, text=True, timeout=10).stdout.split()
+    for servicio in (s for s in servicios if s.startswith("org.kde.konsole-")):
+        rutas = subprocess.run([qdbus, servicio], capture_output=True, text=True, timeout=10).stdout.split()
+        for ruta in (r for r in rutas if re.fullmatch(r"/Sessions/\d+", r)):
+            pid = subprocess.run([qdbus, servicio, ruta, "org.kde.konsole.Session.processId"],
+                                 capture_output=True, text=True, timeout=10).stdout.strip()
+            try:
+                tty = os.readlink(f"/proc/{int(pid)}/fd/0")
+            except (ValueError, OSError):
+                continue
+            if tty.startswith("/dev/pts/") and tty not in salida:
+                salida.append(tty)
+    return salida
+
+
+def konsole(var: str, escribir: bool) -> None:
+    perfil = perfil_konsole()
+    actual = esquema_del_perfil(perfil) if perfil else None
+    if actual not in KONSOLE.values():
+        return                                       # sin perfil propio, o con un esquema que no es de Lliphi
+    if actual == KONSOLE[var]:
+        return
+    print(f"{'' if escribir else 'SIM '}Konsole: {perfil.name} {actual} → {KONSOLE[var]}")
+    if not escribir:
+        return
+    fijar_esquema(perfil, KONSOLE[var])
+    for tty in terminales_abiertas():
+        try:
+            with open(tty, "w", encoding="utf-8") as t:
+                t.write(f"\033]50;ColorScheme={KONSOLE[var]}\007")
+        except OSError:
+            pass
+
+
 def una_vez(escribir: bool) -> None:
     lista = cambios()
     for i, vieja, nueva in lista:
@@ -102,7 +181,10 @@ def una_vez(escribir: bool) -> None:
     if escribir and lista:
         aplicar(lista)
     if not lista:
-        print("nada que cambiar (el fondo ya es el de la variante, o no es de Lliphi)")
+        print("nada que cambiar en el fondo (ya es el de la variante, o no es de Lliphi)")
+    var = variante()
+    if var:
+        konsole(var, escribir)
 
 
 def vigilar() -> int:

@@ -1,7 +1,9 @@
 # Konsole (`konsole`)
 
 Los esquemas de color de Konsole (`Lliphi Claro.colorscheme`, `Lliphi Oscuro.colorscheme`) con los dieciséis ANSI
-del grupo `terminal` de los tokens, fondo con desenfoque y opacidad de `efectos`.
+del grupo `terminal` de los tokens, fondo con desenfoque y opacidad de `efectos`. El magenta (`Color5`) lleva el acento de
+la variante, rojo en el oscuro y azul en el claro (decisiones 4.28): lo que el prompt pinte en magenta combina con el
+tema. Al cambiar de variante, el esquema del perfil y de las ventanas abiertas lo cambia `fondo-variante`.
 
 Es un **complemento**: existía antes de la reingeniería y se conserva fuera del tema global, porque no es parte de un
 `Plasma/LookAndFeel`. Arquitectura: [`docs/arquitectura.md`](../../docs/arquitectura.md).

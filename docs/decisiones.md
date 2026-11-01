@@ -206,6 +206,18 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   (carpetas azules, para el claro) y crea `Papirus-Dark-Lliphi`, un tema superpuesto que hereda de Papirus-Dark y solo declara
   enlaces a las variantes rojas de todo icono que acaba en una carpeta azul (lugares, `inode-directory`, `user-home`…). El
   oscuro usa ese superpuesto. Efecto secundario bueno: Home y Escritorio, que antes quedaban azules en el oscuro, ahora son rojos.
+- **4.28 (2026-11-01) Konsole sigue a la variante y lleva su acento.** El autor vio Konsole con colores que no
+  combinaban con el tema: debía ir en rojo con Lliphi Oscuro y en azul con Lliphi Claro. Dos causas. Konsole no tiene un
+  esquema «del sistema»: el perfil queda con el esquema que se instaló, así que con el tema claro seguía en Lliphi
+  Oscuro. Y los dieciséis ANSI no llevan el acento: el prompt pinta con azul y magenta genéricos. Se resuelve así: en el
+  esquema de Konsole, el magenta (`Color5`) toma el acento de la variante, el primero que da ≥ 4,5:1 sobre el fondo
+  (`acento` en el claro, `#315bef`; `acento-suave` en el oscuro, `#f36259`; `acento` del oscuro da 4,1:1), con
+  `acento-texto` como intenso. El magenta de los tokens no cambia, porque LibreOffice, Obsidian y los editores lo usan
+  con su nombre. Y la vigilancia de `fondo-variante` cambia también Konsole: si el perfil por defecto usa un esquema de
+  Lliphi, le pone el de la variante y lo cambia en las sesiones abiertas escribiendo en su terminal `ESC ] 50 ;
+  ColorScheme=… BEL`, la secuencia de `konsoleprofile`. Un perfil con otro esquema no se toca. Al instalar, la vigilancia
+  se reinicia para que corra el programa nuevo. Probado en la sesión de prueba: Konsole abierto en oscuro, el tema
+  global al claro y el esquema de vuelta al oscuro; la ventana abierta cambia sola.
 - **4.27 (2026-11-01) El fondo del escritorio por omisión: «Lliphi Relámpago · @achalmaedison».** Decisión del
   autor: los fondos predeterminados son los de Relámpago firmados, azul en el claro y rojo en el oscuro. La marca gana
   `fondo_escritorio` (`org.lliphi.relampago.firmado`), que usan el instalador, la disposición del tema global y el

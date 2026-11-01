@@ -383,6 +383,11 @@ def test_konsole_16_colores():
         for i in range(8):
             assert f"Color{i}" in cp and f"Color{i}Intense" in cp and f"Color{i}Faint" in cp
         assert cp["General"]["Description"] == MARCA["nombre_esquema"][v]
+        # decisiones 4.28: el magenta lleva el acento de la variante (rojo en el oscuro, azul en el claro), ≥ 4.5:1
+        prim = {k: ",".join(str(int(x["$value"]["hex"][i:i + 2], 16)) for i in (1, 3, 5)) for k, x in TOKENS["primitivas"][v].items()}
+        assert cp["Color5"]["Color"] == prim["acento" if v == "claro" else "acento-suave"], v
+        assert cp["Color5Intense"]["Color"] == prim["acento-texto"]
+        assert cp["Color1"]["Color"] != cp["Color5"]["Color"] and cp["Color4"]["Color"] != cp["Color5"]["Color"]
 
 
 def _terminal(variante: str) -> dict[str, str]:
@@ -958,6 +963,22 @@ def test_fondo_sigue_a_la_variante(tmp_path: Path, monkeypatch):
     assert "--vigilar" in inicio and "/home/" not in inicio and "$HOME" in inicio
     texto = (GEN / "fondo-variante" / "seguir-variante.py").read_text(encoding="utf-8")
     assert not re.search(r"@[A-Z_]+@", texto)                                     # ninguna marca sin sustituir
+    # decisiones 4.28: Konsole sigue a la variante si su perfil usa un esquema de Lliphi; si no, no se toca
+    assert sv.KONSOLE == MARCA["nombre_esquema"]
+    monkeypatch.setattr(sv, "CONFIG", tmp_path / "config")
+    monkeypatch.setattr(sv, "terminales_abiertas", lambda: [])
+    (tmp_path / "config").mkdir()
+    (tmp_path / "config" / "konsolerc").write_text("[Desktop Entry]\nDefaultProfile=yo.profile\n", encoding="utf-8")
+    (datos / "konsole").mkdir(parents=True)
+    perfil = datos / "konsole" / "yo.profile"
+    perfil.write_text(f"[Appearance]\nColorScheme={MARCA['nombre_esquema']['oscuro']}\nFont=Mono,10\n\n[General]\nName=yo\n", encoding="utf-8")
+    sv.konsole("claro", escribir=False)
+    assert f"ColorScheme={MARCA['nombre_esquema']['oscuro']}" in perfil.read_text(encoding="utf-8")   # simular no escribe
+    sv.konsole("claro", escribir=True)
+    assert perfil.read_text(encoding="utf-8") == f"[Appearance]\nColorScheme={MARCA['nombre_esquema']['claro']}\nFont=Mono,10\n\n[General]\nName=yo\n"
+    perfil.write_text("[Appearance]\nColorScheme=Breeze\n", encoding="utf-8")
+    sv.konsole("oscuro", escribir=True)
+    assert perfil.read_text(encoding="utf-8") == "[Appearance]\nColorScheme=Breeze\n"                # ajeno: intacto
 
 
 def test_fondo_del_escritorio():
