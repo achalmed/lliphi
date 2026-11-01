@@ -433,7 +433,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="odd">
 <td>tecnología</td>
-<td>tema de Kvantum (<code>.kvconfig</code> + <code>.svg</code>) en <code>~/.config/Kvantum/</code>; derivado de WhiteSur-kde, GPL-3.0-or-later</td>
+<td>tema de Kvantum (<code>.kvconfig</code> + <code>.svg</code>) en <code>~/.config/Kvantum/Lliphi/</code>, con el claro (<code>Lliphi</code>) y el oscuro (<code>LliphiDark</code>) en la misma carpeta: el estilo <code>kvantum</code> o <code>kvantum-dark</code> elige; derivado de WhiteSur-kde, GPL-3.0-or-later</td>
 </tr>
 <tr class="even">
 <td>desde la versión</td>
@@ -441,7 +441,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="odd">
 <td>archivos</td>
-<td><code>LliphiClaro/</code>, <code>LliphiOscuro/</code></td>
+<td><code>Lliphi/</code></td>
 </tr>
 <tr class="even">
 <td>licencia</td>
@@ -452,17 +452,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="instalar-a-mano" class="level2">
 <h2 class="anchored" data-anchor-id="instalar-a-mano">Instalar a mano</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> ~/.config/Kvantum</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-r</span> LliphiOscuro LliphiClaro ~/.config/Kvantum/</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">kvantummanager</span> <span class="at">--set</span> LliphiOscuro                       <span class="co"># o LliphiClaro</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-r</span> Lliphi ~/.config/Kvantum/</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">kvantummanager</span> <span class="at">--set</span> Lliphi                             <span class="co"># una vez: la variante la elige el estilo</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Y en Preferencias del sistema → Colores y temas → Estilo de las aplicaciones, elige «kvantum-dark» (oscuro) o «kvantum» (claro). Necesita Kvantum para Qt 6 (<code>qt6-style-kvantum</code> en Debian y Ubuntu). El tema global ya declara el estilo; el instalador escribe además <code>~/.config/Kvantum/kvantum.kvconfig</code>.</p>
 </section>
 <section id="actualizar" class="level2">
 <h2 class="anchored" data-anchor-id="actualizar">Actualizar</h2>
-<p>Sustituye las dos carpetas y vuelve a elegir el tema.</p>
+<p>Sustituye la carpeta <code>Lliphi</code>.</p>
 </section>
 <section id="desinstalar" class="level2">
 <h2 class="anchored" data-anchor-id="desinstalar">Desinstalar</h2>
-<p>Elige otro estilo de aplicaciones y borra <code>~/.config/Kvantum/LliphiOscuro</code> y <code>~/.config/Kvantum/LliphiClaro</code>.</p>
+<p>Elige otro estilo de aplicaciones y borra <code>~/.config/Kvantum/Lliphi</code> (y, de versiones anteriores, <code>LliphiOscuro</code> y <code>LliphiClaro</code>).</p>
 </section>
 <section id="código-incidencias-y-cambios" class="level2">
 <h2 class="anchored" data-anchor-id="código-incidencias-y-cambios">Código, incidencias y cambios</h2>
