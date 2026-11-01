@@ -940,6 +940,16 @@ def test_codigo_solo_usa_lo_declarado():
 
 
 @pytest.mark.skipif(shutil.which("plasmashell") is None, reason="sin Plasma")
+def test_kvantum_inactivo_pleno():
+    """Decisiones 4.31: en el oscuro, el deslizador y la barra de progreso de una ventana inactiva llevan el acento entero
+    (WhiteSur los dejaba a media opacidad); lo deshabilitado sigue a media opacidad."""
+    svg = (GEN / "kvantum" / MARCA["nombre"] / f"{MARCA['nombre']}Dark.svg").read_text(encoding="utf-8")
+    piezas = re.findall(r'<[^<>]*\bid="(?:slider-toggled|progress-pattern-normal)-inactive[^"]*"[^<>]*>', svg)
+    assert piezas and not any(re.search(r"(?<![-\w])opacity:0?\.5\b", x) for x in piezas)
+    deshabilitado = re.findall(r'<[^<>]*\bid="progress-pattern-disabled[^"]*"[^<>]*>', svg)
+    assert any(re.search(r"(?<![-\w])opacity:0?\.5\b", x) for x in deshabilitado)
+
+
 def test_kvantum_en_xdg_config_home(tmp_path: Path):
     """Kvantum va a $XDG_CONFIG_HOME aunque no sea ~/.config (en 0.3.0 se calculaba desde $XDG_DATA_HOME/../..)."""
     env = _entorno(tmp_path)

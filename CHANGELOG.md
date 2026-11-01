@@ -37,6 +37,8 @@ Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión de
   `sesion.py arrancar --escritorios N` y un reintento si el shell recién arrancado aún escribía su configuración.
 
 ### Added
+- **Kvantum oscuro: deslizador y barra de progreso inactivos con el rojo entero** (decisiones 4.31), como el claro con el
+  azul; WhiteSur los dejaba a media opacidad.
 - **Alacritty, Kitty y la terminal integrada de los editores, con la paleta de Konsole** (decisiones 4.30): las mismas
   dieciséis ANSI de Nothing (rojo en el oscuro, azul en el claro) que Konsole; la sintaxis de los editores no cambia.
 - **Konsole sobre el esquema de Nothing y siguiendo a la variante** (decisiones 4.28 y 4.29): Lliphi Oscuro es el

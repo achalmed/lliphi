@@ -5195,55 +5195,55 @@
      d="m 503.75,741.70286 v 32.4998 h -7.5 v -32.5 z"
      id="progress-pattern-normal-inactive-left"
      inkscape:connector-curvature="0"
-     style="fill:#e22529;fill-opacity:1;fill-rule:evenodd;stroke:none;opacity:0.5"
+     style="fill:#e22529;fill-opacity:1;fill-rule:evenodd;stroke:none"
      inkscape:label="#progress-pattern-normal-left-3" />
   <path
      d="m 503.75,781.70266 c -4,0 -7.5,-3.5 -7.5,-7.5 h 7.5 z"
      id="progress-pattern-normal-inactive-bottomleft"
      inkscape:connector-curvature="0"
-     style="fill:#e22529;fill-opacity:1;fill-rule:evenodd;stroke:none;opacity:0.5"
+     style="fill:#e22529;fill-opacity:1;fill-rule:evenodd;stroke:none"
      inkscape:label="#progress-pattern-normal-bottomleft-3" />
   <path
      d="m 496.25,741.70266 c 0,-4 3.5,-7.5 7.5,-7.5 v 7.5 z"
      id="progress-pattern-normal-inactive-topleft"
      inkscape:connector-curvature="0"
-     style="fill:#e22529;fill-opacity:1;fill-rule:evenodd;stroke:none;opacity:0.5"
+     style="fill:#e22529;fill-opacity:1;fill-rule:evenodd;stroke:none"
      inkscape:label="#progress-pattern-normal-topleft-4" />
   <path
      d="M 503.7502,774.20276 H 536.25 v 7.5 h -32.5 z"
      id="progress-pattern-normal-inactive-bottom"
      inkscape:connector-curvature="0"
-     style="fill:#e22529;fill-opacity:1;fill-rule:evenodd;stroke:none;opacity:0.5"
+     style="fill:#e22529;fill-opacity:1;fill-rule:evenodd;stroke:none"
      inkscape:label="#progress-pattern-normal-bottom-6" />
   <path
      d="m 536.20561,741.70276 h -32.4998 v -7.5 h 32.5 z"
      id="progress-pattern-normal-inactive-top"
      inkscape:connector-curvature="0"
-     style="fill:#e22529;fill-opacity:1;fill-rule:evenodd;stroke:none;opacity:0.5"
+     style="fill:#e22529;fill-opacity:1;fill-rule:evenodd;stroke:none"
      inkscape:label="#progress-pattern-normal-top-6" />
   <path
      d="m 503.75,774.20276 v -32.5 h 32.5 v 32.5 z"
      id="progress-pattern-normal-inactive"
      inkscape:connector-curvature="0"
-     style="fill:#e22529;fill-opacity:1;fill-rule:evenodd;stroke:none;opacity:0.5"
+     style="fill:#e22529;fill-opacity:1;fill-rule:evenodd;stroke:none"
      inkscape:label="#progress-pattern-normal-6" />
   <path
      d="m 536.25,741.70296 v 32.4998 h 7.5 v -32.5 z"
      id="progress-pattern-normal-inactive-right"
      inkscape:connector-curvature="0"
-     style="fill:#e22529;fill-opacity:1;fill-rule:evenodd;stroke:none;opacity:0.5"
+     style="fill:#e22529;fill-opacity:1;fill-rule:evenodd;stroke:none"
      inkscape:label="#progress-pattern-normal-right-1" />
   <path
      d="m 536.25,781.70276 c 4,0 7.5,-3.5 7.5,-7.5 h -7.5 z"
      id="progress-pattern-normal-inactive-bottomright"
      inkscape:connector-curvature="0"
-     style="fill:#e22529;fill-opacity:1;fill-rule:evenodd;stroke:none;opacity:0.5"
+     style="fill:#e22529;fill-opacity:1;fill-rule:evenodd;stroke:none"
      inkscape:label="#progress-pattern-normal-bottomright-7" />
   <path
      d="m 543.75,741.70276 c 0,-4 -3.5,-7.5 -7.5,-7.5 v 7.5 z"
      id="progress-pattern-normal-inactive-topright"
      inkscape:connector-curvature="0"
-     style="fill:#e22529;fill-opacity:1;fill-rule:evenodd;stroke:none;opacity:0.5"
+     style="fill:#e22529;fill-opacity:1;fill-rule:evenodd;stroke:none"
      inkscape:label="#progress-pattern-normal-topright-6" />
   <g
      style="fill-rule:evenodd;stroke:none;stroke-width:3.60899997;stroke-linecap:round;stroke-linejoin:round"
@@ -6637,36 +6637,36 @@
   <path
      inkscape:label="#slider-toggled-inactive-left"
      inkscape:connector-curvature="0"
-     style="fill:#e22529;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;opacity:0.5"
+     style="fill:#e22529;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1"
      id="slider-toggled-inactive-left"
      d="m 530,583.95276 v 15.90884 0.0912 h 8 v -15.9997 h -8 z" />
   <path
      inkscape:label="#slider-toggled-inactive-right"
      inkscape:connector-curvature="0"
-     style="fill:#e22529;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;opacity:0.5"
+     style="fill:#e22529;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1"
      id="slider-toggled-inactive-right"
      d="m 538,583.95276 v 15.90884 0.0912 h 8 v -15.9997 h -8 z" />
   <path
      d="m 538,607.95276 c -4.432,0 -8,-3.568 -8,-8 h 8 z"
      id="slider-toggled-inactive-bottomleft"
-     style="fill:#e22529;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;opacity:0.5"
+     style="fill:#e22529;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1"
      inkscape:connector-curvature="0" />
   <path
      inkscape:label="#slider-toggled-inactive-bottomright"
      d="m 538,607.95276 c 4.432,0 8,-3.568 8,-8 h -8 z"
      id="slider-toggled-inactive-bottomright"
-     style="fill:#e22529;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;opacity:0.5"
+     style="fill:#e22529;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1"
      inkscape:connector-curvature="0" />
   <path
      inkscape:label="#slider-toggled-inactive-topleft"
      inkscape:connector-curvature="0"
-     style="fill:#e22529;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.99999994;opacity:0.5"
+     style="fill:#e22529;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.99999994"
      id="slider-toggled-inactive-topleft"
      d="m 538,575.95276 c -4.432,0 -8,3.568 -8,8.00001 h 8 z" />
   <path
      inkscape:label="#slider-toggled-inactive-topright"
      inkscape:connector-curvature="0"
-     style="fill:#e22529;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;opacity:0.5"
+     style="fill:#e22529;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1"
      id="slider-toggled-inactive-topright"
      d="m 538,575.95276 c 4.432,0 8.00001,3.568 8.00001,8 H 538 Z" />
   <g

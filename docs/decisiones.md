@@ -206,6 +206,17 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   (carpetas azules, para el claro) y crea `Papirus-Dark-Lliphi`, un tema superpuesto que hereda de Papirus-Dark y solo declara
   enlaces a las variantes rojas de todo icono que acaba en una carpeta azul (lugares, `inode-directory`, `user-home`…). El
   oscuro usa ese superpuesto. Efecto secundario bueno: Home y Escritorio, que antes quedaban azules en el oscuro, ahora son rojos.
+- **4.31 (2026-11-01) El deslizador y la barra de progreso inactivos, con el rojo entero.** El autor comparó en
+  Preferencias del sistema → Estilo de las aplicaciones las vistas previas de `kvantum` y `kvantum-dark`: en la clara
+  el deslizador y la barra de progreso salían en el azul entero; en la oscura, en un rojo apagado. La vista previa se
+  dibuja como ventana inactiva, y WhiteSur oscuro pinta `slider-toggled-inactive*` y
+  `progress-pattern-normal-inactive*` con `opacity:0.5`, mientras el claro los deja enteros. Un ajuste,
+  `inactivo_pleno` (solo en el oscuro), quita esa opacidad de esas piezas; lo deshabilitado
+  (`progress-pattern-disabled*`) sigue a media opacidad. Afecta también a toda ventana inactiva del oscuro, que ahora
+  conserva el rojo en deslizadores y barras de progreso, como el claro conserva el azul. Probado en la sesión de prueba.
+  En la misma revisión se descartó cambiar el marco de los botones de Kvantum para la vista previa de los esquemas de
+  color: su banda opaca da el borde blanco a un botón de un esquema oscuro dibujado con el tema claro, pero sin ella los
+  botones claros perdían las esquinas.
 - **4.30 (2026-11-01) Las demás terminales, con la paleta de Konsole.** A pedido del autor, tras 4.29: Alacritty,
   Kitty y la terminal integrada de VS Code, Positron, VSCodium y Zed llevaban la paleta ANSI genérica de los tokens y
   se veían como la ventana que el autor descartó. `complementos/konsole/construir.py` expone `ansi(tokens, variante)`

@@ -87,6 +87,15 @@ def menu_abierto(svg: str, color: str) -> str:
     return re.sub(r'<[^<>]*\bid="menubaritem-(?:pressed|toggled)[^"]*"[^<>]*>', pieza, svg)
 
 
+def inactivo_pleno(svg: str) -> str:
+    """El deslizador y la barra de progreso de una ventana inactiva (`slider-toggled-inactive*`,
+    `progress-pattern-normal-inactive*`) con el acento entero: WhiteSur oscuro los pinta con `opacity:0.5` y el rojo
+    quedaba apagado, mientras el claro los deja enteros (decisiones 4.31). Lo deshabilitado sigue a media opacidad."""
+    def pieza(m: re.Match) -> str:
+        return re.sub(r";?(?<![-\w])opacity:0?\.5\b", "", m.group(0))
+    return re.sub(r'<[^<>]*\bid="(?:slider-toggled|progress-pattern-normal)-inactive[^"]*"[^<>]*>', pieza, svg)
+
+
 def generar(tokens: dict, marca: dict, destino: Path) -> list[Path]:
     hechos: list[Path] = []
     aj = json.loads(AJUSTES.read_text(encoding="utf-8"))
@@ -109,6 +118,8 @@ def generar(tokens: dict, marca: dict, destino: Path) -> list[Path]:
         svg = re.sub(r"#[0-9a-fA-F]{6}\b", lambda m: mapa.get(m.group(0).lower(), m.group(0)), svg)
         if aj.get("azules_al_acento"):
             svg = azules_al_acento(svg, t)
+        if aj.get("inactivo_pleno", {}).get(variante):
+            svg = inactivo_pleno(svg)
         escribir(destino / tema / f"{archivo}.kvconfig", "# GENERADO por herramientas/generar.py desde tokens/ y fuentes/base/WhiteSur-kde; no editar\n" + kv, hechos)
         escribir(destino / tema / f"{archivo}.svg", svg, hechos)
     return hechos
