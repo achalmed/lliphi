@@ -18,7 +18,8 @@ Es un **complemento**: existía antes de la reingeniería y se conserva fuera de
   herramientas. En el oscuro, translúcidas y la barra opaca en `fondo.ventana`: título, menús y herramientas en una sola banda y
   la vista y la terminal integrada con transparencia (decisiones 4.18); el elemento abierto de la barra de menús en `acento.base`, como el elegido dentro del menú
   (decisiones 4.20); y el deslizador y la barra de progreso de una ventana inactiva con el acento entero, no a media
-  opacidad (`inactivo_pleno`, decisiones 4.31).
+  opacidad (`inactivo_pleno`, decisiones 4.31); en el claro, las etiquetas emergentes con texto oscuro, porque el svg
+  las dibuja claras (`etiquetas`, decisiones 4.34).
 - `aplicar.py`: `Kvantum/kvantum.kvconfig` con el tema de la variante y el estilo de widgets en `kdeglobals`.
 - Requiere Kvantum para Qt 6 (`qt6-style-kvantum`). Lo generado: `generado/kvantum/`.
 

@@ -975,6 +975,24 @@ def test_kvantum_inactivo_pleno():
     assert any(re.search(r"(?<![-\w])opacity:0?\.5\b", x) for x in deshabilitado)
 
 
+def test_kvantum_etiquetas_legibles():
+    """Decisiones 4.34: en el claro, Kvantum dibuja la etiqueta emergente clara; su texto es el del texto normal (no el
+    `texto.tooltip` del esquema, casi blanco) y se lee sobre su fondo (≥ 4,5:1)."""
+    konsole = registro.codigo("konsole")
+    for v, archivo in (("claro", MARCA["nombre"]), ("oscuro", f"{MARCA['nombre']}Dark")):
+        kv = (GEN / "kvantum" / MARCA["nombre"] / f"{archivo}.kvconfig").read_text(encoding="utf-8")
+        base = re.search(r"^tooltip\.base\.color=(#[0-9a-f]{6})", kv, re.M).group(1)
+        texto = re.search(r"^tooltip\.text\.color=(#[0-9a-f]{6})", kv, re.M).group(1)
+        tupla = lambda h: tuple(int(h[i:i + 2], 16) for i in (1, 3, 5))
+        assert konsole.contraste(tupla(base), tupla(texto)) >= 4.5, (v, base, texto)
+    svg = (GEN / "kvantum" / MARCA["nombre"] / f"{MARCA['nombre']}.svg").read_text(encoding="utf-8")
+    claro = {k: x["$value"]["hex"] for k, x in _tokens_planos(TOKENS["semanticos"]["claro"]).items()}
+    etiqueta = re.search(r'<[^<>]*\bid="tooltip-normal"[^<>]*>', svg).group(0)
+    assert f"fill:{claro['fondo.ventana']}" in etiqueta, etiqueta                  # el svg la dibuja clara
+    kv = (GEN / "kvantum" / MARCA["nombre"] / f"{MARCA['nombre']}.kvconfig").read_text(encoding="utf-8")
+    assert f"tooltip.text.color={claro['texto.normal']}" in kv
+
+
 def test_kvantum_en_xdg_config_home(tmp_path: Path):
     """Kvantum va a $XDG_CONFIG_HOME aunque no sea ~/.config (en 0.3.0 se calculaba desde $XDG_DATA_HOME/../..)."""
     env = _entorno(tmp_path)

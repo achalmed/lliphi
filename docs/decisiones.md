@@ -206,6 +206,15 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   (carpetas azules, para el claro) y crea `Papirus-Dark-Lliphi`, un tema superpuesto que hereda de Papirus-Dark y solo declara
   enlaces a las variantes rojas de todo icono que acaba en una carpeta azul (lugares, `inode-directory`, `user-home`…). El
   oscuro usa ese superpuesto. Efecto secundario bueno: Home y Escritorio, que antes quedaban azules en el oscuro, ahora son rojos.
+- **4.34 (2026-11-01) Las etiquetas emergentes del claro, legibles en Kvantum.** Tras 4.33 el autor seguía viendo la
+  etiqueta «Minimize» del botón de la ventana sin leerse. No la dibuja el estilo de Plasma: KWin la muestra como una
+  etiqueta de Qt, con el estilo de widgets (Kvantum), igual que toda etiqueta de las aplicaciones. El tema claro de
+  Kvantum dibuja la etiqueta clara (`tooltip-normal` en `fondo.ventana`), pero `CLAVES` le ponía el texto
+  `texto.tooltip` del esquema, casi blanco porque el esquema claro (como WhiteSur) declara etiquetas oscuras. Un ajuste
+  por variante, `etiquetas`, pone en el claro `tooltip.base.color=fondo.ventana` y `tooltip.text.color=texto.normal`.
+  Comprobado en la sesión de prueba con una etiqueta de Qt: antes `#fbfcfd` sobre `#ecedef`, ahora `#1d1f24`
+  (`muestras/capturas/claro-36-etiqueta-kvantum.png`). KWin carga Kvantum al empezar la sesión: las etiquetas de los
+  botones de la ventana cambian al volver a entrar.
 - **4.33 (2026-11-01) Decoración clara visible y en azul, botón de menú propio y etiquetas claras legibles.** El autor
   señaló en la decoración clara tres fallos y un deseo: (1) cerrar seguía rojo, y en el claro debía ser azul; se
   revierte la excepción de 4.12 y los rojos de `close.svg` (`#eb3131`, `#a82323`, `#d46969`) pasan al acento

@@ -104,7 +104,10 @@ def generar(tokens: dict, marca: dict, destino: Path) -> list[Path]:
         tema = tema_de(marca)
         archivo = f"{tema}{SUFIJO[variante]}"
         kv = (BASE / f"{ORIGEN[variante]}.kvconfig").read_text(encoding="utf-8")
-        for clave, token in CLAVES.items():
+        # las etiquetas del claro se dibujan claras (el `tooltip` del svg es fondo.ventana): texto oscuro, no el
+        # `texto.tooltip` del esquema, pensado para etiquetas oscuras (decisiones 4.34)
+        claves = {**CLAVES, **(aj.get("etiquetas", {}).get(variante) or {})}
+        for clave, token in claves.items():
             kv = re.sub(rf"^{re.escape(clave)}=.*$", f"{clave}={t[token]}", kv, flags=re.M)
         kv = kv.replace("[%General]", "[%General]\ncomment=Lliphi, derivado de WhiteSur-kde (GPL-3.0)", 1)
         if not aj["ventanas_translucidas"][variante]:

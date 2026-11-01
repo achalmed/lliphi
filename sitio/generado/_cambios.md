@@ -36,6 +36,8 @@ Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión de
   `sesion.py arrancar --escritorios N` y un reintento si el shell recién arrancado aún escribía su configuración.
 
 ### Added
+- **Etiquetas emergentes legibles en el claro** (decisiones 4.34): Kvantum claro las dibuja claras y ahora con texto
+  oscuro; antes el texto era casi blanco (afectaba a toda aplicación Qt y a los botones de la ventana).
 - **Decoración clara: cerrar en azul, minimizar y maximizar visibles, y un botón de menú de aplicación propio**
   (decisiones 4.33), también en el oscuro; las etiquetas emergentes del estilo claro vuelven a leerse.
 - **Lliphi Claro con panel claro** (decisiones 4.32): el estilo de Plasma del claro pasa de WhiteSur (panel, dock y menús
