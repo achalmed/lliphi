@@ -193,9 +193,10 @@ def estructura(inf: Informe, m: registro.Modulo, marca: dict) -> None:
             for sub in ("images", "images_dark"):
                 inf.exigir(any((p / "contents" / sub).glob("*.png")), m.id, f"{p.name}: contents/{sub}/ sin imágenes")
     elif formato == "Kvantum":
-        for p in hijos:
-            for ext in ("kvconfig", "svg"):
-                inf.exigir((p / f"{p.name}.{ext}").is_file(), m.id, f"{p.name}: falta {p.name}.{ext}")
+        for p in hijos:   # el tema y su variante oscura (<tema>Dark), que Kvantum elige con el estilo kvantum-dark
+            for nombre in (p.name, f"{p.name}Dark"):
+                for ext in ("kvconfig", "svg"):
+                    inf.exigir((p / f"{nombre}.{ext}").is_file(), m.id, f"{p.name}: falta {nombre}.{ext}")
             _svgs(inf, m.id, p)
     elif formato == "Konsole":
         for p in hijos:
@@ -248,7 +249,9 @@ def integracion(inf: Informe, marca: dict) -> None:
         inf.exigir(fondo is not None and (registro.modulo("fondos").generado / fondo / "metadata.json").exists(), "global", f"{v}: fondo {fondo} no lo entrega el complemento fondos")
         estilo_apps = valor("kdeglobals][KDE", "widgetStyle") or ""
         if estilo_apps.startswith("kvantum"):
-            inf.exigir((registro.modulo("kvantum").generado / marca["id_esquema"][v]).is_dir(), "global", f"{v}: widgetStyle={estilo_apps} sin el tema de Kvantum de la variante")
+            tema_kv = registro.codigo("kvantum").tema_de(marca) + ("Dark" if estilo_apps == "kvantum-dark" else "")
+            inf.exigir((registro.modulo("kvantum").generado / registro.codigo("kvantum").tema_de(marca) / f"{tema_kv}.kvconfig").is_file(),
+                       "global", f"{v}: widgetStyle={estilo_apps} sin el tema de Kvantum {tema_kv}")
         inf.exigir(valor("kdeglobals][Icons", "Theme") == iconos.ICONOS[v], "global", f"{v}: el tema de iconos no es el del módulo iconos-cursores")
         inf.exigir(valor("kcminputrc][Mouse", "cursorTheme") == iconos.CURSORES, "global", f"{v}: el tema de cursores no es el del módulo iconos-cursores")
         splash = valor("KSplash", "Theme")

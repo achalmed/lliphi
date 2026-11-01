@@ -206,6 +206,14 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   (carpetas azules, para el claro) y crea `Papirus-Dark-Lliphi`, un tema superpuesto que hereda de Papirus-Dark y solo declara
   enlaces a las variantes rojas de todo icono que acaba en una carpeta azul (lugares, `inode-directory`, `user-home`…). El
   oscuro usa ese superpuesto. Efecto secundario bueno: Home y Escritorio, que antes quedaban azules en el oscuro, ahora son rojos.
+- **4.19 (2026-11-01) Un solo tema de Kvantum con sus dos variantes.** El autor aplicó Lliphi Claro desde Preferencias
+  del sistema y las ventanas quedaron mezcladas: esquema claro (texto oscuro) sobre el Kvantum oscuro. El tema global
+  solo puede declarar el estilo de las aplicaciones (`kvantum` o `kvantum-dark`); qué tema de Kvantum se usa lo dice
+  `~/.config/Kvantum/kvantum.kvconfig`, que solo escribía el instalador de Lliphi. Kvantum resuelve esto por sí mismo:
+  con `kvantum-dark` busca la variante `<tema>Dark` del tema elegido (así lo hace WhiteSur). Se decide que el
+  complemento entregue un solo tema, `Lliphi`, con `Lliphi.*` (claro) y `LliphiDark.*` (oscuro) en la misma carpeta, y
+  que el instalador fije `theme=Lliphi` una vez: desde entonces cambiar de variante con el tema global cambia también
+  Kvantum. El contenido de cada variante no cambia (los archivos son idénticos a los de `LliphiClaro` y `LliphiOscuro`).
 - **4.18 (2026-11-01) Mejora 12: título y barra de herramientas en una sola banda.** El autor comparó una ventana de
   Dolphin con otra que le gusta más, donde el título de la decoración y la barra de herramientas son del mismo color, y
   pidió lo mismo o mejor. En la de Lliphi el título es el `#1b1b1d` de Nothing y la barra salía `#363636`: Kvantum la

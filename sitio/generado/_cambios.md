@@ -17,6 +17,8 @@ Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión de
   `iconos-cursores` (iconos y cursores); el inicio de sesión, a `complementos/sddm/`.
 
 ### Changed
+- **Kvantum, un solo tema `Lliphi`** con el claro y el oscuro (`LliphiDark`) en su carpeta (decisiones 4.19): cambiar
+  de variante desde Preferencias del sistema cambia también Kvantum; antes quedaba el Kvantum de la variante anterior.
 - **Título y barra de herramientas en una sola banda** (mejora 12, decisiones 4.18): en el oscuro, Kvantum pinta la
   barra de herramientas (y con ella la de menús) opaca en el gris de la ventana, el mismo que el título de la
   decoración; el resto de la ventana sigue translúcido (`complementos/kvantum/ajustes.json`); el claro no cambia.

@@ -272,13 +272,12 @@
       "clase": "paquete",
       "orden": 2,
       "formato": "Kvantum",
-      "tecnologia": "tema de Kvantum (`.kvconfig` + `.svg`) en `~/.config/Kvantum/`; derivado de WhiteSur-kde, GPL-3.0-or-later",
+      "tecnologia": "tema de Kvantum (`.kvconfig` + `.svg`) en `~/.config/Kvantum/Lliphi/`, con el claro (`Lliphi`) y el oscuro (`LliphiDark`) en la misma carpeta: el estilo `kvantum` o `kvantum-dark` elige; derivado de WhiteSur-kde, GPL-3.0-or-later",
       "estado": "probado",
       "desde": "0.2.0",
       "licencia": "GPL-3.0-or-later",
       "archivos": [
-        "LliphiClaro/",
-        "LliphiOscuro/"
+        "Lliphi/"
       ],
       "capturas": [],
       "dependencias": {

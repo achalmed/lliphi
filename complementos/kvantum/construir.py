@@ -6,8 +6,13 @@ Se toma `Kvantum/WhiteSur/WhiteSurDark.{kvconfig,svg}` y `WhiteSur.{kvconfig,svg
 `ajustes.json` dice, por variante, si las ventanas son translúcidas (WhiteSur) o sólidas (`WhiteSur-opaque`), y con qué
 token se pinta la barra de herramientas: en el oscuro, translúcidas (la vista de Dolphin y la terminal integrada dejan
 ver el fondo) y la barra, opaca en el color de la ventana, que es el del título de la decoración (decisiones 4.18).
-Se instala en `$XDG_CONFIG_HOME/Kvantum/<id>/` y se activa con `[General] theme=<id>` en `Kvantum/kvantum.kvconfig`
-(`herramientas/instalar.py`), con `widgetStyle=kvantum-dark` / `kvantum` en el tema global.
+Un solo tema, `Lliphi` (el nombre de la marca), con las dos variantes en su carpeta, como hace WhiteSur:
+`Lliphi/Lliphi.{kvconfig,svg}` es el claro y `Lliphi/LliphiDark.{kvconfig,svg}` el oscuro. Kvantum elige solo: con el
+estilo `kvantum` usa `Lliphi` y con `kvantum-dark` busca `LliphiDark`; el tema global declara uno u otro, así que cambiar
+de variante en Preferencias del sistema cambia también Kvantum (antes eran dos temas, `LliphiClaro` y `LliphiOscuro`, y
+el de Kvantum solo lo cambiaba el instalador: aplicar el claro desde Preferencias dejaba el Kvantum oscuro; decisiones
+4.19). Se instala en `$XDG_CONFIG_HOME/Kvantum/Lliphi/` y se activa una vez con `[General] theme=Lliphi` en
+`Kvantum/kvantum.kvconfig`.
 """
 from __future__ import annotations
 
@@ -19,6 +24,7 @@ from nucleo import RAIZ, escribir, semanticos
 
 BASE = RAIZ / "fuentes" / "base" / "WhiteSur-kde" / "Kvantum" / "WhiteSur"
 ORIGEN = {"oscuro": "WhiteSurDark", "claro": "WhiteSur"}
+SUFIJO = {"claro": "", "oscuro": "Dark"}   # Kvantum busca <tema>Dark con el estilo kvantum-dark
 AJUSTES = Path(__file__).resolve().parent / "ajustes.json"
 
 CLAVES = {  # clave del kvconfig → token
@@ -59,7 +65,8 @@ def generar(tokens: dict, marca: dict, destino: Path) -> list[Path]:
     aj = json.loads(AJUSTES.read_text(encoding="utf-8"))
     for variante in ("oscuro", "claro"):
         t = semanticos(tokens, variante)
-        id_ = marca["id_esquema"][variante]
+        tema = tema_de(marca)
+        archivo = f"{tema}{SUFIJO[variante]}"
         kv = (BASE / f"{ORIGEN[variante]}.kvconfig").read_text(encoding="utf-8")
         for clave, token in CLAVES.items():
             kv = re.sub(rf"^{re.escape(clave)}=.*$", f"{clave}={t[token]}", kv, flags=re.M)
@@ -71,9 +78,14 @@ def generar(tokens: dict, marca: dict, destino: Path) -> list[Path]:
         if aj["barra_de_herramientas"][variante]:   # antes del mapa general: #2d2d2d también lo usan otros controles
             svg = barra(svg, t[aj["barra_de_herramientas"][variante]])
         svg = re.sub(r"#[0-9a-fA-F]{6}\b", lambda m: mapa.get(m.group(0).lower(), m.group(0)), svg)
-        escribir(destino / id_ / f"{id_}.kvconfig", "# GENERADO por herramientas/generar.py desde tokens/ y fuentes/base/WhiteSur-kde; no editar\n" + kv, hechos)
-        escribir(destino / id_ / f"{id_}.svg", svg, hechos)
+        escribir(destino / tema / f"{archivo}.kvconfig", "# GENERADO por herramientas/generar.py desde tokens/ y fuentes/base/WhiteSur-kde; no editar\n" + kv, hechos)
+        escribir(destino / tema / f"{archivo}.svg", svg, hechos)
     return hechos
+
+
+def tema_de(marca: dict) -> str:
+    """El nombre del tema de Kvantum: el de la marca (sin espacios, como pide Kvantum)."""
+    return marca["nombre"].replace(" ", "")
 
 
 def valores(marca: dict, variante: str) -> dict[str, dict[str, str]]:

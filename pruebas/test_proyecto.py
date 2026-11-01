@@ -114,14 +114,14 @@ def test_cabecera_en_una_sola_banda():
     """Mejora 12: en el oscuro, la barra de herramientas de Kvantum opaca en el color de la ventana (el del título de la
     decoración) y la ventana translúcida (la vista y la terminal integrada conservan su transparencia); el claro, como
     estaba (barra de WhiteSur)."""
-    oscuro = GEN / "kvantum" / "LliphiOscuro"
-    kv = (oscuro / "LliphiOscuro.kvconfig").read_text(encoding="utf-8")
+    oscuro = GEN / "kvantum" / MARCA["nombre"]
+    kv = (oscuro / f"{MARCA['nombre']}Dark.kvconfig").read_text(encoding="utf-8")
     assert re.search(r"^translucent_windows=true$", kv, re.M) and re.search(r"^transparent_dolphin_view=true$", kv, re.M)
-    svg = (oscuro / "LliphiOscuro.svg").read_text(encoding="utf-8")
+    svg = (oscuro / f"{MARCA['nombre']}Dark.svg").read_text(encoding="utf-8")
     ventana = TOKENS["semanticos"]["oscuro"]["fondo"]["ventana"]["$value"]["hex"]
     piezas = re.findall(r'<[^<>]*\bid="(toolbar-normal(?:-inactive)?(?:-(?:top|left|right|topleft|topright))?)"[^<>]*?fill:(#[0-9a-fA-F]{6})', svg)
     assert piezas and all(color.lower() == ventana for _id, color in piezas), piezas
-    claro = (GEN / "kvantum" / "LliphiClaro" / "LliphiClaro.kvconfig").read_text(encoding="utf-8")
+    claro = (GEN / "kvantum" / MARCA["nombre"] / f"{MARCA['nombre']}.kvconfig").read_text(encoding="utf-8")
     assert re.search(r"^translucent_windows=true$", claro, re.M)
 
 
@@ -328,14 +328,18 @@ def test_estilo_plasma_derivado():
 
 
 def test_kvantum_derivado():
-    for v in ("claro", "oscuro"):
-        d = GEN / "kvantum" / MARCA["id_esquema"][v]
-        kv = (d / f"{MARCA['id_esquema'][v]}.kvconfig").read_text(encoding="utf-8")
+    """Un solo tema de Kvantum con las dos variantes (decisiones 4.19): Kvantum busca <tema>Dark con kvantum-dark, y el
+    tema global declara kvantum-dark en el oscuro y kvantum en el claro."""
+    d = GEN / "kvantum" / MARCA["nombre"]
+    estilos = {v: registro.codigo("kvantum").valores(MARCA, v)["kdeglobals][KDE"]["widgetStyle"] for v in ("claro", "oscuro")}
+    assert estilos == {"claro": "kvantum", "oscuro": "kvantum-dark"}
+    for v, archivo in (("claro", MARCA["nombre"]), ("oscuro", f"{MARCA['nombre']}Dark")):
+        kv = (d / f"{archivo}.kvconfig").read_text(encoding="utf-8")
         hexes = {t["$value"]["hex"].lower() for t in _tokens_planos(TOKENS).values() if isinstance(t["$value"], dict) and "hex" in t["$value"]}
         for clave in ("window.color", "highlight.color", "text.color"):
             m = re.search(rf"^{re.escape(clave)}=(#[0-9a-f]{{6}})", kv, re.M)
             assert m and m.group(1).lower() in hexes, (v, clave)
-        ET.parse(d / f"{MARCA['id_esquema'][v]}.svg")
+        ET.parse(d / f"{archivo}.svg")
 
 def test_konsole_16_colores():
     for v in ("claro", "oscuro"):
@@ -619,8 +623,8 @@ def test_instalar_y_desinstalar_restaura(tmp_path: Path):
     assert comp.returncode == 0 and "FALTA" not in comp.stdout, comp.stdout
     # manifiesto de 0.3.0: Kvantum anotado como `…/.local/share/../../.config/Kvantum/…`; reinstalar no es conflicto
     datos = json.loads(manifiesto.read_text())
-    kv = str(tmp_path / ".config/Kvantum" / MARCA["id_esquema"]["oscuro"])
-    datos["rutas"] = {(str(tmp_path / ".local/share/../../.config/Kvantum" / MARCA["id_esquema"]["oscuro"]) if k == kv else k): v for k, v in datos["rutas"].items()}
+    kv = str(tmp_path / ".config/Kvantum" / MARCA["nombre"])
+    datos["rutas"] = {(str(tmp_path / ".local/share/../../.config/Kvantum" / MARCA["nombre"]) if k == kv else k): v for k, v in datos["rutas"].items()}
     manifiesto.write_text(json.dumps(datos))
     (Path(kv) / "otro.txt").write_text("x")
     assert correr("herramientas/instalar.py", "--aplicar", "--modulos", "kvantum", env=env).returncode == 0
@@ -818,7 +822,7 @@ def test_kvantum_en_xdg_config_home(tmp_path: Path):
     env = _entorno(tmp_path)
     env["XDG_CONFIG_HOME"] = str(tmp_path / "otra-config")
     r = correr("herramientas/instalar.py", "--modulos", "kvantum", env=env)
-    assert r.returncode == 0 and f"→ {tmp_path / 'otra-config' / 'Kvantum' / MARCA['id_esquema']['claro']}" in r.stdout, r.stdout
+    assert r.returncode == 0 and f"→ {tmp_path / 'otra-config' / 'Kvantum' / MARCA['nombre']}" in r.stdout, r.stdout
 
 
 def test_atajos_de_compatibilidad():

@@ -1,8 +1,10 @@
 # Kvantum (`kvantum`)
 
-El estilo de las aplicaciones Qt (`LliphiClaro`, `LliphiOscuro`), derivado del Kvantum de WhiteSur (GPL-3.0): menús y
-tooltips translúcidos, controles redondeados, con las claves de color del `.kvconfig` y los hex del `.svg` tomados de
-los tokens.
+El estilo de las aplicaciones Qt, derivado del Kvantum de WhiteSur (GPL-3.0): menús y tooltips translúcidos, controles
+redondeados, con las claves de color del `.kvconfig` y los hex del `.svg` tomados de los tokens. Es un solo tema,
+`Lliphi`, con el claro (`Lliphi.kvconfig`/`.svg`) y el oscuro (`LliphiDark.kvconfig`/`.svg`) en su carpeta: Kvantum
+usa `LliphiDark` con el estilo `kvantum-dark` y `Lliphi` con `kvantum`, y el tema global declara uno u otro, así que al
+cambiar de variante en Preferencias del sistema Kvantum cambia solo (decisiones 4.19).
 
 Es un **complemento**: existía antes de la reingeniería y se conserva fuera del tema global, porque no es parte de un
 `Plasma/LookAndFeel`. Arquitectura: [`docs/arquitectura.md`](../../docs/arquitectura.md).
