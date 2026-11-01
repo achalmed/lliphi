@@ -91,5 +91,5 @@ for (var k = 0; k < escritorios.length; k++) {
     escritorios[k].currentConfigGroup = ["Wallpaper", "org.kde.image", "General"];
     // por ruta del paquete: en Plasma 6.6 el nombre de un paquete de usuario no se resolvía (docs/validacion.md §3);
     // con un solo argumento, userDataPath devuelve la carpeta de datos y no la de fondos: el tipo va primero (validacion.md §9)
-    escritorios[k].writeConfig("Image", "file://" + userDataPath("data", "wallpapers") + "/org.lliphi.horizonte");
+    escritorios[k].writeConfig("Image", "file://" + userDataPath("data", "wallpapers") + "/org.lliphi.relampago.firmado/contents/images/3840x2160.jpg");
 }

@@ -258,10 +258,11 @@ def versiones() -> dict[str, str]:
 
 
 def fondo(variante: str) -> Path | None:
-    """La imagen del fondo de Lliphi de una variante (la más pequeña), para ver lo translúcido como en el escritorio."""
-    base = raiz() / "generado" / "fondos" / marca()["id_fondo"] / "contents"
+    """La imagen del fondo del escritorio de Lliphi de una variante (la más pequeña), para ver lo translúcido como en el escritorio."""
+    base = raiz() / "generado" / "fondos" / marca().get("fondo_escritorio", marca()["id_fondo"]) / "contents"
     carpeta = base / ("images_dark" if variante == "oscuro" else "images")
-    imagenes = sorted(carpeta.glob("*.png")) or sorted((base / "images").glob("*.png"))
+    por_tamano = lambda c: sorted(c.glob("*x*.*"), key=lambda p: [int(n) for n in p.stem.split("x")])
+    imagenes = por_tamano(carpeta) or por_tamano(base / "images")
     return imagenes[0] if imagenes else None
 
 

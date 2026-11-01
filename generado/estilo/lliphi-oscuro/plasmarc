@@ -4,8 +4,8 @@
 FallbackTheme=default
 
 [Wallpaper]
-defaultWallpaperTheme=org.lliphi.horizonte
-defaultFileSuffix=.png
+defaultWallpaperTheme=org.lliphi.relampago.firmado
+defaultFileSuffix=.jpg
 defaultWidth=1920
 defaultHeight=1080
 

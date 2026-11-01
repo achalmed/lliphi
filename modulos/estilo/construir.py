@@ -200,7 +200,7 @@ def generar(tokens: dict, marca: dict, destino: Path) -> list[Path]:
         escribir(base / "plasmarc", "\n".join([
             "# GENERADO por herramientas/generar.py desde tokens/ y fuentes/base/WhiteSur-kde; no editar", "",
             "[Settings]", "FallbackTheme=default", "",
-            "[Wallpaper]", f"defaultWallpaperTheme={marca['id_fondo']}", "defaultFileSuffix=.png", "defaultWidth=1920", "defaultHeight=1080", "",
+            "[Wallpaper]", f"defaultWallpaperTheme={marca['fondo_escritorio']}", "defaultFileSuffix=.jpg", "defaultWidth=1920", "defaultHeight=1080", "",
             "[ContrastEffect]", "enabled=true", f"contrast={ef.get('contraste', 0.35)}", f"intensity={ef.get('intensidad', 1.0)}", f"saturation={ef.get('saturacion', 1.15)}", "",
             "[BlurBehindEffect]", "enabled=true", "",
             "[AdaptiveTransparency]", "enabled=true", ""]), hechos)

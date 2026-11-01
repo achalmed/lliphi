@@ -6,7 +6,7 @@ Es un **componente** del tema global: Plasma ejecuta `contents/layouts/org.kde.p
 `plasma-apply-lookandfeel --resetLayout`), así que el script se escribe dentro del paquete del tema global
 (`integrar`). La fuente es `escritorio.js`, JavaScript de verdad (la API de scripting de Plasma: `Panel`,
 `addWidget`, `desktopsForActivity`, `userDataPath`) con tres marcas que se sustituyen al construir: `@NOMBRE@` (el
-nombre del tema), `@FONDO@` (el id del paquete de fondo de `complementos/fondos`) y `@PANELES@` (los paneles y sus
+nombre del tema), `@FONDO@` (la imagen de la variante del fondo del escritorio, `fondo_escritorio` de la marca) y `@PANELES@` (los paneles y sus
 widgets de `ajustes.json`, como literal de JavaScript; los edita Lliphi Studio)."""
 from __future__ import annotations
 
@@ -34,10 +34,16 @@ def paneles(ajustes: dict | None = None) -> list[dict]:
     return lista
 
 
-def script(marca: dict, ajustes: dict | None = None) -> str:
+def fondo(marca: dict, variante: str) -> str:
+    """La imagen del fondo del escritorio de la variante, relativa a la carpeta de fondos. Por ruta y no el paquete: con el
+    paquete Plasma elige por los colores del estilo de Plasma, y el claro tiene el panel oscuro (decisiones 4.16, 4.27)."""
+    return f"{marca['fondo_escritorio']}/contents/{'images' if variante == 'claro' else 'images_dark'}/3840x2160.jpg"
+
+
+def script(marca: dict, ajustes: dict | None = None, variante: str = "oscuro") -> str:
     js = FUENTE.read_text(encoding="utf-8")
     literal = json.dumps([{k: v for k, v in p.items() if k != "variable"} for p in paneles(ajustes)], ensure_ascii=False, indent=4)
-    return CABECERA + js.replace("@NOMBRE@", marca["nombre"]).replace("@FONDO@", marca["id_fondo"]).replace("@PANELES@", literal)
+    return CABECERA + js.replace("@NOMBRE@", marca["nombre"]).replace("@FONDO@", fondo(marca, variante)).replace("@PANELES@", literal)
 
 
 def valores(marca: dict, variante: str) -> dict[str, dict[str, str]]:
@@ -47,4 +53,4 @@ def valores(marca: dict, variante: str) -> dict[str, dict[str, str]]:
 
 
 def integrar(tokens: dict, marca: dict, variante: str, paquete: Path, hechos: list[Path]) -> None:
-    escribir(paquete / DESTINO, script(marca), hechos)
+    escribir(paquete / DESTINO, script(marca, variante=variante), hechos)

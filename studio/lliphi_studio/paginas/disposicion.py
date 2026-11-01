@@ -429,8 +429,9 @@ class Pagina:
         except (ValueError, KeyError) as e:
             self.js.setPlainText(f"// el borrador no construye: {e}")
 
-    def script(self) -> str:
-        return construir_mod().script(proyecto.marca(), self.datos)
+    def script(self, variante: str | None = None) -> str:
+        # el guion lleva la imagen del fondo de la variante (decisiones 4.27): la de la sesión de prueba o la de la vista
+        return construir_mod().script(proyecto.marca(), self.datos, variante or self.variante.currentData())
 
     def _filtrar(self, texto: str) -> None:
         for i in range(self.catalogo.count()):
@@ -446,7 +447,7 @@ class Pagina:
             self.v.navigate("vivo")
             return
         try:
-            js = self.script()
+            js = self.script(estado.get("variante"))
         except ValueError as e:
             self.v.marco.avisar("El borrador no construye", str(e), "error")
             return

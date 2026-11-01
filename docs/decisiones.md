@@ -206,6 +206,14 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   (carpetas azules, para el claro) y crea `Papirus-Dark-Lliphi`, un tema superpuesto que hereda de Papirus-Dark y solo declara
   enlaces a las variantes rojas de todo icono que acaba en una carpeta azul (lugares, `inode-directory`, `user-home`…). El
   oscuro usa ese superpuesto. Efecto secundario bueno: Home y Escritorio, que antes quedaban azules en el oscuro, ahora son rojos.
+- **4.27 (2026-11-01) El fondo del escritorio por omisión: «Lliphi Relámpago · @achalmaedison».** Decisión del
+  autor: los fondos predeterminados son los de Relámpago firmados, azul en el claro y rojo en el oscuro. La marca gana
+  `fondo_escritorio` (`org.lliphi.relampago.firmado`), que usan el instalador, la disposición del tema global y el
+  `plasmarc` del estilo de Plasma (`defaultFileSuffix=.jpg`); `id_fondo` (Horizonte) queda como la imagen del bloqueo
+  y del inicio de sesión, donde el reloj blanco pide la oscura. La disposición escribe ahora la imagen de su variante
+  y no el paquete: en la sesión de prueba, con «usar la disposición del tema», el guion se ejecutaba después del
+  instalador, ponía el paquete y Plasma mostraba en el claro la imagen oscura (4.16). Probado en la sesión de prueba:
+  claro con disposición, al oscuro y de vuelta al claro.
 - **4.26 (2026-11-01) El fondo sigue a la variante.** El autor cambió el tema global entre Lliphi Claro y Lliphi
   Oscuro desde Preferencias del sistema y el fondo no cambió. Dos causas, comprobadas en la sesión de prueba:
   `plasma-apply-lookandfeel` no toca el fondo, y con un paquete de imagen clara y oscura Plasma elige por los colores

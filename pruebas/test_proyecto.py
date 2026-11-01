@@ -809,7 +809,9 @@ def test_variante_clara_validada():
     assert dep.SUPERPUESTO["id"] == "Papirus-Dark-Lliphi" and dep.COLOR_ORIGINAL == "blue"
     fondo = registro.modulo("fondos").archivo("aplicar.py").read_text(encoding="utf-8")
     bloqueo = registro.modulo("carga-bloqueo").archivo("aplicar.py").read_text(encoding="utf-8")
-    assert '"images" / "3840x2160.png"' in fondo and '"images_dark" / "3840x2160.png"' in bloqueo and '"kscreenlockerrc"' in bloqueo
+    # el escritorio por la ruta de la imagen de la variante, no por el paquete (4.16); el bloqueo, la oscura (4.27: Horizonte)
+    assert '("images" if ctx.variante == "claro" else "images_dark")' in fondo
+    assert '"images_dark" / "3840x2160.png"' in bloqueo and '"kscreenlockerrc"' in bloqueo
 
 
 # ---------------------------------------------------------------- arquitectura modular
@@ -883,7 +885,9 @@ def test_componentes_dentro_del_tema_global():
     for v in ("claro", "oscuro"):
         assert not (GEN / "global" / MARCA["id_global"][v] / "contents" / "lockscreen").exists()
     js = (GEN / "global" / MARCA["id_global"]["oscuro"] / "contents" / "layouts" / "org.kde.plasma.desktop-layout.js").read_text(encoding="utf-8")
-    assert "@NOMBRE@" not in js and "@FONDO@" not in js and f"/{MARCA['id_fondo']}" in js
+    assert "@NOMBRE@" not in js and "@FONDO@" not in js and f"/{MARCA['fondo_escritorio']}/contents/images_dark/3840x2160.jpg" in js
+    claro = (GEN / "global" / MARCA["id_global"]["claro"] / "contents" / "layouts" / "org.kde.plasma.desktop-layout.js").read_text(encoding="utf-8")
+    assert f"/{MARCA['fondo_escritorio']}/contents/images/3840x2160.jpg" in claro   # 4.27: la imagen de la variante
     # validacion.md §9: el fondo por la carpeta de fondos (el tipo de userDataPath va primero) y un modo de ocultación que
     # Plasma 6.6 entiende (normal, autohide, dodgewindows, windowsgobelow; «windowscover» ya no existe)
     assert 'userDataPath("data", "wallpapers")' in js and 'userDataPath("wallpapers")' not in js
@@ -954,3 +958,15 @@ def test_fondo_sigue_a_la_variante(tmp_path: Path, monkeypatch):
     assert "--vigilar" in inicio and "/home/" not in inicio and "$HOME" in inicio
     texto = (GEN / "fondo-variante" / "seguir-variante.py").read_text(encoding="utf-8")
     assert not re.search(r"@[A-Z_]+@", texto)                                     # ninguna marca sin sustituir
+
+
+def test_fondo_del_escritorio():
+    """Decisiones 4.27: el escritorio lleva por omisión «Lliphi Relámpago · @achalmaedison» (la disposición, el estilo
+    de Plasma y el instalador); Horizonte sigue en el bloqueo y el inicio de sesión."""
+    assert MARCA["fondo_escritorio"] == registro.codigo("fondos").id_relampago(MARCA) + ".firmado"
+    for carpeta in ("images", "images_dark"):
+        assert (GEN / "fondos" / MARCA["fondo_escritorio"] / "contents" / carpeta / "3840x2160.jpg").is_file()
+    for v in ("claro", "oscuro"):
+        plasmarc = (GEN / "estilo" / f"{MARCA['id']}-{v}" / "plasmarc").read_text(encoding="utf-8")
+        assert f"defaultWallpaperTheme={MARCA['fondo_escritorio']}" in plasmarc and "defaultFileSuffix=.jpg" in plasmarc
+    assert MARCA["id_fondo"] in registro.modulo("carga-bloqueo").archivo("aplicar.py").read_text(encoding="utf-8").replace('ctx.marca["id_fondo"]', MARCA["id_fondo"])

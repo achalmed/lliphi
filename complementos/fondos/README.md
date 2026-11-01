@@ -25,7 +25,8 @@ Es un **complemento**: existía antes de la reingeniería y se conserva fuera de
   `KPackageStructure`, como `Next` del sistema). `kpackagetool6` no resuelve estos paquetes ni los del sistema; se
   comprueban por sus archivos.
 - `construir.py`: `imagen()` (la usan también `carga-bloqueo` y `sddm`), `generar()` y `valores()` (`[Wallpaper] Image`).
-- `aplicar.py`: el fondo por ruta con `plasma-apply-wallpaperimage` (en el claro, la imagen clara fija; decisiones 4.16).
+- `aplicar.py`: el fondo del escritorio (`fondo_escritorio` de la marca, Relámpago firmado; decisiones 4.27) por la ruta
+  de la imagen de la variante con `plasma-apply-wallpaperimage` (no el paquete; decisiones 4.16).
 - Construcción: Pillow. Lo generado: `generado/fondos/org.lliphi.horizonte/`.
 
 ## Desarrollar

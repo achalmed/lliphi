@@ -37,6 +37,9 @@ Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión de
   `sesion.py arrancar --escritorios N` y un reintento si el shell recién arrancado aún escribía su configuración.
 
 ### Added
+- **Fondo predeterminado: «Lliphi Relámpago · @achalmaedison»** (decisiones 4.27), azul en el claro y rojo en el
+  oscuro, en el instalador, la disposición del tema global y el estilo de Plasma; la disposición pone la imagen de su
+  variante. Horizonte sigue en el bloqueo y el inicio de sesión.
 - **El fondo sigue a la variante** (`complementos/fondo-variante/`, decisiones 4.26): al cambiar entre Lliphi Claro y
   Lliphi Oscuro con el tema global o con el esquema de color, cada escritorio con un fondo de Lliphi pasa a la imagen
   de la variante del mismo fondo; arranca con la sesión y no toca un fondo ni un esquema ajenos.
