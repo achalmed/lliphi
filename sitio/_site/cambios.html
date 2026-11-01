@@ -388,6 +388,7 @@ ul.task-list li input[type="checkbox"] {
 <section id="added" class="level3">
 <h3 class="anchored" data-anchor-id="added">Added</h3>
 <ul>
+<li>LibreOffice: una <strong>paleta</strong> <code>.soc</code> por variante (como la de Dracula para LibreOffice) con los neutros, el acento, los estados y los dieciséis ANSI, para los selectores de color de los documentos; va suelta y dentro de <code>lliphi.oxt</code> (carpeta <code>palette/</code> registrada en las rutas de paletas con <code>paletas.xcu</code>). Prueba <code>test_libreoffice_paletas</code>. Validado en LibreOffice 26.2.6 (decisión 5.2).</li>
 <li>Complemento <code>obsidian</code> (decisión 5.1): <code>generado/obsidian/theme.css</code>, un tema de Obsidian 1.x con las dos variantes que solo redefine variables de la aplicación (neutros, acento, los ocho colores con nombre desde los ANSI, estados, Inter y JetBrains Mono, radios, la sintaxis de los editores y las llamadas de Zotero); se publica con su versión en <code>achalmed/obsidian-lliphi</code>. Prueba <code>test_obsidian_tema</code> (34 en total).</li>
 <li><code>generar.py validar</code>: manifiestos, dependencias sin ciclos y declaradas, estructura real de cada formato de KDE y que cada identificador que declara el tema global exista en el módulo que lo entrega; <code>generar.py lista</code>.</li>
 <li><code>instalar.py comprobar</code> (lo instalado está completo, es de esta versión y <code>kpackagetool6</code> lo reconoce), <code>instalar.py dependencias</code> e <code>instalar.py sddm</code>; <code>dependencias.py</code> e <code>instalar_sddm.py</code> quedan como atajos.</li>
@@ -397,6 +398,7 @@ ul.task-list li input[type="checkbox"] {
 <section id="fixed" class="level3">
 <h3 class="anchored" data-anchor-id="fixed">Fixed</h3>
 <ul>
+<li>LibreOffice: el sombreado de campos e índices de Writer pasa al tono del separador; en el oscuro, el anterior (<code>fondo.ventana-alterno</code> sobre <code>fondo.vista</code>) no se distinguía de la página.</li>
 <li>Disposición del escritorio: el fondo de cada escritorio apuntaba a la carpeta de datos y no a la de fondos (<code>userDataPath("wallpapers")</code> → <code>userDataPath("data", "wallpapers")</code>) y el escritorio quedaba negro al aplicar la disposición desde Preferencias; el dock pedía <code>windowscover</code>, que Plasma 6 ya no tiene, y no se ocultaba: ahora <code>dodgewindows</code>, se aparta cuando una ventana llega a él.</li>
 <li>Kvantum se instalaba en <code>$XDG_DATA_HOME/../../.config/Kvantum</code>, que falla si las rutas XDG no son las de omisión; ahora va a <code>$XDG_CONFIG_HOME/Kvantum</code>, y un manifiesto de 0.3.0 con la ruta antigua se sigue reconociendo.</li>
 <li>El instalador respalda las notas del widget de Plasma (<code>~/.local/share/plasma_notes</code>) y <code>UNDO.sh</code> las devuelve: si un cambio de disposición quita el widget, Plasma borra su nota.</li>

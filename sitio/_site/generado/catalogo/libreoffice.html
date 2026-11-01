@@ -114,10 +114,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <meta property="og:title" content="LibreOffice: colores de la aplicación – Lliphi">
-<meta property="og:description" content="Dos esquemas de «Colores de la aplicación» (Lliphi Claro y Lliphi Oscuro) para Writer, Calc, Impress, Draw, Base y la IDE de BASIC: documento, cuadrícula, saltos, control de cambios, sintaxis BASIC y SQL desde los mismos tokens, como extensión .oxt o fragmento .xcu.">
-<meta property="og:image" content="https://achalmed.github.io/lliphi/generado/catalogo/generado/capturas/oscuro-02-lanzador.png">
+<meta property="og:description" content="Dos esquemas de «Colores de la aplicación» (Lliphi Claro y Lliphi Oscuro) para Writer, Calc, Impress, Draw, Base y la IDE de BASIC: documento, cuadrícula, saltos, control de cambios, sintaxis BASIC y SQL desde los mismos tokens, como extensión .oxt o fragmento .xcu; y dos paletas .soc (neutros, acento, estados y los dieciséis ANSI) para los selectores de color de los documentos.">
+<meta property="og:image" content="https://achalmed.github.io/lliphi/generado/capturas/oscuro-25-libreoffice-writer.png">
 <meta property="og:site_name" content="Lliphi">
 <meta property="og:locale" content="es_ES">
+<meta property="og:image:alt" content="../capturas/oscuro-25-libreoffice-writer.png">
+<meta property="og:image:height" content="900">
+<meta property="og:image:width" content="1600">
 </head>
 
 <body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
@@ -390,6 +393,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#a.-extensión-recomendado" id="toc-a.-extensión-recomendado" class="nav-link" data-scroll-target="#a.-extensión-recomendado">A. Extensión (recomendado)</a></li>
   <li><a href="#b.-fragmento-en-registrymodifications.xcu" id="toc-b.-fragmento-en-registrymodifications.xcu" class="nav-link" data-scroll-target="#b.-fragmento-en-registrymodifications.xcu">B. Fragmento en <code>registrymodifications.xcu</code></a></li>
+  <li><a href="#paletas-de-colores" id="toc-paletas-de-colores" class="nav-link" data-scroll-target="#paletas-de-colores">Paletas de colores</a></li>
   <li><a href="#qué-cambia-y-qué-no" id="toc-qué-cambia-y-qué-no" class="nav-link" data-scroll-target="#qué-cambia-y-qué-no">Qué cambia y qué no</a></li>
   </ul></li>
   <li><a href="#actualizar" id="toc-actualizar" class="nav-link" data-scroll-target="#actualizar">Actualizar</a></li>
@@ -405,7 +409,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">LibreOffice: colores de la aplicación</h1>
-<p class="subtitle lead">Dos esquemas de «Colores de la aplicación» (Lliphi Claro y Lliphi Oscuro) para Writer, Calc, Impress, Draw, Base y la IDE de BASIC: documento, cuadrícula, saltos, control de cambios, sintaxis BASIC y SQL desde los mismos tokens, como extensión .oxt o fragmento .xcu.</p>
+<p class="subtitle lead">Dos esquemas de «Colores de la aplicación» (Lliphi Claro y Lliphi Oscuro) para Writer, Calc, Impress, Draw, Base y la IDE de BASIC: documento, cuadrícula, saltos, control de cambios, sintaxis BASIC y SQL desde los mismos tokens, como extensión .oxt o fragmento .xcu; y dos paletas .soc (neutros, acento, estados y los dieciséis ANSI) para los selectores de color de los documentos.</p>
 </div>
 
 
@@ -434,7 +438,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td>estado</td>
-<td><strong>experimental</strong></td>
+<td><strong>probado</strong></td>
 </tr>
 <tr class="odd">
 <td>tecnología</td>
@@ -446,7 +450,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="odd">
 <td>archivos</td>
-<td><code>lliphi.oxt</code>, <code>lliphi.xcu</code>, <code>lliphi-claro.xcu</code>, <code>lliphi-oscuro.xcu</code>, <code>oxt/</code></td>
+<td><code>lliphi.oxt</code>, <code>lliphi.xcu</code>, <code>lliphi-claro.xcu</code>, <code>lliphi-oscuro.xcu</code>, <code>lliphi-claro.soc</code>, <code>lliphi-oscuro.soc</code>, <code>oxt/</code></td>
 </tr>
 <tr class="even">
 <td>licencia</td>
@@ -454,6 +458,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
+<p><img src="../capturas/oscuro-25-libreoffice-writer.png" class="img-fluid" alt="../capturas/oscuro-25-libreoffice-writer.png"> <img src="../capturas/claro-25-libreoffice-writer.png" class="img-fluid" alt="../capturas/claro-25-libreoffice-writer.png"> <img src="../capturas/oscuro-26-libreoffice-paleta.png" class="img-fluid" alt="../capturas/oscuro-26-libreoffice-paleta.png"> <img src="../capturas/claro-26-libreoffice-paleta.png" class="img-fluid" alt="../capturas/claro-26-libreoffice-paleta.png"></p>
 <section id="instalar" class="level2">
 <h2 class="anchored" data-anchor-id="instalar">Instalar</h2>
 <p>LibreOffice (≥ 24.8; generado contra 26.2) guarda los esquemas de «Colores de la aplicación» en su configuración, no en una carpeta de temas, así que el instalador de Lliphi <strong>no toca LibreOffice</strong> (decisión 3.14): hay dos caminos y los dos los haces tú, con LibreOffice cerrado.</p>
@@ -477,6 +482,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Abre LibreOffice y elige el esquema como en A.3. Al elegirlo, LibreOffice reescribe el archivo con sus propias entradas; a partir de entonces el esquema es tuyo y se puede borrar desde el diálogo.</li>
 </ol>
 </section>
+<section id="paletas-de-colores" class="level3">
+<h3 class="anchored" data-anchor-id="paletas-de-colores">Paletas de colores</h3>
+<p>Como la paleta de Dracula para LibreOffice, Lliphi trae una <strong>paleta por variante</strong> para los selectores de color de los documentos (color de fuente, resaltado, relleno de formas y celdas, líneas): <code>lliphi-claro.soc</code> y <code>lliphi-oscuro.soc</code>, con los neutros, el acento, los cuatro estados y los dieciséis colores de la terminal, sin repetidos.</p>
+<ul>
+<li>Con la extensión (camino A) ya están: abre cualquier selector de color (por ejemplo Formato → Área → Color) y elige <strong>lliphi-claro</strong> o <strong>lliphi-oscuro</strong> en la lista «Paleta». LibreOffice recuerda la última paleta elegida.</li>
+<li>Sin la extensión, cópialas a la carpeta de paletas del usuario, con LibreOffice cerrado:</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> generado/libreoffice/lliphi-claro.soc generado/libreoffice/lliphi-oscuro.soc ~/.config/libreoffice/4/user/config/</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
 <section id="qué-cambia-y-qué-no" class="level3">
 <h3 class="anchored" data-anchor-id="qué-cambia-y-qué-no">Qué cambia y qué no</h3>
 <ul>
@@ -492,7 +506,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="desinstalar" class="level2">
 <h2 class="anchored" data-anchor-id="desinstalar">Desinstalar</h2>
-<p>Elige otro esquema en Colores de la aplicación. Camino A: <code>unopkg remove org.lliphi.libreoffice</code> (o Gestor de extensiones → Eliminar). Camino B: borra el esquema desde el diálogo (botón Eliminar) o restaura la copia del archivo.</p>
+<p>Elige otro esquema en Colores de la aplicación y otra paleta en los selectores de color. Camino A: <code>unopkg remove org.lliphi.libreoffice</code> (o Gestor de extensiones → Eliminar). Camino B: borra el esquema desde el diálogo (botón Eliminar) o restaura la copia del archivo, y borra las dos <code>.soc</code> de <code>~/.config/libreoffice/4/user/config/</code> si las copiaste.</p>
 </section>
 <section id="código-incidencias-y-cambios" class="level2">
 <h2 class="anchored" data-anchor-id="código-incidencias-y-cambios">Código, incidencias y cambios</h2>
