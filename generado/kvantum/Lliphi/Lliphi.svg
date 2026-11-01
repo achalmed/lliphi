@@ -1027,7 +1027,7 @@
     </g>
   </g>
   <g
-     style="fill:#3daee9;fill-rule:evenodd"
+     style="fill:#315bef;fill-rule:evenodd"
      id="group-normal-left"
      transform="matrix(0.66666667,0,0,1,87.333231,-556.5)">
     <path
@@ -1041,7 +1041,7 @@
        id="path358" />
   </g>
   <g
-     style="fill:#3daee9"
+     style="fill:#315bef"
      id="group-normal-topleft"
      transform="matrix(0.66666667,0,0,0.66666667,87.333231,-183.66653)">
     <path
@@ -1807,7 +1807,7 @@
   <circle
      cx="393"
      cy="659"
-     style="paint-order:normal;fill:#31a7e8;fill-rule:evenodd"
+     style="paint-order:normal;fill:#315bef;fill-rule:evenodd"
      r="16"
      id="mdi-restore-normal" />
   <circle
@@ -7922,21 +7922,21 @@
      inkscape:label="#toolbar-normal"
      inkscape:connector-curvature="0"
      id="toolbar-normal"
-     style="vector-effect:none;fill:#fbfcfd;fill-opacity:1;stroke:none;stroke-width:0.866024;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+     style="vector-effect:none;fill:#ecedef;fill-opacity:1;stroke:none;stroke-width:0.866024;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
      d="M 495,248.00005 V 272 h 32.00029 v -24 z"
      sodipodi:nodetypes="ccccc" />
   <path
      inkscape:label="#toolbar-normal-left"
      inkscape:connector-curvature="0"
      id="toolbar-normal-left"
-     style="vector-effect:none;fill:#fbfcfd;fill-opacity:1;stroke:none;stroke-width:0.866024;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+     style="vector-effect:none;fill:#ecedef;fill-opacity:1;stroke:none;stroke-width:0.866024;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
      d="m 463.0003,248 v 2.22227 0 V 272 h 32 V 250.22227 L 495.00014,249 495,248 Z"
      sodipodi:nodetypes="ccccccccc" />
   <path
      inkscape:label="#toolbar-normal-right"
      inkscape:connector-curvature="0"
      id="toolbar-normal-right"
-     style="fill:#fbfcfd;fill-opacity:1;stroke:none;stroke-width:0.866024"
+     style="fill:#ecedef;fill-opacity:1;stroke:none;stroke-width:0.866024"
      d="m 527.00014,248 1.6e-4,2.22227 v 0 V 272 h 32 V 250.22227 L 559.00014,249 v -1 z"
      sodipodi:nodetypes="ccccccccc" />
   <path
@@ -8041,20 +8041,20 @@
   <path
      sodipodi:nodetypes="ccccc"
      d="M 495,244.00001 V 248 h 32.00029 v -4 c 0,0 -27.22181,0 -32.00029,1e-5 z"
-     style="vector-effect:none;fill:#fbfcfd;fill-opacity:1;stroke:none;stroke-width:0.353553;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+     style="vector-effect:none;fill:#ecedef;fill-opacity:1;stroke:none;stroke-width:0.353553;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
      id="toolbar-normal-top"
      inkscape:connector-curvature="0"
      inkscape:label="#toolbar-normal-top" />
   <path
      d="m 463.187,244.00001 -0.1867,0.37036 v 0 V 248 h 32 L 495,244 Z"
-     style="vector-effect:none;fill:#fbfcfd;fill-opacity:1;stroke:none;stroke-width:0.353553;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+     style="vector-effect:none;fill:#ecedef;fill-opacity:1;stroke:none;stroke-width:0.353553;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
      id="toolbar-normal-topleft"
      inkscape:connector-curvature="0"
      inkscape:label="#toolbar-normal-topleft"
      sodipodi:nodetypes="ccccccc" />
   <path
      d="m 527,244 3e-4,0.37037 v 0 V 248 h 32 L 559,244 Z"
-     style="fill:#fbfcfd;fill-opacity:1;stroke:none;stroke-width:0.353553"
+     style="fill:#ecedef;fill-opacity:1;stroke:none;stroke-width:0.353553"
      id="toolbar-normal-topright"
      inkscape:connector-curvature="0"
      inkscape:label="#toolbar-normal-topright"

@@ -1,8 +1,8 @@
 {
-  "$description": "Ajustes del estilo de Plasma (fuente; lo lee modulos/estilo/construir.py). panel: el fondo translúcido de paneles y dock por variante (relleno = token semántico, opacidad del centro y los bordes, sombra = false quita la sombra de WhiteSur, que en las puntas del dock flotante se veía como manchas; null = el de WhiteSur tal cual). tareas: los mosaicos del gestor de tareas (widgets/tasks.svg) dibujados por Lliphi en vez de los de WhiteSur: por estado, el fondo [clase de color de Plasma, opacidad] y la marca inferior [clase, ancho en px, opacidad]; las clases (Text, Highlight, ViewFocus, NeutralText, PositiveText) siguen el esquema y el acento del sistema. paginador: el marco de cada escritorio del paginador (widgets/pager.svg): la línea de arriba (a «separacion» px del borde, cerca del número) y el fondo por estado.",
+  "$description": "Ajustes del estilo de Plasma (fuente; lo lee modulos/estilo/construir.py). panel: el fondo translúcido de paneles y dock por variante (relleno = token semántico, opacidad del centro y los bordes, sombra = false quita la sombra de WhiteSur, que en las puntas del dock flotante se veía como manchas; de = la variante de la que se toma el token, porque el claro conserva el panel oscuro de WhiteSur, decisiones 4.16; null = el de WhiteSur tal cual). tareas: los mosaicos del gestor de tareas (widgets/tasks.svg) dibujados por Lliphi en vez de los de WhiteSur: por estado, el fondo [clase de color de Plasma, opacidad] y la marca inferior [clase, ancho en px, opacidad]; las clases (Text, Highlight, ViewFocus, NeutralText, PositiveText) siguen el esquema y el acento del sistema. paginador: el marco de cada escritorio del paginador (widgets/pager.svg): la línea de arriba (a «separacion» px del borde, cerca del número) y el fondo por estado.",
   "panel": {
     "oscuro": {"relleno": "fondo.ventana", "opacidad": 0.88, "sombra": false},
-    "claro": null
+    "claro": {"relleno": "fondo.ventana", "de": "oscuro", "opacidad": 0.88, "sombra": false}
   },
   "tareas": {
     "radio": 10,

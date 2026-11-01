@@ -127,6 +127,17 @@ def test_cabecera_en_una_sola_banda():
     assert re.search(rf"^highlight\.color={acento}$", kv, re.M)
     claro = (GEN / "kvantum" / MARCA["nombre"] / f"{MARCA['nombre']}.kvconfig").read_text(encoding="utf-8")
     assert re.search(r"^translucent_windows=true$", claro, re.M)
+    # decisiones 4.21: la barra del claro también en su fondo.ventana; y ningún azul de WhiteSur fuera de los tokens
+    svg_claro = (GEN / "kvantum" / MARCA["nombre"] / f"{MARCA['nombre']}.svg").read_text(encoding="utf-8")
+    ventana_c = TOKENS["semanticos"]["claro"]["fondo"]["ventana"]["$value"]["hex"]
+    piezas_c = re.findall(r'<[^<>]*\bid="(toolbar-normal(?:-inactive)?(?:-(?:top|left|right|topleft|topright))?)"[^<>]*?fill:(#[0-9a-fA-F]{6})', svg_claro)
+    assert piezas_c and all(c.lower() == ventana_c for _i, c in piezas_c), piezas_c
+    import colorsys
+    for v, texto in (("oscuro", svg), ("claro", svg_claro)):
+        propios = {x["$value"]["hex"].lower() for x in _tokens_planos(TOKENS["semanticos"][v]).values()}
+        for h in {h.lower() for h in re.findall(r"#[0-9a-fA-F]{6}\b", texto)} - propios:
+            tono, luz, sat = colorsys.rgb_to_hls(*(int(h[i:i + 2], 16) / 255 for i in (1, 3, 5)))
+            assert not (sat >= 0.3 and 0.5 < tono < 0.75 and luz <= 0.9), (v, h)
 
 
 def test_dock_de_lliphi():
@@ -150,7 +161,8 @@ def test_dock_de_lliphi():
     ET.fromstring(panel)
     assert 'id="shadow-' not in panel and 'id="mask-topleft"' in panel and 'id="topleft"' in panel   # sin sombra, con máscara
     claro = (GEN / "estilo" / f"{MARCA['id']}-claro" / "widgets" / "panel-background.svg").read_text(encoding="utf-8")
-    assert "opacity:0.45;fill:#000000" in claro            # el claro, como estaba (decisiones 4.16)
+    # el claro, igual (decisiones 4.21), con el panel oscuro que conserva desde 4.16: el gris de la ventana del oscuro
+    assert f"opacity:{est['panel']['claro']['opacidad']};fill:{fondo}" in claro and 'id="shadow-' not in claro
     dock = registro.codigo("disposicion").paneles()[1]
     pager = [w for w in dock["widgets"] if w["tipo"] == "org.kde.plasma.pager"]
     assert pager and pager[0]["config"]["General"]["displayedText"] == "0"

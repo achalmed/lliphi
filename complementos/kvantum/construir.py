@@ -16,6 +16,7 @@ el de Kvantum solo lo cambiaba el instalador: aplicar el claro desde Preferencia
 """
 from __future__ import annotations
 
+import colorsys
 import json
 import re
 from pathlib import Path
@@ -53,11 +54,29 @@ HEX = {  # hex fijo del svg de WhiteSur → token (los demás se dejan)
 
 def barra(svg: str, color: str) -> str:
     """La barra de herramientas (`toolbar-normal*`, activa e inactiva) en un color: el gris propio de WhiteSur
-    (#363636; #2d2d2d la inactiva) la separaba del título de la decoración. Solo el relleno opaco de sus piezas: la línea
+    (#363636 y #2d2d2d la inactiva en el oscuro; #ffffff y #f5f5f5 en el claro) la separaba del título de la decoración. Solo el relleno opaco de sus piezas: la línea
     oscura de abajo (negro al 65 %) se queda como divisoria con el contenido."""
     def pieza(m: re.Match) -> str:
-        return re.sub(r"fill:#(363636|2d2d2d)\b", f"fill:{color}", m.group(0), flags=re.I)
+        return re.sub(r"fill:#(363636|2d2d2d|ffffff|f5f5f5)\b", f"fill:{color}", m.group(0), flags=re.I)
     return re.sub(r'<[^<>]*\bid="toolbar-normal[^"]*"[^<>]*>', pieza, svg)
+
+
+def azules_al_acento(svg: str, t: dict[str, str]) -> str:
+    """Todo azul de WhiteSur que quede (no es ya un color de Lliphi) pasa al acento de la variante, por su luz: hasta la
+    del acento, a `acento.base`; más claro, a `acento.suave`. Así no queda ningún azul de la base en el oscuro, donde el
+    acento es rojo (los botones pulsados o por omisión salían azules: decisiones 4.21)."""
+    propios = {h.lower() for h in t.values()}
+    luz_base = colorsys.rgb_to_hls(*(int(t["acento.base"][i:i + 2], 16) / 255 for i in (1, 3, 5)))[1]
+
+    def cambiar(m: re.Match) -> str:
+        h = m.group(0).lower()
+        if h in propios:
+            return m.group(0)
+        tono, luz, sat = colorsys.rgb_to_hls(*(int(h[i:i + 2], 16) / 255 for i in (1, 3, 5)))
+        if sat < 0.3 or not 0.5 < tono < 0.75 or luz > 0.9:
+            return m.group(0)
+        return t["acento.base"] if luz <= luz_base + 0.03 else t["acento.suave"]
+    return re.sub(r"#[0-9a-fA-F]{6}\b", cambiar, svg)
 
 
 def menu_abierto(svg: str, color: str) -> str:
@@ -88,6 +107,8 @@ def generar(tokens: dict, marca: dict, destino: Path) -> list[Path]:
         if aj["menu_abierto"][variante]:            # antes del mapa general: #5294e2 es también el tono de pasar
             svg = menu_abierto(svg, t[aj["menu_abierto"][variante]])
         svg = re.sub(r"#[0-9a-fA-F]{6}\b", lambda m: mapa.get(m.group(0).lower(), m.group(0)), svg)
+        if aj.get("azules_al_acento"):
+            svg = azules_al_acento(svg, t)
         escribir(destino / tema / f"{archivo}.kvconfig", "# GENERADO por herramientas/generar.py desde tokens/ y fuentes/base/WhiteSur-kde; no editar\n" + kv, hechos)
         escribir(destino / tema / f"{archivo}.svg", svg, hechos)
     return hechos

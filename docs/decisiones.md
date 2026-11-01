@@ -206,6 +206,16 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   (carpetas azules, para el claro) y crea `Papirus-Dark-Lliphi`, un tema superpuesto que hereda de Papirus-Dark y solo declara
   enlaces a las variantes rojas de todo icono que acaba en una carpeta azul (lugares, `inode-directory`, `user-home`…). El
   oscuro usa ese superpuesto. Efecto secundario bueno: Home y Escritorio, que antes quedaban azules en el oscuro, ahora son rojos.
+- **4.21 (2026-11-01) Ningún azul de WhiteSur en el oscuro, y las mejoras también en el claro.** Con Lliphi Oscuro,
+  al pulsar un botón de Preferencias del sistema salía azul: los botones de Kvantum (`button-pressed`, `-default`,
+  `-toggled`) y otras piezas (pestañas, grupos, un icono) conservaban catorce azules de WhiteSur que el mapa de colores
+  no traducía. Se decide (`azules_al_acento` en `complementos/kvantum/ajustes.json`) que todo azul de la base que no sea
+  ya un color de Lliphi pase al acento de la variante por su luz (`acento.base` los oscuros, `acento.suave` los claros),
+  en las dos variantes. Y, a pedido del autor («todas las mejoras también en el tema claro»): la barra de herramientas
+  del claro en su `fondo.ventana`, como el título (antes `#fbfcfd` contra `#ecedef`), y el fondo del dock del claro sin
+  sombra y al 88 %, con el gris de ventana del oscuro porque el claro conserva el panel oscuro de 4.16. Los mosaicos de
+  tareas, el paginador, la disposición y el tema único de Kvantum ya eran de las dos variantes. Comprobado en sesión
+  de prueba (`muestras/capturas/claro-23-dock-cabecera.png`).
 - **4.20 (2026-11-01) El menú abierto de la barra de menús, en el acento.** El autor vio que en el claro el elemento
   abierto de la barra de menús («Settings» desplegado) y el elegido dentro del menú son del mismo azul, y en el oscuro
   no: el elegido es el acento (`#c93436`, la selección de la paleta) y el de la barra salía en el rojo claro de pasar el

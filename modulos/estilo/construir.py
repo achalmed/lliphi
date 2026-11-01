@@ -144,10 +144,13 @@ def panel(texto: str, t: dict[str, str], aj: dict | None) -> str:
     return '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n' + ET.tostring(raiz, encoding="unicode") + "\n"
 
 
-def propio(rel: str, texto: str, t: dict[str, str], aj: dict, variante: str) -> str:
+def propio(rel: str, texto: str, t: dict[str, str], aj: dict, variante: str, tokens: dict | None = None) -> str:
     """Lo que Lliphi cambia de un SVG de la base: el fondo de paneles, los mosaicos de tareas y el paginador."""
     if rel == "widgets/panel-background.svg":
-        return panel(texto, t, aj["panel"].get(variante))
+        ajp = aj["panel"].get(variante)
+        if ajp and ajp.get("de") and tokens is not None:   # el claro conserva el panel oscuro (decisiones 4.16)
+            t = semanticos(tokens, ajp["de"])
+        return panel(texto, t, ajp)
     if rel == "widgets/tasks.svg":
         return tareas_svg(texto, aj["tareas"])
     if rel == "widgets/pager.svg":
@@ -176,7 +179,7 @@ def generar(tokens: dict, marca: dict, destino: Path) -> list[Path]:
             if f.suffix == ".svgz":
                 texto = gzip.open(f).read().decode("utf-8", errors="ignore")
                 rel = rel.with_suffix(".svg")   # sin comprimir: diff legible
-                escribir(base / rel, propio(str(rel), recolorear(texto, mapa), t, aj, variante), hechos)
+                escribir(base / rel, propio(str(rel), recolorear(texto, mapa), t, aj, variante, tokens), hechos)
             elif f.name == "colors":
                 # mejora 8 (decisiones 4.13): el `colors` de WhiteSur con solo el acento de la variante (rojo en el
                 # oscuro, azul de WhiteSur en el claro), igual que el esquema de la mejora 1; lo demás, byte a byte
@@ -184,7 +187,7 @@ def generar(tokens: dict, marca: dict, destino: Path) -> list[Path]:
                 escribir(base / rel, con_acento(f.read_text(encoding="utf-8"), trgb), hechos)
             elif f.suffix == ".svg":
                 texto = recolorear(f.read_text(encoding="utf-8", errors="ignore"), mapa)
-                escribir(base / rel, propio(str(rel), texto, t, aj, variante), hechos)
+                escribir(base / rel, propio(str(rel), texto, t, aj, variante, tokens), hechos)
             else:
                 (base / rel).parent.mkdir(parents=True, exist_ok=True)
                 shutil.copyfile(f, base / rel); hechos.append(base / rel)

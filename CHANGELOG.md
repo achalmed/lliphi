@@ -18,6 +18,9 @@ Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión de
   `iconos-cursores` (iconos y cursores); el inicio de sesión, a `complementos/sddm/`.
 
 ### Changed
+- **Sin azules de WhiteSur en el oscuro y mejoras también en el claro** (decisiones 4.21): los botones pulsados, por
+  omisión y activados de Kvantum (y pestañas, grupos e iconos) toman el acento de la variante; en el claro, la barra de
+  herramientas en el color del título y el dock sin sombra y más opaco.
 - **Menú abierto en el acento** (decisiones 4.20): en el oscuro, el elemento abierto de la barra de menús toma el rojo
   del elemento elegido dentro del menú, como ya pasaba en el claro.
 - **Kvantum, un solo tema `Lliphi`** con el claro y el oscuro (`LliphiDark`) en su carpeta (decisiones 4.19): cambiar
