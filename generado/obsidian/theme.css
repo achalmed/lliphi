@@ -1,0 +1,187 @@
+/* Lliphi para Obsidian: Lliphi Claro y Lliphi Oscuro.
+   GENERADO por herramientas/generar.py (complementos/obsidian, Lliphi 0.3.0) desde tokens/; no editar.
+   https://github.com/achalmed/lliphi · código MIT, colores CC-BY-SA-4.0 */
+body {
+  --font-interface-theme: "Inter", "Noto Sans", sans-serif;
+  --font-text-theme: "Inter", "Noto Sans", sans-serif;
+  --font-monospace-theme: "JetBrainsMono Nerd Font", "JetBrains Mono", monospace;
+  --radius-s: 6px;
+  --radius-m: 10px;
+  --radius-l: 12px;
+  --radius-xl: 14px;
+  --input-radius: 6px;
+  --file-line-width: 40rem;
+  --link-decoration: none;
+  --link-external-decoration: none;
+  --callout-quote: var(--color-base-50);
+  --tooltip-background: var(--background-modifier-message);
+  --notice-background: var(--background-modifier-message);
+  --h1-color: var(--color-red);
+  --h2-color: var(--color-orange);
+  --h3-color: var(--color-yellow);
+  --h4-color: var(--color-green);
+  --h5-color: var(--color-blue);
+  --h6-color: var(--color-purple);
+}
+
+/* Lliphi Claro */
+.theme-light {
+  --color-base-00: #fbfcfd;
+  --color-base-05: #f2f3f5;
+  --color-base-10: #f2f3f5;
+  --color-base-20: #ecedef;
+  --color-base-25: #e0e1e5;
+  --color-base-30: #e0e1e5;
+  --color-base-35: #ccced2;
+  --color-base-40: #ccced2;
+  --color-base-50: #66676c;
+  --color-base-60: #66676c;
+  --color-base-70: #4b4d53;
+  --color-base-100: #1d1f24;
+  --color-red: #a43b38;
+  --color-red-rgb: 164, 59, 56;
+  --color-orange: #915b00;
+  --color-orange-rgb: 145, 91, 0;
+  --color-yellow: #7e5e00;
+  --color-yellow-rgb: 126, 94, 0;
+  --color-green: #007835;
+  --color-green-rgb: 0, 120, 53;
+  --color-cyan: #007176;
+  --color-cyan-rgb: 0, 113, 118;
+  --color-blue: #345fb2;
+  --color-blue-rgb: 52, 95, 178;
+  --color-purple: #8e4088;
+  --color-purple-rgb: 142, 64, 136;
+  --color-pink: #752870;
+  --color-pink-rgb: 117, 40, 112;
+  --accent-h: 227;
+  --accent-s: 86%;
+  --accent-l: 56%;
+  --color-accent: #315bef;
+  --color-accent-1: #4777f0;
+  --color-accent-2: #2a4fd0;
+  --interactive-accent: #315bef;
+  --interactive-accent-hover: #4777f0;
+  --text-accent: #2a4fd0;
+  --text-accent-hover: #4777f0;
+  --text-on-accent: #fcfcfc;
+  --text-error: #b63132;
+  --text-warning: #915b00;
+  --text-success: #137738;
+  --background-modifier-error: #b63132;
+  --background-modifier-error-hover: #b63132;
+  --background-modifier-error-rgb: 182, 49, 50;
+  --background-modifier-warning: #915b00;
+  --background-modifier-warning-hover: #915b00;
+  --background-modifier-success: #137738;
+  --background-modifier-success-rgb: 19, 119, 56;
+  --background-modifier-message: #222428;
+  --tooltip-color: #fbfcfd;
+  --notice-color: #fbfcfd;
+  --code-normal: #1d1f24;
+  --code-comment: #66676c;
+  --code-function: #345fb2;
+  --code-keyword: #a43b38;
+  --code-string: #007835;
+  --code-value: #7e5e00;
+  --code-property: #007176;
+  --code-tag: #a43b38;
+  --code-operator: #4b4d53;
+  --code-punctuation: #4b4d53;
+  --code-important: #8e4088;
+  --code-background: #f2f3f5;
+}
+
+/* Lliphi Oscuro */
+.theme-dark {
+  --color-base-00: #101012;
+  --color-base-05: #161719;
+  --color-base-10: #161719;
+  --color-base-20: #1b1c1e;
+  --color-base-25: #232426;
+  --color-base-30: #2e2f32;
+  --color-base-35: #323335;
+  --color-base-40: #3d3e42;
+  --color-base-50: #97989c;
+  --color-base-60: #97989c;
+  --color-base-70: #bcbec1;
+  --color-base-100: #eaebed;
+  --color-red: #f28881;
+  --color-red-rgb: 242, 136, 129;
+  --color-orange: #ebb25f;
+  --color-orange-rgb: 235, 178, 95;
+  --color-yellow: #d0a43a;
+  --color-yellow-rgb: 208, 164, 58;
+  --color-green: #69c27e;
+  --color-green-rgb: 105, 194, 126;
+  --color-cyan: #00c2ca;
+  --color-cyan-rgb: 0, 194, 202;
+  --color-blue: #7daafd;
+  --color-blue-rgb: 125, 170, 253;
+  --color-purple: #d98cd2;
+  --color-purple-rgb: 217, 140, 210;
+  --color-pink: #f4a5ec;
+  --color-pink-rgb: 244, 165, 236;
+  --accent-h: 359;
+  --accent-s: 59%;
+  --accent-l: 50%;
+  --color-accent: #c93436;
+  --color-accent-1: #ef6661;
+  --color-accent-2: #ff958d;
+  --interactive-accent: #c93436;
+  --interactive-accent-hover: #ef6661;
+  --text-accent: #ff958d;
+  --text-accent-hover: #ef6661;
+  --text-on-accent: #fcfcfc;
+  --text-error: #fb817a;
+  --text-warning: #ebb25f;
+  --text-success: #6fc884;
+  --background-modifier-error: #c93436;
+  --background-modifier-error-hover: #c93436;
+  --background-modifier-error-rgb: 201, 52, 54;
+  --background-modifier-warning: #ebb25f;
+  --background-modifier-warning-hover: #ebb25f;
+  --background-modifier-success: #6fc884;
+  --background-modifier-success-rgb: 111, 200, 132;
+  --background-modifier-message: #323335;
+  --tooltip-color: #eaebed;
+  --notice-color: #eaebed;
+  --code-normal: #eaebed;
+  --code-comment: #97989c;
+  --code-function: #7daafd;
+  --code-keyword: #f28881;
+  --code-string: #69c27e;
+  --code-value: #d0a43a;
+  --code-property: #00c2ca;
+  --code-tag: #f28881;
+  --code-operator: #bcbec1;
+  --code-punctuation: #bcbec1;
+  --code-important: #d98cd2;
+  --code-background: #161719;
+}
+
+/* Llamadas de Zotero Integration: el color de la anotación (> [!tipo|#ffd400]) toma el color del tema */
+.callout[data-callout-metadata="#ffd400" i] {
+  --callout-color: var(--color-yellow);
+}
+.callout[data-callout-metadata="#ff6666" i] {
+  --callout-color: var(--color-red);
+}
+.callout[data-callout-metadata="#5fb236" i] {
+  --callout-color: var(--color-green);
+}
+.callout[data-callout-metadata="#2ea8e5" i] {
+  --callout-color: var(--color-blue);
+}
+.callout[data-callout-metadata="#a28ae5" i] {
+  --callout-color: var(--color-purple);
+}
+.callout[data-callout-metadata="#e56eee" i] {
+  --callout-color: var(--color-pink);
+}
+.callout[data-callout-metadata="#f19837" i] {
+  --callout-color: var(--color-orange);
+}
+.callout[data-callout-metadata="#aaaaaa" i] {
+  --callout-color: var(--color-base-50);
+}

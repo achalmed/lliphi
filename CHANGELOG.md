@@ -18,6 +18,10 @@ Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión de
   `iconos-cursores` (iconos y cursores); el inicio de sesión, a `complementos/sddm/`.
 
 ### Added
+- Complemento `obsidian` (decisión 5.1): `generado/obsidian/theme.css`, un tema de Obsidian 1.x con las dos variantes
+  que solo redefine variables de la aplicación (neutros, acento, los ocho colores con nombre desde los ANSI, estados,
+  Inter y JetBrains Mono, radios, la sintaxis de los editores y las llamadas de Zotero); se publica con su versión en
+  `achalmed/obsidian-lliphi`. Prueba `test_obsidian_tema` (34 en total).
 - `generar.py validar`: manifiestos, dependencias sin ciclos y declaradas, estructura real de cada formato de KDE y que
   cada identificador que declara el tema global exista en el módulo que lo entrega; `generar.py lista`.
 - `instalar.py comprobar` (lo instalado está completo, es de esta versión y `kpackagetool6` lo reconoce),

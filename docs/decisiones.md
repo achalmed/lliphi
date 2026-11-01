@@ -213,3 +213,28 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   instalador pone en las dos variantes la imagen oscura de Lliphi en el bloqueo, como el inicio de sesión. Se conserva a
   propósito el panel oscuro de WhiteSur claro, aprobado en la mejora 2. Comparación en
   `muestras/comparacion-linea-base-claro-validado.png`; método y trampas en `docs/validacion.md` §8. Aprobada por el autor el 2026-10-19.
+
+## 5. Más allá del escritorio
+
+- **5.1 (2026-11-01) Tema de Obsidian: un complemento de Lliphi que se publica en su repositorio propio.** El autor
+  pidió un tema de Obsidian desde los tokens de Lliphi que reemplace a Minimal en su vault y cierre su familia de
+  complementos de Obsidian (cada uno en su repositorio público). Se decide: (1) **Lliphi genera, otro repositorio
+  publica**: `complementos/obsidian/` escribe `generado/obsidian/theme.css` con las pruebas de siempre (colores del
+  maestro, sin deriva), y `achalmed/obsidian-lliphi` lo trae con `traer.sh` (de la rama main o de una copia local),
+  lleva el `manifest.json` y su versión, que no es la de Lliphi, y no depende de este repositorio para instalarse; el
+  instalador de Lliphi no toca Obsidian porque un vault no es una carpeta XDG. (2) **Solo variables de Obsidian 1.x**
+  (las de su `app.css` 1.14), ni selectores de la interfaz ni las de Minimal o Style Settings: así el tema sobrevive a
+  las versiones de la aplicación y a los complementos que leen la paleta. (3) **Traducción**: la escala
+  `--color-base-*` sigue la lógica de Plasma (la nota sobre `fondo.vista`, las barras laterales sobre `fondo.ventana`,
+  bordes, y los tres textos); el acento es el de cada variante, con los enlaces en `enlace`; los ocho colores con nombre
+  salen de los ANSI de la terminal (rosa = magenta brillante) y el naranja, que Lliphi no tiene, es `estado.advertencia`;
+  en el claro el amarillo y el naranja quedan cerca, el precio de no inventar colores fuera del maestro. El fondo de los
+  botones de peligro del oscuro es el acento (el rojo de Nothing), porque el `estado.error` del oscuro es un rojo claro
+  para texto y no admite texto blanco. (4) **Lo que el autor tenía en Minimal y se conserva**: encabezados de color
+  (h1 rojo … h6 morado), enlaces sin subrayado; el ancho de línea legible queda en 40rem, como lo tenía. (5) **Fragmentos
+  del vault**: `callouts.css` (colores de las anotaciones de Zotero en las notas de lectura) pasa al tema y se amplía a
+  los ocho colores de Zotero en cualquier nota, porque es color y el tema es quien decide el color; además en Obsidian 1.14
+  `--callout-color` es un color y el fragmento, que lo daba como terna RGB, dejaba las llamadas sin color.
+  `hidecitations.css` (ocultar las citas de Pandoc en la lectura) **no** es de tema sino de una función concreta y se
+  queda como fragmento. `my font`, activo sin archivo, se retira de la lista. Comprobado en el vault del autor con
+  Obsidian 1.14.5 (`docs/compatibilidad.md`).

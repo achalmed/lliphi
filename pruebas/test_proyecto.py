@@ -279,6 +279,54 @@ def test_zed_tema():
         assert st["players"] and {"cursor", "background", "selection"} <= set(st["players"][0])
 
 
+def _bloques_css(texto: str) -> dict[str, dict[str, str]]:
+    """selector → {variable: valor} de un CSS plano (sin anidar), como el que genera el complemento obsidian."""
+    sin_comentarios = re.sub(r"/\*.*?\*/", "", texto, flags=re.S)
+    assert sin_comentarios.count("{") == sin_comentarios.count("}"), "llaves desparejas"
+    return {sel.strip(): dict((k.strip(), v.strip()) for k, v in re.findall(r"(--[\w-]+)\s*:\s*([^;]+);", cuerpo))
+            for sel, cuerpo in re.findall(r"([^{}]+)\{([^{}]*)\}", sin_comentarios)}
+
+
+def test_obsidian_tema():
+    """theme.css: las dos variantes de Obsidian 1.x desde los tokens, sin variables de Minimal, y cada color del maestro."""
+    texto = (GEN / "obsidian" / "theme.css").read_text(encoding="utf-8")
+    b = _bloques_css(texto)
+    assert "GENERADO por herramientas/generar.py (complementos/obsidian" in texto
+    assert "minimal" not in texto.lower() and "@settings" not in texto
+    comun = b["body"]
+    assert comun["--font-interface-theme"].startswith('"Inter"') and comun["--font-monospace-theme"].startswith('"JetBrainsMono Nerd Font"')
+    assert comun["--radius-s"] == f"{TOKENS['radio']['control']['$value']['value']}px"
+    requeridas = [f"--color-base-{n}" for n in ("00", "05", "10", "20", "25", "30", "35", "40", "50", "60", "70", "100")]
+    requeridas += [f"--color-{c}{r}" for c in ("red", "orange", "yellow", "green", "cyan", "blue", "purple", "pink") for r in ("", "-rgb")]
+    requeridas += ["--accent-h", "--accent-s", "--accent-l", "--color-accent", "--interactive-accent", "--text-accent",
+                   "--text-on-accent", "--text-error", "--text-warning", "--text-success", "--code-keyword", "--code-string",
+                   "--code-function", "--code-comment", "--code-background"]
+    hexes = {t["$value"]["hex"].lower() for t in _tokens_planos(TOKENS).values()
+             if isinstance(t["$value"], dict) and "hex" in t["$value"]}
+    for v, selector in (("claro", ".theme-light"), ("oscuro", ".theme-dark")):
+        x = b[selector]
+        faltan = [k for k in requeridas if k not in x]
+        assert not faltan, (v, faltan)
+        sem = {k: t["$value"]["hex"] for k, t in _tokens_planos(TOKENS["semanticos"][v]).items()}
+        t, e = _terminal(v), _sintaxis_esperada(v)
+        assert x["--color-base-00"] == sem["fondo.vista"] and x["--color-base-20"] == sem["fondo.ventana"]
+        assert x["--color-base-100"] == sem["texto.normal"] and x["--color-base-70"] == sem["texto.secundario"]
+        assert x["--color-accent"] == x["--interactive-accent"] == sem["acento.base"] and x["--text-accent"] == sem["enlace"]
+        assert x["--color-red"] == t["color1"] and x["--color-blue"] == t["color4"] and x["--color-orange"] == sem["estado.advertencia"]
+        assert x["--code-keyword"] == e["palabra-clave"] and x["--code-string"] == e["cadena"] and x["--code-comment"] == e["comentario"]
+        for k, valor in x.items():
+            if k.endswith("-rgb"):
+                hex_ = x[k[:-4]] if k[:-4] in x else None
+                if hex_:
+                    assert valor == ", ".join(str(int(hex_[i:i + 2], 16)) for i in (1, 3, 5)), (v, k)
+            elif valor.startswith("#"):
+                assert valor.lower() in hexes, (v, k, valor)
+    # los colores de Zotero solo aparecen como selector, nunca como valor
+    zotero = {s: d for s, d in b.items() if s.startswith(".callout[data-callout-metadata=")}
+    assert len(zotero) == 8 and all(d["--callout-color"].startswith("var(--color-") for d in zotero.values())
+    assert '.callout[data-callout-metadata="#ffd400" i]' in zotero and zotero['.callout[data-callout-metadata="#ffd400" i]']["--callout-color"] == "var(--color-yellow)"
+
+
 def test_decoracion_aurorae():
     """La decoración deriva de Nothing: dos variantes con marco, botones, rc y metadatos; GPL declarada."""
     for v, id_ in (("oscuro", MARCA["id"]), ("claro", f"{MARCA['id']}-claro")):
@@ -528,7 +576,7 @@ def test_registro_tema_global_y_seis_modulos():
     roles = {m.id: (m.rol, m.clase) for m in registro.todos()}
     assert roles["global"] == ("global", "paquete")
     assert {i: c for i, (r, c) in roles.items() if r == "modulo"} == SEIS
-    assert {i for i, (r, _) in roles.items() if r == "complemento"} == {"fondos", "kvantum", "konsole", "terminales", "editores", "libreoffice", "sddm"}
+    assert {i for i, (r, _) in roles.items() if r == "complemento"} == {"fondos", "kvantum", "konsole", "terminales", "editores", "libreoffice", "sddm", "obsidian"}
     g = registro.modulo("global")
     assert set(g.dependencias("integra")) == {"carga-bloqueo", "disposicion"}
     assert set(SEIS) <= set(g.dependencias("integra") + g.dependencias("referencia"))

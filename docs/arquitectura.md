@@ -34,7 +34,7 @@ decisiones de diseño visual y su porqué siguen en [`decisiones.md`](decisiones
   esquema ─────────── id ───►┐                                      fondos ── id ──►┐  (imagen ► carga-bloqueo, sddm)
   estilo ──────────── id ───►│ contents/defaults                    kvantum ── id ─►│
   decoracion ──────── id ───►│   (valores() de cada módulo)         konsole · terminales · editores
-  iconos-cursores ─── id ───►│                                      libreoffice · sddm
+  iconos-cursores ─── id ───►│                                      libreoffice · sddm · obsidian
   carga-bloqueo ── archivos ►│ contents/splash, contents/logout
   disposicion ──── archivos ►│ contents/layouts
                              ▼
@@ -83,7 +83,8 @@ la sesión del usuario y con root: es el complemento `sddm`, no parte de `carga-
 
 Lo que existía y no es parte de un `Plasma/LookAndFeel`: `fondos` (`Wallpaper/Images`; el tema global lo nombra y su
 imagen la usan `carga-bloqueo` y `sddm`), `kvantum` (estilo de aplicaciones; el tema global nombra `widgetStyle`),
-`konsole`, `terminales`, `editores`, `libreoffice` y `sddm`.
+`konsole`, `terminales`, `editores`, `libreoffice` y `sddm`; y uno nacido después, fuera del escritorio: `obsidian`, el
+tema de Obsidian que se publica en su repositorio propio (`achalmed/obsidian-lliphi`, decisión 5.1).
 
 ### 3.4 Lo compartido
 
@@ -174,7 +175,7 @@ cuelga de la raíz del proyecto y de las variables XDG.
 
 ## 7. Validación y pruebas
 
-`generar.py validar` comprueba, para los catorce módulos: el manifiesto completo y coherente con su clase; que existan
+`generar.py validar` comprueba, para los quince módulos: el manifiesto completo y coherente con su clase; que existan
 `README.md`, `INSTALL.md`, las capturas y las bases; dependencias existentes, sin ciclos y declaradas para todo
 `registro.codigo()`; cada origen de `instalacion` en `generado/`; la estructura real de lo generado según `formato`
 (§1.1 de `migracion-modular.md`: `KPackageStructure` donde corresponde, `KPlugin.Id` = carpeta, `Version` = `VERSION`,
@@ -183,7 +184,7 @@ cuelga de la raíz del proyecto y de las variables XDG.
 iconos, cursores, pantalla de carga) existe en el módulo que lo entrega y cada ruta de cada componente está dentro del
 paquete. Avisa si aparece un `contents/lockscreen/` (Plasma 6.6 lo ignoraría).
 
-`pytest` (32 pruebas): tokens y contraste, deriva, estructura de cada formato, la línea base de los esquemas, la
+`pytest` (34 pruebas): tokens y contraste, deriva, estructura de cada formato, la línea base de los esquemas, la
 arquitectura (registro, validación en verde y con fallos provocados, composición de `defaults`, componentes, orden de
 dependencias), la instalación reversible en un `HOME` temporal con `comprobar`, `UNDO.sh` y el manifiesto heredado de
 0.3.0, Kvantum con `XDG_CONFIG_HOME` no estándar, los atajos de compatibilidad y `reuse lint`. La CI corre paleta,
