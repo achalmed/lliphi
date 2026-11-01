@@ -6,12 +6,18 @@ variantes (claro y oscuro), mide el contraste WCAG 2.2 de cada par que importa (
 ≥ 4.5:1; 1.4.11 componentes y foco ≥ 3:1) y escribe `tokens/tokens.json` en el formato
 Design Tokens 2025.10 (color en `oklch` con `hex` de respaldo).
 
+Los valores (OKLCH de neutros, acentos, estados y terminal) están en `ajustes.json`, junto a este archivo: es la
+fuente que edita Lliphi Studio; aquí queda cómo se combinan.
+
 Uso:  .venv/bin/python modulos/esquema/paleta.py            # informe en pantalla; sale 1 si un par falla
       .venv/bin/python modulos/esquema/paleta.py --aplicar  # además escribe tokens/tokens.json
+      .venv/bin/python modulos/esquema/paleta.py --ajustes <borrador.json> --json   # informe de un borrador, en JSON
+      .venv/bin/python modulos/esquema/paleta.py --acento azul                      # el mismo acento en las dos variantes
 """
 from __future__ import annotations
 
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -19,109 +25,78 @@ from coloraide import Color
 
 RAIZ = Path(__file__).resolve().parents[2]
 TOKENS = RAIZ / "tokens" / "tokens.json"
+AJUSTES = Path(__file__).resolve().parent / "ajustes.json"
 
 # ---------------------------------------------------------------------------
-# 1. Primitivas: una familia de neutros por variante y un acento por variante (rojo oscuro, azul claro).
-#    Día: neutros cálidos (matiz 80, papel). Noche: neutros fríos (matiz 255, pizarra).
-#    El acento es un verde azulado sereno (matiz 195) con dos luminosidades.
+# 1. Primitivas: una familia de neutros por variante (casi negros de Nothing, grises suaves de WhiteSur, con un matiz
+#    frío apenas perceptible) y un acento por variante (decisiones 4.12: el rojo de Nothing en el oscuro, el azul de
+#    WhiteSur en el claro). Otros acentos (azul, verde azulado) se prueban con --acento; el esquema sigue además el
+#    acento del sistema de Plasma 6. El azul-whitesur es el #315bef de WhiteSur (5,4:1 con blanco), su texto
+#    (#2a4fd0) y un suave (#4777f0) apenas más oscuro que su #4f7fef para que el hover cumpla 3:1 sobre los botones.
 # ---------------------------------------------------------------------------
 
 def oklch(l: float, c: float, h: float) -> Color:
     return Color("oklch", [l, c, h]).fit("srgb")
 
 
-# Neutros casi negros (Nothing) y grises suaves (WhiteSur claro), con un matiz frío apenas perceptible.
-# Acento principal: el rojo de Nothing, llevado a la luminosidad que cumple 4.5:1 con texto claro.
-# Otros acentos (azul de WhiteSur, verde azulado) se generan con --acento; el esquema sigue además
-# el acento del sistema de Plasma 6, así que el usuario puede cambiarlo sin tocar el tema.
-MATIZ_NEUTRO = 270
-ACENTOS = {
-    #            claro: base, suave, texto          oscuro: base, suave, texto
-    "rojo":       ((0.545, 0.185, 25), (0.62, 0.17, 25), (0.50, 0.185, 25),
-                   (0.555, 0.185, 25), (0.68, 0.17, 25), (0.78, 0.13, 25)),
-    "azul":       ((0.50, 0.17, 262), (0.60, 0.15, 262), (0.46, 0.17, 262),
-                   (0.56, 0.17, 262), (0.70, 0.13, 262), (0.80, 0.10, 262)),
-    # el azul exacto de WhiteSur (#315bef, 5,4:1 con blanco), su texto (#2a4fd0) y un suave (#4777f0) apenas más
-    # oscuro que el #4f7fef de WhiteSur para que el hover cumpla 3:1 sobre los botones claros
-    "azul-whitesur": ((0.538, 0.227, 266.26), (0.60, 0.19, 265), (0.487, 0.203, 266.26),
-                      (0.56, 0.17, 262), (0.70, 0.13, 262), (0.80, 0.10, 262)),
-    "verde-azul": ((0.50, 0.085, 195), (0.575, 0.09, 195), (0.44, 0.095, 195),
-                   (0.545, 0.10, 195), (0.68, 0.095, 195), (0.76, 0.09, 195)),
-}
-# Decisión del autor (2026-10-19, decisiones 4.12): un acento por variante, cada uno de su tema de partida:
-# el rojo de Nothing en el oscuro y el azul de WhiteSur en el claro.
-ACENTO = {"claro": "azul-whitesur", "oscuro": "rojo"}
+def leer_ajustes(ruta: Path = AJUSTES) -> dict:
+    return json.loads(Path(ruta).read_text(encoding="utf-8"))
 
 
-def primitivas(acento: dict[str, str] | str = ACENTO) -> dict[str, dict[str, Color]]:
+def volcar_ajustes(doc: dict) -> str:
+    """El texto canónico de `ajustes.json`: sangría de dos espacios y cada terna OKLCH en una línea."""
+    texto = json.dumps(doc, ensure_ascii=False, indent=2)
+    return re.sub(r"\[\s*(-?[\d.]+(?:,\s*-?[\d.]+)*)\s*\]",
+                  lambda m: "[" + ", ".join(x.strip() for x in m.group(1).split(",")) + "]", texto) + "\n"
+
+
+def cargar(ajustes: dict) -> None:
+    """Fija los valores del módulo desde unos ajustes (los del archivo o un borrador)."""
+    global AJ, MATIZ_NEUTRO, ACENTOS, ACENTO, ANSI_MATIZ, PRIMITIVAS
+    AJ = ajustes
+    MATIZ_NEUTRO = ajustes["matiz_neutro"]
+    ACENTOS = ajustes["acentos"]
+    ACENTO = dict(ajustes["acento"])
+    ANSI_MATIZ = ajustes["terminal"]["matices"]
+    PRIMITIVAS = primitivas()
+
+
+def primitivas(acento: dict[str, str] | str | None = None) -> dict[str, dict[str, Color]]:
+    acento = acento or ACENTO
     if isinstance(acento, str):
         acento = {"claro": acento, "oscuro": acento}
-    a = ACENTOS[acento["claro"]][:3] + ACENTOS[acento["oscuro"]][3:]
-    h = MATIZ_NEUTRO
-    return {
-        "claro": {
-            "neutro-0": oklch(0.990, 0.002, h),   # vista
-            "neutro-1": oklch(0.965, 0.003, h),   # vista alterna
-            "neutro-2": oklch(0.945, 0.004, h),   # ventana
-            "neutro-3": oklch(0.910, 0.005, h),   # ventana alterna, botón
-            "neutro-4": oklch(0.850, 0.006, h),   # separadores, bordes
-            "neutro-5": oklch(0.515, 0.008, h),   # texto inactivo
-            "neutro-6": oklch(0.420, 0.010, h),   # texto secundario
-            "neutro-7": oklch(0.240, 0.010, h),   # texto
-            "neutro-8": oklch(0.260, 0.008, h),   # tooltip (inverso)
-            "acento": oklch(*a[0]), "acento-suave": oklch(*a[1]), "acento-texto": oklch(*a[2]),
-            "negativo": oklch(0.520, 0.170, 25),
-            "neutral":  oklch(0.520, 0.120, 70),
-            "positivo": oklch(0.500, 0.130, 150),
-            "info":     oklch(0.520, 0.120, 250),
-        },
-        "oscuro": {
-            "neutro-0": oklch(0.175, 0.004, h),   # vista (más profunda)
-            "neutro-1": oklch(0.205, 0.004, h),   # vista alterna
-            "neutro-2": oklch(0.225, 0.004, h),   # ventana (≈ el #1b1b1d de Nothing)
-            "neutro-3": oklch(0.260, 0.005, h),   # ventana alterna
-            "neutro-3b": oklch(0.305, 0.005, h),  # botón
-            "neutro-4": oklch(0.365, 0.006, h),   # separadores, bordes
-            "neutro-5": oklch(0.680, 0.006, h),   # texto inactivo
-            "neutro-6": oklch(0.800, 0.005, h),   # texto secundario
-            "neutro-7": oklch(0.940, 0.003, h),   # texto
-            "neutro-8": oklch(0.320, 0.005, h),   # tooltip
-            "acento": oklch(*a[3]), "acento-suave": oklch(*a[4]), "acento-texto": oklch(*a[5]),
-            "negativo": oklch(0.740, 0.150, 25),
-            "neutral":  oklch(0.800, 0.120, 75),
-            "positivo": oklch(0.760, 0.130, 150),
-            "info":     oklch(0.760, 0.100, 250),
-        },
-    }
+    salida: dict[str, dict[str, Color]] = {}
+    for variante in ("claro", "oscuro"):
+        a = ACENTOS[acento[variante]][variante]
+        p = {k: oklch(l, c, MATIZ_NEUTRO) for k, (l, c) in AJ["neutros"][variante].items()}
+        p.update({"acento": oklch(*a["base"]), "acento-suave": oklch(*a["suave"]), "acento-texto": oklch(*a["texto"])})
+        p.update({k: oklch(*v) for k, v in AJ["estados"][variante].items()})
+        salida[variante] = p
+    return salida
 
-
-PRIMITIVAS = primitivas()
 
 BLANCO = Color("srgb", [0.99, 0.99, 0.99])
 
 # Paleta ANSI de 16 colores para terminales (Konsole y después otras): matices fijos con significado
 # (0 negro, 1 rojo, 2 verde, 3 amarillo, 4 azul, 5 magenta, 6 cian, 7 blanco) y luminosidades por variante
 # que dan ≥ 4.5:1 sobre el fondo de vista; las «intensas» (8–15) suben de luminosidad, nunca de ruido.
-ANSI_MATIZ = {"rojo": 25, "verde": 150, "amarillo": 85, "azul": 262, "magenta": 330, "cian": 200}
-
 
 def terminal(variante: str) -> dict[str, Color]:
     p = PRIMITIVAS[variante]
     h = MATIZ_NEUTRO
-    if variante == "claro":
-        normal, intensa, croma = 0.50, 0.42, 0.14
-        negro, negro_i = oklch(0.30, 0.008, h), oklch(0.45, 0.008, h)
-        blanco, blanco_i = oklch(0.80, 0.004, h), oklch(0.93, 0.002, h)
-    else:
-        normal, intensa, croma = 0.74, 0.82, 0.13
-        negro, negro_i = oklch(0.32, 0.006, h), oklch(0.50, 0.006, h)
-        blanco, blanco_i = oklch(0.86, 0.004, h), oklch(0.96, 0.002, h)
+    a = AJ["terminal"][variante]
+    normal, intensa, croma = a["normal"], a["intensa"], a["croma"]
+    negro, negro_i = oklch(*a["negro"], h), oklch(*a["negro-intenso"], h)
+    blanco, blanco_i = oklch(*a["blanco"], h), oklch(*a["blanco-intenso"], h)
     t = {"fondo": p["neutro-0"], "texto": p["neutro-7"], "texto-tenue": p["neutro-5"], "texto-intenso": p["neutro-7"],
          "color0": negro, "color8": negro_i, "color7": blanco, "color15": blanco_i}
     for i, nombre in enumerate(("rojo", "verde", "amarillo", "azul", "magenta", "cian"), start=1):
         t[f"color{i}"] = oklch(normal, croma, ANSI_MATIZ[nombre])
         t[f"color{i + 8}"] = oklch(intensa, croma, ANSI_MATIZ[nombre])
     return t
+
+
+cargar(leer_ajustes())
 
 
 # ---------------------------------------------------------------------------
@@ -300,10 +275,47 @@ def escribir_tokens() -> None:
     print(f"\nescrito {TOKENS.relative_to(RAIZ)}")
 
 
+def informe_json() -> dict:
+    """El informe en forma de máquina: los semánticos y la terminal de cada variante en hex y OKLCH, y cada par con
+    su razón, su mínimo y si cumple (lo lee Lliphi Studio)."""
+    def color(c: Color) -> dict:
+        o = c.convert("oklch")
+        return {"hex": hexa(c), "oklch": [round(o["l"], 4), round(o["c"], 4), round(o["h"], 2) if o["h"] == o["h"] else 0]}
+    out: dict = {"acento": ACENTO, "ok": True, "variantes": {}}
+    for variante in ("claro", "oscuro"):
+        t = semanticos(variante)
+        term = terminal(variante)
+        mismo_polo = {"color0", "color8"} if variante == "oscuro" else {"color7", "color15"}
+        pares = []
+        for fg, bg, minimo, criterio in PARES:
+            r = contraste(t[fg], t[bg])
+            pares.append({"texto": fg, "fondo": bg, "razon": round(r, 2), "minimo": minimo, "criterio": criterio,
+                          "cumple": r >= minimo, "informativo": criterio.startswith("jerarquía")})
+        for k, c in term.items():
+            if k.startswith("color") or k == "texto":
+                r = contraste(c, term["fondo"])
+                pares.append({"texto": f"terminal.{k}", "fondo": "terminal.fondo", "razon": round(r, 2), "minimo": 4.5,
+                              "criterio": "informativo (mismo polo)" if k in mismo_polo else "1.4.3",
+                              "cumple": r >= 4.5, "informativo": k in mismo_polo})
+        out["ok"] &= all(p["cumple"] or p["informativo"] for p in pares)
+        out["variantes"][variante] = {"primitivas": {k: color(c) for k, c in PRIMITIVAS[variante].items()},
+                                      "semanticos": {k: color(c) for k, c in t.items()},
+                                      "terminal": {k: color(c) for k, c in term.items()}, "pares": pares}
+    return out
+
+
 if __name__ == "__main__":
+    if "--ajustes" in sys.argv:   # un borrador (Lliphi Studio): solo para informar, nunca se escribe con él
+        if "--aplicar" in sys.argv:
+            sys.exit("--ajustes es para probar un borrador; para aplicarlo, guárdalo en modulos/esquema/ajustes.json")
+        cargar(leer_ajustes(Path(sys.argv[sys.argv.index("--ajustes") + 1])))
     if "--acento" in sys.argv:   # el mismo acento en las dos variantes (para probar otros)
         ACENTO = sys.argv[sys.argv.index("--acento") + 1]
         PRIMITIVAS = primitivas(ACENTO)
+    if "--json" in sys.argv:
+        datos = informe_json()
+        print(json.dumps(datos, ensure_ascii=False))
+        sys.exit(0 if datos["ok"] else 1)
     bien = informe()
     if "--aplicar" in sys.argv:
         escribir_tokens()

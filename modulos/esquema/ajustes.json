@@ -1,0 +1,150 @@
+{
+  "$description": "Ajustes de la paleta de Lliphi (fuente; lo lee modulos/esquema/paleta.py y lo edita Lliphi Studio). Colores en OKLCH [L, C, H]; los neutros llevan [L, C] y toman el matiz de matiz_neutro. Tras cambiarlo: paleta.py --aplicar y generar.py --aplicar.",
+  "matiz_neutro": 270,
+  "acento": {
+    "claro": "azul-whitesur",
+    "oscuro": "rojo"
+  },
+  "acentos": {
+    "rojo": {
+      "claro": {
+        "base": [0.545, 0.185, 25],
+        "suave": [0.62, 0.17, 25],
+        "texto": [0.5, 0.185, 25]
+      },
+      "oscuro": {
+        "base": [0.555, 0.185, 25],
+        "suave": [0.68, 0.17, 25],
+        "texto": [0.78, 0.13, 25]
+      }
+    },
+    "azul": {
+      "claro": {
+        "base": [0.5, 0.17, 262],
+        "suave": [0.6, 0.15, 262],
+        "texto": [0.46, 0.17, 262]
+      },
+      "oscuro": {
+        "base": [0.56, 0.17, 262],
+        "suave": [0.7, 0.13, 262],
+        "texto": [0.8, 0.1, 262]
+      }
+    },
+    "azul-whitesur": {
+      "claro": {
+        "base": [0.538, 0.227, 266.26],
+        "suave": [0.6, 0.19, 265],
+        "texto": [0.487, 0.203, 266.26]
+      },
+      "oscuro": {
+        "base": [0.56, 0.17, 262],
+        "suave": [0.7, 0.13, 262],
+        "texto": [0.8, 0.1, 262]
+      }
+    },
+    "verde-azul": {
+      "claro": {
+        "base": [0.5, 0.085, 195],
+        "suave": [0.575, 0.09, 195],
+        "texto": [0.44, 0.095, 195]
+      },
+      "oscuro": {
+        "base": [0.545, 0.1, 195],
+        "suave": [0.68, 0.095, 195],
+        "texto": [0.76, 0.09, 195]
+      }
+    }
+  },
+  "neutros": {
+    "claro": {
+      "neutro-0": [0.99, 0.002],
+      "neutro-1": [0.965, 0.003],
+      "neutro-2": [0.945, 0.004],
+      "neutro-3": [0.91, 0.005],
+      "neutro-4": [0.85, 0.006],
+      "neutro-5": [0.515, 0.008],
+      "neutro-6": [0.42, 0.01],
+      "neutro-7": [0.24, 0.01],
+      "neutro-8": [0.26, 0.008]
+    },
+    "oscuro": {
+      "neutro-0": [0.175, 0.004],
+      "neutro-1": [0.205, 0.004],
+      "neutro-2": [0.225, 0.004],
+      "neutro-3": [0.26, 0.005],
+      "neutro-3b": [0.305, 0.005],
+      "neutro-4": [0.365, 0.006],
+      "neutro-5": [0.68, 0.006],
+      "neutro-6": [0.8, 0.005],
+      "neutro-7": [0.94, 0.003],
+      "neutro-8": [0.32, 0.005]
+    }
+  },
+  "roles": {
+    "claro": {
+      "neutro-0": "vista",
+      "neutro-1": "vista alterna",
+      "neutro-2": "ventana",
+      "neutro-3": "ventana alterna, botón",
+      "neutro-4": "separadores, bordes",
+      "neutro-5": "texto inactivo",
+      "neutro-6": "texto secundario",
+      "neutro-7": "texto",
+      "neutro-8": "tooltip (inverso)"
+    },
+    "oscuro": {
+      "neutro-0": "vista (más profunda)",
+      "neutro-1": "vista alterna",
+      "neutro-2": "ventana (≈ el #1b1b1d de Nothing)",
+      "neutro-3": "ventana alterna",
+      "neutro-3b": "botón",
+      "neutro-4": "separadores, bordes",
+      "neutro-5": "texto inactivo",
+      "neutro-6": "texto secundario",
+      "neutro-7": "texto",
+      "neutro-8": "tooltip"
+    }
+  },
+  "estados": {
+    "claro": {
+      "negativo": [0.52, 0.17, 25],
+      "neutral": [0.52, 0.12, 70],
+      "positivo": [0.5, 0.13, 150],
+      "info": [0.52, 0.12, 250]
+    },
+    "oscuro": {
+      "negativo": [0.74, 0.15, 25],
+      "neutral": [0.8, 0.12, 75],
+      "positivo": [0.76, 0.13, 150],
+      "info": [0.76, 0.1, 250]
+    }
+  },
+  "terminal": {
+    "matices": {
+      "rojo": 25,
+      "verde": 150,
+      "amarillo": 85,
+      "azul": 262,
+      "magenta": 330,
+      "cian": 200
+    },
+    "claro": {
+      "normal": 0.5,
+      "intensa": 0.42,
+      "croma": 0.14,
+      "negro": [0.3, 0.008],
+      "negro-intenso": [0.45, 0.008],
+      "blanco": [0.8, 0.004],
+      "blanco-intenso": [0.93, 0.002]
+    },
+    "oscuro": {
+      "normal": 0.74,
+      "intensa": 0.82,
+      "croma": 0.13,
+      "negro": [0.32, 0.006],
+      "negro-intenso": [0.5, 0.006],
+      "blanco": [0.86, 0.004],
+      "blanco-intenso": [0.96, 0.002]
+    }
+  }
+}

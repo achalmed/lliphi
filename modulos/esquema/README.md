@@ -5,7 +5,7 @@ y `LliphiOscuro.colors` (KColorScheme), que colorean todas las aplicaciones Qt y
 
 ## Responsabilidad
 
-- **La paleta** (`paleta.py`): define cada color en OKLCH, deriva los tokens semánticos de las dos variantes, mide el
+- **La paleta** (`paleta.py` con los valores en `ajustes.json`): define cada color en OKLCH, deriva los tokens semánticos de las dos variantes, mide el
   contraste WCAG 2.2 de 25 pares (texto ≥ 4.5:1; foco y controles ≥ 3:1) y escribe `tokens/tokens.json` (DTCG
   2025.10). Ese archivo es la salida pública del módulo y el contrato que leen todos los demás: ningún otro módulo
   define colores.
@@ -26,6 +26,7 @@ Selection|Tooltip|Complementary|Header]` y `[Colors:Header][Inactive]` con doce 
 ```
 modulos/esquema/
 ├── modulo.json   paquete · KColorScheme · instala los dos .colors en color-schemes/
+├── ajustes.json  los valores de la paleta: OKLCH de neutros, acentos, estados y terminal (fuente; lo edita Lliphi Studio)
 ├── paleta.py     paleta OKLCH → tokens/tokens.json y contraste (pide coloraide: .venv)
 ├── construir.py  esquemas desde fuentes/base/WhiteSur-kde/color-schemes + acento de los tokens; valores(); con_acento()
 ├── INSTALL.md · README.md
@@ -43,10 +44,12 @@ Lo usan: `estilo` (código), `global` (identificador) y, por los tokens, todos.
 ```bash
 .venv/bin/python modulos/esquema/paleta.py                      # informe de contraste; sale 1 si un par falla
 .venv/bin/python modulos/esquema/paleta.py --acento azul --aplicar   # reescribe tokens/tokens.json
+.venv/bin/python modulos/esquema/paleta.py --ajustes borrador.json --json   # informe de un borrador, sin escribir
 .venv/bin/python herramientas/generar.py --aplicar               # un cambio de tokens afecta a todos los módulos
 python3 herramientas/instalar.py --modulos esquema --aplicar && plasma-apply-colorscheme LliphiOscuro
 ```
 
 Un azul de WhiteSur que no esté en `AZULES_WHITESUR` no se sustituye: si WhiteSur cambia, ampliar la lista y mirar
-`test_esquema_linea_base_solo_acento`, que exige que solo cambie el acento. Pruebas: `test_tokens_dtcg_validos`,
+`test_esquema_linea_base_solo_acento`, que exige que solo cambie el acento. Para cambiar un color se edita `ajustes.json` (a mano o con Lliphi Studio) y
+se escribe con `volcar_ajustes()`, que deja cada terna OKLCH en una línea. Pruebas: `test_ajustes_paleta`, `test_tokens_dtcg_validos`,
 `test_contraste_todos_los_pares`, `test_esquemas_completos`, `test_esquema_linea_base_solo_acento`, `test_acento_por_variante`.

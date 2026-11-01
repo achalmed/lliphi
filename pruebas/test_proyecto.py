@@ -71,6 +71,29 @@ def test_contraste_todos_los_pares():
     assert "FALLA" not in r.stdout
 
 
+def test_ajustes_paleta(tmp_path: Path):
+    """Los valores de la paleta viven en ajustes.json (canónico); un borrador se informa en JSON sin escribir nada."""
+    sys.path.insert(0, str(RAIZ / "modulos" / "esquema"))
+    import paleta
+    ruta = RAIZ / "modulos" / "esquema" / "ajustes.json"
+    texto = ruta.read_text(encoding="utf-8")
+    assert paleta.volcar_ajustes(json.loads(texto)) == texto
+    r = correr("modulos/esquema/paleta.py", "--json")
+    datos = json.loads(r.stdout)
+    assert r.returncode == 0 and datos["ok"]
+    assert datos["variantes"]["oscuro"]["semanticos"]["acento.base"]["hex"] == "#c93436"
+    borrador = json.loads(texto)
+    borrador["acento"]["oscuro"] = "azul"
+    borrador["neutros"]["oscuro"]["neutro-5"] = [0.30, 0.006]      # texto inactivo casi negro: debe fallar
+    (tmp_path / "b.json").write_text(json.dumps(borrador), encoding="utf-8")
+    antes = (RAIZ / "tokens" / "tokens.json").read_bytes()
+    r = correr("modulos/esquema/paleta.py", "--ajustes", str(tmp_path / "b.json"), "--json")
+    datos = json.loads(r.stdout)
+    assert r.returncode == 1 and not datos["ok"] and datos["acento"]["oscuro"] == "azul"
+    assert correr("modulos/esquema/paleta.py", "--ajustes", str(tmp_path / "b.json"), "--aplicar").returncode != 0
+    assert (RAIZ / "tokens" / "tokens.json").read_bytes() == antes
+
+
 def test_generado_sin_deriva():
     r = correr("herramientas/generar.py", "verificar")
     assert r.returncode == 0, r.stdout[-2000:]
