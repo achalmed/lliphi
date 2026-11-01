@@ -94,6 +94,22 @@ def test_ajustes_paleta(tmp_path: Path):
     assert (RAIZ / "tokens" / "tokens.json").read_bytes() == antes
 
 
+def test_ajustes_de_los_modulos(tmp_path: Path):
+    """Decoración e iconos leen sus valores de ajustes.json; las órdenes dan su informe en JSON para Lliphi Studio."""
+    dec = registro.codigo("decoracion")
+    assert dec.ajustes()["rc"]["TitleHeight"] == "18"
+    assert dec.valores(MARCA, "oscuro")["kwinrc][org.kde.kdecoration2"]["ButtonsOnLeft"] == dec.ajustes()["botones"]["izquierda"]
+    with pytest.raises(ValueError):
+        dec._poner("[Layout]\nTitleHeight=12\n", "NoExiste", "1")
+    assert registro.codigo("iconos-cursores").ICONOS["oscuro"] == "Papirus-Dark-Lliphi"
+    r = correr("herramientas/generar.py", "validar", "--json")
+    assert r.returncode == 0 and json.loads(r.stdout)["valido"]
+    datos = json.loads(correr("herramientas/generar.py", "verificar", "--json").stdout)
+    assert {"archivos", "al_dia", "diferencias"} <= set(datos)
+    env = {**os.environ, "XDG_STATE_HOME": str(tmp_path / "state")}
+    assert json.loads(correr("herramientas/instalar.py", "estado", "--json", env=env).stdout)["instalado"] is False
+
+
 def test_generado_sin_deriva():
     r = correr("herramientas/generar.py", "verificar")
     assert r.returncode == 0, r.stdout[-2000:]

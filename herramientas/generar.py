@@ -6,6 +6,7 @@ Uso:  python3 herramientas/generar.py                      # simula: qué escrib
       python3 herramientas/generar.py --modulos esquema,global [--aplicar]
       python3 herramientas/generar.py verificar            # 0 si generado/ coincide con una construcción nueva; 1 si no
       python3 herramientas/generar.py validar              # manifiestos, dependencias, estructura KDE e integración
+      python3 herramientas/generar.py verificar|validar --json   # lo mismo en JSON (lo lee Lliphi Studio)
       python3 herramientas/generar.py lista                # módulos, clase, dependencias e instalación
       python3 herramientas/generar.py empaquetar           # dist/: tarballs por módulo, SHA256SUMS, notas y ficha de la tienda
 Cada módulo se describe en su `modulo.json` (`global/`, `modulos/<id>/`, `complementos/<id>/`) y se construye con su
@@ -14,6 +15,7 @@ piden Pillow). `tokens/tokens.json` lo escribe antes `modulos/esquema/paleta.py`
 """
 from __future__ import annotations
 
+import json
 import sys
 import tempfile
 from pathlib import Path
@@ -37,7 +39,7 @@ def main() -> int:
     if "empaquetar" in args:
         return construccion.empaquetar()
     if "validar" in args:
-        return validacion.informe()
+        return validacion.informe("--json" in args)
     if "lista" in args:
         return lista()
     pedidos = args[args.index("--modulos") + 1].split(",") if "--modulos" in args else None
@@ -49,6 +51,9 @@ def main() -> int:
         carpeta = Path(tmp)
         hechos = construccion.construir_en(carpeta, nombres)
         d = construccion.comparar(carpeta, nombres) + (construccion.huerfanas() if pedidos is None else [])
+        if "verificar" in args and "--json" in args:
+            print(json.dumps({"archivos": len(hechos), "al_dia": not d, "diferencias": d}, ensure_ascii=False))
+            return 0 if not d else 1
         if "verificar" in args:
             for x in d:
                 print(" ", x)

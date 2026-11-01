@@ -102,6 +102,7 @@ genera desde los manifiestos) y `herramientas/{lamina,boceto,comparar,contacto}.
 ├── construir.py        paquete: generar(); componente: integrar(); opcional: valores()
 ├── aplicar.py          opcional: aplicar(ctx) y respaldos(ctx)
 ├── externas.py         externo (y quien tenga terceros): instalar(aplicar, opcionales)
+├── ajustes.json        opcional: los valores editables del módulo, declarativos (los edita Lliphi Studio, `studio/`)
 └── …                   fuentes propias (p. ej. escritorio.js de disposicion)
 ```
 
@@ -120,6 +121,11 @@ genera desde los manifiestos) y `herramientas/{lamina,boceto,comparar,contacto}.
 | `dependencias.python`, `terceros`, `bases` | Pillow, coloraide; paquetes de terceros; bases de `fuentes/base/` |
 | `integracion` | componente: `{"en": "global", "rutas": [...]}` que deben quedar dentro del paquete |
 | `instalacion` | paquete: `[{"origen", "destino", "base"}]`; `origen` relativo a `generado/<id>/`, `destino` a la base (`data`, `config`, `vscode`, `positron`, `vscodium`); admiten `{id}`, `{id_esquema[claro]}`… de `tokens/marca.json` |
+
+`ajustes.json` (opcional) separa los valores de cómo se usan: hoy lo tienen `esquema` (los OKLCH de la paleta),
+`decoracion` (claves del `rc`, colores del título, botones, recoloreo), `disposicion` (paneles y widgets) e
+`iconos-cursores` (temas y color de las carpetas). Se escribe con sangría de dos espacios; la paleta deja cada terna
+OKLCH en una línea (`paleta.volcar_ajustes()`). Tras cambiarlo, `paleta.py --aplicar` si es la paleta y `generar.py`.
 
 Funciones:
 
@@ -140,6 +146,7 @@ Funciones:
 .venv/bin/python herramientas/generar.py verificar             # 1 si lo versionado difiere de una construcción nueva
 .venv/bin/python herramientas/generar.py validar               # §7
 .venv/bin/python herramientas/generar.py lista                 # módulos, clase, formato, dependencias
+.venv/bin/python herramientas/generar.py verificar|validar --json   # en JSON, para Lliphi Studio (también instalar.py estado --json)
 .venv/bin/python herramientas/generar.py empaquetar            # dist/: un tarball por paquete, SHA256SUMS, notas, ficha
 ```
 

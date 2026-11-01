@@ -272,8 +272,16 @@ def validar() -> Informe:
     return inf
 
 
-def informe() -> int:
+def informe(como_json: bool = False) -> int:
     inf = validar()
+    if como_json:   # forma de máquina (Lliphi Studio): cada error y aviso con su módulo
+        def partir(x: str) -> dict:
+            id_, _, texto = x.partition(": ")
+            return {"modulo": id_, "texto": texto}
+        print(json.dumps({"modulos": len(registro.todos()), "valido": not inf.errores,
+                          "errores": [partir(x) for x in inf.errores], "avisos": [partir(x) for x in inf.avisos]},
+                         ensure_ascii=False))
+        return 0 if not inf.errores else 1
     for x in inf.avisos:
         print(f"  aviso  {x}")
     for x in inf.errores:

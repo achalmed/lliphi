@@ -8,8 +8,12 @@
 Es un módulo **externo**: no tiene carpeta en `generado/`; lo que entrega al tema global son sus identificadores."""
 from __future__ import annotations
 
-ICONOS = {"claro": "Papirus", "oscuro": "Papirus-Dark-Lliphi"}
-CURSORES = "WhiteSur-cursors"
+import json
+from pathlib import Path
+
+AJUSTES = json.loads((Path(__file__).resolve().parent / "ajustes.json").read_text(encoding="utf-8"))
+ICONOS = AJUSTES["iconos"]
+CURSORES = AJUSTES["cursores"]
 
 
 def valores(marca: dict, variante: str) -> dict[str, dict[str, str]]:

@@ -1,0 +1,15 @@
+{
+  "$description": "Ajustes de iconos y cursores (fuente; lo leen construir.py y externas.py y lo edita Lliphi Studio). iconos: el tema de cada variante que nombra el tema global; cursores: el tema de cursores; superpuesto: el tema pequeño que hereda de su base y solo lleva sus carpetas en el color de Papirus elegido (folder-<color>-*); color_original: el color de carpetas de la versión publicada de Papirus.",
+  "iconos": {
+    "claro": "Papirus",
+    "oscuro": "Papirus-Dark-Lliphi"
+  },
+  "cursores": "WhiteSur-cursors",
+  "superpuesto": {
+    "id": "Papirus-Dark-Lliphi",
+    "base": "Papirus-Dark",
+    "color": "red",
+    "nombre": "Papirus Dark (Lliphi, carpetas rojas)"
+  },
+  "color_original": "blue"
+}

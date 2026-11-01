@@ -21,20 +21,21 @@ from nucleo import RAIZ, VERSION, autores, escribir, semanticos
 
 BASE = RAIZ / "fuentes" / "base" / "Nothing-aurorae"
 
-# hex fijos de Nothing → token; el marco oscuro de Nothing es #1b1b1d (título) con bordes #111216 y #202b30
-MAPA = {
-    # oscuro: Nothing tal cual (decisión del autor: «la decoración me gusta más de Nothing así como está»); los plus van
-    # en NEUTRO y en el rc
-    "oscuro": {},
-    "claro": {"#1b1b1d": "fondo.encabezado", "#111216": "borde.separador", "#202b30": "borde.separador",
-              # el rojo del botón de cerrar de Nothing se queda tal cual: en el claro el acento es azul (decisiones 4.12)
-              "#e6e6df": "fondo.boton", "#dadad3": "borde.separador", "#f4f0ed": "fondo.vista", "#e5e5de": "fondo.boton",
-              "#dadad4": "borde.separador", "#d1d1ca": "borde.separador", "#f5f5ee": "fondo.vista"},
-}
+AJUSTES = Path(__file__).resolve().parent / "ajustes.json"
 
 
-# hex de Nothing → hex de Nothing: el anillo cian de minimizar pasa al gris del anillo de maximizar (ambas variantes)
-NEUTRO = {"#9cdde4": "#bdbab8"}
+def ajustes() -> dict:
+    """Los ajustes de la decoración (`ajustes.json`): las claves del rc, los colores del título, la posición de los
+    botones y los mapas de recoloreo. En el oscuro, Nothing tal cual (decisión del autor: «la decoración me gusta más de
+    Nothing así como está»): los plus van en `neutro` y en el rc. El rojo de cerrar se queda en el claro (decisiones 4.12)."""
+    return json.loads(AJUSTES.read_text(encoding="utf-8"))
+
+
+def _poner(rc: str, clave: str, valor: str) -> str:
+    rc, n = re.subn(rf"^{re.escape(clave)}=.*$", f"{clave}={valor}", rc, flags=re.M)
+    if not n:
+        raise ValueError(f"decoracion/ajustes.json: la clave {clave} no está en el rc de la base")
+    return rc
 
 
 def rgb(hex_: str) -> str:
@@ -44,20 +45,21 @@ def rgb(hex_: str) -> str:
 
 def generar(tokens: dict, marca: dict, destino: Path) -> list[Path]:
     hechos: list[Path] = []
+    aj = ajustes()
     for variante in ("oscuro", "claro"):
         t = semanticos(tokens, variante)
-        mapa = {**NEUTRO, **{h: t[tok] for h, tok in MAPA[variante].items()}}
+        mapa = {**aj["neutro"], **{h: t[tok] for h, tok in aj["recoloreo"][variante].items()}}
         id_ = marca["id"] if variante == "oscuro" else f"{marca['id']}-claro"
         base = destino / id_
         for svg in sorted(BASE.glob("*.svg")):
             texto = re.sub(r"#[0-9a-fA-F]{6}\b", lambda m: mapa.get(m.group(0).lower(), m.group(0)), svg.read_text(encoding="utf-8", errors="ignore"))
             escribir(base / svg.name, texto, hechos)
         rc = (BASE / "Nothingrc").read_text(encoding="utf-8")
-        # título en los grises de Lliphi y sin sombra, en las dos variantes (mejora 4)
-        rc = re.sub(r"^ActiveTextColor=.*$", f"ActiveTextColor={rgb(t['texto.normal'])}", rc, flags=re.M)
-        rc = re.sub(r"^InactiveTextColor=.*$", f"InactiveTextColor={rgb(t['texto.inactivo'])}", rc, flags=re.M)
-        rc = re.sub(r"^UseTextShadow=.*$", "UseTextShadow=false", rc, flags=re.M)
-        rc = re.sub(r"^TitleHeight=.*$", "TitleHeight=18", rc, flags=re.M)   # plus: barra algo más alta
+        # título en los grises de Lliphi y sin sombra, en las dos variantes (mejora 4); barra algo más alta
+        for clave, token in aj["titulo"].items():
+            rc = _poner(rc, clave, rgb(t[token]))
+        for clave, valor in aj["rc"].items():
+            rc = _poner(rc, clave, valor)
         escribir(base / f"{id_}rc", "# GENERADO por herramientas/generar.py desde tokens/ y fuentes/base/Nothing-aurorae; no editar\n" + rc, hechos)
         nombre = marca["nombre_esquema"][variante]
         escribir(base / "metadata.json", json.dumps({
@@ -81,5 +83,6 @@ def id_tema(marca: dict, variante: str) -> str:
 def valores(marca: dict, variante: str) -> dict[str, dict[str, str]]:
     """Lo que aporta a `contents/defaults` del tema global: la decoración Aurorae (motor SVG V2 de Plasma 6.6: el KCM
     escribe `org.kde.kwin.aurorae.v2`) con los botones a la izquierda, sin menú."""
+    botones = ajustes()["botones"]
     return {"kwinrc][org.kde.kdecoration2": {"library": "org.kde.kwin.aurorae.v2", "theme": f"__aurorae__svg__{id_tema(marca, variante)}",
-                                             "ButtonsOnLeft": "XIA", "ButtonsOnRight": ""}}
+                                             "ButtonsOnLeft": botones["izquierda"], "ButtonsOnRight": botones["derecha"]}}

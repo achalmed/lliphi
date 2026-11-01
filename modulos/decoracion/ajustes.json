@@ -1,0 +1,33 @@
+{
+  "$description": "Ajustes de la decoración de ventanas (fuente; lo lee modulos/decoracion/construir.py y lo edita Lliphi Studio). rc: claves del Nothingrc de la base que se sustituyen en las dos variantes; titulo: claves de color del título tomadas de los tokens semánticos; botones: la posición que el tema global pone en kwinrc (X cerrar, I minimizar, A maximizar); recoloreo: hex de Nothing → token, por variante; neutro: hex de Nothing → hex, en las dos variantes.",
+  "rc": {
+    "UseTextShadow": "false",
+    "TitleHeight": "18"
+  },
+  "titulo": {
+    "ActiveTextColor": "texto.normal",
+    "InactiveTextColor": "texto.inactivo"
+  },
+  "botones": {
+    "izquierda": "XIA",
+    "derecha": ""
+  },
+  "recoloreo": {
+    "oscuro": {},
+    "claro": {
+      "#1b1b1d": "fondo.encabezado",
+      "#111216": "borde.separador",
+      "#202b30": "borde.separador",
+      "#e6e6df": "fondo.boton",
+      "#dadad3": "borde.separador",
+      "#f4f0ed": "fondo.vista",
+      "#e5e5de": "fondo.boton",
+      "#dadad4": "borde.separador",
+      "#d1d1ca": "borde.separador",
+      "#f5f5ee": "fondo.vista"
+    }
+  },
+  "neutro": {
+    "#9cdde4": "#bdbab8"
+  }
+}

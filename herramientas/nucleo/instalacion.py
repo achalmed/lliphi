@@ -287,7 +287,15 @@ def desinstalar(aplicar: bool) -> int:
     return 0
 
 
-def estado() -> int:
+def estado(como_json: bool = False) -> int:
+    if como_json:   # forma de máquina (Lliphi Studio): qué está instalado y si cada ruta sigue como se instaló
+        datos: dict = {"instalado": MANIFIESTO.exists(), "version_proyecto": VERSION, "manifiesto": str(MANIFIESTO)}
+        if MANIFIESTO.exists():
+            m = json.loads(MANIFIESTO.read_text(encoding="utf-8"))
+            datos.update({k: m.get(k) for k in ("version", "fecha", "modulos", "respaldo")})
+            datos["rutas"] = [{"ruta": r, "ok": Path(r).exists() and sha_dir(Path(r)) == suma} for r, suma in m["rutas"].items()]
+        print(json.dumps(datos, ensure_ascii=False))
+        return 0
     if MANIFIESTO.exists():
         m = json.loads(MANIFIESTO.read_text(encoding="utf-8"))
         print(f"{MARCA['nombre']} {m['version']} instalado el {m['fecha']}: módulos {', '.join(m['modulos'])}")

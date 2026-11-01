@@ -12,6 +12,7 @@ repositorio: se cita y se enlaza (licencias en el sitio). Antes vivía en `herra
 from __future__ import annotations
 
 import io
+import json
 import re
 import shutil
 import subprocess
@@ -27,8 +28,10 @@ WHITESUR_CURSORES = {"repo": "vinceliuice/WhiteSur-cursors", "tema": "WhiteSur-c
 # por enlaces, así que no se pueden colorear distinto modificando sus archivos: Papirus se deja tal cual (carpetas azules,
 # las de su versión publicada, para el claro) y el oscuro usa un tema superpuesto pequeño, Papirus-Dark-Lliphi, que hereda
 # de Papirus-Dark y solo declara sus carpetas de lugares con enlaces a las rojas de Papirus.
-COLOR_ORIGINAL = "blue"                 # el de la versión publicada de Papirus
-SUPERPUESTO = {"id": "Papirus-Dark-Lliphi", "base": "Papirus-Dark", "color": "red", "nombre": "Papirus Dark (Lliphi, carpetas rojas)"}
+# El color y los nombres están en ajustes.json (lo edita Lliphi Studio).
+_AJUSTES = json.loads((Path(__file__).resolve().parent / "ajustes.json").read_text(encoding="utf-8"))
+COLOR_ORIGINAL = _AJUSTES["color_original"]     # el de la versión publicada de Papirus
+SUPERPUESTO = _AJUSTES["superpuesto"]
 
 
 def papirus(aplicar: bool) -> None:

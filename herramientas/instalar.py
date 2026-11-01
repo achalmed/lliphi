@@ -16,7 +16,7 @@ Uso:
   python3 herramientas/instalar.py --dependencias --aplicar   además instala lo de terceros (como `dependencias`)
   python3 herramientas/instalar.py dependencias [--aplicar] [--opcionales]   Papirus, cursores y tipografías, sin root
   python3 herramientas/instalar.py comprobar             lo instalado está completo, es de esta versión y KDE lo reconoce
-  python3 herramientas/instalar.py estado                qué hay instalado y si se modificó
+  python3 herramientas/instalar.py estado [--json]       qué hay instalado y si se modificó (en JSON: Lliphi Studio)
   python3 herramientas/instalar.py desinstalar [--aplicar]
   python3 herramientas/instalar.py sddm [--aplicar]      inicio de sesión SDDM (pkexec; complementos/sddm)
 Solo biblioteca estándar; Python ≥ 3.10. Sale 0 bien, 1 error de uso, 2 falta una dependencia, 3 conflicto,
@@ -54,7 +54,7 @@ def main() -> int:
     if "desinstalar" in args:
         return instalacion.desinstalar(aplicar)
     if "estado" in args:
-        return instalacion.estado()
+        return instalacion.estado("--json" in args)
     if "comprobar" in args:
         return instalacion.comprobar()
     return instalacion.instalar(seleccion, aplicar, aplicar_tema)
