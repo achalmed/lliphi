@@ -300,3 +300,22 @@ disposición): el scripting lee `bottom(hiding=dodgewindows, flotante=true)` y e
 (`oscuro-24-disposicion.png`). Esta vez los paneles se dibujaron, aunque el aviso «Did not find a valid screen» siguió
 saliendo tres veces: el defecto 3 parece del estado de la anidada anterior, no del script.
 
+
+## 10. LibreOffice: esquemas y paletas (2026-11-01)
+
+LibreOffice 26.2.6.3 con un **perfil desechable** (`-env:UserInstallation=file://<temporal>`), nunca el del autor:
+`unopkg add` de `generado/libreoffice/lliphi.oxt` en ese perfil, y una comprobación por UNO con LibreOffice sin
+ventanas (`--headless --accept=pipe…`) de que la configuración tiene «Lliphi Claro» y «Lliphi Oscuro» (con `DocColor`
+igual al token) y de que `PathSettings.Palette_internal` incluye la carpeta `palette/` de la extensión. Después, en una
+sesión de KWin virtual (`dbus-run-session -- kwin_wayland --virtual --xwayland --width 1600 --height 900
+--exit-with-session=<guion>`, como en el §5), un guion de Python-UNO cambia `CurrentColorScheme` y
+`UserColors/PaletteName` en caliente, arma un documento de Writer (título, texto con un color de la paleta, un campo de
+fecha y una tabla) y, en Draw, un rectángulo con el diálogo Formato → Área abierto; `spectacle -b -n -f` captura cada
+caso (`muestras/capturas/{claro,oscuro}-25-libreoffice-writer.png`, `-26-libreoffice-paleta.png`).
+
+Resultado: los dos esquemas se aplican en caliente (página, texto automático, límites, tabla); las dos paletas
+aparecen en la lista «Paleta» del selector, con el acento marcado en la rejilla. Defecto encontrado y corregido: en el
+oscuro el sombreado del campo de fecha no se distinguía de la página (decisión 5.2). Trampas: `close()` falla sobre el
+Centro de inicio (no es un documento); el estilo «Text Body» no existe por ese nombre en la API de 26.2 (se usó
+«Standard»); un `pkill -f` con el nombre del canal en la propia orden mata a quien lo lanza. Sin mirar: Calc, Impress y
+la IDE de BASIC.

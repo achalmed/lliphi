@@ -32,6 +32,21 @@ Si prefieres no instalar extensiones:
 3. Abre LibreOffice y elige el esquema como en A.3. Al elegirlo, LibreOffice reescribe el archivo con sus propias
    entradas; a partir de entonces el esquema es tuyo y se puede borrar desde el diálogo.
 
+### Paletas de colores
+
+Como la paleta de Dracula para LibreOffice, Lliphi trae una **paleta por variante** para los selectores de color de
+los documentos (color de fuente, resaltado, relleno de formas y celdas, líneas): `lliphi-claro.soc` y
+`lliphi-oscuro.soc`, con los neutros, el acento, los cuatro estados y los dieciséis colores de la terminal, sin
+repetidos.
+
+- Con la extensión (camino A) ya están: abre cualquier selector de color (por ejemplo Formato → Área → Color) y elige
+  **lliphi-claro** o **lliphi-oscuro** en la lista «Paleta». LibreOffice recuerda la última paleta elegida.
+- Sin la extensión, cópialas a la carpeta de paletas del usuario, con LibreOffice cerrado:
+
+```bash
+cp generado/libreoffice/lliphi-claro.soc generado/libreoffice/lliphi-oscuro.soc ~/.config/libreoffice/4/user/config/
+```
+
 ### Qué cambia y qué no
 
 - Cambian los colores del **documento**: fondo de página y de la aplicación, límites de texto y de tabla, texto, enlaces,
@@ -53,5 +68,6 @@ Camino B: vuelve a pegar los `<item>` nuevos; las entradas con el mismo nombre s
 
 ## Desinstalar
 
-Elige otro esquema en Colores de la aplicación. Camino A: `unopkg remove org.lliphi.libreoffice` (o Gestor de
-extensiones → Eliminar). Camino B: borra el esquema desde el diálogo (botón Eliminar) o restaura la copia del archivo.
+Elige otro esquema en Colores de la aplicación y otra paleta en los selectores de color. Camino A: `unopkg remove org.lliphi.libreoffice` (o Gestor de
+extensiones → Eliminar). Camino B: borra el esquema desde el diálogo (botón Eliminar) o restaura la copia del archivo, y borra las dos `.soc`
+de `~/.config/libreoffice/4/user/config/` si las copiaste.

@@ -16,8 +16,8 @@
         <node oor:name="SmartTags"><prop oor:name="Color" oor:type="xs:int"><value>9322632</value></prop></node>
         <node oor:name="Shadow"><prop oor:name="Color" oor:type="xs:int"><value>13422290</value></prop><prop oor:name="IsVisible" oor:type="xs:boolean"><value>true</value></prop></node>
         <node oor:name="WriterTextGrid"><prop oor:name="Color" oor:type="xs:int"><value>14737893</value></prop></node>
-        <node oor:name="WriterFieldShadings"><prop oor:name="Color" oor:type="xs:int"><value>14737893</value></prop><prop oor:name="IsVisible" oor:type="xs:boolean"><value>true</value></prop></node>
-        <node oor:name="WriterIdxShadings"><prop oor:name="Color" oor:type="xs:int"><value>14737893</value></prop><prop oor:name="IsVisible" oor:type="xs:boolean"><value>true</value></prop></node>
+        <node oor:name="WriterFieldShadings"><prop oor:name="Color" oor:type="xs:int"><value>13422290</value></prop><prop oor:name="IsVisible" oor:type="xs:boolean"><value>true</value></prop></node>
+        <node oor:name="WriterIdxShadings"><prop oor:name="Color" oor:type="xs:int"><value>13422290</value></prop><prop oor:name="IsVisible" oor:type="xs:boolean"><value>true</value></prop></node>
         <node oor:name="WriterDirectCursor"><prop oor:name="Color" oor:type="xs:int"><value>4934995</value></prop><prop oor:name="IsVisible" oor:type="xs:boolean"><value>true</value></prop></node>
         <node oor:name="WriterSectionBoundaries"><prop oor:name="Color" oor:type="xs:int"><value>13422290</value></prop></node>
         <node oor:name="WriterHeaderFooterMark"><prop oor:name="Color" oor:type="xs:int"><value>6711148</value></prop></node>
@@ -109,8 +109,8 @@
         <node oor:name="SmartTags"><prop oor:name="Color" oor:type="xs:int"><value>14257362</value></prop></node>
         <node oor:name="Shadow"><prop oor:name="Color" oor:type="xs:int"><value>4013634</value></prop><prop oor:name="IsVisible" oor:type="xs:boolean"><value>true</value></prop></node>
         <node oor:name="WriterTextGrid"><prop oor:name="Color" oor:type="xs:int"><value>3026738</value></prop></node>
-        <node oor:name="WriterFieldShadings"><prop oor:name="Color" oor:type="xs:int"><value>2303014</value></prop><prop oor:name="IsVisible" oor:type="xs:boolean"><value>true</value></prop></node>
-        <node oor:name="WriterIdxShadings"><prop oor:name="Color" oor:type="xs:int"><value>2303014</value></prop><prop oor:name="IsVisible" oor:type="xs:boolean"><value>true</value></prop></node>
+        <node oor:name="WriterFieldShadings"><prop oor:name="Color" oor:type="xs:int"><value>4013634</value></prop><prop oor:name="IsVisible" oor:type="xs:boolean"><value>true</value></prop></node>
+        <node oor:name="WriterIdxShadings"><prop oor:name="Color" oor:type="xs:int"><value>4013634</value></prop><prop oor:name="IsVisible" oor:type="xs:boolean"><value>true</value></prop></node>
         <node oor:name="WriterDirectCursor"><prop oor:name="Color" oor:type="xs:int"><value>12369601</value></prop><prop oor:name="IsVisible" oor:type="xs:boolean"><value>true</value></prop></node>
         <node oor:name="WriterSectionBoundaries"><prop oor:name="Color" oor:type="xs:int"><value>4013634</value></prop></node>
         <node oor:name="WriterHeaderFooterMark"><prop oor:name="Color" oor:type="xs:int"><value>9935004</value></prop></node>

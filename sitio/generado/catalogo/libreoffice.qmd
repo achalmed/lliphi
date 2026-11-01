@@ -1,17 +1,21 @@
 ---
 title: "LibreOffice: colores de la aplicación"
-subtitle: "Dos esquemas de «Colores de la aplicación» (Lliphi Claro y Lliphi Oscuro) para Writer, Calc, Impress, Draw, Base y la IDE de BASIC: documento, cuadrícula, saltos, control de cambios, sintaxis BASIC y SQL desde los mismos tokens, como extensión .oxt o fragmento .xcu."
+subtitle: "Dos esquemas de «Colores de la aplicación» (Lliphi Claro y Lliphi Oscuro) para Writer, Calc, Impress, Draw, Base y la IDE de BASIC: documento, cuadrícula, saltos, control de cambios, sintaxis BASIC y SQL desde los mismos tokens, como extensión .oxt o fragmento .xcu; y dos paletas .soc (neutros, acento, estados y los dieciséis ANSI) para los selectores de color de los documentos."
 ---
 
 | | |
 |---|---|
 | papel | complemento (paquete) |
-| estado | **experimental** |
+| estado | **probado** |
 | tecnología | `org.openoffice.Office.UI/ColorScheme/ColorSchemes` (91 entradas `Color` y `IsVisible`, esquema de LibreOffice 26.2) · extensión `.oxt` con `oor:component-data` · fragmento `<oor:items>` para `registrymodifications.xcu` |
 | desde la versión | 0.2.0 |
-| archivos | `lliphi.oxt`, `lliphi.xcu`, `lliphi-claro.xcu`, `lliphi-oscuro.xcu`, `oxt/` |
+| archivos | `lliphi.oxt`, `lliphi.xcu`, `lliphi-claro.xcu`, `lliphi-oscuro.xcu`, `lliphi-claro.soc`, `lliphi-oscuro.soc`, `oxt/` |
 | licencia | CC-BY-SA-4.0 |
 
+![../capturas/oscuro-25-libreoffice-writer.png](../capturas/oscuro-25-libreoffice-writer.png)
+![../capturas/claro-25-libreoffice-writer.png](../capturas/claro-25-libreoffice-writer.png)
+![../capturas/oscuro-26-libreoffice-paleta.png](../capturas/oscuro-26-libreoffice-paleta.png)
+![../capturas/claro-26-libreoffice-paleta.png](../capturas/claro-26-libreoffice-paleta.png)
 
 ## Instalar
 
@@ -47,6 +51,21 @@ Si prefieres no instalar extensiones:
 3. Abre LibreOffice y elige el esquema como en A.3. Al elegirlo, LibreOffice reescribe el archivo con sus propias
    entradas; a partir de entonces el esquema es tuyo y se puede borrar desde el diálogo.
 
+### Paletas de colores
+
+Como la paleta de Dracula para LibreOffice, Lliphi trae una **paleta por variante** para los selectores de color de
+los documentos (color de fuente, resaltado, relleno de formas y celdas, líneas): `lliphi-claro.soc` y
+`lliphi-oscuro.soc`, con los neutros, el acento, los cuatro estados y los dieciséis colores de la terminal, sin
+repetidos.
+
+- Con la extensión (camino A) ya están: abre cualquier selector de color (por ejemplo Formato → Área → Color) y elige
+  **lliphi-claro** o **lliphi-oscuro** en la lista «Paleta». LibreOffice recuerda la última paleta elegida.
+- Sin la extensión, cópialas a la carpeta de paletas del usuario, con LibreOffice cerrado:
+
+```bash
+cp generado/libreoffice/lliphi-claro.soc generado/libreoffice/lliphi-oscuro.soc ~/.config/libreoffice/4/user/config/
+```
+
 ### Qué cambia y qué no
 
 - Cambian los colores del **documento**: fondo de página y de la aplicación, límites de texto y de tabla, texto, enlaces,
@@ -68,8 +87,9 @@ Camino B: vuelve a pegar los `<item>` nuevos; las entradas con el mismo nombre s
 
 ## Desinstalar
 
-Elige otro esquema en Colores de la aplicación. Camino A: `unopkg remove org.lliphi.libreoffice` (o Gestor de
-extensiones → Eliminar). Camino B: borra el esquema desde el diálogo (botón Eliminar) o restaura la copia del archivo.
+Elige otro esquema en Colores de la aplicación y otra paleta en los selectores de color. Camino A: `unopkg remove org.lliphi.libreoffice` (o Gestor de
+extensiones → Eliminar). Camino B: borra el esquema desde el diálogo (botón Eliminar) o restaura la copia del archivo, y borra las dos `.soc`
+de `~/.config/libreoffice/4/user/config/` si las copiaste.
 
 
 ## Código, incidencias y cambios

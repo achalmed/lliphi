@@ -191,7 +191,7 @@ cuelga de la raíz del proyecto y de las variables XDG.
 iconos, cursores, pantalla de carga) existe en el módulo que lo entrega y cada ruta de cada componente está dentro del
 paquete. Avisa si aparece un `contents/lockscreen/` (Plasma 6.6 lo ignoraría).
 
-`pytest` (34 pruebas): tokens y contraste, deriva, estructura de cada formato, la línea base de los esquemas, la
+`pytest` (40 pruebas): tokens y contraste, deriva, estructura de cada formato, la línea base de los esquemas, la
 arquitectura (registro, validación en verde y con fallos provocados, composición de `defaults`, componentes, orden de
 dependencias), la instalación reversible en un `HOME` temporal con `comprobar`, `UNDO.sh` y el manifiesto heredado de
 0.3.0, Kvantum con `XDG_CONFIG_HOME` no estándar, los atajos de compatibilidad y `reuse lint`. La CI corre paleta,

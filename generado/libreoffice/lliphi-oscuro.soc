@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GENERADO por herramientas/generar.py desde tokens/; no editar -->
+<office:color-table xmlns:office="http://openoffice.org/2000/office" xmlns:draw="http://openoffice.org/2000/drawing">
+  <draw:color draw:name="Fondo" draw:color="#101012"/>
+  <draw:color draw:name="Fondo alterno" draw:color="#161719"/>
+  <draw:color draw:name="Ventana" draw:color="#1b1c1e"/>
+  <draw:color draw:name="Ventana alterna" draw:color="#232426"/>
+  <draw:color draw:name="Botón" draw:color="#2e2f32"/>
+  <draw:color draw:name="Separador" draw:color="#3d3e42"/>
+  <draw:color draw:name="Texto inactivo" draw:color="#97989c"/>
+  <draw:color draw:name="Texto secundario" draw:color="#bcbec1"/>
+  <draw:color draw:name="Texto" draw:color="#eaebed"/>
+  <draw:color draw:name="Acento" draw:color="#c93436"/>
+  <draw:color draw:name="Acento suave" draw:color="#ef6661"/>
+  <draw:color draw:name="Enlace" draw:color="#ff958d"/>
+  <draw:color draw:name="Error" draw:color="#fb817a"/>
+  <draw:color draw:name="Advertencia" draw:color="#ebb25f"/>
+  <draw:color draw:name="Éxito" draw:color="#6fc884"/>
+  <draw:color draw:name="Información" draw:color="#7fb6ee"/>
+  <draw:color draw:name="Negro" draw:color="#323336"/>
+  <draw:color draw:name="Rojo" draw:color="#f28881"/>
+  <draw:color draw:name="Verde" draw:color="#69c27e"/>
+  <draw:color draw:name="Amarillo" draw:color="#d0a43a"/>
+  <draw:color draw:name="Azul" draw:color="#7daafd"/>
+  <draw:color draw:name="Magenta" draw:color="#d98cd2"/>
+  <draw:color draw:name="Cian" draw:color="#00c2ca"/>
+  <draw:color draw:name="Blanco" draw:color="#d0d1d4"/>
+  <draw:color draw:name="Gris" draw:color="#626367"/>
+  <draw:color draw:name="Rojo intenso" draw:color="#ffaba3"/>
+  <draw:color draw:name="Verde intenso" draw:color="#83dc97"/>
+  <draw:color draw:name="Amarillo intenso" draw:color="#ebbd57"/>
+  <draw:color draw:name="Azul intenso" draw:color="#a4c5ff"/>
+  <draw:color draw:name="Magenta intenso" draw:color="#f4a5ec"/>
+  <draw:color draw:name="Cian intenso" draw:color="#34dde5"/>
+  <draw:color draw:name="Blanco intenso" draw:color="#f1f2f3"/>
+</office:color-table>

@@ -22,6 +22,13 @@ existen; se añaden `WriterNonPrintChars`, `HTML*`, `CalcCellFocus`, `CalcHidden
 LibreOffice» de 24.8+, `org.openoffice.Office.Common/Appearance/LibreOfficeTheme`; si está desactivado, la interfaz
 sigue a Plasma y solo cuentan los colores del documento).
 
+Además, como hace Dracula para LibreOffice, una **paleta** por variante para los selectores de color de los documentos
+(texto, relleno, líneas, resaltado): `libreoffice/<id>-<variante>.soc` (`office:color-table` con `draw:color`), que se
+elige en la lista «Paleta» de cualquier selector de color. Va también dentro de la extensión, en `palette/`, con un
+`paletas.xcu` que añade esa carpeta a las rutas de paletas (`org.openoffice.Office.Paths/Paths/Palette/InternalPaths`,
+`%origin%/palette`); sin la extensión basta copiarla a `~/.config/libreoffice/4/user/config/`. Lleva los neutros, el
+acento, los estados y los dieciséis ANSI de la variante, sin repetir colores, en filas de doce (el ancho de la rejilla).
+
 Los colores del documento salen de los semánticos de cada variante; BASIC, SQL y HTML, del grupo `terminal` con la misma
 tabla que los editores (`editores.sintaxis`: palabras clave rojo color1, cadenas verde color2, números amarillo
 color3, comentarios texto inactivo); los nueve autores de control de cambios, de los ANSI. Ningún color se escribe aquí.
@@ -60,7 +67,7 @@ def entradas(tokens: dict, variante: str) -> dict[str, str]:
         "TableBoundaries": s["borde.separador"], "FontColor": s["texto.normal"], "Links": s["enlace"], "LinksVisited": s["visitado"],
         "Spell": s["estado.error"], "Grammar": s["estado.info"], "SmartTags": t["color5"], "Shadow": s["borde.separador"],
         # Writer
-        "WriterTextGrid": s["borde.sutil"], "WriterFieldShadings": s["fondo.ventana-alterno"], "WriterIdxShadings": s["fondo.ventana-alterno"],
+        "WriterTextGrid": s["borde.sutil"], "WriterFieldShadings": s["borde.separador"], "WriterIdxShadings": s["borde.separador"],
         "WriterDirectCursor": s["texto.secundario"], "WriterSectionBoundaries": s["borde.separador"], "WriterHeaderFooterMark": s["texto.inactivo"],
         "WriterPageBreaks": s["acento.suave"], "WriterNonPrintChars": s["texto.inactivo"],
         # HTML (código fuente)
@@ -138,10 +145,57 @@ def texto_component_data(tokens: dict, marca: dict) -> str:
     return "\n".join(lineas) + "\n"
 
 
+# paleta: (nombre visible, grupo, clave); grupo «s» = semánticos de la variante, «t» = grupo `terminal`
+PALETA = (("Fondo", "s", "fondo.vista"), ("Fondo alterno", "s", "fondo.vista-alterno"), ("Ventana", "s", "fondo.ventana"),
+          ("Ventana alterna", "s", "fondo.ventana-alterno"), ("Botón", "s", "fondo.boton"), ("Separador", "s", "borde.separador"),
+          ("Texto inactivo", "s", "texto.inactivo"), ("Texto secundario", "s", "texto.secundario"), ("Texto", "s", "texto.normal"),
+          ("Acento", "s", "acento.base"), ("Acento suave", "s", "acento.suave"), ("Enlace", "s", "enlace"),
+          ("Error", "s", "estado.error"), ("Advertencia", "s", "estado.advertencia"), ("Éxito", "s", "estado.exito"),
+          ("Información", "s", "estado.info"),
+          ("Negro", "t", "color0"), ("Rojo", "t", "color1"), ("Verde", "t", "color2"), ("Amarillo", "t", "color3"),
+          ("Azul", "t", "color4"), ("Magenta", "t", "color5"), ("Cian", "t", "color6"), ("Blanco", "t", "color7"),
+          ("Gris", "t", "color8"), ("Rojo intenso", "t", "color9"), ("Verde intenso", "t", "color10"),
+          ("Amarillo intenso", "t", "color11"), ("Azul intenso", "t", "color12"), ("Magenta intenso", "t", "color13"),
+          ("Cian intenso", "t", "color14"), ("Blanco intenso", "t", "color15"))
+
+
+def paleta(tokens: dict, variante: str) -> list[tuple[str, str]]:
+    """(nombre, hex) de la paleta de una variante, sin colores repetidos (gana el primero)."""
+    s = semanticos(tokens, variante)
+    t = {k: hexa(v) for k, v in tokens["terminal"][variante].items()}
+    vistos: set[str] = set()
+    salida = []
+    for nombre, grupo, clave in PALETA:
+        h = (s if grupo == "s" else t)[clave].lower()
+        if h not in vistos:
+            vistos.add(h)
+            salida.append((nombre, h))
+    return salida
+
+
+def texto_soc(tokens: dict, marca: dict, variante: str) -> str:
+    """Una paleta `.soc` (el formato de las paletas de LibreOffice, `office:color-table`)."""
+    lineas = ['<?xml version="1.0" encoding="UTF-8"?>', CABECERA_XML,
+              '<office:color-table xmlns:office="http://openoffice.org/2000/office" xmlns:draw="http://openoffice.org/2000/drawing">']
+    lineas += [f'  <draw:color draw:name="{escape(nombre, {chr(34): "&quot;"})}" draw:color="{h}"/>' for nombre, h in paleta(tokens, variante)]
+    lineas.append("</office:color-table>")
+    return "\n".join(lineas) + "\n"
+
+
+def texto_paletas_xcu() -> str:
+    """Añade la carpeta `palette/` de la extensión a las rutas de paletas de LibreOffice."""
+    return "\n".join(['<?xml version="1.0" encoding="UTF-8"?>', CABECERA_XML,
+                      '<oor:component-data xmlns:oor="http://openoffice.org/2001/registry" xmlns:xs="http://www.w3.org/2001/XMLSchema" oor:name="Paths" oor:package="org.openoffice.Office">',
+                      '  <node oor:name="Paths">', '    <node oor:name="Palette" oor:op="fuse">', '      <node oor:name="InternalPaths">',
+                      '        <node oor:name="%origin%/palette" oor:op="fuse"/>', '      </node>', '    </node>', '  </node>',
+                      '</oor:component-data>']) + "\n"
+
+
 def texto_manifest(marca: dict) -> str:
     return f"""<?xml version="1.0" encoding="UTF-8"?>
 <manifest:manifest xmlns:manifest="http://openoffice.org/2001/manifest">
   <manifest:file-entry manifest:media-type="application/vnd.sun.star.configuration-data" manifest:full-path="{marca['id']}.xcu"/>
+  <manifest:file-entry manifest:media-type="application/vnd.sun.star.configuration-data" manifest:full-path="paletas.xcu"/>
 </manifest:manifest>
 """
 
@@ -160,9 +214,10 @@ def texto_description(marca: dict) -> str:
 
 
 def texto_descripcion(marca: dict) -> str:
-    return (f"Esquemas de colores de la aplicación «{marca['nombre_esquema']['claro']}» y «{marca['nombre_esquema']['oscuro']}», "
-            f"generados desde los tokens de {marca['nombre']}: {marca['descripcion']} Elige el esquema en Herramientas → Opciones → "
-            f"LibreOffice → Colores de la aplicación. Licencia {marca['licencia_activos']}. {marca['sitio_tema']}\n")
+    return (f"Esquemas de colores de la aplicación «{marca['nombre_esquema']['claro']}» y «{marca['nombre_esquema']['oscuro']}» "
+            f"y sus dos paletas de colores, generados desde los tokens de {marca['nombre']}: {marca['descripcion']} Elige el "
+            f"esquema en Herramientas → Opciones → LibreOffice → Colores de la aplicación, y la paleta en la lista «Paleta» de "
+            f"cualquier selector de color. Licencia {marca['licencia_activos']}. {marca['sitio_tema']}\n")
 
 
 def empaquetar_oxt(fuente: Path, destino: Path) -> None:
@@ -182,11 +237,15 @@ def generar(tokens: dict, marca: dict, destino: Path) -> list[Path]:
     escribir(base / f"{marca['id']}.xcu", texto_items(tokens, marca, ("claro", "oscuro")), hechos)
     for v in ("claro", "oscuro"):
         escribir(base / f"{marca['id']}-{v}.xcu", texto_items(tokens, marca, (v,)), hechos)
+        escribir(base / f"{marca['id']}-{v}.soc", texto_soc(tokens, marca, v), hechos)
     oxt = base / "oxt"
     escribir(oxt / "META-INF" / "manifest.xml", texto_manifest(marca), hechos)
     escribir(oxt / "description.xml", texto_description(marca), hechos)
     escribir(oxt / "descripcion.txt", texto_descripcion(marca), hechos)
     escribir(oxt / f"{marca['id']}.xcu", texto_component_data(tokens, marca), hechos)
+    escribir(oxt / "paletas.xcu", texto_paletas_xcu(), hechos)
+    for v in ("claro", "oscuro"):
+        escribir(oxt / "palette" / f"{marca['id']}-{v}.soc", texto_soc(tokens, marca, v), hechos)
     paquete = base / f"{marca['id']}.oxt"
     empaquetar_oxt(oxt, paquete)
     hechos.append(paquete)

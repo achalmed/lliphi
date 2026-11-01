@@ -17,6 +17,10 @@ Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión de
   `iconos-cursores` (iconos y cursores); el inicio de sesión, a `complementos/sddm/`.
 
 ### Added
+- LibreOffice: una **paleta** `.soc` por variante (como la de Dracula para LibreOffice) con los neutros, el acento, los
+  estados y los dieciséis ANSI, para los selectores de color de los documentos; va suelta y dentro de `lliphi.oxt`
+  (carpeta `palette/` registrada en las rutas de paletas con `paletas.xcu`). Prueba `test_libreoffice_paletas`.
+  Validado en LibreOffice 26.2.6 (decisión 5.2).
 - Complemento `obsidian` (decisión 5.1): `generado/obsidian/theme.css`, un tema de Obsidian 1.x con las dos variantes
   que solo redefine variables de la aplicación (neutros, acento, los ocho colores con nombre desde los ANSI, estados,
   Inter y JetBrains Mono, radios, la sintaxis de los editores y las llamadas de Zotero); se publica con su versión en
@@ -28,6 +32,8 @@ Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión de
 - Nueve pruebas de la arquitectura (33 en total) y el paso `validar` en la integración continua.
 
 ### Fixed
+- LibreOffice: el sombreado de campos e índices de Writer pasa al tono del separador; en el oscuro, el anterior
+  (`fondo.ventana-alterno` sobre `fondo.vista`) no se distinguía de la página.
 - Disposición del escritorio: el fondo de cada escritorio apuntaba a la carpeta de datos y no a la de fondos
   (`userDataPath("wallpapers")` → `userDataPath("data", "wallpapers")`) y el escritorio quedaba negro al aplicar la
   disposición desde Preferencias; el dock pedía `windowscover`, que Plasma 6 ya no tiene, y no se ocultaba: ahora

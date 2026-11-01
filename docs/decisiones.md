@@ -238,3 +238,16 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   `hidecitations.css` (ocultar las citas de Pandoc en la lectura) **no** es de tema sino de una función concreta y se
   queda como fragmento. `my font`, activo sin archivo, se retira de la lista. Comprobado en el vault del autor con
   Obsidian 1.14.5 (`docs/compatibilidad.md`).
+- **5.2 (2026-11-01) LibreOffice: paletas como las de Dracula, dentro de la misma extensión.** El autor pidió que Lliphi
+  tenga temas para otros programas al estilo de [dracula/dracula-theme](https://github.com/dracula/dracula-theme), y
+  empezar por LibreOffice con un tema claro y uno oscuro. El de Dracula para LibreOffice son dos piezas: los colores de la
+  aplicación (un `.xcu` que se pega en `registrymodifications.xcu`) y una paleta `.soc` que se copia a la carpeta del
+  usuario. Lliphi ya tenía la primera, mejor empaquetada (extensión `.oxt` y fragmentos); se decide: (1) añadir la
+  **paleta**, una por variante (`lliphi-claro.soc`, `lliphi-oscuro.soc`), con los neutros, el acento, los cuatro estados y
+  los dieciséis ANSI, sin repetir colores (32 en el oscuro); los nombres en castellano, porque LibreOffice los muestra al
+  pasar el ratón. (2) **meterlas en la extensión**, en `palette/`, con un `paletas.xcu` que añade `%origin%/palette` a
+  `Paths/Palette/InternalPaths`: así una sola instalación trae esquemas y paletas, y desinstalarla las quita; sueltas
+  siguen sirviendo para copiarlas a `~/.config/libreoffice/4/user/config/`. (3) el sombreado de campos e índices pasa a
+  `borde.separador` en las dos variantes: en el oscuro el anterior no se veía (comprobado en pantalla), y en el claro da
+  el gris que LibreOffice trae por omisión. La interfaz sigue al escritorio; el «tema de LibreOffice» (UI propia) queda
+  sin activar, como estaba. Validado con un perfil desechable en una sesión de KWin virtual (`validacion.md` §10).
