@@ -12,7 +12,8 @@ Toda orden que corre dentro toma el entorno completo del `plasmashell` de prueba
 de la sesión; `cerrar` termina por PID solo los procesos cuyo `HOME` (leído de `/proc/<pid>/environ`) es el de prueba
 y compara el `LockedHint` de la sesión real antes y después.
 
-Uso:  python3 herramientas/sesion.py arrancar [--variante oscuro|claro] [--disposicion] [--virtual] [--ancho 1600 --alto 900] [--aplicar]
+Uso:  python3 herramientas/sesion.py arrancar [--variante oscuro|claro] [--disposicion] [--virtual] [--ancho 1600 --alto 900]
+                                                [--escritorios N] [--aplicar]
       python3 herramientas/sesion.py estado [--json]
       python3 herramientas/sesion.py recargar [--modulos esquema,estilo] [--disposicion]   # reinstala y vuelve a aplicar
       python3 herramientas/sesion.py ejecutar -- <orden> [args…]                          # dentro, sin esperar
@@ -128,13 +129,17 @@ def runtime_libre() -> Path:
     return RUNTIME_REAL / f"{ID}-{n}"
 
 
-def preparar_casa(casa: Path) -> None:
+def preparar_casa(casa: Path, escritorios: int = 1) -> None:
     """El HOME de prueba: configuración previa (sin systemd, sin bloqueo, sin inactividad) y los temas del usuario
     enlazados (iconos, cursores, tipografías), que el tema global nombra pero Lliphi no instala."""
     for sub in (".config", ".local/share", ".local/state", ".cache"):
         (casa / sub).mkdir(parents=True, exist_ok=True)
     for archivo, grupos, clave, valor in CONFIG_PREVIA:
         escribir_ini(casa / ".config" / archivo, grupos, clave, valor)
+    # los escritorios virtuales se fijan antes de arrancar: en la sesión anidada org.kde.KWin del bus es el KWin
+    # exterior, así que crearlos después por DBus no llega al KWin que ve el plasmashell de prueba
+    escribir_ini(casa / ".config" / "kwinrc", ["Desktops"], "Number", str(escritorios))
+    escribir_ini(casa / ".config" / "kwinrc", ["Desktops"], "Rows", "1")
     for carpeta in ("icons", "fonts"):
         origen = DATA_REAL / carpeta
         if not origen.is_dir():
@@ -192,6 +197,7 @@ def arrancar(args: list[str]) -> int:
         print("--variante claro|oscuro"); return 1
     virtual = "--virtual" in args
     ancho, alto = int(valor(args, "--ancho", "1600")), int(valor(args, "--alto", "900"))
+    escritorios = int(valor(args, "--escritorios", "1"))
     if (est := leer_estado()) and procesos_de(Path(est["casa"])):
         print(f"ya hay una sesión de prueba ({est['casa']}): sesion.py estado | cerrar"); return 1
     faltan = [h for h in HERRAMIENTAS if not shutil.which(h, path=PATH)]
@@ -205,11 +211,11 @@ def arrancar(args: list[str]) -> int:
     print(f"{'Arrancando' if '--aplicar' in args else 'SIMULACIÓN:'} sesión de prueba de {MARCA['nombre']} ({variante}, "
           f"{ancho}×{alto}, {'virtual' if virtual else 'en una ventana'})")
     print(f"  HOME     {casa}\n  runtime  {runtime}\n  orden    env -i … {' '.join(orden)}")
-    print(f"  antes    {', '.join(f'{a} {c}={v}' for a, _, c, v in CONFIG_PREVIA)}")
+    print(f"  antes    {', '.join(f'{a} {c}={v}' for a, _, c, v in CONFIG_PREVIA)}, kwinrc Desktops Number={escritorios}")
     if "--aplicar" not in args:
         print("(simulación: añade --aplicar para arrancarla)"); return 0
     antes = locked_hint()
-    preparar_casa(casa)
+    preparar_casa(casa, escritorios)
     runtime.mkdir(mode=0o700)
     env = entorno_inicial(casa, runtime, virtual)
     # los archivos de Lliphi, antes de que arranque Plasma (sin aplicar: eso necesita el bus de la sesión)
@@ -230,8 +236,12 @@ def arrancar(args: list[str]) -> int:
         time.sleep(1)
     else:
         print(f"plasmashell no apareció en 90 s (registro: {casa.parent / 'sesion.log'}); sesion.py cerrar"); return 4
-    time.sleep(4)   # que el shell registre sus servicios en el bus antes de aplicar
+    time.sleep(6)   # que el shell registre sus servicios en el bus antes de aplicar
     r = instalar_dentro(entorno_dentro(est), variante, None, "--disposicion" in args)
+    if r != 0:   # p. ej. «respaldo no verificado»: el plasmashell recién arrancado aún reescribía su configuración
+        print("  reintento en 8 s (el shell recién arrancado aún escribía su configuración)", flush=True)
+        time.sleep(8)
+        r = instalar_dentro(entorno_dentro(est), variante, None, "--disposicion" in args)
     print(f"[sesion] en marcha: PID {proc.pid}, HOME {casa}" + ("" if r == 0 else f" (la aplicación salió {r})"))
     return 0 if r == 0 else r
 

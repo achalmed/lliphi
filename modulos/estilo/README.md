@@ -25,7 +25,9 @@ Paquete `Plasma/Theme` en `~/.local/share/plasma/desktoptheme/<id>/`: `metadata.
 ```
 modulos/estilo/
 ├── modulo.json   paquete · Plasma/Theme · depende de esquema para construirse
-├── construir.py  copia y recolorea fuentes/base/WhiteSur-kde/plasma/desktoptheme/{WhiteSur,WhiteSur-dark}; valores()
+├── ajustes.json  el dock de Lliphi (mejora 11): fondo de paneles por variante, mosaicos de tareas y paginador
+├── construir.py  copia y recolorea fuentes/base/WhiteSur-kde/plasma/desktoptheme/{WhiteSur,WhiteSur-dark}; dibuja
+│                 widgets/tasks.svg y widgets/pager.svg desde los ajustes; valores()
 ├── INSTALL.md · README.md
 ```
 

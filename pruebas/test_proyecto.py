@@ -110,6 +110,31 @@ def test_ajustes_de_los_modulos(tmp_path: Path):
     assert json.loads(correr("herramientas/instalar.py", "estado", "--json", env=env).stdout)["instalado"] is False
 
 
+def test_dock_de_lliphi():
+    """Mejora 11: fondo de paneles del oscuro opaco en el gris de la ventana; mosaicos de tareas y paginador de Lliphi
+    con las clases de color de Plasma (siguen el acento); el dock lleva el paginador de números."""
+    est = registro.codigo("estilo").ajustes()
+    for v in ("claro", "oscuro"):
+        carpeta = GEN / "estilo" / f"{MARCA['id']}-{v}" / "widgets"
+        tareas = (carpeta / "tasks.svg").read_text(encoding="utf-8")
+        ET.fromstring(tareas)
+        for estado in est["tareas"]["estados"]:
+            for pieza in ("top", "center", "bottom"):
+                assert tareas.count(f'id="{estado}-{pieza}"') == 1, (v, estado, pieza)
+        assert 'id="group-expander-top"' in tareas and "ColorScheme-Highlight" in tareas
+        paginador = (carpeta / "pager.svg").read_text(encoding="utf-8")
+        ET.fromstring(paginador)
+        assert all(f'id="{e}-{p}"' in paginador for e in ("normal", "hover", "active") for p in ("topleft", "center", "bottomright"))
+    panel = (GEN / "estilo" / f"{MARCA['id']}-oscuro" / "widgets" / "panel-background.svg").read_text(encoding="utf-8")
+    fondo = TOKENS["semanticos"]["oscuro"]["fondo"]["ventana"]["$value"]["hex"]
+    assert "opacity:0.45;fill:#000000" not in panel and f"opacity:{est['panel']['oscuro']['opacidad']};fill:{fondo}" in panel
+    claro = (GEN / "estilo" / f"{MARCA['id']}-claro" / "widgets" / "panel-background.svg").read_text(encoding="utf-8")
+    assert "opacity:0.45;fill:#000000" in claro            # el claro, como estaba (decisiones 4.16)
+    dock = registro.codigo("disposicion").paneles()[1]
+    pager = [w for w in dock["widgets"] if w["tipo"] == "org.kde.plasma.pager"]
+    assert pager and pager[0]["config"]["General"]["displayedText"] == "0"
+
+
 def test_disposicion_desde_ajustes():
     """La disposición sale de ajustes.json; un valor que Plasma 6.6 no entiende se rechaza al construir."""
     disp = registro.codigo("disposicion")

@@ -42,6 +42,19 @@ var paneles = [
                         "launchers": "applications:org.kde.dolphin.desktop,applications:org.kde.konsole.desktop,applications:systemsettings.desktop"
                     }
                 }
+            },
+            {
+                "tipo": "org.kde.plasma.marginsseparator"
+            },
+            {
+                "tipo": "org.kde.plasma.pager",
+                "config": {
+                    "General": {
+                        "displayedText": "0",
+                        "showWindowOutlines": "false",
+                        "showWindowIcons": "false"
+                    }
+                }
             }
         ]
     }

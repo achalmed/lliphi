@@ -1,0 +1,26 @@
+{
+  "$description": "Ajustes del estilo de Plasma (fuente; lo lee modulos/estilo/construir.py). panel: el fondo translúcido de paneles y dock por variante (relleno = token semántico, opacidad del centro y los bordes; null = el de WhiteSur tal cual). tareas: los mosaicos del gestor de tareas (widgets/tasks.svg) dibujados por Lliphi en vez de los de WhiteSur: por estado, el fondo [clase de color de Plasma, opacidad] y la marca inferior [clase, ancho en px, opacidad]; las clases (Text, Highlight, ViewFocus, NeutralText, PositiveText) siguen el esquema y el acento del sistema. paginador: el marco de cada escritorio del paginador (widgets/pager.svg): la línea de arriba (a «separacion» px del borde, cerca del número) y el fondo por estado.",
+  "panel": {
+    "oscuro": {"relleno": "fondo.ventana", "opacidad": 0.88},
+    "claro": null
+  },
+  "tareas": {
+    "radio": 10,
+    "estados": {
+      "normal": {"fondo": null, "marca": ["Text", 6, 0.55]},
+      "hover": {"fondo": ["Text", 0.09], "marca": ["Text", 6, 0.8]},
+      "focus": {"fondo": ["Highlight", 0.3], "marca": ["ViewFocus", 16, 1]},
+      "minimized": {"fondo": null, "marca": ["Text", 4, 0.35]},
+      "attention": {"fondo": ["NeutralText", 0.3], "marca": ["NeutralText", 10, 1]},
+      "progress": {"fondo": ["PositiveText", 0.25], "marca": ["PositiveText", 10, 1]}
+    }
+  },
+  "paginador": {
+    "separacion": 7,
+    "estados": {
+      "normal": {"linea": ["Text", 0.35], "fondo": null},
+      "hover": {"linea": ["Text", 0.75], "fondo": ["Text", 0.08]},
+      "active": {"linea": ["Highlight", 1], "fondo": null}
+    }
+  }
+}

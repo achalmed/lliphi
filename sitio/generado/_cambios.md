@@ -16,6 +16,12 @@ Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión de
 - La paleta pasa a `modulos/esquema/paleta.py`; las dependencias de terceros, a los `externas.py` de `global` (tipografía) e
   `iconos-cursores` (iconos y cursores); el inicio de sesión, a `complementos/sddm/`.
 
+### Changed
+- **Dock de Lliphi** (mejora 11, decisiones 4.17): fondo de paneles del oscuro más opaco (88 %, gris de la ventana);
+  mosaicos de tareas propios (sin recuadro en reposo, la activa teñida del acento con su barra) y paginador de números
+  con un trazo encima (acento en el activo), desde `modulos/estilo/ajustes.json`; el dock suma el paginador.
+  `sesion.py arrancar --escritorios N` y un reintento si el shell recién arrancado aún escribía su configuración.
+
 ### Added
 - **Lliphi Studio** (`studio/`): la ventana opcional de la familia de studios (PySide6 sobre `gui-comun` 1.4.0, acento
   carmesí) con nueve secciones: Dashboard, Color (editor de la paleta con contraste y daltonismo), Plasma (marcos de
