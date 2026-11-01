@@ -1,5 +1,5 @@
 {
-  "$description": "Ajustes de iconos y cursores (fuente; lo leen construir.py, aplicar.py y externas.py y lo edita Lliphi Studio). iconos: el tema de cada variante que nombra el tema global (decisión del autor, 2026-11-01: Colloid Grey, el Light con los iconos simbólicos oscuros para el claro y el Dark con los claros para el oscuro; vinceliuice/Colloid-icon-theme, GPL-3.0, no se redistribuye); reserva: el que se aplica si el de iconos no está instalado (Papirus y su superpuesto, que sí descarga instalar.py dependencias); cursores: el tema de cursores; superpuesto: el tema pequeño que hereda de su base y solo lleva sus carpetas en el color de Papirus elegido (folder-<color>-*); color_original: el color de carpetas de la versión publicada de Papirus.",
+  "$description": "Ajustes de iconos y cursores (fuente; lo leen construir.py, aplicar.py y externas.py y lo edita Lliphi Studio). iconos: el tema de cada variante que nombra el tema global (decisión del autor, 2026-11-01: Colloid Grey, el Light con los iconos simbólicos oscuros para el claro y el Dark con los claros para el oscuro; vinceliuice/Colloid-icon-theme, GPL-3.0, no se redistribuye); reserva: el que se aplica si el de iconos no está instalado (Papirus y su superpuesto, que sí descarga instalar.py dependencias); cursores: el tema de cursores; superpuesto: el tema pequeño que hereda de su base y solo lleva sus carpetas en el color de Papirus elegido (folder-<color>-*); color_original: el color de carpetas de la versión publicada de Papirus. bandeja: un tema superpuesto a cada tema de iconos (<tema><sufijo>, que es el que nombra el tema global) que da a los iconos simbólicos de esos contextos una versión de «tamano» px con su dibujo de «contenido» px centrado, como los iconos de ese tamaño del tema: los simbólicos de Colloid llenan su lienzo de 16 y en la bandeja de 22 se veían más grandes que el resto (decisiones 4.35); solo se usa al pedir exactamente ese tamaño.",
   "iconos": {
     "claro": "Colloid-Grey-Light",
     "oscuro": "Colloid-Grey-Dark"
@@ -15,5 +15,16 @@
     "color": "red",
     "nombre": "Papirus Dark (Lliphi, carpetas rojas)"
   },
-  "color_original": "blue"
+  "color_original": "blue",
+  "bandeja": {
+    "activo": true,
+    "sufijo": "-Lliphi",
+    "contextos": [
+      "status",
+      "apps",
+      "devices"
+    ],
+    "tamano": 22,
+    "contenido": 16
+  }
 }

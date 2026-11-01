@@ -348,7 +348,7 @@ def test_tema_global_estructura():
         d = (base / "contents" / "defaults").read_text(encoding="utf-8")
         assert f"ColorScheme={MARCA['id_esquema'][v]}" in d and f"name={MARCA['id']}" in d
         assert "kvantum" in d.lower() and "ButtonsOnLeft=XIA" in d
-        assert f"[kdeglobals][Icons]\nTheme={'Colloid-Grey-Light' if v == 'claro' else 'Colloid-Grey-Dark'}" in d   # decisiones 4.22
+        assert f"[kdeglobals][Icons]\nTheme={'Colloid-Grey-Light' if v == 'claro' else 'Colloid-Grey-Dark'}-Lliphi" in d   # 4.22 y 4.35
         deco = MARCA["id"] if v == "oscuro" else MARCA["id"] + "-claro"
         assert "library=org.kde.kwin.aurorae.v2" in d and f"theme=__aurorae__svg__{deco}" in d
         assert (base / "contents" / "layouts" / "org.kde.plasma.desktop-layout.js").exists()
@@ -862,11 +862,45 @@ def test_inicio_de_sesion_sddm():
         assert r.returncode in (0, 3) and "pkexec" not in r.stderr and "Traceback" not in r.stderr, r.stderr
 
 
+def test_iconos_bandeja_a_medida(tmp_path, monkeypatch):
+    """Decisiones 4.35: el superpuesto `<tema>-Lliphi` da a los simbólicos (lienzo de 16, dibujo a sangre) una versión de
+    22 px con el dibujo en 16 centrado, en carpetas de tamaño fijo 22 que heredan del tema, y conserva lo que Plasma
+    necesita para recolorearlos (la hoja current-color-scheme y la clase del raíz)."""
+    ext = registro.codigo("iconos-cursores", "externas")
+    simbolico = ('<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="ColorScheme-Text" fill="currentColor">'
+                 '<style id="current-color-scheme" type="text/css">.ColorScheme-Text { color:#363636; }</style>'
+                 '<path d="m8 0a8 8 0 1 0 0 16 8 8 0 0 0 0-16z"/></svg>')
+    nuevo = ET.fromstring(ext.con_margen(simbolico))
+    assert (nuevo.get("width"), nuevo.get("height"), nuevo.get("viewBox")) == ("22", "22", "0 0 22 22")
+    grupo = nuevo.find("{http://www.w3.org/2000/svg}g")
+    assert grupo.get("transform").startswith("translate(3 3) scale(1)") and grupo.get("class") == "ColorScheme-Text"
+    assert grupo.find(".//{http://www.w3.org/2000/svg}style").get("id") == "current-color-scheme"
+    grande = ext.con_margen('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32"/></svg>')
+    assert "translate(3 3) scale(0.5)" in grande                               # cualquier lienzo queda en 16 dentro de 22
+    # un tema falso con su index.theme y un simbólico
+    iconos = tmp_path / "icons"
+    base = iconos / ext._AJUSTES["iconos"]["claro"]
+    (base / "status" / "symbolic").mkdir(parents=True)
+    (base / "status" / "symbolic" / "algo-symbolic.svg").write_text(simbolico, encoding="utf-8")
+    (base / "index.theme").write_text("[Icon Theme]\nName=Base\nInherits=hicolor,breeze\nFollowsColorScheme=true\n"
+                                      "Directories=status/symbolic\n\n[status/symbolic]\nSize=16\nType=Scalable\n", encoding="utf-8")
+    monkeypatch.setattr(ext, "ICONOS", iconos)
+    monkeypatch.setattr(ext, "HOME", tmp_path)
+    creados = ext.bandeja(True, silencio=True)
+    nombre = registro.codigo("iconos-cursores").tema("claro")
+    assert nombre in creados and nombre == base.name + "-Lliphi"
+    cp = configparser.ConfigParser(interpolation=None, strict=False); cp.optionxform = str
+    cp.read(iconos / nombre / "index.theme", encoding="utf-8")
+    assert cp["Icon Theme"]["Inherits"].startswith(base.name + ",") and cp["Icon Theme"]["FollowsColorScheme"] == "true"
+    assert dict(cp["status/symbolic-22"]) == {"Size": "22", "Context": "Status", "Type": "Fixed"}
+    assert 'viewBox="0 0 22 22"' in (iconos / nombre / "status" / "symbolic-22" / "algo-symbolic.svg").read_text(encoding="utf-8")
+
+
 def test_variante_clara_validada():
     """Mejora 10 (decisiones 4.15–4.16): carpetas por variante sin tocar Papirus, fondo claro fijado y bloqueo oscuro."""
     for v, iconos in (("oscuro", "Colloid-Grey-Dark"), ("claro", "Colloid-Grey-Light")):   # decisiones 4.22
         defaults = (GEN / "global" / MARCA["id_global"][v] / "contents" / "defaults").read_text(encoding="utf-8")
-        assert f"Theme={iconos}" in defaults, v
+        assert f"Theme={iconos}-Lliphi" in defaults, v                     # el superpuesto de la bandeja (4.35)
     dep = registro.codigo("iconos-cursores", "externas")
     assert dep.SUPERPUESTO["id"] == "Papirus-Dark-Lliphi" and dep.COLOR_ORIGINAL == "blue"
     fondo = registro.modulo("fondos").archivo("aplicar.py").read_text(encoding="utf-8")

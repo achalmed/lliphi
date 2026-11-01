@@ -1,6 +1,6 @@
 {
   "nombre": "Iconos y cursores",
-  "resumen": "Colloid Grey (Light en el claro, Dark en el oscuro) como iconos de cada variante, con Papirus y su superpuesto de carpetas rojas como reserva, y los cursores WhiteSur; Bibata como opcional.",
+  "resumen": "Colloid Grey (Light en el claro, Dark en el oscuro) como iconos de cada variante, con un superpuesto que da a los iconos simbólicos de la bandeja el tamaño del resto, Papirus y su superpuesto de carpetas rojas como reserva, y los cursores WhiteSur; Bibata como opcional.",
   "clase": "externo",
   "orden": 4,
   "formato": "freedesktop",

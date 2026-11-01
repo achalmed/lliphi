@@ -253,7 +253,7 @@ def integracion(inf: Informe, marca: dict) -> None:
             tema_kv = registro.codigo("kvantum").tema_de(marca) + ("Dark" if estilo_apps == "kvantum-dark" else "")
             inf.exigir((registro.modulo("kvantum").generado / registro.codigo("kvantum").tema_de(marca) / f"{tema_kv}.kvconfig").is_file(),
                        "global", f"{v}: widgetStyle={estilo_apps} sin el tema de Kvantum {tema_kv}")
-        inf.exigir(valor("kdeglobals][Icons", "Theme") == iconos.ICONOS[v], "global", f"{v}: el tema de iconos no es el del módulo iconos-cursores")
+        inf.exigir(valor("kdeglobals][Icons", "Theme") == iconos.tema(v), "global", f"{v}: el tema de iconos no es el del módulo iconos-cursores")
         inf.exigir(valor("kcminputrc][Mouse", "cursorTheme") == iconos.CURSORES, "global", f"{v}: el tema de cursores no es el del módulo iconos-cursores")
         splash = valor("KSplash", "Theme")
         if splash == marca["id_global"][v]:

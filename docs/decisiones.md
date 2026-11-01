@@ -206,6 +206,18 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   (carpetas azules, para el claro) y crea `Papirus-Dark-Lliphi`, un tema superpuesto que hereda de Papirus-Dark y solo declara
   enlaces a las variantes rojas de todo icono que acaba en una carpeta azul (lugares, `inode-directory`, `user-home`…). El
   oscuro usa ese superpuesto. Efecto secundario bueno: Home y Escritorio, que antes quedaban azules en el oscuro, ahora son rojos.
+- **4.35 (2026-11-01) Los iconos de la bandeja, del mismo tamaño.** El autor vio en la bandeja iconos de tamaños
+  distintos (el «!» de apport, el de Remmina, más grandes que la campana o el volumen) y pidió uniformidad. Medido en la
+  sesión de prueba: el claro y el oscuro no cambian el tamaño (mismos píxeles); la causa es Colloid, que dibuja sus
+  iconos simbólicos llenando un lienzo de 16 y sus iconos de 22 con 3 px de margen, y la bandeja (22 px) escala el
+  simbólico a 22. Se decide un superpuesto por tema de iconos, `<tema>-Lliphi` (`bandeja` en
+  `modulos/iconos-cursores/ajustes.json`), que es el que nombra el tema global: hereda del Colloid de la variante y
+  solo trae sus simbólicos de estado, aplicaciones y dispositivos (1180) en 22 px con el dibujo en 16 centrado
+  (`con_margen`, sin redibujar nada), en carpetas de tamaño fijo 22. KIconLoader prueba primero la coincidencia exacta
+  en toda la cadena de temas, así que el superpuesto solo se usa al pedir 22 px; en menús y botones (16 px) siguen los
+  de Colloid. Se construye en la máquina desde el Colloid instalado (`instalar.py dependencias` y al aplicar), como el
+  superpuesto rojo de Papirus (4.15). Medido en la sesión de prueba: sin él, Remmina y apport a 22 × 22 y lo demás a
+  16; con él, todos a 16 (`muestras/capturas/claro-37-bandeja-a-medida.png`).
 - **4.34 (2026-11-01) Las etiquetas emergentes del claro, legibles en Kvantum.** Tras 4.33 el autor seguía viendo la
   etiqueta «Minimize» del botón de la ventana sin leerse. No la dibuja el estilo de Plasma: KWin la muestra como una
   etiqueta de Qt, con el estilo de widgets (Kvantum), igual que toda etiqueta de las aplicaciones. El tema claro de

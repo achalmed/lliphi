@@ -8,10 +8,15 @@ instala en el usuario a petición y el tema global los nombra. Es un módulo **e
 | recurso | qué | mecanismo de instalación | quién lo aplica |
 |---|---|---|---|
 | iconos (decisiones 4.22) | `Colloid-Grey-Light` en el claro y `Colloid-Grey-Dark` en el oscuro (Colloid, GPL-3.0) | el guion de su autor (`install.sh -t grey`); `externas.colloid()` solo comprueba y dice cómo, no ejecuta código descargado | `[kdeglobals][Icons]` del tema global y `aplicar.py`; si falta, la reserva de abajo |
+| bandeja (decisiones 4.35) | `Colloid-Grey-Light-Lliphi` y `Colloid-Grey-Dark-Lliphi`, el tema que nombra el tema global: superpuesto que hereda de su Colloid y solo trae sus iconos simbólicos de estado, aplicaciones y dispositivos en 22 px con el dibujo en 16 centrado (`con_margen`), en carpetas de tamaño fijo 22 | `externas.bandeja()` (construido en la máquina, sobre el Colloid instalado; también al aplicar) | `[kdeglobals][Icons]` del tema global y `aplicar.py`; si falta, el Colloid tal cual |
 | reserva, claro | Papirus tal como se publica (carpetas azules) | `externas.papirus()`: tarball de la última versión de PapirusDevelopmentTeam → `~/.local/share/icons/{Papirus,Papirus-Dark,Papirus-Light}` | `[kdeglobals][Icons]` del tema global y `aplicar.py` (`plasma-changeicons`) |
 | reserva, oscuro | `Papirus-Dark-Lliphi`: tema superpuesto que hereda de Papirus-Dark y solo redefine las carpetas, con enlaces simbólicos a las `folder-red-*` de Papirus | `externas.carpetas_en_color()` (construido en la máquina, sobre el Papirus instalado) | ídem; si falta, Papirus-Dark y después Breeze |
 | cursores | WhiteSur-cursors | `externas.whitesur_cursores()`: `dist/` del tarball de la rama principal → `~/.local/share/icons/WhiteSur-cursors` | `[kcminputrc][Mouse] cursorTheme` del tema global |
 | cursores (opcional) | Bibata Modern Classic e Ice | `externas.bibata()` con `--opcionales` | a mano |
+
+Por qué el superpuesto de la bandeja: Colloid dibuja sus iconos simbólicos llenando un lienzo de 16 y sus iconos de 22
+con 3 px de margen; en la bandeja (22 px) un simbólico, como el «!» de `apport` o el de Remmina, salía a 22 px y el resto
+a 16. Con carpetas de tamaño fijo 22 el superpuesto solo se usa a ese tamaño: a 16 (menús, botones) sigue la base.
 
 Por qué un superpuesto y no recolorear Papirus: Papirus-Dark comparte con Papirus los tamaños grandes por enlaces, así
 que no se pueden colorear distinto modificando sus archivos (decisiones 4.15).
@@ -26,8 +31,8 @@ Temas freedesktop (Icon Theme Specification): `index.theme` con `Inherits` y `Di
 ```
 modulos/iconos-cursores/
 ├── modulo.json   externo · freedesktop · sin instalación propia
-├── construir.py  ICONOS por variante y CURSORES; valores() para el tema global
-├── externas.py   descarga e instalación de Papirus, el superpuesto, WhiteSur-cursors y Bibata
+├── construir.py  ICONOS por variante, tema() (con el superpuesto de la bandeja) y CURSORES; valores() para el tema global
+├── externas.py   descarga e instalación de Papirus, sus superpuestos, el de la bandeja, WhiteSur-cursors y Bibata
 ├── aplicar.py    aplica el tema de iconos de la variante, con reservas
 ├── INSTALL.md · README.md
 ```
