@@ -45,6 +45,14 @@ def alfa(hex6: str, aa: str) -> str:
     return hex6 + aa
 
 
+def sobre(hex6: str, fondo: str, aa: str) -> str:
+    """`hex6` con el alfa `aa` ya compuesto sobre `fondo`, opaco: para los programas que no admiten `#rrggbbaa` o lo
+    pierden al guardar (Kate, TeXstudio, Vim). Es el mismo resalte que `alfa()` da en VS Code y Zed."""
+    a = int(aa, 16) / 255
+    c, f = (tuple(int(h.lstrip("#")[i:i + 2], 16) for i in (0, 2, 4)) for h in (hex6, fondo))
+    return "#%02x%02x%02x" % tuple(round(c[i] * a + f[i] * (1 - a)) for i in range(3))
+
+
 # ---------------------------------------------------------------- VS Code
 
 def colores_vscode(s: dict[str, str], t: dict[str, str], k: dict[str, str]) -> dict[str, str]:
@@ -196,8 +204,60 @@ def colores_vscode(s: dict[str, str], t: dict[str, str], k: dict[str, str]) -> d
         "symbolIcon.interfaceForeground": t["color6"], "symbolIcon.variableForeground": s["texto.normal"], "symbolIcon.constantForeground": t["color3"],
         "symbolIcon.stringForeground": t["color2"], "symbolIcon.numberForeground": t["color3"], "symbolIcon.keywordForeground": t["color1"],
         "symbolIcon.propertyForeground": s["texto.normal"], "symbolIcon.enumeratorMemberForeground": t["color5"],
+        # tablas (las de Positron derivan de ellas su borde) y fondos fijos de VS Code
+        "tree.tableColumnsBorder": s["borde.separador"], "tree.tableOddRowsBackground": alfa(s["fondo.vista-alterno"], "80"),
+        "editorStickyScroll.background": s["fondo.vista"], "editorStickyScrollHover.background": s["fondo.vista-alterno"],
+        "editorStickyScroll.shadow": alfa(s["fondo.complementario"], "33"), "sideBarStickyScroll.background": s["fondo.ventana"],
+        "panelStickyScroll.background": s["fondo.ventana"], "widget.shadow": alfa(s["fondo.complementario"], "33"),
+        "editorGroupHeader.noTabsBackground": s["fondo.ventana"], "sash.hoverBorder": s["foco"],
+        "inputOption.hoverBackground": s["fondo.ventana-alterno"], "editorWidget.resizeBorder": s["foco"],
+        **colores_positron(s, t, k),
     }
     return c
+
+
+def colores_positron(s: dict[str, str], t: dict[str, str], k: dict[str, str]) -> dict[str, str]:
+    """Las claves propias de Positron (`positron*`) que no derivan de una clave de VS Code sino de un color fijo suyo
+    (sus azules de selección y de bienvenida, sus grises de separador y de campo, los iconos del intérprete, los
+    gráficos del explorador de datos), más la consola con el fondo de la terminal integrada, cuyos ANSI usa. Las que
+    derivan de una clave estándar (`editorBackground`, `panel.background`, `listHoverBackground`…) ya siguen al tema.
+    Inventario: los `registerColor("positron…")` de `workbench.desktop.main.js` de Positron 2026.06 (decisiones 5.3)."""
+    return {
+        # consola: el fondo y los ANSI de la terminal integrada (Konsole, 4.30); la traza de error, un gris de la vista
+        "positronConsole.background": t["fondo"], "positronConsole.foreground": t["texto"],
+        "positronConsole.traceBackground": s["fondo.vista-alterno"], "positronConsole.errorBackground": alfa(k["color1"], "1a"),
+        **{f"positronConsole.ansi{n}": k[f"color{i}"] for i, n in enumerate(ANSI_VSCODE)},
+        **{f"positronConsole.ansiBright{n}": k[f"color{i + 8}"] for i, n in enumerate(ANSI_VSCODE)},
+        # barras de acciones (la superior de cada panel) y sus campos
+        "positronActionBar.separator": s["borde.separador"], "positronActionBar.textInputBackground": s["fondo.vista"],
+        "positronActionBar.textInputBorder": s["borde.separador"], "positronActionBar.textInputSelectionForeground": s["seleccion.texto"],
+        "positronActionBar.textInputSelectionBackground": s["seleccion.fondo"],
+        "positronSplitterExpandCollapseButton.foreground": s["acento.texto"],
+        "positronToolTip.background": s["fondo.ventana"], "positronToolTip.border": s["borde.separador"],
+        # diálogos (nuevo proyecto, intérpretes, conexiones)
+        "positronModalDialog.separator": s["borde.separador"], "positronModalDialog.textInputBackground": s["fondo.vista"],
+        "positronModalDialog.textInputBorder": s["borde.separador"], "positronModalDialog.textInputSelectionForeground": s["seleccion.texto"],
+        "positronModalDialog.textInputSelectionBackground": s["seleccion.fondo"], "positronModalDialog.checkboxBackground": s["fondo.vista"],
+        "positronModalDialog.checkboxForeground": s["texto.normal"], "positronModalDialog.checkboxBorder": s["borde.separador"],
+        "positronModalDialog.titleBarBackground": s["fondo.encabezado"], "positronModalDialog.titleBarForeground": s["texto.normal"],
+        # estado del intérprete (el círculo de la barra superior y de la consola)
+        "positronRuntime.stateIconActive": s["estado.info"], "positronRuntime.stateIconDisconnected": s["estado.error"],
+        "positronRuntime.stateIconIdle": s["estado.exito"],
+        # cuadrícula de datos (explorador de datos, variables): cursor y selección en el acento
+        "positronDataGrid.cursorBorder": s["foco"], "positronDataGrid.selectionBorder": s["acento.base"],
+        "positronDataGrid.selectionInnerBorder": s["acento.suave"], "positronDataGrid.selectionBackground": alfa(s["seleccion.fondo"], "26"),
+        "positronDataExplorer.invalidFilterBackground": alfa(s["estado.error"], "40"),
+        "positronDataExplorer.statusIndicatorComputing": s["estado.advertencia"], "positronDataExplorer.statusIndicatorDisconnected": s["texto.inactivo"],
+        # gráficos del resumen de columnas: los nulos en rojo, la distribución en azul, como los `charts.*`
+        "positronDataExplorer.columnNullPercentGraphBackgroundFill": t["color1"],
+        "positronDataExplorer.columnNullPercentGraphBackgroundStroke": s["texto.inactivo"],
+        "positronDataExplorer.columnNullPercentGraphIndicatorFill": s["borde.separador"],
+        "positronDataExplorer.sparklineAxis": s["texto.inactivo"], "positronDataExplorer.sparklineFill": alfa(t["color4"], "99"),
+        "positronDataExplorer.sparklineStroke": t["color4"], "positronDataExplorer.sparklineHover": s["acento.base"],
+        # bienvenida y cuadernos
+        "positronWelcome.foreground": s["acento.texto"], "positronWelcome.secondaryForeground": s["texto.secundario"],
+        "positronNotebook.cellFooterForeground": s["texto.inactivo"],
+    }
 
 
 def token_colors(x: dict[str, str]) -> list[dict]:

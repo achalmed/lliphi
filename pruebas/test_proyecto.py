@@ -498,6 +498,49 @@ def test_zed_tema():
         assert st["players"] and {"cursor", "background", "selection"} <= set(st["players"][0])
 
 
+def _contraste(a: str, b: str) -> float:
+    def lum(h: str) -> float:
+        c = [int(h.lstrip("#")[i:i + 2], 16) / 255 for i in (0, 2, 4)]
+        c = [x / 12.92 if x <= 0.04045 else ((x + 0.055) / 1.055) ** 2.4 for x in c]
+        return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]
+    la, lb = lum(a), lum(b)
+    return (max(la, lb) + 0.05) / (min(la, lb) + 0.05)
+
+
+# las claves de Positron 2026.06 cuyo valor por omisión es un color fijo suyo (decisiones 5.3): todas deben estar
+POSITRON_FIJAS = (
+    "positronSplitterExpandCollapseButton.foreground", "positronToolTip.background", "positronToolTip.border",
+    "positronActionBar.separator", "positronActionBar.textInputBackground", "positronActionBar.textInputBorder",
+    "positronActionBar.textInputSelectionForeground", "positronActionBar.textInputSelectionBackground",
+    "positronModalDialog.separator", "positronModalDialog.textInputBackground", "positronModalDialog.textInputBorder",
+    "positronModalDialog.textInputSelectionForeground", "positronModalDialog.textInputSelectionBackground",
+    "positronModalDialog.checkboxBackground", "positronModalDialog.checkboxForeground", "positronModalDialog.checkboxBorder",
+    "positronConsole.traceBackground", "positronRuntime.stateIconActive", "positronRuntime.stateIconDisconnected",
+    "positronRuntime.stateIconIdle", "positronDataGrid.cursorBorder", "positronDataGrid.selectionBorder",
+    "positronDataGrid.selectionInnerBorder", "positronDataGrid.selectionBackground",
+    "positronDataExplorer.invalidFilterBackground", "positronDataExplorer.statusIndicatorComputing",
+    "positronDataExplorer.statusIndicatorDisconnected", "positronDataExplorer.columnNullPercentGraphBackgroundFill",
+    "positronDataExplorer.columnNullPercentGraphBackgroundStroke", "positronDataExplorer.columnNullPercentGraphIndicatorFill",
+    "positronDataExplorer.sparklineAxis", "positronDataExplorer.sparklineFill", "positronDataExplorer.sparklineHover",
+    "positronDataExplorer.sparklineStroke", "positronWelcome.foreground", "positronWelcome.secondaryForeground",
+    "positronNotebook.cellFooterForeground", "tree.tableColumnsBorder")
+
+
+def test_positron_entero():
+    """Decisiones 5.3: Positron no pinta nada con sus colores propios; la consola lleva el fondo de la terminal integrada
+    y los ANSI de Konsole, legibles (≥ 4,5:1 los colores 1–7) sobre ese fondo."""
+    for v in ("claro", "oscuro"):
+        c = json.loads((GEN / "editores" / "vscode" / MARCA["id"] / "themes" / f"{MARCA['id']}-{v}-color-theme.json").read_text(encoding="utf-8"))["colors"]
+        faltan = [k for k in POSITRON_FIJAS if k not in c]
+        assert not faltan, (v, faltan)
+        k = registro.codigo("konsole").ansi(TOKENS, v)
+        assert c["positronConsole.background"] == c["terminal.background"] and c["positronConsole.ansiRed"] == k["color1"]
+        assert c["positronConsole.ansiBrightWhite"] == k["color15"]
+        for i, n in enumerate(("Red", "Green", "Yellow", "Blue", "Magenta", "Cyan", "White"), start=1):
+            assert _contraste(c[f"positronConsole.ansi{n}"], c["positronConsole.background"]) >= 4.5, (v, n)
+        assert _contraste(c["positronWelcome.foreground"], c["editor.background"]) >= 4.5, v
+
+
 def _bloques_css(texto: str) -> dict[str, dict[str, str]]:
     """selector → {variable: valor} de un CSS plano (sin anidar), como el que genera el complemento obsidian."""
     sin_comentarios = re.sub(r"/\*.*?\*/", "", texto, flags=re.S)
