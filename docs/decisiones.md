@@ -206,6 +206,16 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   (carpetas azules, para el claro) y crea `Papirus-Dark-Lliphi`, un tema superpuesto que hereda de Papirus-Dark y solo declara
   enlaces a las variantes rojas de todo icono que acaba en una carpeta azul (lugares, `inode-directory`, `user-home`…). El
   oscuro usa ese superpuesto. Efecto secundario bueno: Home y Escritorio, que antes quedaban azules en el oscuro, ahora son rojos.
+- **4.18 (2026-11-01) Mejora 12: título y barra de herramientas en una sola banda.** El autor comparó una ventana de
+  Dolphin con otra que le gusta más, donde el título de la decoración y la barra de herramientas son del mismo color, y
+  pidió lo mismo o mejor. En la de Lliphi el título es el `#1b1b1d` de Nothing y la barra salía `#363636`: Kvantum la
+  pinta con su propio elemento (`toolbar-normal`) en el gris fijo de WhiteSur, que no se recoloreaba, y además la ventana
+  era translúcida (WhiteSur, 75 % con desenfoque), así que todo lo que no es la decoración salía más claro y teñido por
+  el fondo. Se decide, en `complementos/kvantum/ajustes.json`, solo para el oscuro: ventanas sólidas (como la variante
+  `WhiteSur-opaque` de la base; menús y tooltips conservan su desenfoque) y la barra de herramientas, activa e inactiva,
+  en `fondo.ventana` (el mismo tono que el título, a una unidad). La línea oscura bajo la barra se queda como divisoria
+  con el contenido. El claro no cambia. Esto deja sin efecto, en el oscuro, el «cristal» de las ventanas de 4.2.
+  Comparación en `muestras/comparacion-linea-base-cabecera.png` (sesión de prueba).
 - **4.17 (2026-11-01) Mejora 11: el dock de Lliphi.** El autor comparó el dock con otro que le gusta más (oscuro y
   sólido, sin recuadros bajo cada aplicación, y un paginador de números con una línea encima) y pidió que el de Lliphi se
   vea así o mejor. Causas en el de 0.3.0: el fondo de paneles de WhiteSur es negro al 45 %, que con el desenfoque se ve

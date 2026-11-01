@@ -110,6 +110,19 @@ def test_ajustes_de_los_modulos(tmp_path: Path):
     assert json.loads(correr("herramientas/instalar.py", "estado", "--json", env=env).stdout)["instalado"] is False
 
 
+def test_cabecera_en_una_sola_banda():
+    """Mejora 12: en el oscuro, ventanas sólidas y la barra de herramientas de Kvantum en el color de la ventana (el del
+    título de la decoración); el claro, como estaba (translúcido, barra de WhiteSur)."""
+    oscuro = GEN / "kvantum" / "LliphiOscuro"
+    assert re.search(r"^translucent_windows=false$", (oscuro / "LliphiOscuro.kvconfig").read_text(encoding="utf-8"), re.M)
+    svg = (oscuro / "LliphiOscuro.svg").read_text(encoding="utf-8")
+    ventana = TOKENS["semanticos"]["oscuro"]["fondo"]["ventana"]["$value"]["hex"]
+    piezas = re.findall(r'<[^<>]*\bid="(toolbar-normal(?:-inactive)?(?:-(?:top|left|right|topleft|topright))?)"[^<>]*?fill:(#[0-9a-fA-F]{6})', svg)
+    assert piezas and all(color.lower() == ventana for _id, color in piezas), piezas
+    claro = (GEN / "kvantum" / "LliphiClaro" / "LliphiClaro.kvconfig").read_text(encoding="utf-8")
+    assert re.search(r"^translucent_windows=true$", claro, re.M)
+
+
 def test_dock_de_lliphi():
     """Mejora 11: fondo de paneles del oscuro opaco en el gris de la ventana; mosaicos de tareas y paginador de Lliphi
     con las clases de color de Plasma (siguen el acento); el dock lleva el paginador de números."""
