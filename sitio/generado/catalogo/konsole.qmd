@@ -1,16 +1,16 @@
 ---
 title: "Konsole"
-subtitle: "Esquemas de color para la terminal con una paleta ANSI de dieciséis colores medida sobre el fondo."
+subtitle: "Esquemas de color para la terminal sobre el de Nothing: el oscuro es Nothing con su rojo; el claro, su espejo en azul, legible sobre el fondo claro."
 ---
 
 | | |
 |---|---|
 | papel | complemento (paquete) |
-| estado | **experimental** |
+| estado | **probado** |
 | tecnología | Konsole `.colorscheme` |
 | desde la versión | 0.1.0 |
 | archivos | `Lliphi Claro.colorscheme`, `Lliphi Oscuro.colorscheme` |
-| licencia | CC-BY-SA-4.0 |
+| licencia | GPL-3.0-or-later |
 
 
 ## Instalar a mano

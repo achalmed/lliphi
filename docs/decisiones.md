@@ -206,7 +206,23 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   (carpetas azules, para el claro) y crea `Papirus-Dark-Lliphi`, un tema superpuesto que hereda de Papirus-Dark y solo declara
   enlaces a las variantes rojas de todo icono que acaba en una carpeta azul (lugares, `inode-directory`, `user-home`…). El
   oscuro usa ese superpuesto. Efecto secundario bueno: Home y Escritorio, que antes quedaban azules en el oscuro, ahora son rojos.
-- **4.28 (2026-11-01) Konsole sigue a la variante y lleva su acento.** El autor vio Konsole con colores que no
+- **4.29 (2026-11-01) Konsole sobre el esquema de Nothing.** El autor comparó una ventana con el esquema «Nothing»
+  (el de su paquete de dotfiles, del tema Nothing de jomada, GPL-3.0-or-later) con otra en Lliphi Oscuro: la de Nothing
+  combinaba con el tema y la nuestra no. La paleta ANSI genérica de los tokens (4.28 añadía solo el acento en el
+  magenta) daba carpetas y claves de fastfetch azules, rojo salmón y lila sobre el rojo del tema. Nothing pinta de rojo
+  el rojo (`Color1`) y también el azul (`Color4`), y lleva su azul en el negro (`Color0`). Se toma como base, como
+  WhiteSur lo es del esquema de Plasma (4.4): `fuentes/base/Nothing-konsole/`. El oscuro es Nothing tal cual (su
+  `#eb3131` es el rojo de que sale el acento, 4.25, y como texto se lee mejor que `#e22529`); solo cambian el nombre,
+  la opacidad (0,8, la de Nothing, en `efectos.opacidad-konsole`) y `ColorRandomization`, que se apaga para que todas
+  las pestañas tengan el mismo fondo. El claro es su espejo: fondo `neutro-1` y texto `neutro-7`; el acento azul en
+  el `Color4`, el azul de Nothing en el `Color1` y su rojo en el `Color0`, de modo que lo que en el oscuro es rojo en
+  el claro es azul; los demás conservan el matiz y el croma de Nothing con la luz más alta que da ≥ 4,5:1 sobre el
+  fondo (en OKLCH, con la biblioteca estándar), el tenue 0,06 más claro y el intenso 0,06 más oscuro. Coste aceptado:
+  en el claro, lo que un programa pinte de «rojo» (un error, una línea borrada) sale azul, como en el oscuro de
+  Nothing sale rojo lo «azul». Los esquemas de Konsole pasan a GPL-3.0-or-later. Probado en la sesión de prueba con
+  `lsd` y `fastfetch` en las dos variantes.
+- **4.28 (2026-11-01) Konsole sigue a la variante y lleva su acento** (el acento en el magenta, superado por 4.29;
+  lo de seguir a la variante sigue en pie). El autor vio Konsole con colores que no
   combinaban con el tema: debía ir en rojo con Lliphi Oscuro y en azul con Lliphi Claro. Dos causas. Konsole no tiene un
   esquema «del sistema»: el perfil queda con el esquema que se instaló, así que con el tema claro seguía en Lliphi
   Oscuro. Y los dieciséis ANSI no llevan el acento: el prompt pinta con azul y magenta genéricos. Se resuelve así: en el

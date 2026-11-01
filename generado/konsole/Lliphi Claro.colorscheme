@@ -1,94 +1,94 @@
 # GENERADO por herramientas/generar.py desde tokens/; no editar
 
 [Background]
-Color=251,252,253
+Color=242,243,245
 
 [BackgroundFaint]
 Color=251,252,253
 
 [BackgroundIntense]
-Color=251,252,253
+Color=236,237,239
 
 [Color0]
-Color=44,46,50
+Color=219,26,34
 
 [Color0Faint]
-Color=44,46,50
+Color=241,56,54
 
 [Color0Intense]
-Color=83,85,90
+Color=192,1,21
 
 [Color1]
-Color=164,59,56
+Color=38,64,211
 
 [Color1Faint]
-Color=164,59,56
+Color=51,85,232
 
 [Color1Intense]
-Color=137,33,34
+Color=27,41,190
 
 [Color2]
-Color=0,120,53
+Color=6,124,117
 
 [Color2Faint]
-Color=0,120,53
+Color=10,144,136
 
 [Color2Intense]
-Color=0,94,40
+Color=3,105,99
 
 [Color3]
-Color=126,94,0
+Color=99,119,3
 
 [Color3Faint]
-Color=126,94,0
+Color=115,138,5
 
 [Color3Intense]
-Color=98,72,0
+Color=84,101,2
 
 [Color4]
-Color=52,95,178
+Color=49,91,239
 
 [Color4Faint]
-Color=52,95,178
+Color=71,119,240
 
 [Color4Intense]
-Color=30,71,152
-
-[Color5]
-Color=49,91,239
-
-[Color5Faint]
-Color=49,91,239
-
-[Color5Intense]
 Color=42,79,208
 
+[Color5]
+Color=174,32,231
+
+[Color5Faint]
+Color=194,61,252
+
+[Color5Intense]
+Color=152,2,205
+
 [Color6]
-Color=0,113,118
+Color=1,123,135
 
 [Color6Faint]
-Color=0,113,118
+Color=4,143,156
 
 [Color6Intense]
-Color=0,88,92
+Color=0,104,114
 
 [Color7]
-Color=189,190,192
+Color=96,114,117
 
 [Color7Faint]
-Color=189,190,192
+Color=113,132,135
 
 [Color7Intense]
-Color=231,232,233
+Color=79,97,100
 
 [Foreground]
 Color=29,31,36
 
 [ForegroundFaint]
-Color=102,103,108
+Color=29,31,36
 
 [ForegroundIntense]
-Color=29,31,36
+Color=32,43,79
 
 [General]
 Anchor=0.5,0.5
@@ -96,7 +96,7 @@ Blur=true
 ColorRandomization=false
 Description=Lliphi Claro
 FillStyle=Tile
-Opacity=0.86
+Opacity=0.8
 Wallpaper=
 WallpaperFlipType=NoFlip
 WallpaperOpacity=1

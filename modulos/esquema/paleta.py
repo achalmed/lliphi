@@ -266,7 +266,7 @@ def escribir_tokens() -> None:
                       "contraste": {"$value": 0.35}, "intensidad": {"$value": 1.0}, "saturacion": {"$value": 1.15},
                       "textura": {"$value": 0.07, "$description": "opacidad de la retícula de puntos del panel"},
                       "opacidad-menus-qt": {"$value": 80, "$description": "MenuOpacity de Breeze (menús de las aplicaciones)"},
-                      "opacidad-konsole": {"$value": 0.86}}
+                      "opacidad-konsole": {"$value": 0.8}}
     doc["tipografia"] = {"interfaz": {"$type": "fontFamily", "$value": ["Inter", "Noto Sans", "sans-serif"]},
                          "monoespaciada": {"$type": "fontFamily", "$value": ["JetBrainsMono Nerd Font", "JetBrains Mono", "monospace"]},
                          "tamano-base": {"$type": "dimension", "$value": {"value": 10, "unit": "pt"}}}

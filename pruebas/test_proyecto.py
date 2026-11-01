@@ -242,6 +242,7 @@ def test_ningun_hex_fuera_del_maestro():
         # (lo verifica test_esquema_linea_base_solo_acento) y el `colors` del estilo de Plasma es copia de WhiteSur-kde;
         # solo las variantes `-tokens` y lo demás (Konsole, terminales) salen por entero del maestro
         copia_whitesur = f.suffix == ".colors" and not f.stem.endswith("-tokens") or (f.name == "colors" and "estilo" in f.parts)
+        copia_whitesur = copia_whitesur or f.suffix == ".colorscheme"     # Konsole: base Nothing (4.29), test_konsole_sobre_nothing
         if f.suffix in (".colors", ".colorscheme", "") and f.is_file() and f.name != "defaults" and "decoracion" not in f.parts and not copia_whitesur:
             for m in re.findall(r"=(\d{1,3},\d{1,3},\d{1,3})\b", f.read_text(encoding="utf-8")):
                 assert m in permitidos_rgb, (f.name, m)
@@ -383,11 +384,36 @@ def test_konsole_16_colores():
         for i in range(8):
             assert f"Color{i}" in cp and f"Color{i}Intense" in cp and f"Color{i}Faint" in cp
         assert cp["General"]["Description"] == MARCA["nombre_esquema"][v]
-        # decisiones 4.28: el magenta lleva el acento de la variante (rojo en el oscuro, azul en el claro), ≥ 4.5:1
-        prim = {k: ",".join(str(int(x["$value"]["hex"][i:i + 2], 16)) for i in (1, 3, 5)) for k, x in TOKENS["primitivas"][v].items()}
-        assert cp["Color5"]["Color"] == prim["acento" if v == "claro" else "acento-suave"], v
-        assert cp["Color5Intense"]["Color"] == prim["acento-texto"]
-        assert cp["Color1"]["Color"] != cp["Color5"]["Color"] and cp["Color4"]["Color"] != cp["Color5"]["Color"]
+
+
+
+def test_konsole_sobre_nothing():
+    """Decisiones 4.29: el oscuro es el esquema «Nothing» tal cual (solo cambian nombre, opacidad y la aleatoriedad);
+    el claro es su espejo: el acento azul en el `Color4`, el azul de Nothing en el `Color1`, su rojo en el `Color0`,
+    y cada color normal ≥ 4,5:1 sobre el fondo claro."""
+    konsole = registro.codigo("konsole")
+
+    def leer(ruta):
+        cp = configparser.ConfigParser(interpolation=None, strict=False); cp.optionxform = str
+        cp.read(ruta, encoding="utf-8")
+        return cp
+    base = leer(RAIZ / "fuentes" / "base" / "Nothing-konsole" / "Nothing.colorscheme")
+    oscuro = leer(GEN / "konsole" / f"{MARCA['nombre_esquema']['oscuro']}.colorscheme")
+    for g in base.sections():
+        if g != "General":
+            assert oscuro[g]["Color"] == base[g]["Color"], g
+    assert oscuro["General"]["Opacity"] == str(TOKENS["efectos"]["opacidad-konsole"]["$value"])
+    claro = leer(GEN / "konsole" / f"{MARCA['nombre_esquema']['claro']}.colorscheme")
+    tupla = lambda texto: tuple(int(x) for x in texto.split(","))
+    prim = {k: ",".join(str(int(x["$value"]["hex"][i:i + 2], 16)) for i in (1, 3, 5)) for k, x in TOKENS["primitivas"]["claro"].items()}
+    assert claro["Background"]["Color"] == prim["neutro-1"] and claro["Foreground"]["Color"] == prim["neutro-7"]
+    assert [claro[f"Color4{s}"]["Color"] for s in ("", "Faint", "Intense")] == [prim["acento"], prim["acento-suave"], prim["acento-texto"]]
+    fondo = tupla(claro["Background"]["Color"])
+    for i in range(8):
+        assert konsole.contraste(tupla(claro[f"Color{i}"]["Color"]), fondo) >= 4.5, i
+    for i, j in ((0, 4), (1, 0), (5, 5)):                                    # el espejo conserva el matiz de Nothing
+        h_claro, h_base = konsole.a_oklch(tupla(claro[f"Color{i}"]["Color"]))[2], konsole.a_oklch(tupla(base[f"Color{j}"]["Color"]))[2]
+        assert abs((h_claro - h_base + 180) % 360 - 180) < 6, (i, h_claro, h_base)
 
 
 def _terminal(variante: str) -> dict[str, str]:
