@@ -96,7 +96,7 @@ def _ruido(ancho: int, alto: int, sigma: float, semilla: int):
     return salida
 
 
-def forma(tokens: dict, variante: str, ancho: int = 3840, alto: int = 2160):
+def forma(tokens: dict, variante: str, ancho: int = 3840, alto: int = 2160, firma: str | None = None):
     """«Lliphi Forma» de una variante, al tamaño pedido."""
     from PIL import Image, ImageChops, ImageDraw, ImageFilter
     p = forma_paleta(tokens, variante)
@@ -162,6 +162,10 @@ def forma(tokens: dict, variante: str, ancho: int = 3840, alto: int = 2160):
         desvanece.putpixel((0, y), 255 if y < ph * 0.55 else round(255 * max(0.0, 1 - (y - ph * 0.55) / (ph * 0.45)) ** 0.8))
     mascara = ImageChops.multiply(mascara, desvanece.resize((pw, ph))).filter(ImageFilter.GaussianBlur(1.0))
     lienzo.paste(grad, (px, py), mascara)
+    if firma:   # como la firma de un cuadro: bajo la composición, alineada al final de la píldora
+        tinta = p["pildora"][0] if variante == "claro" else p["puntos"]
+        lienzo = _firma(lienzo, firma, px + pw, y0 + s + round(s * 0.22), alto / 300, tinta, 0.40 if variante == "claro" else 0.32,
+                        a_la_derecha=True)
     # 5: grano fino en todo el lienzo
     g = _ruido(ancho, alto, 6, 53)
     return Image.merge("RGB", [ImageChops.add(c, g, scale=1.0, offset=-128) for c in lienzo.split()])
@@ -174,7 +178,39 @@ LETRAS = {
     "I": ["XXXXX", "..X..", "..X..", "..X..", "..X..", "..X..", "XXXXX"],
     "P": ["XXXX.", "X...X", "X...X", "XXXX.", "X....", "X....", "X...."],
     "H": ["X...X", "X...X", "X...X", "XXXXX", "X...X", "X...X", "X...X"],
+    # la firma (minúsculas y @), en la misma rejilla
+    "@": [".XXX.", "X...X", "X.XXX", "X.X.X", "X.XXX", "X....", ".XXX."],
+    "a": [".....", ".....", ".XXX.", "....X", ".XXXX", "X...X", ".XXXX"],
+    "c": [".....", ".....", ".XXX.", "X....", "X....", "X....", ".XXX."],
+    "d": ["....X", "....X", ".XXXX", "X...X", "X...X", "X...X", ".XXXX"],
+    "e": [".....", ".....", ".XXX.", "X...X", "XXXXX", "X....", ".XXX."],
+    "h": ["X....", "X....", "XXXX.", "X...X", "X...X", "X...X", "X...X"],
+    "i": ["..X..", ".....", ".XX..", "..X..", "..X..", "..X..", ".XXX."],
+    "l": [".XX..", "..X..", "..X..", "..X..", "..X..", "..X..", ".XXX."],
+    "m": [".....", ".....", "XX.X.", "X.X.X", "X.X.X", "X.X.X", "X.X.X"],
+    "n": [".....", ".....", "XXXX.", "X...X", "X...X", "X...X", "X...X"],
+    "o": [".....", ".....", ".XXX.", "X...X", "X...X", "X...X", ".XXX."],
+    "s": [".....", ".....", ".XXXX", "X....", ".XXX.", "....X", "XXXX."],
 }
+
+
+def _firma(lienzo, texto: str, x: float, y: float, paso: float, color, alfa: float, a_la_derecha: bool = False):
+    """Escribe `texto` en la matriz de puntos, pequeño y tenue: `paso` es la distancia entre puntos y `alfa` la
+    opacidad. Con `a_la_derecha`, `x` es donde termina."""
+    from PIL import Image, ImageDraw
+    ancho = (len(texto) * 6 - 1) * paso
+    if a_la_derecha:
+        x -= ancho
+    capa = Image.new("L", lienzo.size, 0)
+    d = ImageDraw.Draw(capa)
+    r = paso * 0.38
+    for n, letra in enumerate(texto):
+        for j, fila in enumerate(LETRAS.get(letra, LETRAS["o"])):
+            for i, c in enumerate(fila):
+                if c == "X":
+                    px, py = x + (n * 6 + i) * paso, y + j * paso
+                    d.ellipse((px - r, py - r, px + r, py + r), fill=round(255 * alfa))
+    return Image.composite(Image.new("RGB", lienzo.size, color), lienzo, capa)
 
 
 def relampago_paleta(tokens: dict, v: str) -> dict:
@@ -192,7 +228,7 @@ def relampago_paleta(tokens: dict, v: str) -> dict:
             "halo": 0.45}
 
 
-def relampago(tokens: dict, v: str, W: int = 3840, H: int = 2160):
+def relampago(tokens: dict, v: str, W: int = 3840, H: int = 2160, firma: str | None = None):
     """«Lliphi Relámpago» de una variante: el relámpago (lliphi, en quechua) en semitono de puntos con su halo, el nombre
     en matriz de puntos con el punto de la marca en el acento y la rampa de los tokens de la variante."""
     from PIL import Image, ImageChops, ImageDraw, ImageFilter
@@ -246,10 +282,15 @@ def relampago(tokens: dict, v: str, W: int = 3840, H: int = 2160):
     # la rampa de la paleta: los tokens de la variante
     lado = round(dp * 1.6)
     yr = y0 + 9 * dp + round(dp * 0.6)
-    for k, col in enumerate(pa["rampa"] + [pa["fuerte"], pa["acento"], pa["suave"]]):
+    # los tres acentos, ordenados por su luz (en el oscuro el acento de texto es el más claro; en el claro, el más
+    # oscuro): así la tira sube de oscuro a claro en las dos variantes
+    acentos = sorted([pa["fuerte"], pa["acento"], pa["suave"]], key=lambda c: sum(c))
+    for k, col in enumerate(pa["rampa"] + acentos):
         xr = x0 - round(dp * 0.4) + k * (lado + round(dp * 0.45))
         d.rounded_rectangle((xr, yr, xr + lado, yr + lado), round(lado * 0.25), fill=col,
                             outline=_mezcla(pa["fondo"], pa["texto"], 0.15), width=max(1, round(H / 1080)))
+    if firma:   # bajo la rampa, alineada con el nombre: pequeña y tenue
+        img = _firma(img, firma, x0, yr + lado + round(dp * 1.6), H / 300, pa["texto"], 0.42 if v == "claro" else 0.36)
     g = _ruido(W, H, 5, 53)
     return Image.merge("RGB", [ImageChops.add(c, g, scale=1.0, offset=-128) for c in img.split()])
 
@@ -287,9 +328,13 @@ def generar(tokens: dict, marca: dict, destino: Path) -> list[Path]:
     imagen(oscuro, 480, 270, "oscuro").save(captura, optimize=True)
     hechos.append(captura)
     from PIL import Image
-    for id_, nombre, dibujo, acentos in ((id_forma(marca), "Forma", forma, (oscuro["acento.base"], oscuro["acento.base"])),
-                                         (id_relampago(marca), "Relámpago", relampago, (claro["acento.base"], oscuro["acento.base"]))):
+    paquetes = [(id_forma(marca), "Forma", forma, (oscuro["acento.base"], oscuro["acento.base"])),
+                (id_relampago(marca), "Relámpago", relampago, (claro["acento.base"], oscuro["acento.base"]))]
+    for id_, nombre, dibujo, acentos in paquetes:
         hechos += _paquete_jpeg(destino, marca, id_, f"{marca['nombre']} {nombre}", dibujo, acentos, tokens)
+        if marca.get("firma"):   # la misma imagen con la firma del autor, pequeña y tenue (decisiones 4.25)
+            hechos += _paquete_jpeg(destino, marca, f"{id_}.firmado", f"{marca['nombre']} {nombre} · {marca['firma']}",
+                                    lambda t, v, w, h, d=dibujo: d(t, v, w, h, firma=marca["firma"]), acentos, tokens)
     return hechos
 
 

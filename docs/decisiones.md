@@ -206,6 +206,18 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   (carpetas azules, para el claro) y crea `Papirus-Dark-Lliphi`, un tema superpuesto que hereda de Papirus-Dark y solo declara
   enlaces a las variantes rojas de todo icono que acaba en una carpeta azul (lugares, `inode-directory`, `user-home`…). El
   oscuro usa ese superpuesto. Efecto secundario bueno: Home y Escritorio, que antes quedaban azules en el oscuro, ahora son rojos.
+- **4.25 (2026-11-01) El rojo de Nothing, la tira de la paleta por luz y la firma en los fondos.** (1) El autor vio
+  más bonito el rojo de Nothing (`#eb3131`, el mismo del botón de cerrar de la decoración) que el de Lliphi (`#c93436`).
+  Con texto blanco encima, `#eb3131` da 4,08:1 y la selección exige 4,5:1; se toma su matiz y su croma (OKLCH 26,76° y
+  0,221) con la luz justa para cumplir: `#e22529` (L 0,588; 4,53:1; ΔE2000 2,8 frente al de Nothing, frente a 7,3 el
+  anterior). El suave y el de texto del oscuro pasan al mismo matiz (`#f36259`, `#ff968b`); todos los pares cumplen y
+  el acento destaca más sobre la ventana (3,70:1 frente a 3,27). (2) En «Lliphi Relámpago» la tira de los tres
+  acentos iba por su papel (texto, base, suave) y en el oscuro, donde el acento de texto es el más claro, se veía
+  desordenada; ahora va por su luz en las dos variantes. La paleta no estaba desordenada: el acento de texto es el más
+  claro en el oscuro y el más oscuro en el claro porque tiene que leerse sobre su fondo. (3) A pedido del autor, los
+  fondos Forma y Relámpago tienen además una versión con su usuario, `@achalmaedison` (`marca.json`, `firma`), pequeño
+  y tenue, en la misma matriz de puntos: en Forma bajo la píldora, alineado a su final, como la firma de un cuadro; en
+  Relámpago bajo la tira de la paleta, alineado con el nombre. Las versiones sin firma se conservan.
 - **4.24 (2026-11-01) Un tercer fondo: «Lliphi Relámpago», con el acento de cada variante.** El autor pidió fondos con
   elementos que representen al proyecto, cada variante con su color («para claro no es rojo»), sin quitar los que hay.
   Se añade un tercer paquete (`org.lliphi.relampago`): el relámpago (*lliphi*, en quechua; `nombre.md`) en semitono de

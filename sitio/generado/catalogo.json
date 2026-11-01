@@ -240,7 +240,7 @@
     },
     {
       "nombre": "Fondos de pantalla",
-      "resumen": "Tres paquetes de fondo con imagen clara y oscura (Plasma elige según el esquema) en 1080p, 1440p y 4K y acento declarado: «Lliphi Horizonte» (el del tema global), «Lliphi Forma» (cuadrados esmerilados, el semicírculo rojo y una píldora con matriz de puntos) y «Lliphi Relámpago» (el relámpago en semitono de puntos, el nombre y la paleta, con el azul en el claro y el rojo en el oscuro).",
+      "resumen": "Tres paquetes de fondo con imagen clara y oscura (Plasma elige según el esquema) en 1080p, 1440p y 4K y acento declarado: «Lliphi Horizonte» (el del tema global), «Lliphi Forma» (cuadrados esmerilados, el semicírculo rojo y una píldora con matriz de puntos) y «Lliphi Relámpago» (el relámpago en semitono de puntos, el nombre y la paleta, con el azul en el claro y el rojo en el oscuro); Forma y Relámpago, también firmados con @achalmaedison.",
       "clase": "paquete",
       "orden": 1,
       "formato": "Wallpaper/Images",
@@ -250,7 +250,9 @@
       "archivos": [
         "org.lliphi.horizonte/",
         "org.lliphi.forma/",
-        "org.lliphi.relampago/"
+        "org.lliphi.forma.firmado/",
+        "org.lliphi.relampago/",
+        "org.lliphi.relampago.firmado/"
       ],
       "capturas": [
         "../capturas/oscuro-01-escritorio.png",

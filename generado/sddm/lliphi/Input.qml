@@ -21,7 +21,7 @@ TextField {
             color: "transparent"
             radius: 100
             border.width: 2
-            border.color: "#c93436"
+            border.color: "#e22529"
             visible: campo.activeFocus
         }
     }

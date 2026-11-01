@@ -10,9 +10,9 @@
   <draw:color draw:name="Texto inactivo" draw:color="#97989c"/>
   <draw:color draw:name="Texto secundario" draw:color="#bcbec1"/>
   <draw:color draw:name="Texto" draw:color="#eaebed"/>
-  <draw:color draw:name="Acento" draw:color="#c93436"/>
-  <draw:color draw:name="Acento suave" draw:color="#ef6661"/>
-  <draw:color draw:name="Enlace" draw:color="#ff958d"/>
+  <draw:color draw:name="Acento" draw:color="#e22529"/>
+  <draw:color draw:name="Acento suave" draw:color="#f36259"/>
+  <draw:color draw:name="Enlace" draw:color="#ff968b"/>
   <draw:color draw:name="Error" draw:color="#fb817a"/>
   <draw:color draw:name="Advertencia" draw:color="#ebb25f"/>
   <draw:color draw:name="Éxito" draw:color="#6fc884"/>

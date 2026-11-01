@@ -9,15 +9,15 @@ bright_foreground = "#eaebed"
 
 [colors.cursor]
 text = "#fcfcfc"
-cursor = "#c93436"
+cursor = "#e22529"
 
 [colors.vi_mode_cursor]
 text = "#fcfcfc"
-cursor = "#c93436"
+cursor = "#e22529"
 
 [colors.selection]
 text = "#fcfcfc"
-background = "#c93436"
+background = "#e22529"
 
 [colors.search.matches]
 foreground = "#101012"
@@ -25,7 +25,7 @@ background = "#d0a43a"
 
 [colors.search.focused_match]
 foreground = "#fcfcfc"
-background = "#c93436"
+background = "#e22529"
 
 [colors.hints.start]
 foreground = "#101012"

@@ -36,6 +36,8 @@ Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión de
   `sesion.py arrancar --escritorios N` y un reintento si el shell recién arrancado aún escribía su configuración.
 
 ### Added
+- **Fondos firmados** «Lliphi Forma · @achalmaedison» y «Lliphi Relámpago · @achalmaedison» (decisiones 4.25): la
+  firma del autor pequeña y tenue en la matriz de puntos; se conservan los sin firma.
 - **Fondo «Lliphi Relámpago»** (`org.lliphi.relampago`, decisiones 4.24): el relámpago en semitono de puntos, el nombre
   en matriz de puntos y la paleta; azul en el claro y rojo en el oscuro.
 - **Fondo «Lliphi Forma»** (`org.lliphi.forma`, decisiones 4.23), claro y oscuro: cuadrados de vidrio esmerilado, un

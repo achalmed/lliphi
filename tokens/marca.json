@@ -24,5 +24,6 @@
   "id_fondo": "org.lliphi.horizonte",
   "nombre_fondo": "Lliphi Horizonte",
   "repositorio": "https://github.com/achalmed/lliphi",
-  "sitio_tema": "https://achalmed.github.io/lliphi/"
+  "sitio_tema": "https://achalmed.github.io/lliphi/",
+  "firma": "@achalmaedison"
 }

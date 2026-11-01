@@ -44,7 +44,7 @@ imprime la tabla completa con hex, `R,G,B` y OKLCH; aquí, los tokens que más p
 | `texto.normal` | `#1d1f24` (L 0.24) | `#eaebed` (L 0.94) | texto |
 | `texto.secundario` | L 0.42 | L 0.80 | metadatos |
 | `texto.inactivo` | L 0.515 | L 0.68 | deshabilitado, marcadores |
-| `acento.base` = `seleccion.fondo` | `#c53133` (L 0.545 C 0.185 H 25) | `#c93436` (L 0.555) | selección, acento |
+| `acento.base` = `seleccion.fondo` | `#c53133` (L 0.545 C 0.185 H 25) | `#e22529` (L 0.588 C 0.221 H 26.76: el rojo de Nothing, `#eb3131`, con la luz justa para 4,5:1 con texto blanco; hasta el 2026-11-01, `#c93436`, decisiones 4.25) | selección, acento |
 | `acento.suave` = `hover` | `#da534f` (L 0.62) | `#ef6661` (L 0.68) | pasar el ratón; foco en el oscuro |
 | `acento.texto` = `enlace` | `#b51e26` (L 0.50) | `#ff958d` (L 0.78) | enlaces, texto activo |
 | `foco` | = acento.base | = acento.suave | anillo de foco: el acento de mayor contraste de cada variante |

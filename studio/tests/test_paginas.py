@@ -72,7 +72,7 @@ def test_svg_de_plasma_marcos_y_esquema(lliphi):
     assert "widgets" in svgplasma.archivos(estilo)
     texto = svgplasma.leer(estilo / "widgets" / "panel-background.svg")
     ids = svgplasma.elementos(texto)
-    assert "" in svgplasma.marcos(ids) and "shadow" in svgplasma.marcos(ids)
+    assert "" in svgplasma.marcos(ids) and "mask" in svgplasma.marcos(ids)   # sin sombra desde la mejora 11 (decisiones 4.17)
     colores = svgplasma.esquema(lliphi / "generado" / "esquema" / "LliphiOscuro.colors")
     assert colores["Highlight"] == proyecto.tokens()["semanticos"]["oscuro"]["acento"]["base"]["$value"]["hex"]
     assert colores["Highlight"] in svgplasma.con_esquema(texto, colores)

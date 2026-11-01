@@ -102,7 +102,7 @@
         <node oor:name="AppBackground"><prop oor:name="Color" oor:type="xs:int"><value>2303014</value></prop></node>
         <node oor:name="TableBoundaries"><prop oor:name="Color" oor:type="xs:int"><value>4013634</value></prop></node>
         <node oor:name="FontColor"><prop oor:name="Color" oor:type="xs:int"><value>15395821</value></prop></node>
-        <node oor:name="Links"><prop oor:name="Color" oor:type="xs:int"><value>16749965</value></prop><prop oor:name="IsVisible" oor:type="xs:boolean"><value>false</value></prop></node>
+        <node oor:name="Links"><prop oor:name="Color" oor:type="xs:int"><value>16750219</value></prop><prop oor:name="IsVisible" oor:type="xs:boolean"><value>false</value></prop></node>
         <node oor:name="LinksVisited"><prop oor:name="Color" oor:type="xs:int"><value>12369601</value></prop><prop oor:name="IsVisible" oor:type="xs:boolean"><value>false</value></prop></node>
         <node oor:name="Spell"><prop oor:name="Color" oor:type="xs:int"><value>16482682</value></prop></node>
         <node oor:name="Grammar"><prop oor:name="Color" oor:type="xs:int"><value>8369902</value></prop></node>
@@ -114,18 +114,18 @@
         <node oor:name="WriterDirectCursor"><prop oor:name="Color" oor:type="xs:int"><value>12369601</value></prop><prop oor:name="IsVisible" oor:type="xs:boolean"><value>true</value></prop></node>
         <node oor:name="WriterSectionBoundaries"><prop oor:name="Color" oor:type="xs:int"><value>4013634</value></prop></node>
         <node oor:name="WriterHeaderFooterMark"><prop oor:name="Color" oor:type="xs:int"><value>9935004</value></prop></node>
-        <node oor:name="WriterPageBreaks"><prop oor:name="Color" oor:type="xs:int"><value>15689313</value></prop></node>
+        <node oor:name="WriterPageBreaks"><prop oor:name="Color" oor:type="xs:int"><value>15950425</value></prop></node>
         <node oor:name="WriterNonPrintChars"><prop oor:name="Color" oor:type="xs:int"><value>9935004</value></prop></node>
         <node oor:name="HTMLSGML"><prop oor:name="Color" oor:type="xs:int"><value>8235773</value></prop></node>
         <node oor:name="HTMLComment"><prop oor:name="Color" oor:type="xs:int"><value>9935004</value></prop></node>
         <node oor:name="HTMLKeyword"><prop oor:name="Color" oor:type="xs:int"><value>15894657</value></prop></node>
         <node oor:name="HTMLUnknown"><prop oor:name="Color" oor:type="xs:int"><value>16482682</value></prop></node>
         <node oor:name="CalcGrid"><prop oor:name="Color" oor:type="xs:int"><value>3026738</value></prop></node>
-        <node oor:name="CalcCellFocus"><prop oor:name="Color" oor:type="xs:int"><value>13186102</value></prop></node>
-        <node oor:name="CalcPageBreak"><prop oor:name="Color" oor:type="xs:int"><value>15689313</value></prop></node>
-        <node oor:name="CalcPageBreakManual"><prop oor:name="Color" oor:type="xs:int"><value>13186102</value></prop></node>
+        <node oor:name="CalcCellFocus"><prop oor:name="Color" oor:type="xs:int"><value>14820649</value></prop></node>
+        <node oor:name="CalcPageBreak"><prop oor:name="Color" oor:type="xs:int"><value>15950425</value></prop></node>
+        <node oor:name="CalcPageBreakManual"><prop oor:name="Color" oor:type="xs:int"><value>14820649</value></prop></node>
         <node oor:name="CalcPageBreakAutomatic"><prop oor:name="Color" oor:type="xs:int"><value>9935004</value></prop></node>
-        <node oor:name="CalcHiddenColRow"><prop oor:name="Color" oor:type="xs:int"><value>15689313</value></prop><prop oor:name="IsVisible" oor:type="xs:boolean"><value>true</value></prop></node>
+        <node oor:name="CalcHiddenColRow"><prop oor:name="Color" oor:type="xs:int"><value>15950425</value></prop><prop oor:name="IsVisible" oor:type="xs:boolean"><value>true</value></prop></node>
         <node oor:name="CalcTextOverflow"><prop oor:name="Color" oor:type="xs:int"><value>16482682</value></prop><prop oor:name="IsVisible" oor:type="xs:boolean"><value>true</value></prop></node>
         <node oor:name="CalcComments"><prop oor:name="Color" oor:type="xs:int"><value>15446623</value></prop></node>
         <node oor:name="CalcDetective"><prop oor:name="Color" oor:type="xs:int"><value>8369902</value></prop></node>
@@ -166,7 +166,7 @@
         <node oor:name="BaseColor"><prop oor:name="Color" oor:type="xs:int"><value>1052690</value></prop></node>
         <node oor:name="ButtonColor"><prop oor:name="Color" oor:type="xs:int"><value>3026738</value></prop></node>
         <node oor:name="ButtonTextColor"><prop oor:name="Color" oor:type="xs:int"><value>15395821</value></prop></node>
-        <node oor:name="AccentColor"><prop oor:name="Color" oor:type="xs:int"><value>13186102</value></prop></node>
+        <node oor:name="AccentColor"><prop oor:name="Color" oor:type="xs:int"><value>14820649</value></prop></node>
         <node oor:name="DisabledColor"><prop oor:name="Color" oor:type="xs:int"><value>2303014</value></prop></node>
         <node oor:name="DisabledTextColor"><prop oor:name="Color" oor:type="xs:int"><value>9935004</value></prop></node>
         <node oor:name="ShadowColor"><prop oor:name="Color" oor:type="xs:int"><value>4013634</value></prop></node>
@@ -178,11 +178,11 @@
         <node oor:name="FieldColor"><prop oor:name="Color" oor:type="xs:int"><value>1052690</value></prop></node>
         <node oor:name="MenuBarColor"><prop oor:name="Color" oor:type="xs:int"><value>1052690</value></prop></node>
         <node oor:name="MenuBarTextColor"><prop oor:name="Color" oor:type="xs:int"><value>15395821</value></prop></node>
-        <node oor:name="MenuBarHighlightColor"><prop oor:name="Color" oor:type="xs:int"><value>13186102</value></prop></node>
+        <node oor:name="MenuBarHighlightColor"><prop oor:name="Color" oor:type="xs:int"><value>14820649</value></prop></node>
         <node oor:name="MenuBarHighlightTextColor"><prop oor:name="Color" oor:type="xs:int"><value>16579836</value></prop></node>
         <node oor:name="MenuColor"><prop oor:name="Color" oor:type="xs:int"><value>1776670</value></prop></node>
         <node oor:name="MenuTextColor"><prop oor:name="Color" oor:type="xs:int"><value>15395821</value></prop></node>
-        <node oor:name="MenuHighlightColor"><prop oor:name="Color" oor:type="xs:int"><value>13186102</value></prop></node>
+        <node oor:name="MenuHighlightColor"><prop oor:name="Color" oor:type="xs:int"><value>14820649</value></prop></node>
         <node oor:name="MenuHighlightTextColor"><prop oor:name="Color" oor:type="xs:int"><value>16579836</value></prop></node>
         <node oor:name="MenuBorderColor"><prop oor:name="Color" oor:type="xs:int"><value>4013634</value></prop></node>
         <node oor:name="InactiveColor"><prop oor:name="Color" oor:type="xs:int"><value>1776670</value></prop></node>

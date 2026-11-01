@@ -81,7 +81,7 @@ def test_ajustes_paleta(tmp_path: Path):
     r = correr("modulos/esquema/paleta.py", "--json")
     datos = json.loads(r.stdout)
     assert r.returncode == 0 and datos["ok"]
-    assert datos["variantes"]["oscuro"]["semanticos"]["acento.base"]["hex"] == "#c93436"
+    assert datos["variantes"]["oscuro"]["semanticos"]["acento.base"]["hex"] == "#e22529"   # el rojo de Nothing (decisiones 4.25)
     borrador = json.loads(texto)
     borrador["acento"]["oscuro"] = "azul"
     borrador["neutros"]["oscuro"]["neutro-5"] = [0.30, 0.006]      # texto inactivo casi negro: debe fallar
@@ -304,10 +304,28 @@ def test_esquema_linea_base_solo_acento():
 def test_acento_por_variante():
     """Decisiones 4.12: rojo de Nothing en el oscuro, azul de WhiteSur en el claro; el estilo de Plasma los sigue (mejora 8)."""
     assert TOKENS["acento"] == {"claro": "azul-whitesur", "oscuro": "rojo"}
-    assert TOKENS["semanticos"]["oscuro"]["acento"]["base"]["$value"]["hex"] == "#c93436"
+
+
+def test_fondos_firmados():
+    """Decisiones 4.25: Forma y Relámpago con su versión firmada, que difiere de la sin firma solo donde va la firma, y
+    la tira de Relámpago ordenada por luz."""
+    fondos = registro.codigo("fondos")
+    PIL = pytest.importorskip("PIL.Image")
+    for id_ in (fondos.id_forma(MARCA), fondos.id_relampago(MARCA)):
+        meta = json.loads((GEN / "fondos" / f"{id_}.firmado" / "metadata.json").read_text(encoding="utf-8"))
+        assert meta["KPlugin"]["Name"].endswith(MARCA["firma"])
+        sin = PIL.open(GEN / "fondos" / id_ / "contents" / "images_dark" / "1920x1080.jpg").convert("L")
+        con = PIL.open(GEN / "fondos" / f"{id_}.firmado" / "contents" / "images_dark" / "1920x1080.jpg").convert("L")
+        import PIL.ImageChops as ch
+        caja = ch.difference(sin, con).point(lambda v: 255 if v > 24 else 0).getbbox()
+        assert caja is not None and (caja[3] - caja[1]) < 1080 * 0.06, (id_, caja)   # una franja baja y estrecha
+    pa = fondos.relampago_paleta(TOKENS, "oscuro")
+    acentos = sorted([pa["fuerte"], pa["acento"], pa["suave"]], key=sum)
+    assert acentos[0] == pa["acento"] and acentos[-1] == pa["fuerte"]
+    assert TOKENS["semanticos"]["oscuro"]["acento"]["base"]["$value"]["hex"] == "#e22529"   # el rojo de Nothing (decisiones 4.25)
     assert TOKENS["semanticos"]["claro"]["acento"]["base"]["$value"]["hex"] == "#315bef"
     oscuro = (GEN / "estilo" / f"{MARCA['id']}-oscuro" / "colors").read_text(encoding="utf-8")
-    assert "49,91,239" not in oscuro and "201,52,54" in oscuro
+    assert "49,91,239" not in oscuro and "226,37,41" in oscuro
     assert "49,91,239" in (GEN / "estilo" / f"{MARCA['id']}-claro" / "colors").read_text(encoding="utf-8")
     assert "#eb3131" in (GEN / "decoracion" / f"{MARCA['id']}-claro" / "close.svg").read_text(encoding="utf-8").lower()
 

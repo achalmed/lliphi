@@ -13,6 +13,8 @@ Dos paquetes de fondo, cada uno con imagen clara (`images/`) y oscura (`images_d
   variante (azul en el claro, rojo en el oscuro): el relámpago (*lliphi*, en quechua) en semitono de puntos con su
   halo, el nombre en matriz de puntos con el punto de la marca y la rampa de los tokens. Las letras se dibujan como
   puntos (5 × 7), sin tipografías, para que salga igual en cualquier máquina. Mismo formato que Forma.
+- Forma y Relámpago tienen además una versión firmada (`<id>.firmado`, decisiones 4.25) con el usuario del autor
+  (`firma` de `tokens/marca.json`), pequeño y tenue en la misma matriz de puntos.
 
 Es un **complemento**: existía antes de la reingeniería y se conserva fuera del tema global, porque no es parte de un
 `Plasma/LookAndFeel`. Arquitectura: [`docs/arquitectura.md`](../../docs/arquitectura.md).

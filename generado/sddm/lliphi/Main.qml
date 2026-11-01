@@ -30,9 +30,9 @@ Item {
     Kirigami.Theme.colorSet: Kirigami.Theme.Complementary
     Kirigami.Theme.inherit: false
     // Lliphi (mejora 7): acento rojo dentro del tema (la fuente Inter la fija la configuración de SDDM)
-    Kirigami.Theme.highlightColor: "#c93436"
-    Kirigami.Theme.focusColor: "#c93436"
-    Kirigami.Theme.hoverColor: "#ef6661"
+    Kirigami.Theme.highlightColor: "#e22529"
+    Kirigami.Theme.focusColor: "#e22529"
+    Kirigami.Theme.hoverColor: "#f36259"
 
     width: 1600
     height: 900
