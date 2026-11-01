@@ -1,4 +1,8 @@
-# Lliphi Studio
+---
+tipo: readme
+estado: activo
+---
+# studio/ — Lliphi Studio, la ventana opcional de Lliphi (centro de control visual de los seis módulos)
 
 El centro de control visual de Lliphi: una ventana de escritorio (PySide6) para trabajar los seis módulos del tema sin
 salir de las herramientas de Lliphi ni de KDE. **No reemplaza** a Inkscape ni a las herramientas de KDE: las integra.
