@@ -37,6 +37,12 @@ Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión de
   `sesion.py arrancar --escritorios N` y un reintento si el shell recién arrancado aún escribía su configuración.
 
 ### Added
+- **Sitios web: DuckDuckGo y GitHub** (decisiones 5.12): complemento `sitios-web` con un estilo de usuario por sitio
+  (`duckduckgo.user.css`, `github.user.css`; UserCSS para Stylus en Zen y Chrome, o `userContent.css` en Zen) que
+  redefine solo las variables del sitio (Primer en GitHub; `--theme-col-*`, `--sds-color-*` y `--ds-*` en DuckDuckGo)
+  con Lliphi Claro y Lliphi Oscuro según el modo; el código de GitHub con la sintaxis de los editores y los diffs con
+  los estados. Para DuckDuckGo sin extensión, sus ajustes de apariencia por variante (`duckduckgo/ajustes.json`) y unos
+  marcadores importables (`duckduckgo/marcadores.html`).
 - **Ningún azul fijo en el estilo de Plasma** (decisiones 4.36): la barra del volumen y del brillo, el botón pulsado, el
   calendario y otros controles siguen el acento (rojo en el oscuro); antes, WhiteSur dejaba el azul escrito.
 - **Iconos de la bandeja del mismo tamaño** (decisiones 4.35): superpuestos `Colloid-Grey-Light-Lliphi` y

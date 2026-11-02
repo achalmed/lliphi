@@ -459,3 +459,39 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   `borde.separador` en las dos variantes: en el oscuro el anterior no se veía (comprobado en pantalla), y en el claro da
   el gris que LibreOffice trae por omisión. La interfaz sigue al escritorio; el «tema de LibreOffice» (UI propia) queda
   sin activar, como estaba. Validado con un perfil desechable en una sesión de KWin virtual (`validacion.md` §10).
+- **5.12 (2026-11-01) Sitios web: estilos de usuario que solo redefinen las variables de cada sitio.** El autor, que
+  navega sobre todo en Zen y también en Chrome, pidió Lliphi en DuckDuckGo y en GitHub. Se decide: (1) **Estilos de
+  usuario en UserCSS**, uno por sitio (`complementos/sitios-web/`, `generado/sitios-web/<sitio>.user.css`): la cabecera
+  `==UserStyle==` la entiende Stylus en Zen y en Chrome, y el cuerpo va en `@-moz-document domain(...)`, que Zen también
+  lee sin extensión desde `userContent.css`; no se hace una extensión propia ni se toca el perfil del autor (Stylus no
+  estaba instalado en ninguno de los dos navegadores: el `INSTALL.md` lo explica). El estilo no lleva la URL del
+  repositorio ni el usuario del autor. (2) **Solo variables del sitio, con `!important`**: así gana a las del sitio sin
+  depender de la especificidad de sus selectores y resiste sus cambios de maquetación. GitHub las tiene todas en Primer
+  (`--bgColor-*`, `--fgColor-*`, `--borderColor-*`, `--button-*`, `--control-*`, `--diffBlob-*`,
+  `--prettylights-syntax-*`, `--codeMirror-syntax-*`, `--ansi-*`, `--contribution-*`, `--fontStack-*`); se redefinen
+  solo las funcionales, porque las demás son `var(...)` de estas, y se dejan las etiquetas que cada repositorio colorea.
+  DuckDuckGo tiene tres generaciones de su sistema de diseño a la vez (`--theme-col-*`, `--sds-color-*`, `--ds-*`, las
+  dos últimas escritas en línea en `<html>` por su JavaScript; un `!important` de una hoja gana a una declaración en
+  línea sin él), y su tema oscuro pinta el fondo de la página y el de la cabecera con un gris fijo: dos reglas sin color
+  propio los devuelven a sus variables; es la única concesión a los selectores. (3) **La variante según el modo**:
+  DuckDuckGo por `prefers-color-scheme` (como su tema «Predeterminado»); GitHub por su propio `data-color-mode`
+  (`light`, `dark`, o `auto` más `prefers-color-scheme`), para que gane lo que el usuario eligió en GitHub; comprobado
+  cambiando el atributo con el sistema en claro. (4) **Identidad**: los neutros de los semánticos; el acento solo en
+  enlaces, foco, selección, la pestaña elegida y el botón principal (el verde de GitHub, el amarillo de la marca de
+  DuckDuckGo); los fondos tenues del «acento» de Primer (avisos informativos, cabecera de cada trozo de un diff) en el
+  azul de `estado.info`, porque en el oscuro el acento es rojo y se leía como un borrado (se vio en la primera captura);
+  los rellenos con texto blanco (insignias, «Open», «Closed», «Merged», contadores) con un fondo que lo admite: en el
+  oscuro los estados de los semánticos son claros, así que toman los del claro y el peligro es el rojo de Nothing, como
+  en Obsidian (5.1); el código con `sintaxis()` de `editores`, los registros de Actions con los ANSI, los diffs y el
+  gráfico de contribuciones con los estados (éxito y error, con alfa), nunca un verde o un rojo ajeno; Inter y JetBrains
+  Mono. Ningún color se escribe a mano: todo sale de los tokens, a lo sumo con alfa (`#rrggbbaa`). (5) **DuckDuckGo sin
+  extensión**: sus ajustes de apariencia (`kae`, `k7`, `kj`, `k8`, `k9`, `kaa`, `kx`, `k21`, `kt`, `ka`, colores en hex
+  sin `#`) se generan por variante, porque fijan colores y no siguen al sistema: la página de inicio, la de ajustes ya
+  rellena (la de `/settings?…` sin `#appearance`, que DuckDuckGo pegaba al último parámetro) para guardarlos, la
+  plantilla de buscador y unos marcadores importables. (6) **Un sitio, un archivo**: `duckduckgo.py` y `github.py`
+  comparten la interfaz que describe `construir.py` (`AMBITOS`, `variables`, `CONTRASTE`…), y las pruebas recorren
+  `SITIOS`: añadir un sitio no pide una prueba nueva para lo común (CSS bien anidado, colores del maestro, cada par de
+  `CONTRASTE` ≥ 4,5:1 con los fondos translúcidos mezclados sobre el de la página). Comprobado en el navegador
+  integrado con el CSS inyectado, en las dos variantes (`muestras/capturas/*-3[89]-sitios-*.png`, `*-40-sitios-*.png`).
+  Queda fuera lo que no va por variables: la cabecera de GitHub sin sesión (Primer Brand, negra) y el enlace «Search
+  Assist» de DuckDuckGo en el claro, que conserva su azul.
