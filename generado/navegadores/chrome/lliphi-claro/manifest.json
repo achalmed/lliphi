@@ -1,0 +1,96 @@
+{
+  "manifest_version": 3,
+  "name": "Lliphi Claro",
+  "version": "0.3.0",
+  "description": "Lliphi Claro: tema de Lliphi para Chrome, GENERADO desde sus tokens (https://github.com/achalmed/lliphi).",
+  "homepage_url": "https://github.com/achalmed/lliphi",
+  "theme": {
+    "colors": {
+      "frame": [
+        236,
+        237,
+        239
+      ],
+      "frame_inactive": [
+        224,
+        225,
+        229
+      ],
+      "background_tab": [
+        236,
+        237,
+        239
+      ],
+      "background_tab_inactive": [
+        224,
+        225,
+        229
+      ],
+      "toolbar": [
+        251,
+        252,
+        253
+      ],
+      "tab_text": [
+        29,
+        31,
+        36
+      ],
+      "tab_background_text": [
+        75,
+        77,
+        83
+      ],
+      "tab_background_text_inactive": [
+        75,
+        77,
+        83
+      ],
+      "toolbar_text": [
+        29,
+        31,
+        36
+      ],
+      "bookmark_text": [
+        29,
+        31,
+        36
+      ],
+      "toolbar_button_icon": [
+        75,
+        77,
+        83
+      ],
+      "omnibox_background": [
+        236,
+        237,
+        239
+      ],
+      "omnibox_text": [
+        29,
+        31,
+        36
+      ],
+      "ntp_background": [
+        251,
+        252,
+        253
+      ],
+      "ntp_text": [
+        29,
+        31,
+        36
+      ],
+      "ntp_link": [
+        42,
+        79,
+        208
+      ],
+      "ntp_header": [
+        236,
+        237,
+        239
+      ]
+    }
+  }
+}

@@ -4,6 +4,18 @@ Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión de
 
 ## [Unreleased]
 
+### Added
+- **Kate, TeXstudio y Vim/Neovim** (decisiones 5.5–5.8): tres complementos nuevos. `kate`: Lliphi Claro y Lliphi Oscuro
+  como temas de KSyntaxHighlighting, con el fondo y la selección de la paleta de Kvantum, para que Kate (y KWrite y
+  KDevelop) cambie solo de tema al cambiar de variante. `texstudio`: los 88 formatos de resaltado en `[formats]` (claro)
+  y `[formatsDark]` (oscuro), que TeXstudio elige por la paleta, como perfil `lliphi.txsprofile` y con un `aplicar.py`
+  que solo sustituye esas secciones de `texstudio.ini`. `vim`: el esquema `lliphi` para Vim y Neovim, con las dos
+  variantes según `background`, el fondo y la terminal de Konsole y, en Neovim, Tree-sitter, LSP y diagnósticos. Los
+  tres usan la tabla de sintaxis de los editores.
+- **Positron entero** (decisiones 5.4): las 37 claves `positron*` que llevaban un color fijo de Positron (cuadrícula de
+  datos, barras de acciones, diálogos, estado del intérprete, gráficos del explorador de datos, bienvenida) toman su
+  color de los tokens; la consola, el fondo y los ANSI de la terminal integrada.
+
 ### Changed
 - **Arquitectura modular** (docs/arquitectura.md, docs/migracion-modular.md): un tema global integrador (`global/`), seis
   módulos (`modulos/`: `esquema`, `estilo`, `decoracion`, `iconos-cursores`, `carga-bloqueo`, `disposicion`) y los
@@ -49,6 +61,11 @@ Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión de
 - **Calibre** (complemento `calibre`, decisiones 5.22): paletas «Lliphi Claro» y «Lliphi Oscuro» para su propio estilo
   (siguen al escritorio en vivo) y dos esquemas del visor; el esquema «Sistema» del visor ya sigue a Lliphi. Solo
   preferencias de la interfaz, con respaldo; la biblioteca no se toca.
+- **Telegram Desktop** (decisiones 5.30): complemento `telegram`, con `Lliphi Claro.tdesktop-theme` y
+  `Lliphi Oscuro.tdesktop-theme`. Tienen las 586 claves de color de Telegram 7.3.3 (paleta de lib_ui en
+  `fuentes/base/telegram-palette/`, GPL-3.0-or-later), todas desde los tokens: el acento en la selección, los botones y
+  los mensajes propios (un tinte del acento), los estados en enlaces, errores y «en línea», y un fondo de chat liso.
+  Telegram alterna solo entre los dos con su modo nocturno automático en «Sistema» (`complementos/telegram/INSTALL.md`).
 - **Ningún azul fijo en el estilo de Plasma** (decisiones 4.36): la barra del volumen y del brillo, el botón pulsado, el
   calendario y otros controles siguen el acento (rojo en el oscuro); antes, WhiteSur dejaba el azul escrito.
 - **Iconos de la bandeja del mismo tamaño** (decisiones 4.35): superpuestos `Colloid-Grey-Light-Lliphi` y
@@ -99,6 +116,11 @@ Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión de
   que solo redefine variables de la aplicación (neutros, acento, los ocho colores con nombre desde los ANSI, estados,
   Inter y JetBrains Mono, radios, la sintaxis de los editores y las llamadas de Zotero); se publica con su versión en
   `achalmed/obsidian-lliphi`. Prueba `test_obsidian_tema` (34 en total).
+- Complemento `navegadores` (decisión 5.3): Lliphi en **Zen Browser**, un `userChrome.css` que redefine las variables
+  de Zen y de Firefox y cambia solo entre Lliphi Claro y Lliphi Oscuro con el modo del sistema, más un `user.js` que lo
+  carga y pone Zen en modo automático; y en **Google Chrome**, dos temas sin empaquetar (uno por variante) que se cargan
+  desde `~/.local/share/lliphi/chrome/`. Base de instalación `zen` (el perfil que abre Zen, también el del Flatpak).
+  Pruebas `test_navegadores_zen`, `test_navegadores_chrome` y `test_instalar_navegadores`.
 - `generar.py validar`: manifiestos, dependencias sin ciclos y declaradas, estructura real de cada formato de KDE y que
   cada identificador que declara el tema global exista en el módulo que lo entrega; `generar.py lista`.
 - `instalar.py comprobar` (lo instalado está completo, es de esta versión y `kpackagetool6` lo reconoce),

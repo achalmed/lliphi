@@ -35,6 +35,7 @@ decisiones de diseño visual y su porqué siguen en [`decisiones.md`](decisiones
   estilo ──────────── id ───►│ contents/defaults                    kvantum ── id ─►│
   decoracion ──────── id ───►│   (valores() de cada módulo)         konsole · terminales · editores
   iconos-cursores ─── id ───►│                                      libreoffice · sddm · obsidian
+                             │                                      navegadores
   carga-bloqueo ── archivos ►│ contents/splash, contents/logout
   disposicion ──── archivos ►│ contents/layouts
                              ▼
@@ -84,11 +85,13 @@ la sesión del usuario y con root: es el complemento `sddm`, no parte de `carga-
 Lo que existía y no es parte de un `Plasma/LookAndFeel`: `fondos` (`Wallpaper/Images`; el tema global lo nombra y su
 imagen la usan `carga-bloqueo` y `sddm`), `kvantum` (estilo de aplicaciones; el tema global nombra `widgetStyle`),
 `konsole`, `terminales`, `editores`, `libreoffice` y `sddm`; y uno nacido después, fuera del escritorio: `obsidian`, el
-tema de Obsidian que se publica en su repositorio propio (`achalmed/obsidian-lliphi`, decisión 5.1). Después, los de otras
-aplicaciones: `gtk` (GTK 3, GTK 4 y libadwaita sobre Breeze, decisión 4.37), `xournalpp`, `gimp` y `calibre`
-(decisiones 5.20–5.22). `fondo-variante` (decisiones 4.26
+tema de Obsidian que se publica en su repositorio propio (`achalmed/obsidian-lliphi`, decisión 5.1), y `navegadores`, los
+temas de Zen Browser y de Chrome (decisión 5.3). Después, los de otras aplicaciones: `gtk` (GTK 3, GTK 4 y
+libadwaita sobre Breeze, decisión 4.37), `xournalpp`, `gimp` y `calibre` (decisiones 5.20–5.22). `fondo-variante` (decisiones 4.26
 y 4.28) no es un paquete de Plasma: es el programa que, al cambiar de variante, pone la imagen clara u oscura del mismo
 fondo de Lliphi y el esquema de la variante en Konsole, con su archivo de inicio automático.
+`telegram` (decisión 5.30) entrega los dos `.tdesktop-theme` de Telegram Desktop; Telegram los guarda en su `tdata/`
+y sigue la variante solo, con su modo nocturno automático.
 
 ### 3.4 Lo compartido
 

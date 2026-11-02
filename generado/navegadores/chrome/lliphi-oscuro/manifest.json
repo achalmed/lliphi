@@ -1,0 +1,96 @@
+{
+  "manifest_version": 3,
+  "name": "Lliphi Oscuro",
+  "version": "0.3.0",
+  "description": "Lliphi Oscuro: tema de Lliphi para Chrome, GENERADO desde sus tokens (https://github.com/achalmed/lliphi).",
+  "homepage_url": "https://github.com/achalmed/lliphi",
+  "theme": {
+    "colors": {
+      "frame": [
+        27,
+        28,
+        30
+      ],
+      "frame_inactive": [
+        35,
+        36,
+        38
+      ],
+      "background_tab": [
+        27,
+        28,
+        30
+      ],
+      "background_tab_inactive": [
+        35,
+        36,
+        38
+      ],
+      "toolbar": [
+        16,
+        16,
+        18
+      ],
+      "tab_text": [
+        234,
+        235,
+        237
+      ],
+      "tab_background_text": [
+        188,
+        190,
+        193
+      ],
+      "tab_background_text_inactive": [
+        188,
+        190,
+        193
+      ],
+      "toolbar_text": [
+        234,
+        235,
+        237
+      ],
+      "bookmark_text": [
+        234,
+        235,
+        237
+      ],
+      "toolbar_button_icon": [
+        188,
+        190,
+        193
+      ],
+      "omnibox_background": [
+        27,
+        28,
+        30
+      ],
+      "omnibox_text": [
+        234,
+        235,
+        237
+      ],
+      "ntp_background": [
+        16,
+        16,
+        18
+      ],
+      "ntp_text": [
+        234,
+        235,
+        237
+      ],
+      "ntp_link": [
+        255,
+        150,
+        139
+      ],
+      "ntp_header": [
+        27,
+        28,
+        30
+      ]
+    }
+  }
+}

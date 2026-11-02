@@ -26,6 +26,17 @@ Positron, `~/.positron/extensions/`; VSCodium, `~/.vscode-oss/extensions/`. Copi
 `lliphi.lliphi/`, reinicia el editor y elige el tema como en VS Code (`Ctrl+K Ctrl+T` o `workbench.colorTheme`).
 Positron guarda su `settings.json` en `~/.config/Positron/User/`; VSCodium, en `~/.config/VSCodium/User/`.
 
+En Positron el tema cubre también lo que es solo suyo (decisiones 5.4): la consola (con el fondo y los ANSI de la
+terminal integrada), las barras de acciones de cada panel, los diálogos, el explorador de datos y la cuadrícula de
+variables, los gráficos del resumen de columnas, el estado del intérprete y la bienvenida. Para que siga a la variante
+de Plasma, como en VS Code (`settings.json` de Positron):
+
+```json
+"window.autoDetectColorScheme": true,
+"workbench.preferredDarkColorTheme": "Lliphi Oscuro",
+"workbench.preferredLightColorTheme": "Lliphi Claro"
+```
+
 ### Zed
 
 1. Copia `zed/lliphi.json` a `~/.config/zed/themes/`.

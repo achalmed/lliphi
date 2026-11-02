@@ -498,6 +498,213 @@ def test_zed_tema():
         assert st["players"] and {"cursor", "background", "selection"} <= set(st["players"][0])
 
 
+def _contraste(a: str, b: str) -> float:
+    def lum(h: str) -> float:
+        c = [int(h.lstrip("#")[i:i + 2], 16) / 255 for i in (0, 2, 4)]
+        c = [x / 12.92 if x <= 0.04045 else ((x + 0.055) / 1.055) ** 2.4 for x in c]
+        return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]
+    la, lb = lum(a), lum(b)
+    return (max(la, lb) + 0.05) / (min(la, lb) + 0.05)
+
+
+# las claves de Positron 2026.06 cuyo valor por omisión es un color fijo suyo (decisiones 5.4): todas deben estar
+POSITRON_FIJAS = (
+    "positronSplitterExpandCollapseButton.foreground", "positronToolTip.background", "positronToolTip.border",
+    "positronActionBar.separator", "positronActionBar.textInputBackground", "positronActionBar.textInputBorder",
+    "positronActionBar.textInputSelectionForeground", "positronActionBar.textInputSelectionBackground",
+    "positronModalDialog.separator", "positronModalDialog.textInputBackground", "positronModalDialog.textInputBorder",
+    "positronModalDialog.textInputSelectionForeground", "positronModalDialog.textInputSelectionBackground",
+    "positronModalDialog.checkboxBackground", "positronModalDialog.checkboxForeground", "positronModalDialog.checkboxBorder",
+    "positronConsole.traceBackground", "positronRuntime.stateIconActive", "positronRuntime.stateIconDisconnected",
+    "positronRuntime.stateIconIdle", "positronDataGrid.cursorBorder", "positronDataGrid.selectionBorder",
+    "positronDataGrid.selectionInnerBorder", "positronDataGrid.selectionBackground",
+    "positronDataExplorer.invalidFilterBackground", "positronDataExplorer.statusIndicatorComputing",
+    "positronDataExplorer.statusIndicatorDisconnected", "positronDataExplorer.columnNullPercentGraphBackgroundFill",
+    "positronDataExplorer.columnNullPercentGraphBackgroundStroke", "positronDataExplorer.columnNullPercentGraphIndicatorFill",
+    "positronDataExplorer.sparklineAxis", "positronDataExplorer.sparklineFill", "positronDataExplorer.sparklineHover",
+    "positronDataExplorer.sparklineStroke", "positronWelcome.foreground", "positronWelcome.secondaryForeground",
+    "positronNotebook.cellFooterForeground", "tree.tableColumnsBorder")
+
+
+def test_positron_entero():
+    """Decisiones 5.4: Positron no pinta nada con sus colores propios; la consola lleva el fondo de la terminal integrada
+    y los ANSI de Konsole, legibles (≥ 4,5:1 los colores 1–7) sobre ese fondo."""
+    for v in ("claro", "oscuro"):
+        c = json.loads((GEN / "editores" / "vscode" / MARCA["id"] / "themes" / f"{MARCA['id']}-{v}-color-theme.json").read_text(encoding="utf-8"))["colors"]
+        faltan = [k for k in POSITRON_FIJAS if k not in c]
+        assert not faltan, (v, faltan)
+        k = registro.codigo("konsole").ansi(TOKENS, v)
+        assert c["positronConsole.background"] == c["terminal.background"] and c["positronConsole.ansiRed"] == k["color1"]
+        assert c["positronConsole.ansiBrightWhite"] == k["color15"]
+        for i, n in enumerate(("Red", "Green", "Yellow", "Blue", "Magenta", "Cyan", "White"), start=1):
+            assert _contraste(c[f"positronConsole.ansi{n}"], c["positronConsole.background"]) >= 4.5, (v, n)
+        assert _contraste(c["positronWelcome.foreground"], c["editor.background"]) >= 4.5, v
+
+
+ALFAS = ("1a", "1f", "26", "33", "40", "55", "66")
+
+
+def _permitidos(v: str, fondo: str) -> set[str]:
+    """Los colores que puede llevar un tema de editor de la variante `v` con fondo `fondo`: los del maestro, los de
+    Konsole y cualquiera de ellos con un alfa de los editores compuesto sobre el fondo (`editores.sobre`)."""
+    base = {t["$value"]["hex"].lower() for t in _tokens_planos(TOKENS).values() if isinstance(t["$value"], dict) and "hex" in t["$value"]}
+    base |= set(registro.codigo("konsole").ansi(TOKENS, v).values())
+    sobre = registro.codigo("editores").sobre
+    return base | {sobre(c, fondo, a) for c in base for a in ALFAS}
+
+
+def test_kate_temas():
+    """Decisiones 5.5: dos temas de KSyntaxHighlighting con la sintaxis de los editores; su fondo y su selección son los
+    de la paleta que Kvantum da a las aplicaciones, para que Kate (themeForPalette) elija solo el de la variante; texto
+    legible."""
+    for v in ("claro", "oscuro"):
+        tema = json.loads((GEN / "kate" / f"{MARCA['id']}-{v}.theme").read_text(encoding="utf-8"))
+        qt = registro.codigo("kvantum").paleta_qt(TOKENS, v)
+        c, e = tema["editor-colors"], _sintaxis_esperada(v)
+        assert tema["metadata"]["name"] == MARCA["nombre_esquema"][v] and isinstance(tema["metadata"]["revision"], int)
+        assert c["BackgroundColor"] == qt["base.color"] == e["fondo"] and c["TextSelection"] == qt["highlight.color"]
+        ts = tema["text-styles"]
+        assert ts["Keyword"]["text-color"] == e["palabra-clave"] and ts["String"]["text-color"] == e["cadena"]
+        assert ts["Function"]["text-color"] == e["funcion"] and ts["Comment"]["text-color"] == e["comentario"] and ts["Comment"]["italic"]
+        assert ts["DecVal"]["text-color"] == e["numero"] and ts["Normal"]["text-color"] == e["texto"]
+        faltan = {"Normal", "Keyword", "Function", "Variable", "ControlFlow", "Operator", "BuiltIn", "Extension", "Preprocessor",
+                  "Attribute", "Char", "SpecialChar", "String", "VerbatimString", "SpecialString", "Import", "DataType", "DecVal",
+                  "BaseN", "Float", "Constant", "Comment", "Documentation", "Annotation", "CommentVar", "RegionMarker",
+                  "Information", "Warning", "Alert", "Error", "Others"} - set(ts)
+        assert not faltan, (v, faltan)
+        permitidos = _permitidos(v, c["BackgroundColor"])
+        for nombre, estilo in ts.items():
+            assert _contraste(estilo["text-color"], c["BackgroundColor"]) >= 4.5, (v, nombre)
+            assert {estilo["text-color"], estilo["selected-text-color"], estilo.get("background-color", estilo["text-color"])} <= permitidos, (v, nombre)
+        assert set(c.values()) <= permitidos, (v, set(c.values()) - permitidos)
+        assert _contraste(ts["Normal"]["selected-text-color"], c["TextSelection"]) >= 4.5, v
+
+
+def _formatos_texstudio(seccion: str) -> dict[str, dict[str, str]]:
+    cp = configparser.RawConfigParser(comment_prefixes=("#", ";"))
+    cp.optionxform = str
+    cp.read_string((GEN / "texstudio" / f"{MARCA['id']}.txsprofile").read_text(encoding="utf-8"))
+    formatos: dict[str, dict[str, str]] = {}
+    for clave, valor in cp[seccion].items():
+        if clave.startswith("data\\"):
+            _, id_, campo = clave.split("\\")
+            formatos.setdefault(id_.replace("%3A", ":"), {})[campo] = valor
+    assert cp[seccion]["version"] == "1.0"
+    return formatos
+
+
+def test_texstudio_formatos():
+    """Decisiones 5.6: [formats] (claro) y [formatsDark] (oscuro), con todos los formatos de TeXstudio 4.9 y la tabla de
+    sintaxis; texto legible sobre el `base.color` de Kvantum (el `Base` con que pinta TeXstudio)."""
+    ids = {"comment", "magicComment", "commentTodo", "keyword", "extra-keyword", "math-keyword", "math-delimiter", "math-text",
+           "environment", "structure", "verbatim", "link", "numbers", "escapeseq", "text", "current", "selection", "search",
+           "braceMatch", "braceMismatch", "spellingMistake", "line:error", "line:warning", "line:badbox", "background",
+           "referencePresent", "referenceMissing", "citationPresent", "citationMissing", "diffAdd", "diffDelete",
+           *(f"braceLevel{i}" for i in range(8))}
+    for v, seccion in (("claro", "formats"), ("oscuro", "formatsDark")):
+        f, e = _formatos_texstudio(seccion), _sintaxis_esperada(v)
+        assert ids <= set(f), (v, ids - set(f))
+        assert len(f) >= 88
+        fondo = registro.codigo("kvantum").paleta_qt(TOKENS, v)["base.color"]
+        assert f["keyword"]["foreground"] == e["funcion"] and f["extra-keyword"]["foreground"] == e["palabra-clave"]
+        assert f["comment"]["foreground"] == e["comentario"] and f["comment"]["italic"] == "true"
+        assert f["math-keyword"]["foreground"] == e["numero"] and f["align-ampersand"]["priority"] == "5"
+        assert f["spellingMistake"]["waveUnderline"] == "true"
+        permitidos = _permitidos(v, fondo)
+        for id_, campos in f.items():
+            colores = {campos[k] for k in ("foreground", "background", "linescolor") if k in campos}
+            assert colores <= permitidos, (v, id_, colores - permitidos)
+            if "foreground" in campos:
+                assert _contraste(campos["foreground"], campos.get("background", fondo)) >= 4.5, (v, id_)
+
+
+def test_texstudio_fundir_respeta_lo_demas(tmp_path):
+    """El aplicar de TeXstudio solo sustituye [formats] y [formatsDark]; lo demás del texstudio.ini queda igual, y un
+    enlace de dotfiles sigue siendo enlace. Con TeXstudio abierto no escribe."""
+    aplicar = registro.codigo("texstudio", "aplicar")
+    original = ("[General]\nIniMode=true\n\n[formats]\nversion=1.0\n\n[formatsDark]\nversion=1.0\n\n"
+                "[texmaker]\nEditor\\Font%20Family=JetBrains Mono\nGUI\\Style=0\n\n[version]\nwritten_by_TXS_version=4.9.9\n")
+    real = tmp_path / "dotfiles" / "texstudio.ini"
+    real.parent.mkdir(parents=True)
+    real.write_text(original, encoding="utf-8")
+    ini = tmp_path / "config" / "texstudio" / "texstudio.ini"
+    ini.parent.mkdir(parents=True)
+    ini.symlink_to(real)
+
+    class Ctx:
+        CONFIG, modulos, marca, tokens = tmp_path / "config", ["texstudio"], MARCA, TOKENS
+        abierto = False
+        dicho: list[str] = []
+        def ejecutar(self, orden):
+            return subprocess.CompletedProcess(orden, 0 if self.abierto else 1)
+        def decir(self, texto):
+            self.dicho.append(texto)
+        @staticmethod
+        def codigo(id_, archivo="construir"):
+            return registro.codigo(id_, archivo)
+
+    ctx = Ctx()
+    ctx.abierto = True
+    assert aplicar.aplicar(ctx) == 0 and real.read_text(encoding="utf-8") == original and "abierto" in ctx.dicho[-1]
+    ctx.abierto = False
+    assert aplicar.respaldos(ctx)[0][0] == ini
+    assert aplicar.aplicar(ctx) == 0
+    nuevo = real.read_text(encoding="utf-8")
+    assert ini.is_symlink()
+    cp = configparser.RawConfigParser(comment_prefixes=("#", ";"))
+    cp.optionxform = str
+    cp.read_string(nuevo)
+    viejo = configparser.RawConfigParser()
+    viejo.optionxform = str
+    viejo.read_string(original)
+    for s in ("General", "texmaker", "version"):
+        assert dict(cp[s]) == dict(viejo[s]), s
+    assert nuevo.index("[General]") < nuevo.index("[formats]") < nuevo.index("[formatsDark]") < nuevo.index("[texmaker]")
+    assert len([k for k in cp["formatsDark"] if k.startswith("data\\")]) > 500
+    # idempotente, y sin las secciones las añade tras [General]
+    assert aplicar.fundir(nuevo, {"formats": ["[formats]", "a=1", ""]}).count("[formats]") == 1
+    sin = aplicar.fundir("[General]\nx=1\n\n[texmaker]\ny=2\n", {"formats": ["[formats]", "a=1", ""]})
+    assert sin.index("[General]") < sin.index("[formats]") < sin.index("[texmaker]") and "y=2" in sin
+
+
+def test_vim_esquema():
+    """Decisiones 5.7: un colors/lliphi.vim con las dos variantes según background, la sintaxis de los editores, el fondo
+    y los ANSI de Konsole, y los grupos de Neovim bajo has('nvim'); si Vim o Neovim están, lo cargan sin errores."""
+    texto = (GEN / "vim" / "colors" / f"{MARCA['id']}.vim").read_text(encoding="utf-8")
+    assert f"let g:colors_name = '{MARCA['id']}'" in texto and "if &background ==# 'light'" in texto
+    claro, oscuro = texto.split("if &background ==# 'light'")[1].split("\nelse\n")
+    for v, bloque in (("claro", claro), ("oscuro", oscuro.split("\nendif\n")[0])):
+        k, e = registro.codigo("konsole").ansi(TOKENS, v), _sintaxis_esperada(v)
+        hi = {m.group(1): dict(re.findall(r"(\w+)=(\S+)", m.group(2))) for m in re.finditer(r"^\s*hi (\S+) (.*)$", bloque, re.M)}
+        assert hi["Normal"]["guibg"] == k["fondo"] and hi["Keyword"]["guifg"] == e["palabra-clave"]
+        assert hi["String"]["guifg"] == e["cadena"] and hi["Function"]["guifg"] == e["funcion"] and hi["Comment"]["gui"] == "italic"
+        assert hi["@keyword"]["guifg"] == e["palabra-clave"] and hi["@lsp.type.function"]["guifg"] == e["funcion"]
+        assert "DiagnosticError" in hi and bloque.index("if has('nvim')") < bloque.index("hi @keyword")
+        assert f"'{k['color1']}'" in bloque.split("g:terminal_ansi_colors")[1].split("\n")[0]
+        assert f"let g:terminal_color_15 = '{k['color15']}'" in bloque
+        permitidos = _permitidos(v, k["fondo"])
+        for grupo, d in hi.items():
+            assert {d[c] for c in ("guifg", "guibg", "guisp") if c in d} - {"NONE"} <= permitidos, (v, grupo)
+            if d.get("guifg", "NONE") != "NONE" and d.get("guibg", "NONE") == "NONE" and grupo in ("Comment", "Keyword", "String", "Number", "Function", "Type", "LineNr"):
+                assert _contraste(d["guifg"], k["fondo"]) >= 4.5, (v, grupo)
+    casa = Path(os.environ.get("XDG_CACHE_HOME") or Path.home() / ".cache") / MARCA["id"] / "pruebas-vim"
+    shutil.rmtree(casa, ignore_errors=True)
+    (casa / "colors").mkdir(parents=True)
+    shutil.copy(GEN / "vim" / "colors" / f"{MARCA['id']}.vim", casa / "colors")
+    for bg in ("light", "dark"):
+        guion = casa / f"p-{bg}.vim"
+        guion.write_text(f"set nocompatible termguicolors background={bg}\nlet &rtp = '{casa},' . &rtp\nlet v:errmsg = ''\n"
+                         f"colorscheme {MARCA['id']}\ncall writefile([v:errmsg, g:colors_name, &background], '{casa}/salida-{bg}')\nqa!\n", encoding="utf-8")
+        for programa, orden in (("vim", ["vim", "-Nu", "NONE", "-es", "-S", str(guion)]),
+                                ("nvim", ["nvim", "--clean", "--headless", "-S", str(guion)])):
+            if shutil.which(programa) is None:
+                continue
+            (casa / f"salida-{bg}").unlink(missing_ok=True)
+            subprocess.run(orden, capture_output=True, timeout=30, env={**os.environ, "HOME": str(casa)})
+            assert (casa / f"salida-{bg}").read_text(encoding="utf-8").splitlines() == ["", MARCA["id"], bg], (programa, bg)
+    shutil.rmtree(casa, ignore_errors=True)
+
+
 def _bloques_css(texto: str) -> dict[str, dict[str, str]]:
     """selector → {variable: valor} de un CSS plano (sin anidar), como el que genera el complemento obsidian."""
     sin_comentarios = re.sub(r"/\*.*?\*/", "", texto, flags=re.S)
@@ -544,6 +751,107 @@ def test_obsidian_tema():
     zotero = {s: d for s, d in b.items() if s.startswith(".callout[data-callout-metadata=")}
     assert len(zotero) == 8 and all(d["--callout-color"].startswith("var(--color-") for d in zotero.values())
     assert '.callout[data-callout-metadata="#ffd400" i]' in zotero and zotero['.callout[data-callout-metadata="#ffd400" i]']["--callout-color"] == "var(--color-yellow)"
+
+
+
+def _hex_tupla(h: str) -> tuple[int, int, int]:
+    return tuple(int(h[i:i + 2], 16) for i in (1, 3, 5))
+
+
+def test_navegadores_zen():
+    """userChrome.css de Zen: las dos variantes con prefers-color-scheme, cada color del maestro, las variables de Zen
+    sobre las de Lliphi, las ventanas privadas aparte, Inter, contraste ≥ 4,5:1; y el user.js que lo carga y sigue al
+    sistema (decisiones 5.3)."""
+    nav, konsole = registro.codigo("navegadores"), registro.codigo("konsole")
+    texto = (GEN / "navegadores" / "zen" / "userChrome.css").read_text(encoding="utf-8")
+    assert "GENERADO por herramientas/generar.py (complementos/navegadores" in texto
+    sin_comentarios = re.sub(r"/\*.*?\*/", "", texto, flags=re.S)
+    assert sin_comentarios.count("{") == sin_comentarios.count("}")
+    claro_css, oscuro_css = sin_comentarios.split("@media (prefers-color-scheme: dark)")
+    variantes = {}
+    for v, parte in (("claro", claro_css), ("oscuro", oscuro_css)):
+        bloque = re.search(r":root\s*\{([^{}]*)\}", parte).group(1)
+        variantes[v] = dict(re.findall(r"(--lliphi-[\w-]+)\s*:\s*(#[0-9a-f]{6}) !important;", bloque))
+        esquema = "light" if v == "claro" else "dark"
+        assert f"color-scheme: {esquema} !important;" in parte, v
+    for v, x in variantes.items():
+        sem = {k: t["$value"]["hex"] for k, t in _tokens_planos(TOKENS["semanticos"][v]).items()}
+        assert x == nav.zen_variables(TOKENS, v), v
+        assert x["--lliphi-ventana"] == sem["fondo.ventana"] and x["--lliphi-vista"] == sem["fondo.vista"]
+        assert x["--lliphi-acento"] == sem["acento.base"] and x["--lliphi-seleccion-fondo"] == sem["seleccion.fondo"]
+        assert set(x.values()) <= set(sem.values()), v          # ningún color fuera de los semánticos de la variante
+        for texto_, fondo in (("texto", "ventana"), ("texto", "vista"), ("texto", "pestana"), ("texto", "ventana-alterno"),
+                              ("texto", "boton"), ("texto-secundario", "ventana"), ("texto-inactivo", "ventana"),
+                              ("sobre-acento", "acento"), ("seleccion-texto", "seleccion-fondo"), ("enlace", "vista"),
+                              ("tooltip-texto", "tooltip-fondo")):
+            c = konsole.contraste(_hex_tupla(x[f"--lliphi-{texto_}"]), _hex_tupla(x[f"--lliphi-{fondo}"]))
+            assert c >= 4.5, (v, texto_, fondo, round(c, 2))
+    # las variables de Zen y Firefox: todas sobre una variable de Lliphi definida, en la raíz (no privada) y sus interiores
+    comun = re.search(r"(:root:not\(\[zen-private-window='true'\]\)[^{]*)\{([^{}]*)\}", sin_comentarios)
+    assert "zen-workspace" in comun.group(1) and "#zen-browser-background" in comun.group(1)
+    mapa = dict(re.findall(r"(--[\w-]+)\s*:\s*var\((--lliphi-[\w-]+)\) !important;", comun.group(2)))
+    assert set(mapa) == set(nav.ZEN) and set(mapa.values()) <= set(variantes["claro"])
+    for clave in ("--zen-primary-color", "--zen-main-browser-background", "--toolbox-textcolor", "--tab-background-color-selected"):
+        assert clave in mapa, clave
+    assert re.search(r':root \{\s*font-family: "Inter", "Noto Sans", sans-serif !important;', texto)
+    js = (GEN / "navegadores" / "zen" / "user.js").read_text(encoding="utf-8")
+    assert 'user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);' in js
+    assert 'user_pref("zen.view.window.scheme", 2);' in js
+    assert all(l.startswith(("//", "user_pref(")) for l in js.splitlines())
+
+
+def test_navegadores_chrome():
+    """Dos temas de Chrome sin empaquetar (Manifest V3, `theme.colors` en ternas), con colores del maestro y el texto
+    legible sobre su fondo (≥ 4,5:1)."""
+    nav, konsole = registro.codigo("navegadores"), registro.codigo("konsole")
+    for v in ("claro", "oscuro"):
+        m = json.loads((GEN / "navegadores" / "chrome" / f"{MARCA['id']}-{v}" / "manifest.json").read_text(encoding="utf-8"))
+        assert m["manifest_version"] == 3 and m["name"] == MARCA["nombre_esquema"][v]
+        assert re.fullmatch(r"\d+(\.\d+){0,3}", m["version"]) and m["version"] == (RAIZ / "VERSION").read_text().strip()
+        assert set(m) == {"manifest_version", "name", "version", "description", "homepage_url", "theme"}
+        colores = m["theme"]["colors"]
+        assert set(colores) == set(nav.CHROME)
+        sem = {k: t["$value"]["hex"] for k, t in _tokens_planos(TOKENS["semanticos"][v]).items()}
+        for clave, terna in colores.items():
+            assert len(terna) == 3 and all(isinstance(c, int) and 0 <= c <= 255 for c in terna), (v, clave)
+            assert "#%02x%02x%02x" % tuple(terna) == sem[nav.CHROME[clave]], (v, clave)
+        assert colores["toolbar"] == list(_hex_tupla(sem["fondo.vista"])) and colores["frame"] == list(_hex_tupla(sem["fondo.ventana"]))
+        for texto_, fondo in nav.CHROME_PARES.items():
+            c = konsole.contraste(tuple(colores[texto_]), tuple(colores[fondo]))
+            assert c >= 4.5, (v, texto_, fondo, round(c, 2))
+
+
+def test_instalar_navegadores(tmp_path: Path):
+    """El instalador pone userChrome.css y user.js en el perfil de Zen que abre el Flatpak (installs.ini), los temas de
+    Chrome en $XDG_DATA_HOME/<id>/chrome/, no pisa un userChrome.css ajeno, omite Zen si no hay perfil y UNDO.sh
+    retira lo instalado."""
+    env = _entorno(tmp_path)
+    sin_zen = correr("herramientas/instalar.py", "--modulos", "navegadores", env=env)
+    assert sin_zen.returncode == 0 and "omitido navegadores/zen/userChrome.css" in sin_zen.stdout, sin_zen.stdout
+    raiz = tmp_path / ".var/app/app.zen_browser.zen/.zen"
+    perfil, otro = raiz / "abc123.Default (release)", raiz / "xyz789.otro"
+    perfil.mkdir(parents=True); otro.mkdir()
+    (raiz / "profiles.ini").write_text("[General]\nStartWithLastProfile=1\n\n[Profile0]\nName=otro\nIsRelative=1\n"
+                                       "Path=xyz789.otro\nDefault=1\n\n[Profile1]\nName=Default (release)\nIsRelative=1\n"
+                                       "Path=abc123.Default (release)\n", encoding="utf-8")
+    (raiz / "installs.ini").write_text("[2953CB39A2589173]\nDefault=abc123.Default (release)\nLocked=1\n", encoding="utf-8")
+    sim = correr("herramientas/instalar.py", "--modulos", "navegadores", env=env)
+    assert sim.returncode == 0 and not (perfil / "user.js").exists(), sim.stdout
+    assert f"→ {perfil / 'chrome' / 'userChrome.css'}" in sim.stdout        # el de installs.ini, no el Default=1
+    ap = correr("herramientas/instalar.py", "--aplicar", "--modulos", "navegadores", env=env)
+    assert ap.returncode == 0, ap.stdout + ap.stderr
+    assert (perfil / "chrome" / "userChrome.css").read_bytes() == (GEN / "navegadores" / "zen" / "userChrome.css").read_bytes()
+    assert (perfil / "user.js").exists() and not (otro / "user.js").exists()
+    for v in ("claro", "oscuro"):
+        assert (tmp_path / ".local/share" / MARCA["id"] / "chrome" / f"{MARCA['id']}-{v}" / "manifest.json").exists()
+    manifiesto = tmp_path / ".local/state" / MARCA["id"] / "instalado.json"
+    undo = Path(json.loads(manifiesto.read_text())["respaldo"]) / "UNDO.sh"
+    assert subprocess.run(["bash", str(undo)], capture_output=True, text=True, env=env).returncode == 0
+    assert not (perfil / "chrome" / "userChrome.css").exists() and not (perfil / "user.js").exists() and perfil.is_dir()
+    # un userChrome.css que no es de Lliphi no se toca
+    (perfil / "chrome" / "userChrome.css").write_text("/* mío */\n", encoding="utf-8")
+    conf = correr("herramientas/instalar.py", "--aplicar", "--modulos", "navegadores", env=env)
+    assert conf.returncode == 3 and (perfil / "chrome" / "userChrome.css").read_text() == "/* mío */\n"
 
 
 def test_estilo_sin_azules_fijos():
@@ -948,7 +1256,8 @@ def test_registro_tema_global_y_seis_modulos():
     assert roles["global"] == ("global", "paquete")
     assert {i: c for i, (r, c) in roles.items() if r == "modulo"} == SEIS
     assert {i for i, (r, _) in roles.items() if r == "complemento"} == {"fondos", "kvantum", "konsole", "terminales", "editores", "libreoffice", "sddm", "obsidian", "fondo-variante",
-                                                                                     "gtk", "xournalpp", "gimp", "calibre"}
+                                                                              "navegadores", "telegram", "kate", "texstudio", "vim",
+                                                                              "gtk", "xournalpp", "gimp", "calibre"}
     g = registro.modulo("global")
     assert set(g.dependencias("integra")) == {"carga-bloqueo", "disposicion"}
     assert set(SEIS) <= set(g.dependencias("integra") + g.dependencias("referencia"))
@@ -1383,3 +1692,98 @@ def test_aplicar_gtk_xournalpp_gimp_calibre(tmp_path):
     declarados = {r for m in ("gtk", "xournalpp", "gimp", "calibre") for r, _, _ in registro.codigo(m, "aplicar").respaldos(ctx)}
     assert declarados == {config / "gtk-3.0" / "gtk.css", config / "gtk-4.0" / "gtk.css", config / "xournalpp" / "settings.xml",
                           gimp / "gimprc", config / "calibre" / "gui.json", config / "calibre" / "viewer-webengine.json"}
+
+
+# ---------------------------------------------------------------- Telegram Desktop (decisiones 5.30)
+
+def _rgba(h: str) -> tuple[tuple[int, int, int], float]:
+    h = h.lstrip("#")
+    return tuple(int(h[i:i + 2], 16) for i in (0, 2, 4)), (int(h[6:8], 16) / 255 if len(h) == 8 else 1.0)
+
+
+def _sobre(frente: str, fondo: str) -> str:
+    """El color que se ve al pintar `frente` (con su alfa) sobre `fondo` (opaco)."""
+    (f, a), (b, _) = _rgba(frente), _rgba(fondo)
+    return "#" + "".join(f"{round(a * x + (1 - a) * y):02x}" for x, y in zip(f, b))
+
+
+def _contraste(a: str, b: str) -> float:
+    def lum(h: str) -> float:
+        c = [v / 255 for v in _rgba(h)[0]]
+        c = [v / 12.92 if v <= 0.04045 else ((v + 0.055) / 1.055) ** 2.4 for v in c]
+        return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]
+    claro, oscuro = sorted((lum(a), lum(b)), reverse=True)
+    return (claro + 0.05) / (oscuro + 0.05)
+
+
+def test_telegram_temas():
+    """Los dos .tdesktop-theme abren como zip con colors.tdesktop-theme y tiled.png, tienen todas las claves de la paleta
+    de Telegram en su orden, cada color es de los tokens (con alfa libre) y el texto se lee (≥ 4,5:1) sobre las burbujas
+    y los fondos, con el alfa compuesto sobre el fondo del chat."""
+    import struct
+    import zipfile
+    import zlib
+    tg = registro.codigo("telegram")
+    claves = [k for k, _, _ in tg.plantilla()]
+    assert len(claves) > 500 and len(set(claves)) == len(claves)
+    hexes = {t["$value"]["hex"].lower() for t in _tokens_planos(TOKENS).values()
+             if isinstance(t["$value"], dict) and "hex" in t["$value"]}
+    linea = re.compile(r"^([A-Za-z]\w*): (#[0-9a-f]{6}(?:[0-9a-f]{2})?);$")
+    for v in ("claro", "oscuro"):
+        paquete = GEN / "telegram" / f"{MARCA['nombre_esquema'][v]}.tdesktop-theme"
+        with zipfile.ZipFile(paquete) as z:
+            assert sorted(z.namelist()) == ["colors.tdesktop-theme", "tiled.png"]
+            texto = z.read("colors.tdesktop-theme").decode("utf-8")
+            png = z.read("tiled.png")
+            for nombre in z.namelist():   # lo suelto es lo mismo que lo empaquetado
+                assert (GEN / "telegram" / v / nombre).read_bytes() == z.read(nombre)
+        filas = [ln for ln in texto.splitlines() if ln and not ln.startswith("//")]
+        pares = [linea.fullmatch(ln) for ln in filas]
+        assert all(pares), [ln for ln, m in zip(filas, pares) if not m][:5]
+        c = {m[1]: m[2] for m in pares}
+        assert list(c) == claves                                         # todas las claves, en el orden de la paleta
+        for k, h in c.items():
+            assert h[:7] in hexes, (v, k, h)                              # ningún color fuera del maestro
+        # el fondo liso del chat: un PNG de 16×16 del color de los tokens
+        assert png[:8] == b"\x89PNG\r\n\x1a\n" and struct.unpack(">II", png[16:24]) == (16, 16)
+        datos = zlib.decompress(png[png.index(b"IDAT") + 4:png.index(b"IEND") - 8])
+        chat = tg.fondo_chat(TOKENS, v)
+        assert datos[1:4] == bytes(_rgba(chat)[0]) and len(set(datos[1:49])) <= 3
+        # burbujas y fondos tal como se ven (alfa compuesto sobre el fondo del chat)
+        burbuja = {"entrante": _sobre(c["msgInBg"], chat), "propia": _sobre(c["msgOutBg"], chat),
+                   "entrante-sel": _sobre(c["msgInBgSelected"], _sobre(c["msgInBg"], chat)),
+                   "entrante-sel-chat": _sobre(c["msgInBgSelected"], chat),
+                   "propia-sel": _sobre(c["msgOutBgSelected"], chat),
+                   "propia-sel-burbuja": _sobre(c["msgOutBgSelected"], _sobre(c["msgOutBg"], chat)),
+                   "servicio": _sobre(c["msgServiceBg"], chat)}
+        texto_sobre = [("historyTextInFg", "entrante"), ("historyLinkInFg", "entrante"), ("msgInDateFg", "entrante"),
+                       ("msgInServiceFg", "entrante"), ("msgInMonoFg", "entrante"), ("historyTextOutFg", "propia"),
+                       ("historyLinkOutFg", "propia"), ("msgOutDateFg", "propia"), ("msgOutServiceFg", "propia"),
+                       ("msgOutMonoFg", "propia"), ("historyTextInFgSelected", "entrante-sel"),
+                       ("historyTextInFgSelected", "entrante-sel-chat"), ("historyTextOutFgSelected", "propia-sel"),
+                       ("historyTextOutFgSelected", "propia-sel-burbuja"), ("msgServiceFg", "servicio")]
+        texto_sobre += [(f"historyPeer{i}NameFg", "entrante") for i in range(1, 9)]
+        for frente, fondo in texto_sobre:
+            assert _contraste(c[frente], burbuja[fondo]) >= 4.5, (v, frente, fondo)
+        for frente, fondo in [("windowFg", "windowBg"), ("windowSubTextFg", "windowBg"), ("dialogsNameFg", "dialogsBg"),
+                              ("dialogsTextFg", "dialogsBg"), ("dialogsNameFgActive", "dialogsBgActive"),
+                              ("dialogsTextFgActive", "dialogsBgActive"), ("activeButtonFg", "activeButtonBg"),
+                              ("boxTextFg", "boxBg"), ("tooltipFg", "tooltipBg"), ("historyComposeAreaFg", "historyComposeAreaBg"),
+                              ("dialogsUnreadFg", "dialogsUnreadBg"), ("dialogsUnreadFg", "dialogsUnreadBgMuted"),
+                              ("sideBarTextFg", "sideBarBg"), ("sideBarTextFgActive", "sideBarBgActive"),
+                              ("searchedTextMatchFg", "searchedTextMatchBg"), ("toastFg", "toastBg"), ("callNameFg", "callBgOpaque"),
+                              ("historyPeerUserpicFg", "historyPeer1UserpicBg"), ("boxTextFgError", "boxBg"),
+                              ("boxTextFgGood", "boxBg"), ("contactsStatusFgOnline", "contactsBg"), ("windowActiveTextFg", "windowBg")]:
+            assert _contraste(c[frente], _sobre(c[fondo], c["windowBg"])) >= 4.5, (v, frente, fondo)
+    # el acento de cada variante en la selección, los botones y los mensajes propios
+    for v in ("claro", "oscuro"):
+        acento = TOKENS["semanticos"][v]["acento"]["base"]["$value"]["hex"].lower()
+        c = tg.colores(TOKENS, v)
+        assert c["dialogsBgActive"] == c["activeButtonBg"] == c["windowBgActive"] == acento
+        assert c["msgOutBg"][:7] == acento and len(c["msgOutBg"]) == 9
+
+
+def test_telegram_tabla_sin_claves_huerfanas():
+    """Cada clave de la tabla existe en la paleta de Telegram (una clave retirada en una versión nueva se nota aquí)."""
+    tg = registro.codigo("telegram")
+    assert set(tg.TABLA) <= {k for k, _, _ in tg.plantilla()}
