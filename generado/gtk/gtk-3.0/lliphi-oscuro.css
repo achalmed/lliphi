@@ -1,0 +1,96 @@
+/* GENERADO por herramientas/generar.py desde tokens/ (complementos/gtk); no editar */
+/* Lliphi Oscuro para GTK 3 con el tema Breeze: se importa desde gtk.css después de colors.css */
+/* (kde-gtk-config); los colores _breeze de aquí mandan sobre los del esquema de KDE. */
+
+@define-color theme_fg_color_breeze #eaebed;
+@define-color theme_text_color_breeze #eaebed;
+@define-color theme_bg_color_breeze #1b1c1e;
+@define-color theme_base_color_breeze #101012;
+@define-color content_view_bg_breeze #101012;
+@define-color theme_view_hover_decoration_color_breeze #f36259;
+@define-color theme_view_active_decoration_color_breeze #f36259;
+@define-color theme_hovering_selected_bg_color_breeze #f36259;
+@define-color theme_selected_bg_color_breeze #e22529;
+@define-color theme_selected_fg_color_breeze #fcfcfc;
+@define-color borders_breeze #3d3e42;
+@define-color unfocused_borders_breeze #3d3e42;
+@define-color insensitive_borders_breeze #2e2f32;
+@define-color unfocused_insensitive_borders_breeze #2e2f32;
+@define-color insensitive_bg_color_breeze #1b1c1e;
+@define-color insensitive_fg_color_breeze #97989c;
+@define-color insensitive_base_color_breeze #161719;
+@define-color insensitive_base_fg_color_breeze #97989c;
+@define-color insensitive_selected_bg_color_breeze #232426;
+@define-color insensitive_selected_fg_color_breeze #97989c;
+@define-color insensitive_unfocused_bg_color_breeze #1b1c1e;
+@define-color insensitive_unfocused_fg_color_breeze #97989c;
+@define-color insensitive_unfocused_selected_bg_color_breeze #232426;
+@define-color insensitive_unfocused_selected_fg_color_breeze #97989c;
+@define-color link_color_breeze #ff968b;
+@define-color link_visited_color_breeze #bcbec1;
+@define-color error_color_breeze #fb817a;
+@define-color error_color_backdrop_breeze #fb817a;
+@define-color error_color_insensitive_breeze mix(#fb817a, #1b1c1e, 0.5);
+@define-color error_color_insensitive_backdrop_breeze mix(#fb817a, #1b1c1e, 0.5);
+@define-color success_color_breeze #6fc884;
+@define-color success_color_backdrop_breeze #6fc884;
+@define-color success_color_insensitive_breeze mix(#6fc884, #1b1c1e, 0.5);
+@define-color success_color_insensitive_backdrop_breeze mix(#6fc884, #1b1c1e, 0.5);
+@define-color warning_color_breeze #ebb25f;
+@define-color warning_color_backdrop_breeze #ebb25f;
+@define-color warning_color_insensitive_breeze mix(#ebb25f, #1b1c1e, 0.5);
+@define-color warning_color_insensitive_backdrop_breeze mix(#ebb25f, #1b1c1e, 0.5);
+@define-color theme_button_background_normal_breeze #2e2f32;
+@define-color theme_button_background_backdrop_breeze #2e2f32;
+@define-color theme_button_background_insensitive_breeze #232426;
+@define-color theme_button_background_backdrop_insensitive_breeze #232426;
+@define-color theme_button_decoration_hover_breeze #f36259;
+@define-color theme_button_decoration_hover_backdrop_breeze #f36259;
+@define-color theme_button_decoration_focus_breeze #f36259;
+@define-color theme_button_decoration_focus_backdrop_breeze #f36259;
+@define-color theme_button_decoration_hover_insensitive_breeze mix(#f36259, #1b1c1e, 0.5);
+@define-color theme_button_decoration_hover_backdrop_insensitive_breeze mix(#f36259, #1b1c1e, 0.5);
+@define-color theme_button_decoration_focus_insensitive_breeze mix(#f36259, #1b1c1e, 0.5);
+@define-color theme_button_decoration_focus_backdrop_insensitive_breeze mix(#f36259, #1b1c1e, 0.5);
+@define-color theme_button_foreground_normal_breeze #eaebed;
+@define-color theme_button_foreground_backdrop_breeze #eaebed;
+@define-color theme_button_foreground_insensitive_breeze #97989c;
+@define-color theme_button_foreground_backdrop_insensitive_breeze #97989c;
+@define-color theme_button_foreground_active_breeze #fcfcfc;
+@define-color theme_button_foreground_active_backdrop_breeze #fcfcfc;
+@define-color theme_button_foreground_active_insensitive_breeze #97989c;
+@define-color theme_button_foreground_active_backdrop_insensitive_breeze #97989c;
+@define-color theme_titlebar_background_breeze #1b1c1e;
+@define-color theme_titlebar_background_light_breeze #1b1c1e;
+@define-color theme_titlebar_background_backdrop_breeze #1b1c1e;
+@define-color theme_titlebar_foreground_breeze #eaebed;
+@define-color theme_titlebar_foreground_backdrop_breeze #97989c;
+@define-color theme_titlebar_foreground_insensitive_breeze #97989c;
+@define-color theme_titlebar_foreground_insensitive_backdrop_breeze #97989c;
+@define-color theme_header_background_breeze #1b1c1e;
+@define-color theme_header_background_light_breeze #1b1c1e;
+@define-color theme_header_background_backdrop_breeze #1b1c1e;
+@define-color theme_header_foreground_breeze #eaebed;
+@define-color theme_header_foreground_backdrop_breeze #97989c;
+@define-color theme_header_foreground_insensitive_breeze #97989c;
+@define-color theme_header_foreground_insensitive_backdrop_breeze #97989c;
+@define-color theme_unfocused_fg_color_breeze #eaebed;
+@define-color theme_unfocused_text_color_breeze #eaebed;
+@define-color theme_unfocused_bg_color_breeze #1b1c1e;
+@define-color theme_unfocused_base_color_breeze #101012;
+@define-color theme_unfocused_selected_bg_color_breeze mix(#e22529, #101012, 0.5);
+@define-color theme_unfocused_selected_bg_color_alt_breeze mix(#e22529, #101012, 0.5);
+@define-color theme_unfocused_selected_fg_color_breeze #fcfcfc;
+@define-color theme_unfocused_view_bg_color_breeze #161719;
+@define-color theme_unfocused_view_text_color_breeze #97989c;
+@define-color tooltip_background_breeze #323335;
+@define-color tooltip_text_breeze #eaebed;
+@define-color tooltip_border_breeze mix(#323335, #eaebed, 0.2);
+
+/* Xournal++: caja de herramientas flotante (su xournalpp.css la pinta en blanco; window.darkMode, en gris) */
+#floatingToolbox > box, #pdfFloatingToolGrid, window.darkMode #floatingToolbox > box, window.darkMode #pdfFloatingToolGrid {
+  background-color: #1b1c1e; box-shadow: 0 0 3px alpha(#101012, 0.4); }
+#floatingToolbox button, #pdfFloatingToolGrid button, window.darkMode #floatingToolbox button, window.darkMode #pdfFloatingToolGrid button {
+  background: #2e2f32; color: #eaebed; border: none; }
+#floatingToolbox button:checked, window.darkMode #floatingToolbox button:checked {
+  background: #e22529; color: #fcfcfc; border-color: #f36259; box-shadow: none; }

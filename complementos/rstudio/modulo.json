@@ -1,0 +1,43 @@
+{
+  "nombre": "RStudio",
+  "resumen": "Temas Lliphi Claro y Lliphi Oscuro para RStudio (`.rstheme`): el editor con la misma sintaxis que los demás editores, la consola de R y la terminal con los dieciséis colores de Konsole, y la interfaz clara u oscura según la variante; con la vigilancia de fondo-variante, RStudio cambia de tema al cambiar la variante.",
+  "clase": "paquete",
+  "orden": 10,
+  "formato": "RStudio",
+  "tecnologia": "RStudio theme `.rstheme` (CSS sobre Ace con `rs-theme-name` y `rs-theme-is-dark`; RStudio ≥ 1.2, probado en 2026.05.1) en `~/.config/rstudio/themes/` · `editor_theme` de `rstudio-prefs.json`",
+  "estado": "probado",
+  "desde": "0.4.0",
+  "archivos": [
+    "Lliphi Claro.rstheme",
+    "Lliphi Oscuro.rstheme",
+    "variante-rstudio.py"
+  ],
+  "capturas": [
+    "../capturas/oscuro-40-rstudio.png",
+    "../capturas/claro-40-rstudio.png",
+    "../capturas/oscuro-40-rstudio-consola.png",
+    "../capturas/claro-40-rstudio-consola.png"
+  ],
+  "dependencias": {
+    "construccion": [
+      "editores",
+      "konsole"
+    ]
+  },
+  "instalacion": [
+    {
+      "origen": "{nombre_esquema[claro]}.rstheme",
+      "destino": "rstudio/themes/{nombre_esquema[claro]}.rstheme",
+      "base": "config"
+    },
+    {
+      "origen": "{nombre_esquema[oscuro]}.rstheme",
+      "destino": "rstudio/themes/{nombre_esquema[oscuro]}.rstheme",
+      "base": "config"
+    },
+    {
+      "origen": "variante-rstudio.py",
+      "destino": "{id}/variante.d/rstudio.py"
+    }
+  ]
+}

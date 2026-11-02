@@ -55,7 +55,7 @@ Un **tema global** que integra **seis módulos**, más los **complementos** que 
 | Iconos y cursores | `iconos-cursores` | Papirus, `Papirus-Dark-Lliphi`, WhiteSur-cursors (terceros, a petición) |
 | Carga, salida y bloqueo | `carga-bloqueo` | pantalla de carga y de salida (dentro del tema global); fondo del bloqueo |
 | Disposición del escritorio | `disposicion` | paneles y widgets (script dentro del tema global) |
-| Complementos | `fondos`, `kvantum`, `konsole`, `terminales`, `editores`, `libreoffice`, `sddm`, `obsidian`, `sitios-web` | fondo, estilo de aplicaciones, terminales, editores, ofimática, inicio de sesión, tema de Obsidian ([obsidian-lliphi](https://github.com/achalmed/obsidian-lliphi)), DuckDuckGo y GitHub |
+| Complementos | `fondos`, `kvantum`, `konsole`, `terminales`, `editores`, `libreoffice`, `sddm`, `obsidian`, `navegadores`, `telegram`, `sitios-web` | fondo, estilo de aplicaciones, terminales, editores, ofimática, inicio de sesión, tema de Obsidian ([obsidian-lliphi](https://github.com/achalmed/obsidian-lliphi)), Zen Browser y Chrome, Telegram Desktop, DuckDuckGo y GitHub |
 
 ## Estructura
 

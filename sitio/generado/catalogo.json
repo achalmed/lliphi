@@ -367,7 +367,9 @@
       ],
       "capturas": [
         "../capturas/oscuro-08-positron.png",
-        "../capturas/claro-08-positron.png"
+        "../capturas/claro-08-positron.png",
+        "../capturas/oscuro-53-positron.png",
+        "../capturas/claro-53-positron.png"
       ],
       "dependencias": {
         "construccion": [
@@ -474,7 +476,7 @@
     },
     {
       "nombre": "El fondo y Konsole siguen a la variante",
-      "resumen": "Al cambiar entre Lliphi Claro y Lliphi Oscuro (con el tema global o el esquema), pone en cada escritorio la imagen clara u oscura del mismo fondo de Lliphi que tengas elegido, y en Konsole el esquema de la variante, también en las ventanas abiertas.",
+      "resumen": "Al cambiar entre Lliphi Claro y Lliphi Oscuro (con el tema global o el esquema), pone en cada escritorio la imagen clara u oscura del mismo fondo de Lliphi que tengas elegido, y en Konsole el esquema de la variante, también en las ventanas abiertas; si GTK de Lliphi está aplicado, la hoja de GTK 3 de la variante y la preferencia color-scheme.",
       "clase": "paquete",
       "orden": 9,
       "formato": "varios",
@@ -499,6 +501,128 @@
       "rol": "complemento",
       "ruta": "complementos/fondo-variante",
       "salida": "generado/fondo-variante"
+    },
+    {
+      "nombre": "Kate: tema del editor",
+      "resumen": "Lliphi Claro y Lliphi Oscuro para el editor de Kate, KWrite y KDevelop (KTextEditor), con la tabla de sintaxis de los demás editores y el fondo y la selección del esquema de Plasma, para que Kate cambie solo de tema al cambiar de variante.",
+      "clase": "paquete",
+      "orden": 10,
+      "formato": "varios",
+      "tecnologia": "tema de KSyntaxHighlighting 6 (JSON: `metadata`, `text-styles`, `editor-colors`) en `$XDG_DATA_HOME/org.kde.syntax-highlighting/themes/`; elección automática por la paleta (`Repository::themeForPalette`)",
+      "estado": "probado",
+      "desde": "0.4.0",
+      "archivos": [
+        "lliphi-claro.theme",
+        "lliphi-oscuro.theme"
+      ],
+      "capturas": [
+        "../capturas/oscuro-54-kate.png",
+        "../capturas/claro-54-kate.png"
+      ],
+      "dependencias": {
+        "construccion": [
+          "editores",
+          "kvantum"
+        ]
+      },
+      "id": "kate",
+      "rol": "complemento",
+      "ruta": "complementos/kate",
+      "salida": "generado/kate"
+    },
+    {
+      "nombre": "Navegadores: Zen Browser y Chrome",
+      "resumen": "Lliphi Claro y Lliphi Oscuro en Zen Browser (un userChrome.css que redefine las variables de Zen y de Firefox y sigue solo al modo del sistema) y en Google Chrome (dos temas sin empaquetar, uno por variante).",
+      "clase": "paquete",
+      "orden": 10,
+      "formato": "varios",
+      "tecnologia": "Zen Browser ≥ 1.24 (Firefox 159): `userChrome.css` sobre las variables `--zen-*` y de Firefox con `prefers-color-scheme`, y `user.js` (`toolkit.legacyUserProfileCustomizations.stylesheets`, `zen.view.window.scheme = 2`) en el perfil, también el del Flatpak `app.zen_browser.zen` · Chrome ≥ 120: tema de extensión (`manifest.json` v3 con `theme.colors`) sin empaquetar",
+      "estado": "experimental",
+      "desde": "0.4.0",
+      "archivos": [
+        "zen/userChrome.css",
+        "zen/user.js",
+        "chrome/lliphi-claro/manifest.json",
+        "chrome/lliphi-oscuro/manifest.json"
+      ],
+      "capturas": [
+        "../capturas/claro-38-zen.png",
+        "../capturas/oscuro-38-zen.png",
+        "../capturas/claro-39-chrome.png",
+        "../capturas/oscuro-39-chrome.png"
+      ],
+      "dependencias": {
+        "terceros": [
+          "Zen Browser o Google Chrome"
+        ]
+      },
+      "id": "navegadores",
+      "rol": "complemento",
+      "ruta": "complementos/navegadores",
+      "salida": "generado/navegadores"
+    },
+    {
+      "nombre": "RStudio",
+      "resumen": "Temas Lliphi Claro y Lliphi Oscuro para RStudio (`.rstheme`): el editor con la misma sintaxis que los demás editores, la consola de R y la terminal con los dieciséis colores de Konsole, y la interfaz clara u oscura según la variante; con la vigilancia de fondo-variante, RStudio cambia de tema al cambiar la variante.",
+      "clase": "paquete",
+      "orden": 10,
+      "formato": "RStudio",
+      "tecnologia": "RStudio theme `.rstheme` (CSS sobre Ace con `rs-theme-name` y `rs-theme-is-dark`; RStudio ≥ 1.2, probado en 2026.05.1) en `~/.config/rstudio/themes/` · `editor_theme` de `rstudio-prefs.json`",
+      "estado": "probado",
+      "desde": "0.4.0",
+      "archivos": [
+        "Lliphi Claro.rstheme",
+        "Lliphi Oscuro.rstheme",
+        "variante-rstudio.py"
+      ],
+      "capturas": [
+        "../capturas/oscuro-40-rstudio.png",
+        "../capturas/claro-40-rstudio.png",
+        "../capturas/oscuro-40-rstudio-consola.png",
+        "../capturas/claro-40-rstudio-consola.png"
+      ],
+      "dependencias": {
+        "construccion": [
+          "editores",
+          "konsole"
+        ]
+      },
+      "id": "rstudio",
+      "rol": "complemento",
+      "ruta": "complementos/rstudio",
+      "salida": "generado/rstudio"
+    },
+    {
+      "nombre": "GNU Octave",
+      "resumen": "Colores de la interfaz gráfica de Octave: el editor (lexers de Octave, Matlab, Bash y Diff con la sintaxis de los editores), la ventana de órdenes, el editor de variables y el espacio de trabajo; Lliphi Claro en el primer modo de color de Octave y Lliphi Oscuro en el segundo, fusionados en su configuración sin tocar lo demás y elegidos según la variante.",
+      "clase": "paquete",
+      "orden": 11,
+      "formato": "Octave",
+      "tecnologia": "`$XDG_CONFIG_HOME/octave/octave-gui.ini` (QSettings ini de Octave ≥ 7, probado en 11.1.0): colores `QColor` de los dos modos (`…` y `…_2`), lexers de QScintilla 2.14 en `[Scintilla]` y `[Scintilla_2]`, interruptores `*/color_mode`",
+      "estado": "probado",
+      "desde": "0.4.0",
+      "archivos": [
+        "lliphi.ini",
+        "octave-lliphi.py"
+      ],
+      "capturas": [
+        "../capturas/oscuro-41-octave.png",
+        "../capturas/claro-41-octave.png",
+        "../capturas/claro-41-octave-ordenes.png"
+      ],
+      "dependencias": {
+        "construccion": [
+          "editores",
+          "konsole"
+        ],
+        "herramientas_opcionales": [
+          "fc-list"
+        ]
+      },
+      "id": "octave",
+      "rol": "complemento",
+      "ruta": "complementos/octave",
+      "salida": "generado/octave"
     },
     {
       "nombre": "Sitios web: DuckDuckGo y GitHub",
@@ -535,6 +659,248 @@
       "rol": "complemento",
       "ruta": "complementos/sitios-web",
       "salida": "generado/sitios-web"
+    },
+    {
+      "nombre": "TeXstudio: resaltado del editor",
+      "resumen": "Los formatos de resaltado de TeXstudio para Lliphi Claro y Lliphi Oscuro (órdenes, entornos, matemática, referencias, ortografía, línea actual, selección, llaves por nivel) en las dos secciones que TeXstudio elige por la paleta del sistema, para que siga solo a la variante; como perfil que se carga desde TeXstudio o aplicados en texstudio.ini sin tocar lo demás.",
+      "clase": "paquete",
+      "orden": 11,
+      "formato": "varios",
+      "tecnologia": "TeXstudio 4.x: `[formats]` y `[formatsDark]` de `texstudio.ini` (`QFormatScheme`, grupos `data/<formato>`), elegidas por `ConfigManager::systemUsesDarkMode` · perfil `.txsprofile` (Opciones → Cargar perfil…)",
+      "estado": "probado",
+      "desde": "0.4.0",
+      "archivos": [
+        "lliphi.txsprofile"
+      ],
+      "capturas": [
+        "../capturas/oscuro-55-texstudio.png",
+        "../capturas/claro-55-texstudio.png"
+      ],
+      "dependencias": {
+        "construccion": [
+          "editores",
+          "kvantum"
+        ],
+        "herramientas_opcionales": [
+          "pgrep"
+        ]
+      },
+      "id": "texstudio",
+      "rol": "complemento",
+      "ruta": "complementos/texstudio",
+      "salida": "generado/texstudio"
+    },
+    {
+      "nombre": "Spyder",
+      "resumen": "Esquemas de sintaxis Lliphi Claro y Lliphi Oscuro para Spyder (editor, consola IPython, historial y ayuda) con la misma tabla que los demás editores, la interfaz en automático para que sea clara u oscura según el esquema, y los dieciséis colores de la terminal de Lliphi en la consola IPython; con la vigilancia de fondo-variante, Spyder cambia de esquema al cambiar la variante.",
+      "clase": "paquete",
+      "orden": 12,
+      "formato": "Spyder",
+      "tecnologia": "`[appearance]` de `$XDG_CONFIG_HOME/spyder-py3/config/spyder.ini` (17 claves por esquema, `names`, `selected`, `ui_theme = automatic`; Spyder ≥ 5, probado en 6.1.0) · secuencias OSC 4 de xterm en la consola IPython (qtconsole) con `startup/run_file`",
+      "estado": "probado",
+      "desde": "0.4.0",
+      "archivos": [
+        "spyder-lliphi.py",
+        "consola.py"
+      ],
+      "capturas": [
+        "../capturas/oscuro-42-spyder.png",
+        "../capturas/claro-42-spyder.png"
+      ],
+      "dependencias": {
+        "construccion": [
+          "editores",
+          "konsole"
+        ]
+      },
+      "id": "spyder",
+      "rol": "complemento",
+      "ruta": "complementos/spyder",
+      "salida": "generado/spyder"
+    },
+    {
+      "nombre": "Vim y Neovim: esquema lliphi",
+      "resumen": "El esquema de colores `lliphi` para Vim y Neovim, con Lliphi Claro y Lliphi Oscuro según `background`: el fondo y la terminal integrada de Konsole, la tabla de sintaxis de los demás editores y, en Neovim, los grupos de Tree-sitter, de los tokens semánticos del LSP y de diagnósticos.",
+      "clase": "paquete",
+      "orden": 12,
+      "formato": "varios",
+      "tecnologia": "esquema de colores de Vim script (`colors/lliphi.vim`, `:highlight`, `g:terminal_ansi_colors`) que lee también Neovim (grupos `@…` y `g:terminal_color_N` bajo `has('nvim')`); Neovim lo encuentra en `$XDG_DATA_HOME/nvim/site/colors/`",
+      "estado": "probado",
+      "desde": "0.4.0",
+      "archivos": [
+        "colors/lliphi.vim"
+      ],
+      "capturas": [
+        "../capturas/oscuro-56-neovim.png",
+        "../capturas/claro-56-neovim.png"
+      ],
+      "dependencias": {
+        "construccion": [
+          "editores",
+          "konsole"
+        ]
+      },
+      "id": "vim",
+      "rol": "complemento",
+      "ruta": "complementos/vim",
+      "salida": "generado/vim"
+    },
+    {
+      "nombre": "GTK 3, GTK 4 y libadwaita",
+      "resumen": "Las aplicaciones GTK con los colores de Lliphi, los mismos que dan Kvantum a las de Qt: una hoja por variante para GTK 3 y una con las dos para GTK 4 y libadwaita, sobre el tema Breeze y los colores que escribe kde-gtk-config, sin cambiar de tema GTK. Al pasar entre claro y oscuro, GTK 4 cambia solo; GTK 3 lo cambia fondo-variante.",
+      "clase": "paquete",
+      "orden": 20,
+      "formato": "varios",
+      "tecnologia": "CSS de GTK (`@define-color` de Breeze `*_breeze` y de libadwaita 1.9, variables `--accent-bg-color`…, `@media (prefers-color-scheme: dark)` de GTK ≥ 4.20) importado desde `~/.config/gtk-{3,4}.0/gtk.css` después del `colors.css` de kde-gtk-config",
+      "estado": "probado",
+      "desde": "0.4.0",
+      "licencia": "MIT",
+      "archivos": [
+        "gtk-3.0/lliphi-claro.css",
+        "gtk-3.0/lliphi-oscuro.css",
+        "gtk-4.0/lliphi.css"
+      ],
+      "capturas": [
+        "../capturas/oscuro-38-gtk3-antes.png",
+        "../capturas/oscuro-38-gtk3.png",
+        "../capturas/claro-38-gtk3.png",
+        "../capturas/oscuro-38-gtk4-libadwaita.png",
+        "../capturas/claro-38-gtk4-libadwaita.png"
+      ],
+      "dependencias": {
+        "herramientas_opcionales": [
+          "gsettings"
+        ]
+      },
+      "id": "gtk",
+      "rol": "complemento",
+      "ruta": "complementos/gtk",
+      "salida": "generado/gtk"
+    },
+    {
+      "nombre": "Xournal++: paleta de bolígrafos y colores",
+      "resumen": "Xournal++ con Lliphi: la interfaz y el modo oscuro siguen al complemento gtk; aquí, una paleta de bolígrafos sobria desde los tokens (escribir legible sobre papel blanco y resaltar) y los colores de alrededor de las páginas, de la selección y del recoloreado del modo oscuro.",
+      "clase": "paquete",
+      "orden": 21,
+      "formato": "varios",
+      "tecnologia": "paleta «GIMP Palette» (`.gpl`) en `~/.config/xournalpp/palettes/` · propiedades de color de `settings.xml` (ARGB decimal: `backgroundColor`, `selection*Color`, `recolor.*`, `colorPalette`)",
+      "estado": "probado",
+      "desde": "0.4.0",
+      "licencia": "MIT",
+      "archivos": [
+        "palettes/Lliphi.gpl",
+        "settings-lliphi.xml"
+      ],
+      "capturas": [
+        "../capturas/oscuro-39-xournalpp.png",
+        "../capturas/claro-39-xournalpp.png"
+      ],
+      "dependencias": {
+        "herramientas_opcionales": [
+          "pgrep"
+        ]
+      },
+      "id": "xournalpp",
+      "rol": "complemento",
+      "ruta": "complementos/xournalpp",
+      "salida": "generado/xournalpp"
+    },
+    {
+      "nombre": "GIMP: tema de interfaz y paletas",
+      "resumen": "Un tema de interfaz de GIMP 3 con sus dos variantes, Lliphi Claro y Lliphi Oscuro, derivado del tema Default de GIMP: los neutros de los tokens y lo elegido en el acento, con el lienzo neutro; con el esquema de color «del sistema», sigue al escritorio. Y dos paletas .gpl con los colores de Lliphi.",
+      "clase": "paquete",
+      "orden": 22,
+      "formato": "varios",
+      "tecnologia": "tema de GIMP 3 (`gimp-{light,gray,dark}.css` con 17 `@define-color` e importación de `common-*.css`, CSS de GTK 3) · `(theme-color-scheme system)` de `gimprc` · paleta «GIMP Palette» (`.gpl`)",
+      "estado": "probado",
+      "desde": "0.4.0",
+      "licencia": "GPL-3.0-or-later",
+      "archivos": [
+        "themes/Lliphi/gimp-light.css",
+        "themes/Lliphi/gimp-gray.css",
+        "themes/Lliphi/gimp-dark.css",
+        "themes/Lliphi/common.css",
+        "themes/Lliphi/system.css",
+        "themes/Lliphi/ui/",
+        "palettes/Lliphi Claro.gpl",
+        "palettes/Lliphi Oscuro.gpl"
+      ],
+      "capturas": [
+        "../capturas/oscuro-40-gimp.png",
+        "../capturas/claro-40-gimp.png"
+      ],
+      "dependencias": {
+        "construccion": [
+          "libreoffice"
+        ],
+        "bases": [
+          "fuentes/base/GIMP-Default"
+        ],
+        "herramientas_opcionales": [
+          "pgrep"
+        ]
+      },
+      "id": "gimp",
+      "rol": "complemento",
+      "ruta": "complementos/gimp",
+      "salida": "generado/gimp"
+    },
+    {
+      "nombre": "Calibre: biblioteca y visor",
+      "resumen": "Calibre con las paletas Lliphi Claro y Lliphi Oscuro (las de Kvantum, para su propio estilo), que siguen al escritorio en vivo, y el visor de libros con su esquema «Sistema» en los colores de Lliphi y dos esquemas fijos más. Solo preferencias de la interfaz, con respaldo: la biblioteca no se toca.",
+      "clase": "paquete",
+      "orden": 23,
+      "formato": "varios",
+      "tecnologia": "`gui.json` de Calibre ≥ 7 (`color_palette`, `light_palettes`, `dark_palettes`: rol de `QPalette` → color) · `viewer-webengine.json` (`session_data.user_color_schemes`) · fundido con Calibre cerrado",
+      "estado": "probado",
+      "desde": "0.4.0",
+      "licencia": "MIT",
+      "archivos": [
+        "gui-lliphi.json",
+        "visor-lliphi.json"
+      ],
+      "capturas": [
+        "../capturas/oscuro-41-calibre.png",
+        "../capturas/claro-41-calibre.png",
+        "../capturas/oscuro-41-calibre-visor.png",
+        "../capturas/claro-41-calibre-visor.png"
+      ],
+      "dependencias": {
+        "herramientas_opcionales": [
+          "pgrep"
+        ]
+      },
+      "id": "calibre",
+      "rol": "complemento",
+      "ruta": "complementos/calibre",
+      "salida": "generado/calibre"
+    },
+    {
+      "nombre": "Telegram Desktop",
+      "resumen": "Dos temas de Telegram Desktop (Lliphi Claro y Lliphi Oscuro, archivos .tdesktop-theme) con las 586 claves de color de la versión instalada, todas desde los tokens: neutros de Lliphi, el acento en la selección, el foco, los botones y los mensajes propios (un tinte del acento), los estados en enlaces, avisos, errores y «en línea», y un fondo de chat liso; Telegram alterna solo entre los dos si su modo nocturno automático sigue al sistema.",
+      "clase": "paquete",
+      "orden": 30,
+      "formato": "varios",
+      "tecnologia": "Telegram Desktop ≥ 7.3 · `.tdesktop-theme` (zip con `colors.tdesktop-theme` y `tiled.png`) · claves de `ui/colors.palette` de lib_ui",
+      "estado": "experimental",
+      "desde": "0.4.0",
+      "licencia": "GPL-3.0-or-later",
+      "archivos": [
+        "Lliphi Claro.tdesktop-theme",
+        "Lliphi Oscuro.tdesktop-theme",
+        "claro/",
+        "oscuro/"
+      ],
+      "capturas": [],
+      "dependencias": {
+        "bases": [
+          "fuentes/base/telegram-palette"
+        ]
+      },
+      "id": "telegram",
+      "rol": "complemento",
+      "ruta": "complementos/telegram",
+      "salida": "generado/telegram"
     }
   ]
 }

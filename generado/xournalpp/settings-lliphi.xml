@@ -1,0 +1,11 @@
+<!-- GENERADO por herramientas/generar.py desde tokens/ (complementos/xournalpp); no editar -->
+<!-- Colores de Lliphi para Xournal++: con Xournal++ cerrado, sustituye estas propiedades en
+     ~/.config/xournalpp/settings.xml (o deja que lo haga instalar.py --aplicar-tema). Los colores son ARGB en decimal;
+     en colorPalette, escribe la ruta completa de la paleta (sin ~). -->
+<property name="backgroundColor" value="4282203714"/>
+<property name="selectionBorderColor" value="4281424879"/>
+<property name="selectionMarkerColor" value="4282873840"/>
+<property name="activeSelectionColor" value="4293010729"/>
+<property name="recolor.dark" value="4279242770"/>
+<property name="recolor.light" value="4293585901"/>
+<property name="colorPalette" value="~/.config/xournalpp/palettes/Lliphi.gpl"/>

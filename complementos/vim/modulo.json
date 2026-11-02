@@ -1,0 +1,29 @@
+{
+  "nombre": "Vim y Neovim: esquema lliphi",
+  "resumen": "El esquema de colores `lliphi` para Vim y Neovim, con Lliphi Claro y Lliphi Oscuro según `background`: el fondo y la terminal integrada de Konsole, la tabla de sintaxis de los demás editores y, en Neovim, los grupos de Tree-sitter, de los tokens semánticos del LSP y de diagnósticos.",
+  "clase": "paquete",
+  "orden": 12,
+  "formato": "varios",
+  "tecnologia": "esquema de colores de Vim script (`colors/lliphi.vim`, `:highlight`, `g:terminal_ansi_colors`) que lee también Neovim (grupos `@…` y `g:terminal_color_N` bajo `has('nvim')`); Neovim lo encuentra en `$XDG_DATA_HOME/nvim/site/colors/`",
+  "estado": "probado",
+  "desde": "0.4.0",
+  "archivos": [
+    "colors/lliphi.vim"
+  ],
+  "capturas": [
+    "../capturas/oscuro-56-neovim.png",
+    "../capturas/claro-56-neovim.png"
+  ],
+  "dependencias": {
+    "construccion": [
+      "editores",
+      "konsole"
+    ]
+  },
+  "instalacion": [
+    {
+      "origen": "colors/{id}.vim",
+      "destino": "nvim/site/colors/{id}.vim"
+    }
+  ]
+}

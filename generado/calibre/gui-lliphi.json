@@ -1,0 +1,56 @@
+{
+  "_nota": "GENERADO por herramientas/generar.py desde tokens/ (complementos/calibre); no editar",
+  "color_palette": "system",
+  "light_palette_name": "Lliphi Claro",
+  "light_palettes": {
+    "Lliphi Claro": {
+      "Window": "#ecedef",
+      "WindowText": "#1d1f24",
+      "Base": "#fbfcfd",
+      "AlternateBase": "#f2f3f5",
+      "ToolTipBase": "#ecedef",
+      "ToolTipText": "#1d1f24",
+      "PlaceholderText": "#66676c",
+      "Text": "#1d1f24",
+      "Button": "#e0e1e5",
+      "ButtonText": "#1d1f24",
+      "BrightText": "#fcfcfc",
+      "Highlight": "#315bef",
+      "HighlightedText": "#fcfcfc",
+      "Accent": "#315bef",
+      "Link": "#2a4fd0",
+      "LinkVisited": "#4b4d53",
+      "WindowText-disabled": "#66676c",
+      "Text-disabled": "#66676c",
+      "ButtonText-disabled": "#66676c",
+      "Highlight-disabled": "#e0e1e5",
+      "HighlightedText-disabled": "#66676c"
+    }
+  },
+  "dark_palette_name": "Lliphi Oscuro",
+  "dark_palettes": {
+    "Lliphi Oscuro": {
+      "Window": "#1b1c1e",
+      "WindowText": "#eaebed",
+      "Base": "#101012",
+      "AlternateBase": "#161719",
+      "ToolTipBase": "#323335",
+      "ToolTipText": "#eaebed",
+      "PlaceholderText": "#97989c",
+      "Text": "#eaebed",
+      "Button": "#2e2f32",
+      "ButtonText": "#eaebed",
+      "BrightText": "#fcfcfc",
+      "Highlight": "#e22529",
+      "HighlightedText": "#fcfcfc",
+      "Accent": "#e22529",
+      "Link": "#ff968b",
+      "LinkVisited": "#bcbec1",
+      "WindowText-disabled": "#97989c",
+      "Text-disabled": "#97989c",
+      "ButtonText-disabled": "#97989c",
+      "Highlight-disabled": "#232426",
+      "HighlightedText-disabled": "#97989c"
+    }
+  }
+}

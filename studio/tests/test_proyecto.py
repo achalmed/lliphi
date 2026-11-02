@@ -7,9 +7,12 @@ import json
 from lliphi_studio import proyecto
 
 
-def test_los_diecisiete_modulos_y_los_seis(lliphi):
+def test_el_global_los_seis_modulos_y_los_complementos(lliphi):
     mods = proyecto.modulos()
-    assert len(mods) == 17 and mods[0].id == "global"
+    # el global, los seis módulos y un complemento por cada complementos/<id>/modulo.json de la copia
+    complementos = sorted(p.parent.name for p in lliphi.glob("complementos/*/modulo.json"))
+    assert len(mods) == 7 + len(complementos) and len(complementos) >= 12 and mods[0].id == "global"
+    assert sorted(m.id for m in mods if m.rol == "complemento") == complementos
     assert [m.id for m in mods if m.rol == "modulo"] == ["esquema", "estilo", "decoracion", "iconos-cursores",
                                                           "carga-bloqueo", "disposicion"]
     assert ("global", "disposicion", "integra") in proyecto.aristas()

@@ -1,0 +1,34 @@
+{
+  "nombre": "Kate: tema del editor",
+  "resumen": "Lliphi Claro y Lliphi Oscuro para el editor de Kate, KWrite y KDevelop (KTextEditor), con la tabla de sintaxis de los demás editores y el fondo y la selección del esquema de Plasma, para que Kate cambie solo de tema al cambiar de variante.",
+  "clase": "paquete",
+  "orden": 10,
+  "formato": "varios",
+  "tecnologia": "tema de KSyntaxHighlighting 6 (JSON: `metadata`, `text-styles`, `editor-colors`) en `$XDG_DATA_HOME/org.kde.syntax-highlighting/themes/`; elección automática por la paleta (`Repository::themeForPalette`)",
+  "estado": "probado",
+  "desde": "0.4.0",
+  "archivos": [
+    "lliphi-claro.theme",
+    "lliphi-oscuro.theme"
+  ],
+  "capturas": [
+    "../capturas/oscuro-54-kate.png",
+    "../capturas/claro-54-kate.png"
+  ],
+  "dependencias": {
+    "construccion": [
+      "editores",
+      "kvantum"
+    ]
+  },
+  "instalacion": [
+    {
+      "origen": "{id}-claro.theme",
+      "destino": "org.kde.syntax-highlighting/themes/{id}-claro.theme"
+    },
+    {
+      "origen": "{id}-oscuro.theme",
+      "destino": "org.kde.syntax-highlighting/themes/{id}-oscuro.theme"
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+GIMP Palette
+Name: Lliphi Oscuro
+Columns: 16
+# GENERADO por herramientas/generar.py desde tokens/; no editar
+ 16  16  18	Fondo
+ 22  23  25	Fondo alterno
+ 27  28  30	Ventana
+ 35  36  38	Ventana alterna
+ 46  47  50	Botón
+ 61  62  66	Separador
+151 152 156	Texto inactivo
+188 190 193	Texto secundario
+234 235 237	Texto
+226  37  41	Acento
+243  98  89	Acento suave
+255 150 139	Enlace
+251 129 122	Error
+235 178  95	Advertencia
+111 200 132	Éxito
+127 182 238	Información
+ 50  51  54	Negro
+242 136 129	Rojo
+105 194 126	Verde
+208 164  58	Amarillo
+125 170 253	Azul
+217 140 210	Magenta
+  0 194 202	Cian
+208 209 212	Blanco
+ 98  99 103	Gris
+255 171 163	Rojo intenso
+131 220 151	Verde intenso
+235 189  87	Amarillo intenso
+164 197 255	Azul intenso
+244 165 236	Magenta intenso
+ 52 221 229	Cian intenso
+241 242 243	Blanco intenso

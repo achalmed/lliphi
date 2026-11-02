@@ -1,0 +1,27 @@
+{
+  "nombre": "TeXstudio: resaltado del editor",
+  "resumen": "Los formatos de resaltado de TeXstudio para Lliphi Claro y Lliphi Oscuro (órdenes, entornos, matemática, referencias, ortografía, línea actual, selección, llaves por nivel) en las dos secciones que TeXstudio elige por la paleta del sistema, para que siga solo a la variante; como perfil que se carga desde TeXstudio o aplicados en texstudio.ini sin tocar lo demás.",
+  "clase": "paquete",
+  "orden": 11,
+  "formato": "varios",
+  "tecnologia": "TeXstudio 4.x: `[formats]` y `[formatsDark]` de `texstudio.ini` (`QFormatScheme`, grupos `data/<formato>`), elegidas por `ConfigManager::systemUsesDarkMode` · perfil `.txsprofile` (Opciones → Cargar perfil…)",
+  "estado": "probado",
+  "desde": "0.4.0",
+  "archivos": [
+    "lliphi.txsprofile"
+  ],
+  "capturas": [
+    "../capturas/oscuro-55-texstudio.png",
+    "../capturas/claro-55-texstudio.png"
+  ],
+  "dependencias": {
+    "construccion": [
+      "editores",
+      "kvantum"
+    ],
+    "herramientas_opcionales": [
+      "pgrep"
+    ]
+  },
+  "instalacion": []
+}

@@ -1,6 +1,6 @@
 {
   "nombre": "El fondo y Konsole siguen a la variante",
-  "resumen": "Al cambiar entre Lliphi Claro y Lliphi Oscuro (con el tema global o el esquema), pone en cada escritorio la imagen clara u oscura del mismo fondo de Lliphi que tengas elegido, y en Konsole el esquema de la variante, también en las ventanas abiertas.",
+  "resumen": "Al cambiar entre Lliphi Claro y Lliphi Oscuro (con el tema global o el esquema), pone en cada escritorio la imagen clara u oscura del mismo fondo de Lliphi que tengas elegido, y en Konsole el esquema de la variante, también en las ventanas abiertas; si GTK de Lliphi está aplicado, la hoja de GTK 3 de la variante y la preferencia color-scheme.",
   "clase": "paquete",
   "orden": 9,
   "formato": "varios",

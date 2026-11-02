@@ -1,0 +1,46 @@
+/* GENERADO por herramientas/generar.py desde tokens/ y fuentes/base/GIMP-Default (complementos/gimp); no editar */
+/* Lliphi para GIMP 3, variante «gray» con los colores de Lliphi Oscuro; deriva del tema
+   Default de GIMP 3.2 (GPL-3.0-or-later). Se elige en Preferencias → Interfaz → Tema. */
+
+@define-color fg-color               #eaebed;
+@define-color bg-color               #1b1c1e;
+@define-color border-color           #101012;
+@define-color dimmed-fg-color        #bcbec1;
+@define-color disabled-fg-color      #97989c;
+@define-color disabled-button-color  mix(#97989c, #1b1c1e, 0.4);
+@define-color hover-color            #2e2f32;
+@define-color widget-bg-color        #161719;
+@define-color selected-color         #101012;
+@define-color extreme-bg-color       #101012;
+@define-color extreme-selected-color #2e2f32;
+@define-color strong-border-color    #2e2f32;
+@define-color stronger-border-color  #3d3e42;
+@define-color edge-border-color      #101012;
+@define-color scrollbar-slider-color #97989c;
+@define-color scrollbar-trough-color #1b1c1e;
+@define-color ruler-color            alpha(#3d3e42, 0.3);
+
+@import url("common-dark.css");
+
+/* Lliphi: lo elegido, en el acento de la variante */
+treeview.view:selected,
+.view:selected,
+.view row:selected,
+list row:selected,
+iconview:selected,
+.sidebar-row:selected,
+.sidebar-row:selected *,
+menuitem:hover,
+menuitem:selected,
+popover list row:selected {
+  background-color: #e22529;
+  color: #fcfcfc;
+}
+progressbar trough progress, switch:checked, scale contents trough highlight {
+  background-color: #e22529;
+}
+checkbutton check:checked, radiobutton radio:checked {
+  background-color: #e22529;
+  color: #fcfcfc;
+  border-color: #e22529;
+}

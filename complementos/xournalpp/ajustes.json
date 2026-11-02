@@ -1,0 +1,28 @@
+{
+  "$description": "Ajustes del complemento de Xournal++ (fuente; lo lee complementos/xournalpp/construir.py y lo edita Lliphi Studio). Cada color es [variante, token]: la variante de Lliphi de la que se toma el token semántico, o \"terminal\" para los ANSI de Konsole. boligrafos: la paleta (palette.gpl) en el orden de los botones de color de la barra de herramientas, COLOR(0) a COLOR(10) y los demás en el selector; las páginas son blancas en las dos variantes, así que los colores de escribir son los del claro, legibles sobre papel, y los de resaltar, los claros del oscuro. interfaz: propiedades de color de settings.xml; la zona alrededor de las páginas (backgroundColor) y la selección son una sola para las dos variantes de la interfaz, porque Xournal++ no las cambia con el modo oscuro: gris oscuro alrededor de la hoja blanca, y la selección en el azul del claro, que se ve sobre el papel. recolor: los colores con que el modo oscuro de Xournal++ (Preferencias → Ver → Recolorear) pinta el papel y la tinta, desactivado por omisión.",
+  "boligrafos": [
+    ["Negro", "claro", "texto.normal"],
+    ["Azul", "claro", "acento.base"],
+    ["Rojo", "oscuro", "acento.base"],
+    ["Verde", "terminal-claro", "color2"],
+    ["Morado", "terminal-claro", "color5"],
+    ["Cian", "terminal-claro", "color6"],
+    ["Ámbar", "claro", "estado.advertencia"],
+    ["Gris", "claro", "texto.inactivo"],
+    ["Amarillo para resaltar", "terminal-oscuro", "color11"],
+    ["Verde para resaltar", "terminal-oscuro", "color10"],
+    ["Blanco", "claro", "fondo.vista"],
+    ["Azul para resaltar", "terminal-oscuro", "color12"],
+    ["Rosa para resaltar", "terminal-oscuro", "color13"]
+  ],
+  "interfaz": {
+    "backgroundColor": ["oscuro", "borde.separador"],
+    "selectionBorderColor": ["claro", "acento.base"],
+    "selectionMarkerColor": ["claro", "acento.suave"],
+    "activeSelectionColor": ["oscuro", "acento.base"]
+  },
+  "recolor": {
+    "recolor.dark": ["oscuro", "fondo.vista"],
+    "recolor.light": ["oscuro", "texto.normal"]
+  }
+}

@@ -1,0 +1,35 @@
+GIMP Palette
+Name: Lliphi Claro
+Columns: 16
+# GENERADO por herramientas/generar.py desde tokens/; no editar
+251 252 253	Fondo
+242 243 245	Fondo alterno
+236 237 239	Ventana
+224 225 229	Ventana alterna
+204 206 210	Separador
+102 103 108	Texto inactivo
+ 75  77  83	Texto secundario
+ 29  31  36	Texto
+ 49  91 239	Acento
+ 71 119 240	Acento suave
+ 42  79 208	Enlace
+182  49  50	Error
+145  91   0	Advertencia
+ 19 119  56	Éxito
+ 40 108 171	Información
+ 44  46  50	Negro
+164  59  56	Rojo
+  0 120  53	Verde
+126  94   0	Amarillo
+ 52  95 178	Azul
+142  64 136	Magenta
+  0 113 118	Cian
+189 190 192	Blanco
+ 83  85  90	Gris
+137  33  34	Rojo intenso
+  0  94  40	Verde intenso
+ 98  72   0	Amarillo intenso
+ 30  71 152	Azul intenso
+117  40 112	Magenta intenso
+  0  88  92	Cian intenso
+231 232 233	Blanco intenso

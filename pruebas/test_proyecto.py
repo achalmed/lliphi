@@ -214,7 +214,8 @@ def test_sesion_de_prueba_prepara_y_aisla(tmp_path: Path, monkeypatch):
 
 
 def test_sesion_de_prueba_se_niega(tmp_path: Path, monkeypatch):
-    """Ninguna orden corre dentro sin una sesión de prueba viva y con su HOME bajo la caché de sesiones."""
+    """Ninguna orden corre dentro sin una sesión de prueba viva y con su HOME bajo la caché de sesiones. Sin las
+    herramientas de KWin y Plasma (la CI), `arrancar` se niega antes de simular, y tampoco escribe nada."""
     sesion = _sesion(monkeypatch, tmp_path)
     with pytest.raises(PermissionError):
         sesion.entorno_dentro({"casa": str(Path.home())})
@@ -224,7 +225,11 @@ def test_sesion_de_prueba_se_niega(tmp_path: Path, monkeypatch):
     assert sesion.cerrar(["cerrar"]) == 0
     env = {**os.environ, "XDG_CACHE_HOME": str(tmp_path / "c"), "XDG_STATE_HOME": str(tmp_path / "s")}
     r = correr("herramientas/sesion.py", "arrancar", "--virtual", env=env)
-    assert r.returncode == 0 and "SIMULACIÓN" in r.stdout and not (tmp_path / "c").exists()
+    if all(shutil.which(h, path=sesion.PATH) for h in sesion.HERRAMIENTAS):
+        assert r.returncode == 0 and "SIMULACIÓN" in r.stdout, r.stdout
+    else:
+        assert r.returncode == 2 and r.stdout.startswith("faltan:"), r.stdout
+    assert not (tmp_path / "c").exists()
     assert json.loads(correr("herramientas/sesion.py", "estado", "--json", env=env).stdout)["activa"] is False
 
 
@@ -498,6 +503,213 @@ def test_zed_tema():
         assert st["players"] and {"cursor", "background", "selection"} <= set(st["players"][0])
 
 
+def _contraste(a: str, b: str) -> float:
+    def lum(h: str) -> float:
+        c = [int(h.lstrip("#")[i:i + 2], 16) / 255 for i in (0, 2, 4)]
+        c = [x / 12.92 if x <= 0.04045 else ((x + 0.055) / 1.055) ** 2.4 for x in c]
+        return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]
+    la, lb = lum(a), lum(b)
+    return (max(la, lb) + 0.05) / (min(la, lb) + 0.05)
+
+
+# las claves de Positron 2026.06 cuyo valor por omisión es un color fijo suyo (decisiones 5.4): todas deben estar
+POSITRON_FIJAS = (
+    "positronSplitterExpandCollapseButton.foreground", "positronToolTip.background", "positronToolTip.border",
+    "positronActionBar.separator", "positronActionBar.textInputBackground", "positronActionBar.textInputBorder",
+    "positronActionBar.textInputSelectionForeground", "positronActionBar.textInputSelectionBackground",
+    "positronModalDialog.separator", "positronModalDialog.textInputBackground", "positronModalDialog.textInputBorder",
+    "positronModalDialog.textInputSelectionForeground", "positronModalDialog.textInputSelectionBackground",
+    "positronModalDialog.checkboxBackground", "positronModalDialog.checkboxForeground", "positronModalDialog.checkboxBorder",
+    "positronConsole.traceBackground", "positronRuntime.stateIconActive", "positronRuntime.stateIconDisconnected",
+    "positronRuntime.stateIconIdle", "positronDataGrid.cursorBorder", "positronDataGrid.selectionBorder",
+    "positronDataGrid.selectionInnerBorder", "positronDataGrid.selectionBackground",
+    "positronDataExplorer.invalidFilterBackground", "positronDataExplorer.statusIndicatorComputing",
+    "positronDataExplorer.statusIndicatorDisconnected", "positronDataExplorer.columnNullPercentGraphBackgroundFill",
+    "positronDataExplorer.columnNullPercentGraphBackgroundStroke", "positronDataExplorer.columnNullPercentGraphIndicatorFill",
+    "positronDataExplorer.sparklineAxis", "positronDataExplorer.sparklineFill", "positronDataExplorer.sparklineHover",
+    "positronDataExplorer.sparklineStroke", "positronWelcome.foreground", "positronWelcome.secondaryForeground",
+    "positronNotebook.cellFooterForeground", "tree.tableColumnsBorder")
+
+
+def test_positron_entero():
+    """Decisiones 5.4: Positron no pinta nada con sus colores propios; la consola lleva el fondo de la terminal integrada
+    y los ANSI de Konsole, legibles (≥ 4,5:1 los colores 1–7) sobre ese fondo."""
+    for v in ("claro", "oscuro"):
+        c = json.loads((GEN / "editores" / "vscode" / MARCA["id"] / "themes" / f"{MARCA['id']}-{v}-color-theme.json").read_text(encoding="utf-8"))["colors"]
+        faltan = [k for k in POSITRON_FIJAS if k not in c]
+        assert not faltan, (v, faltan)
+        k = registro.codigo("konsole").ansi(TOKENS, v)
+        assert c["positronConsole.background"] == c["terminal.background"] and c["positronConsole.ansiRed"] == k["color1"]
+        assert c["positronConsole.ansiBrightWhite"] == k["color15"]
+        for i, n in enumerate(("Red", "Green", "Yellow", "Blue", "Magenta", "Cyan", "White"), start=1):
+            assert _contraste(c[f"positronConsole.ansi{n}"], c["positronConsole.background"]) >= 4.5, (v, n)
+        assert _contraste(c["positronWelcome.foreground"], c["editor.background"]) >= 4.5, v
+
+
+ALFAS = ("1a", "1f", "26", "33", "40", "55", "66")
+
+
+def _permitidos(v: str, fondo: str) -> set[str]:
+    """Los colores que puede llevar un tema de editor de la variante `v` con fondo `fondo`: los del maestro, los de
+    Konsole y cualquiera de ellos con un alfa de los editores compuesto sobre el fondo (`editores.sobre`)."""
+    base = {t["$value"]["hex"].lower() for t in _tokens_planos(TOKENS).values() if isinstance(t["$value"], dict) and "hex" in t["$value"]}
+    base |= set(registro.codigo("konsole").ansi(TOKENS, v).values())
+    sobre = registro.codigo("editores").sobre
+    return base | {sobre(c, fondo, a) for c in base for a in ALFAS}
+
+
+def test_kate_temas():
+    """Decisiones 5.5: dos temas de KSyntaxHighlighting con la sintaxis de los editores; su fondo y su selección son los
+    de la paleta que Kvantum da a las aplicaciones, para que Kate (themeForPalette) elija solo el de la variante; texto
+    legible."""
+    for v in ("claro", "oscuro"):
+        tema = json.loads((GEN / "kate" / f"{MARCA['id']}-{v}.theme").read_text(encoding="utf-8"))
+        qt = registro.codigo("kvantum").paleta_qt(TOKENS, v)
+        c, e = tema["editor-colors"], _sintaxis_esperada(v)
+        assert tema["metadata"]["name"] == MARCA["nombre_esquema"][v] and isinstance(tema["metadata"]["revision"], int)
+        assert c["BackgroundColor"] == qt["base.color"] == e["fondo"] and c["TextSelection"] == qt["highlight.color"]
+        ts = tema["text-styles"]
+        assert ts["Keyword"]["text-color"] == e["palabra-clave"] and ts["String"]["text-color"] == e["cadena"]
+        assert ts["Function"]["text-color"] == e["funcion"] and ts["Comment"]["text-color"] == e["comentario"] and ts["Comment"]["italic"]
+        assert ts["DecVal"]["text-color"] == e["numero"] and ts["Normal"]["text-color"] == e["texto"]
+        faltan = {"Normal", "Keyword", "Function", "Variable", "ControlFlow", "Operator", "BuiltIn", "Extension", "Preprocessor",
+                  "Attribute", "Char", "SpecialChar", "String", "VerbatimString", "SpecialString", "Import", "DataType", "DecVal",
+                  "BaseN", "Float", "Constant", "Comment", "Documentation", "Annotation", "CommentVar", "RegionMarker",
+                  "Information", "Warning", "Alert", "Error", "Others"} - set(ts)
+        assert not faltan, (v, faltan)
+        permitidos = _permitidos(v, c["BackgroundColor"])
+        for nombre, estilo in ts.items():
+            assert _contraste(estilo["text-color"], c["BackgroundColor"]) >= 4.5, (v, nombre)
+            assert {estilo["text-color"], estilo["selected-text-color"], estilo.get("background-color", estilo["text-color"])} <= permitidos, (v, nombre)
+        assert set(c.values()) <= permitidos, (v, set(c.values()) - permitidos)
+        assert _contraste(ts["Normal"]["selected-text-color"], c["TextSelection"]) >= 4.5, v
+
+
+def _formatos_texstudio(seccion: str) -> dict[str, dict[str, str]]:
+    cp = configparser.RawConfigParser(comment_prefixes=("#", ";"))
+    cp.optionxform = str
+    cp.read_string((GEN / "texstudio" / f"{MARCA['id']}.txsprofile").read_text(encoding="utf-8"))
+    formatos: dict[str, dict[str, str]] = {}
+    for clave, valor in cp[seccion].items():
+        if clave.startswith("data\\"):
+            _, id_, campo = clave.split("\\")
+            formatos.setdefault(id_.replace("%3A", ":"), {})[campo] = valor
+    assert cp[seccion]["version"] == "1.0"
+    return formatos
+
+
+def test_texstudio_formatos():
+    """Decisiones 5.6: [formats] (claro) y [formatsDark] (oscuro), con todos los formatos de TeXstudio 4.9 y la tabla de
+    sintaxis; texto legible sobre el `base.color` de Kvantum (el `Base` con que pinta TeXstudio)."""
+    ids = {"comment", "magicComment", "commentTodo", "keyword", "extra-keyword", "math-keyword", "math-delimiter", "math-text",
+           "environment", "structure", "verbatim", "link", "numbers", "escapeseq", "text", "current", "selection", "search",
+           "braceMatch", "braceMismatch", "spellingMistake", "line:error", "line:warning", "line:badbox", "background",
+           "referencePresent", "referenceMissing", "citationPresent", "citationMissing", "diffAdd", "diffDelete",
+           *(f"braceLevel{i}" for i in range(8))}
+    for v, seccion in (("claro", "formats"), ("oscuro", "formatsDark")):
+        f, e = _formatos_texstudio(seccion), _sintaxis_esperada(v)
+        assert ids <= set(f), (v, ids - set(f))
+        assert len(f) >= 88
+        fondo = registro.codigo("kvantum").paleta_qt(TOKENS, v)["base.color"]
+        assert f["keyword"]["foreground"] == e["funcion"] and f["extra-keyword"]["foreground"] == e["palabra-clave"]
+        assert f["comment"]["foreground"] == e["comentario"] and f["comment"]["italic"] == "true"
+        assert f["math-keyword"]["foreground"] == e["numero"] and f["align-ampersand"]["priority"] == "5"
+        assert f["spellingMistake"]["waveUnderline"] == "true"
+        permitidos = _permitidos(v, fondo)
+        for id_, campos in f.items():
+            colores = {campos[k] for k in ("foreground", "background", "linescolor") if k in campos}
+            assert colores <= permitidos, (v, id_, colores - permitidos)
+            if "foreground" in campos:
+                assert _contraste(campos["foreground"], campos.get("background", fondo)) >= 4.5, (v, id_)
+
+
+def test_texstudio_fundir_respeta_lo_demas(tmp_path):
+    """El aplicar de TeXstudio solo sustituye [formats] y [formatsDark]; lo demás del texstudio.ini queda igual, y un
+    enlace de dotfiles sigue siendo enlace. Con TeXstudio abierto no escribe."""
+    aplicar = registro.codigo("texstudio", "aplicar")
+    original = ("[General]\nIniMode=true\n\n[formats]\nversion=1.0\n\n[formatsDark]\nversion=1.0\n\n"
+                "[texmaker]\nEditor\\Font%20Family=JetBrains Mono\nGUI\\Style=0\n\n[version]\nwritten_by_TXS_version=4.9.9\n")
+    real = tmp_path / "dotfiles" / "texstudio.ini"
+    real.parent.mkdir(parents=True)
+    real.write_text(original, encoding="utf-8")
+    ini = tmp_path / "config" / "texstudio" / "texstudio.ini"
+    ini.parent.mkdir(parents=True)
+    ini.symlink_to(real)
+
+    class Ctx:
+        CONFIG, modulos, marca, tokens = tmp_path / "config", ["texstudio"], MARCA, TOKENS
+        abierto = False
+        dicho: list[str] = []
+        def ejecutar(self, orden):
+            return subprocess.CompletedProcess(orden, 0 if self.abierto else 1)
+        def decir(self, texto):
+            self.dicho.append(texto)
+        @staticmethod
+        def codigo(id_, archivo="construir"):
+            return registro.codigo(id_, archivo)
+
+    ctx = Ctx()
+    ctx.abierto = True
+    assert aplicar.aplicar(ctx) == 0 and real.read_text(encoding="utf-8") == original and "abierto" in ctx.dicho[-1]
+    ctx.abierto = False
+    assert aplicar.respaldos(ctx)[0][0] == ini
+    assert aplicar.aplicar(ctx) == 0
+    nuevo = real.read_text(encoding="utf-8")
+    assert ini.is_symlink()
+    cp = configparser.RawConfigParser(comment_prefixes=("#", ";"))
+    cp.optionxform = str
+    cp.read_string(nuevo)
+    viejo = configparser.RawConfigParser()
+    viejo.optionxform = str
+    viejo.read_string(original)
+    for s in ("General", "texmaker", "version"):
+        assert dict(cp[s]) == dict(viejo[s]), s
+    assert nuevo.index("[General]") < nuevo.index("[formats]") < nuevo.index("[formatsDark]") < nuevo.index("[texmaker]")
+    assert len([k for k in cp["formatsDark"] if k.startswith("data\\")]) > 500
+    # idempotente, y sin las secciones las añade tras [General]
+    assert aplicar.fundir(nuevo, {"formats": ["[formats]", "a=1", ""]}).count("[formats]") == 1
+    sin = aplicar.fundir("[General]\nx=1\n\n[texmaker]\ny=2\n", {"formats": ["[formats]", "a=1", ""]})
+    assert sin.index("[General]") < sin.index("[formats]") < sin.index("[texmaker]") and "y=2" in sin
+
+
+def test_vim_esquema():
+    """Decisiones 5.7: un colors/lliphi.vim con las dos variantes según background, la sintaxis de los editores, el fondo
+    y los ANSI de Konsole, y los grupos de Neovim bajo has('nvim'); si Vim o Neovim están, lo cargan sin errores."""
+    texto = (GEN / "vim" / "colors" / f"{MARCA['id']}.vim").read_text(encoding="utf-8")
+    assert f"let g:colors_name = '{MARCA['id']}'" in texto and "if &background ==# 'light'" in texto
+    claro, oscuro = texto.split("if &background ==# 'light'")[1].split("\nelse\n")
+    for v, bloque in (("claro", claro), ("oscuro", oscuro.split("\nendif\n")[0])):
+        k, e = registro.codigo("konsole").ansi(TOKENS, v), _sintaxis_esperada(v)
+        hi = {m.group(1): dict(re.findall(r"(\w+)=(\S+)", m.group(2))) for m in re.finditer(r"^\s*hi (\S+) (.*)$", bloque, re.M)}
+        assert hi["Normal"]["guibg"] == k["fondo"] and hi["Keyword"]["guifg"] == e["palabra-clave"]
+        assert hi["String"]["guifg"] == e["cadena"] and hi["Function"]["guifg"] == e["funcion"] and hi["Comment"]["gui"] == "italic"
+        assert hi["@keyword"]["guifg"] == e["palabra-clave"] and hi["@lsp.type.function"]["guifg"] == e["funcion"]
+        assert "DiagnosticError" in hi and bloque.index("if has('nvim')") < bloque.index("hi @keyword")
+        assert f"'{k['color1']}'" in bloque.split("g:terminal_ansi_colors")[1].split("\n")[0]
+        assert f"let g:terminal_color_15 = '{k['color15']}'" in bloque
+        permitidos = _permitidos(v, k["fondo"])
+        for grupo, d in hi.items():
+            assert {d[c] for c in ("guifg", "guibg", "guisp") if c in d} - {"NONE"} <= permitidos, (v, grupo)
+            if d.get("guifg", "NONE") != "NONE" and d.get("guibg", "NONE") == "NONE" and grupo in ("Comment", "Keyword", "String", "Number", "Function", "Type", "LineNr"):
+                assert _contraste(d["guifg"], k["fondo"]) >= 4.5, (v, grupo)
+    casa = Path(os.environ.get("XDG_CACHE_HOME") or Path.home() / ".cache") / MARCA["id"] / "pruebas-vim"
+    shutil.rmtree(casa, ignore_errors=True)
+    (casa / "colors").mkdir(parents=True)
+    shutil.copy(GEN / "vim" / "colors" / f"{MARCA['id']}.vim", casa / "colors")
+    for bg in ("light", "dark"):
+        guion = casa / f"p-{bg}.vim"
+        guion.write_text(f"set nocompatible termguicolors background={bg}\nlet &rtp = '{casa},' . &rtp\nlet v:errmsg = ''\n"
+                         f"colorscheme {MARCA['id']}\ncall writefile([v:errmsg, g:colors_name, &background], '{casa}/salida-{bg}')\nqa!\n", encoding="utf-8")
+        for programa, orden in (("vim", ["vim", "-Nu", "NONE", "-es", "-S", str(guion)]),
+                                ("nvim", ["nvim", "--clean", "--headless", "-S", str(guion)])):
+            if shutil.which(programa) is None:
+                continue
+            (casa / f"salida-{bg}").unlink(missing_ok=True)
+            subprocess.run(orden, capture_output=True, timeout=30, env={**os.environ, "HOME": str(casa)})
+            assert (casa / f"salida-{bg}").read_text(encoding="utf-8").splitlines() == ["", MARCA["id"], bg], (programa, bg)
+    shutil.rmtree(casa, ignore_errors=True)
+
+
 def _bloques_css(texto: str) -> dict[str, dict[str, str]]:
     """selector → {variable: valor} de un CSS plano (sin anidar), como el que genera el complemento obsidian."""
     sin_comentarios = re.sub(r"/\*.*?\*/", "", texto, flags=re.S)
@@ -544,6 +756,108 @@ def test_obsidian_tema():
     zotero = {s: d for s, d in b.items() if s.startswith(".callout[data-callout-metadata=")}
     assert len(zotero) == 8 and all(d["--callout-color"].startswith("var(--color-") for d in zotero.values())
     assert '.callout[data-callout-metadata="#ffd400" i]' in zotero and zotero['.callout[data-callout-metadata="#ffd400" i]']["--callout-color"] == "var(--color-yellow)"
+
+
+
+def _hex_tupla(h: str) -> tuple[int, int, int]:
+    return tuple(int(h[i:i + 2], 16) for i in (1, 3, 5))
+
+
+def test_navegadores_zen():
+    """userChrome.css de Zen: las dos variantes con prefers-color-scheme, cada color del maestro, las variables de Zen
+    sobre las de Lliphi, las ventanas privadas aparte, Inter, contraste ≥ 4,5:1; y el user.js que lo carga y sigue al
+    sistema (decisiones 5.3)."""
+    nav, konsole = registro.codigo("navegadores"), registro.codigo("konsole")
+    texto = (GEN / "navegadores" / "zen" / "userChrome.css").read_text(encoding="utf-8")
+    assert "GENERADO por herramientas/generar.py (complementos/navegadores" in texto
+    sin_comentarios = re.sub(r"/\*.*?\*/", "", texto, flags=re.S)
+    assert sin_comentarios.count("{") == sin_comentarios.count("}")
+    claro_css, oscuro_css = sin_comentarios.split("@media (prefers-color-scheme: dark)")
+    variantes = {}
+    for v, parte in (("claro", claro_css), ("oscuro", oscuro_css)):
+        bloque = re.search(r":root\s*\{([^{}]*)\}", parte).group(1)
+        variantes[v] = dict(re.findall(r"(--lliphi-[\w-]+)\s*:\s*(#[0-9a-f]{6}) !important;", bloque))
+        esquema = "light" if v == "claro" else "dark"
+        assert f"color-scheme: {esquema} !important;" in parte, v
+    for v, x in variantes.items():
+        sem = {k: t["$value"]["hex"] for k, t in _tokens_planos(TOKENS["semanticos"][v]).items()}
+        assert x == nav.zen_variables(TOKENS, v), v
+        assert x["--lliphi-ventana"] == sem["fondo.ventana"] and x["--lliphi-vista"] == sem["fondo.vista"]
+        assert x["--lliphi-acento"] == sem["acento.base"] and x["--lliphi-seleccion-fondo"] == sem["seleccion.fondo"]
+        assert set(x.values()) <= set(sem.values()), v          # ningún color fuera de los semánticos de la variante
+        for texto_, fondo in (("texto", "ventana"), ("texto", "vista"), ("texto", "pestana"), ("texto", "ventana-alterno"),
+                              ("texto", "boton"), ("texto-secundario", "ventana"), ("texto-inactivo", "ventana"),
+                              ("sobre-acento", "acento"), ("seleccion-texto", "seleccion-fondo"), ("enlace", "vista"),
+                              ("tooltip-texto", "tooltip-fondo")):
+            c = konsole.contraste(_hex_tupla(x[f"--lliphi-{texto_}"]), _hex_tupla(x[f"--lliphi-{fondo}"]))
+            assert c >= 4.5, (v, texto_, fondo, round(c, 2))
+    # las variables de Zen y Firefox: todas sobre una variable de Lliphi definida, en la raíz (no privada) y sus interiores
+    comun = re.search(r"(:root:not\(\[zen-private-window='true'\]\)[^{]*)\{([^{}]*)\}", sin_comentarios)
+    assert "zen-workspace" in comun.group(1) and "#zen-browser-background" in comun.group(1)
+    mapa = dict(re.findall(r"(--[\w-]+)\s*:\s*var\((--lliphi-[\w-]+)\) !important;", comun.group(2)))
+    assert set(mapa) == set(nav.ZEN) and set(mapa.values()) <= set(variantes["claro"])
+    for clave in ("--zen-primary-color", "--zen-main-browser-background", "--toolbox-textcolor", "--tab-background-color-selected"):
+        assert clave in mapa, clave
+    assert re.search(r':root \{\s*font-family: "Inter", "Noto Sans", sans-serif !important;', texto)
+    js = (GEN / "navegadores" / "zen" / "user.js").read_text(encoding="utf-8")
+    assert 'user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);' in js
+    assert 'user_pref("zen.view.window.scheme", 2);' in js
+    assert all(l.startswith(("//", "user_pref(")) for l in js.splitlines())
+
+
+def test_navegadores_chrome():
+    """Dos temas de Chrome sin empaquetar (Manifest V3, `theme.colors` en ternas), con colores del maestro y el texto
+    legible sobre su fondo (≥ 4,5:1)."""
+    nav, konsole = registro.codigo("navegadores"), registro.codigo("konsole")
+    for v in ("claro", "oscuro"):
+        m = json.loads((GEN / "navegadores" / "chrome" / f"{MARCA['id']}-{v}" / "manifest.json").read_text(encoding="utf-8"))
+        assert m["manifest_version"] == 3 and m["name"] == MARCA["nombre_esquema"][v]
+        assert re.fullmatch(r"\d+(\.\d+){0,3}", m["version"]) and m["version"] == (RAIZ / "VERSION").read_text().strip()
+        assert set(m) == {"manifest_version", "name", "version", "description", "homepage_url", "theme"}
+        colores = m["theme"]["colors"]
+        assert set(colores) == set(nav.CHROME)
+        sem = {k: t["$value"]["hex"] for k, t in _tokens_planos(TOKENS["semanticos"][v]).items()}
+        for clave, terna in colores.items():
+            assert len(terna) == 3 and all(isinstance(c, int) and 0 <= c <= 255 for c in terna), (v, clave)
+            assert "#%02x%02x%02x" % tuple(terna) == sem[nav.CHROME[clave]], (v, clave)
+        assert colores["toolbar"] == list(_hex_tupla(sem["fondo.vista"])) and colores["frame"] == list(_hex_tupla(sem["fondo.ventana"]))
+        for texto_, fondo in nav.CHROME_PARES.items():
+            c = konsole.contraste(tuple(colores[texto_]), tuple(colores[fondo]))
+            assert c >= 4.5, (v, texto_, fondo, round(c, 2))
+
+
+@pytest.mark.skipif(shutil.which("plasmashell") is None, reason="sin Plasma: el instalador exige Plasma 6")
+def test_instalar_navegadores(tmp_path: Path):
+    """El instalador pone userChrome.css y user.js en el perfil de Zen que abre el Flatpak (installs.ini), los temas de
+    Chrome en $XDG_DATA_HOME/<id>/chrome/, no pisa un userChrome.css ajeno, omite Zen si no hay perfil y UNDO.sh
+    retira lo instalado."""
+    env = _entorno(tmp_path)
+    sin_zen = correr("herramientas/instalar.py", "--modulos", "navegadores", env=env)
+    assert sin_zen.returncode == 0 and "omitido navegadores/zen/userChrome.css" in sin_zen.stdout, sin_zen.stdout
+    raiz = tmp_path / ".var/app/app.zen_browser.zen/.zen"
+    perfil, otro = raiz / "abc123.Default (release)", raiz / "xyz789.otro"
+    perfil.mkdir(parents=True); otro.mkdir()
+    (raiz / "profiles.ini").write_text("[General]\nStartWithLastProfile=1\n\n[Profile0]\nName=otro\nIsRelative=1\n"
+                                       "Path=xyz789.otro\nDefault=1\n\n[Profile1]\nName=Default (release)\nIsRelative=1\n"
+                                       "Path=abc123.Default (release)\n", encoding="utf-8")
+    (raiz / "installs.ini").write_text("[2953CB39A2589173]\nDefault=abc123.Default (release)\nLocked=1\n", encoding="utf-8")
+    sim = correr("herramientas/instalar.py", "--modulos", "navegadores", env=env)
+    assert sim.returncode == 0 and not (perfil / "user.js").exists(), sim.stdout
+    assert f"→ {perfil / 'chrome' / 'userChrome.css'}" in sim.stdout        # el de installs.ini, no el Default=1
+    ap = correr("herramientas/instalar.py", "--aplicar", "--modulos", "navegadores", env=env)
+    assert ap.returncode == 0, ap.stdout + ap.stderr
+    assert (perfil / "chrome" / "userChrome.css").read_bytes() == (GEN / "navegadores" / "zen" / "userChrome.css").read_bytes()
+    assert (perfil / "user.js").exists() and not (otro / "user.js").exists()
+    for v in ("claro", "oscuro"):
+        assert (tmp_path / ".local/share" / MARCA["id"] / "chrome" / f"{MARCA['id']}-{v}" / "manifest.json").exists()
+    manifiesto = tmp_path / ".local/state" / MARCA["id"] / "instalado.json"
+    undo = Path(json.loads(manifiesto.read_text())["respaldo"]) / "UNDO.sh"
+    assert subprocess.run(["bash", str(undo)], capture_output=True, text=True, env=env).returncode == 0
+    assert not (perfil / "chrome" / "userChrome.css").exists() and not (perfil / "user.js").exists() and perfil.is_dir()
+    # un userChrome.css que no es de Lliphi no se toca
+    (perfil / "chrome" / "userChrome.css").write_text("/* mío */\n", encoding="utf-8")
+    conf = correr("herramientas/instalar.py", "--aplicar", "--modulos", "navegadores", env=env)
+    assert conf.returncode == 3 and (perfil / "chrome" / "userChrome.css").read_text() == "/* mío */\n"
 
 
 def test_estilo_sin_azules_fijos():
@@ -947,7 +1261,9 @@ def test_registro_tema_global_y_seis_modulos():
     roles = {m.id: (m.rol, m.clase) for m in registro.todos()}
     assert roles["global"] == ("global", "paquete")
     assert {i: c for i, (r, c) in roles.items() if r == "modulo"} == SEIS
-    assert {i for i, (r, _) in roles.items() if r == "complemento"} == {"fondos", "kvantum", "konsole", "terminales", "editores", "libreoffice", "sddm", "obsidian", "fondo-variante", "sitios-web"}
+    assert {i for i, (r, _) in roles.items() if r == "complemento"} == {"fondos", "kvantum", "konsole", "terminales", "editores", "libreoffice", "sddm", "obsidian", "fondo-variante",
+                                                                              "navegadores", "telegram", "kate", "texstudio", "vim", "rstudio", "octave", "spyder",
+                                                                              "gtk", "xournalpp", "gimp", "calibre", "sitios-web"}
     g = registro.modulo("global")
     assert set(g.dependencias("integra")) == {"carga-bloqueo", "disposicion"}
     assert set(SEIS) <= set(g.dependencias("integra") + g.dependencias("referencia"))
@@ -1053,6 +1369,7 @@ def test_kvantum_etiquetas_legibles():
     assert f"tooltip.text.color={claro['texto.normal']}" in kv
 
 
+@pytest.mark.skipif(shutil.which("plasmashell") is None, reason="sin Plasma: el instalador exige Plasma 6")
 def test_kvantum_en_xdg_config_home(tmp_path: Path):
     """Kvantum va a $XDG_CONFIG_HOME aunque no sea ~/.config (en 0.3.0 se calculaba desde $XDG_DATA_HOME/../..)."""
     env = _entorno(tmp_path)
@@ -1313,3 +1630,581 @@ def test_sitios_web_duckduckgo_ajustes():
         for url in (a["inicio"], a["ajustes"]):
             assert f'HREF="{html_.escape(url)}"' in marcadores
         assert a["nombre"] in marcadores
+
+
+# ---------------------------------------------------------------- GTK, Xournal++, GIMP y Calibre (decisiones 4.37, 5.20–5.22)
+
+def _hexes_maestro() -> set[str]:
+    return {t["$value"]["hex"].lower() for t in _tokens_planos(TOKENS).values() if isinstance(t["$value"], dict) and "hex" in t["$value"]}
+
+
+def _contraste(a: str, b: str) -> float:
+    def lum(h: str) -> float:
+        c = [int(h[i:i + 2], 16) / 255 for i in (1, 3, 5)]
+        c = [x / 12.92 if x <= 0.04045 else ((x + 0.055) / 1.055) ** 2.4 for x in c]
+        return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]
+    la, lb = sorted((lum(a), lum(b)), reverse=True)
+    return (la + 0.05) / (lb + 0.05)
+
+
+def test_hex_de_los_nuevos_complementos_del_maestro():
+    """Todo hex de lo generado para GTK, GIMP, Xournal++ y Calibre existe en tokens.json (los derivados van como mix())."""
+    hexes = _hexes_maestro()
+    for modulo in ("gtk", "gimp", "xournalpp", "calibre"):
+        for f in (GEN / modulo).rglob("*"):
+            if f.is_file() and f.suffix in (".css", ".svg", ".json", ".xml"):
+                for h in re.findall(r"#[0-9a-fA-F]{6}\b", f.read_text(encoding="utf-8")):
+                    assert h.lower() in hexes, (f.relative_to(GEN), h)
+
+
+def test_gtk_hojas():
+    """GTK 3: una hoja por variante con todos los colores _breeze que escribe kde-gtk-config; GTK 4: las dos variantes
+    con prefers-color-scheme, los colores con nombre de libadwaita y sus variables."""
+    gtk = registro.codigo("gtk")
+    for v in ("claro", "oscuro"):
+        texto = (GEN / "gtk" / "gtk-3.0" / f"{MARCA['id']}-{v}.css").read_text(encoding="utf-8")
+        assert "GENERADO" in texto and texto.count("{") == texto.count("}")
+        definidos = set(re.findall(r"@define-color (\w+)_breeze ", texto))
+        assert definidos == set(gtk.BREEZE) and len(definidos) == 84
+        sem = {k: t["$value"]["hex"] for k, t in _tokens_planos(TOKENS["semanticos"][v]).items()}
+        assert f"@define-color theme_bg_color_breeze {sem['fondo.ventana']};" in texto
+        assert f"@define-color theme_selected_bg_color_breeze {sem['seleccion.fondo']};" in texto
+        assert "#floatingToolbox" in texto
+    texto = (GEN / "gtk" / "gtk-4.0" / f"{MARCA['id']}.css").read_text(encoding="utf-8")
+    assert texto.count("{") == texto.count("}") and texto.count("@media (prefers-color-scheme: dark) {") == 2
+    claro, oscuro = texto.split("@media (prefers-color-scheme: dark) {", 1)
+    for nombre in gtk.ADWAITA:
+        assert f"@define-color {nombre} " in claro and f"@define-color {nombre} " in oscuro, nombre
+        assert f"--{nombre.replace('_', '-')}: " in claro and f"--{nombre.replace('_', '-')}: " in oscuro, nombre
+    assert f"@define-color accent_bg_color {_tokens_planos(TOKENS['semanticos']['claro'])['acento.base']['$value']['hex']};" in claro
+    assert f"@define-color accent_bg_color {_tokens_planos(TOKENS['semanticos']['oscuro'])['acento.base']['$value']['hex']};" in oscuro
+
+
+def test_gtk_contraste():
+    gtk = registro.codigo("gtk")
+    for v in ("claro", "oscuro"):
+        for tabla, pares in ((gtk.BREEZE, gtk.PARES_BREEZE), (gtk.ADWAITA, gtk.PARES_ADWAITA)):
+            r = gtk.resueltos(TOKENS, v, tabla)
+            for texto, fondo in pares:
+                assert _contraste(r[texto], r[fondo]) >= 4.5, (v, texto, fondo, r[texto], r[fondo])
+    assert gtk.mezclar("#000000", "#ffffff", 0.5) == "#808080"
+
+
+def test_gtk_importacion(tmp_path):
+    """gtk.css: la línea de Lliphi va detrás de colors.css, no se duplica, cambia de variante y no toca lo demás;
+    si colors.css existe y faltaba su línea, se pone delante; un enlace de dotfiles sigue siendo enlace."""
+    fijar = registro.codigo("gtk", "aplicar").fijar_importacion
+    d = tmp_path / "gtk-3.0"
+    d.mkdir()
+    (d / "colors.css").write_text("", encoding="utf-8")
+    css = d / "gtk.css"
+    css.write_text("@import 'colors.css';\nwindow { padding: 1px; }\n", encoding="utf-8")
+    assert fijar(css, "lliphi", "lliphi-oscuro.css")
+    assert css.read_text(encoding="utf-8") == "@import 'colors.css';\n@import 'lliphi-oscuro.css';\nwindow { padding: 1px; }\n"
+    assert not fijar(css, "lliphi", "lliphi-oscuro.css")                     # idempotente
+    fijar(css, "lliphi", "lliphi-claro.css")
+    assert css.read_text(encoding="utf-8").count("lliphi") == 1 and "lliphi-claro.css" in css.read_text(encoding="utf-8")
+    css.write_text("window { padding: 1px; }\n", encoding="utf-8")         # sin la línea de colors.css
+    fijar(css, "lliphi", "lliphi-claro.css")
+    assert css.read_text(encoding="utf-8").splitlines()[:2] == ["@import 'colors.css';", "@import 'lliphi-claro.css';"]
+    real = tmp_path / "dotfiles.css"
+    real.write_text("@import 'colors.css';\n", encoding="utf-8")
+    enlace = d / "enlace.css"
+    enlace.symlink_to(real)
+    fijar(enlace, "lliphi", "lliphi-oscuro.css")
+    assert enlace.is_symlink() and "lliphi-oscuro.css" in real.read_text(encoding="utf-8")
+
+
+def test_fondo_variante_cambia_gtk3(tmp_path, monkeypatch):
+    """Decisiones 4.37: la vigilancia cambia la hoja de GTK 3 de variante solo si gtk.css ya importa una de Lliphi."""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("seguir_variante_gtk", GEN / "fondo-variante" / "seguir-variante.py")
+    sv = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(sv)
+    monkeypatch.setattr(sv, "CONFIG", tmp_path)
+    monkeypatch.setattr(sv, "herramienta", lambda nombre: None)               # sin gsettings
+    css = tmp_path / "gtk-3.0" / "gtk.css"
+    css.parent.mkdir()
+    css.write_text(f"@import 'colors.css';\n@import '{MARCA['id']}-oscuro.css';\n", encoding="utf-8")
+    sv.gtk("claro", escribir=False)
+    assert f"{MARCA['id']}-oscuro.css" in css.read_text(encoding="utf-8")       # simular no escribe
+    sv.gtk("claro", escribir=True)
+    assert css.read_text(encoding="utf-8") == f"@import 'colors.css';\n@import '{MARCA['id']}-claro.css';\n"
+    css.write_text("@import 'colors.css';\n", encoding="utf-8")
+    sv.gtk("oscuro", escribir=True)
+    assert css.read_text(encoding="utf-8") == "@import 'colors.css';\n"           # sin GTK de Lliphi: intacto
+
+
+def test_gimp_tema():
+    """Tema de GIMP: los tres archivos de color definen los diecisiete nombres de Default e importan su común; el común
+    importa system.css (no ../System); los separadores, sin colores de Inkscape; contraste del texto y de lo elegido."""
+    gimp = registro.codigo("gimp")
+    tema = GEN / "gimp" / "themes" / MARCA["nombre"]
+    base = RAIZ / "fuentes" / "base" / "GIMP-Default"
+    nombres = set(re.findall(r"@define-color ([\w-]+)", (base / "gimp-dark.css").read_text(encoding="utf-8")))
+    assert len(nombres) == 17 and nombres == set(gimp.COLORES)
+    for archivo, comun in (("light", "common-light.css"), ("gray", "common-dark.css"), ("dark", "common-dark.css")):
+        texto = (tema / f"gimp-{archivo}.css").read_text(encoding="utf-8")
+        assert set(re.findall(r"@define-color ([\w-]+)", texto)) == nombres and f'@import url("{comun}");' in texto
+        assert texto.count("{") == texto.count("}")
+    comun = (tema / "common.css").read_text(encoding="utf-8")
+    assert '@import url("system.css");' in comun and "../System" not in comun and (tema / "system.css").is_file()
+    for svg in (tema / "ui").glob("*.svg"):
+        ET.parse(svg)
+        assert "pagecolor" not in svg.read_text(encoding="utf-8")
+    for v in ("claro", "oscuro"):
+        r = gimp.resueltos(TOKENS, v)
+        assert _contraste(r["fg-color"], r["bg-color"]) >= 4.5 and _contraste(r["fg-color"], r["extreme-bg-color"]) >= 4.5, v
+        sem = {k: t["$value"]["hex"] for k, t in _tokens_planos(TOKENS["semanticos"][v]).items()}
+        assert _contraste(sem["seleccion.texto"], sem["seleccion.fondo"]) >= 4.5, v
+    for v in ("claro", "oscuro"):
+        lineas = (GEN / "gimp" / "palettes" / f"{MARCA['nombre_esquema'][v]}.gpl").read_text(encoding="utf-8").splitlines()
+        assert lineas[0] == "GIMP Palette" and lineas[1] == f"Name: {MARCA['nombre_esquema'][v]}"
+        colores = [ln for ln in lineas[3:] if not ln.startswith("#")]
+        esperados = registro.codigo("libreoffice").paleta(TOKENS, v)
+        assert len(colores) == len(esperados)
+        for ln, (nombre, h) in zip(colores, esperados):
+            r, g, b, resto = ln.split(None, 3)
+            assert "#%02x%02x%02x" % (int(r), int(g), int(b)) == h and resto == nombre
+
+
+def test_gimp_aplicar():
+    fijar = registro.codigo("gimp", "aplicar").fijar
+    texto = '(prev-language "es")\n(theme "Default")\n(monitor-xresolution 158)\n'
+    nuevo = fijar(fijar(texto, "theme", '"Lliphi"'), "theme-color-scheme", "system")
+    assert nuevo == '(prev-language "es")\n(theme "Lliphi")\n(monitor-xresolution 158)\n(theme-color-scheme system)\n'
+    assert fijar(nuevo, "theme-color-scheme", "system") == nuevo
+
+
+def test_xournalpp():
+    """Paleta de bolígrafos: once colores como mínimo (los botones de la barra), los de escribir legibles sobre papel
+    blanco, cada uno del maestro; settings: ARGB opaco de los tokens; y la sustitución de propiedades."""
+    x = registro.codigo("xournalpp")
+    lineas = (GEN / "xournalpp" / "palettes" / f"{MARCA['nombre']}.gpl").read_text(encoding="utf-8").splitlines()
+    assert lineas[0] == "GIMP Palette"
+    colores = [ln.split(None, 3) for ln in lineas[1:] if ln[:1].isdigit() or ln[:1] == " "]
+    assert len(colores) >= 11
+    hexes = _hexes_maestro()
+    papel = _tokens_planos(TOKENS["semanticos"]["claro"])["fondo.vista"]["$value"]["hex"]
+    for r, g, b, nombre in colores:
+        h = "#%02x%02x%02x" % (int(r), int(g), int(b))
+        assert h in hexes, nombre
+        if "resaltar" not in nombre and nombre != "Blanco":
+            assert _contraste(h, papel) >= 4.5, (nombre, h)
+    props = x.propiedades(TOKENS, "/ruta/Lliphi.gpl")
+    assert props["colorPalette"] == "/ruta/Lliphi.gpl"
+    for k, v in props.items():
+        if k != "colorPalette":
+            assert int(v) >> 24 == 0xFF and "#%06x" % (int(v) & 0xFFFFFF) in hexes, k
+    fijar = registro.codigo("xournalpp", "aplicar").fijar_propiedades
+    texto = '<settings>\n  <property name="backgroundColor" value="1"/>\n  <property name="iconTheme" value="iconsLucide"/>\n</settings>\n'
+    nuevo = fijar(texto, {"backgroundColor": "2", "colorPalette": "/p/L.gpl"})
+    assert '<property name="backgroundColor" value="2"/>' in nuevo and '<property name="iconTheme" value="iconsLucide"/>' in nuevo
+    assert nuevo.count('name="colorPalette"') == 1 and nuevo.rstrip().endswith("</settings>")
+    ET.fromstring(nuevo)
+
+
+def test_calibre():
+    """Paletas de Calibre con roles de QPalette válidos y contraste; el visor con sus dos esquemas; el fundido conserva lo
+    del usuario (otras claves, otras paletas, sus esquemas)."""
+    c = registro.codigo("calibre")
+    roles = {"WindowText", "Text", "ButtonText", "PlaceholderText", "ToolTipText", "BrightText", "HighlightedText", "Window",
+             "Base", "Button", "AlternateBase", "ToolTipBase", "Highlight", "Accent", "Link", "LinkVisited"}
+    gui = json.loads((GEN / "calibre" / f"gui-{MARCA['id']}.json").read_text(encoding="utf-8"))
+    assert gui["color_palette"] == "system"
+    for v, clave in (("claro", "light"), ("oscuro", "dark")):
+        nombre = MARCA["nombre_esquema"][v]
+        assert gui[f"{clave}_palette_name"] == nombre
+        p = gui[f"{clave}_palettes"][nombre]
+        assert {r.removesuffix("-disabled") for r in p} <= roles and roles <= set(p)
+        for texto, fondo in c.PARES:
+            assert _contraste(p[texto], p[fondo]) >= 4.5, (v, texto, fondo)
+    visor = json.loads((GEN / "calibre" / f"visor-{MARCA['id']}.json").read_text(encoding="utf-8"))["user_color_schemes"]
+    assert set(visor) == {f"*{n}" for n in MARCA["nombre_esquema"].values()}
+    for e in visor.values():
+        assert _contraste(e["foreground"], e["background"]) >= 4.5 and _contraste(e["link"], e["background"]) >= 4.5
+    a = registro.codigo("calibre", "aplicar")
+    previo = {"emblem_style": "none", "dark_palettes": {"Mía": {"Window": "#000000"}}, "color_palette": "dark"}
+    fundido = a.fundir_gui(previo, c.preferencias_gui(TOKENS, MARCA))
+    assert fundido["emblem_style"] == "none" and "Mía" in fundido["dark_palettes"] and MARCA["nombre_esquema"]["oscuro"] in fundido["dark_palettes"]
+    assert fundido["color_palette"] == "system" and previo["dark_palettes"] == {"Mía": {"Window": "#000000"}}
+    visor_previo = {"session_data": {"base_font_size": 18, "user_color_schemes": {"*Mío": {"name": "Mío"}}}, "main_window_state": "x"}
+    fv = a.fundir_visor(visor_previo, c.esquemas_visor(TOKENS, MARCA))
+    assert fv["main_window_state"] == "x" and fv["session_data"]["base_font_size"] == 18
+    assert set(fv["session_data"]["user_color_schemes"]) == {"*Mío", *visor}
+
+
+def test_aplicar_gtk_xournalpp_gimp_calibre(tmp_path):
+    """Los cuatro aplicar() en un HOME temporal, con las herramientas del sistema simuladas (ni gsettings ni pgrep
+    reales): cada uno toca solo sus claves, y respaldos() declara los archivos que toca."""
+    import shutil as sh
+    from nucleo import instalacion
+    config, data = tmp_path / "config", tmp_path / "data"
+    ordenes = []
+    ctx = instalacion.Contexto(variante="claro", modulos=["gtk", "xournalpp", "gimp", "calibre"], CONFIG=config, DATA=data)
+    ctx.hay = lambda h: h == "gsettings"                                     # sin pgrep: los programas «cerrados»
+    ctx.ejecutar = lambda orden, mostrar=False: ordenes.append(orden)
+    ctx.decir = lambda texto: None
+    # lo instalado y lo que ya tenía el usuario
+    for v in (3, 4):
+        (config / f"gtk-{v}.0").mkdir(parents=True)
+        (config / f"gtk-{v}.0" / "colors.css").write_text("", encoding="utf-8")
+        (config / f"gtk-{v}.0" / "gtk.css").write_text("@import 'colors.css';\n", encoding="utf-8")
+    for f in ("lliphi-claro.css", "lliphi-oscuro.css"):
+        sh.copy(GEN / "gtk" / "gtk-3.0" / f, config / "gtk-3.0" / f)
+    sh.copy(GEN / "gtk" / "gtk-4.0" / "lliphi.css", config / "gtk-4.0" / "lliphi.css")
+    (config / "xournalpp" / "palettes").mkdir(parents=True)
+    sh.copy(GEN / "xournalpp" / "palettes" / f"{MARCA['nombre']}.gpl", config / "xournalpp" / "palettes")
+    (config / "xournalpp" / "settings.xml").write_text('<?xml version="1.0"?>\n<settings>\n  <property name="themeVariant" value="useSystem"/>\n</settings>\n', encoding="utf-8")
+    gimp = config / "GIMP" / "3.2"
+    sh.copytree(GEN / "gimp" / "themes" / MARCA["nombre"], gimp / "themes" / MARCA["nombre"])
+    (gimp / "gimprc").write_text('(config-version "3.2.2")\n', encoding="utf-8")
+    (config / "calibre").mkdir()
+    (config / "calibre" / "gui.json").write_text('{"emblem_style": "none"}', encoding="utf-8")
+    for m in ("gtk", "xournalpp", "gimp", "calibre"):
+        assert registro.codigo(m, "aplicar").aplicar(ctx) == 0, m
+    assert (config / "gtk-3.0" / "gtk.css").read_text(encoding="utf-8") == "@import 'colors.css';\n@import 'lliphi-claro.css';\n"
+    assert (config / "gtk-4.0" / "gtk.css").read_text(encoding="utf-8") == "@import 'colors.css';\n@import 'lliphi.css';\n"
+    assert ["gsettings", "set", "org.gnome.desktop.interface", "color-scheme", "prefer-light"] in ordenes
+    s = (config / "xournalpp" / "settings.xml").read_text(encoding="utf-8")
+    assert 'name="themeVariant" value="useSystem"' in s and f'{MARCA["nombre"]}.gpl' in s
+    assert (gimp / "gimprc").read_text(encoding="utf-8") == f'(config-version "3.2.2")\n(theme "{MARCA["nombre"]}")\n(theme-color-scheme system)\n'
+    gui = json.loads((config / "calibre" / "gui.json").read_text(encoding="utf-8"))
+    assert gui["emblem_style"] == "none" and gui["color_palette"] == "system"
+    visor = json.loads((config / "calibre" / "viewer-webengine.json").read_text(encoding="utf-8"))
+    assert len(visor["session_data"]["user_color_schemes"]) == 2
+    declarados = {r for m in ("gtk", "xournalpp", "gimp", "calibre") for r, _, _ in registro.codigo(m, "aplicar").respaldos(ctx)}
+    assert declarados == {config / "gtk-3.0" / "gtk.css", config / "gtk-4.0" / "gtk.css", config / "xournalpp" / "settings.xml",
+                          gimp / "gimprc", config / "calibre" / "gui.json", config / "calibre" / "viewer-webengine.json"}
+
+
+# ---------------------------------------------------------------- Telegram Desktop (decisiones 5.30)
+
+def _rgba(h: str) -> tuple[tuple[int, int, int], float]:
+    h = h.lstrip("#")
+    return tuple(int(h[i:i + 2], 16) for i in (0, 2, 4)), (int(h[6:8], 16) / 255 if len(h) == 8 else 1.0)
+
+
+def _sobre(frente: str, fondo: str) -> str:
+    """El color que se ve al pintar `frente` (con su alfa) sobre `fondo` (opaco)."""
+    (f, a), (b, _) = _rgba(frente), _rgba(fondo)
+    return "#" + "".join(f"{round(a * x + (1 - a) * y):02x}" for x, y in zip(f, b))
+
+
+def _contraste(a: str, b: str) -> float:
+    def lum(h: str) -> float:
+        c = [v / 255 for v in _rgba(h)[0]]
+        c = [v / 12.92 if v <= 0.04045 else ((v + 0.055) / 1.055) ** 2.4 for v in c]
+        return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]
+    claro, oscuro = sorted((lum(a), lum(b)), reverse=True)
+    return (claro + 0.05) / (oscuro + 0.05)
+
+
+def test_telegram_temas():
+    """Los dos .tdesktop-theme abren como zip con colors.tdesktop-theme y tiled.png, tienen todas las claves de la paleta
+    de Telegram en su orden, cada color es de los tokens (con alfa libre) y el texto se lee (≥ 4,5:1) sobre las burbujas
+    y los fondos, con el alfa compuesto sobre el fondo del chat."""
+    import struct
+    import zipfile
+    import zlib
+    tg = registro.codigo("telegram")
+    claves = [k for k, _, _ in tg.plantilla()]
+    assert len(claves) > 500 and len(set(claves)) == len(claves)
+    hexes = {t["$value"]["hex"].lower() for t in _tokens_planos(TOKENS).values()
+             if isinstance(t["$value"], dict) and "hex" in t["$value"]}
+    linea = re.compile(r"^([A-Za-z]\w*): (#[0-9a-f]{6}(?:[0-9a-f]{2})?);$")
+    for v in ("claro", "oscuro"):
+        paquete = GEN / "telegram" / f"{MARCA['nombre_esquema'][v]}.tdesktop-theme"
+        with zipfile.ZipFile(paquete) as z:
+            assert sorted(z.namelist()) == ["colors.tdesktop-theme", "tiled.png"]
+            texto = z.read("colors.tdesktop-theme").decode("utf-8")
+            png = z.read("tiled.png")
+            for nombre in z.namelist():   # lo suelto es lo mismo que lo empaquetado
+                assert (GEN / "telegram" / v / nombre).read_bytes() == z.read(nombre)
+        filas = [ln for ln in texto.splitlines() if ln and not ln.startswith("//")]
+        pares = [linea.fullmatch(ln) for ln in filas]
+        assert all(pares), [ln for ln, m in zip(filas, pares) if not m][:5]
+        c = {m[1]: m[2] for m in pares}
+        assert list(c) == claves                                         # todas las claves, en el orden de la paleta
+        for k, h in c.items():
+            assert h[:7] in hexes, (v, k, h)                              # ningún color fuera del maestro
+        # el fondo liso del chat: un PNG de 16×16 del color de los tokens
+        assert png[:8] == b"\x89PNG\r\n\x1a\n" and struct.unpack(">II", png[16:24]) == (16, 16)
+        datos = zlib.decompress(png[png.index(b"IDAT") + 4:png.index(b"IEND") - 8])
+        chat = tg.fondo_chat(TOKENS, v)
+        assert datos[1:4] == bytes(_rgba(chat)[0]) and len(set(datos[1:49])) <= 3
+        # burbujas y fondos tal como se ven (alfa compuesto sobre el fondo del chat)
+        burbuja = {"entrante": _sobre(c["msgInBg"], chat), "propia": _sobre(c["msgOutBg"], chat),
+                   "entrante-sel": _sobre(c["msgInBgSelected"], _sobre(c["msgInBg"], chat)),
+                   "entrante-sel-chat": _sobre(c["msgInBgSelected"], chat),
+                   "propia-sel": _sobre(c["msgOutBgSelected"], chat),
+                   "propia-sel-burbuja": _sobre(c["msgOutBgSelected"], _sobre(c["msgOutBg"], chat)),
+                   "servicio": _sobre(c["msgServiceBg"], chat)}
+        texto_sobre = [("historyTextInFg", "entrante"), ("historyLinkInFg", "entrante"), ("msgInDateFg", "entrante"),
+                       ("msgInServiceFg", "entrante"), ("msgInMonoFg", "entrante"), ("historyTextOutFg", "propia"),
+                       ("historyLinkOutFg", "propia"), ("msgOutDateFg", "propia"), ("msgOutServiceFg", "propia"),
+                       ("msgOutMonoFg", "propia"), ("historyTextInFgSelected", "entrante-sel"),
+                       ("historyTextInFgSelected", "entrante-sel-chat"), ("historyTextOutFgSelected", "propia-sel"),
+                       ("historyTextOutFgSelected", "propia-sel-burbuja"), ("msgServiceFg", "servicio")]
+        texto_sobre += [(f"historyPeer{i}NameFg", "entrante") for i in range(1, 9)]
+        for frente, fondo in texto_sobre:
+            assert _contraste(c[frente], burbuja[fondo]) >= 4.5, (v, frente, fondo)
+        for frente, fondo in [("windowFg", "windowBg"), ("windowSubTextFg", "windowBg"), ("dialogsNameFg", "dialogsBg"),
+                              ("dialogsTextFg", "dialogsBg"), ("dialogsNameFgActive", "dialogsBgActive"),
+                              ("dialogsTextFgActive", "dialogsBgActive"), ("activeButtonFg", "activeButtonBg"),
+                              ("boxTextFg", "boxBg"), ("tooltipFg", "tooltipBg"), ("historyComposeAreaFg", "historyComposeAreaBg"),
+                              ("dialogsUnreadFg", "dialogsUnreadBg"), ("dialogsUnreadFg", "dialogsUnreadBgMuted"),
+                              ("sideBarTextFg", "sideBarBg"), ("sideBarTextFgActive", "sideBarBgActive"),
+                              ("searchedTextMatchFg", "searchedTextMatchBg"), ("toastFg", "toastBg"), ("callNameFg", "callBgOpaque"),
+                              ("historyPeerUserpicFg", "historyPeer1UserpicBg"), ("boxTextFgError", "boxBg"),
+                              ("boxTextFgGood", "boxBg"), ("contactsStatusFgOnline", "contactsBg"), ("windowActiveTextFg", "windowBg")]:
+            assert _contraste(c[frente], _sobre(c[fondo], c["windowBg"])) >= 4.5, (v, frente, fondo)
+    # el acento de cada variante en la selección, los botones y los mensajes propios
+    for v in ("claro", "oscuro"):
+        acento = TOKENS["semanticos"][v]["acento"]["base"]["$value"]["hex"].lower()
+        c = tg.colores(TOKENS, v)
+        assert c["dialogsBgActive"] == c["activeButtonBg"] == c["windowBgActive"] == acento
+        assert c["msgOutBg"][:7] == acento and len(c["msgOutBg"]) == 9
+
+
+def test_telegram_tabla_sin_claves_huerfanas():
+    """Cada clave de la tabla existe en la paleta de Telegram (una clave retirada en una versión nueva se nota aquí)."""
+    tg = registro.codigo("telegram")
+    assert set(tg.TABLA) <= {k for k, _, _ in tg.plantilla()}
+
+
+# ---------------------------------------------------------------- RStudio, Octave y Spyder (decisiones 5.40–5.43)
+
+def _hexes_permitidos() -> set[str]:
+    """Los colores del maestro y la paleta de terminal de Konsole (que llevan también las terminales y los editores)."""
+    hexes = {t["$value"]["hex"].lower() for t in _tokens_planos(TOKENS).values()
+             if isinstance(t["$value"], dict) and "hex" in t["$value"]}
+    return hexes | {h for v in ("claro", "oscuro") for h in registro.codigo("konsole").ansi(TOKENS, v).values()}
+
+
+def _cargar_programa(ruta: Path):
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(f"prueba_{ruta.stem.replace('-', '_')}", ruta)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def test_rstudio_temas():
+    """Decisiones 5.40: un `.rstheme` por variante con nombre e `isDark` correctos; editor, sintaxis, consola y terminal
+    desde los tokens, la tabla de los editores y los ANSI de Konsole; solo los colores 16–255 de xterm son ajenos."""
+    sintaxis, ansi = registro.codigo("editores").sintaxis, registro.codigo("konsole").ansi
+    xterm = registro.codigo("rstudio").xterm256()
+    for v in ("claro", "oscuro"):
+        texto = (GEN / "rstudio" / f"{MARCA['nombre_esquema'][v]}.rstheme").read_text(encoding="utf-8")
+        assert texto.startswith(f"/* rs-theme-name: {MARCA['nombre_esquema'][v]} */\n/* rs-theme-is-dark: {'TRUE' if v == 'oscuro' else 'FALSE'} */")
+        sin_comentarios = re.sub(r"/\*.*?\*/", "", texto, flags=re.S)
+        assert sin_comentarios.count("{") == sin_comentarios.count("}")
+        reglas = {sel.strip(): dict((k.strip(), x.strip()) for k, x in re.findall(r"([\w-]+)\s*:\s*([^;]+);", cuerpo))
+                  for sel, cuerpo in re.findall(r"([^{}]+)\{([^{}]*)\}", sin_comentarios)}
+        e = _sintaxis_esperada(v)
+        editor = reglas[".ace_editor, .ace_editor_theme .profvis-flamegraph, .ace_editor_theme"]
+        assert editor == {"background-color": e["fondo"], "color": e["texto"]}
+        s, t = registro.codigo("editores").paleta(TOKENS, v)
+        x, k = sintaxis(s, t), ansi(TOKENS, v)
+        for selector, papel in ((".ace_keyword, .ace_meta, .ace_storage, .ace_storage.ace_type", "palabra-clave"),
+                                (".ace_string", "cadena"), (".ace_comment", "comentario"),
+                                (".ace_constant.ace_numeric, .ace_keyword.ace_other.ace_unit", "numero"),
+                                (".ace_entity.ace_name.ace_function, .ace_support.ace_function", "funcion")):
+            assert reglas[selector]["color"] == x[papel], (v, selector)
+            assert _contraste(x[papel], e["fondo"]) >= 4.5, (v, papel)
+        assert reglas[".terminal"]["background-color"] == k["fondo"] and reglas[".terminal"]["color"] == k["texto"]
+        for i in range(16):
+            assert reglas[f".xtermColor{i}"]["color"] == k[f"color{i}"] + " !important"
+            assert reglas[f".xtermBgColor{i}"]["background-color"] == k[f"color{i}"]
+        assert reglas[".xtermColor196"]["color"] == "#ff0000 !important" and reglas[".xtermColor244"]["color"] == "#808080 !important"
+        assert _contraste(e["texto"], e["fondo"]) >= 4.5
+        propios = re.sub(r"\.xterm(Bg)?Color(1[6-9]|[2-9]\d|1\d\d|2[0-5]\d) \{[^}]*\}", "", sin_comentarios)
+        for h in re.findall(r"#([0-9a-fA-F]{6})(?:[0-9a-fA-F]{2})?\b", propios):
+            assert "#" + h.lower() in _hexes_permitidos(), (v, h)
+    assert len(xterm) == 240 and xterm[16] == "#000000" and xterm[231] == "#ffffff" and xterm[232] == "#080808"
+
+
+def _ini_qsettings(texto: str) -> dict[str, dict[str, str]]:
+    secciones: dict[str, dict[str, str]] = {}
+    grupo = "General"
+    for linea in texto.splitlines():
+        if linea.startswith("["):
+            grupo = linea.strip()[1:-1]
+        elif "=" in linea and not linea.startswith(";"):
+            clave, valor = linea.split("=", 1)
+            secciones.setdefault(grupo, {})[clave] = valor
+    return secciones
+
+
+def _qcolor_hex(valor: str) -> str:
+    """Lee un `@Variant(…)` de QColor como lo escribe QSettings (inverso de `octave.qcolor`)."""
+    cuerpo = valor.strip('"')
+    assert cuerpo.startswith("@Variant(") and cuerpo.endswith(")")
+    cuerpo, datos, i = cuerpo[9:-1], bytearray(), 0
+    simples = {"0": 0, "a": 7, "b": 8, "f": 12, "n": 10, "r": 13, "t": 9, "v": 11, '"': 34, "\\": 92}
+    while i < len(cuerpo):
+        if cuerpo[i] == "\\":
+            if cuerpo[i + 1] == "x":
+                j = i + 2
+                while j < len(cuerpo) and j < i + 4 and cuerpo[j] in "0123456789abcdef":
+                    j += 1
+                datos.append(int(cuerpo[i + 2:j], 16)); i = j
+            else:
+                datos.append(simples[cuerpo[i + 1]]); i += 2
+        else:
+            datos.append(ord(cuerpo[i])); i += 1
+    assert datos[:5] == b"\0\0\0\x43\x01" and len(datos) == 15        # tipo, espec., alfa, R, G, B, relleno
+    return "#" + "".join("%02x" % datos[n] for n in (7, 9, 11))
+
+
+def test_octave_colores():
+    """Decisiones 5.41: el claro en el primer modo de color de Octave y el oscuro en el segundo (`_2`, `Scintilla_2`), con
+    los colores serializados como los escribe Qt; todos los estilos válidos de cada lexer, con la sintaxis de los editores
+    y ≥ 4,5:1 sobre el fondo; la ventana de órdenes con el fondo y el texto de Konsole."""
+    octave = registro.codigo("octave")
+    # el valor exacto que escribe QSettings de Qt 6 para QColor("#112233") (PySide6 6.9, 2026-11-01)
+    assert octave.qcolor("#112233") == r'@Variant(\0\0\0\x43\x1\xff\xff\x11\x11\"\"33\0\0)'
+    assert octave.qcolor("#3d3e42").startswith('"@Variant(')                       # «=» obliga a entrecomillar
+    ini = _ini_qsettings((GEN / "octave" / f"{MARCA['id']}.ini").read_text(encoding="utf-8"))
+    sintaxis, ansi = registro.codigo("editores").sintaxis, registro.codigo("konsole").ansi
+    for v, sufijo, grupo in (("claro", "", "Scintilla"), ("oscuro", "_2", "Scintilla_2")):
+        s, t = registro.codigo("editores").paleta(TOKENS, v)
+        x, k = sintaxis(s, t), ansi(TOKENS, v)
+        assert _qcolor_hex(ini["terminal"]["color_b" + sufijo]) == k["fondo"]
+        assert _qcolor_hex(ini["terminal"]["color_f" + sufijo]) == k["texto"]
+        assert _qcolor_hex(ini["variable_editor"]["color_b" + sufijo]) == s["fondo.vista"]
+        for seccion in ("terminal", "variable_editor", "workspaceview", "editor"):
+            for clave, valor in ini[seccion].items():
+                if clave.endswith("_2") == (v == "oscuro"):
+                    assert _qcolor_hex(valor) in _hexes_permitidos(), (seccion, clave)
+        lexer = ini[grupo]
+        for lengua, estilos in (("Octave", 9), ("Matlab", 9), ("Bash", 14), ("Diff", 12)):
+            for n in range(estilos):
+                color = "#%06x" % int(lexer[f"{lengua}\\style{n}\\color"])
+                assert int(lexer[f"{lengua}\\style{n}\\paper"]) == int(s["fondo.vista"][1:], 16)
+                assert color in _hexes_permitidos() and _contraste(color, s["fondo.vista"]) >= 4.5, (v, lengua, n)
+                assert lexer[f"{lengua}\\style{n}\\font"].startswith("@FUENTE@, ")
+            assert f"{lengua}\\style{estilos}\\color" not in lexer
+        assert int(lexer["Octave\\style4\\color"]) == int(x["palabra-clave"][1:], 16)     # palabra clave
+        assert int(lexer["Octave\\style1\\color"]) == int(x["comentario"][1:], 16)        # comentario
+        assert int(lexer["Octave\\style5\\color"]) == int(x["cadena"][1:], 16)            # cadena
+    assert "color_mode" not in ini["editor"]                      # los interruptores los pone el programa
+
+
+def test_spyder_esquemas():
+    """Decisiones 5.42: dos esquemas con las 17 claves de Spyder 6, la sintaxis de los editores (≥ 4,5:1) y el texto
+    normal claro en el oscuro (la interfaz automática se pone oscura) y oscuro en el claro; la consola, los ANSI de
+    Konsole de la variante."""
+    programa = _cargar_programa(GEN / "spyder" / "spyder-lliphi.py")
+    claves = {"name", "background", "currentline", "currentcell", "occurrence", "ctrlclick", "sideareas", "matched_p",
+              "unmatched_p", "normal", "keyword", "magic", "builtin", "definition", "comment", "string", "number", "instance"}
+    sintaxis = registro.codigo("editores").sintaxis
+    for v in ("claro", "oscuro"):
+        e = programa.ESQUEMAS[f"{MARCA['id']}/{v}"]
+        assert set(e) == claves and e["name"] == MARCA["nombre_esquema"][v]
+        s, t = registro.codigo("editores").paleta(TOKENS, v)
+        x = sintaxis(s, t)
+        assert e["background"] == s["fondo.vista"] and e["normal"] == (s["texto.normal"], False, False)
+        assert e["keyword"][0] == x["palabra-clave"] and e["string"][0] == x["cadena"] and e["comment"] == (x["comentario"], False, True)
+        for clave, valor in e.items():
+            if clave == "name":
+                continue
+            color = valor[0] if isinstance(valor, tuple) else valor
+            assert color in _hexes_permitidos(), (v, clave)
+            if isinstance(valor, tuple):
+                assert _contraste(color, e["background"]) >= 4.5, (v, clave)
+        luz = sum(int(e["normal"][0][i:i + 2], 16) for i in (1, 3, 5)) / 3
+        assert (luz > 128) == (v == "oscuro")                    # Spyder: is_dark_font_color → interfaz automática
+    texto = (GEN / "spyder" / "consola.py").read_text(encoding="utf-8")
+    for v in ("claro", "oscuro"):
+        k = registro.codigo("konsole").ansi(TOKENS, v)
+        assert json.dumps([k[f"color{i}"] for i in range(16)]) in texto
+
+
+def test_ide_ciencia_siguen_a_la_variante(tmp_path: Path):
+    """Decisiones 5.43: los programas de RStudio, Octave y Spyder simulan por omisión, solo tocan sus claves y conservan
+    lo demás, y en modo vigilancia (sin `--colores`/`--esquemas`) no tocan una configuración que no sea de Lliphi; la
+    vigilancia de fondo-variante ejecuta los de `variante.d/`."""
+    env = {**os.environ, "XDG_CONFIG_HOME": str(tmp_path / "config"), "XDG_DATA_HOME": str(tmp_path / "data")}
+    env.pop("RSTUDIO_CONFIG_HOME", None)
+    claro, oscuro = MARCA["nombre_esquema"]["claro"], MARCA["nombre_esquema"]["oscuro"]
+
+    def correr_programa(ruta: Path, *args: str) -> str:
+        r = subprocess.run([PY, str(ruta), *args], capture_output=True, text=True, env=env)
+        assert r.returncode == 0, r.stderr
+        return r.stdout
+
+    # RStudio: editor_theme, solo si ya era de Lliphi
+    prefs = tmp_path / "config" / "rstudio" / "rstudio-prefs.json"
+    prefs.parent.mkdir(parents=True)
+    prefs.write_text(json.dumps({"editor_theme": claro, "font_size_points": 12}), encoding="utf-8")
+    rstudio = GEN / "rstudio" / "variante-rstudio.py"
+    assert "SIM" in correr_programa(rstudio, "oscuro") and json.loads(prefs.read_text())["editor_theme"] == claro
+    correr_programa(rstudio, "oscuro", "--aplicar")
+    assert json.loads(prefs.read_text()) == {"editor_theme": oscuro, "font_size_points": 12}
+    prefs.write_text(json.dumps({"editor_theme": "Textmate (default)"}), encoding="utf-8")
+    correr_programa(rstudio, "claro", "--aplicar")
+    assert json.loads(prefs.read_text())["editor_theme"] == "Textmate (default)"
+
+    # Octave: fusiona sin perder lo demás; la fuente elegida por el usuario se conserva; luego solo cambia el modo
+    ini = tmp_path / "config" / "octave" / "octave-gui.ini"
+    ini.parent.mkdir(parents=True)
+    original = "[General]\nmonospace_font=Andale Mono\n\n[Scintilla]\nOctave\\style1\\font=Fira Code, 12, 0, 0, 0\n\n[editor]\nshow_toolbar=false\n"
+    ini.write_text(original, encoding="utf-8")
+    octave = GEN / "octave" / "octave-lliphi.py"
+    correr_programa(octave, "oscuro", "--aplicar")                       # sin --colores: no son de Lliphi, no se toca
+    assert ini.read_text(encoding="utf-8") == original
+    correr_programa(octave, "oscuro", "--colores")                       # simula
+    assert ini.read_text(encoding="utf-8") == original
+    correr_programa(octave, "oscuro", "--colores", "--aplicar")
+    leido = _ini_qsettings(ini.read_text(encoding="utf-8"))
+    assert leido["General"]["monospace_font"] == "Andale Mono" and leido["editor"]["show_toolbar"] == "false"
+    assert leido["Scintilla"]["Octave\\style1\\font"] == "Fira Code, 12, 0, 0, 0"
+    assert all(leido[c.split("/")[0]][c.split("/")[1]] == "1" for c in registro.codigo("octave").INTERRUPTORES)
+    correr_programa(octave, "claro", "--aplicar")
+    leido = _ini_qsettings(ini.read_text(encoding="utf-8"))
+    assert all(leido[c.split("/")[0]][c.split("/")[1]] == "0" for c in registro.codigo("octave").INTERRUPTORES)
+    assert correr_programa(octave, "claro", "--aplicar") == ""            # ya está: nada que hacer
+
+    # Spyder: esquemas, interfaz automática y consola; un archivo de inicio ajeno no se toca
+    spyder_ini = tmp_path / "config" / "spyder-py3" / "config" / "spyder.ini"
+    spyder_ini.parent.mkdir(parents=True)
+    spyder_ini.write_text("[main]\nversion = 87.5.0\n\n[ipython_console]\nstartup/use_run_file = True\n"
+                          "startup/run_file = /otro/inicio.py\n\n[appearance]\nui_theme = light\n"
+                          "names = ['spyder', 'spyder/dark']\nselected = spyder/dark\n\n", encoding="utf-8")
+    spyder = GEN / "spyder" / "spyder-lliphi.py"
+    correr_programa(spyder, "oscuro", "--aplicar")                       # sin --esquemas: otro esquema, no se toca
+    assert "selected = spyder/dark" in spyder_ini.read_text(encoding="utf-8")
+    salida = correr_programa(spyder, "oscuro", "--esquemas", "--aplicar")
+    assert "/otro/inicio.py" in salida
+    cp = configparser.ConfigParser(interpolation=None); cp.optionxform = str
+    cp.read(spyder_ini, encoding="utf-8")
+    ap = cp["appearance"]
+    assert ap["selected"] == f"{MARCA['id']}/oscuro" and ap["ui_theme"] == "automatic"
+    import ast
+    assert set(ast.literal_eval(ap["names"])) == {"spyder", "spyder/dark", f"{MARCA['id']}/claro", f"{MARCA['id']}/oscuro"}
+    assert ast.literal_eval(ap[f"{MARCA['id']}/oscuro/normal"])[1:] == (False, False)
+    assert cp["ipython_console"]["startup/run_file"] == "/otro/inicio.py" and cp["main"]["version"] == "87.5.0"
+    correr_programa(spyder, "claro", "--aplicar")
+    assert f"selected = {MARCA['id']}/claro" in spyder_ini.read_text(encoding="utf-8")
+    spyder_ini.write_text("[ipython_console]\nstartup/run_file = \n\n[appearance]\nselected = spyder\n", encoding="utf-8")
+    correr_programa(spyder, "claro", "--esquemas", "--aplicar")
+    cp = configparser.ConfigParser(interpolation=None); cp.optionxform = str
+    cp.read(spyder_ini, encoding="utf-8")
+    assert cp["ipython_console"]["startup/use_run_file"] == "True"
+    assert cp["ipython_console"]["startup/run_file"] == str(tmp_path / "data" / MARCA["id"] / "spyder" / "consola.py")
+
+    # la vigilancia de fondo-variante ejecuta los programas de variante.d/ con la variante (y --aplicar al escribir)
+    carpeta = tmp_path / "vigilancia"
+    (carpeta / "variante.d").mkdir(parents=True)
+    shutil.copy(GEN / "fondo-variante" / "seguir-variante.py", carpeta / "seguir-variante.py")
+    (carpeta / "variante.d" / "eco.py").write_text("import sys\nprint('eco', *sys.argv[1:])\n", encoding="utf-8")
+    seguir = _cargar_programa(carpeta / "seguir-variante.py")
+    import contextlib
+    import io
+    salida = io.StringIO()
+    with contextlib.redirect_stdout(salida):
+        seguir.programas("claro", False)
+        seguir.programas("oscuro", True)
+    assert salida.getvalue().splitlines() == ["eco claro", "eco oscuro --aplicar"]

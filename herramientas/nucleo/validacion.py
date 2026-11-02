@@ -16,7 +16,7 @@ from . import RAIZ, VERSION, cargar, registro
 
 CLAVES = ("nombre", "resumen", "clase", "formato", "tecnologia", "estado", "desde", "archivos", "dependencias", "instalacion")
 DEPENDENCIAS = ("construccion", "integra", "referencia", "herramientas", "herramientas_opcionales", "python", "terceros", "bases")
-BASES = ("data", "config", "vscode", "positron", "vscodium")
+BASES = ("data", "config", "vscode", "positron", "vscodium", "zen")
 ESTADOS = ("probado", "experimental", "implementado", "pendiente")
 GRUPOS_COLORES = ("Colors:View", "Colors:Window", "Colors:Button", "Colors:Selection", "Colors:Tooltip",
                   "Colors:Complementary", "Colors:Header")
