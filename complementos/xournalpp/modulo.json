@@ -1,0 +1,31 @@
+{
+  "nombre": "Xournal++: paleta de bolígrafos y colores",
+  "resumen": "Xournal++ con Lliphi: la interfaz y el modo oscuro siguen al complemento gtk; aquí, una paleta de bolígrafos sobria desde los tokens (escribir legible sobre papel blanco y resaltar) y los colores de alrededor de las páginas, de la selección y del recoloreado del modo oscuro.",
+  "clase": "paquete",
+  "orden": 21,
+  "formato": "varios",
+  "tecnologia": "paleta «GIMP Palette» (`.gpl`) en `~/.config/xournalpp/palettes/` · propiedades de color de `settings.xml` (ARGB decimal: `backgroundColor`, `selection*Color`, `recolor.*`, `colorPalette`)",
+  "estado": "probado",
+  "desde": "0.4.0",
+  "licencia": "MIT",
+  "archivos": [
+    "palettes/Lliphi.gpl",
+    "settings-lliphi.xml"
+  ],
+  "capturas": [
+    "../capturas/oscuro-39-xournalpp.png",
+    "../capturas/claro-39-xournalpp.png"
+  ],
+  "dependencias": {
+    "herramientas_opcionales": [
+      "pgrep"
+    ]
+  },
+  "instalacion": [
+    {
+      "origen": "palettes/{nombre}.gpl",
+      "destino": "xournalpp/palettes/{nombre}.gpl",
+      "base": "config"
+    }
+  ]
+}
