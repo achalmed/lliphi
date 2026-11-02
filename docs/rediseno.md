@@ -37,7 +37,7 @@ ajustes, borradores, órdenes, git, versiones, respaldos; sin Qt) y `color.py` (
 | sección | qué hace hoy | entidades y operaciones | mezclado en la ventana |
 |---|---|---|---|
 | Dashboard | cifras y grafo de los módulos; validación, deriva e instalación por `--json` | módulo, deriva, instalación | las cifras pintadas a mano; nada lista destino por destino qué está al día o instalado |
-| Color · Plasma · Ventanas · Iconos · Pantallas · Disposición | editores visuales de los `ajustes.json` de cuatro módulos y exploradores de SVG, iconos y pantallas | ajustes, borrador, diff | 3 285 líneas de QtWidgets y `QPainter` por sección; cada editor es una pantalla a mano |
+| Color · Plasma · Ventanas · Iconos · Pantallas · Disposición | editores visuales de los `ajustes.json` de cuatro módulos y exploradores de SVG, iconos y pantallas | ajustes, borrador, diff | 3 sus líneas de QtWidgets y `QPainter` por sección; cada editor es una pantalla a mano |
 | Vista en vivo | arrancar, recargar, capturar y cerrar la sesión anidada | sesión de prueba | la sesión arranca sin decir que consume RAM y disco |
 | Construir y desplegar | botones por orden (simular, aplicar, comprobar, desinstalar, dependencias, SDDM, revertir) | orden, respaldo | las confirmaciones sin la orden ni lo que toca |
 
@@ -121,9 +121,15 @@ contadores. Ningún nombre ni logotipo dentro de la ventana; ningún color ni fu
 
 | captura | qué muestra |
 |---|---|
-| `figuras/lliphi-studio-oscuro.png` | Lliphi Oscuro: los destinos con su estado, el esquema de color elegido y la pestaña Paleta con los tokens como datos |
-| `figuras/lliphi-studio-claro.png` | Lliphi Claro: el Resumen de un destino con sus dependencias, herramientas y rutas de instalación |
-| `figuras/lliphi-studio-paleta.png` | la paleta de órdenes (Ctrl+K) buscando un destino |
+| `figuras/lliphi-studio-oscuro.png` | Lliphi Oscuro: los 29 destinos tras «Verificar lo generado» (todos al día), Esquemas de color elegido con «Generar» simulado y la pestaña Paleta con los tokens como datos |
+| `figuras/lliphi-studio-claro.png` | Lliphi Claro: el Resumen de Konsole (entrega, dependencias, pares de instalación) con la salida de su simulación en el panel inferior |
+| `figuras/lliphi-studio-paleta.png` | la paleta de órdenes (Ctrl+K) buscando «instalar»: la acción, las operaciones y la vista por estado |
+
+Lo construido respeta §3 y §4; lo que cambió al construir: la pestaña **Operación** (la operación elegida con sus dos
+órdenes, lo que toca, el plan y el registro guardados) se añadió a los detalles para que la confirmación y la última
+corrida se puedan leer sin abrir la paleta; las diferencias que `verificar` encuentra en `sitio/generado/` (no es un
+destino de la tabla) se avisan aparte; y en QML las tres piezas del marco van como `accionesStudio`, `tareasStudio` y
+`consolaStudio`, porque `acciones`, `tareas` y `consola` son propiedades de `VentanaStudio` y las taparían.
 
 Las capturas se toman sobre el proyecto de muestra (`studio/muestra.py`: una copia ligera del proyecto en una carpeta
 temporal), con HOME, configuración y caché temporales (ninguna ruta de la máquina en pantalla), con `studio/capturar.py`.
@@ -162,7 +168,7 @@ Nada: la Paleta se resuelve con QtQuick y los datos del token; la tabla, los det
   F5/Ctrl+Intro regeneran. Si el autor los quiere de vuelta, serán componentes QML propios sobre `proyecto.py` y
   `color.py`, que se conservan como servicios.
 - **S7 · `sddm` y `gtk-root` quedan en la terminal**: piden pkexec; la ventana lo dice en el Resumen de esos destinos.
-- **S8 · Lo de 1.x que sigue**: el proyecto y el color sin Qt (`servicios/proyecto.py`, `servicios/color.py`); las
+- **S8 · Lo de 1.x que sigue**: el proyecto y el color sin Qt (`studio/lliphi_app/servicios/proyecto.py`, `studio/lliphi_app/servicios/color.py`); las
   órdenes son las mismas; el acceso directo lo escribe `gui_comun.lanzador` y corre `/usr/bin/python3`.
 - **S9 · Un `.venv` del repo sobre el Python del sistema** (`/usr/bin/python3 -m venv --system-site-packages .venv` y
   `pip install -r requirements.txt`: `coloraide`; Pillow y pytest ya están en el sistema): las órdenes corren con él
