@@ -367,7 +367,9 @@
       ],
       "capturas": [
         "../capturas/oscuro-08-positron.png",
-        "../capturas/claro-08-positron.png"
+        "../capturas/claro-08-positron.png",
+        "../capturas/oscuro-53-positron.png",
+        "../capturas/claro-53-positron.png"
       ],
       "dependencias": {
         "construccion": [
@@ -499,6 +501,91 @@
       "rol": "complemento",
       "ruta": "complementos/fondo-variante",
       "salida": "generado/fondo-variante"
+    },
+    {
+      "nombre": "Kate: tema del editor",
+      "resumen": "Lliphi Claro y Lliphi Oscuro para el editor de Kate, KWrite y KDevelop (KTextEditor), con la tabla de sintaxis de los demás editores y el fondo y la selección del esquema de Plasma, para que Kate cambie solo de tema al cambiar de variante.",
+      "clase": "paquete",
+      "orden": 10,
+      "formato": "varios",
+      "tecnologia": "tema de KSyntaxHighlighting 6 (JSON: `metadata`, `text-styles`, `editor-colors`) en `$XDG_DATA_HOME/org.kde.syntax-highlighting/themes/`; elección automática por la paleta (`Repository::themeForPalette`)",
+      "estado": "probado",
+      "desde": "0.4.0",
+      "archivos": [
+        "lliphi-claro.theme",
+        "lliphi-oscuro.theme"
+      ],
+      "capturas": [
+        "../capturas/oscuro-54-kate.png",
+        "../capturas/claro-54-kate.png"
+      ],
+      "dependencias": {
+        "construccion": [
+          "editores",
+          "kvantum"
+        ]
+      },
+      "id": "kate",
+      "rol": "complemento",
+      "ruta": "complementos/kate",
+      "salida": "generado/kate"
+    },
+    {
+      "nombre": "TeXstudio: resaltado del editor",
+      "resumen": "Los formatos de resaltado de TeXstudio para Lliphi Claro y Lliphi Oscuro (órdenes, entornos, matemática, referencias, ortografía, línea actual, selección, llaves por nivel) en las dos secciones que TeXstudio elige por la paleta del sistema, para que siga solo a la variante; como perfil que se carga desde TeXstudio o aplicados en texstudio.ini sin tocar lo demás.",
+      "clase": "paquete",
+      "orden": 11,
+      "formato": "varios",
+      "tecnologia": "TeXstudio 4.x: `[formats]` y `[formatsDark]` de `texstudio.ini` (`QFormatScheme`, grupos `data/<formato>`), elegidas por `ConfigManager::systemUsesDarkMode` · perfil `.txsprofile` (Opciones → Cargar perfil…)",
+      "estado": "probado",
+      "desde": "0.4.0",
+      "archivos": [
+        "lliphi.txsprofile"
+      ],
+      "capturas": [
+        "../capturas/oscuro-55-texstudio.png",
+        "../capturas/claro-55-texstudio.png"
+      ],
+      "dependencias": {
+        "construccion": [
+          "editores",
+          "kvantum"
+        ],
+        "herramientas_opcionales": [
+          "pgrep"
+        ]
+      },
+      "id": "texstudio",
+      "rol": "complemento",
+      "ruta": "complementos/texstudio",
+      "salida": "generado/texstudio"
+    },
+    {
+      "nombre": "Vim y Neovim: esquema lliphi",
+      "resumen": "El esquema de colores `lliphi` para Vim y Neovim, con Lliphi Claro y Lliphi Oscuro según `background`: el fondo y la terminal integrada de Konsole, la tabla de sintaxis de los demás editores y, en Neovim, los grupos de Tree-sitter, de los tokens semánticos del LSP y de diagnósticos.",
+      "clase": "paquete",
+      "orden": 12,
+      "formato": "varios",
+      "tecnologia": "esquema de colores de Vim script (`colors/lliphi.vim`, `:highlight`, `g:terminal_ansi_colors`) que lee también Neovim (grupos `@…` y `g:terminal_color_N` bajo `has('nvim')`); Neovim lo encuentra en `$XDG_DATA_HOME/nvim/site/colors/`",
+      "estado": "probado",
+      "desde": "0.4.0",
+      "archivos": [
+        "colors/lliphi.vim"
+      ],
+      "capturas": [
+        "../capturas/oscuro-56-neovim.png",
+        "../capturas/claro-56-neovim.png"
+      ],
+      "dependencias": {
+        "construccion": [
+          "editores",
+          "konsole"
+        ]
+      },
+      "id": "vim",
+      "rol": "complemento",
+      "ruta": "complementos/vim",
+      "salida": "generado/vim"
     }
   ]
 }

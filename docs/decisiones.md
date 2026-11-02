@@ -459,3 +459,72 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   `borde.separador` en las dos variantes: en el oscuro el anterior no se veía (comprobado en pantalla), y en el claro da
   el gris que LibreOffice trae por omisión. La interfaz sigue al escritorio; el «tema de LibreOffice» (UI propia) queda
   sin activar, como estaba. Validado con un perfil desechable en una sesión de KWin virtual (`validacion.md` §10).
+- **5.3 (2026-11-01) Positron entero en Lliphi, en la misma extensión.** El autor pidió los temas de Positron, Kate,
+  TeXstudio y Vim/Neovim. Positron ya leía la extensión de VS Code (`complementos/editores`), pero registra 150 claves
+  de color propias (`positron*`) y 37 de ellas tienen por omisión un color fijo suyo: los azules de la selección de la
+  cuadrícula de datos, los grises de los separadores y de los campos de las barras de acciones y de los diálogos, los
+  iconos de estado del intérprete, la bienvenida, los gráficos del resumen de columnas y el fondo de las trazas de la
+  consola. Inventario sacado de los `registerColor("positron…")` de `workbench.desktop.main.js` de Positron 2026.06.
+  Se decide: (1) **todas ellas desde los tokens**, en `colores_positron()`, dentro de la misma extensión (Positron la
+  instala de `~/.positron/extensions/`; VS Code ignora las claves que no conoce): selección y cursor de la cuadrícula
+  en el acento, estados en los colores de estado, la distribución de las columnas en el azul de `charts.blue` y los
+  nulos en su rojo; (2) **la consola de Positron es la terminal integrada**: su fondo y sus dieciséis ANSI son los de
+  la terminal (Konsole, 4.30), no el fondo del panel, porque es salida de terminal y así los colores 1–7 dan ≥ 4,5:1;
+  (3) se definen además las claves estándar de las que Positron deriva otras y que el tema dejaba vacías
+  (`tree.tableColumnsBorder`, los fondos del desplazamiento fijo). Las demás claves de Positron derivan de claves
+  estándar que el tema ya define. `test_positron_entero` comprueba que no falte ninguna de las 37.
+- **5.4 (2026-11-01) Kate: un tema de KSyntaxHighlighting con el fondo de la paleta que ven las aplicaciones.** La
+  interfaz de Kate ya seguía el esquema de color; faltaba el editor. Kate, con «Seleccionar automáticamente el tema de
+  color» (activo por omisión, y activo en la configuración del autor), elige el tema cuyo `BackgroundColor` es el
+  `Base` de la paleta de la aplicación y, entre ellos, el de `TextSelection` igual a su `Highlight`
+  (`Repository::themeForPalette` de KSyntaxHighlighting 6.24, leído en su código); si ninguno coincide, Breeze. Se
+  decide: (1) **complemento `kate`** con `lliphi-claro.theme` y `lliphi-oscuro.theme` en
+  `$XDG_DATA_HOME/org.kde.syntax-highlighting/themes/`, con la tabla de sintaxis de los editores; (2) **el fondo y la
+  selección son los de la paleta de Kvantum** (`kvantum.paleta_qt`: `base.color` = `fondo.vista`, `highlight.color` =
+  `seleccion.fondo`), que es la que ven las aplicaciones con el estilo Kvantum del tema global, y no la del esquema
+  `.colors` (`#242424` en el oscuro, línea base de WhiteSur): se probó en la sesión de prueba, con un tema anclado al
+  esquema Kate cayó en Breeze Dark y con el anclado a Kvantum eligió Lliphi Oscuro; al pasar a Lliphi Claro con Kate
+  abierto, cambió solo a Lliphi Claro, sin escribir en `katerc`. Con el estilo Breeze en lugar de Kvantum la paleta es
+  la del esquema y Kate cae en Breeze: se elige el tema a mano (`INSTALL.md`); (3) como la selección es el acento opaco,
+  el texto seleccionado es `seleccion.texto` (4,5:1 en el oscuro, el mismo par de toda la selección de Plasma); (4) los
+  resaltes (línea actual, búsqueda, plegado, plantillas) son colores del maestro con el alfa de los editores compuesto
+  sobre el fondo (`editores.sobre`), porque el formato no mezcla alfa. Sin `aplicar.py`: no hace falta tocar la
+  configuración del usuario.
+- **5.5 (2026-11-01) TeXstudio: las dos secciones de formatos, en un perfil y, si se pide, en `texstudio.ini`.**
+  TeXstudio 4.9 guarda los formatos de resaltado en `[formats]` y en `[formatsDark]` de `texstudio.ini` y usa una u
+  otra según su modo oscuro, que deduce de la paleta (texto casi blanco) y vuelve a deducir cuando la paleta cambia
+  (`Texstudio::paletteChanged`); el fondo del editor es el `Base` de la paleta (con Kvantum, `fondo.vista`). Se decide: (1) **complemento
+  `texstudio`** que llena las dos secciones (el claro en `[formats]`, el oscuro en `[formatsDark]`): TeXstudio sigue
+  solo a la variante; (2) se escriben **los 88 formatos** de `defaultFormats.qxf` salvo los marcadores, con sus campos
+  completos y la prioridad de los que la declaran, porque un formato leído sustituye entero al de omisión; (3) la
+  sintaxis se lee como LaTeX Workshop en VS Code: órdenes en azul (`funcion`), `\begin`/`\end` en rojo (`palabra-clave`),
+  entornos en cian, lo matemático en amarillo y cian, títulos en rojo y negrita; referencias, citas y paquetes
+  presentes en magenta y los que faltan en el color de error con onda; las llaves por nivel en el orden de
+  `editorBracketHighlight` de VS Code; los resaltes, compuestos sobre el `base.color` de Kvantum (TeXstudio guarda los
+  colores sin alfa); (4) **dos maneras de aplicarlo, sin perder lo demás**: el perfil `lliphi.txsprofile` (Opciones →
+  Cargar perfil…, que solo fusiona sus claves) y el `aplicar.py` del instalador, que sustituye solo esas dos secciones
+  de `texstudio.ini`, respalda el archivo, escribe el real si es un enlace de dotfiles y no hace nada con TeXstudio
+  abierto (lo reescribiría al cerrarse). En la sesión de prueba, TeXstudio abierto pasó de `[formatsDark]` a
+  `[formats]` al cambiar a Lliphi Claro, sin reiniciarse.
+- **5.6 (2026-11-01) Vim y Neovim: un solo `colors/lliphi.vim` con las dos variantes.** Vim 9.1 y Neovim 0.11 están
+  instalados; el autor no tiene configuración de Neovim y su `~/.vimrc` solo fija el ratón. Se decide: (1)
+  **complemento `vim`** con un esquema en Vim script que leen los dos (no uno en Lua y otro en Vim script, que se
+  desincronizarían): Lliphi Claro con `background=light` y Lliphi Oscuro con `dark`; los grupos de Tree-sitter, de los
+  tokens semánticos del LSP (el reparto de `semanticTokenColors` de VS Code) y de diagnósticos, bajo `has('nvim')`,
+  porque Vim no admite `@` en un nombre de grupo; (2) **el fondo y el texto son los de Konsole**, no `fondo.vista`:
+  Vim corre dentro de la terminal y así se funde con ella (la tabla de sintaxis da ≥ 5:1 sobre ese fondo); la
+  terminal integrada lleva los dieciséis ANSI de Konsole; `g:lliphi_transparente` deja el fondo a la terminal; (3) sin
+  colores verdaderos, cada grupo toma el más cercano de los dieciséis colores de Konsole; (4) se instala en
+  `$XDG_DATA_HOME/nvim/site/colors/`, que Neovim lee solo; Vim, con `~/.vimrc`, no lee carpetas XDG, así que
+  `INSTALL.md` pide un enlace en `~/.vim/colors/` (el instalador no escribe fuera de las carpetas XDG). La configuración
+  del autor (`~/.vimrc`) no se toca: se le propone `set termguicolors` y `colorscheme lliphi`.
+- **5.7 (2026-11-01) Seguir a la variante: no hace falta ampliar `fondo-variante` para estos editores.** Se evaluó
+  añadirlos a la vigilancia de 4.26/4.28 y no compensa: **Kate** cambia solo (5.4), **TeXstudio** cambia solo (5.5),
+  **Vim y Neovim** toman `background` de la terminal al arrancar (Konsole responde a OSC 11) y un cambio de
+  `background` recarga el esquema; en una sesión que ya estaba abierta basta `:set background=…`, y forzarla desde
+  fuera exigiría un servidor de Neovim o una orden en la configuración del usuario. **Positron** (Electron) sigue al
+  sistema con sus propios ajustes, `window.autoDetectColorScheme`, `workbench.preferredLightColorTheme` y
+  `workbench.preferredDarkColorTheme`, que están en el `settings.json` del usuario (en dotfiles): se documenta en
+  `complementos/editores/INSTALL.md` y se le propone al autor, sin escribirlo. Todo comprobado en la sesión de prueba
+  (capturas 53–56): con los cuatro abiertos en Lliphi Oscuro, el paso a Lliphi Claro cambió en vivo Kate, TeXstudio y
+  Positron; `fondo-variante` pasó el perfil de Konsole a Lliphi Claro y un Neovim nuevo abrió con `background=light`.

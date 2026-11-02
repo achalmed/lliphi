@@ -541,6 +541,170 @@ def test_positron_entero():
         assert _contraste(c["positronWelcome.foreground"], c["editor.background"]) >= 4.5, v
 
 
+ALFAS = ("1a", "1f", "26", "33", "40", "55", "66")
+
+
+def _permitidos(v: str, fondo: str) -> set[str]:
+    """Los colores que puede llevar un tema de editor de la variante `v` con fondo `fondo`: los del maestro, los de
+    Konsole y cualquiera de ellos con un alfa de los editores compuesto sobre el fondo (`editores.sobre`)."""
+    base = {t["$value"]["hex"].lower() for t in _tokens_planos(TOKENS).values() if isinstance(t["$value"], dict) and "hex" in t["$value"]}
+    base |= set(registro.codigo("konsole").ansi(TOKENS, v).values())
+    sobre = registro.codigo("editores").sobre
+    return base | {sobre(c, fondo, a) for c in base for a in ALFAS}
+
+
+def test_kate_temas():
+    """Decisiones 5.4: dos temas de KSyntaxHighlighting con la sintaxis de los editores; su fondo y su selección son los
+    de la paleta que Kvantum da a las aplicaciones, para que Kate (themeForPalette) elija solo el de la variante; texto
+    legible."""
+    for v in ("claro", "oscuro"):
+        tema = json.loads((GEN / "kate" / f"{MARCA['id']}-{v}.theme").read_text(encoding="utf-8"))
+        qt = registro.codigo("kvantum").paleta_qt(TOKENS, v)
+        c, e = tema["editor-colors"], _sintaxis_esperada(v)
+        assert tema["metadata"]["name"] == MARCA["nombre_esquema"][v] and isinstance(tema["metadata"]["revision"], int)
+        assert c["BackgroundColor"] == qt["base.color"] == e["fondo"] and c["TextSelection"] == qt["highlight.color"]
+        ts = tema["text-styles"]
+        assert ts["Keyword"]["text-color"] == e["palabra-clave"] and ts["String"]["text-color"] == e["cadena"]
+        assert ts["Function"]["text-color"] == e["funcion"] and ts["Comment"]["text-color"] == e["comentario"] and ts["Comment"]["italic"]
+        assert ts["DecVal"]["text-color"] == e["numero"] and ts["Normal"]["text-color"] == e["texto"]
+        faltan = {"Normal", "Keyword", "Function", "Variable", "ControlFlow", "Operator", "BuiltIn", "Extension", "Preprocessor",
+                  "Attribute", "Char", "SpecialChar", "String", "VerbatimString", "SpecialString", "Import", "DataType", "DecVal",
+                  "BaseN", "Float", "Constant", "Comment", "Documentation", "Annotation", "CommentVar", "RegionMarker",
+                  "Information", "Warning", "Alert", "Error", "Others"} - set(ts)
+        assert not faltan, (v, faltan)
+        permitidos = _permitidos(v, c["BackgroundColor"])
+        for nombre, estilo in ts.items():
+            assert _contraste(estilo["text-color"], c["BackgroundColor"]) >= 4.5, (v, nombre)
+            assert {estilo["text-color"], estilo["selected-text-color"], estilo.get("background-color", estilo["text-color"])} <= permitidos, (v, nombre)
+        assert set(c.values()) <= permitidos, (v, set(c.values()) - permitidos)
+        assert _contraste(ts["Normal"]["selected-text-color"], c["TextSelection"]) >= 4.5, v
+
+
+def _formatos_texstudio(seccion: str) -> dict[str, dict[str, str]]:
+    cp = configparser.RawConfigParser(comment_prefixes=("#", ";"))
+    cp.optionxform = str
+    cp.read_string((GEN / "texstudio" / f"{MARCA['id']}.txsprofile").read_text(encoding="utf-8"))
+    formatos: dict[str, dict[str, str]] = {}
+    for clave, valor in cp[seccion].items():
+        if clave.startswith("data\\"):
+            _, id_, campo = clave.split("\\")
+            formatos.setdefault(id_.replace("%3A", ":"), {})[campo] = valor
+    assert cp[seccion]["version"] == "1.0"
+    return formatos
+
+
+def test_texstudio_formatos():
+    """Decisiones 5.5: [formats] (claro) y [formatsDark] (oscuro), con todos los formatos de TeXstudio 4.9 y la tabla de
+    sintaxis; texto legible sobre el `base.color` de Kvantum (el `Base` con que pinta TeXstudio)."""
+    ids = {"comment", "magicComment", "commentTodo", "keyword", "extra-keyword", "math-keyword", "math-delimiter", "math-text",
+           "environment", "structure", "verbatim", "link", "numbers", "escapeseq", "text", "current", "selection", "search",
+           "braceMatch", "braceMismatch", "spellingMistake", "line:error", "line:warning", "line:badbox", "background",
+           "referencePresent", "referenceMissing", "citationPresent", "citationMissing", "diffAdd", "diffDelete",
+           *(f"braceLevel{i}" for i in range(8))}
+    for v, seccion in (("claro", "formats"), ("oscuro", "formatsDark")):
+        f, e = _formatos_texstudio(seccion), _sintaxis_esperada(v)
+        assert ids <= set(f), (v, ids - set(f))
+        assert len(f) >= 88
+        fondo = registro.codigo("kvantum").paleta_qt(TOKENS, v)["base.color"]
+        assert f["keyword"]["foreground"] == e["funcion"] and f["extra-keyword"]["foreground"] == e["palabra-clave"]
+        assert f["comment"]["foreground"] == e["comentario"] and f["comment"]["italic"] == "true"
+        assert f["math-keyword"]["foreground"] == e["numero"] and f["align-ampersand"]["priority"] == "5"
+        assert f["spellingMistake"]["waveUnderline"] == "true"
+        permitidos = _permitidos(v, fondo)
+        for id_, campos in f.items():
+            colores = {campos[k] for k in ("foreground", "background", "linescolor") if k in campos}
+            assert colores <= permitidos, (v, id_, colores - permitidos)
+            if "foreground" in campos:
+                assert _contraste(campos["foreground"], campos.get("background", fondo)) >= 4.5, (v, id_)
+
+
+def test_texstudio_fundir_respeta_lo_demas(tmp_path):
+    """El aplicar de TeXstudio solo sustituye [formats] y [formatsDark]; lo demás del texstudio.ini queda igual, y un
+    enlace de dotfiles sigue siendo enlace. Con TeXstudio abierto no escribe."""
+    aplicar = registro.codigo("texstudio", "aplicar")
+    original = ("[General]\nIniMode=true\n\n[formats]\nversion=1.0\n\n[formatsDark]\nversion=1.0\n\n"
+                "[texmaker]\nEditor\\Font%20Family=JetBrains Mono\nGUI\\Style=0\n\n[version]\nwritten_by_TXS_version=4.9.9\n")
+    real = tmp_path / "dotfiles" / "texstudio.ini"
+    real.parent.mkdir(parents=True)
+    real.write_text(original, encoding="utf-8")
+    ini = tmp_path / "config" / "texstudio" / "texstudio.ini"
+    ini.parent.mkdir(parents=True)
+    ini.symlink_to(real)
+
+    class Ctx:
+        CONFIG, modulos, marca, tokens = tmp_path / "config", ["texstudio"], MARCA, TOKENS
+        abierto = False
+        dicho: list[str] = []
+        def ejecutar(self, orden):
+            return subprocess.CompletedProcess(orden, 0 if self.abierto else 1)
+        def decir(self, texto):
+            self.dicho.append(texto)
+        @staticmethod
+        def codigo(id_, archivo="construir"):
+            return registro.codigo(id_, archivo)
+
+    ctx = Ctx()
+    ctx.abierto = True
+    assert aplicar.aplicar(ctx) == 0 and real.read_text(encoding="utf-8") == original and "abierto" in ctx.dicho[-1]
+    ctx.abierto = False
+    assert aplicar.respaldos(ctx)[0][0] == ini
+    assert aplicar.aplicar(ctx) == 0
+    nuevo = real.read_text(encoding="utf-8")
+    assert ini.is_symlink()
+    cp = configparser.RawConfigParser(comment_prefixes=("#", ";"))
+    cp.optionxform = str
+    cp.read_string(nuevo)
+    viejo = configparser.RawConfigParser()
+    viejo.optionxform = str
+    viejo.read_string(original)
+    for s in ("General", "texmaker", "version"):
+        assert dict(cp[s]) == dict(viejo[s]), s
+    assert nuevo.index("[General]") < nuevo.index("[formats]") < nuevo.index("[formatsDark]") < nuevo.index("[texmaker]")
+    assert len([k for k in cp["formatsDark"] if k.startswith("data\\")]) > 500
+    # idempotente, y sin las secciones las añade tras [General]
+    assert aplicar.fundir(nuevo, {"formats": ["[formats]", "a=1", ""]}).count("[formats]") == 1
+    sin = aplicar.fundir("[General]\nx=1\n\n[texmaker]\ny=2\n", {"formats": ["[formats]", "a=1", ""]})
+    assert sin.index("[General]") < sin.index("[formats]") < sin.index("[texmaker]") and "y=2" in sin
+
+
+def test_vim_esquema():
+    """Decisiones 5.6: un colors/lliphi.vim con las dos variantes según background, la sintaxis de los editores, el fondo
+    y los ANSI de Konsole, y los grupos de Neovim bajo has('nvim'); si Vim o Neovim están, lo cargan sin errores."""
+    texto = (GEN / "vim" / "colors" / f"{MARCA['id']}.vim").read_text(encoding="utf-8")
+    assert f"let g:colors_name = '{MARCA['id']}'" in texto and "if &background ==# 'light'" in texto
+    claro, oscuro = texto.split("if &background ==# 'light'")[1].split("\nelse\n")
+    for v, bloque in (("claro", claro), ("oscuro", oscuro.split("\nendif\n")[0])):
+        k, e = registro.codigo("konsole").ansi(TOKENS, v), _sintaxis_esperada(v)
+        hi = {m.group(1): dict(re.findall(r"(\w+)=(\S+)", m.group(2))) for m in re.finditer(r"^\s*hi (\S+) (.*)$", bloque, re.M)}
+        assert hi["Normal"]["guibg"] == k["fondo"] and hi["Keyword"]["guifg"] == e["palabra-clave"]
+        assert hi["String"]["guifg"] == e["cadena"] and hi["Function"]["guifg"] == e["funcion"] and hi["Comment"]["gui"] == "italic"
+        assert hi["@keyword"]["guifg"] == e["palabra-clave"] and hi["@lsp.type.function"]["guifg"] == e["funcion"]
+        assert "DiagnosticError" in hi and bloque.index("if has('nvim')") < bloque.index("hi @keyword")
+        assert f"'{k['color1']}'" in bloque.split("g:terminal_ansi_colors")[1].split("\n")[0]
+        assert f"let g:terminal_color_15 = '{k['color15']}'" in bloque
+        permitidos = _permitidos(v, k["fondo"])
+        for grupo, d in hi.items():
+            assert {d[c] for c in ("guifg", "guibg", "guisp") if c in d} - {"NONE"} <= permitidos, (v, grupo)
+            if d.get("guifg", "NONE") != "NONE" and d.get("guibg", "NONE") == "NONE" and grupo in ("Comment", "Keyword", "String", "Number", "Function", "Type", "LineNr"):
+                assert _contraste(d["guifg"], k["fondo"]) >= 4.5, (v, grupo)
+    casa = Path(os.environ.get("XDG_CACHE_HOME") or Path.home() / ".cache") / MARCA["id"] / "pruebas-vim"
+    shutil.rmtree(casa, ignore_errors=True)
+    (casa / "colors").mkdir(parents=True)
+    shutil.copy(GEN / "vim" / "colors" / f"{MARCA['id']}.vim", casa / "colors")
+    for bg in ("light", "dark"):
+        guion = casa / f"p-{bg}.vim"
+        guion.write_text(f"set nocompatible termguicolors background={bg}\nlet &rtp = '{casa},' . &rtp\nlet v:errmsg = ''\n"
+                         f"colorscheme {MARCA['id']}\ncall writefile([v:errmsg, g:colors_name, &background], '{casa}/salida-{bg}')\nqa!\n", encoding="utf-8")
+        for programa, orden in (("vim", ["vim", "-Nu", "NONE", "-es", "-S", str(guion)]),
+                                ("nvim", ["nvim", "--clean", "--headless", "-S", str(guion)])):
+            if shutil.which(programa) is None:
+                continue
+            (casa / f"salida-{bg}").unlink(missing_ok=True)
+            subprocess.run(orden, capture_output=True, timeout=30, env={**os.environ, "HOME": str(casa)})
+            assert (casa / f"salida-{bg}").read_text(encoding="utf-8").splitlines() == ["", MARCA["id"], bg], (programa, bg)
+    shutil.rmtree(casa, ignore_errors=True)
+
+
 def _bloques_css(texto: str) -> dict[str, dict[str, str]]:
     """selector → {variable: valor} de un CSS plano (sin anidar), como el que genera el complemento obsidian."""
     sin_comentarios = re.sub(r"/\*.*?\*/", "", texto, flags=re.S)
@@ -990,7 +1154,8 @@ def test_registro_tema_global_y_seis_modulos():
     roles = {m.id: (m.rol, m.clase) for m in registro.todos()}
     assert roles["global"] == ("global", "paquete")
     assert {i: c for i, (r, c) in roles.items() if r == "modulo"} == SEIS
-    assert {i for i, (r, _) in roles.items() if r == "complemento"} == {"fondos", "kvantum", "konsole", "terminales", "editores", "libreoffice", "sddm", "obsidian", "fondo-variante"}
+    assert {i for i, (r, _) in roles.items() if r == "complemento"} == {"fondos", "kvantum", "konsole", "terminales", "editores", "libreoffice", "sddm", "obsidian", "fondo-variante",
+                                                                              "kate", "texstudio", "vim"}
     g = registro.modulo("global")
     assert set(g.dependencias("integra")) == {"carga-bloqueo", "disposicion"}
     assert set(SEIS) <= set(g.dependencias("integra") + g.dependencias("referencia"))

@@ -4,6 +4,18 @@ Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión de
 
 ## [Unreleased]
 
+### Added
+- **Kate, TeXstudio y Vim/Neovim** (decisiones 5.4–5.7): tres complementos nuevos. `kate`: Lliphi Claro y Lliphi Oscuro
+  como temas de KSyntaxHighlighting, con el fondo y la selección de la paleta de Kvantum, para que Kate (y KWrite y
+  KDevelop) cambie solo de tema al cambiar de variante. `texstudio`: los 88 formatos de resaltado en `[formats]` (claro)
+  y `[formatsDark]` (oscuro), que TeXstudio elige por la paleta, como perfil `lliphi.txsprofile` y con un `aplicar.py`
+  que solo sustituye esas secciones de `texstudio.ini`. `vim`: el esquema `lliphi` para Vim y Neovim, con las dos
+  variantes según `background`, el fondo y la terminal de Konsole y, en Neovim, Tree-sitter, LSP y diagnósticos. Los
+  tres usan la tabla de sintaxis de los editores.
+- **Positron entero** (decisiones 5.3): las 37 claves `positron*` que llevaban un color fijo de Positron (cuadrícula de
+  datos, barras de acciones, diálogos, estado del intérprete, gráficos del explorador de datos, bienvenida) toman su
+  color de los tokens; la consola, el fondo y los ANSI de la terminal integrada.
+
 ### Changed
 - **Arquitectura modular** (docs/arquitectura.md, docs/migracion-modular.md): un tema global integrador (`global/`), seis
   módulos (`modulos/`: `esquema`, `estilo`, `decoracion`, `iconos-cursores`, `carga-bloqueo`, `disposicion`) y los
