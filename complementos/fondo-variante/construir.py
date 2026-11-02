@@ -12,7 +12,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from nucleo import escribir
+from nucleo import escribir, semanticos
 
 FUENTE = Path(__file__).resolve().parent / "seguir.py"
 PROGRAMA = "seguir-variante.py"
@@ -23,7 +23,9 @@ def generar(tokens: dict, marca: dict, destino: Path) -> list[Path]:
     hechos: list[Path] = []
     texto = (FUENTE.read_text(encoding="utf-8").replace("@NOMBRE@", marca["nombre"]).replace("@ID@", marca["id"]).replace("@DOMINIO@", marca["dominio_inverso"])
              .replace("@ESQUEMA_CLARO@", marca["id_esquema"]["claro"]).replace("@ESQUEMA_OSCURO@", marca["id_esquema"]["oscuro"])
-             .replace("@KONSOLE_CLARO@", marca["nombre_esquema"]["claro"]).replace("@KONSOLE_OSCURO@", marca["nombre_esquema"]["oscuro"]))
+             .replace("@KONSOLE_CLARO@", marca["nombre_esquema"]["claro"]).replace("@KONSOLE_OSCURO@", marca["nombre_esquema"]["oscuro"])
+             # el acento del claro, con el que se reconoce que los botones de ventana de GTK son de la decoración clara
+             .replace("@ACENTOS_CLARO@", ",".join(semanticos(tokens, "claro")[k].lower() for k in ("acento.base", "acento.suave"))))
     escribir(destino / PROGRAMA, texto, hechos)
     (destino / PROGRAMA).chmod(0o755)
     escribir(destino / INICIO, "\n".join([

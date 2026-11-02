@@ -23,7 +23,8 @@ GTK lo cambia KDE (kde-gtk-config, el módulo `gtkconfig` de kded), pero a veces
 `gtk-3.0/settings.ini` y en GSettings los iconos y el claro u oscuro del tema anterior. La vigilancia lo comprueba y,
 si no coinciden con KDE, recarga ese módulo, que lo vuelve a escribir todo; y pone `gtk-theme` de GSettings en
 `Breeze-Dark` o `Breeze` según la variante (KDE solo lo hace para las aplicaciones X11), porque hay programas, como
-gretl, que deciden su modo oscuro por ese nombre (decisiones 5.45).
+gretl, que deciden su modo oscuro por ese nombre (decisiones 5.45). Con la decoración de Lliphi
+comprueba también los botones de ventana que KDE hace para GTK (el de cerrar del claro lleva su acento; 5.47).
 
 Los programas que tampoco cambian solos (RStudio, Octave, Spyder) dejan cada uno un programa en `variante.d/`, junto a
 `seguir-variante.py`: en cada cambio la vigilancia los ejecuta con la variante (`<programa>.py claro|oscuro --aplicar`;

@@ -7,6 +7,7 @@ import configparser
 import json
 import os
 import re
+import shlex
 import shutil
 import subprocess
 import sys
@@ -21,7 +22,7 @@ TOKENS = json.loads((RAIZ / "tokens" / "tokens.json").read_text(encoding="utf-8"
 MARCA = json.loads((RAIZ / "tokens" / "marca.json").read_text(encoding="utf-8"))
 GEN = RAIZ / "generado"
 sys.path.insert(0, str(RAIZ / "herramientas"))
-from nucleo import registro  # noqa: E402
+from nucleo import registro, semanticos  # noqa: E402
 
 
 def correr(*args: str, env: dict | None = None) -> subprocess.CompletedProcess:
@@ -2249,12 +2250,13 @@ def test_gtk_sigue_a_kde(tmp_path: Path, monkeypatch):
     from types import SimpleNamespace
     seguir = _cargar_programa(GEN / "fondo-variante" / "seguir-variante.py")
     llamadas: list[list[str]] = []
-    estado = {"iconos": "Colloid-Grey-Light-Lliphi", "modulos": "gtkconfig khotkeys", "gtk-theme": "'Breeze'"}
+    estado = {"iconos": "Colloid-Grey-Light-Lliphi", "modulos": "gtkconfig khotkeys", "gtk-theme": "'Breeze'",
+              "kwin": f"__aurorae__svg__{MARCA['id']}-claro"}
 
     def falso(args, **_):
         llamadas.append(list(args))
         nombre = Path(args[0]).name
-        salida = {"kreadconfig6": estado["iconos"], "qdbus6": estado["modulos"],
+        salida = {"kreadconfig6": estado["kwin"] if "kwinrc" in args else estado["iconos"], "qdbus6": estado["modulos"],
                   "gsettings": estado["gtk-theme"] if args[1] == "get" else ""}.get(nombre, "")
         return SimpleNamespace(stdout=salida + "\n", returncode=0)
 
@@ -2270,6 +2272,20 @@ def test_gtk_sigue_a_kde(tmp_path: Path, monkeypatch):
     ini.write_text("[Settings]\ngtk-application-prefer-dark-theme=true\ngtk-icon-theme-name=Colloid-Grey-Dark-Lliphi\n", encoding="utf-8")
     assert len(seguir.desfase_gtk("claro")) == 2 and seguir.desfase_gtk("oscuro") == [
         "gtk-icon-theme-name Colloid-Grey-Dark-Lliphi → Colloid-Grey-Light-Lliphi"]
+
+    # los botones de ventana de GTK: con la decoración de Lliphi, el cerrar del claro lleva su acento
+    s = semanticos(TOKENS, "claro")
+    cerrar = tmp_path / "config" / "gtk-3.0" / "assets" / "close-normal.svg"
+    cerrar.parent.mkdir()
+    cerrar.write_text(f'<svg><circle fill="{s["acento.suave"]}"/></svg>', encoding="utf-8")
+    assert not seguir.botones_de_la_otra_variante("claro") and seguir.botones_de_la_otra_variante("oscuro")
+    assert "botones de ventana → los de oscuro" in seguir.desfase_gtk("oscuro")
+    estado["kwin"] = "Breeze"                                  # otra decoración: no se juzga
+    assert not seguir.botones_de_la_otra_variante("oscuro")
+    estado["kwin"] = f"__aurorae__svg__{MARCA['id']}"
+    cerrar.write_text('<svg><circle fill="#eb3131"/></svg>', encoding="utf-8")
+    assert seguir.botones_de_la_otra_variante("claro") and not seguir.botones_de_la_otra_variante("oscuro")
+    cerrar.unlink()
 
     def recargas() -> list[str]:
         return [a[-2].rsplit(".", 1)[-1] for a in llamadas if a[0].endswith("qdbus6") and a[-1] == "gtkconfig"]
@@ -2357,3 +2373,32 @@ def test_tipografia_en_formato_qt6():
     assert "font" not in escritas                              # Inter en Qt 6: su tamaño (11) se respeta
     assert escritas["fixed"] == fuentes["fixed"]               # otra familia: se pone la de Lliphi
     assert escritas["activeFont"] == fuentes["activeFont"]     # Inter en formato de Qt 5: se reescribe
+
+
+def test_gtk_para_root(tmp_path: Path):
+    """Decisiones 5.47: el guion que corre como root enlaza (no copia) los archivos GTK del usuario en la carpeta de
+    root; repetirlo no cambia nada; si root tiene un archivo propio en un destino, sale 3 sin tocar nada; deshacer
+    quita solo los enlaces que siguen apuntando al usuario."""
+    raiz = registro.codigo("gtk", "instalar_root")
+    usuario, root = tmp_path / "usuario", tmp_path / "root"
+    pares = []
+    for rel in ("gtk-3.0/gtk.css", "gtk-3.0/colors.css", "gtk-3.0/assets"):
+        origen = usuario / rel
+        origen.parent.mkdir(parents=True, exist_ok=True)
+        origen.mkdir() if rel.endswith("assets") else origen.write_text("@import 'colors.css';\n", encoding="utf-8")
+        pares.append((rel, origen))
+
+    def sh(texto: str) -> int:
+        return subprocess.run(["sh", "-c", texto], capture_output=True, text=True).returncode
+
+    guion = raiz.guion(shlex.quote(str(root)), pares)
+    assert sh(guion) == 0 and sh(guion) == 0                   # se puede repetir
+    for rel, origen in pares:
+        assert (root / ".config" / rel).is_symlink() and os.readlink(root / ".config" / rel) == str(origen)
+    ajeno = root / ".config" / "gtk-4.0" / "gtk.css"
+    ajeno.parent.mkdir(parents=True)
+    ajeno.write_text("/* de root */\n", encoding="utf-8")
+    otro = pares + [("gtk-4.0/gtk.css", usuario / "gtk-4.0" / "gtk.css")]
+    assert sh(raiz.guion(shlex.quote(str(root)), otro)) == 3 and ajeno.read_text(encoding="utf-8") == "/* de root */\n"
+    assert sh(raiz.guion_deshacer(shlex.quote(str(root)), otro)) == 0
+    assert not any((root / ".config" / rel).exists() for rel, _ in pares) and ajeno.exists()

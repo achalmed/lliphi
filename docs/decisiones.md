@@ -802,3 +802,18 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   (2) **el instalador respeta la fuente del usuario** si ya es de la misma familia (Inter, JetBrains Mono) y está en el
   formato de Qt 6: su tamaño y su peso son elección suya; la del formato de Qt 5 o la de otra familia se reescribe. A
   su escritorio se le repusieron sus valores del respaldo. Prueba: `test_tipografia_en_formato_qt6`.
+- **5.47 (2026-11-02) GTK como root y los botones de ventana de GTK.** El autor vio «BleachBit as Administrator» sin
+  Lliphi y el botón de cerrar de Claude Desktop de otro color. (1) **Como root** (pkexec o sudo), una aplicación GTK
+  tiene el `HOME` de root y no lee `~/.config/gtk-3.0/` del usuario. pkexec le quita Wayland, así que va por X11 y toma
+  el tema y los iconos de xsettingsd, que es de la sesión del usuario: le falta solo `gtk.css` y lo que importa
+  (comprobado en la sesión de prueba con un `HOME` vacío y X11: Breeze o Adwaita sin Lliphi; con los enlaces, Lliphi
+  Claro y, al pasar a Oscuro, Lliphi Oscuro, aun con el «Dark mode» propio de BleachBit, que viene activado). Se decide
+  **`instalar.py gtk-root`**: con pkexec, enlaza en `~root/.config/gtk-3.0/` y `gtk-4.0/` la hoja, los colores, las
+  hojas de Lliphi y los botones del usuario. Enlaces y no copias, para que sigan a la variante; sin `settings.ini`
+  (llega por xsettingsd); no sobrescribe un archivo propio de root (sale 3 sin tocar nada); `UNDO.sh` los quita. Es,
+  con `sddm`, lo único de Lliphi que pide contraseña, y lo ejecuta el usuario. (2) **Los botones de ventana** de las
+  aplicaciones con barra propia (Electron, barras de cabecera de GTK) son imágenes que kde-gtk-config hace de la
+  decoración de KWin (`gtk-3.0/assets/`), y la carrera de 5.45 también puede dejar las de la otra variante (las de
+  Claude Desktop eran las del oscuro, de las 22:50). La vigilancia lo comprueba: con la decoración de Lliphi, el botón
+  de cerrar del claro lleva su acento y el del oscuro no; si no cuadra con la variante, recarga `gtkconfig`. Una
+  aplicación ya abierta guarda las imágenes que cargó al arrancar: toma las nuevas al abrirse de nuevo.
