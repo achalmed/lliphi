@@ -753,3 +753,19 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   archivo abierto; Octave lee los colores al arrancar; Spyder, cerrado). Comprobado de punta a punta en la sesión de
   prueba: `plasma-apply-lookandfeel` al claro cambió los tres; de vuelta al oscuro con Spyder abierto, RStudio y Octave
   cambiaron y Spyder no se tocó.
+- **5.44 (2026-11-02) RStudio: el `.rstheme` pinta también la ventana (barras, pestañas, divisores).** El autor vio que
+  Lliphi solo aparecía en «Editor theme» y no en «RStudio theme» (Global Options → Appearance). Ese menú es fijo: solo
+  ofrece los dos estilos de la interfaz que trae RStudio, «Modern» y «Sky», y no admite temas propios; con un tema claro,
+  la ventana quedaba con los grises y el azul de esos estilos, y con uno oscuro, con el gris azulado propio de RStudio
+  (`#303941`), no con los de Lliphi (5.40 suponía que RStudio derivaba la interfaz del fondo del editor: lo hace solo con
+  los paneles de contenido). Pero RStudio carga el `.rstheme` en toda la página, no solo en el editor, así que el tema
+  puede pintar la ventana. Leído el DOM de RStudio 2026.05.1 en vivo (depuración remota de Chromium en la sesión de
+  prueba), se decide: (1) **solo clases estables**: las que RStudio deja para los temas (`rstheme_toolbarWrapper`,
+  `rstheme_secondaryToolbar`, `rstheme_tabLayoutCenter`, `rstheme_minimizedWindowObject`) y las de GWT
+  (`gwt-TabLayoutPanelTab(-selected)`, `gwt-TabLayoutPanelTabs`, `gwt-SplitLayoutPanel-*Dragger`, `dataGridHeader`),
+  nunca las ofuscadas (`GBQS1KEB…`), que cambian en cada versión; la prueba lo comprueba. (2) **con `!important`**,
+  porque RStudio pinta esas clases con más especificidad según su estilo y la variante; valen con «Modern» y con «Sky»
+  (los dos son `rstudio-themes-flat`). (3) **la composición de Plasma**: barra de pestañas y divisores en
+  `fondo.ventana-alterno`, barras de herramientas, cabeceras y pestaña elegida en `fondo.ventana`, la pestaña elegida
+  con una raya de 2 px del acento arriba, como las pestañas de Breeze, y su texto en `texto.normal` (las demás en
+  `texto.secundario`, ≥ 4,5:1). Comprobado en la sesión de prueba con las dos variantes, pixel a pixel contra los tokens.

@@ -3,12 +3,13 @@ registra desde `~/.config/rstudio/themes/` (o con `rstudioapi::addTheme`), y el 
 `fondo-variante` cambia `editor_theme` al pasar de una variante a otra.
 
 Formato (comprobado el 2026-11-01 en los 34 temas de RStudio 2026.05.1, `resources/app/resources/themes/`): dos
-comentarios de cabecera, `rs-theme-name` y `rs-theme-is-dark` (TRUE o FALSE; con TRUE RStudio pone oscura la interfaz
-entera: paneles, pestañas, barras y menús se derivan del fondo del editor), y reglas CSS sobre las clases de Ace
+comentarios de cabecera, `rs-theme-name` y `rs-theme-is-dark` (TRUE o FALSE; con TRUE RStudio pone oscuros los menús y
+su propio gris oscuro en la ventana), y reglas CSS sobre las clases de Ace
 (`.ace_keyword`, `.ace_string`…), las de RStudio (`.ace_foreign_line` para los bloques de código de R Markdown,
 `.ace_console_error`, `.ace_paren_color_0..6` de los paréntesis de colores, las guías de sangría de colores) y las de la
 consola y la terminal: `.terminal` y `.xtermColor0..255` / `.xtermBgColor0..255`, con las que RStudio pinta los
-colores ANSI de la consola de R y de la terminal integrada.
+colores ANSI de la consola de R y de la terminal integrada. RStudio carga el tema en toda la página, así que también pinta
+la ventana (`ventana()`, decisiones 5.44).
 
 La sintaxis sale de la misma tabla que los demás editores (`editores.sintaxis`); la consola y la terminal, de los
 dieciséis colores de Konsole (`konsole.ansi`, decisiones 4.30). Los colores 16 a 255 de xterm (el cubo 6×6×6 y la
@@ -37,6 +38,41 @@ def xterm256() -> dict[int, str]:
          for r in range(6) for g in range(6) for b in range(6)}
     c.update({232 + i: "#%02x%02x%02x" % ((8 + 10 * i,) * 3) for i in range(24)})
     return c
+
+
+def ventana(s: dict[str, str]) -> list[tuple[str, dict[str, str]]]:
+    """La ventana de RStudio (barras, pestañas, divisores), que sin esto queda con los grises de su estilo «Modern» o
+    «Sky». Ese menú de Global Options → Appearance → «RStudio theme» es fijo (no admite temas propios): lo que un
+    `.rstheme` puede pintar son las clases que RStudio deja estables para eso (`rstheme_*`) y las de GWT (`gwt-*`); las
+    demás cambian de nombre en cada versión. Con `!important`, porque RStudio pinta las mismas clases con más
+    especificidad según su estilo y la variante (`.rstudio-themes-flat.rstudio-themes-dark-grey …`)."""
+    def imp(props: dict[str, str]) -> dict[str, str]:
+        return {p: f"{v} !important" for p, v in props.items()}
+    borde = f"1px solid {s['borde.separador']}"
+    return [(sel, imp(props)) for sel, props in [
+        ("#rstudio_container, .rstudio-themes-flat .gwt-SplitLayoutPanel-HDragger,\n"
+         ".rstudio-themes-flat .gwt-SplitLayoutPanel-VDragger", {"background-color": s["fondo.ventana-alterno"]}),
+        (".rstudio-themes-flat .gwt-SplitLayoutPanel-VDragger", {"border-color": s["borde.separador"]}),
+        # pestañas de los paneles: la barra y las no elegidas en el fondo alterno; la elegida, del color de su barra de
+        # herramientas y con una raya del acento, como las pestañas de Plasma
+        (".rstudio-themes-flat .gwt-TabLayoutPanelTabs", {"background-color": s["fondo.ventana-alterno"], "border-bottom": borde}),
+        (".rstudio-themes-flat .gwt-TabLayoutPanelTab, .rstudio-themes-flat .gwt-TabLayoutPanelTab .rstheme_tabLayoutCenter",
+         {"background-color": s["fondo.ventana-alterno"], "color": s["texto.secundario"], "border-color": s["borde.separador"]}),
+        (".rstudio-themes-flat .gwt-TabLayoutPanelTab .gwt-Label", {"color": s["texto.secundario"]}),
+        (".rstudio-themes-flat .gwt-TabLayoutPanelTab-selected .rstheme_tabLayoutCenter",
+         {"background-color": s["fondo.ventana"], "box-shadow": f"inset 0 2px 0 {s['acento.base']}"}),
+        (".rstudio-themes-flat .gwt-TabLayoutPanelTab-selected .gwt-Label", {"color": s["texto.normal"]}),
+        # barras de herramientas y cabeceras de las tablas
+        (".rstudio-themes-flat .rstheme_toolbarWrapper, .rstudio-themes-flat .rstheme_secondaryToolbar,\n"
+         ".rstudio-themes-flat .gwt-TabLayoutPanelContent, .rstudio-themes-flat .gwt-TabLayoutPanel-Workbench",
+         {"background-color": s["fondo.ventana"], "border-color": s["borde.separador"]}),
+        (".rstudio-themes-flat .dataGridHeader", {"background-color": s["fondo.ventana"], "color": s["texto.secundario"],
+                                                  "border-color": s["borde.separador"]}),
+        (".rstudio-themes-flat .rstheme_minimizedWindowObject", {"background-color": s["fondo.ventana"], "border-color": s["borde.separador"]}),
+        # campos de búsqueda de las barras («Go to file/function», filtros de los paneles)
+        (".rstudio-themes-flat .rstheme_toolbarWrapper .search", {"background-color": s["fondo.vista"], "color": s["texto.normal"],
+                                                                  "border-color": s["borde.separador"]}),
+    ]]
 
 
 def reglas(tokens: dict, variante: str) -> list[tuple[str, dict[str, str]]]:
@@ -119,6 +155,7 @@ def reglas(tokens: dict, variante: str) -> list[tuple[str, dict[str, str]]]:
                f"{prefijo}.ace_editor.ace_autocomplete .ace_marker-layer .ace_line-hover",
                {"background": s["seleccion.fondo"] + "44", "border": "none"}),
               (f"{prefijo}.ace_editor.ace_autocomplete .ace_completion-highlight", {"color": s["acento.texto"]})]
+    r += ventana(s)
     # paréntesis y guías de sangría de colores: siete ANSI de Konsole
     for i, c in enumerate(ARCOIRIS):
         r.append((f".ace_paren_color_{i}, .editor_dark .ace_paren_color_{i}", {"color": k[c]}))
