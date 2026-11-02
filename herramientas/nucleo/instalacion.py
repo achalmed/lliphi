@@ -2,9 +2,10 @@
 
 Qué se copia y adónde lo dice la lista `instalacion` del `modulo.json` de cada módulo (origen relativo a
 `generado/<id>/`, destino relativo a su base). Bases: `data` ($XDG_DATA_HOME), `config` ($XDG_CONFIG_HOME), `vscode`
-(~/.vscode/extensions o $VSCODE_EXTENSIONS) y las condicionales `positron`, `vscodium` y `zen` (el perfil
-predeterminado de Zen Browser, también el del Flatpak, o $ZEN_PERFIL), que solo se usan si existe la carpeta del
-programa (nunca se crea). Nunca se escribe en `/usr` (el inicio de sesión SDDM tiene su propia orden con
+(~/.vscode/extensions o $VSCODE_EXTENSIONS) y las condicionales `positron`, `vscodium`, `zen` (el perfil
+predeterminado de Zen Browser, también el del Flatpak, o $ZEN_PERFIL) y `super-productivity` (su carpeta de datos, del
+deb, del Flatpak o del Snap, o $SUPER_PRODUCTIVITY_CONFIG), que solo se usan si existe la carpeta del programa (nunca
+se crea). Nunca se escribe en `/usr` (el inicio de sesión SDDM tiene su propia orden con
 pkexec: `instalar.py sddm`).
 
 Antes de tocar nada se respaldan, con su SHA-256 verificada, los archivos que declaran los `respaldos()` de los
@@ -69,10 +70,25 @@ def perfil_zen() -> Path:
 
 ZEN = perfil_zen()
 
-BASES = {"data": DATA, "config": CONFIG, "vscode": VSCODE, "positron": POSITRON, "vscodium": VSCODIUM, "zen": ZEN}
+
+def carpeta_super_productivity() -> Path:
+    """La carpeta de datos de Super Productivity (la de `styles.css`): `$SUPER_PRODUCTIVITY_CONFIG`, o la que exista del
+    paquete deb o AppImage, del Flatpak o del Snap. Si no hay ninguna, la del deb (la base condicional se omite)."""
+    if os.environ.get("SUPER_PRODUCTIVITY_CONFIG"):
+        return Path(os.environ["SUPER_PRODUCTIVITY_CONFIG"])
+    candidatas = (CONFIG / "superProductivity",
+                  HOME / ".var" / "app" / "com.super_productivity.SuperProductivity" / "config" / "superProductivity",
+                  HOME / "snap" / "superproductivity" / "common" / ".config" / "superProductivity")
+    return next((c for c in candidatas if c.is_dir()), candidatas[0])
+
+
+SUPER_PRODUCTIVITY = carpeta_super_productivity()
+
+BASES = {"data": DATA, "config": CONFIG, "vscode": VSCODE, "positron": POSITRON, "vscodium": VSCODIUM, "zen": ZEN,
+         "super-productivity": SUPER_PRODUCTIVITY}
 # base condicional → (carpeta que debe existir, nombre del programa); el instalador nunca crea esa carpeta
 CONDICIONALES = {"positron": (POSITRON.parent, "Positron"), "vscodium": (VSCODIUM.parent, "VSCodium"),
-                 "zen": (ZEN, "Zen Browser")}
+                 "zen": (ZEN, "Zen Browser"), "super-productivity": (SUPER_PRODUCTIVITY, "Super Productivity")}
 # formato → tipo con que `kpackagetool6 --type <tipo> --show <id>` encuentra un paquete de usuario (comprobar). `--list`
 # no sirve: omite los paquetes sin `KPackageStructure`, como los estilos de Plasma (también Breeze). Los fondos
 # (`Wallpaper/Images`) no se resuelven así ni siquiera los del sistema (`Next`): se comprueban solo por sus archivos.

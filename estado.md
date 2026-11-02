@@ -1,7 +1,7 @@
 ---
 tipo: estado
 estado: activo
-actualizado: 2026-11-01
+actualizado: 2026-11-02
 ---
 # estado.md — lliphi (nombre provisional de la carpeta y del proyecto)
 
@@ -13,6 +13,7 @@ Hasta que el autor elija el nombre (fase 3), la carpeta se llama `lliphi` y no e
 
 | fecha | qué | dónde se ve |
 |---|---|---|
+| 2026-11-02 | **Lliphi en Super Productivity**, a pedido del autor (rama `claude/quirky-hermann-63fcfd`, sin fusionar ni subir): complemento `super-productivity` con `lliphi.css` (las dos variantes; solo variables de la aplicación), instalado como su `styles.css` por una base condicional nueva del instalador; con «Modo oscuro: Sistema» cambia sola y en vivo con la variante. Comprobado con 18.10.0 en la sesión de prueba, por las dos vías (`styles.css` y «Instalar tema…»). No se tocó la configuración del autor | decisiones 5.48; `muestras/capturas/*-48-super-productivity*.png` |
 | 2026-11-01 | **los temas de Lliphi no salían en Positron**, visto por el autor: Positron no carga una carpeta de extensión copiada a mano (la anota en `.obsolete`) y borraba el tema claro preferido que la nombraba; ahora `editores` genera `lliphi.vsix` y el instalador la registra con `--install-extension` de cada editor del PATH (ganchos `tras_instalar()` y `al_desinstalar()` del núcleo); reinstalada así en el Positron del autor | decisiones 5.9, `test_vscode_extension`, `test_instalar_y_desinstalar_restaura` |
 | 2026-11-01 | **editores activados en la configuración del autor**, a su pedido: instalados `editores`, `kate` y `vim`; TeXstudio con sus `[formats]`/`[formatsDark]` en `texstudio.ini`; Positron con `window.autoDetectColorScheme` y los temas preferidos Lliphi Oscuro y Lliphi Claro en su `settings.json` (la línea del claro desapareció a las 22:34 por causa desconocida y se repuso); Vim (enlace en `~/.vim/colors/`, `set termguicolors` y `colorscheme lliphi` en `~/.vimrc`) y Neovim (`~/.config/nvim/init.lua`). Los cambios de `settings.json` y `texstudio.ini` quedan sin commit en `~/.dotfiles` | decisiones 5.4–5.8, `~/.local/state/lliphi/respaldos/2026-11-01_224426-positron-tema-claro/` |
 | 2026-11-01 | **RStudio, Octave y Spyder instalados en la sesión del autor**, a su pedido (22:35, en Lliphi Claro): `instalar.py --modulos rstudio,octave,spyder,fondo-variante --aplicar` (vuelta atrás `respaldos/2026-11-01_223555/UNDO.sh`); RStudio con `editor_theme` Lliphi Claro (sus paneles intactos); Octave, que nunca se había abierto, con un `octave-gui.ini` mínimo (`global_skip_welcome_wizard=true`, lo que deja su asistente) y los colores de Lliphi en el primer modo; Spyder con los esquemas, la interfaz automática, el esquema Lliphi Claro y `consola.py` al arrancar la consola. La vigilancia de `fondo-variante`, que no estaba corriendo, arrancada con el gancho `variante.d/`; al arrancar pasó el perfil de Konsole, que seguía en Lliphi Oscuro, a Lliphi Claro. Se ve al abrir cada programa | decisiones 5.40–5.43 |
@@ -107,6 +108,8 @@ Hasta que el autor elija el nombre (fase 3), la carpeta se llama `lliphi` y no e
 
 ## Por hacer
 
+- 2026-11-02 · dueño: autor · **Super Productivity con Lliphi**: con la aplicación cerrada, `python3 herramientas/instalar.py --modulos super-productivity --aplicar` (copia `styles.css`; si ya tienes uno propio, no lo toca) y ábrela con «Modo oscuro: Sistema» y «Tema (experimental): Default».
+- 2026-11-02 · dueño: asistente · la sesión de prueba (`herramientas/sesion.py`) solo desactiva el apagado de pantalla en el perfil de corriente de powerdevil: con batería, la pantalla anidada se apaga a los minutos y las capturas salen negras (se despierta con `kscreen-doctor --dpms on` dentro).
 - 2026-11-01 · dueño: autor · **Chrome con el tema de Lliphi** (decisiones 5.3): los dos temas están en `~/.local/share/lliphi/chrome/`; falta cargarlo en `chrome://extensions` → Modo de desarrollador → «Cargar descomprimida» (`lliphi-claro` u `lliphi-oscuro`). Zen ya está: instalado con su visto bueno y reabierto después (cargó `userChrome.css` y `user.js`; su modo pasó de oscuro fijo a automático). Cuando el autor confirme en pantalla que Zen cambia con el sistema, `estado` del complemento a «probado».
 - 2026-11-01 · dueño: autor · **Telegram**: aplicar `generado/telegram/Lliphi Claro.tdesktop-theme` en el modo diurno y `Lliphi Oscuro` en el nocturno, y poner el «Modo nocturno automático» en «Sistema» (`complementos/telegram/INSTALL.md`). Mirar en pantalla las burbujas, la lista de chats y los cuadros: sin una cuenta no se pudo ver el tema aplicado. Fusionar la rama `claude/lliphi-telegram-f0395d`.
 - 2026-11-01 · dueño: autor · la `VERSION` sigue en 0.3.0 con la arquitectura modular ya en `main`: decidir la versión y cuándo publicar (release, tarballs con `generar.py empaquetar`). La etiqueta de respaldo `antes-arquitectura-modular-2026-10-31` quedó publicada en GitHub con el push del 2026-11-01 (`push.followTags=true` en la configuración de git); así `fetch.pruneTags` ya no la borra. Si no se quiere pública, `git push origin :refs/tags/antes-arquitectura-modular-2026-10-31` (el bundle de `$RESPALDOS_DIR` la conserva).

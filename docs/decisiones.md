@@ -819,3 +819,33 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   Claude Desktop eran las del oscuro, de las 22:50). La vigilancia lo comprueba: con la decoración de Lliphi, el botón
   de cerrar del claro lleva su acento y el del oscuro no; si no cuadra con la variante, recarga `gtkconfig`. Una
   aplicación ya abierta guarda las imágenes que cargó al arrancar: toma las nuevas al abrirse de nuevo.
+- **5.48 (2026-11-02) Super Productivity: un CSS con las dos variantes, instalado como su `styles.css`.** El autor
+  pidió Super Productivity (18.10.0, deb, Electron 41), que tiene «Modo oscuro» (Sistema, Oscuro, Claro) y «Tema
+  (experimental)» con «Instalar tema…». En su código (`electron/main-window.ts`, `src/app/core/theme/`,
+  `src/styles/_css-variables.scss`, leídos de los mapas de fuentes del `app.asar`): un tema de usuario es un CSS que la
+  aplicación valida (sin `url()`, `src()` ni `@import`, hasta 500 KB), guarda en su IndexedDB (`SUPThemes`) y elige en
+  su localStorage, y vale para los dos modos; con «Sistema», pone la clase `isDarkTheme` en `<body>` según
+  `prefers-color-scheme`, que en Plasma sigue al esquema de color por el portal. Además lee `styles.css` de su carpeta
+  de datos y lo inyecta con `webContents.insertCSS`. Se decide: (1) **un solo `lliphi.css`** con Lliphi Claro y Lliphi
+  Oscuro que solo redefine variables de la aplicación: los primitivos de su contrato de temas (superficies, tinta,
+  bordes, velo), la categoría B (tareas, notas, paneles), los grises fijos `--dark0…24` del oscuro, la paleta de
+  Material (primario y acento con el acento de Lliphi, advertencia con el error; los pasos se mezclan en sRGB hacia el
+  texto sobre el acento o el fondo complementario) y los contenedores y textos de Material que la aplicación deja fijos.
+  `--brand` (el texto de acento de la barra lateral) es `acento.texto`: el primario-400 que usa la aplicación en el
+  oscuro daba 4,1:1 sobre una tarjeta. (2) **Se instala como `styles.css`**, con una base condicional nueva del
+  instalador (`super-productivity`: la carpeta del deb, del Flatpak o del Snap que exista, nunca creada): un archivo
+  que se copia y se retira, sin abrir la aplicación ni tocar sus datos. Se probó también escribir el tema en su
+  IndexedDB abriéndola un momento con el protocolo de DevTools (funciona), y se descartó: abre un puerto local, y
+  cerrarla con una señal en la sesión de prueba dejó sin guardar los datos recién creados (al abrirla, «NO DATA… ¿restaurar
+  la copia?»). El tema de usuario queda como alternativa a mano, con el mismo archivo. (3) **Un punto más de
+  especificidad** que la aplicación en cada selector (`html body:not(.isDarkTheme)`, `html body.isDarkTheme`,
+  `html:root`): las hojas de `insertCSS` van antes que las de la página y, a igual especificidad, perdían
+  (comprobado: `--bg` seguía en `#131314`). El claro no puede ir en `body` a secas porque ganaría a los alias de la
+  aplicación, de especificidad cero, también en el oscuro. (4) **La paleta de Material en `:root` con `!important`**
+  (la del oscuro en `:root:has(> body.isDarkTheme)`): la aplicación la pone en línea en `<html>` con el color del
+  proyecto, y solo `!important` vence a un estilo en línea; los colores de proyecto dejan de teñir la interfaz. (5) **La
+  letra de la interfaz no se toca**: Angular Material la escribe literal en sus reglas de tipografía y en 44 variables,
+  y cambiarla en parte mezclaba dos letras; su lista empieza por las del sistema (Roboto si está instalada; si no,
+  Inter). Solo JetBrains Mono para el código y los radios de Lliphi. (6) **Seguir a la variante sin programa**: con
+  «Sistema», la aplicación cambia sola y en vivo (comprobado en la sesión de prueba, de Lliphi Claro a Lliphi Oscuro);
+  no hace falta nada en `variante.d/`. Pruebas: `test_super_productivity_tema` y `test_super_productivity_instalacion`.

@@ -1282,7 +1282,7 @@ def test_registro_tema_global_y_seis_modulos():
     assert {i: c for i, (r, c) in roles.items() if r == "modulo"} == SEIS
     assert {i for i, (r, _) in roles.items() if r == "complemento"} == {"fondos", "kvantum", "konsole", "terminales", "editores", "libreoffice", "sddm", "obsidian", "fondo-variante",
                                                                               "navegadores", "telegram", "kate", "texstudio", "vim", "rstudio", "octave", "spyder",
-                                                                              "gtk", "xournalpp", "gimp", "calibre", "sitios-web"}
+                                                                              "gtk", "xournalpp", "gimp", "calibre", "sitios-web", "super-productivity"}
     g = registro.modulo("global")
     assert set(g.dependencias("integra")) == {"carga-bloqueo", "disposicion"}
     assert set(SEIS) <= set(g.dependencias("integra") + g.dependencias("referencia"))
@@ -2415,3 +2415,92 @@ def test_gtk_para_root_sudo_o_pkexec(monkeypatch):
     assert raiz.como_root() == ["pkexec"]
     monkeypatch.setattr(raiz.shutil, "which", lambda n: None)
     assert raiz.como_root() is None
+
+
+def test_super_productivity_tema():
+    """Decisiones 5.48: lliphi.css de Super Productivity con un selector más específico que el de la aplicación (vale
+    desde insertCSS), los tokens del contrato de temas en las dos variantes, cada color del maestro (la paleta de
+    Material, mezclada desde el acento y el error), contraste ≥ 4,5:1 y las reglas del validador de la aplicación."""
+    sp = registro.codigo("super-productivity")
+    texto = (GEN / "super-productivity" / f"{MARCA['id']}.css").read_text(encoding="utf-8")
+    assert "GENERADO por herramientas/generar.py (complementos/super-productivity" in texto
+    # lo que rechaza validateThemeCss de la aplicación, y su tope de 500 KB
+    sin_comentarios = re.sub(r"/\*.*?\*/", "", texto, flags=re.S)
+    assert not re.search(r"url\s*\(|src\s*\(|@import|image-set", sin_comentarios, flags=re.I)
+    assert len(texto.encode()) < 500 * 1024
+    b = _bloques_css(texto)
+    assert set(b) == {"html:root", ":root", ":root:has(> body.isDarkTheme)", "html body:not(.isDarkTheme)", "html body.isDarkTheme"}
+    assert all(linea.endswith("!important;") for sel in (":root", ":root:has(> body.isDarkTheme)")
+               for linea in re.search(r"(?m)^" + re.escape(sel) + r" \{([^{}]*)\}", sin_comentarios).group(1).strip().splitlines())
+    comun = b["html:root"]
+    assert comun["--font-mono-stack"].startswith('"JetBrainsMono Nerd Font"') and "--font-primary-stack" not in comun
+    assert comun["--radius-sm"] == f"{TOKENS['radio']['control']['$value']['value']}px"
+    contrato = ["--surface-0", "--surface-1", "--surface-2", "--surface-3", "--surface-4", "--ink", "--ink-strong",
+                "--ink-muted", "--ink-on-channel", "--separator", "--divider", "--scrim"]
+    hexes = {t_["$value"]["hex"].lower() for t_ in _tokens_planos(TOKENS).values()
+             if isinstance(t_["$value"], dict) and "hex" in t_["$value"]}
+    for v, cuerpo, raiz in (("claro", "html body:not(.isDarkTheme)", ":root"), ("oscuro", "html body.isDarkTheme", ":root:has(> body.isDarkTheme)")):
+        x, pal = b[cuerpo], {k: valor.replace(" !important", "") for k, valor in b[raiz].items()}
+        sem = {k: t_["$value"]["hex"] for k, t_ in _tokens_planos(TOKENS["semanticos"][v]).items()}
+        assert not [k for k in contrato if k not in x], v
+        assert x["--surface-1"] == sem["fondo.ventana" if v == "claro" else "fondo.vista"] and x["--ink"] == sem["texto.normal"]
+        assert x["--ink-on-channel"] == ", ".join(str(int(sem["texto.normal"][i:i + 2], 16)) for i in (1, 3, 5))
+        assert ("--dark12" in x) == (v == "oscuro")                    # los grises fijos solo en el oscuro
+        for k, valor in x.items():                                    # fuera de la paleta, solo colores del maestro
+            for h in re.findall(r"#[0-9a-f]{6}", valor):
+                assert h in hexes, (v, k, valor)
+        # la paleta de Material: 500 es el semántico; cada paso, en sus tres formas; su contraste, el mejor de dos
+        for nombre, base in sp.PALETAS.items():
+            assert pal[f"--palette-{nombre}-500"] == sem[base]
+            for paso in sp.PASOS:
+                color = pal[f"--palette-{nombre}-{paso}"]
+                assert pal[f"--palette-{nombre}-{paso}-rgb"] == color
+                assert pal[f"--palette-{nombre}-{paso}-no-rgb"] == ", ".join(str(int(color[i:i + 2], 16)) for i in (1, 3, 5))
+                sobre = pal[f"--palette-{nombre}-contrast-{paso}"]
+                assert sobre in (sem["texto.sobre-acento"], sem["fondo.complementario"]), (v, nombre, paso)
+            luz = [_luminancia(pal[f"--palette-{nombre}-{p}"]) for p in ("50", "100", "200", "300", "400", "500", "600", "700", "800", "900")]
+            assert luz == sorted(luz, reverse=True), (v, nombre)          # la escala va de claro a oscuro
+        # contraste ≥ 4,5:1 de lo que se lee: texto sobre fondo, tarjeta, diálogo y avisos; acento y botones
+        assert x["--brand"] == sem["acento.texto"] and x["--focus-ring"] == sem["foco"]
+        pestana = pal["--palette-primary-700" if v == "claro" else "--palette-primary-300"]   # la pestaña activa de Ajustes
+        pares = [(x["--ink"], x["--surface-1"]), (x["--ink"], x["--surface-2"]), (x["--ink"], x["--surface-3"]),
+                 (x["--text-color-less-intense"], x["--surface-1"]), (x["--text-color-less-intense"], x["--surface-2"]),
+                 (x["--ink-muted"], x["--surface-1"]), (x["--mat-menu-item-label-text-color"], x["--mat-menu-container-color"]),
+                 (x["--mat-form-field-filled-input-text-color"], x["--mat-form-field-filled-container-color"]),
+                 (x["--mat-tooltip-supporting-text-color"], x["--mat-tooltip-container-color"]),
+                 (x["--brand"], x["--surface-1"]), (x["--brand"], x["--surface-2"]), (pestana, x["--surface-1"]),
+                 (pal["--palette-primary-contrast-500"], pal["--palette-primary-500"]),
+                 (pal["--palette-warn-contrast-500"], pal["--palette-warn-500"])]
+        for texto_, fondo in pares:
+            assert _contraste(texto_, fondo) >= 4.5, (v, texto_, fondo, round(_contraste(texto_, fondo), 2))
+    assert registro.modulo("super-productivity").datos["instalacion"] == [
+        {"origen": "{id}.css", "destino": "styles.css", "base": "super-productivity"}]
+
+
+@pytest.mark.skipif(shutil.which("plasmashell") is None, reason="sin Plasma: el instalador exige Plasma 6")
+def test_super_productivity_instalacion(tmp_path: Path):
+    """Decisiones 5.48: lliphi.css va a styles.css de la carpeta de datos de Super Productivity (la del deb, la del
+    Flatpak o $SUPER_PRODUCTIVITY_CONFIG), que nunca se crea; un styles.css ajeno no se toca; UNDO.sh lo retira."""
+    env = _entorno(tmp_path)
+    sin = correr("herramientas/instalar.py", "--modulos", "super-productivity", env=env)
+    assert sin.returncode == 0 and "omitido super-productivity/lliphi.css" in sin.stdout, sin.stdout
+    assert not (tmp_path / ".config" / "superProductivity").exists()
+    flatpak = tmp_path / ".var/app/com.super_productivity.SuperProductivity/config/superProductivity"
+    flatpak.mkdir(parents=True)
+    assert f"→ {flatpak / 'styles.css'}" in correr("herramientas/instalar.py", "--modulos", "super-productivity", env=env).stdout
+    otra = tmp_path / "otra"
+    otra.mkdir()
+    assert f"→ {otra / 'styles.css'}" in correr("herramientas/instalar.py", "--modulos", "super-productivity",
+                                                 env={**env, "SUPER_PRODUCTIVITY_CONFIG": str(otra)}).stdout
+    deb = tmp_path / ".config" / "superProductivity"
+    deb.mkdir(parents=True)                                            # el deb gana al Flatpak si están los dos
+    ap = correr("herramientas/instalar.py", "--aplicar", "--modulos", "super-productivity", env=env)
+    assert ap.returncode == 0, ap.stdout + ap.stderr
+    assert (deb / "styles.css").read_bytes() == (GEN / "super-productivity" / f"{MARCA['id']}.css").read_bytes()
+    assert not (flatpak / "styles.css").exists()
+    undo = Path(json.loads((tmp_path / ".local/state" / MARCA["id"] / "instalado.json").read_text())["respaldo"]) / "UNDO.sh"
+    assert subprocess.run(["bash", str(undo)], capture_output=True, text=True, env=env).returncode == 0
+    assert not (deb / "styles.css").exists() and deb.is_dir()
+    (deb / "styles.css").write_text("/* mío */\n", encoding="utf-8")
+    conf = correr("herramientas/instalar.py", "--aplicar", "--modulos", "super-productivity", env=env)
+    assert conf.returncode == 3 and (deb / "styles.css").read_text() == "/* mío */\n"
