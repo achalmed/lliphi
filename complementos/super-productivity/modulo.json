@@ -1,0 +1,28 @@
+{
+  "nombre": "Super Productivity",
+  "resumen": "Un tema de Super Productivity (lliphi.css, Lliphi Claro y Lliphi Oscuro en un solo archivo) que redefine las variables de la aplicación: su escala de superficies y de texto, los grises fijos del oscuro, la paleta de Material con el acento de Lliphi y los contenedores de Material; se instala como su styles.css (o desde «Instalar tema…») y con «Modo oscuro: Sistema» sigue solo y en vivo a la variante.",
+  "clase": "paquete",
+  "orden": 31,
+  "formato": "CSS",
+  "tecnologia": "Super Productivity ≥ 18 (probado en 18.10.0, deb, Electron 41) · `styles.css` de su carpeta de datos (`webContents.insertCSS`) o tema de usuario CSS (Ajustes → General → «Instalar tema…») · variables de `_css-variables.scss` y clase `isDarkTheme` del cuerpo",
+  "estado": "probado",
+  "desde": "0.4.0",
+  "archivos": [
+    "lliphi.css"
+  ],
+  "capturas": [
+    "../capturas/claro-49-super-productivity.png",
+    "../capturas/oscuro-49-super-productivity.png",
+    "../capturas/claro-49-super-productivity-dialogo.png",
+    "../capturas/oscuro-49-super-productivity-dialogo.png",
+    "../capturas/oscuro-49-super-productivity-ajustes.png"
+  ],
+  "dependencias": {},
+  "instalacion": [
+    {
+      "origen": "{id}.css",
+      "destino": "styles.css",
+      "base": "super-productivity"
+    }
+  ]
+}

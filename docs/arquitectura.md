@@ -127,7 +127,7 @@ genera desde los manifiestos) y `herramientas/{lamina,boceto,comparar,contacto}.
 | `dependencias.herramientas` / `herramientas_opcionales` | órdenes del sistema obligatorias para instalar / que mejoran la aplicación |
 | `dependencias.python`, `terceros`, `bases` | Pillow, coloraide; paquetes de terceros; bases de `fuentes/base/` |
 | `integracion` | componente: `{"en": "global", "rutas": [...]}` que deben quedar dentro del paquete |
-| `instalacion` | paquete: `[{"origen", "destino", "base"}]`; `origen` relativo a `generado/<id>/`, `destino` a la base (`data`, `config`, `vscode`, `positron`, `vscodium`); admiten `{id}`, `{id_esquema[claro]}`… de `tokens/marca.json` |
+| `instalacion` | paquete: `[{"origen", "destino", "base"}]`; `origen` relativo a `generado/<id>/`, `destino` a la base (`data`, `config`, `vscode` y las condicionales `positron`, `vscodium`, `zen` y `super-productivity`, que solo se usan si existe la carpeta del programa); admiten `{id}`, `{id_esquema[claro]}`… de `tokens/marca.json` |
 
 `ajustes.json` (opcional) separa los valores de cómo se usan: hoy lo tienen `esquema` (los OKLCH de la paleta),
 `decoracion` (claves del `rc`, colores del título, botones, recoloreo), `disposicion` (paneles y widgets) e
@@ -177,7 +177,7 @@ bash ~/.local/state/lliphi/respaldos/<fecha>/UNDO.sh                # vuelve exa
 ```
 
 1. Comprueba Plasma ≥ 6 y las `herramientas` de lo que va a instalar (sale 2 si falta algo).
-2. Calcula los pares origen → destino de los manifiestos; omite y avisa las bases condicionales sin su editor.
+2. Calcula los pares origen → destino de los manifiestos; omite y avisa las bases condicionales sin su programa.
 3. Se detiene (sale 3) si un destino tiene algo que no instaló Lliphi y no es idéntico.
 4. Respalda lo que declaran los `respaldos()` de todos los módulos con su SHA-256 verificada.
 5. Copia, corre los `tras_instalar()` de los módulos pedidos, anota `instalado.json` (rutas normalizadas, sumas,

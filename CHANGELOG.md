@@ -18,6 +18,11 @@ Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión de
   para los `aplicar.py`: `tras_instalar()` y `al_desinstalar()`.
 
 ### Added
+- **Super Productivity** (decisiones 5.49): complemento `super-productivity` con `lliphi.css`, Lliphi Claro y Lliphi
+  Oscuro en un solo archivo que solo redefine variables de la aplicación (superficies, tinta, tareas y notas, los grises
+  del oscuro, la paleta de Material con el acento de Lliphi, los contenedores de Material). El instalador lo copia como
+  `styles.css` de su carpeta de datos (base condicional nueva `super-productivity`: deb, Flatpak o Snap); también se
+  instala desde «Instalar tema…». Con «Modo oscuro: Sistema» sigue sola y en vivo a la variante.
 - **Kate, TeXstudio y Vim/Neovim** (decisiones 5.5–5.8): tres complementos nuevos. `kate`: Lliphi Claro y Lliphi Oscuro
   como temas de KSyntaxHighlighting, con el fondo y la selección de la paleta de Kvantum, para que Kate (y KWrite y
   KDevelop) cambie solo de tema al cambiar de variante. `texstudio`: los 88 formatos de resaltado en `[formats]` (claro)
