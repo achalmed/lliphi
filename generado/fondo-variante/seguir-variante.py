@@ -13,6 +13,10 @@ Lliphi, se le pone el de la variante (ventanas nuevas) y se cambia en las sesion
 secuencia de Konsole `ESC ] 50 ; ColorScheme=… BEL` escrita en su terminal (la de `konsoleprofile`); un perfil con
 otro esquema no se toca.
 
+Los programas que no cambian solos de variante (RStudio, Octave, Spyder) instalan cada uno el suyo en
+`variante.d/`, junto a este: en cada cambio se ejecuta `variante.d/<programa>.py <variante> --aplicar` (sin
+`--aplicar` al simular), y cada uno decide si le toca (decisiones 5.43).
+
 Uso:  seguir-variante.py              # simula: dice qué cambiaría
       seguir-variante.py --aplicar    # lo cambia una vez
       seguir-variante.py --vigilar    # lo cambia ahora y cada vez que KDE avisa de un cambio de colores (sesión)
@@ -185,6 +189,21 @@ def una_vez(escribir: bool) -> None:
     var = variante()
     if var:
         konsole(var, escribir)
+        programas(var, escribir)
+
+
+def programas(var: str, escribir: bool) -> None:
+    """Los programas de `variante.d/` (decisiones 5.43): cada uno cambia el suyo, si es de Lliphi."""
+    carpeta = Path(__file__).resolve().parent / "variante.d"
+    for programa in sorted(carpeta.glob("*.py")) if carpeta.is_dir() else []:
+        try:
+            r = subprocess.run([sys.executable, str(programa), var, *(["--aplicar"] if escribir else [])],
+                               capture_output=True, text=True, timeout=30)
+        except (OSError, subprocess.SubprocessError) as e:
+            print(f"{programa.name}: {e}", file=sys.stderr)
+            continue
+        for linea in (r.stdout + r.stderr).splitlines():
+            print(linea)
 
 
 def vigilar() -> int:

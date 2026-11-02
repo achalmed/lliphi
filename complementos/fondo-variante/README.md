@@ -14,6 +14,11 @@ Lliphi, la vigilancia le pone el de la variante (`Lliphi Claro` u `Lliphi Oscuro
 en las sesiones abiertas escribiendo en su terminal la secuencia de Konsole `ESC ] 50 ; ColorScheme=… BEL` (la misma
 de `konsoleprofile`); un perfil con otro esquema no se toca (decisiones 4.28).
 
+Los programas que tampoco cambian solos (RStudio, Octave, Spyder) dejan cada uno un programa en `variante.d/`, junto a
+`seguir-variante.py`: en cada cambio la vigilancia los ejecuta con la variante (`<programa>.py claro|oscuro --aplicar`;
+sin `--aplicar` al simular) y cada uno decide si le toca (decisiones 5.43). Un programa nuevo no necesita tocar
+`seguir.py`: basta con que su complemento instale el suyo en `{id}/variante.d/`.
+
 Es un **complemento**: no es parte de un `Plasma/LookAndFeel`. Arquitectura: [`docs/arquitectura.md`](../../docs/arquitectura.md).
 
 ## Responsabilidad y formato
