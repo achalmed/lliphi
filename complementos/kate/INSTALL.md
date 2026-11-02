@@ -17,6 +17,11 @@ Después, en Kate: Configuración → Configurar Kate → Apariencia → Temas d
 
 Kate lee los temas al arrancar: ciérralo y ábrelo después de instalar.
 
+**Si Kate no cambia con la variante** (iconos claros sobre una barra clara, el editor en Breeze Dark): Kate tiene su
+propio esquema de ventana elegido en Configuración → Esquema de color de la ventana, guardado en `katerc` como
+`[UiSettings] ColorScheme=…`, que se impone al de Plasma. Elige ahí «Predeterminado» (o borra esa línea con Kate
+cerrado) y Kate seguirá al tema global. Lo mismo vale para cualquier aplicación de KDE con ese menú (Kdenlive, Haruna…).
+
 ## Actualizar
 
 Vuelve a instalar; Kate toma el tema de `revision` mayor al arrancar.
