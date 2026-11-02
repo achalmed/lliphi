@@ -19,6 +19,12 @@ GTK 3 no tiene consultas de medios: si `~/.config/gtk-3.0/gtk.css` importa la ho
 `color-scheme` de GSettings en `prefer-light` o `prefer-dark`; sin esa línea, GTK no se toca (decisiones 4.37). GTK 4,
 libadwaita, GIMP (esquema «Sistema») y Calibre (paleta «del sistema») cambian solos.
 
+GTK lo cambia KDE (kde-gtk-config, el módulo `gtkconfig` de kded), pero a veces, al cambiar de tema global, deja en
+`gtk-3.0/settings.ini` y en GSettings los iconos y el claro u oscuro del tema anterior. La vigilancia lo comprueba y,
+si no coinciden con KDE, recarga ese módulo, que lo vuelve a escribir todo; y pone `gtk-theme` de GSettings en
+`Breeze-Dark` o `Breeze` según la variante (KDE solo lo hace para las aplicaciones X11), porque hay programas, como
+gretl, que deciden su modo oscuro por ese nombre (decisiones 5.45).
+
 Los programas que tampoco cambian solos (RStudio, Octave, Spyder) dejan cada uno un programa en `variante.d/`, junto a
 `seguir-variante.py`: en cada cambio la vigilancia los ejecuta con la variante (`<programa>.py claro|oscuro --aplicar`;
 sin `--aplicar` al simular) y cada uno decide si le toca (decisiones 5.43). Un programa nuevo no necesita tocar
@@ -34,7 +40,9 @@ Es un **complemento**: no es parte de un `Plasma/LookAndFeel`. Arquitectura: [`d
 - `construir.py`: escribe `seguir-variante.py` y el archivo de inicio automático `lliphi-fondo-variante.desktop`
   (que resuelve la carpeta de datos al arrancar, sin rutas de la máquina).
 - `aplicar.py`: con `instalar.py --aplicar-tema`, pone ya la imagen de la variante y arranca la vigilancia (o la
-  reinicia, para que corra el programa recién instalado).
+  reinicia, para que corra el programa recién instalado), en una unidad propia del systemd de usuario
+  (`lliphi-fondo-variante`) para que no se pare al cerrar la terminal desde la que se instaló; en la sesión de prueba
+  anidada, cuyo systemd no es el suyo, como un proceso más.
 - Se instala en `$XDG_DATA_HOME/lliphi/seguir-variante.py` y `$XDG_CONFIG_HOME/autostart/`; `desinstalar` los
   retira (la vigilancia en marcha termina al cerrar la sesión).
 
@@ -45,4 +53,4 @@ Es un **complemento**: no es parte de un `Plasma/LookAndFeel`. Arquitectura: [`d
 python3 ~/.local/share/lliphi/seguir-variante.py            # simula en la sesión: qué cambiaría
 ```
 
-Pruebas: `test_fondo_sigue_a_la_variante`.
+Pruebas: `test_fondo_sigue_a_la_variante` y `test_gtk_sigue_a_kde`.

@@ -769,3 +769,25 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   `fondo.ventana-alterno`, barras de herramientas, cabeceras y pestaña elegida en `fondo.ventana`, la pestaña elegida
   con una raya de 2 px del acento arriba, como las pestañas de Breeze, y su texto en `texto.normal` (las demás en
   `texto.secundario`, ≥ 4,5:1). Comprobado en la sesión de prueba con las dos variantes, pixel a pixel contra los tokens.
+- **5.45 (2026-11-02) GTK sigue de verdad a la variante: iconos, claro u oscuro y el nombre del tema.** El autor vio en
+  gretl (GTK 3) los iconos mal en Lliphi Claro. Causa: al pasar a Claro (22:50 del 2026-11-01), kde-gtk-config (el
+  módulo `gtkconfig` de kded) escribió en `gtk-3.0/settings.ini`, `gtk-4.0/settings.ini`, xsettingsd y GSettings los
+  iconos `Colloid-Grey-Dark-Lliphi` y `prefer-dark-theme` del tema anterior, una décima de segundo después de que
+  Plasma escribiera los nuevos: una carrera de KDE, no reproducida en la sesión de prueba (en el escritorio del autor
+  `kdeglobals` es un enlace a sus dotfiles). Y en Oscuro gretl tampoco se veía bien: decide su modo oscuro buscando
+  «dark» en `gtk-theme` de GSettings (sus iconos `fx` y `β̂` en versión `_dk`, la ruta en `#4a90d9`), y kde-gtk-config
+  da `Breeze-Dark` solo a las aplicaciones X11 (xsettingsd) y deja `Breeze` en GSettings. Se decide, en la vigilancia
+  de `fondo-variante` (sin tocar los formatos de GTK, que siguen siendo de KDE): (1) **si GTK no tiene los iconos o el
+  claro u oscuro de KDE, se recarga `gtkconfig`**, que al cargarse lo vuelve a escribir todo desde la configuración de
+  KDE (comprobado: con la configuración estropeada a mano, la recarga la deja como KDE); antes se espera hasta 3 s por
+  si aún está escribiendo, y no se hace nada si el módulo no está cargado. (2) **`gtk-theme` de GSettings pasa a
+  `Breeze-Dark` en Oscuro y a `Breeze` en Claro**, lo mismo que KDE da por xsettingsd, solo si es uno de los dos y el
+  oscuro está instalado (otro tema no se toca) y después de la recarga, que vuelve a escribir `Breeze`. Comprobado en la
+  sesión de prueba (Claro → Oscuro → Claro con la vigilancia en marcha, y gretl en cada una) y en la prueba
+  `test_gtk_sigue_a_kde`. Si algo de KDE vuelve a escribir `Breeze` sin cambio de variante (otra preferencia de GTK),
+  gretl vuelve a sus iconos claros hasta el siguiente cambio.
+  (3) **el instalador arranca la vigilancia en una unidad propia del systemd de usuario** (`lliphi-fondo-variante`,
+  con `systemd-run --collect`): arrancada como hijo del instalador, quedaba en el grupo de procesos de quien lo
+  ejecutó (una terminal, el asistente) y se paraba al cerrarlo. Solo si ese systemd es el de la misma sesión (mismo
+  `HOME` y misma pantalla): en la sesión de prueba anidada no lo es y la vigilancia correría en el escritorio real;
+  allí sigue arrancando como antes.

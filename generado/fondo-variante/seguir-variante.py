@@ -16,7 +16,9 @@ otro esquema no se toca.
 GTK 3 no tiene consultas de medios: si `~/.config/gtk-3.0/gtk.css` importa la hoja de una variante de Lliphi
 (`lliphi-claro.css` o `lliphi-oscuro.css`, complemento gtk), se cambia esa línea por la de la otra (aplicaciones nuevas;
 kde-gtk-config ya reescribió `colors.css`), y la preferencia `color-scheme` de GSettings pasa a `prefer-light` o
-`prefer-dark`. Sin esa línea, GTK no se toca. GTK 4 y libadwaita cambian solos (`prefers-color-scheme`).
+`prefer-dark`. Sin esa línea, GTK no se toca. GTK 4 y libadwaita cambian solos (`prefers-color-scheme`). Y si
+kde-gtk-config dejó en GTK el tema de iconos o el claro u oscuro del tema anterior, se recarga su módulo de kded; y
+`gtk-theme` de GSettings pasa a `Breeze-Dark` o `Breeze` (gretl elige por ese nombre sus iconos del modo oscuro).
 
 Los programas que no cambian solos de variante (RStudio, Octave, Spyder) instalan cada uno el suyo en
 `variante.d/`, junto a este: en cada cambio se ejecuta `variante.d/<programa>.py <variante> --aplicar` (sin
@@ -207,6 +209,72 @@ def gtk(var: str, escribir: bool) -> None:
             subprocess.run([gsettings, "set", "org.gnome.desktop.interface", "color-scheme", ESQUEMA_GTK[var]], capture_output=True)
 
 
+def ini_gtk(ruta: Path) -> dict[str, str]:
+    texto = ruta.read_text(encoding="utf-8", errors="ignore") if ruta.exists() else ""
+    return {k.strip(): v.strip() for k, v in re.findall(r"^\s*([\w-]+)\s*=\s*(.*?)\s*$", texto, re.M)}
+
+
+def desfase_gtk(var: str) -> list[str]:
+    """Lo que GTK (`gtk-3.0/settings.ini`, que escribe kde-gtk-config) tiene distinto de KDE: el tema de iconos y el
+    claro u oscuro. Vacío si coinciden o si KDE no gestiona GTK (no hay settings.ini)."""
+    ini = CONFIG / "gtk-3.0" / "settings.ini"
+    if not ini.exists():
+        return []
+    gtk = ini_gtk(ini)
+    r = subprocess.run([herramienta("kreadconfig6") or "kreadconfig6", "--file", "kdeglobals", "--group", "Icons",
+                        "--key", "Theme"], capture_output=True, text=True)
+    esperado = {"gtk-application-prefer-dark-theme": "true" if var == "oscuro" else "false"}
+    if r.stdout.strip():
+        esperado["gtk-icon-theme-name"] = r.stdout.strip()
+    return [f"{k} {gtk.get(k, '—')} → {v}" for k, v in esperado.items() if gtk.get(k) != v]
+
+
+def gtk_kde(var: str, escribir: bool) -> None:
+    """kde-gtk-config (el módulo `gtkconfig` de kded) copia a GTK 3/4 y a xsettingsd el tema de iconos y el claro u
+    oscuro de KDE. Al cambiar de tema global a veces escribe los del tema anterior (visto el 2026-11-01: con
+    Lliphi Claro, los iconos oscuros y `prefer-dark-theme`, y gretl con iconos claros sobre fondo claro). Si no
+    coinciden, se espera por si aún está escribiendo y, si siguen sin coincidir, se recarga el módulo: al cargarse
+    vuelve a escribirlo todo desde la configuración de KDE (decisiones 5.45)."""
+    desfase = desfase_gtk(var)
+    for _ in range(3 if escribir else 0):
+        if not desfase:
+            return
+        time.sleep(1.0)
+        desfase = desfase_gtk(var)
+    if not desfase:
+        return
+    qdbus = herramienta("qdbus6")
+    cargados = subprocess.run([qdbus or "qdbus6", "org.kde.kded6", "/kded", "org.kde.kded6.loadedModules"],
+                              capture_output=True, text=True).stdout.split() if qdbus else []
+    if "gtkconfig" not in cargados:
+        return                                       # sin kde-gtk-config en marcha: GTK no es cosa de KDE
+    print(f"{'' if escribir else 'SIM '}GTK: {'; '.join(desfase)} (se recarga gtkconfig)")
+    if escribir:
+        for orden in ("unloadModule", "loadModule"):
+            subprocess.run([qdbus, "org.kde.kded6", "/kded", f"org.kde.kded6.{orden}", "gtkconfig"], capture_output=True)
+
+
+TEMA_GTK = {"claro": "Breeze", "oscuro": "Breeze-Dark"}
+
+
+def tema_gtk(var: str, escribir: bool) -> None:
+    """El nombre del tema GTK en GSettings (`gtk-theme`). kde-gtk-config da el oscuro (`Breeze-Dark`) solo a las
+    aplicaciones X11, por xsettingsd, y en GSettings deja `Breeze`; las que deciden su modo oscuro por ese nombre
+    (gretl busca «dark» en él para sus iconos `_dk` y sus colores) no se enteraban. Se pone el de la variante si es uno
+    de los dos de Breeze y el oscuro está instalado; otro tema no se toca (decisiones 5.45)."""
+    gsettings = herramienta("gsettings")
+    if not gsettings:
+        return
+    actual = subprocess.run([gsettings, "get", "org.gnome.desktop.interface", "gtk-theme"],
+                            capture_output=True, text=True).stdout.strip().strip("'")
+    temas = [Path(p) / "themes" for p in (str(DATA), *os.environ.get("XDG_DATA_DIRS", "/usr/local/share:/usr/share").split(":"))]
+    if actual not in TEMA_GTK.values() or actual == TEMA_GTK[var] or not any((t / TEMA_GTK[var]).is_dir() for t in temas):
+        return
+    print(f"{'' if escribir else 'SIM '}GTK: gtk-theme {actual} → {TEMA_GTK[var]}")
+    if escribir:
+        subprocess.run([gsettings, "set", "org.gnome.desktop.interface", "gtk-theme", TEMA_GTK[var]], capture_output=True)
+
+
 def una_vez(escribir: bool) -> None:
     lista = cambios()
     for i, vieja, nueva in lista:
@@ -219,6 +287,8 @@ def una_vez(escribir: bool) -> None:
     if var:
         konsole(var, escribir)
         gtk(var, escribir)
+        gtk_kde(var, escribir)
+        tema_gtk(var, escribir)                      # después: recargar gtkconfig vuelve a escribir `Breeze`
         programas(var, escribir)
 
 

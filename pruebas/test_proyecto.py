@@ -2238,3 +2238,90 @@ def test_ide_ciencia_siguen_a_la_variante(tmp_path: Path):
         seguir.programas("claro", False)
         seguir.programas("oscuro", True)
     assert salida.getvalue().splitlines() == ["eco claro", "eco oscuro --aplicar"]
+
+
+def test_gtk_sigue_a_kde(tmp_path: Path, monkeypatch):
+    """Decisiones 5.45: si kde-gtk-config dejó en GTK los iconos o el claro u oscuro del tema anterior, la vigilancia
+    recarga su módulo (solo si está cargado, y solo al aplicar); `gtk-theme` de GSettings pasa a Breeze-Dark o Breeze,
+    nunca si es otro tema o si el oscuro no está instalado."""
+    import contextlib
+    import io
+    from types import SimpleNamespace
+    seguir = _cargar_programa(GEN / "fondo-variante" / "seguir-variante.py")
+    llamadas: list[list[str]] = []
+    estado = {"iconos": "Colloid-Grey-Light-Lliphi", "modulos": "gtkconfig khotkeys", "gtk-theme": "'Breeze'"}
+
+    def falso(args, **_):
+        llamadas.append(list(args))
+        nombre = Path(args[0]).name
+        salida = {"kreadconfig6": estado["iconos"], "qdbus6": estado["modulos"],
+                  "gsettings": estado["gtk-theme"] if args[1] == "get" else ""}.get(nombre, "")
+        return SimpleNamespace(stdout=salida + "\n", returncode=0)
+
+    monkeypatch.setattr(seguir.subprocess, "run", falso)
+    monkeypatch.setattr(seguir.time, "sleep", lambda _: None)
+    monkeypatch.setattr(seguir, "herramienta", lambda n: f"/usr/bin/{n}")
+    monkeypatch.setattr(seguir, "CONFIG", tmp_path / "config")
+    monkeypatch.setattr(seguir, "DATA", tmp_path / "data")
+    monkeypatch.setenv("XDG_DATA_DIRS", str(tmp_path / "sistema"))
+    ini = tmp_path / "config" / "gtk-3.0" / "settings.ini"
+    assert seguir.desfase_gtk("claro") == []                   # sin settings.ini, KDE no gestiona GTK
+    ini.parent.mkdir(parents=True)
+    ini.write_text("[Settings]\ngtk-application-prefer-dark-theme=true\ngtk-icon-theme-name=Colloid-Grey-Dark-Lliphi\n", encoding="utf-8")
+    assert len(seguir.desfase_gtk("claro")) == 2 and seguir.desfase_gtk("oscuro") == [
+        "gtk-icon-theme-name Colloid-Grey-Dark-Lliphi → Colloid-Grey-Light-Lliphi"]
+
+    def recargas() -> list[str]:
+        return [a[-2].rsplit(".", 1)[-1] for a in llamadas if a[0].endswith("qdbus6") and a[-1] == "gtkconfig"]
+
+    with contextlib.redirect_stdout(io.StringIO()) as salida:
+        seguir.gtk_kde("claro", False)
+    assert "SIM GTK" in salida.getvalue() and recargas() == []
+    with contextlib.redirect_stdout(io.StringIO()):
+        seguir.gtk_kde("claro", True)
+    assert recargas() == ["unloadModule", "loadModule"]
+    llamadas.clear()
+    estado["modulos"] = "khotkeys"                             # kde-gtk-config no está en marcha: no se toca
+    with contextlib.redirect_stdout(io.StringIO()):
+        seguir.gtk_kde("claro", True)
+    assert recargas() == []
+    ini.write_text("[Settings]\ngtk-application-prefer-dark-theme=false\ngtk-icon-theme-name=Colloid-Grey-Light-Lliphi\n", encoding="utf-8")
+    llamadas.clear()
+    estado["modulos"] = "gtkconfig"
+    seguir.gtk_kde("claro", True)
+    assert not any(a[0].endswith("qdbus6") for a in llamadas)   # coinciden: ni siquiera pregunta a kded
+
+    def puestos() -> list[str]:
+        return [a[-1] for a in llamadas if a[0].endswith("gsettings") and a[1] == "set"]
+
+    llamadas.clear()
+    with contextlib.redirect_stdout(io.StringIO()):
+        seguir.tema_gtk("oscuro", True)
+    assert puestos() == []                                     # Breeze-Dark no instalado
+    (tmp_path / "sistema" / "themes" / "Breeze-Dark").mkdir(parents=True)
+    with contextlib.redirect_stdout(io.StringIO()):
+        seguir.tema_gtk("oscuro", False)
+        seguir.tema_gtk("claro", True)                         # ya es Breeze
+    assert puestos() == []
+    with contextlib.redirect_stdout(io.StringIO()):
+        seguir.tema_gtk("oscuro", True)
+    assert puestos() == ["Breeze-Dark"]
+    llamadas.clear()
+    estado["gtk-theme"] = "'Adwaita'"                          # otro tema: no se toca
+    seguir.tema_gtk("oscuro", True)
+    assert puestos() == []
+
+    # el instalador arranca la vigilancia en una unidad del systemd de usuario solo si ese systemd es el de esta
+    # sesión: en la sesión de prueba anidada correría en el escritorio real
+    instalador = _cargar_programa(registro.modulo("fondo-variante").archivo("aplicar.py"))
+    entorno = "HOME=/casa\nWAYLAND_DISPLAY=wayland-0\nDISPLAY=:0\n"
+    monkeypatch.setattr(instalador.shutil, "which", lambda n: f"/usr/bin/{n}")
+    monkeypatch.setattr(instalador.subprocess, "run", lambda *a, **k: SimpleNamespace(stdout=entorno, returncode=0))
+    for k, v in (("HOME", "/casa"), ("WAYLAND_DISPLAY", "wayland-0"), ("DISPLAY", ":0")):
+        monkeypatch.setenv(k, v)
+    assert instalador.misma_sesion()
+    monkeypatch.setenv("HOME", "/casa/.cache/lliphi/sesiones/x/casa")
+    assert not instalador.misma_sesion()
+    monkeypatch.setattr(instalador.shutil, "which", lambda n: None)
+    monkeypatch.setenv("HOME", "/casa")
+    assert not instalador.misma_sesion()

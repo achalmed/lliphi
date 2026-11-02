@@ -80,6 +80,10 @@ Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión de
 - **RStudio: la ventana entera en Lliphi** (decisiones 5.44): el `.rstheme` pinta también las barras, las pestañas
   (la elegida con la raya del acento) y los divisores, que quedaban con los grises de «Modern» o «Sky» o con el gris
   azulado de RStudio en oscuro. El menú «RStudio theme» no admite temas propios: basta con elegir Lliphi en «Editor theme».
+- **GTK sigue de verdad a la variante** (decisiones 5.45): si kde-gtk-config deja en GTK los iconos o el claro u oscuro
+  del tema anterior (una carrera de KDE al cambiar de tema global: gretl mostraba iconos claros sobre fondo claro), la
+  vigilancia de `fondo-variante` recarga su módulo; y `gtk-theme` de GSettings pasa a `Breeze-Dark` en Oscuro, para que
+  gretl, que decide por ese nombre, use sus iconos del modo oscuro.
 - **Telegram Desktop** (decisiones 5.30): complemento `telegram`, con `Lliphi Claro.tdesktop-theme` y
   `Lliphi Oscuro.tdesktop-theme`. Tienen las 586 claves de color de Telegram 7.3.3 (paleta de lib_ui en
   `fuentes/base/telegram-palette/`, GPL-3.0-or-later), todas desde los tokens: el acento en la selección, los botones y
