@@ -1,0 +1,27 @@
+{
+  "nombre": "Calibre: biblioteca y visor",
+  "resumen": "Calibre con las paletas Lliphi Claro y Lliphi Oscuro (las de Kvantum, para su propio estilo), que siguen al escritorio en vivo, y el visor de libros con su esquema «Sistema» en los colores de Lliphi y dos esquemas fijos más. Solo preferencias de la interfaz, con respaldo: la biblioteca no se toca.",
+  "clase": "paquete",
+  "orden": 23,
+  "formato": "varios",
+  "tecnologia": "`gui.json` de Calibre ≥ 7 (`color_palette`, `light_palettes`, `dark_palettes`: rol de `QPalette` → color) · `viewer-webengine.json` (`session_data.user_color_schemes`) · fundido con Calibre cerrado",
+  "estado": "probado",
+  "desde": "0.4.0",
+  "licencia": "MIT",
+  "archivos": [
+    "gui-lliphi.json",
+    "visor-lliphi.json"
+  ],
+  "capturas": [
+    "../capturas/oscuro-41-calibre.png",
+    "../capturas/claro-41-calibre.png",
+    "../capturas/oscuro-41-calibre-visor.png",
+    "../capturas/claro-41-calibre-visor.png"
+  ],
+  "dependencias": {
+    "herramientas_opcionales": [
+      "pgrep"
+    ]
+  },
+  "instalacion": []
+}

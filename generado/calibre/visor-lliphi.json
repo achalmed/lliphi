@@ -1,0 +1,17 @@
+{
+  "_nota": "GENERADO por herramientas/generar.py desde tokens/ (complementos/calibre); no editar",
+  "user_color_schemes": {
+    "*Lliphi Claro": {
+      "name": "Lliphi Claro",
+      "foreground": "#1d1f24",
+      "background": "#fbfcfd",
+      "link": "#2a4fd0"
+    },
+    "*Lliphi Oscuro": {
+      "name": "Lliphi Oscuro",
+      "foreground": "#eaebed",
+      "background": "#101012",
+      "link": "#ff968b"
+    }
+  }
+}
