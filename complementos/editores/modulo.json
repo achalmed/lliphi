@@ -13,7 +13,9 @@
   ],
   "capturas": [
     "../capturas/oscuro-08-positron.png",
-    "../capturas/claro-08-positron.png"
+    "../capturas/claro-08-positron.png",
+    "../capturas/oscuro-53-positron.png",
+    "../capturas/claro-53-positron.png"
   ],
   "dependencias": {
     "construccion": [
