@@ -85,6 +85,9 @@ Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión de
   del tema anterior (una carrera de KDE al cambiar de tema global: gretl mostraba iconos claros sobre fondo claro), la
   vigilancia de `fondo-variante` recarga su módulo; y `gtk-theme` de GSettings pasa a `Breeze-Dark` en Oscuro, para que
   gretl, que decide por ese nombre, use sus iconos del modo oscuro.
+- **La interfaz ya no sale en negrita al aplicar el tema** (decisiones 5.46): las fuentes se escriben en el formato de
+  Qt 6; las de 10 campos de Qt 5 las leía Qt 6 con peso 900. El instalador respeta el tamaño y el peso de una fuente de
+  la misma familia que el usuario ya tenga, y SDDM usa también el formato de Qt 6.
 - **Telegram Desktop** (decisiones 5.30): complemento `telegram`, con `Lliphi Claro.tdesktop-theme` y
   `Lliphi Oscuro.tdesktop-theme`. Tienen las 586 claves de color de Telegram 7.3.3 (paleta de lib_ui en
   `fuentes/base/telegram-palette/`, GPL-3.0-or-later), todas desde los tokens: el acento en la selección, los botones y
