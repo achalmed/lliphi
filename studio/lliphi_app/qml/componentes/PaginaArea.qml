@@ -17,6 +17,7 @@ ColumnLayout {
     readonly property var cuenta: centro.cuentaPares
 
     spacing: 0
+    clip: true
 
     RowLayout {
         Layout.fillWidth: true
@@ -60,6 +61,12 @@ ColumnLayout {
             boundsBehavior: Flickable.StopAtBounds
             QQC2.ScrollBar.vertical: QQC2.ScrollBar {}
             Accessible.name: "Destinos de " + (raiz.area.titulo || "")
+            function mostrarElegido() {
+                const i = raiz.centro.tarjetas.findIndex(x => x.id === raiz.centro.destino)
+                if (i >= 0) positionViewAtIndex(i, ListView.Contain)
+            }
+            onCountChanged: Qt.callLater(mostrarElegido)
+            Connections { target: raiz.centro; function onDestinoCambiado() { Qt.callLater(lista.mostrarElegido) } }
             delegate: TarjetaDestino {
                 required property var modelData
                 width: ListView.view.width - Kirigami.Units.smallSpacing * 2
@@ -86,46 +93,50 @@ ColumnLayout {
                 text: raiz.centro.destino === "" ? "Elija un destino" : "Este destino no instala archivos propios"
                 explanation: raiz.centro.destino === "" ? "" : "Es un componente del tema global, un tema de terceros (instalar.py dependencias) o se instala con pkexec desde la terminal."
             }
-            ListView {
+            QQC2.ScrollView {                                  // pocos archivos por destino: una columna, sin el desplazamiento propio de ListView
                 id: pares
                 Layout.fillWidth: true
-                Layout.preferredHeight: Math.min(contentHeight, Kirigami.Units.gridUnit * 9)
+                Layout.preferredHeight: Math.min(columnaPares.implicitHeight, Kirigami.Units.gridUnit * 9)
                 visible: raiz.centro.pares.length > 0
                 clip: true
-                model: raiz.centro.pares
-                currentIndex: raiz.centro.par
-                boundsBehavior: Flickable.StopAtBounds
-                QQC2.ScrollBar.vertical: QQC2.ScrollBar {}
+                contentWidth: availableWidth
                 Accessible.name: "Archivos instalados del destino"
-                delegate: QQC2.ItemDelegate {
-                    id: filaPar
-                    required property var modelData
-                    required property int index
-                    width: ListView.view.width
-                    highlighted: ListView.isCurrentItem
-                    onClicked: raiz.centro.fijarPar(index)
-                    Accessible.name: modelData.destinoCorto + ": " + modelData.texto
-                    contentItem: RowLayout {
-                        spacing: Kirigami.Units.smallSpacing
-                        Kirigami.Icon {
-                            source: ({ igual: "checkmark", distinto: "document-edit", ajeno: "dialog-warning", falta: "list-add", sin_generar: "dialog-error" })[filaPar.modelData.estado] || "text-x-generic"
-                            implicitWidth: Kirigami.Units.iconSizes.small
-                            implicitHeight: implicitWidth
-                        }
-                        QQC2.Label {
-                            text: filaPar.modelData.destinoCorto
-                            elide: Text.ElideMiddle
-                            Layout.fillWidth: true
-                            font: Kirigami.Theme.fixedWidthFont
-                            color: filaPar.highlighted ? Kirigami.Theme.highlightedTextColor : Kirigami.Theme.textColor
-                        }
-                        EtiquetaEstado { texto: filaPar.modelData.texto; nivel: filaPar.modelData.nivel }
-                        QQC2.ToolButton {
-                            icon.name: "system-file-manager"
-                            onClicked: studio.espacio.abrirDolphin(filaPar.modelData.destino)
-                            Accessible.name: "Mostrar en Dolphin " + filaPar.modelData.destinoCorto
-                            QQC2.ToolTip.text: "Mostrar en Dolphin"
-                            QQC2.ToolTip.visible: hovered
+                Column {
+                    id: columnaPares
+                    width: pares.availableWidth
+                    Repeater {
+                        model: raiz.centro.pares
+                        delegate: QQC2.ItemDelegate {
+                            id: filaPar
+                            required property var modelData
+                            required property int index
+                            width: columnaPares.width
+                            highlighted: index === raiz.centro.par
+                            onClicked: raiz.centro.fijarPar(index)
+                            Accessible.name: modelData.destinoCorto + ": " + modelData.texto
+                            contentItem: RowLayout {
+                                spacing: Kirigami.Units.smallSpacing
+                                Kirigami.Icon {
+                                    source: ({ igual: "checkmark", distinto: "document-edit", ajeno: "dialog-warning", falta: "list-add", sin_generar: "dialog-error" })[filaPar.modelData.estado] || "text-x-generic"
+                                    implicitWidth: Kirigami.Units.iconSizes.small
+                                    implicitHeight: implicitWidth
+                                }
+                                QQC2.Label {
+                                    text: filaPar.modelData.destinoCorto
+                                    elide: Text.ElideMiddle
+                                    Layout.fillWidth: true
+                                    font: Kirigami.Theme.fixedWidthFont
+                                    color: filaPar.highlighted ? Kirigami.Theme.highlightedTextColor : Kirigami.Theme.textColor
+                                }
+                                EtiquetaEstado { texto: filaPar.modelData.texto; nivel: filaPar.modelData.nivel }
+                                QQC2.ToolButton {
+                                    icon.name: "system-file-manager"
+                                    onClicked: studio.espacio.abrirDolphin(filaPar.modelData.destino)
+                                    Accessible.name: "Mostrar en Dolphin " + filaPar.modelData.destinoCorto
+                                    QQC2.ToolTip.text: "Mostrar en Dolphin"
+                                    QQC2.ToolTip.visible: hovered
+                                }
+                            }
                         }
                     }
                 }

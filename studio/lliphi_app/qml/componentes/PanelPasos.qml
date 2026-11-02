@@ -80,7 +80,12 @@ ColumnLayout {
                 required property var modelData
                 width: ListView.view.width
                 spacing: Kirigami.Units.smallSpacing
-                EtiquetaEstado { texto: modelData.accion; nivel: modelData.nivel; Layout.leftMargin: Kirigami.Units.smallSpacing; Layout.preferredWidth: Kirigami.Units.gridUnit * 6 }
+                Item {
+                    Layout.leftMargin: Kirigami.Units.smallSpacing
+                    Layout.preferredWidth: Kirigami.Units.gridUnit * 6
+                    implicitHeight: accion.implicitHeight
+                    EtiquetaEstado { id: accion; texto: modelData.accion; nivel: modelData.nivel }
+                }
                 QQC2.Label { text: modelData.ruta; font: Kirigami.Theme.fixedWidthFont; elide: Text.ElideMiddle; Layout.fillWidth: true }
                 QQC2.Label { text: modelData.detalle; color: Kirigami.Theme.disabledTextColor; font: Kirigami.Theme.smallFont; elide: Text.ElideRight; Layout.maximumWidth: Kirigami.Units.gridUnit * 20 }
             }

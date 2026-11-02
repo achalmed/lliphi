@@ -171,7 +171,6 @@ def construir(app: Aplicacion, cache: Path | None = None, leer_instalacion: bool
         ("Ay&uda", ["ayuda.manual", "ayuda.arquitectura", "app.acerca"]),
     ])
     acciones.definir_barra(["ver.releer", "proyecto.verificar", "|", "escr.generar", "escr.instalar", "|", "escr.ejecutar"])
-    acciones.anadir_fuente(espacio.entradas_paleta)
     acciones.anadir_fuente(lambda _t: [{"nombre": f"destino.{m.id}", "texto": f"Destino: {m.nombre}", "grupo": "Destinos", "icono": "preferences-desktop-theme-global",
                                         "ejecutar": lambda i=m.id: centro.irADestino(i)} for m in destinos._modulos.values()])
 

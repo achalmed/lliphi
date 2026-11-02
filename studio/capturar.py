@@ -1,16 +1,16 @@
 #!/usr/bin/python3
 """studio/capturar.py — una captura de Lliphi Studio para la documentación sobre una COPIA del proyecto (`muestra.py`)
 en una carpeta temporal fuera de la carpeta de inicio, con HOME, configuración, caché, datos y estado temporales
-(ninguna ruta de la máquina en pantalla y nada instalado en la sesión real), el esquema de color que se pida, el
-destino, la pestaña de detalles y, si se pide, la paleta de órdenes.
+(ninguna ruta de la máquina en pantalla y nada instalado en la sesión real), el esquema de color que se pida, el área,
+el destino y, si se pide, el plan de los seis pasos o la paleta de órdenes.
 
-    /usr/bin/python3 studio/capturar.py docs/figuras/lliphi-studio-oscuro.png --esquema generado/esquema/LliphiOscuro.colors --destino esquema --verificar
-    /usr/bin/python3 studio/capturar.py docs/figuras/lliphi-studio-claro.png --esquema generado/esquema/LliphiClaro.colors --destino konsole --pestana 1
+    /usr/bin/python3 studio/capturar.py docs/figuras/lliphi-studio-oscuro.png --esquema generado/esquema/LliphiOscuro.colors --area diseno
+    /usr/bin/python3 studio/capturar.py docs/figuras/lliphi-studio-claro.png --esquema generado/esquema/LliphiClaro.colors --destino konsole --pasos instalar
     /usr/bin/python3 studio/capturar.py docs/figuras/lliphi-studio-paleta.png --esquema generado/esquema/LliphiOscuro.colors --paleta "instalar"
 
-Antes de capturar corre de verdad, sobre la copia, «Generar el destino» en simulación (F5) y, con `--verificar`,
-«Verificar lo generado» (unos segundos), para que la tabla enseñe los estados. Corre con el Python del sistema; las
-órdenes, con el `.venv` del proyecto (enlazado en la copia) si existe.
+Con `--verificar` corre de verdad, sobre la copia, «Verificar lo generado» (unos segundos), para que las tarjetas
+enseñen si lo generado está al día. Corre con el Python del sistema; las órdenes, con el `.venv` del proyecto (enlazado
+en la copia) si existe. `--pasos` solo PREPARA el plan (pasos 1–3): nunca ejecuta.
 """
 from __future__ import annotations
 
@@ -31,14 +31,16 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Captura de Lliphi Studio sobre una copia del proyecto")
     parser.add_argument("salida")
     parser.add_argument("--esquema", help="archivo .colors de KDE (relanza con XDG_CONFIG_HOME temporal)")
-    parser.add_argument("--destino", default="esquema", help="el destino elegido (id del módulo; vacío: ninguno)")
-    parser.add_argument("--rol", default="", help="la vista de la navegación (global · modulo · complemento; vacío: todos)")
-    parser.add_argument("--pestana", type=int, default=0, help="pestaña de detalles (0 Resumen · 1 Paleta · 2 Diferencias · 3 Registro · 4 Operación)")
+    parser.add_argument("--area", default="", help="el área de la barra lateral (diseno · esquemas · plasma · kvantum · konsole · editores · fondos · tipografia · iconos · otros)")
+    parser.add_argument("--destino", default="", help="el destino elegido (lleva a su área)")
+    parser.add_argument("--par", type=int, default=-1, help="el archivo del destino cuya diferencia se muestra")
+    parser.add_argument("--pasos", default="", help="prepara el plan de los seis pasos: instalar · generar · desinstalar (no ejecuta)")
+    parser.add_argument("--paso", type=int, default=0, help="el paso que se muestra (0 Plan · 1 Afectados · 2 Conflictos)")
+    parser.add_argument("--instalar-en-la-copia", default="", help="copia a mano al HOME de la copia lo generado de este destino (para ver «igual» y una diferencia)")
     parser.add_argument("--verificar", action="store_true", help="corre «Verificar lo generado» antes de capturar (unos segundos)")
-    parser.add_argument("--sin-correr", action="store_true", help="no corre nada antes de capturar")
     parser.add_argument("--paleta", default=None, help="abre la paleta de órdenes con este texto")
-    parser.add_argument("--ancho", type=int, default=1280)
-    parser.add_argument("--alto", type=int, default=800)
+    parser.add_argument("--ancho", type=int, default=1360)
+    parser.add_argument("--alto", type=int, default=900)
     args = parser.parse_args()
 
     if "LLIPHI_STUDIO_CAPTURA" not in os.environ:      # primera pasada: la copia, el entorno temporal (y esquema), y relanzar
@@ -77,46 +79,53 @@ def main() -> int:
 
     app = Aplicacion(aplicacion.APP_ID, aplicacion.NOMBRE, version=aplicacion.APP_VERSION, organizacion=aplicacion.ORG_NAME, nombre_ajustes=aplicacion.APP_NAME)
     piezas = aplicacion.construir(app, leer_instalacion=False)
-    espacio, destinos, operaciones, interfaz, tareas = (piezas[k] for k in ("espacio", "destinos", "operaciones", "interfaz", "tareas"))
+    destinos, operaciones, interfaz, tareas = (piezas[k] for k in ("destinos", "operaciones", "interfaz", "tareas"))
     destinos.leer_instalacion_ahora()
     if not app.cargar(aplicacion.QML_DIR / "Main.qml"):
         return 1
     raiz = app.motor.rootObjects()[0]
     raiz.setProperty("width", args.ancho)
     raiz.setProperty("height", args.alto)
-    pendientes: list[str] = []
+    centro, escritura = piezas["centro"], piezas["escritura"]
 
-    def correr_siguiente():
-        if tareas.activa:
-            QTimer.singleShot(150, correr_siguiente)
-            return
-        if pendientes:
-            operaciones.fijar(pendientes.pop(0))
-            operaciones.simular()
-            QTimer.singleShot(150, correr_siguiente)
-            return
-        QTimer.singleShot(300, listo)
+    def preparar_copia():
+        """Para ver «igual» y una diferencia: copia lo generado del destino al HOME de la copia y cambia una línea del primero."""
+        from lliphi_app.servicios import areas
+        for i, par in enumerate(areas.comparar(args.instalar_en_la_copia)):
+            o, d = Path(par["origen"]), Path(par["destino"])
+            d.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copytree(o, d, dirs_exist_ok=True) if o.is_dir() else shutil.copy2(o, d)
+            if i == 0 and d.is_file():
+                lineas = d.read_text(encoding="utf-8").splitlines()
+                if len(lineas) > 4:
+                    lineas[3] = lineas[3] + "  # cambiado a mano"
+                d.write_text("\n".join(lineas) + "\n", encoding="utf-8")
 
     def empezar():
-        espacio.fijarRol(args.rol)
+        if args.instalar_en_la_copia:
+            preparar_copia()
+        if args.verificar:
+            operaciones.fijar("verificar")
+            operaciones.simular()
+        QTimer.singleShot(200, esperar)
+
+    def esperar():
+        if tareas.activa:
+            QTimer.singleShot(150, esperar)
+            return
+        if args.area:
+            centro.fijarArea(args.area)
         if args.destino:
-            destinos.irA(args.destino)
-        if not args.sin_correr:
-            if args.verificar:
-                pendientes.append("verificar")
-            if args.destino:
-                pendientes.append("generar")
-        correr_siguiente()
+            centro.irADestino(args.destino)
+            if args.par >= 0:
+                centro.fijarPar(args.par)
+        if args.pasos:
+            escritura.planificar(args.pasos, [args.destino] if args.destino and args.pasos != "desinstalar" else [])
+            interfaz.pedir.emit("pasos", {})
+        QTimer.singleShot(300, listo)
 
     def listo():
-        if args.destino:
-            operaciones.fijar("generar")
-        raiz.setProperty("mostrarDetalles", True)
-        raiz.setProperty("mostrarInferior", True)
-        inferior = raiz.property("inferior")
-        if inferior is not None:
-            inferior.setProperty("pestanaActual", 0)
-        QTimer.singleShot(500, lambda: interfaz.pedir.emit("pestana", {"indice": args.pestana}))
+        raiz.setProperty("pasoMostrado", args.paso)
         if args.paleta is not None:
             QTimer.singleShot(900, lambda: interfaz.pedir.emit("paleta", {"texto": args.paleta}))
         app.capturar(args.salida, espera_ms=2400)

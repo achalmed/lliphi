@@ -137,7 +137,11 @@ QQC2.ScrollView {
                     QQC2.Label { text: modelData.frente + " sobre " + modelData.fondo; color: Kirigami.Theme.disabledTextColor; font: Kirigami.Theme.smallFont; elide: Text.ElideRight; Layout.fillWidth: true }
                 }
                 QQC2.Label { text: modelData.textoRazon; font: Kirigami.Theme.fixedWidthFont }
-                EtiquetaEstado { texto: modelData.veredicto; nivel: modelData.nivel; Layout.preferredWidth: Kirigami.Units.gridUnit * 6.5 }
+                Item {
+                    Layout.preferredWidth: Kirigami.Units.gridUnit * 8
+                    implicitHeight: veredicto.implicitHeight
+                    EtiquetaEstado { id: veredicto; texto: modelData.veredicto; nivel: modelData.nivel }
+                }
             }
         }
     }
@@ -146,8 +150,8 @@ QQC2.ScrollView {
     component Muestra: Rectangle {
         property var m: ({})
         property bool conPaso: false
-        width: Kirigami.Units.gridUnit * 5.4
-        height: Kirigami.Units.gridUnit * 5.4
+        width: Kirigami.Units.gridUnit * 5.6
+        height: Kirigami.Units.gridUnit * 5.2
         radius: Kirigami.Units.cornerRadius
         color: m.hex || "transparent"
         border.width: 1
@@ -159,8 +163,8 @@ QQC2.ScrollView {
             anchors.bottom: parent.bottom
             anchors.margins: Kirigami.Units.smallSpacing
             Text { text: m.nombre || ""; color: m.texto || "transparent"; font.bold: true; font.pixelSize: Kirigami.Units.gridUnit * 0.62 }
-            Text { text: m.l >= 0 ? "L " + m.l.toFixed(3) + "  C " + m.c.toFixed(3) : ""; color: m.texto || "transparent"; font.pixelSize: Kirigami.Units.gridUnit * 0.55; font.family: Kirigami.Theme.fixedWidthFont.family }
-            Text { text: m.l >= 0 ? "H " + m.h.toFixed(0) + (parent.parent.conPaso && m.paso ? "  ΔL " + (m.paso > 0 ? "+" : "") + m.paso.toFixed(3) : "") : ""; color: m.texto || "transparent"; font.pixelSize: Kirigami.Units.gridUnit * 0.55; font.family: Kirigami.Theme.fixedWidthFont.family }
+            Text { text: m.l >= 0 ? "L " + m.l.toFixed(3) + (parent.parent.conPaso && m.paso ? "  Δ" + (m.paso > 0 ? "+" : "") + m.paso.toFixed(3) : "") : ""; color: m.texto || "transparent"; font.pixelSize: Kirigami.Units.gridUnit * 0.55; font.family: Kirigami.Theme.fixedWidthFont.family }
+            Text { text: m.l >= 0 ? "C " + m.c.toFixed(3) + "  H " + m.h.toFixed(0) : ""; color: m.texto || "transparent"; font.pixelSize: Kirigami.Units.gridUnit * 0.55; font.family: Kirigami.Theme.fixedWidthFont.family }
             Text { text: m.hex || ""; color: m.texto || "transparent"; font.pixelSize: Kirigami.Units.gridUnit * 0.6; font.family: Kirigami.Theme.fixedWidthFont.family }
         }
     }

@@ -19,6 +19,7 @@ VentanaBase {
     readonly property var registro: studio.acciones
     property bool mostrarSalida: false
     property bool mostrarPasos: false
+    property alias pasoMostrado: panelPasos.paso
 
     title: (centro.datosArea.titulo || "Lliphi") + " — Lliphi Studio"
     width: 1360
@@ -88,12 +89,14 @@ VentanaBase {
             StackLayout {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
+                clip: true
                 currentIndex: ventana.centro.area === "diseno" ? 0 : 1
                 PaginaDiseno {}
                 PaginaArea {}
             }
         }
         PanelPasos {
+            id: panelPasos
             visible: ventana.mostrarPasos && studio.escritura.hayPlan
             QQC2.SplitView.preferredHeight: Kirigami.Units.gridUnit * 14
             QQC2.SplitView.minimumHeight: Kirigami.Units.gridUnit * 8

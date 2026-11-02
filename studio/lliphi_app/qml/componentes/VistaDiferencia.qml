@@ -83,10 +83,15 @@ ColumnLayout {
             sourceComponent: tipo === "trozo" ? cTrozo : cLinea
         }
     }
+    Item {                                     // sin filas ni marcador (solo una nota), algo tiene que crecer: si no, el
+        Layout.fillHeight: true                // ColumnLayout no pasa de su alto implícito y el sobrante sale como huecos
+        visible: !lista.visible && !marcador.visible
+    }
     Kirigami.PlaceholderMessage {
+        id: marcador
         Layout.fillWidth: true
         Layout.fillHeight: true
-        visible: !raiz.hay || raiz.diferencia.vacia
+        visible: !raiz.hay || (raiz.diferencia.vacia && !(raiz.diferencia.notas || []).length)   // con una nota, basta la nota
         text: !raiz.hay ? raiz.mensajeVacio : raiz.diferencia.binario ? "Archivo binario: no se compara línea a línea" : "Nada que comparar"
         icon.name: raiz.hay && raiz.diferencia.binario ? "application-octet-stream" : "document-compare"
     }
