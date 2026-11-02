@@ -2402,3 +2402,16 @@ def test_gtk_para_root(tmp_path: Path):
     assert sh(raiz.guion(shlex.quote(str(root)), otro)) == 3 and ajeno.read_text(encoding="utf-8") == "/* de root */\n"
     assert sh(raiz.guion_deshacer(shlex.quote(str(root)), otro)) == 0
     assert not any((root / ".config" / rel).exists() for rel, _ in pares) and ajeno.exists()
+
+
+def test_gtk_para_root_sudo_o_pkexec(monkeypatch):
+    """Decisiones 5.47: desde una terminal, sudo (pkexec no autentica en una terminal ajena a la sesión de escritorio:
+    «No session for cookie»); sin terminal, pkexec y su diálogo."""
+    raiz = registro.codigo("gtk", "instalar_root")
+    monkeypatch.setattr(raiz.shutil, "which", lambda n: f"/usr/bin/{n}")
+    monkeypatch.setattr(raiz.sys.stdin, "isatty", lambda: True, raising=False)
+    assert raiz.como_root() == ["sudo"]
+    monkeypatch.setattr(raiz.sys.stdin, "isatty", lambda: False, raising=False)
+    assert raiz.como_root() == ["pkexec"]
+    monkeypatch.setattr(raiz.shutil, "which", lambda n: None)
+    assert raiz.como_root() is None
