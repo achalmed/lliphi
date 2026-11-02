@@ -1,0 +1,34 @@
+{
+  "nombre": "Spyder",
+  "resumen": "Esquemas de sintaxis Lliphi Claro y Lliphi Oscuro para Spyder (editor, consola IPython, historial y ayuda) con la misma tabla que los demás editores, la interfaz en automático para que sea clara u oscura según el esquema, y los dieciséis colores de la terminal de Lliphi en la consola IPython; con la vigilancia de fondo-variante, Spyder cambia de esquema al cambiar la variante.",
+  "clase": "paquete",
+  "orden": 12,
+  "formato": "Spyder",
+  "tecnologia": "`[appearance]` de `$XDG_CONFIG_HOME/spyder-py3/config/spyder.ini` (17 claves por esquema, `names`, `selected`, `ui_theme = automatic`; Spyder ≥ 5, probado en 6.1.0) · secuencias OSC 4 de xterm en la consola IPython (qtconsole) con `startup/run_file`",
+  "estado": "probado",
+  "desde": "0.4.0",
+  "archivos": [
+    "spyder-lliphi.py",
+    "consola.py"
+  ],
+  "capturas": [
+    "../capturas/oscuro-42-spyder.png",
+    "../capturas/claro-42-spyder.png"
+  ],
+  "dependencias": {
+    "construccion": [
+      "editores",
+      "konsole"
+    ]
+  },
+  "instalacion": [
+    {
+      "origen": "spyder-lliphi.py",
+      "destino": "{id}/variante.d/spyder.py"
+    },
+    {
+      "origen": "consola.py",
+      "destino": "{id}/spyder/consola.py"
+    }
+  ]
+}
