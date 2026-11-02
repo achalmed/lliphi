@@ -1,0 +1,33 @@
+{
+  "nombre": "Sitios web: DuckDuckGo y GitHub",
+  "resumen": "Estilos de usuario (UserCSS para Stylus, o userContent.css en Zen) que llevan Lliphi Claro y Lliphi Oscuro a DuckDuckGo y a GitHub redefiniendo solo las variables CSS de cada sitio, según el modo del sistema; y los ajustes de apariencia de DuckDuckGo con los colores de Lliphi, como URL y marcadores, para usarlo sin extensión.",
+  "clase": "paquete",
+  "orden": 11,
+  "formato": "varios",
+  "tecnologia": "UserCSS (`==UserStyle==`, `@-moz-document domain(...)`) para Stylus ≥ 1.5 en Zen (Firefox) y Chrome, o `chrome/userContent.css` del perfil de Zen · DuckDuckGo: variables `--theme-col-*` y parámetros de apariencia (`kae`, `k7`, `kj`, `k8`, `k9`, `kaa`, `kx`, `k21`, `kt`, `ka`) · GitHub: variables de Primer (`--bgColor-*`, `--fgColor-*`, `--borderColor-*`, `--button-*`, `--diffBlob-*`, `--prettylights-syntax-*`, `--fontStack-*`) por `data-color-mode`",
+  "estado": "experimental",
+  "desde": "0.4.0",
+  "archivos": [
+    "duckduckgo.user.css",
+    "github.user.css",
+    "duckduckgo/ajustes.json",
+    "duckduckgo/marcadores.html"
+  ],
+  "capturas": [
+    "../capturas/oscuro-38-sitios-duckduckgo.png",
+    "../capturas/claro-38-sitios-duckduckgo.png",
+    "../capturas/oscuro-39-sitios-github-codigo.png",
+    "../capturas/claro-39-sitios-github-codigo.png",
+    "../capturas/oscuro-40-sitios-github-diff.png",
+    "../capturas/claro-40-sitios-github-diff.png"
+  ],
+  "dependencias": {
+    "construccion": [
+      "editores"
+    ],
+    "terceros": [
+      "Stylus (Zen o Chrome), o Zen con userContent.css"
+    ]
+  },
+  "instalacion": []
+}

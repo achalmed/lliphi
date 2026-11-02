@@ -1,0 +1,41 @@
+{
+  "$comment": "GENERADO por herramientas/generar.py (complementos/sitios-web) desde tokens/; no editar. Ajustes de apariencia de DuckDuckGo con los colores de Lliphi, uno por variante.",
+  "variantes": {
+    "claro": {
+      "nombre": "DuckDuckGo · Lliphi Claro",
+      "parametros": {
+        "kae": "-1",
+        "k7": "fbfcfd",
+        "kj": "fbfcfd",
+        "k8": "1d1f24",
+        "k9": "2a4fd0",
+        "kaa": "4b4d53",
+        "kx": "66676c",
+        "k21": "ecedef",
+        "kt": "Inter",
+        "ka": "Inter"
+      },
+      "inicio": "https://duckduckgo.com/?kae=-1&k7=fbfcfd&kj=fbfcfd&k8=1d1f24&k9=2a4fd0&kaa=4b4d53&kx=66676c&k21=ecedef&kt=Inter&ka=Inter",
+      "ajustes": "https://duckduckgo.com/settings?kae=-1&k7=fbfcfd&kj=fbfcfd&k8=1d1f24&k9=2a4fd0&kaa=4b4d53&kx=66676c&k21=ecedef&kt=Inter&ka=Inter",
+      "buscador": "https://duckduckgo.com/?q=%s&kae=-1&k7=fbfcfd&kj=fbfcfd&k8=1d1f24&k9=2a4fd0&kaa=4b4d53&kx=66676c&k21=ecedef&kt=Inter&ka=Inter"
+    },
+    "oscuro": {
+      "nombre": "DuckDuckGo · Lliphi Oscuro",
+      "parametros": {
+        "kae": "d",
+        "k7": "101012",
+        "kj": "101012",
+        "k8": "eaebed",
+        "k9": "ff968b",
+        "kaa": "bcbec1",
+        "kx": "97989c",
+        "k21": "1b1c1e",
+        "kt": "Inter",
+        "ka": "Inter"
+      },
+      "inicio": "https://duckduckgo.com/?kae=d&k7=101012&kj=101012&k8=eaebed&k9=ff968b&kaa=bcbec1&kx=97989c&k21=1b1c1e&kt=Inter&ka=Inter",
+      "ajustes": "https://duckduckgo.com/settings?kae=d&k7=101012&kj=101012&k8=eaebed&k9=ff968b&kaa=bcbec1&kx=97989c&k21=1b1c1e&kt=Inter&ka=Inter",
+      "buscador": "https://duckduckgo.com/?q=%s&kae=d&k7=101012&kj=101012&k8=eaebed&k9=ff968b&kaa=bcbec1&kx=97989c&k21=1b1c1e&kt=Inter&ka=Inter"
+    }
+  }
+}

@@ -7,9 +7,9 @@ import json
 from lliphi_studio import proyecto
 
 
-def test_los_dieciseis_modulos_y_los_seis(lliphi):
+def test_los_diecisiete_modulos_y_los_seis(lliphi):
     mods = proyecto.modulos()
-    assert len(mods) == 16 and mods[0].id == "global"
+    assert len(mods) == 17 and mods[0].id == "global"
     assert [m.id for m in mods if m.rol == "modulo"] == ["esquema", "estilo", "decoracion", "iconos-cursores",
                                                           "carga-bloqueo", "disposicion"]
     assert ("global", "disposicion", "integra") in proyecto.aristas()

@@ -947,7 +947,7 @@ def test_registro_tema_global_y_seis_modulos():
     roles = {m.id: (m.rol, m.clase) for m in registro.todos()}
     assert roles["global"] == ("global", "paquete")
     assert {i: c for i, (r, c) in roles.items() if r == "modulo"} == SEIS
-    assert {i for i, (r, _) in roles.items() if r == "complemento"} == {"fondos", "kvantum", "konsole", "terminales", "editores", "libreoffice", "sddm", "obsidian", "fondo-variante"}
+    assert {i for i, (r, _) in roles.items() if r == "complemento"} == {"fondos", "kvantum", "konsole", "terminales", "editores", "libreoffice", "sddm", "obsidian", "fondo-variante", "sitios-web"}
     g = registro.modulo("global")
     assert set(g.dependencias("integra")) == {"carga-bloqueo", "disposicion"}
     assert set(SEIS) <= set(g.dependencias("integra") + g.dependencias("referencia"))
@@ -1136,3 +1136,180 @@ def test_fondo_del_escritorio():
         plasmarc = (GEN / "estilo" / f"{MARCA['id']}-{v}" / "plasmarc").read_text(encoding="utf-8")
         assert f"defaultWallpaperTheme={MARCA['fondo_escritorio']}" in plasmarc and "defaultFileSuffix=.jpg" in plasmarc
     assert MARCA["id_fondo"] in registro.modulo("carga-bloqueo").archivo("aplicar.py").read_text(encoding="utf-8").replace('ctx.marca["id_fondo"]', MARCA["id_fondo"])
+
+
+# ---------------------------------------------------------------- sitios web (estilos de usuario)
+
+def _arbol_css(texto: str) -> list[tuple[tuple[str, ...], str, dict[str, str]]]:
+    """CSS anidado (`@-moz-document`, `@media`) → [(contexto de at-rules, selector, {propiedad: valor})]. Falla si las
+    llaves no casan o si una declaración no termina en `;`."""
+    texto = re.sub(r"/\*.*?\*/", "", texto, flags=re.S)
+    reglas: list[tuple[tuple[str, ...], str, dict[str, str]]] = []
+
+    def bloque(i: int, contexto: tuple[str, ...]) -> int:
+        while True:
+            fin = texto.find("}", i)
+            abre = texto.find("{", i)
+            if abre == -1 or (fin != -1 and fin < abre):
+                assert not texto[i:fin if fin != -1 else None].strip(), f"texto suelto: {texto[i:fin][:60]!r}"
+                return fin
+            prelude = texto[i:abre].strip()
+            if prelude.startswith("@"):
+                cierre = bloque(abre + 1, (*contexto, prelude))
+            else:
+                cierre = texto.find("}", abre)
+                cuerpo = texto[abre + 1:cierre]
+                assert "{" not in cuerpo, prelude
+                decls = [d.strip() for d in cuerpo.split(";")]
+                assert decls[-1] == "", f"falta «;» al final de {prelude}"
+                reglas.append((contexto, prelude, dict(d.split(":", 1) for d in decls[:-1])))
+                reglas[-1] = (contexto, prelude, {k.strip(): v.strip() for k, v in reglas[-1][2].items()})
+            assert cierre != -1, f"llave sin cerrar en {prelude}"
+            i = cierre + 1
+
+    resto = bloque(0, ())
+    assert resto == -1, "sobra una «}»"
+    return reglas
+
+
+def _luminancia(hex6: str) -> float:
+    c = [int(hex6[i:i + 2], 16) / 255 for i in (1, 3, 5)]
+    c = [x / 12.92 if x <= 0.04045 else ((x + 0.055) / 1.055) ** 2.4 for x in c]
+    return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]
+
+
+def _sobre(color: str, base: str) -> str:
+    """Un `#rrggbbaa` mezclado sobre un `#rrggbb` opaco (lo que se ve)."""
+    if len(color) == 7:
+        return color
+    a = int(color[7:9], 16) / 255
+    return "#" + "".join(f"{round(int(color[i:i + 2], 16) * a + int(base[i:i + 2], 16) * (1 - a)):02x}" for i in (1, 3, 5))
+
+
+def _contraste(a: str, b: str) -> float:
+    la, lb = sorted((_luminancia(a), _luminancia(b)), reverse=True)
+    return (la + 0.05) / (lb + 0.05)
+
+
+def _variables_de(reglas, variante: str, ambito: tuple[str | None, str]) -> dict[str, str]:
+    media, selector = ambito
+    for contexto, sel, decls in reglas:
+        if sel == selector and (media is None and not any(c.startswith("@media") for c in contexto)
+                                or media is not None and f"@media {media}" in contexto):
+            return decls
+    raise AssertionError(f"{variante}: no hay bloque {media} {selector}")
+
+
+def test_sitios_web_estilos():
+    """Cada `.user.css`: UserCSS válido, solo en sus dominios, las dos variantes en cada ámbito, iguales a lo que dicen
+    los tokens, cada color del maestro (a lo sumo con alfa), contraste ≥ 4,5:1 en los pares de texto declarados y nada
+    personal."""
+    construir = registro.codigo("sitios-web")
+    hexes = {t["$value"]["hex"].lower() for t in _tokens_planos(TOKENS).values()
+             if isinstance(t["$value"], dict) and "hex" in t["$value"]}
+    for id_ in construir.SITIOS:
+        m = construir.sitio(id_)
+        texto = (GEN / "sitios-web" / f"{id_}.user.css").read_text(encoding="utf-8")
+        cab = re.match(r"/\* ==UserStyle==\n(.*?)==/UserStyle== \*/", texto, flags=re.S)
+        assert cab, id_
+        meta = dict(re.findall(r"^@(\w+)\s+(.+)$", cab.group(1), flags=re.M))
+        assert {"name", "namespace", "version", "description", "license"} <= set(meta), (id_, meta)
+        assert meta["version"] == (RAIZ / "VERSION").read_text(encoding="utf-8").strip()
+        assert "GENERADO por herramientas/generar.py (complementos/sitios-web" in texto
+        for ajeno in ("achalmed", "achalmaedison", "/home/", "github.com/"):
+            assert ajeno not in texto.replace('domain("github.com")', "").replace('domain("gist.github.com")', ""), (id_, ajeno)
+        reglas = _arbol_css(texto)
+        documento = f"@-moz-document {', '.join(f'domain(\"{d}\")' for d in m.DOMINIOS)}"
+        assert reglas and all(c and c[0] == documento for c, _, _ in reglas), id_
+        assert all(v.endswith("!important") for _, _, d in reglas for v in d.values()), id_
+        for h in re.findall(r"#([0-9a-fA-F]{6})(?:[0-9a-fA-F]{2})?\b", re.sub(r"/\*.*?\*/", "", texto, flags=re.S)):
+            assert "#" + h.lower() in hexes, (id_, h)
+        acentos = set()
+        for variante in ("claro", "oscuro"):
+            esperado = m.variables(construir.paleta(TOKENS, variante))
+            for ambito in m.AMBITOS[variante]:
+                if ambito[0]:
+                    assert ambito[0] == f"(prefers-color-scheme: {'light' if variante == 'claro' else 'dark'})", (id_, ambito)
+                x = {k: v.removesuffix("!important").strip() for k, v in _variables_de(reglas, variante, ambito).items()}
+                assert x == esperado, (id_, variante, ambito)
+                fondo = x[m.FONDO]
+                assert len(fondo) == 7, (id_, "el fondo de la página es opaco")
+                for texto_var, fondo_var in m.CONTRASTE:
+                    t, f = x[texto_var], _sobre(x[fondo_var], fondo)
+                    assert len(t) == 7, (id_, texto_var)
+                    r = _contraste(t, f)
+                    assert r >= 4.5, (id_, variante, texto_var, fondo_var, t, f, round(r, 2))
+            assert any(c[1:] == (f"@media (prefers-color-scheme: {'light' if variante == 'claro' else 'dark'})",) for c, _, _ in reglas), (id_, variante)
+            sem = {k: t["$value"]["hex"] for k, t in _tokens_planos(TOKENS["semanticos"][variante]).items()}
+            acentos.add(sem["acento.base"])
+        assert len(acentos) == 2
+
+
+def test_sitios_web_github_primer():
+    """GitHub: el modo de GitHub y el del sistema eligen la variante; el acento solo en enlaces, foco, selección y el
+    botón principal; el código con la tabla de los editores; los diffs con los estados; Inter y JetBrains Mono."""
+    texto = (GEN / "sitios-web" / "github.user.css").read_text(encoding="utf-8")
+    reglas = _arbol_css(texto)
+    gh = registro.codigo("sitios-web").sitio("github")
+    raiz = next(d for c, s, d in reglas if s == ":root" and len(c) == 1)
+    assert raiz["--fontStack-sansSerif"].startswith('"Inter"') and raiz["--fontStack-monospace"].startswith('"JetBrainsMono Nerd Font"')
+    for variante, modo in (("claro", "light"), ("oscuro", "dark")):
+        x = {k: v.removesuffix("!important").strip() for k, v in _variables_de(reglas, variante, (None, f'[data-color-mode="{modo}"]')).items()}
+        auto = _variables_de(reglas, variante, (f"(prefers-color-scheme: {modo})", '[data-color-mode="auto"]'))
+        assert {k: v.removesuffix("!important").strip() for k, v in auto.items()} == x
+        sem = {k: t["$value"]["hex"] for k, t in _tokens_planos(TOKENS["semanticos"][variante]).items()}
+        e = _sintaxis_esperada(variante)
+        assert x["--fgColor-accent"] == x["--fgColor-link"] == sem["enlace"] and x["--focus-outline-color"] == sem["foco"]
+        assert x["--button-primary-bgColor-rest"] == x["--bgColor-accent-emphasis"] == sem["acento.base"]
+        assert x["--underlineNav-borderColor-active"] == sem["acento.base"] and x["--selection-bgColor"].startswith(sem["seleccion.fondo"])
+        assert x["--bgColor-default"] == sem["fondo.vista"] and x["--fgColor-default"] == sem["texto.normal"]
+        # el acento no se usa en nada más que lo dicho (más sus alfas de acompañamiento)
+        con_acento = {k for k, v in x.items() if v[:7] == sem["acento.base"]}
+        permitidas = {"--bgColor-accent-emphasis", "--borderColor-accent-emphasis",
+                      "--button-primary-bgColor-rest", "--button-primary-bgColor-disabled", "--button-primary-borderColor-disabled",
+                      "--button-outline-bgColor-active", "--underlineNav-borderColor-active", "--selectMenu-bgColor-active",
+                      "--selection-bgColor", "--codeMirror-selection-bgColor",
+                      "--button-primary-bgColor-hover", "--button-primary-bgColor-active", "--control-checked-bgColor-hover",
+                      "--control-checked-bgColor-active", "--focus-outline-color",
+                      "--bgColor-danger-emphasis", "--borderColor-danger-emphasis", "--button-danger-bgColor-hover",
+                      "--prettylights-syntax-carriageReturn-bg"}
+        assert con_acento <= permitidas, (variante, con_acento - permitidas)
+        assert x["--prettylights-syntax-keyword"] == e["palabra-clave"] and x["--prettylights-syntax-string"] == e["cadena"]
+        assert x["--prettylights-syntax-comment"] == e["comentario"] and x["--prettylights-syntax-entity"] == e["funcion"]
+        assert x["--codeMirror-syntax-fgColor-keyword"] == e["palabra-clave"]
+        for estado, clave in (("addition", "estado.exito"), ("deletion", "estado.error")):
+            assert x[f"--diffBlob-{estado}Num-bgColor"][:7] == x[f"--diffBlob-{estado}Word-bgColor"][:7] == sem[clave]
+        assert x["--bgColor-success-muted"][:7] == sem["estado.exito"] and x["--fgColor-success"] == sem["estado.exito"]
+        assert x["--fgColor-danger"] == sem["estado.error"] and x["--fgColor-attention"] == sem["estado.advertencia"]
+        assert all(x[f"--contribution-default-bgColor-{i}"][:7] == sem["estado.exito"] for i in range(1, 5))
+        # los fondos tenues del «acento» (avisos, trozos de un diff) son el azul de información, no el acento
+        assert x["--bgColor-accent-muted"][:7] == x["--diffBlob-hunkNum-bgColor-rest"][:7] == sem["estado.info"]
+        assert x["--ansi-red"] == _terminal(variante)["color1"]
+    assert gh.DOMINIOS == ("github.com", "gist.github.com")
+
+
+def test_sitios_web_duckduckgo_ajustes():
+    """DuckDuckGo sin extensión: un juego de ajustes por variante (colores de los semánticos en hex sin «#», tema,
+    Inter) como página de inicio, plantilla de buscador y marcadores importables."""
+    import html as html_
+    from urllib.parse import parse_qsl, urlsplit
+    datos = json.loads((GEN / "sitios-web" / "duckduckgo" / "ajustes.json").read_text(encoding="utf-8"))
+    marcadores = (GEN / "sitios-web" / "duckduckgo" / "marcadores.html").read_text(encoding="utf-8")
+    assert marcadores.startswith("<!DOCTYPE NETSCAPE-Bookmark-file-1>")
+    assert set(datos["variantes"]) == {"claro", "oscuro"}
+    for variante, a in datos["variantes"].items():
+        sem = {k: t["$value"]["hex"] for k, t in _tokens_planos(TOKENS["semanticos"][variante]).items()}
+        p = a["parametros"]
+        assert p["kae"] == {"claro": "-1", "oscuro": "d"}[variante] and p["kt"] == p["ka"] == "Inter"
+        assert "#" + p["k7"] == sem["fondo.vista"] and "#" + p["k8"] == sem["texto.normal"] and "#" + p["k9"] == sem["enlace"]
+        for k in ("k7", "kj", "k8", "k9", "kaa", "kx", "k21"):
+            assert re.fullmatch(r"[0-9a-f]{6}", p[k]) and "#" + p[k] in sem.values(), (variante, k)
+        assert _contraste("#" + p["k8"], "#" + p["k7"]) >= 4.5 and _contraste("#" + p["k9"], "#" + p["k7"]) >= 4.5
+        u = urlsplit(a["inicio"])
+        assert (u.scheme, u.netloc) == ("https", "duckduckgo.com") and dict(parse_qsl(u.query)) == p
+        assert a["buscador"].startswith("https://duckduckgo.com/?q=%s&") and dict(parse_qsl(urlsplit(a["buscador"]).query[5:])) == p
+        a_ = urlsplit(a["ajustes"])
+        assert a_.path == "/settings" and not a_.fragment and dict(parse_qsl(a_.query)) == p
+        for url in (a["inicio"], a["ajustes"]):
+            assert f'HREF="{html_.escape(url)}"' in marcadores
+        assert a["nombre"] in marcadores
