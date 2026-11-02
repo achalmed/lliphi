@@ -284,13 +284,19 @@ class Operaciones(QObject):
                         datos = None
                     break
             if datos is not None:
-                self.destinos.registrar_verificacion(list(datos.get("diferencias", [])))
-                n = len(datos.get("diferencias", []))
+                diferencias = list(datos.get("diferencias", []))
+                self.destinos.registrar_verificacion(diferencias)
+                ids = set(self.destinos.ids)
+                n_destinos = sum(1 for x in diferencias if x.partition("/")[0] in ids)
+                n_sitio = len(diferencias) - n_destinos                      # sitio/generado/ no es un destino de la tabla
+                n = len(diferencias)
                 self.consola.escribir(f"[verificar] {datos.get('archivos', '?')} archivos · {n} diferencia(s) · {'al día' if not n else 'DERIVA'}", "ok" if not n else "warn")
-                for x in datos.get("diferencias", []):
+                for x in diferencias:
                     self.consola.escribir("  " + x, "warn")
-                self.aviso.emit("Todo lo generado está al día con los tokens." if not n else f"{n} diferencia(s): mira «Desfasado» en la navegación y la pestaña Diferencias.",
-                                "positivo" if not n else "aviso")
+                texto = ("Todo lo generado está al día con los tokens." if not n else
+                         (f"{n_destinos} diferencia(s) en los destinos: mira «Desfasado» en la navegación y la pestaña Diferencias." if n_destinos else "Los destinos están al día")
+                         + (f" · {n_sitio} en sitio/generado/ (Generar todo lo reescribe)." if n_sitio else ""))
+                self.aviso.emit(texto, "positivo" if not n else "aviso")
             else:
                 self.aviso.emit(f"Verificar terminó con código {codigo} sin informe: revisa la salida (F4).", "error")
         elif codigo == 0:

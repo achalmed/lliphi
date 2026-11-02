@@ -59,7 +59,9 @@ def main() -> int:
                 shutil.copy2(origen, m.casa / ".config" / nombre)
         env = entorno_con_esquema(Path(args.esquema).expanduser().resolve(), m.casa / ".config") if args.esquema else dict(os.environ, XDG_CONFIG_HOME=str(m.casa / ".config"))
         env.update(m.entorno)
-        env.update({"XDG_DATA_HOME": str(Path.home() / ".local" / "share"), "LLIPHI_STUDIO_CAPTURA": str(carpeta), "QT_QPA_PLATFORM": "offscreen", "LLIPHI_STUDIO_MUESTRA": str(m.raiz)})
+        # los iconos y tipografías del usuario se ven por XDG_DATA_DIRS; XDG_DATA_HOME sigue en la casa falsa (ninguna ruta de la máquina en los destinos)
+        env["XDG_DATA_DIRS"] = str(Path.home() / ".local" / "share") + ":" + (os.environ.get("XDG_DATA_DIRS") or "/usr/local/share:/usr/share")
+        env.update({"LLIPHI_STUDIO_CAPTURA": str(carpeta), "QT_QPA_PLATFORM": "offscreen", "LLIPHI_STUDIO_MUESTRA": str(m.raiz)})
         env.setdefault("QT_QPA_PLATFORMTHEME", "kde")
         if "GUI_COMUN_DIR" not in env:
             import gui_comun

@@ -3,8 +3,8 @@
 Studio: nunca el repo real ni la configuración del escritorio (`docs/rediseno.md` S9).
 
 La copia lleva lo que leen y escriben las órdenes (tokens, global, modulos, complementos, herramientas, generado,
-fuentes y docs, más VERSION, REUSE.toml, pyproject.toml y README.md), enlaza `muestras/` y el `.venv` del proyecto
-(solo se leen) y deja `sitio/` vacío. El entorno devuelto apunta HOME, XDG_* y LLIPHI_DIR a la copia: ninguna ruta de
+fuentes y docs, más VERSION, REUSE.toml, pyproject.toml, README.md y CHANGELOG.md, que lee `generar.py verificar`), enlaza `muestras/` y el `.venv` del proyecto
+(solo se leen) y de `sitio/` solo `generado/` (lo que `generar.py` escribe y `verificar` compara). El entorno devuelto apunta HOME, XDG_* y LLIPHI_DIR a la copia: ninguna ruta de
 la máquina en pantalla y ninguna instalación en la sesión de KDE real.
 
     from muestra import crear
@@ -19,7 +19,7 @@ from pathlib import Path
 AQUI = Path(__file__).resolve().parent
 REPO = AQUI.parent
 CARPETAS = ("tokens", "global", "modulos", "complementos", "herramientas", "generado", "fuentes", "docs")
-ARCHIVOS = ("VERSION", "REUSE.toml", "pyproject.toml", "README.md", "requirements.txt")
+ARCHIVOS = ("VERSION", "REUSE.toml", "pyproject.toml", "README.md", "CHANGELOG.md", "requirements.txt")
 
 
 @dataclass
@@ -40,6 +40,8 @@ def copiar_proyecto(destino: Path, origen: Path = REPO) -> Path:
         if (origen / carpeta).is_dir():
             shutil.copytree(origen / carpeta, destino / carpeta, ignore=ignorar, symlinks=True, dirs_exist_ok=True)
     (destino / "sitio").mkdir(exist_ok=True)
+    if (origen / "sitio" / "generado").is_dir():                       # lo que generar.py escribe en el sitio (verificar lo compara)
+        shutil.copytree(origen / "sitio" / "generado", destino / "sitio" / "generado", ignore=ignorar, symlinks=True, dirs_exist_ok=True)
     for enlace in ("muestras", ".venv"):
         if (origen / enlace).exists() and not (destino / enlace).exists():
             (destino / enlace).symlink_to(origen / enlace)

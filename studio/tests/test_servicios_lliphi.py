@@ -17,8 +17,8 @@ from lliphi_app.servicios import operaciones as ops
 from lliphi_app.servicios import proyecto
 
 
-def test_proyecto_sobre_la_copia(entorno_muestra):
-    m = entorno_muestra
+def test_proyecto_sobre_la_copia(entorno_sesion):
+    m = entorno_sesion
     assert proyecto.raiz() == m.lliphi
     modulos = proyecto.modulos()
     ids = [x.id for x in modulos]
@@ -32,7 +32,7 @@ def test_proyecto_sobre_la_copia(entorno_muestra):
     assert proyecto.orden("paleta")[1].endswith("modulos/esquema/paleta.py")
 
 
-def test_fila_y_resumen(entorno_muestra, tmp_path):
+def test_fila_y_resumen(entorno_sesion, tmp_path):
     m = proyecto.modulo("esquema")
     v = svc.Verificacion(tmp_path / "v.json")
     sin = {"instalado": False, "modulos": [], "rutas": []}
@@ -47,7 +47,7 @@ def test_fila_y_resumen(entorno_muestra, tmp_path):
     assert fe["clave_instalacion"] == "no_instalable" and fe["archivos"] == "—"
 
 
-def test_verificacion_guardada(entorno_muestra, tmp_path):
+def test_verificacion_guardada(entorno_sesion, tmp_path):
     v = svc.Verificacion(tmp_path / "v.json")
     assert v.fecha == 0 and not v.vigente
     v.registrar(["esquema/difiere: LliphiOscuro.colors", "konsole/falta en lo versionado: Lliphi.colorscheme"])
@@ -55,15 +55,15 @@ def test_verificacion_guardada(entorno_muestra, tmp_path):
     assert v.estado(proyecto.modulo("esquema"), 4) == "desfasado" and v.estado(proyecto.modulo("global"), 10) == "al_dia"
     v2 = svc.Verificacion(tmp_path / "v.json")                              # se relee del disco
     assert v2.diferencias == v.diferencias and v2.vigente
-    (entorno_muestra.lliphi / "tokens" / "tokens.json").touch()             # las fuentes cambiaron después: caduca
+    (entorno_sesion.lliphi / "tokens" / "tokens.json").touch()             # las fuentes cambiaron después: caduca
     time.sleep(0.01)
     assert not svc.Verificacion(tmp_path / "v.json").vigente
 
 
-def test_estado_instalacion_por_manifiesto(entorno_muestra):
+def test_estado_instalacion_por_manifiesto(entorno_sesion):
     m = proyecto.modulo("esquema")
     pares, omitidos = svc.pares_instalacion("esquema")
-    assert len(pares) >= 2 and all(o.startswith(str(entorno_muestra.lliphi)) for o, _d in pares)
+    assert len(pares) >= 2 and all(o.startswith(str(entorno_sesion.lliphi)) for o, _d in pares)
     assert svc.estado_instalacion(m, {"instalado": False}, pares) == "sin_instalar"
     rutas = [{"ruta": d, "ok": True} for _o, d in pares]
     assert svc.estado_instalacion(m, {"instalado": True, "modulos": ["esquema"], "rutas": rutas}, pares) == "instalado"
@@ -72,7 +72,7 @@ def test_estado_instalacion_por_manifiesto(entorno_muestra):
     assert svc.leer_estado_instalacion()["instalado"] is False                # el HOME falso no tiene nada instalado
 
 
-def test_paleta_como_datos(entorno_muestra):
+def test_paleta_como_datos(entorno_sesion):
     grupos = svc.paleta(proyecto.tokens())
     assert [(g["grupo"], g["variante"]) for g in grupos][:2] == [("primitivas", "claro"), ("primitivas", "oscuro")]
     assert len(grupos) == 6
@@ -80,7 +80,7 @@ def test_paleta_como_datos(entorno_muestra):
     assert c["nombre"] == "neutro-0" and c["hex"].startswith("#") and len(c["hex"]) == 7 and c["oklch"].startswith("oklch(")
 
 
-def test_catalogo_de_operaciones(entorno_muestra):
+def test_catalogo_de_operaciones(entorno_sesion):
     ids = [o.id for o in ops.OPERACIONES]
     assert len(ids) == len(set(ids)) and {"generar", "instalar", "verificar", "validar", "paleta", "estado", "comprobar", "desinstalar", "sesion_arrancar", "revertir"} <= set(ids)
     c = ops.Contexto(proyecto.raiz(), "esquema", "claro", "")
@@ -103,9 +103,9 @@ def test_catalogo_de_operaciones(entorno_muestra):
 
 
 @pytest.mark.skipif(not HAY_VENV, reason="sin el .venv del proyecto (coloraide): requirements.txt")
-def test_generar_en_simulacion_no_escribe(entorno_muestra):
+def test_generar_en_simulacion_no_escribe(entorno_sesion):
     """La orden de F5 sobre la copia: código 0 y generado/ intacto."""
-    m = entorno_muestra
+    m = entorno_sesion
     antes = {p: p.stat().st_mtime for p in (m.lliphi / "generado" / "esquema").rglob("*") if p.is_file()}
     r = subprocess.run(proyecto.orden("generar", "--modulos", "esquema"), cwd=m.lliphi, capture_output=True, text=True, timeout=120, env=dict(**m.entorno, PATH=__import__("os").environ["PATH"]))
     assert r.returncode == 0, r.stderr[-2000:]

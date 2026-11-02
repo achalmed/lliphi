@@ -20,8 +20,7 @@ def _esperar(app, tareas, segundos=120):
     app.processEvents()
 
 
-@pytest.fixture
-def piezas(app, entorno_muestra, ajustes_temporales):
+def _armar(entorno, ajustes_temporales):
     from gui_comun.consola import Consola
     from gui_comun.tareas import Tareas
     from lliphi_app.controladores.ajustes import Ajustes
@@ -35,8 +34,23 @@ def piezas(app, entorno_muestra, ajustes_temporales):
     espacio = Espacio(consola, ajustes)
     destinos = Destinos(espacio, consola, tareas, cache=cache)
     operaciones = Operaciones(espacio, destinos, ajustes, consola, tareas, cache=cache)
-    yield dict(consola=consola, tareas=tareas, espacio=espacio, destinos=destinos, operaciones=operaciones, ajustes=ajustes, muestra=entorno_muestra, cache=cache)
-    _esperar(app, tareas, 10)
+    return dict(consola=consola, tareas=tareas, espacio=espacio, destinos=destinos, operaciones=operaciones, ajustes=ajustes, muestra=entorno, cache=cache)
+
+
+@pytest.fixture
+def piezas(app, entorno_sesion, ajustes_temporales):
+    """Sobre la copia de la sesión: lo que lee o simula."""
+    p = _armar(entorno_sesion, ajustes_temporales)
+    yield p
+    _esperar(app, p["tareas"], 10)
+
+
+@pytest.fixture
+def piezas_propias(app, entorno_muestra, ajustes_temporales):
+    """Sobre una copia propia: lo que aplica (escribe en la copia)."""
+    p = _armar(entorno_muestra, ajustes_temporales)
+    yield p
+    _esperar(app, p["tareas"], 10)
 
 
 @requiere_binding
@@ -120,7 +134,8 @@ def test_operaciones_disponibilidad_y_plan(app, piezas):
 
 @requiere_binding
 @pytest.mark.skipif(not HAY_VENV, reason="sin el .venv del proyecto (coloraide): requirements.txt")
-def test_f5_simula_y_ctrl_intro_aplica_sobre_la_copia(app, piezas):
+def test_f5_simula_y_ctrl_intro_aplica_sobre_la_copia(app, piezas_propias):
+    piezas = piezas_propias
     d, o, t, m = piezas["destinos"], piezas["operaciones"], piezas["tareas"], piezas["muestra"]
     d.irA("esquema")
     terminadas = []

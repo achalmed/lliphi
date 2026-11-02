@@ -77,9 +77,18 @@ def muestra(tmp_path):
 
 @pytest.fixture
 def entorno_muestra(muestra, monkeypatch):
+    """Una copia propia (lo que escribe en la copia: aplicar)."""
     for k, v in muestra.entorno.items():
         monkeypatch.setenv(k, v)
     return muestra
+
+
+@pytest.fixture
+def entorno_sesion(muestra_sesion, monkeypatch):
+    """La copia de la sesión (lo que solo lee o simula): no se copian 75 MB por prueba."""
+    for k, v in muestra_sesion.entorno.items():
+        monkeypatch.setenv(k, v)
+    return muestra_sesion
 
 
 @pytest.fixture

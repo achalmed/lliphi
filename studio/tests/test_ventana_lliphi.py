@@ -76,8 +76,8 @@ def _graves(errores):
 
 
 @requiere_sistema
-def test_abre_y_cierra_su_ventana(muestra):
-    r = correr_python(ABRIR, entorno_gui(muestra, LLIPHI_CON_VENV="1" if HAY_VENV else "0"), plazo=300)
+def test_abre_y_cierra_su_ventana(muestra_sesion):
+    r = correr_python(ABRIR, entorno_gui(muestra_sesion, LLIPHI_CON_VENV="1" if HAY_VENV else "0"), plazo=300)
     assert r.returncode == 0, f"código {r.returncode}\n{r.stderr[-3000:]}"
     datos = json.loads(r.stdout.strip().splitlines()[-1])
     assert datos["ok"], r.stderr[-3000:]
@@ -103,8 +103,8 @@ def test_abre_y_cierra_su_ventana(muestra):
 
 
 @requiere_sistema
-def test_main_smoke(muestra):
-    r = subprocess.run([PYTHON_SISTEMA, str(STUDIO / "main.py"), "--smoke"], env=entorno_gui(muestra), capture_output=True, text=True, timeout=240, cwd=muestra.raiz)
+def test_main_smoke(muestra_sesion):
+    r = subprocess.run([PYTHON_SISTEMA, str(STUDIO / "main.py"), "--smoke"], env=entorno_gui(muestra_sesion), capture_output=True, text=True, timeout=240, cwd=muestra_sesion.raiz)
     assert r.returncode == 0, f"código {r.returncode}\n{r.stderr[-3000:]}"
     ruido = [l for l in r.stderr.splitlines() if "TypeError" in l or "ReferenceError" in l or "polish() loop" in l]
     assert not ruido, "\n".join(ruido)
