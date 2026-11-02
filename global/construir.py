@@ -29,15 +29,23 @@ GRUPOS = ["kdeglobals][KDE", "kdeglobals][Icons", "kdeglobals][General", "kdeglo
           "Wallpaper", "kcminputrc][Mouse", "kwinrc][org.kde.kdecoration2", "kwinrc][WindowSwitcher",
           "kwinrc][DesktopSwitcher", "KSplash"]
 
-INTERFAZ = "Inter,10,-1,5,400,0,0,0,0,0"
-MONO = "JetBrainsMono Nerd Font,10,-1,5,400,0,0,0,0,0"   # mejora 9 (decisiones 4.14)
+# Fuentes en el formato de Qt 6 (`QFont::toString`, 16 campos): con los 10 del de Qt 5, Qt 6 lee el peso (quinto campo)
+# en la escala vieja, 0–99, y 400 pasa a 900, Black: toda la interfaz en negrita (decisiones 5.46).
+def fuente(familia: str, puntos: int, peso: int = 400) -> str:
+    """familia, puntos, píxeles (-1), estilo (5), peso, diez atributos (cursiva, subrayado… en 0) y 1, el marcador
+    que distingue el formato de Qt 6."""
+    return f"{familia},{puntos},-1,5,{peso}" + ",0" * 10 + ",1"
+
+
+INTERFAZ = fuente("Inter", 10)
+MONO = fuente("JetBrainsMono Nerd Font", 10)   # mejora 9 (decisiones 4.14)
 
 
 def valores(marca: dict, variante: str) -> dict[str, dict[str, str]]:
     """Lo propio del tema global: la tipografía de la interfaz (Inter), de los títulos (Inter Medium) y monoespaciada."""
     return {"kdeglobals][General": {"font": INTERFAZ, "fixed": MONO, "menuFont": INTERFAZ, "toolBarFont": INTERFAZ,
-                                     "smallestReadableFont": "Inter,8,-1,5,400,0,0,0,0,0"},
-            "kdeglobals][WM": {"activeFont": "Inter,10,-1,5,500,0,0,0,0,0"}}
+                                     "smallestReadableFont": fuente("Inter", 8)},
+            "kdeglobals][WM": {"activeFont": fuente("Inter", 10, 500)}}
 
 
 def aportes() -> list[str]:

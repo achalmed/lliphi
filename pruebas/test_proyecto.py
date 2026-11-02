@@ -2325,3 +2325,35 @@ def test_gtk_sigue_a_kde(tmp_path: Path, monkeypatch):
     monkeypatch.setattr(instalador.shutil, "which", lambda n: None)
     monkeypatch.setenv("HOME", "/casa")
     assert not instalador.misma_sesion()
+
+
+def test_tipografia_en_formato_qt6():
+    """Decisiones 5.46: las fuentes van en el formato de Qt 6 (16 campos), porque Qt 6 lee el peso del de Qt 5 (10
+    campos) en la escala vieja y 400 pasa a 900, Black. El instalador no toca el tamaño ni el peso de una fuente de la
+    misma familia ya puesta en formato de Qt 6, pero sí reescribe la del formato de Qt 5 y la de otra familia."""
+    from types import SimpleNamespace
+    valores = registro.codigo("global").valores(MARCA, "claro")
+    fuentes = {k: v for grupo in valores.values() for k, v in grupo.items()}
+    assert all(len(v.split(",")) == 16 and v.endswith(",1") for v in fuentes.values()), fuentes
+    assert fuentes["font"].split(",")[4] == "400" and fuentes["activeFont"].split(",")[4] == "500"
+    for v in ("claro", "oscuro"):
+        defaults = (GEN / "global" / MARCA["id_global"][v] / "contents" / "defaults").read_text(encoding="utf-8")
+        for linea in re.findall(r"^\w*[Ff]ont=(.*)$", defaults, re.M):
+            assert len(linea.split(",")) == 16, linea
+    sddm = registro.modulo("sddm").archivo("instalar_sddm.py").read_text(encoding="utf-8")
+    assert re.search(r"Font=Inter(,[-\d]+){14},1\\n", sddm)
+
+    actuales = {"font": "Inter,11,-1,5,400,0,0,0,0,0,0,0,0,0,0,1", "fixed": "Hack,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1",
+                "activeFont": "Inter,10,-1,5,500,0,0,0,0,0"}
+    escritas: dict[str, str] = {}
+
+    def ejecutar(orden, mostrar=False):
+        return SimpleNamespace(stdout=actuales.get(orden[-1], "") if orden[0] == "kreadconfig6" else "", returncode=0)
+
+    ctx = SimpleNamespace(hay=lambda n: True, decir=lambda t: None, marca=MARCA, variante="claro", tokens=TOKENS,
+                          modulos=["global"], codigo=registro.codigo, ejecutar=ejecutar,
+                          kwrite=lambda archivo, grupos, clave, valor: escritas.__setitem__(clave, valor) or True)
+    _cargar_programa(registro.modulo("global").archivo("aplicar.py")).tipografia(ctx)
+    assert "font" not in escritas                              # Inter en Qt 6: su tamaño (11) se respeta
+    assert escritas["fixed"] == fuentes["fixed"]               # otra familia: se pone la de Lliphi
+    assert escritas["activeFont"] == fuentes["activeFont"]     # Inter en formato de Qt 5: se reescribe

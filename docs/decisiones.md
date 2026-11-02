@@ -791,3 +791,14 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   ejecutó (una terminal, el asistente) y se paraba al cerrarlo. Solo si ese systemd es el de la misma sesión (mismo
   `HOME` y misma pantalla): en la sesión de prueba anidada no lo es y la vigilancia correría en el escritorio real;
   allí sigue arrancando como antes.
+- **5.46 (2026-11-02) La tipografía en el formato de Qt 6, y la del usuario se respeta.** Al reinstalar con
+  `--aplicar-tema` (5.45), el autor vio toda la interfaz «fea y en negrita». Lliphi escribía las fuentes de
+  `kdeglobals` en el formato de Qt 5, de 10 campos (`Inter,10,-1,5,400,0,0,0,0,0`), y Qt 6 lee el peso de ese formato
+  en la escala vieja (0–99, 50 normal): 400 pasa a 900, Black (comprobado con Qt 6.10: `QFont::fromString` da 900; con
+  los 16 campos de Qt 6, 400). Hasta entonces no se notaba porque el autor había vuelto a guardar sus fuentes desde
+  Preferencias del sistema, que las escribe en el formato de Qt 6 (con los títulos en `SemiBold`). Se decide: (1) **las
+  fuentes en el formato de Qt 6** (`fuente()` de `global/construir.py`, 16 campos, el que escribe el propio
+  `QFont::toString`), en `contents/defaults`, en el instalador y en el `Font=` de SDDM, cuya pantalla también es Qt 6;
+  (2) **el instalador respeta la fuente del usuario** si ya es de la misma familia (Inter, JetBrains Mono) y está en el
+  formato de Qt 6: su tamaño y su peso son elección suya; la del formato de Qt 5 o la de otra familia se reescribe. A
+  su escritorio se le repusieron sus valores del respaldo. Prueba: `test_tipografia_en_formato_qt6`.

@@ -30,7 +30,7 @@ ORIGEN = RAIZ / "generado" / "sddm" / "lliphi"
 TEMA = Path("/usr/share/sddm/themes/lliphi")
 CONF = Path("/etc/sddm.conf.d/99-lliphi.conf")
 MARCA_CONF = "# Lliphi: tema de inicio de sesión (herramientas/instalar_sddm.py)"   # no cambia: identifica lo que instaló Lliphi
-CONTENIDO = f"{MARCA_CONF}\n[Theme]\nCurrent=lliphi\nFont=Inter,10,-1,5,400,0,0,0,0,0\n"
+CONTENIDO = f"{MARCA_CONF}\n[Theme]\nCurrent=lliphi\nFont=Inter,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1\n"   # formato de Qt 6 (decisiones 5.46)
 STATE = Path(os.environ.get("XDG_STATE_HOME") or Path.home() / ".local" / "state") / "lliphi"
 
 
