@@ -89,6 +89,8 @@ tema de Obsidian que se publica en su repositorio propio (`achalmed/obsidian-lli
 temas de Zen Browser y de Chrome (decisión 5.3). `fondo-variante` (decisiones 4.26
 y 4.28) no es un paquete de Plasma: es el programa que, al cambiar de variante, pone la imagen clara u oscura del mismo
 fondo de Lliphi y el esquema de la variante en Konsole, con su archivo de inicio automático.
+`telegram` (decisión 5.30) entrega los dos `.tdesktop-theme` de Telegram Desktop; Telegram los guarda en su `tdata/`
+y sigue la variante solo, con su modo nocturno automático.
 
 ### 3.4 Lo compartido
 

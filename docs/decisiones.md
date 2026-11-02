@@ -489,3 +489,35 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   protocolo de DevTools (`Extensions.loadUnpacked`). Nueva base de instalación condicional `zen` (el perfil de
   `installs.ini`, el que abre Zen, también el del Flatpak; o `$ZEN_PERFIL`); un `userChrome.css` o `user.js` ajeno es
   conflicto y no se pisa. Pruebas `test_navegadores_zen`, `test_navegadores_chrome` y `test_instalar_navegadores`.
+- **5.30 (2026-11-01) Telegram Desktop: dos temas desde los tokens, con las claves de la versión instalada.** El autor
+  pidió el tema de Lliphi para Telegram. Instalado: Telegram Desktop 7.3.3 (Snap). Se decide: (1) **plantilla de
+  claves**: la paleta por omisión de esa versión, `ui/colors.palette` de lib_ui en la confirmación que usa tdesktop
+  `v7.3.3`, copiada en `fuentes/base/telegram-palette/` (GPL-3.0-or-later, como la base de Konsole; lo generado hereda
+  la licencia). De ella salen el nombre, el orden y las referencias de las 586 claves; de sus colores, ninguno: una
+  clave con color propio que no esté traducida hace fallar la generación. El `day-blue.tdesktop-theme` de los
+  recursos de tdesktop es de 2019 y le faltan unas cien claves. (2) **todo resuelto**: Telegram copia una referencia
+  con el valor que tenga la otra clave en ese momento, así que el tema se escribe con `#rrggbb[aa]` en cada clave y
+  no depende del orden. (3) **traducción**: la ventana, la lista y los cuadros siguen la lógica de Plasma (vistas en
+  `fondo.vista`, pasar el ratón en `fondo.ventana`); el acento en la selección (el chat activo), el foco, los botones
+  principales, los contadores y los mensajes propios; los enlaces y las marcas de leído en `acento.texto`; «en línea»,
+  aceptado y llamadas recibidas en `estado.exito` (Telegram los pinta con el acento); errores y borradores en
+  `estado.error`; los ocho colores de participantes, de los ANSI, con el naranja en `estado.advertencia`, como en
+  Obsidian. Lo que Telegram pinta siempre oscuro (visor de medios, llamadas, billetera) toma los tokens del oscuro en
+  las dos variantes; los botones de color con icono blanco (contestar, Premium), los del claro. Los fondos con texto
+  blanco del oscuro (peligro, insignias silenciadas) usan el acento o `borde.separador`, porque el error y el
+  inactivo del oscuro son claros. (4) **la burbuja propia es el acento con alfa** (`26` en el claro, `33` en el oscuro)
+  sobre el fondo del chat: un tinte azul o rojo oscuro, sobrio, sin un color fuera del maestro; la entrante es
+  `fondo.vista` sobre `fondo.ventana` (claro) o `fondo.ventana-alterno` sobre el negro de Nothing (oscuro). El blanco
+  sobre el rojo, con 4,5:1 justos, queda para lo breve (el chat activo, los botones), como en Plasma. Las flechas de
+  descarga van en blanco: por omisión toman el fondo de la burbuja, que con alfa las dejaría translúcidas. (5) **fondo
+  del chat liso** (`tiled.png` de un color): con un fondo de imagen, el tinte de las burbujas y su contraste dependerían
+  de la imagen; los fondos de Lliphi quedan para el escritorio. (6) **seguir al sistema sin `fondo-variante`**:
+  Telegram guarda un tema diurno y uno nocturno (`_themeKeyDay` y `_themeKeyNight` en `localstorage.cpp`; aplicar un
+  tema lo guarda en el del modo actual) y, con «Modo nocturno automático» en «Sistema», cambia entre ellos cuando
+  cambia la preferencia de color del sistema. Basta con aplicar cada tema en su modo una vez (`INSTALL.md`); ampliar la
+  vigilancia exigiría escribir en el `tdata/` cifrado de Telegram. (7) **comprobación**: las pruebas leen el zip como
+  Telegram (claves, sintaxis, fondo) y miden el contraste del texto sobre las burbujas con el alfa compuesto (≥ 4,5:1;
+  el mínimo, 4,52, es el blanco sobre el rojo). En pantalla solo se vio que Telegram arranca con un HOME y un
+  `-workdir` aislados en una sesión de KWin virtual (binario del Snap con sus bibliotecas). Antes de iniciar sesión,
+  Telegram toma un archivo de la línea de órdenes como algo que enviar a un chat y no lo aplica, así que el aspecto
+  queda por mirar en la cuenta del autor (con «Mantener cambios» o «Cancelar» en la vista previa de Telegram).

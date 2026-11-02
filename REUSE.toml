@@ -48,3 +48,12 @@ path = ["generado/sddm/**"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = ["2014-2016 David Edmundson (Breeze)", "vinceliuice (WhiteSur-dark)", "2026 Edison Achalma (adaptación a Lliphi)"]
 SPDX-License-Identifier = "GPL-3.0-or-later"
+
+# Temas de Telegram Desktop (decisiones 5.30): las claves, su orden y sus referencias salen de la paleta por omisión
+# de Telegram (ui/colors.palette de lib_ui, Desktop App Toolkit, GPL-3.0-or-later con la excepción de OpenSSL;
+# fuentes/base/telegram-palette/ORIGEN.md); la copia de partida y lo generado desde ella heredan la licencia.
+[[annotations]]
+path = ["fuentes/base/telegram-palette/**", "generado/telegram/**"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = ["2014-2026 The Desktop App Toolkit Authors (lib_ui)", "2026 Edison Achalma (adaptación a Lliphi)"]
+SPDX-License-Identifier = "GPL-3.0-or-later"

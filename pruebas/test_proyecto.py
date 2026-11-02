@@ -1048,7 +1048,7 @@ def test_registro_tema_global_y_seis_modulos():
     roles = {m.id: (m.rol, m.clase) for m in registro.todos()}
     assert roles["global"] == ("global", "paquete")
     assert {i: c for i, (r, c) in roles.items() if r == "modulo"} == SEIS
-    assert {i for i, (r, _) in roles.items() if r == "complemento"} == {"fondos", "kvantum", "konsole", "terminales", "editores", "libreoffice", "sddm", "obsidian", "fondo-variante", "navegadores"}
+    assert {i for i, (r, _) in roles.items() if r == "complemento"} == {"fondos", "kvantum", "konsole", "terminales", "editores", "libreoffice", "sddm", "obsidian", "fondo-variante", "navegadores", "telegram"}
     g = registro.modulo("global")
     assert set(g.dependencias("integra")) == {"carga-bloqueo", "disposicion"}
     assert set(SEIS) <= set(g.dependencias("integra") + g.dependencias("referencia"))
@@ -1237,3 +1237,98 @@ def test_fondo_del_escritorio():
         plasmarc = (GEN / "estilo" / f"{MARCA['id']}-{v}" / "plasmarc").read_text(encoding="utf-8")
         assert f"defaultWallpaperTheme={MARCA['fondo_escritorio']}" in plasmarc and "defaultFileSuffix=.jpg" in plasmarc
     assert MARCA["id_fondo"] in registro.modulo("carga-bloqueo").archivo("aplicar.py").read_text(encoding="utf-8").replace('ctx.marca["id_fondo"]', MARCA["id_fondo"])
+
+
+# ---------------------------------------------------------------- Telegram Desktop (decisiones 5.30)
+
+def _rgba(h: str) -> tuple[tuple[int, int, int], float]:
+    h = h.lstrip("#")
+    return tuple(int(h[i:i + 2], 16) for i in (0, 2, 4)), (int(h[6:8], 16) / 255 if len(h) == 8 else 1.0)
+
+
+def _sobre(frente: str, fondo: str) -> str:
+    """El color que se ve al pintar `frente` (con su alfa) sobre `fondo` (opaco)."""
+    (f, a), (b, _) = _rgba(frente), _rgba(fondo)
+    return "#" + "".join(f"{round(a * x + (1 - a) * y):02x}" for x, y in zip(f, b))
+
+
+def _contraste(a: str, b: str) -> float:
+    def lum(h: str) -> float:
+        c = [v / 255 for v in _rgba(h)[0]]
+        c = [v / 12.92 if v <= 0.04045 else ((v + 0.055) / 1.055) ** 2.4 for v in c]
+        return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]
+    claro, oscuro = sorted((lum(a), lum(b)), reverse=True)
+    return (claro + 0.05) / (oscuro + 0.05)
+
+
+def test_telegram_temas():
+    """Los dos .tdesktop-theme abren como zip con colors.tdesktop-theme y tiled.png, tienen todas las claves de la paleta
+    de Telegram en su orden, cada color es de los tokens (con alfa libre) y el texto se lee (≥ 4,5:1) sobre las burbujas
+    y los fondos, con el alfa compuesto sobre el fondo del chat."""
+    import struct
+    import zipfile
+    import zlib
+    tg = registro.codigo("telegram")
+    claves = [k for k, _, _ in tg.plantilla()]
+    assert len(claves) > 500 and len(set(claves)) == len(claves)
+    hexes = {t["$value"]["hex"].lower() for t in _tokens_planos(TOKENS).values()
+             if isinstance(t["$value"], dict) and "hex" in t["$value"]}
+    linea = re.compile(r"^([A-Za-z]\w*): (#[0-9a-f]{6}(?:[0-9a-f]{2})?);$")
+    for v in ("claro", "oscuro"):
+        paquete = GEN / "telegram" / f"{MARCA['nombre_esquema'][v]}.tdesktop-theme"
+        with zipfile.ZipFile(paquete) as z:
+            assert sorted(z.namelist()) == ["colors.tdesktop-theme", "tiled.png"]
+            texto = z.read("colors.tdesktop-theme").decode("utf-8")
+            png = z.read("tiled.png")
+            for nombre in z.namelist():   # lo suelto es lo mismo que lo empaquetado
+                assert (GEN / "telegram" / v / nombre).read_bytes() == z.read(nombre)
+        filas = [ln for ln in texto.splitlines() if ln and not ln.startswith("//")]
+        pares = [linea.fullmatch(ln) for ln in filas]
+        assert all(pares), [ln for ln, m in zip(filas, pares) if not m][:5]
+        c = {m[1]: m[2] for m in pares}
+        assert list(c) == claves                                         # todas las claves, en el orden de la paleta
+        for k, h in c.items():
+            assert h[:7] in hexes, (v, k, h)                              # ningún color fuera del maestro
+        # el fondo liso del chat: un PNG de 16×16 del color de los tokens
+        assert png[:8] == b"\x89PNG\r\n\x1a\n" and struct.unpack(">II", png[16:24]) == (16, 16)
+        datos = zlib.decompress(png[png.index(b"IDAT") + 4:png.index(b"IEND") - 8])
+        chat = tg.fondo_chat(TOKENS, v)
+        assert datos[1:4] == bytes(_rgba(chat)[0]) and len(set(datos[1:49])) <= 3
+        # burbujas y fondos tal como se ven (alfa compuesto sobre el fondo del chat)
+        burbuja = {"entrante": _sobre(c["msgInBg"], chat), "propia": _sobre(c["msgOutBg"], chat),
+                   "entrante-sel": _sobre(c["msgInBgSelected"], _sobre(c["msgInBg"], chat)),
+                   "entrante-sel-chat": _sobre(c["msgInBgSelected"], chat),
+                   "propia-sel": _sobre(c["msgOutBgSelected"], chat),
+                   "propia-sel-burbuja": _sobre(c["msgOutBgSelected"], _sobre(c["msgOutBg"], chat)),
+                   "servicio": _sobre(c["msgServiceBg"], chat)}
+        texto_sobre = [("historyTextInFg", "entrante"), ("historyLinkInFg", "entrante"), ("msgInDateFg", "entrante"),
+                       ("msgInServiceFg", "entrante"), ("msgInMonoFg", "entrante"), ("historyTextOutFg", "propia"),
+                       ("historyLinkOutFg", "propia"), ("msgOutDateFg", "propia"), ("msgOutServiceFg", "propia"),
+                       ("msgOutMonoFg", "propia"), ("historyTextInFgSelected", "entrante-sel"),
+                       ("historyTextInFgSelected", "entrante-sel-chat"), ("historyTextOutFgSelected", "propia-sel"),
+                       ("historyTextOutFgSelected", "propia-sel-burbuja"), ("msgServiceFg", "servicio")]
+        texto_sobre += [(f"historyPeer{i}NameFg", "entrante") for i in range(1, 9)]
+        for frente, fondo in texto_sobre:
+            assert _contraste(c[frente], burbuja[fondo]) >= 4.5, (v, frente, fondo)
+        for frente, fondo in [("windowFg", "windowBg"), ("windowSubTextFg", "windowBg"), ("dialogsNameFg", "dialogsBg"),
+                              ("dialogsTextFg", "dialogsBg"), ("dialogsNameFgActive", "dialogsBgActive"),
+                              ("dialogsTextFgActive", "dialogsBgActive"), ("activeButtonFg", "activeButtonBg"),
+                              ("boxTextFg", "boxBg"), ("tooltipFg", "tooltipBg"), ("historyComposeAreaFg", "historyComposeAreaBg"),
+                              ("dialogsUnreadFg", "dialogsUnreadBg"), ("dialogsUnreadFg", "dialogsUnreadBgMuted"),
+                              ("sideBarTextFg", "sideBarBg"), ("sideBarTextFgActive", "sideBarBgActive"),
+                              ("searchedTextMatchFg", "searchedTextMatchBg"), ("toastFg", "toastBg"), ("callNameFg", "callBgOpaque"),
+                              ("historyPeerUserpicFg", "historyPeer1UserpicBg"), ("boxTextFgError", "boxBg"),
+                              ("boxTextFgGood", "boxBg"), ("contactsStatusFgOnline", "contactsBg"), ("windowActiveTextFg", "windowBg")]:
+            assert _contraste(c[frente], _sobre(c[fondo], c["windowBg"])) >= 4.5, (v, frente, fondo)
+    # el acento de cada variante en la selección, los botones y los mensajes propios
+    for v in ("claro", "oscuro"):
+        acento = TOKENS["semanticos"][v]["acento"]["base"]["$value"]["hex"].lower()
+        c = tg.colores(TOKENS, v)
+        assert c["dialogsBgActive"] == c["activeButtonBg"] == c["windowBgActive"] == acento
+        assert c["msgOutBg"][:7] == acento and len(c["msgOutBg"]) == 9
+
+
+def test_telegram_tabla_sin_claves_huerfanas():
+    """Cada clave de la tabla existe en la paleta de Telegram (una clave retirada en una versión nueva se nota aquí)."""
+    tg = registro.codigo("telegram")
+    assert set(tg.TABLA) <= {k for k, _, _ in tg.plantilla()}

@@ -9,7 +9,7 @@ from lliphi_studio import proyecto
 
 def test_los_diecisiete_modulos_y_los_seis(lliphi):
     mods = proyecto.modulos()
-    assert len(mods) == 17 and mods[0].id == "global"
+    assert len(mods) == 18 and mods[0].id == "global"   # 16, navegadores y telegram (decisiones 5.3 y 5.30)
     assert [m.id for m in mods if m.rol == "modulo"] == ["esquema", "estilo", "decoracion", "iconos-cursores",
                                                           "carga-bloqueo", "disposicion"]
     assert ("global", "disposicion", "integra") in proyecto.aristas()
