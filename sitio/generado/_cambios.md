@@ -60,6 +60,11 @@ Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión de
 - **Calibre** (complemento `calibre`, decisiones 5.22): paletas «Lliphi Claro» y «Lliphi Oscuro» para su propio estilo
   (siguen al escritorio en vivo) y dos esquemas del visor; el esquema «Sistema» del visor ya sigue a Lliphi. Solo
   preferencias de la interfaz, con respaldo; la biblioteca no se toca.
+- **RStudio, GNU Octave y Spyder** (decisiones 5.40–5.43), tres complementos nuevos: temas `.rstheme` de RStudio (editor,
+  interfaz, consola de R y terminal con los ANSI de Konsole); los colores de Octave en sus dos modos (claro en el primero,
+  oscuro en el segundo) fusionados en `octave-gui.ini`; esquemas de Spyder con interfaz automática y los dieciséis ANSI
+  en la consola IPython. La vigilancia de `fondo-variante` ejecuta los programas de `variante.d/`, con los que los tres
+  siguen a la variante al abrirse de nuevo.
 - **Telegram Desktop** (decisiones 5.30): complemento `telegram`, con `Lliphi Claro.tdesktop-theme` y
   `Lliphi Oscuro.tdesktop-theme`. Tienen las 586 claves de color de Telegram 7.3.3 (paleta de lib_ui en
   `fuentes/base/telegram-palette/`, GPL-3.0-or-later), todas desde los tokens: el acento en la selección, los botones y

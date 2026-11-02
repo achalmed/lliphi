@@ -644,3 +644,62 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   fijos de Lliphi para leer en la otra variante. **(3)** Solo esas claves de `gui.json` y `viewer-webengine.json`, con
   respaldo y con Calibre cerrado; la biblioteca del autor (`~/Documents/biblioteca`, `metadata.db`) no se abre. Comprobado
   en el KWin virtual con un perfil y una biblioteca de prueba (`muestras/capturas/*-41-calibre*.png`).
+- **5.40 (2026-11-01) RStudio: temas `.rstheme` que también pintan la consola y la terminal.** El autor pidió RStudio,
+  Octave y Spyder, los programas con que enseña e investiga. RStudio (2026.05.1 en su máquina) tiene un formato propio de
+  temas, `.rstheme`: CSS sobre el editor Ace con dos comentarios de cabecera, `rs-theme-name` y `rs-theme-is-dark`, que
+  registra desde `~/.config/rstudio/themes/` o con `rstudioapi::addTheme`. Se decide: (1) **un `.rstheme` por variante**
+  con las reglas de los 34 temas que trae RStudio (editor, bloques de R Markdown, depuración, búsqueda, autocompletado,
+  paréntesis y guías de sangría de colores), la sintaxis con la tabla de los editores y `isDark` verdadero solo en el
+  oscuro, porque con él RStudio deriva del fondo del editor toda la interfaz (paneles, pestañas, barras y menús). (2) **la
+  consola de R y la terminal integrada con los dieciséis colores de Konsole** (`.xtermColor0..15`, `.terminal`), como las
+  demás terminales (4.30); los colores 16 a 255 de xterm no son de Lliphi y se calculan con la fórmula estándar (cubo
+  6×6×6 y rampa de grises), como en los temas de RStudio, para que cli y tibble se vean como en una terminal; la prueba
+  de colores los excluye por nombre. (3) **el instalador copia los temas y, con `--aplicar-tema`, pone `editor_theme`**
+  en `rstudio-prefs.json` (respaldado; lo demás no se toca), como hace con el perfil de Konsole. RStudio no sigue al modo
+  claro u oscuro del sistema, y comprobado en la sesión de prueba **no relee `rstudio-prefs.json` mientras está
+  abierto** (a los 26 s seguía el tema anterior; al reabrirlo, el nuevo; al cerrarlo no reescribió el archivo): el cambio
+  de variante se ve al abrir RStudio de nuevo (5.43). Validado en la sesión de prueba con las dos variantes (editor,
+  consola con colores ANSI, interfaz).
+- **5.41 (2026-11-01) GNU Octave: Lliphi Claro y Lliphi Oscuro en los dos «modos de color» de Octave.** Octave 11.1.0
+  (Qt 6, QScintilla 2.14.1) no tiene temas: guarda sus colores en `~/.config/octave/octave-gui.ini` (ya no
+  `qt-settings`) junto con todo lo demás (ventanas, atajos, archivos recientes). Leído en el código de la rama `stable`
+  (`gui-preferences-*.cc`, `gui-settings.cc`), cada color tiene dos claves, la del primer modo y la del segundo con
+  `_2` («Second color mode (light/dark)»), y los lexers del editor van en `[Scintilla]` y `[Scintilla_2]`. Se decide:
+  (1) **el claro en el primer modo y el oscuro en el segundo**, de modo que cambiar de variante es cambiar los cuatro
+  interruptores `*/color_mode` (editor, ventana de órdenes, editor de variables, espacio de trabajo). (2) **fusionar, no
+  copiar**: un programa (`octave-lliphi.py`, instalado en `variante.d/`) escribe solo esas claves y conserva las
+  fuentes que el usuario ya hubiera elegido; con `--aplicar-tema` lo ejecuta el instalador tras respaldar el ini. (3)
+  **colores en el formato de Qt**: `@Variant(…)` con el `QColor` serializado, escapado como `iniEscapedString` de Qt, y
+  comprobado contra Qt real (PySide6 lee once colores de prueba idénticos, y el primero coincide byte a byte con el que
+  escribe Qt); los lexers, con entero 0xRRGGBB, y **todos** sus estilos válidos (Octave y Matlab 0–8, Bash 0–13, Diff
+  0–11): uno que falte vuelve al blanco de QScintilla. Los lexers de C++, Java, Perl y Batch los deja Octave con su
+  inversión automática en el segundo modo. (4) la ventana de órdenes solo admite texto, fondo, selección y cursor: van
+  el fondo y el texto de Konsole; los dieciséis ANSI no tienen dónde ir. La interfaz no se toca: Octave sigue el esquema
+  de Plasma. (5) si Octave nunca se abrió no se crea el ini: su asistente sale mientras `global_skip_welcome_wizard` no
+  sea verdadero. Validado en la sesión de prueba: editor y ventana de órdenes en las dos variantes.
+- **5.42 (2026-11-01) Spyder: esquemas de sintaxis, interfaz automática y los ANSI en la consola IPython.** Spyder 6.1.0
+  (Anaconda, entorno base) guarda los esquemas en `[appearance]` de `~/.config/spyder-py3/config/spyder.ini`: 17 claves
+  por esquema, la lista `names` y el elegido en `selected`; con `ui_theme = automatic` la interfaz es oscura si el texto
+  normal del esquema es claro (`is_dark_font_color`). Se decide: (1) **dos esquemas, `lliphi/claro` y `lliphi/oscuro`, en
+  `names`** como los de Spyder, no en `custom_names`, que exige nombres `custom-<n>` (crear un esquema nuevo falla con
+  otro); con la tabla de los editores (definiciones en negrita, comentarios y `self` en cursiva). (2) **interfaz en
+  automático**: así el esquema elegido decide claro u oscuro; esa interfaz es la paleta propia de Spyder (QDarkStyle), no
+  la de Plasma. (3) **los dieciséis ANSI de Konsole en la consola IPython**: qtconsole los tiene fijos
+  (`darkbg_color_map`) pero atiende OSC 4 de xterm; `consola.py`, que Spyder ejecuta al arrancar cada consola
+  (`startup/run_file`; las `startup/run_lines` se ejecutan ocultas y qtconsole descarta su salida), los cambia por los de
+  la variante del esquema elegido, y los escribe con la función que guarda el envoltorio de spyder-kernels para no
+  provocar su aviso «Output from spyder call 'safe_exec'»; solo se configura si la consola no ejecutaba ya otro archivo.
+  (4) Spyder reescribe `spyder.ini` entero mientras está abierto: el programa (`spyder-lliphi.py`) no escribe con Spyder
+  abierto (su cerrojo `spyder.lock` apunta a un proceso vivo) y lo dice. Validado en la sesión de prueba en las dos
+  variantes (editor, interfaz y consola con los colores de la terminal).
+- **5.43 (2026-11-01) RStudio, Octave y Spyder siguen a la variante con la vigilancia de `fondo-variante`.** Ninguno de
+  los tres cambia solo entre claro y oscuro. En lugar de enseñar a `seguir.py` los formatos de cada programa, se le añade
+  un solo gancho: en cada cambio de variante ejecuta los programas de `variante.d/` (junto a él, en
+  `~/.local/share/lliphi/`) con la variante y `--aplicar` (sin él al simular); cada complemento instala el suyo y decide
+  si le toca: RStudio cambia `editor_theme` solo si era un tema de Lliphi; Octave, los interruptores solo si sus colores
+  son los de Lliphi (lo reconoce por el fondo de la ventana de órdenes de los dos modos); Spyder, `selected` solo si el
+  esquema era de Lliphi y Spyder está cerrado. Así el cambio que toca `seguir.py` es pequeño (otras sesiones también lo
+  amplían) y un programa nuevo no lo vuelve a tocar. Los tres aplican el cambio al abrirse de nuevo (RStudio no relee su
+  archivo abierto; Octave lee los colores al arrancar; Spyder, cerrado). Comprobado de punta a punta en la sesión de
+  prueba: `plasma-apply-lookandfeel` al claro cambió los tres; de vuelta al oscuro con Spyder abierto, RStudio y Octave
+  cambiaron y Spyder no se tocó.

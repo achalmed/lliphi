@@ -1,0 +1,34 @@
+{
+  "nombre": "GNU Octave",
+  "resumen": "Colores de la interfaz gráfica de Octave: el editor (lexers de Octave, Matlab, Bash y Diff con la sintaxis de los editores), la ventana de órdenes, el editor de variables y el espacio de trabajo; Lliphi Claro en el primer modo de color de Octave y Lliphi Oscuro en el segundo, fusionados en su configuración sin tocar lo demás y elegidos según la variante.",
+  "clase": "paquete",
+  "orden": 11,
+  "formato": "Octave",
+  "tecnologia": "`$XDG_CONFIG_HOME/octave/octave-gui.ini` (QSettings ini de Octave ≥ 7, probado en 11.1.0): colores `QColor` de los dos modos (`…` y `…_2`), lexers de QScintilla 2.14 en `[Scintilla]` y `[Scintilla_2]`, interruptores `*/color_mode`",
+  "estado": "probado",
+  "desde": "0.4.0",
+  "archivos": [
+    "lliphi.ini",
+    "octave-lliphi.py"
+  ],
+  "capturas": [
+    "../capturas/oscuro-41-octave.png",
+    "../capturas/claro-41-octave.png",
+    "../capturas/claro-41-octave-ordenes.png"
+  ],
+  "dependencias": {
+    "construccion": [
+      "editores",
+      "konsole"
+    ],
+    "herramientas_opcionales": [
+      "fc-list"
+    ]
+  },
+  "instalacion": [
+    {
+      "origen": "octave-lliphi.py",
+      "destino": "{id}/variante.d/octave.py"
+    }
+  ]
+}

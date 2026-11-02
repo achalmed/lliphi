@@ -19,6 +19,11 @@ GTK 3 no tiene consultas de medios: si `~/.config/gtk-3.0/gtk.css` importa la ho
 `color-scheme` de GSettings en `prefer-light` o `prefer-dark`; sin esa línea, GTK no se toca (decisiones 4.37). GTK 4,
 libadwaita, GIMP (esquema «Sistema») y Calibre (paleta «del sistema») cambian solos.
 
+Los programas que tampoco cambian solos (RStudio, Octave, Spyder) dejan cada uno un programa en `variante.d/`, junto a
+`seguir-variante.py`: en cada cambio la vigilancia los ejecuta con la variante (`<programa>.py claro|oscuro --aplicar`;
+sin `--aplicar` al simular) y cada uno decide si le toca (decisiones 5.43). Un programa nuevo no necesita tocar
+`seguir.py`: basta con que su complemento instale el suyo en `{id}/variante.d/`.
+
 Es un **complemento**: no es parte de un `Plasma/LookAndFeel`. Arquitectura: [`docs/arquitectura.md`](../../docs/arquitectura.md).
 
 ## Responsabilidad y formato
