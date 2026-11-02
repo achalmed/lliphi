@@ -47,6 +47,7 @@ CARPETA = {"claro": "images", "oscuro": "images_dark"}
 KONSOLE = {"claro": "@KONSOLE_CLARO@", "oscuro": "@KONSOLE_OSCURO@"}
 HOJA_GTK3 = re.compile(r"^(\s*@import\s+(?:url\()?['\"])@ID@-(claro|oscuro)(\.css['\"]\)?;\s*)$", re.M)
 ESQUEMA_GTK = {"claro": "prefer-light", "oscuro": "prefer-dark"}
+ACENTOS_CLARO = "@ACENTOS_CLARO@".split(",")
 DATA = Path(os.environ.get("XDG_DATA_HOME") or Path.home() / ".local" / "share")
 CONFIG = Path(os.environ.get("XDG_CONFIG_HOME") or Path.home() / ".config")
 LEER = """var d = desktops(); var r = [];
@@ -226,7 +227,23 @@ def desfase_gtk(var: str) -> list[str]:
     esperado = {"gtk-application-prefer-dark-theme": "true" if var == "oscuro" else "false"}
     if r.stdout.strip():
         esperado["gtk-icon-theme-name"] = r.stdout.strip()
-    return [f"{k} {gtk.get(k, '—')} → {v}" for k, v in esperado.items() if gtk.get(k) != v]
+    desfase = [f"{k} {gtk.get(k, '—')} → {v}" for k, v in esperado.items() if gtk.get(k) != v]
+    if botones_de_la_otra_variante(var):
+        desfase.append(f"botones de ventana → los de {var}")
+    return desfase
+
+
+def botones_de_la_otra_variante(var: str) -> bool:
+    """Los botones de ventana de las aplicaciones GTK con barra propia (Electron, barras de cabecera) son imágenes que
+    kde-gtk-config hace de la decoración de KWin (`gtk-3.0/assets/`), y la misma carrera puede dejar las de la otra
+    variante. Con la decoración de @NOMBRE@, el botón de cerrar del claro lleva su acento y el del oscuro no."""
+    r = subprocess.run([herramienta("kreadconfig6") or "kreadconfig6", "--file", "kwinrc", "--group", "org.kde.kdecoration2",
+                        "--key", "theme"], capture_output=True, text=True)
+    cerrar = CONFIG / "gtk-3.0" / "assets" / "close-normal.svg"
+    if "@ID@" not in r.stdout.lower() or not cerrar.exists():
+        return False                                 # otra decoración, o GTK sin botones de KDE: no se juzga
+    claro = any(a in cerrar.read_text(encoding="utf-8", errors="ignore").lower() for a in ACENTOS_CLARO)
+    return claro != (var == "claro")
 
 
 def gtk_kde(var: str, escribir: bool) -> None:

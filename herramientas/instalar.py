@@ -2,7 +2,7 @@
 """Instala, aplica, actualiza, comprueba y desinstala el tema en el usuario actual, con simulación, respaldo y reversión.
 
 Solo escribe en `$XDG_DATA_HOME` (`~/.local/share`), `$XDG_CONFIG_HOME` (`~/.config`) y, para la extensión de los
-editores, en `~/.vscode/extensions/` y en Positron y VSCodium si existen; nunca en `/usr` (salvo `sddm`, con pkexec).
+editores, en `~/.vscode/extensions/` y en Positron y VSCodium si existen; nunca en `/usr` (salvo `sddm`, con pkexec) ni en la carpeta de root (salvo `gtk-root`, enlaces con pkexec).
 Qué instala cada módulo lo dice su `modulo.json`; el núcleo está en `herramientas/nucleo/instalacion.py`
 (docs/arquitectura.md). Antes de tocar nada respalda la configuración que cambia Plasma al aplicar un tema, con su
 SHA-256 verificada, en `$XDG_STATE_HOME/<id>/respaldos/<fecha>/` y deja allí un `UNDO.sh` que restaura byte a byte y
@@ -19,6 +19,7 @@ Uso:
   python3 herramientas/instalar.py estado [--json]       qué hay instalado y si se modificó (en JSON: Lliphi Studio)
   python3 herramientas/instalar.py desinstalar [--aplicar]
   python3 herramientas/instalar.py sddm [--aplicar]      inicio de sesión SDDM (pkexec; complementos/sddm)
+  python3 herramientas/instalar.py gtk-root [--aplicar]  GTK de Lliphi en las apps abiertas como root (pkexec; complementos/gtk)
 Solo biblioteca estándar; Python ≥ 3.10. Sale 0 bien, 1 error de uso, 2 falta una dependencia, 3 conflicto,
 4 la comprobación encontró faltas.
 """
@@ -51,6 +52,8 @@ def main() -> int:
             return r
     if "sddm" in args:
         return registro.codigo("sddm", "instalar_sddm").main(aplicar)
+    if "gtk-root" in args:
+        return registro.codigo("gtk", "instalar_root").main(aplicar)
     if "desinstalar" in args:
         return instalacion.desinstalar(aplicar)
     if "estado" in args:

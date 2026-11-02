@@ -40,6 +40,15 @@ mantenida por KDE y la que mejor se integra (decoraciones CSD, `colorreload-gtk-
 - `color-scheme` de GSettings (`org.gnome.desktop.interface`) lo ponen `aplicar.py` y `fondo-variante`, para lo que lo
   lea de ahí y no del portal.
 
+## Aplicaciones como root
+
+Una aplicación GTK abierta con pkexec o sudo («BleachBit as Administrator») tiene el `HOME` de root y no lee esta
+configuración. `python3 herramientas/instalar.py gtk-root --aplicar` (pide la contraseña) enlaza en
+`~root/.config/gtk-3.0/` y `gtk-4.0/` la hoja, los colores, las hojas de Lliphi y los botones de ventana del usuario:
+enlaces, no copias, así siguen a la variante. El tema y los iconos ya le llegan por xsettingsd (pkexec la lleva a X11).
+No sobrescribe un archivo propio de root; el `UNDO.sh` de `~/.local/state/lliphi/respaldos/<fecha>_gtk-root/` quita los
+enlaces (decisiones 5.47).
+
 ## Desarrollar
 
 ```bash
@@ -47,4 +56,5 @@ mantenida por KDE y la que mejor se integra (decoraciones CSD, `colorreload-gtk-
 python3 herramientas/instalar.py --modulos gtk            # simula la instalación
 ```
 
-Pruebas: `test_gtk_hojas`, `test_gtk_contraste`, `test_gtk_importacion`, `test_fondo_sigue_a_la_variante` (GTK 3).
+Pruebas: `test_gtk_hojas`, `test_gtk_contraste`, `test_gtk_importacion`, `test_fondo_sigue_a_la_variante` (GTK 3),
+`test_gtk_sigue_a_kde` y `test_gtk_para_root`.
