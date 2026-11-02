@@ -1,5 +1,5 @@
 """Tema de Super Productivity (≥ 18) desde los tokens: `lliphi.css` con Lliphi Claro y Lliphi Oscuro en un solo
-archivo (decisiones 5.48).
+archivo (decisiones 5.49).
 
 Formato (comprobado el 2026-11-02 en el código de Super Productivity 18.10.0: `electron/main-window.ts`,
 `src/app/core/theme/` y `src/styles/_css-variables.scss`). La aplicación acepta CSS propio por dos vías, y el mismo

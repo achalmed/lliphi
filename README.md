@@ -31,13 +31,15 @@ quarto render sitio                                   # el sitio → sitio/_site
 python3 herramientas/sesion.py arrancar --aplicar     # sesión de prueba: Plasma anidado con su propio HOME (cerrar: sesion.py cerrar)
 ```
 
-**Lliphi Studio** (`studio/`, opcional): la ventana de escritorio para trabajar los seis módulos (Dashboard, Color,
-Plasma, Ventanas, Iconos y cursores, Pantallas, Disposición, Vista en vivo, Construir y desplegar). Edita solo los
-`ajustes.json` de los módulos y corre estas mismas órdenes; ver [`studio/README.md`](studio/README.md).
+**Lliphi Studio** (`studio/`, opcional; QML + Kirigami sobre `gui-comun` 2.7): la ventana de trabajo del tema: cada
+destino con lo que entrega, si lo generado está al día y si está instalado; la paleta como datos; F5 simula o lee y
+Ctrl+Intro escribe o instala tras confirmar, con el `UNDO.sh` del instalador a la vista. Corre estas mismas órdenes;
+ver [`studio/README.md`](studio/README.md) y [`docs/rediseno.md`](docs/rediseno.md).
 
 ```bash
-python3 -m pip install --user PySide6 "git+https://github.com/achalmed/gui-comun@v1.4.0"
-python3 studio/main.py
+/usr/bin/python3 -m venv --system-site-packages .venv && .venv/bin/pip install -r requirements.txt   # coloraide (paleta.py)
+python3 -m pip install --user "gui-comun @ git+https://github.com/achalmed/gui-comun.git@v2.7.0"      # o GUI_COMUN_DIR
+/usr/bin/python3 studio/main.py
 ```
 
 ## Arquitectura
@@ -66,7 +68,7 @@ Un **tema global** que integra **seis módulos**, más los **complementos** que 
 | `modulos/<id>/` | los seis módulos: `modulo.json`, `README.md`, `INSTALL.md`, `construir.py` y, si aplica, `aplicar.py` y `externas.py` |
 | `complementos/<id>/` | lo que no es parte del tema global, con el mismo contrato |
 | `herramientas/` | `generar.py` (construir, verificar, validar, empaquetar), `instalar.py` (instalar, aplicar, comprobar, desinstalar, dependencias, sddm), `sesion.py` (la sesión de prueba), `nucleo/` y herramientas de muestras |
-| `studio/` | Lliphi Studio, la ventana opcional (PySide6 sobre `gui-comun`) y sus pruebas |
+| `studio/` | Lliphi Studio, la ventana opcional (QML + Kirigami sobre `gui-comun` 2.7) y sus pruebas (`studio/tests/run.sh`) |
 | `fuentes/base/` | bases de terceros (WhiteSur-kde, Nothing) con su licencia y `ORIGEN.md` |
 | `generado/<id>/` | lo que entrega cada módulo, tal como se instala; **no se edita**, `generar.py verificar` lo comprueba |
 | `pruebas/` | tokens, contraste, deriva, estructura de paquetes, arquitectura, instalación reversible, REUSE |

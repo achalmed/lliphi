@@ -4,6 +4,13 @@ Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión de
 
 ## [Unreleased]
 
+### Changed
+- **Lliphi Studio 2.0** (decisiones 5.48, `docs/rediseno.md`): la ventana opcional pasa de QtWidgets a QML + Kirigami sobre
+  `gui-comun` 2.7, con el método de la familia de studios: la tabla de los destinos con su estado generado e instalado, la
+  paleta de los tokens como datos, F5 simula o lee y Ctrl+Intro escribe o instala tras confirmar (respaldo y `UNDO.sh` a
+  la vista). Se retiran los editores visuales de 1.x; los `ajustes.json` se abren en el editor. `requirements.txt`
+  (coloraide) para un `.venv` sobre el Python del sistema; pruebas en `studio/tests/run.sh`.
+
 ### Fixed
 - **La extensión de VS Code, Positron y VSCodium se instala con `--install-extension`** (decisiones 5.9): `editores`
   genera `lliphi.vsix` y el instalador la registra con la orden de cada editor del PATH (y la retira el `UNDO.sh`), en
@@ -11,7 +18,7 @@ Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión de
   para los `aplicar.py`: `tras_instalar()` y `al_desinstalar()`.
 
 ### Added
-- **Super Productivity** (decisiones 5.48): complemento `super-productivity` con `lliphi.css`, Lliphi Claro y Lliphi
+- **Super Productivity** (decisiones 5.49): complemento `super-productivity` con `lliphi.css`, Lliphi Claro y Lliphi
   Oscuro en un solo archivo que solo redefine variables de la aplicación (superficies, tinta, tareas y notas, los grises
   del oscuro, la paleta de Material con el acento de Lliphi, los contenedores de Material). El instalador lo copia como
   `styles.css` de su carpeta de datos (base condicional nueva `super-productivity`: deb, Flatpak o Snap); también se

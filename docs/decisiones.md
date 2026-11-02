@@ -819,7 +819,25 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   Claude Desktop eran las del oscuro, de las 22:50). La vigilancia lo comprueba: con la decoración de Lliphi, el botón
   de cerrar del claro lleva su acento y el del oscuro no; si no cuadra con la variante, recarga `gtkconfig`. Una
   aplicación ya abierta guarda las imágenes que cargó al arrancar: toma las nuevas al abrirse de nuevo.
-- **5.48 (2026-11-02) Super Productivity: un CSS con las dos variantes, instalado como su `styles.css`.** El autor
+- **5.48 (2026-11-02) Lliphi Studio 2.0: QML + Kirigami sobre `gui-comun` 2.7, el último de la familia.** La ventana
+  de 1.x (QtWidgets, `gui-comun` 1.4: nueve secciones con editores visuales escritos a mano por módulo) se reescribe
+  con el método de la familia de studios (`docs/rediseno.md`, S1–S11): una ventana de trabajo al estilo Dolphin/Kate
+  con la tabla de los 29 destinos (el tema global, los seis módulos y los 22 complementos), su estado generado («al
+  día» lo dice `generar.py verificar --json`, guardado en la caché del studio y caducado si cambia una fuente) y de
+  instalación (el manifiesto e `instalar.py estado --json`), navegación por rol y por estado, y los detalles Resumen ·
+  Paleta · Diferencias · Registro · Operación. **F5 simula o lee; Ctrl+Intro escribe o instala tras confirmar** con la
+  orden exacta, lo que toca y el respaldo con `UNDO.sh`; arrancar la sesión de prueba también confirma (RAM y cientos
+  de MB en la caché). Los colores de Lliphi se enseñan solo como datos (la Paleta pinta cada token con su hex); la
+  ventana viste `Kirigami.Theme`. **Se retiran los editores visuales de 1.x** (color, Plasma, decoración, iconos,
+  pantallas, disposición; S6): los `ajustes.json` se abren en el editor y F5/Ctrl+Intro regeneran; si el autor los
+  quiere de vuelta, serán componentes QML sobre `studio/lliphi_app/servicios/proyecto.py` y `color.py`, que se
+  conservan. Entorno: la ventana con el PySide6 del sistema (el que carga Kirigami), las órdenes con un `.venv` sobre
+  él (`requirements.txt`: coloraide) o, sin él, con el mismo Python; `gui_comun` por pip o `GUI_COMUN_DIR`, nunca
+  subiendo carpetas. Pruebas (`studio/tests/run.sh`, 26) y capturas sobre una copia del proyecto con HOME falso:
+  ninguna instala en la sesión real ni abre una sesión anidada. `sddm` y `gtk-root` siguen en la terminal (pkexec).
+  La rama vive en un árbol de trabajo aparte (`$XDG_CACHE_HOME/lliphi-wip`, S11) porque el checkout tenía cambios de
+  otras sesiones; `gui-comun` no necesitó nada (queda en 2.7.0).
+- **5.49 (2026-11-02) Super Productivity: un CSS con las dos variantes, instalado como su `styles.css`.** El autor
   pidió Super Productivity (18.10.0, deb, Electron 41), que tiene «Modo oscuro» (Sistema, Oscuro, Claro) y «Tema
   (experimental)» con «Instalar tema…». En su código (`electron/main-window.ts`, `src/app/core/theme/`,
   `src/styles/_css-variables.scss`, leídos de los mapas de fuentes del `app.asar`): un tema de usuario es un CSS que la

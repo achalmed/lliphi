@@ -2418,7 +2418,7 @@ def test_gtk_para_root_sudo_o_pkexec(monkeypatch):
 
 
 def test_super_productivity_tema():
-    """Decisiones 5.48: lliphi.css de Super Productivity con un selector más específico que el de la aplicación (vale
+    """Decisiones 5.49: lliphi.css de Super Productivity con un selector más específico que el de la aplicación (vale
     desde insertCSS), los tokens del contrato de temas en las dos variantes, cada color del maestro (la paleta de
     Material, mezclada desde el acento y el error), contraste ≥ 4,5:1 y las reglas del validador de la aplicación."""
     sp = registro.codigo("super-productivity")
@@ -2479,7 +2479,7 @@ def test_super_productivity_tema():
 
 @pytest.mark.skipif(shutil.which("plasmashell") is None, reason="sin Plasma: el instalador exige Plasma 6")
 def test_super_productivity_instalacion(tmp_path: Path):
-    """Decisiones 5.48: lliphi.css va a styles.css de la carpeta de datos de Super Productivity (la del deb, la del
+    """Decisiones 5.49: lliphi.css va a styles.css de la carpeta de datos de Super Productivity (la del deb, la del
     Flatpak o $SUPER_PRODUCTIVITY_CONFIG), que nunca se crea; un styles.css ajeno no se toca; UNDO.sh lo retira."""
     env = _entorno(tmp_path)
     sin = correr("herramientas/instalar.py", "--modulos", "super-productivity", env=env)

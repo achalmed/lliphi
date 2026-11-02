@@ -1,4 +1,4 @@
-"""Color sin Qt ni coloraide: OKLCH → sRGB (para pintar las muestras mientras se mueve un deslizador), contraste WCAG,
+"""studio/lliphi_app/servicios/color.py — color sin Qt ni coloraide (heredado de 1.x): OKLCH → sRGB (para pintar las muestras mientras se mueve un deslizador), contraste WCAG,
 simulación de daltonismo y dónde aparece un color en lo generado.
 
 Las cifras oficiales (el hex ajustado a la gama y la razón de cada par) las da `paleta.py --ajustes <borrador> --json`

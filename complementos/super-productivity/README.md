@@ -5,7 +5,7 @@ archivo, `lliphi.css`. Con «Modo oscuro: Sistema» (lo predeterminado) la aplic
 variante a otra con el escritorio.
 
 Es un **complemento**: vive fuera del tema global de Plasma. Arquitectura:
-[`docs/arquitectura.md`](../../docs/arquitectura.md); decisión: [`docs/decisiones.md`](../../docs/decisiones.md) §5.48.
+[`docs/arquitectura.md`](../../docs/arquitectura.md); decisión: [`docs/decisiones.md`](../../docs/decisiones.md) §5.49.
 
 ## Responsabilidad y formato
 
