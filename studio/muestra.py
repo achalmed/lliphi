@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """studio/muestra.py — una COPIA ligera del proyecto Lliphi y un HOME falso para las pruebas y las capturas de Lliphi
-Studio: nunca el repo real ni la configuración del escritorio (`docs/rediseno.md` S9).
+Studio: nunca el repo real ni la configuración del escritorio (`docs/rediseno.md` S9; sigue en la 3.0, `docs/reingenieria.md`).
 
 La copia lleva lo que leen y escriben las órdenes (tokens, global, modulos, complementos, herramientas, generado,
 fuentes y docs, más VERSION, REUSE.toml, pyproject.toml, README.md y CHANGELOG.md, que lee `generar.py verificar`), enlaza `muestras/` y el `.venv` del proyecto

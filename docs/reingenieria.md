@@ -43,7 +43,7 @@ confirmación. Los tokens siguen siendo la única fuente. La base común es `gui
 
   El esquema de color, Konsole, los fondos y la tipografía son la misma fila de tabla con el mismo Resumen en Markdown.
   Nada se ve: un tema de escritorio se juzga mirándolo.
-- **La paleta es una lista** (`componentes/Paleta.qml`, 70 líneas): una franja de color por token con su nombre y su hex,
+- **La paleta es una lista** (`componentes/Paleta.qml`): una franja de color por token con su nombre y su hex,
   en una pestaña lateral de 24 unidades de ancho, una variante debajo de la otra. No muestra contraste, relaciones ni
   vista previa, y claro y oscuro no se ven a la vez. `servicios/color.py` (OKLCH → sRGB, contraste WCAG, daltonismo,
   usos) existe desde 1.x y la ventana no lo usa.
@@ -170,7 +170,35 @@ borrador de `proyecto.guardar_borrador`. Queda anotado en `estado.md`.
 
 ## 4. El resultado
 
-Capturas sobre la copia de `studio/muestra.py` (HOME y XDG temporales, ninguna ruta de la máquina), en `figuras/`.
+Capturas sobre la copia de `studio/muestra.py` (HOME y XDG temporales, ninguna ruta de la máquina), hechas con
+`studio/capturar.py`; `--pasos` solo prepara el plan.
+
+![El sistema de diseño en Lliphi Oscuro](figuras/lliphi-studio-oscuro.png)
+
+![El sistema de diseño en Lliphi Claro: las muestras con L, C, H, ΔL y hex](figuras/lliphi-studio-claro.png)
+
+![Konsole y terminales: las terminales de muestra, las tarjetas y un .colorscheme cambiado a mano («ajeno»), lado a lado con lo generado](figuras/lliphi-studio-area.png)
+
+![Instalar la decoración en seis pasos: los afectados](figuras/lliphi-studio-pasos.png)
+
+![Los fondos generados, claro y oscuro](figuras/lliphi-studio-fondos.png)
+
+![La paleta de órdenes buscando «instalar»](figuras/lliphi-studio-paleta.png)
+
+| antes (2.0) | ahora (3.0) |
+|---|---|
+| una tabla de ~30 destinos y cinco pestañas laterales | diez áreas en la barra lateral, cada una con su página y su vista previa |
+| la paleta, una lista de franjas en una pestaña | claro y oscuro lado a lado: maqueta, escalas con L, C, H y ΔL, acento y variantes, estados, ANSI y contrastes WCAG con su veredicto |
+| la instalación, una palabra por destino | lo instalado frente a lo generado, archivo por archivo (igual · distinto · ajeno · falta), con su diferencia lado a lado |
+| la compatibilidad, solo en el Resumen | en la tarjeta: el `estado` del `modulo.json`, «desde», lo que falta, la fecha de construcción |
+| instalar: la orden y un texto general | seis pasos: el plan del núcleo, cada ruta afectada, lo ajeno que bloquea, ejecutar con su estado de operación, verificar aparte e informe |
+| un combo para las 21 operaciones; F5 y Ctrl+Intro para todo | Ctrl+B generar, Ctrl+I instalar, Ctrl+Intro ejecutar el plan, Ctrl+T verificar, Ctrl+1…0 las áreas; las demás órdenes en Proyecto y Herramientas |
+| la sesión de prueba, en un diálogo | una acción propia con confirmación que dice cuánto pesan ya las sesiones |
+| `QGuiApplication`; Dolphin con `xdg-open` | `QApplication` (`gui-comun` 3.0); Dolphin con la ruta señalada y abrir con su aplicación |
+
+Pruebas: 38 en `studio/tests/run.sh` y las 86 del proyecto (`pruebas/`), en verde. Instalar y desinstalar `konsole` se
+prueban de verdad en el HOME de la copia, igual que un archivo ajeno que bloquea. Ninguna prueba instala en la sesión
+real ni abre una sesión anidada. REUSE conforme.
 
 ## 5. Lo que queda fuera
 

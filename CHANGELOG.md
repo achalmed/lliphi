@@ -5,6 +5,15 @@ Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión de
 ## [Unreleased]
 
 ### Changed
+- **Lliphi Studio 3.0** (decisiones 5.50, `docs/reingenieria.md`): un centro de configuración del escritorio sobre
+  `gui-comun` 3.0, con áreas en la barra lateral y una página propia para cada una:
+  - el sistema de diseño con su color real, claro y oscuro lado a lado, contrastes WCAG con veredicto y una maqueta
+    pintada con los tokens;
+  - vistas previas de esquemas, Plasma, Kvantum, terminales, editores, fondos, tipografía e iconos;
+  - lo instalado frente a lo generado, archivo por archivo.
+
+  Generar, instalar y desinstalar van en seis pasos visibles (plan, afectados, conflictos, ejecutar, verificar,
+  informe). La sesión de prueba es una acción propia con confirmación.
 - **Lliphi Studio 2.0** (decisiones 5.48, `docs/rediseno.md`): la ventana opcional pasa de QtWidgets a QML + Kirigami sobre
   `gui-comun` 2.7, con el método de la familia de studios: la tabla de los destinos con su estado generado e instalado, la
   paleta de los tokens como datos, F5 simula o lee y Ctrl+Intro escribe o instala tras confirmar (respaldo y `UNDO.sh` a

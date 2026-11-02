@@ -31,10 +31,15 @@ quarto render sitio                                   # el sitio → sitio/_site
 python3 herramientas/sesion.py arrancar --aplicar     # sesión de prueba: Plasma anidado con su propio HOME (cerrar: sesion.py cerrar)
 ```
 
-**Lliphi Studio** (`studio/`, opcional; QML + Kirigami sobre `gui-comun` 2.7): la ventana de trabajo del tema: cada
-destino con lo que entrega, si lo generado está al día y si está instalado; la paleta como datos; F5 simula o lee y
-Ctrl+Intro escribe o instala tras confirmar, con el `UNDO.sh` del instalador a la vista. Corre estas mismas órdenes;
-ver [`studio/README.md`](studio/README.md) y [`docs/rediseno.md`](docs/rediseno.md).
+**Lliphi Studio** (`studio/`, opcional; QML + Kirigami sobre `gui-comun` 3.0) es el centro de configuración del
+tema, por áreas (sistema de diseño, esquemas de color, Plasma, Kvantum, Konsole, editores, fondos, tipografía, iconos,
+otros destinos). Muestra:
+
+- la paleta OKLCH con su color real, claro y oscuro lado a lado, y los contrastes WCAG con su veredicto;
+- de cada destino, lo instalado frente a lo generado, archivo por archivo.
+
+Generar, instalar y desinstalar van en seis pasos visibles, con el `UNDO.sh` del instalador. Corre estas mismas
+órdenes; ver [`studio/README.md`](studio/README.md) y [`docs/reingenieria.md`](docs/reingenieria.md).
 
 ```bash
 /usr/bin/python3 -m venv --system-site-packages .venv && .venv/bin/pip install -r requirements.txt   # coloraide (paleta.py)
@@ -68,7 +73,7 @@ Un **tema global** que integra **seis módulos**, más los **complementos** que 
 | `modulos/<id>/` | los seis módulos: `modulo.json`, `README.md`, `INSTALL.md`, `construir.py` y, si aplica, `aplicar.py` y `externas.py` |
 | `complementos/<id>/` | lo que no es parte del tema global, con el mismo contrato |
 | `herramientas/` | `generar.py` (construir, verificar, validar, empaquetar), `instalar.py` (instalar, aplicar, comprobar, desinstalar, dependencias, sddm), `sesion.py` (la sesión de prueba), `nucleo/` y herramientas de muestras |
-| `studio/` | Lliphi Studio, la ventana opcional (QML + Kirigami sobre `gui-comun` 2.7) y sus pruebas (`studio/tests/run.sh`) |
+| `studio/` | Lliphi Studio, la ventana opcional (QML + Kirigami sobre `gui-comun` 3.0): el centro de configuración del tema, y sus pruebas (`studio/tests/run.sh`) |
 | `fuentes/base/` | bases de terceros (WhiteSur-kde, Nothing) con su licencia y `ORIGEN.md` |
 | `generado/<id>/` | lo que entrega cada módulo, tal como se instala; **no se edita**, `generar.py verificar` lo comprueba |
 | `pruebas/` | tokens, contraste, deriva, estructura de paquetes, arquitectura, instalación reversible, REUSE |

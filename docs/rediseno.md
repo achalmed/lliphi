@@ -1,11 +1,13 @@
 ---
 tipo: doc
-estado: hecho
+estado: archivado
 forma: explicacion
 titulo: "Rediseño de Lliphi Studio como espacio de trabajo: auditoría de la GUI de Widgets, arquitectura de información, distribución de la ventana, componentes y decisiones"
 creado: 2026-11-02
 ---
 # Rediseño de Lliphi Studio: los destinos del tema, lo generado y lo instalado en una ventana de trabajo
+
+> **Sustituido el 2026-11-02 por [reingenieria.md](reingenieria.md)** (Lliphi Studio 3.0, decisiones 5.50): la ventana dejó de ser una tabla de destinos al estilo de Dolphin y es un centro de configuración por áreas. Este documento queda como registro de la 2.0; sus capturas están en `figuras/antes/`.
 
 Fase 5 de la modernización de la familia de studios (`gui-comun/docs/arquitectura-qml-kirigami.md` §8): Lliphi
 Studio es el noveno y último que sigue al piloto Git Studio, cuyo lenguaje visual y arquitectura de información
@@ -121,9 +123,9 @@ contadores. Ningún nombre ni logotipo dentro de la ventana; ningún color ni fu
 
 | captura | qué muestra |
 |---|---|
-| `figuras/lliphi-studio-oscuro.png` | Lliphi Oscuro: los 29 destinos tras «Verificar lo generado» (todos al día), Esquemas de color elegido con «Generar» simulado y la pestaña Paleta con los tokens como datos |
-| `figuras/lliphi-studio-claro.png` | Lliphi Claro: el Resumen de Konsole (entrega, dependencias, pares de instalación) con la salida de su simulación en el panel inferior |
-| `figuras/lliphi-studio-paleta.png` | la paleta de órdenes (Ctrl+K) buscando «instalar»: la acción, las operaciones y la vista por estado |
+| `figuras/antes/lliphi-studio-oscuro.png` | Lliphi Oscuro: los 29 destinos tras «Verificar lo generado» (todos al día), Esquemas de color elegido con «Generar» simulado y la pestaña Paleta con los tokens como datos |
+| `figuras/antes/lliphi-studio-claro.png` | Lliphi Claro: el Resumen de Konsole (entrega, dependencias, pares de instalación) con la salida de su simulación en el panel inferior |
+| `figuras/antes/lliphi-studio-paleta.png` | la paleta de órdenes (Ctrl+K) buscando «instalar»: la acción, las operaciones y la vista por estado |
 
 Lo construido respeta §3 y §4; lo que cambió al construir: la pestaña **Operación** (la operación elegida con sus dos
 órdenes, lo que toca, el plan y el registro guardados) se añadió a los detalles para que la confirmación y la última

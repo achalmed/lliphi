@@ -867,3 +867,37 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   Inter). Solo JetBrains Mono para el código y los radios de Lliphi. (6) **Seguir a la variante sin programa**: con
   «Sistema», la aplicación cambia sola y en vivo (comprobado en la sesión de prueba, de Lliphi Claro a Lliphi Oscuro);
   no hace falta nada en `variante.d/`. Pruebas: `test_super_productivity_tema` y `test_super_productivity_instalacion`.
+
+- **5.50 (2026-11-02) Lliphi Studio 3.0: un centro de configuración del escritorio (reingeniería de los studios).** El
+  autor encargó que cada studio deje de ser una variación de Dolphin y tome la arquitectura de su disciplina; para
+  Lliphi, la de las Preferencias del sistema de KDE (`docs/reingenieria.md`).
+
+  La ventana pasa a `GuiComun.VentanaBase` (`gui-comun` 3.0) con una barra lateral de diez áreas, cada una con su página
+  propia:
+
+  - el **sistema de diseño**: claro y oscuro lado a lado, la maqueta de una ventana pintada con los tokens, las escalas
+    con L, C, H y hex, los contrastes WCAG con su veredicto;
+  - en las demás áreas, su vista previa y las tarjetas de sus destinos con lo generado, la instalación, la
+    compatibilidad y la fecha;
+  - del destino elegido, **lo instalado frente a lo generado archivo por archivo** (igual, distinto, ajeno, falta) con
+    su diferencia lado a lado.
+
+  **Generar, instalar y desinstalar van en seis pasos visibles**: plan, afectados, conflictos, ejecutar, verificar e
+  informe. El plan sale del núcleo cargado por ruta (`pares_de`, `ajeno`, `comprobar_dependencias`), así que es lo que
+  decidirá `instalar.py`. Lo ajeno bloquea. Ejecutar pide confirmación con su estado de operación (instalación,
+  eliminación, escritura), y la verificación va aparte del éxito.
+
+  **La sesión de prueba es una acción propia con confirmación**, que dice cuánto pesan ya las sesiones en la caché.
+
+  **Los editores visuales de 1.x no vuelven**:
+
+  - los tokens son la única fuente y los escribe `paleta.py`;
+  - un editor en la ventana sería una segunda vía al mismo dato, y en 1.x se escribía a mano por módulo y no se usaba;
+  - lo que entra es ver el color (la página del sistema de diseño), con «Abrir los ajustes de la paleta» y «Paleta» al
+    lado.
+
+  Si el autor quiere editar dentro, el camino es un componente QML sobre `servicios/color.py` que escriba el borrador
+  de `proyecto.guardar_borrador`.
+
+  Pruebas: 38 del studio, entre ellas instalar y desinstalar `konsole` de verdad **en el HOME de la copia**, y las 86 del
+  proyecto, en verde; REUSE conforme. Nada se instaló en la sesión real ni se abrió una sesión anidada.
