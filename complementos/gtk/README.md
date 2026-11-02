@@ -43,7 +43,8 @@ mantenida por KDE y la que mejor se integra (decoraciones CSD, `colorreload-gtk-
 ## Aplicaciones como root
 
 Una aplicación GTK abierta con pkexec o sudo («BleachBit as Administrator») tiene el `HOME` de root y no lee esta
-configuración. `python3 herramientas/instalar.py gtk-root --aplicar` (pide la contraseña) enlaza en
+configuración. `python3 herramientas/instalar.py gtk-root --aplicar` (pide la contraseña: con `sudo` desde una
+terminal, con `pkexec` sin ella) enlaza en
 `~root/.config/gtk-3.0/` y `gtk-4.0/` la hoja, los colores, las hojas de Lliphi y los botones de ventana del usuario:
 enlaces, no copias, así siguen a la variante. El tema y los iconos ya le llegan por xsettingsd (pkexec la lleva a X11).
 No sobrescribe un archivo propio de root; el `UNDO.sh` de `~/.local/state/lliphi/respaldos/<fecha>_gtk-root/` quita los

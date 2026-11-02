@@ -811,7 +811,9 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   **`instalar.py gtk-root`**: con pkexec, enlaza en `~root/.config/gtk-3.0/` y `gtk-4.0/` la hoja, los colores, las
   hojas de Lliphi y los botones del usuario. Enlaces y no copias, para que sigan a la variante; sin `settings.ini`
   (llega por xsettingsd); no sobrescribe un archivo propio de root (sale 3 sin tocar nada); `UNDO.sh` los quita. Es,
-  con `sddm`, lo único de Lliphi que pide contraseña, y lo ejecuta el usuario. (2) **Los botones de ventana** de las
+  con `sddm`, lo único de Lliphi que pide contraseña, y lo ejecuta el usuario: desde una terminal con `sudo`, sin ella
+  con `pkexec` (en la terminal de la app de Claude pkexec falló: polkit responde «No session for cookie» fuera de la
+  sesión de escritorio). (2) **Los botones de ventana** de las
   aplicaciones con barra propia (Electron, barras de cabecera de GTK) son imágenes que kde-gtk-config hace de la
   decoración de KWin (`gtk-3.0/assets/`), y la carrera de 5.45 también puede dejar las de la otra variante (las de
   Claude Desktop eran las del oscuro, de las 22:50). La vigilancia lo comprueba: con la decoración de Lliphi, el botón

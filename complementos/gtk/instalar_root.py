@@ -4,15 +4,17 @@ cualquier otra que se lance con pkexec o sudo.
 
 Como root, su `HOME` es el de root: no leen `~/.config/gtk-3.0/` del usuario y salen con Breeze sin los colores de
 Lliphi ni sus botones de ventana. pkexec les quita Wayland, así que van por X11 y toman el tema y los iconos de
-xsettingsd, que es de la sesión del usuario; lo que les falta es `gtk.css` y lo que importa. Con `--aplicar` (en un
-solo pkexec, que pide la contraseña) se enlazan en `~root/.config/gtk-3.0/` y `gtk-4.0/` esos archivos del usuario:
+xsettingsd, que es de la sesión del usuario; lo que les falta es `gtk.css` y lo que importa. Con `--aplicar` (una sola
+orden como root, que pide la contraseña) se enlazan en `~root/.config/gtk-3.0/` y `gtk-4.0/` esos archivos del usuario:
 **enlaces, no copias**, para que sigan a la variante (la vigilancia de fondo-variante cambia la línea de `gtk.css`, y
 KDE reescribe `colors.css` y los botones). `settings.ini` no se enlaza: el tema y los iconos llegan por xsettingsd.
 No sobrescribe nada de root que no sea ya uno de estos enlaces: si hay un archivo propio, se detiene sin tocar nada.
-Deja `UNDO.sh` en `$XDG_STATE_HOME/lliphi/respaldos/<fecha>_gtk-root/`: quita los enlaces (también con pkexec).
+Deja `UNDO.sh` en `$XDG_STATE_HOME/lliphi/respaldos/<fecha>_gtk-root/`: quita los enlaces.
+Desde una terminal se usa `sudo`; sin terminal, `pkexec` y su diálogo. pkexec no sirve en una terminal que no es de la
+sesión de escritorio (la de un asistente o una sesión remota): polkit responde «No session for cookie».
 
 Uso:  python3 herramientas/instalar.py gtk-root            # simula
-      python3 herramientas/instalar.py gtk-root --aplicar  # enlaza (pide la contraseña)
+      python3 herramientas/instalar.py gtk-root --aplicar  # enlaza (pide la contraseña: sudo o pkexec)
 """
 from __future__ import annotations
 
@@ -61,6 +63,14 @@ def guion_deshacer(raiz: str, pares: list[tuple[str, Path]]) -> str:
     return "\n".join(lineas) + "\ntrue\n"
 
 
+def como_root() -> list[str] | None:
+    """`sudo` desde una terminal; `pkexec` sin ella. None si no hay ninguno."""
+    for orden in (["sudo", "pkexec"] if sys.stdin.isatty() else ["pkexec"]):
+        if shutil.which(orden):
+            return [orden]
+    return None
+
+
 def main(aplicar: bool | None = None) -> int:
     aplicar = "--aplicar" in sys.argv if aplicar is None else aplicar
     hoja = CONFIG / "gtk-3.0" / "gtk.css"
@@ -72,19 +82,20 @@ def main(aplicar: bool | None = None) -> int:
     for rel, origen in pares:
         print(f"  {'enlazar' if aplicar else 'SIM enlazar'} ~root/.config/{rel} → {origen}")
     if not aplicar:
-        print("nada escrito; añade --aplicar (pedirá la contraseña con pkexec)."); return 0
-    if not shutil.which("pkexec"):
-        print("falta pkexec"); return 2
-    r = subprocess.run(["pkexec", "/bin/sh", "-c", guion(RAIZ_DE_ROOT, pares)])
+        print("nada escrito; añade --aplicar (pedirá la contraseña)."); return 0
+    root = como_root()
+    if not root:
+        print("falta sudo o pkexec"); return 2
+    r = subprocess.run(root + ["/bin/sh", "-c", guion(RAIZ_DE_ROOT, pares)])
     if r.returncode == 3:
         print("root ya tiene archivos propios en esos destinos; no se tocó nada"); return 3
     if r.returncode:
-        print(f"pkexec terminó con {r.returncode}: no se enlazó nada (¿contraseña cancelada?)"); return 1
+        print(f"{root[0]} terminó con {r.returncode}: no se enlazó nada (¿contraseña cancelada o incorrecta?)"); return 1
     carpeta = STATE / "respaldos" / f"{datetime.now():%Y-%m-%d_%H%M%S}_gtk-root"
     carpeta.mkdir(parents=True, exist_ok=True)
     undo = carpeta / "UNDO.sh"
     undo.write_text("#!/usr/bin/env bash\n# UNDO de GTK de Lliphi para root: quita los enlaces de ~root/.config/gtk-3.0 y gtk-4.0\n"
-                    f"pkexec /bin/sh -c {shlex.quote(guion_deshacer(RAIZ_DE_ROOT, pares))} && echo 'enlaces retirados'\n",
+                    f"sudo /bin/sh -c {shlex.quote(guion_deshacer(RAIZ_DE_ROOT, pares))} && echo 'enlaces retirados'\n",
                     encoding="utf-8")
     undo.chmod(0o755)
     print(f"  enlazado. Las aplicaciones como root lo toman al abrirse de nuevo.\n  reversión: {undo}")
