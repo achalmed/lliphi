@@ -1,8 +1,9 @@
-"""studio/tests/test_ventana_lliphi.py — Lliphi Studio (QML + Kirigami sobre gui-comun 2.7) abre su ventana sin pantalla
-con el Python del sistema sobre una COPIA del proyecto: la ventana entera (acciones, menús, barra, resumen, el destino
-elegido, una simulación de generar), cada componente QML, `--smoke`, y las reglas de la familia (sin colores propios
-en la interfaz —los de la Paleta son datos—, sin marca dentro, sin QtWidgets, gui_comun sin subir carpetas). Ninguna
-prueba instala nada en la sesión real ni abre una sesión anidada: esta prueba lo vigila sobre las demás."""
+"""studio/tests/test_ventana_lliphi.py — Lliphi Studio (QML + Kirigami sobre gui-comun 3.0) abre su ventana sin pantalla
+con el Python del sistema sobre una COPIA del proyecto: la ventana entera (acciones con su estado de operación, menús,
+barra, cada área, el plan de instalar en seis pasos, la sesión de prueba con su confirmación), cada componente QML,
+`--smoke`, y las reglas de la familia (sin colores propios en la interfaz —los de la paleta y las maquetas son
+datos—, sin marca dentro, sin QtWidgets, gui_comun sin subir carpetas). Ninguna prueba instala nada en la sesión real
+ni abre una sesión anidada: esta prueba lo vigila sobre las demás."""
 from __future__ import annotations
 
 import json
@@ -28,27 +29,27 @@ errores = []
 app.motor.warnings.connect(lambda avisos: errores.extend(a.toString() for a in avisos))
 ok = app.cargar(aplicacion.QML_DIR / "Main.qml")
 raiz = app.motor.rootObjects()[0] if ok else None
-a, d, o, e, i = piezas["acciones"], piezas["destinos"], piezas["operaciones"], piezas["espacio"], piezas["interfaz"]
-sin = (a.accion("op.simular").habilitada, a.accion("op.aplicar").visible, a.accion("op.aplicar").habilitada, a.accion("archivo.generado").habilitada)
-d.irA("esquema"); app.app.processEvents()
-con = (a.accion("op.simular").habilitada, a.accion("op.aplicar").habilitada, a.accion("op.simular").textoPlano, o.actual, a.accion("archivo.generado").habilitada)
-corrio = o.simular() if os.environ.get("LLIPHI_CON_VENV") == "1" else None
-inicio = time.monotonic()
-while piezas["tareas"].activa and time.monotonic() - inicio < 120:
-    app.app.processEvents(); time.sleep(0.05)
-app.app.processEvents()
-for n in range(5):
-    i.pedir.emit("pestana", {"indice": n}); app.app.processEvents()
-for q in ("respaldos", "sesion", "venv", "aplicar"):
+a, c, e, i, w = piezas["acciones"], piezas["centro"], piezas["espacio"], piezas["interfaz"], piezas["escritura"]
+paginas = []
+for area in [x["id"] for x in c.areas]:
+    a.accion("ver.area." + area).disparar(); app.app.processEvents()
+    paginas.append([area, len(c.tarjetas), raiz.property("title") if raiz else ""])
+c.irADestino("konsole"); app.app.processEvents()
+pares = [p["estado"] for p in c.pares]
+a.accion("escr.instalar").disparar(); app.app.processEvents()
+plan = w.plan
+pedida = []
+a.confirmacionPedida.connect(lambda p: pedida.append(p))
+a.accion("sesion.arrancar").disparar(); app.app.processEvents()          # pide confirmación: no arranca nada
+for q in ("respaldos", "sesion", "venv"):
     i.pedir.emit(q, {}); app.app.processEvents()
 a.accion("app.ajustes").disparar(); app.app.processEvents()
-titulo = raiz.property("title") if raiz else ""
-contexto, registro = e.contexto, d.registro
-a.accion("ver.rol.complemento").disparar(); app.app.processEvents()
+operaciones = {n: [a.accion(n).operacion, a.accion(n).requiereConfirmacion] for n in a.nombres() if a.accion(n).operacion}
 QTimer.singleShot(800, app.app.quit); app.app.exec(); app.cerrar()
-print(json.dumps({"ok": ok, "titulo": titulo, "errores": errores, "acciones": a.nombres(), "menus": [x["titulo"] for x in a.menus], "barra": a.barra, "sin": sin,
-                  "con": con, "corrio": corrio, "registro": registro[:300], "resumen": e.resumen, "contexto": contexto, "total": d.total, "rol": e.rol,
-                  "marcada": a.accion("ver.rol.complemento").marcada, "nav": e.nombreNavegacion}))
+print(json.dumps({"ok": ok, "errores": errores, "acciones": a.nombres(), "menus": [x["titulo"] for x in a.menus], "barra": a.barra, "paginas": paginas,
+                  "pares": pares, "plan": {k: plan.get(k) for k in ("titulo", "tipo", "orden", "estadoOperacion")}, "afectados": len(plan.get("afectados", [])),
+                  "pedida": [p.get("nombre") for p in pedida], "consecuencias": pedida[0].get("consecuencias", "") if pedida else "",
+                  "activa": piezas["tareas"].activa, "operaciones": operaciones, "contexto": e.contexto}))
 """
 
 COMPONENTE = """
@@ -64,7 +65,7 @@ app.motor.warnings.connect(lambda avisos: errores.extend(a.toString() for a in a
 nombre, carpeta = sys.argv[2], sys.argv[3]
 ruta = os.path.join(os.environ["XDG_CACHE_HOME"], "Prueba_" + nombre + ".qml")
 os.makedirs(os.path.dirname(ruta), exist_ok=True)
-open(ruta, "w").write('import QtQuick\\nimport GuiComun\\nimport "file://%s/%s"\\nVentanaStudio { id: ventana; acciones: accionesStudio; tareas: tareasStudio; consola: consolaStudio; visible: false; %s { id: objeto } }\\n' % (str(aplicacion.QML_DIR), carpeta, nombre))
+open(ruta, "w").write('import QtQuick\\nimport GuiComun\\nimport "file://%s/%s"\\nVentanaBase { id: ventana; acciones: accionesStudio; tareas: tareasStudio; consola: consolaStudio; visible: false; %s { id: objeto } }\\n' % (str(aplicacion.QML_DIR), carpeta, nombre))
 ok = app.cargar(ruta)
 QTimer.singleShot(400, app.app.quit); app.app.exec(); app.cerrar()
 print(json.dumps({"ok": ok, "errores": errores}))
@@ -77,29 +78,37 @@ def _graves(errores):
 
 @requiere_sistema
 def test_abre_y_cierra_su_ventana(muestra_sesion):
-    r = correr_python(ABRIR, entorno_gui(muestra_sesion, LLIPHI_CON_VENV="1" if HAY_VENV else "0"), plazo=300)
+    r = correr_python(ABRIR, entorno_gui(muestra_sesion), plazo=300)
     assert r.returncode == 0, f"código {r.returncode}\n{r.stderr[-3000:]}"
     datos = json.loads(r.stdout.strip().splitlines()[-1])
     assert datos["ok"], r.stderr[-3000:]
     assert not _graves(datos["errores"]), "\n".join(_graves(datos["errores"]))
-    for n in ("archivo.ajustes", "archivo.manifiesto", "archivo.generado", "archivo.terminal", "archivo.copiar", "archivo.tokens", "editar.filtrar", "editar.todo",
-              "ver.rol", "ver.rol.global", "ver.rol.modulo", "ver.rol.complemento", "ver.estado", "ver.estado.desfasado", "ver.releer",
-              "op.generar", "op.instalar", "op.verificar", "op.validar", "op.generar_todo", "op.paleta", "op.estado", "op.comprobar", "op.instalar_todo", "op.desinstalar",
-              "op.dependencias", "op.pruebas", "op.licencias", "op.empaquetar", "op.sitio", "op.sesion_estado", "op.sesion_arrancar", "op.sesion_recargar", "op.sesion_capturar",
-              "op.sesion_cerrar", "op.revertir", "op.simular", "op.aplicar", "op.cancelar", "proyecto.verificar", "proyecto.comprobar",
-              "destino.resumen", "destino.paleta", "destino.diferencias", "destino.registro", "herr.respaldos", "herr.sesion", "herr.sitio", "herr.lanzador", "herr.venv",
-              "ayuda.manual", "ayuda.arquitectura", "ayuda.destino", "ventana.navegacion", "ventana.detalles", "ventana.inferior", "ventana.paleta", "app.ajustes", "app.acerca", "app.salir"):
+    for n in ("archivo.ajustes", "archivo.generado", "archivo.terminal", "archivo.tokens", "archivo.esquema", "ver.area.diseno", "ver.area.esquemas",
+              "ver.area.plasma", "ver.area.kvantum", "ver.area.konsole", "ver.area.editores", "ver.area.fondos", "ver.area.tipografia", "ver.area.iconos",
+              "ver.area.otros", "ver.salida", "ver.releer", "escr.generar", "escr.instalar", "escr.generar_todo", "escr.instalar_todo", "escr.desinstalar",
+              "escr.ejecutar", "escr.ejecutar.generar", "escr.ejecutar.instalar", "escr.ejecutar.desinstalar", "escr.cancelar",
+              "op.verificar", "op.validar", "op.paleta", "op.estado", "op.comprobar", "op.dependencias", "op.pruebas", "op.licencias", "op.empaquetar", "op.sitio",
+              "op.sesion_estado", "op.sesion_recargar", "op.sesion_capturar", "op.sesion_cerrar", "op.revertir", "op.aplicar", "proyecto.verificar", "proyecto.comprobar",
+              "sesion.arrancar", "herr.respaldos", "herr.sesion", "herr.sitio", "herr.lanzador", "herr.venv", "ayuda.manual", "ayuda.arquitectura",
+              "ventana.paleta", "ventana.pantalla_completa", "app.ajustes", "app.acerca", "app.salir"):
         assert n in datos["acciones"], n
-    assert datos["menus"] == ["&Archivo", "&Editar", "&Ver", "&Destino", "&Proyecto", "&Herramientas", "A&justes", "Ay&uda"]
-    assert datos["barra"] == ["op.simular", "op.aplicar", "|", "proyecto.verificar", "proyecto.comprobar"]
-    assert datos["sin"] == [False, True, False, False]
-    assert datos["con"] == [True, True, "Simular", "generar", True]
-    assert datos["total"] >= 20 and datos["resumen"].startswith(f"{datos['total']} destinos · ")
-    assert datos["contexto"].startswith("Esquemas de color · sin comprobar · sin instalar · Generar el destino")
-    assert datos["titulo"] == "Esquemas de color — Lliphi Studio"
-    assert datos["rol"] == "complemento" and datos["marcada"] and datos["nav"] == "rol.complemento"
-    if HAY_VENV:
-        assert datos["corrio"] and "simulación · Generar el destino · esquema" in datos["registro"] and "código de salida 0" in datos["registro"]
+    assert "ventana.navegacion" not in datos["acciones"] and "op.instalar_todo" not in datos["acciones"]   # VentanaBase; instalar va en seis pasos
+    assert datos["menus"] == ["&Archivo", "&Ver", "&Destino", "&Proyecto", "&Herramientas", "A&justes", "Ay&uda"]
+    assert datos["barra"] == ["ver.releer", "proyecto.verificar", "|", "escr.generar", "escr.instalar", "|", "escr.ejecutar"]
+    paginas = {p[0]: p for p in datos["paginas"]}
+    assert set(paginas) == {"diseno", "esquemas", "plasma", "kvantum", "konsole", "editores", "fondos", "tipografia", "iconos", "otros"}
+    assert paginas["esquemas"][1] == 1 and paginas["plasma"][1] >= 5 and paginas["otros"][1] >= 5 and paginas["diseno"][1] == 0
+    assert paginas["konsole"][2] == "Konsole y terminales — Lliphi Studio"
+    assert datos["pares"] == ["falta", "falta"]                                  # el HOME de la muestra está vacío
+    assert datos["plan"]["tipo"] == "instalar" and datos["plan"]["orden"] == "python herramientas/instalar.py --modulos konsole --aplicar"
+    assert datos["plan"]["estadoOperacion"] == "instalacion" and datos["afectados"] == 2
+    # la sesión de prueba: su acción pide confirmación con lo que pesa, y no arranca nada
+    assert datos["pedida"] == ["sesion.arrancar"] and "RAM" in datos["consecuencias"] and "sesiones" in datos["consecuencias"] and not datos["activa"]
+    op = datos["operaciones"]
+    assert op["escr.ejecutar.instalar"] == ["instalacion", True] and op["escr.ejecutar.desinstalar"] == ["eliminacion", True]
+    assert op["escr.ejecutar.generar"] == ["escritura", True] and op["sesion.arrancar"] == ["escritura", True]
+    assert op["escr.instalar"] == ["lectura", False] and op["op.paleta"] == ["simulacion", False] and op["op.aplicar"] == ["escritura", True]
+    assert datos["contexto"].startswith("Konsole y terminales · Konsole")
 
 
 @requiere_sistema
@@ -124,7 +133,8 @@ def test_cada_componente_qml(carpeta, nombre, muestra_sesion):
 
 
 def test_sin_colores_propios_en_qml():
-    """Ningún color ni tipografía fija en la interfaz: los colores de Lliphi solo aparecen como datos (Paleta: `color: modelData.hex`)."""
+    """Ningún color ni tipografía fija en la interfaz: los colores de Lliphi solo aparecen como datos (la paleta: `color: m.hex`;
+    las maquetas: `colores`, de servicios/diseno.py)."""
     malos = []
     for qml in QML.rglob("*.qml"):
         for n, linea in enumerate(qml.read_text(encoding="utf-8").splitlines(), 1):
@@ -132,14 +142,15 @@ def test_sin_colores_propios_en_qml():
             if re.search(r'"#[0-9a-fA-F]{3,8}"', sin_comentario) or re.search(r'\bfont\.(pointSize|pixelSize|family)\s*:\s*["\d]', sin_comentario):
                 malos.append(f"{qml.relative_to(STUDIO)}:{n}: {linea.strip()}")
     assert not malos, "\n".join(malos)
-    paleta = (QML / "componentes" / "Paleta.qml").read_text(encoding="utf-8")
-    assert "color: modelData.hex" in paleta and "Kirigami.Theme" in paleta
+    paleta = (QML / "componentes" / "PaginaDiseno.qml").read_text(encoding="utf-8")
+    assert "color: m.hex" in paleta and "Kirigami.Theme" in paleta
+    assert "property var colores" in (QML / "componentes" / "Maqueta.qml").read_text(encoding="utf-8")
 
 
 def test_sin_marca_dentro_de_la_ventana():
     codigo = "\n".join(l.split("//")[0] for l in (QML / "Main.qml").read_text(encoding="utf-8").splitlines())
     assert "logotipo" not in codigo.lower() and "logo_svg" not in codigo and "marca.svg" not in codigo
-    assert 'text: "Lliphi Studio"' not in codigo and "Kirigami.Heading" not in codigo.split("centro:")[0]
+    assert 'text: "Lliphi Studio"' not in codigo
 
 
 def test_sin_qtwidgets_y_sin_subir_carpetas():

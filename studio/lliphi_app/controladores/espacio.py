@@ -22,8 +22,9 @@ class Espacio(QObject):
     contextoCambiado = Signal()
     aviso = Signal(str, str)
 
-    def __init__(self, consola, ajustes=None, parent=None):
+    def __init__(self, consola, ajustes=None, escritorio=None, parent=None):
         super().__init__(parent)
+        self.escritorio = escritorio                 # gui-comun 3.0: abrir con su aplicación y mostrar en Dolphin
         self.consola, self.ajustes = consola, ajustes
         self._s = QSettings()
         self._rol = str(self._s.value("ventana/rol", "") or "")
@@ -106,7 +107,10 @@ class Espacio(QObject):
     @Slot(str)
     def abrir(self, ruta: str) -> None:
         if ruta and os.path.exists(ruta):
-            subprocess.Popen(["xdg-open", ruta])
+            if self.escritorio is not None:
+                self.escritorio.abrirConAplicacion(ruta)
+            else:
+                subprocess.Popen(["xdg-open", ruta])
             self.consola.registrar("info", f"Abierto con el sistema: {ruta}")
         else:
             self.aviso.emit(f"No existe: {ruta or '(nada seleccionado)'}", "aviso")
@@ -118,8 +122,11 @@ class Espacio(QObject):
 
     @Slot(str)
     def abrirDolphin(self, ruta: str) -> None:
+        """Dolphin con la ruta señalada (`dolphin --select`, por `Escritorio`); sin él, la carpeta con xdg-open."""
         carpeta = ruta if os.path.isdir(ruta) else os.path.dirname(ruta)
-        if os.path.isdir(carpeta):
+        if os.path.exists(ruta) and self.escritorio is not None:
+            self.escritorio.mostrarEnDolphin(ruta)
+        elif os.path.isdir(carpeta):
             subprocess.Popen(["xdg-open", carpeta])
         else:
             self.aviso.emit(f"No existe la carpeta: {carpeta}", "aviso")

@@ -16,6 +16,7 @@ Kirigami.Dialog {
     readonly property var sesiones: destinos.sesiones
     function correr(id) { operaciones.fijar(id); dialogo.close(); operaciones.simular() }
     function aplicarOp(id) { operaciones.fijar(id); dialogo.close(); dialogo.aplicar() }
+    function arrancar() { dialogo.close(); studio.acciones.accion("sesion.arrancar").disparar() }   // su acción, con su confirmación
     ColumnLayout {
         spacing: Kirigami.Units.largeSpacing
         QQC2.Label { Layout.fillWidth: true; Layout.margins: Kirigami.Units.largeSpacing; wrapMode: Text.WordWrap; opacity: 0.8
@@ -32,7 +33,7 @@ Kirigami.Dialog {
             }
             RowLayout {
                 Kirigami.FormData.label: "Tras confirmar:"
-                QQC2.Button { text: "Arrancar…"; icon.name: "window-new"; enabled: !tareasStudio.activa; onClicked: dialogo.aplicarOp("sesion_arrancar"); Accessible.name: "Arrancar la sesión de prueba" }
+                QQC2.Button { text: "Arrancar…"; icon.name: "window-new"; enabled: !tareasStudio.activa; onClicked: dialogo.arrancar(); Accessible.name: "Arrancar la sesión de prueba" }
                 QQC2.Button { text: "Recargar…"; icon.name: "view-refresh"; enabled: !tareasStudio.activa; onClicked: dialogo.aplicarOp("sesion_recargar"); Accessible.name: "Recargar la sesión de prueba" }
                 QQC2.Button { text: "Cerrar…"; icon.name: "window-close"; enabled: !tareasStudio.activa; onClicked: dialogo.aplicarOp("sesion_cerrar"); Accessible.name: "Cerrar la sesión de prueba" }
             }
