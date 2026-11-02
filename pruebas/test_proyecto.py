@@ -546,6 +546,107 @@ def test_obsidian_tema():
     assert '.callout[data-callout-metadata="#ffd400" i]' in zotero and zotero['.callout[data-callout-metadata="#ffd400" i]']["--callout-color"] == "var(--color-yellow)"
 
 
+
+def _hex_tupla(h: str) -> tuple[int, int, int]:
+    return tuple(int(h[i:i + 2], 16) for i in (1, 3, 5))
+
+
+def test_navegadores_zen():
+    """userChrome.css de Zen: las dos variantes con prefers-color-scheme, cada color del maestro, las variables de Zen
+    sobre las de Lliphi, las ventanas privadas aparte, Inter, contraste ≥ 4,5:1; y el user.js que lo carga y sigue al
+    sistema (decisiones 5.3)."""
+    nav, konsole = registro.codigo("navegadores"), registro.codigo("konsole")
+    texto = (GEN / "navegadores" / "zen" / "userChrome.css").read_text(encoding="utf-8")
+    assert "GENERADO por herramientas/generar.py (complementos/navegadores" in texto
+    sin_comentarios = re.sub(r"/\*.*?\*/", "", texto, flags=re.S)
+    assert sin_comentarios.count("{") == sin_comentarios.count("}")
+    claro_css, oscuro_css = sin_comentarios.split("@media (prefers-color-scheme: dark)")
+    variantes = {}
+    for v, parte in (("claro", claro_css), ("oscuro", oscuro_css)):
+        bloque = re.search(r":root\s*\{([^{}]*)\}", parte).group(1)
+        variantes[v] = dict(re.findall(r"(--lliphi-[\w-]+)\s*:\s*(#[0-9a-f]{6}) !important;", bloque))
+        esquema = "light" if v == "claro" else "dark"
+        assert f"color-scheme: {esquema} !important;" in parte, v
+    for v, x in variantes.items():
+        sem = {k: t["$value"]["hex"] for k, t in _tokens_planos(TOKENS["semanticos"][v]).items()}
+        assert x == nav.zen_variables(TOKENS, v), v
+        assert x["--lliphi-ventana"] == sem["fondo.ventana"] and x["--lliphi-vista"] == sem["fondo.vista"]
+        assert x["--lliphi-acento"] == sem["acento.base"] and x["--lliphi-seleccion-fondo"] == sem["seleccion.fondo"]
+        assert set(x.values()) <= set(sem.values()), v          # ningún color fuera de los semánticos de la variante
+        for texto_, fondo in (("texto", "ventana"), ("texto", "vista"), ("texto", "pestana"), ("texto", "ventana-alterno"),
+                              ("texto", "boton"), ("texto-secundario", "ventana"), ("texto-inactivo", "ventana"),
+                              ("sobre-acento", "acento"), ("seleccion-texto", "seleccion-fondo"), ("enlace", "vista"),
+                              ("tooltip-texto", "tooltip-fondo")):
+            c = konsole.contraste(_hex_tupla(x[f"--lliphi-{texto_}"]), _hex_tupla(x[f"--lliphi-{fondo}"]))
+            assert c >= 4.5, (v, texto_, fondo, round(c, 2))
+    # las variables de Zen y Firefox: todas sobre una variable de Lliphi definida, en la raíz (no privada) y sus interiores
+    comun = re.search(r"(:root:not\(\[zen-private-window='true'\]\)[^{]*)\{([^{}]*)\}", sin_comentarios)
+    assert "zen-workspace" in comun.group(1) and "#zen-browser-background" in comun.group(1)
+    mapa = dict(re.findall(r"(--[\w-]+)\s*:\s*var\((--lliphi-[\w-]+)\) !important;", comun.group(2)))
+    assert set(mapa) == set(nav.ZEN) and set(mapa.values()) <= set(variantes["claro"])
+    for clave in ("--zen-primary-color", "--zen-main-browser-background", "--toolbox-textcolor", "--tab-background-color-selected"):
+        assert clave in mapa, clave
+    assert re.search(r':root \{\s*font-family: "Inter", "Noto Sans", sans-serif !important;', texto)
+    js = (GEN / "navegadores" / "zen" / "user.js").read_text(encoding="utf-8")
+    assert 'user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);' in js
+    assert 'user_pref("zen.view.window.scheme", 2);' in js
+    assert all(l.startswith(("//", "user_pref(")) for l in js.splitlines())
+
+
+def test_navegadores_chrome():
+    """Dos temas de Chrome sin empaquetar (Manifest V3, `theme.colors` en ternas), con colores del maestro y el texto
+    legible sobre su fondo (≥ 4,5:1)."""
+    nav, konsole = registro.codigo("navegadores"), registro.codigo("konsole")
+    for v in ("claro", "oscuro"):
+        m = json.loads((GEN / "navegadores" / "chrome" / f"{MARCA['id']}-{v}" / "manifest.json").read_text(encoding="utf-8"))
+        assert m["manifest_version"] == 3 and m["name"] == MARCA["nombre_esquema"][v]
+        assert re.fullmatch(r"\d+(\.\d+){0,3}", m["version"]) and m["version"] == (RAIZ / "VERSION").read_text().strip()
+        assert set(m) == {"manifest_version", "name", "version", "description", "homepage_url", "theme"}
+        colores = m["theme"]["colors"]
+        assert set(colores) == set(nav.CHROME)
+        sem = {k: t["$value"]["hex"] for k, t in _tokens_planos(TOKENS["semanticos"][v]).items()}
+        for clave, terna in colores.items():
+            assert len(terna) == 3 and all(isinstance(c, int) and 0 <= c <= 255 for c in terna), (v, clave)
+            assert "#%02x%02x%02x" % tuple(terna) == sem[nav.CHROME[clave]], (v, clave)
+        assert colores["toolbar"] == list(_hex_tupla(sem["fondo.vista"])) and colores["frame"] == list(_hex_tupla(sem["fondo.ventana"]))
+        for texto_, fondo in nav.CHROME_PARES.items():
+            c = konsole.contraste(tuple(colores[texto_]), tuple(colores[fondo]))
+            assert c >= 4.5, (v, texto_, fondo, round(c, 2))
+
+
+def test_instalar_navegadores(tmp_path: Path):
+    """El instalador pone userChrome.css y user.js en el perfil de Zen que abre el Flatpak (installs.ini), los temas de
+    Chrome en $XDG_DATA_HOME/<id>/chrome/, no pisa un userChrome.css ajeno, omite Zen si no hay perfil y UNDO.sh
+    retira lo instalado."""
+    env = _entorno(tmp_path)
+    sin_zen = correr("herramientas/instalar.py", "--modulos", "navegadores", env=env)
+    assert sin_zen.returncode == 0 and "omitido navegadores/zen/userChrome.css" in sin_zen.stdout, sin_zen.stdout
+    raiz = tmp_path / ".var/app/app.zen_browser.zen/.zen"
+    perfil, otro = raiz / "abc123.Default (release)", raiz / "xyz789.otro"
+    perfil.mkdir(parents=True); otro.mkdir()
+    (raiz / "profiles.ini").write_text("[General]\nStartWithLastProfile=1\n\n[Profile0]\nName=otro\nIsRelative=1\n"
+                                       "Path=xyz789.otro\nDefault=1\n\n[Profile1]\nName=Default (release)\nIsRelative=1\n"
+                                       "Path=abc123.Default (release)\n", encoding="utf-8")
+    (raiz / "installs.ini").write_text("[2953CB39A2589173]\nDefault=abc123.Default (release)\nLocked=1\n", encoding="utf-8")
+    sim = correr("herramientas/instalar.py", "--modulos", "navegadores", env=env)
+    assert sim.returncode == 0 and not (perfil / "user.js").exists(), sim.stdout
+    assert f"→ {perfil / 'chrome' / 'userChrome.css'}" in sim.stdout        # el de installs.ini, no el Default=1
+    ap = correr("herramientas/instalar.py", "--aplicar", "--modulos", "navegadores", env=env)
+    assert ap.returncode == 0, ap.stdout + ap.stderr
+    assert (perfil / "chrome" / "userChrome.css").read_bytes() == (GEN / "navegadores" / "zen" / "userChrome.css").read_bytes()
+    assert (perfil / "user.js").exists() and not (otro / "user.js").exists()
+    for v in ("claro", "oscuro"):
+        assert (tmp_path / ".local/share" / MARCA["id"] / "chrome" / f"{MARCA['id']}-{v}" / "manifest.json").exists()
+    manifiesto = tmp_path / ".local/state" / MARCA["id"] / "instalado.json"
+    undo = Path(json.loads(manifiesto.read_text())["respaldo"]) / "UNDO.sh"
+    assert subprocess.run(["bash", str(undo)], capture_output=True, text=True, env=env).returncode == 0
+    assert not (perfil / "chrome" / "userChrome.css").exists() and not (perfil / "user.js").exists() and perfil.is_dir()
+    # un userChrome.css que no es de Lliphi no se toca
+    (perfil / "chrome" / "userChrome.css").write_text("/* mío */\n", encoding="utf-8")
+    conf = correr("herramientas/instalar.py", "--aplicar", "--modulos", "navegadores", env=env)
+    assert conf.returncode == 3 and (perfil / "chrome" / "userChrome.css").read_text() == "/* mío */\n"
+
+
 def test_estilo_sin_azules_fijos():
     """Decisiones 4.36: ningún relleno ni trazo azul fijo de WhiteSur en los SVG del estilo de Plasma (la barra del
     volumen y del brillo salían azules en el oscuro): con clase de color van en currentColor; sin clase, en el acento de
@@ -947,7 +1048,7 @@ def test_registro_tema_global_y_seis_modulos():
     roles = {m.id: (m.rol, m.clase) for m in registro.todos()}
     assert roles["global"] == ("global", "paquete")
     assert {i: c for i, (r, c) in roles.items() if r == "modulo"} == SEIS
-    assert {i for i, (r, _) in roles.items() if r == "complemento"} == {"fondos", "kvantum", "konsole", "terminales", "editores", "libreoffice", "sddm", "obsidian", "fondo-variante"}
+    assert {i for i, (r, _) in roles.items() if r == "complemento"} == {"fondos", "kvantum", "konsole", "terminales", "editores", "libreoffice", "sddm", "obsidian", "fondo-variante", "navegadores"}
     g = registro.modulo("global")
     assert set(g.dependencias("integra")) == {"carga-bloqueo", "disposicion"}
     assert set(SEIS) <= set(g.dependencias("integra") + g.dependencias("referencia"))

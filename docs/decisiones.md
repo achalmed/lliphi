@@ -459,3 +459,33 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   `borde.separador` en las dos variantes: en el oscuro el anterior no se veía (comprobado en pantalla), y en el claro da
   el gris que LibreOffice trae por omisión. La interfaz sigue al escritorio; el «tema de LibreOffice» (UI propia) queda
   sin activar, como estaba. Validado con un perfil desechable en una sesión de KWin virtual (`validacion.md` §10).
+- **5.3 (2026-11-01) Navegadores: Zen con un `userChrome.css` que sigue al sistema y Chrome con dos temas.** El autor
+  pidió Lliphi en Zen Browser, el que usa, y en Chrome. Complemento `navegadores` con las dos piezas, generadas de los
+  semánticos de cada variante. **Zen** (1.24b, Flatpak `app.zen_browser.zen`, Firefox 159): pinta la interfaz con
+  variables `--zen-*` que en parte calcula del degradado del espacio de trabajo y escribe en línea en `:root`,
+  `#zen-browser-background` y `#zen-toolbar-background`, y otras que redefinen elementos como `zen-workspace` (la pestaña
+  activa). Se descartan (1) un tema WebExtension con `theme` y `dark_theme`: Zen ignora casi todos sus colores al pintar
+  con el degradado; y (2) un «Zen Mod»: Zen regenera `zen-themes.css` desde su tienda y uno local no sobrevive. Se elige
+  un **`userChrome.css`**: es una hoja de usuario y sus `!important` ganan a los de Zen y a los estilos en línea; define
+  `--lliphi-*` por variante (`@media (prefers-color-scheme: dark)` elige la oscura y fija `color-scheme`, para que lo que
+  Zen pinta con `light-dark()` vaya con ella) y pone sobre ellas unas cincuenta variables de Zen y de Firefox en la raíz
+  y en los elementos que las redefinen (buscados en las hojas de Zen 1.24 y Firefox 159). El degradado del espacio de
+  trabajo queda en el gris de la ventana: la identidad sobria manda. Las ventanas privadas conservan el aspecto de Zen
+  para que se distingan. La pestaña activa del oscuro es `fondo.boton`, no la vista, que es más oscura que la barra
+  lateral y la hundiría. Lo acompaña un **`user.js`**: `toolkit.legacyUserProfileCustomizations.stylesheets` (Zen no
+  carga `userChrome.css` sin ella) y `zen.view.window.scheme = 2`: el perfil del autor tenía el oscuro fijo (0), y sin
+  esto Zen no cambiaría con el sistema. Desinstalar retira ambos archivos, pero el valor queda en `prefs.js`
+  (`INSTALL.md` dice cómo volver). Comprobado en la sesión de prueba: con `plasma-apply-colorscheme` Zen pasa de una
+  variante a otra en vivo, y los colores medidos en pantalla son los de los tokens (barra lateral, pestaña activa y
+  barra de direcciones, en las dos). **Chrome** (156): un tema es un `manifest.json` con `theme.colors` y no tiene
+  variante oscura; con un tema puesto, Chrome deja de seguir al sistema. Se descarta un tema neutro (los colores de un
+  tema son fijos: o es claro o es oscuro) y el color de Chrome por semilla (un solo color por los dos modos, y lo
+  transforma Material 3); se hacen **dos temas sin empaquetar**, Lliphi Claro y Lliphi Oscuro: franja y pestañas de
+  fondo en `fondo.ventana`, barra y pestaña activa en `fondo.vista` (la pestaña se funde con la página), textos de los
+  semánticos y enlaces de la página nueva en `enlace`. Chrome reinterpreta un poco el oscuro (franja `#212223` en vez de
+  `#1b1c1e`) y su anillo de foco toma su propio acento: el formato no deja fijarlo. Chrome tampoco deja instalar un tema
+  desde fuera (desde la 137 ya no acepta `--load-extension`): el instalador deja los temas en
+  `$XDG_DATA_HOME/lliphi/chrome/` y se cargan con «Cargar descomprimida»; en la sesión de prueba se cargaron por el
+  protocolo de DevTools (`Extensions.loadUnpacked`). Nueva base de instalación condicional `zen` (el perfil de
+  `installs.ini`, el que abre Zen, también el del Flatpak; o `$ZEN_PERFIL`); un `userChrome.css` o `user.js` ajeno es
+  conflicto y no se pisa. Pruebas `test_navegadores_zen`, `test_navegadores_chrome` y `test_instalar_navegadores`.

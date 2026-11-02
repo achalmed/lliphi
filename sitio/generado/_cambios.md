@@ -86,6 +86,11 @@ Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión de
   que solo redefine variables de la aplicación (neutros, acento, los ocho colores con nombre desde los ANSI, estados,
   Inter y JetBrains Mono, radios, la sintaxis de los editores y las llamadas de Zotero); se publica con su versión en
   `achalmed/obsidian-lliphi`. Prueba `test_obsidian_tema` (34 en total).
+- Complemento `navegadores` (decisión 5.3): Lliphi en **Zen Browser**, un `userChrome.css` que redefine las variables
+  de Zen y de Firefox y cambia solo entre Lliphi Claro y Lliphi Oscuro con el modo del sistema, más un `user.js` que lo
+  carga y pone Zen en modo automático; y en **Google Chrome**, dos temas sin empaquetar (uno por variante) que se cargan
+  desde `~/.local/share/lliphi/chrome/`. Base de instalación `zen` (el perfil que abre Zen, también el del Flatpak).
+  Pruebas `test_navegadores_zen`, `test_navegadores_chrome` y `test_instalar_navegadores`.
 - `generar.py validar`: manifiestos, dependencias sin ciclos y declaradas, estructura real de cada formato de KDE y que
   cada identificador que declara el tema global exista en el módulo que lo entrega; `generar.py lista`.
 - `instalar.py comprobar` (lo instalado está completo, es de esta versión y `kpackagetool6` lo reconoce),
