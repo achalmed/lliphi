@@ -2,8 +2,9 @@
 
 Qué se copia y adónde lo dice la lista `instalacion` del `modulo.json` de cada módulo (origen relativo a
 `generado/<id>/`, destino relativo a su base). Bases: `data` ($XDG_DATA_HOME), `config` ($XDG_CONFIG_HOME), `vscode`
-(~/.vscode/extensions o $VSCODE_EXTENSIONS) y las condicionales `positron` y `vscodium`, que solo se usan si existe la
-carpeta del editor (nunca se crea). Nunca se escribe en `/usr` (el inicio de sesión SDDM tiene su propia orden con
+(~/.vscode/extensions o $VSCODE_EXTENSIONS) y las condicionales `positron`, `vscodium` y `zen` (el perfil
+predeterminado de Zen Browser, también el del Flatpak, o $ZEN_PERFIL), que solo se usan si existe la carpeta del
+programa (nunca se crea). Nunca se escribe en `/usr` (el inicio de sesión SDDM tiene su propia orden con
 pkexec: `instalar.py sddm`).
 
 Antes de tocar nada se respaldan, con su SHA-256 verificada, los archivos que declaran los `respaldos()` de los
@@ -13,6 +14,7 @@ queda en `$XDG_STATE_HOME/<id>/instalado.json`. Con `--aplicar-tema` se llama al
 al de cada módulo, en el orden del registro. Solo biblioteca estándar; Python ≥ 3.10."""
 from __future__ import annotations
 
+import configparser
 import hashlib
 import json
 import os
@@ -35,10 +37,42 @@ VSCODE = Path(os.environ.get("VSCODE_EXTENSIONS") or HOME / ".vscode" / "extensi
 POSITRON = Path(os.environ.get("POSITRON_EXTENSIONS") or HOME / ".positron" / "extensions")
 VSCODIUM = Path(os.environ.get("VSCODIUM_EXTENSIONS") or HOME / ".vscode-oss" / "extensions")
 MANIFIESTO = STATE / "instalado.json"
+# carpetas de perfiles de Zen Browser: la del Flatpak primero (es la que se usa cuando está instalado así)
+ZEN_RAICES = (HOME / ".var" / "app" / "app.zen_browser.zen" / ".zen", HOME / ".zen")
 
-BASES = {"data": DATA, "config": CONFIG, "vscode": VSCODE, "positron": POSITRON, "vscodium": VSCODIUM}
-# base condicional → (carpeta que debe existir, nombre del editor); el instalador nunca crea esa carpeta
-CONDICIONALES = {"positron": (POSITRON.parent, "Positron"), "vscodium": (VSCODIUM.parent, "VSCodium")}
+
+def perfil_zen() -> Path:
+    """El perfil predeterminado de Zen Browser: `$ZEN_PERFIL`, o el de `installs.ini` (el que abre Zen), o el
+    `Default=1` de `profiles.ini`, o el único perfil que haya. Si no hay ninguno, una ruta que no existe (la base
+    condicional se omite)."""
+    if os.environ.get("ZEN_PERFIL"):
+        return Path(os.environ["ZEN_PERFIL"])
+    for raiz in ZEN_RAICES:
+        candidatos = []
+        for ini in ("installs.ini", "profiles.ini"):
+            if (raiz / ini).is_file():
+                c = configparser.ConfigParser(interpolation=None)
+                try:
+                    c.read(raiz / ini, encoding="utf-8")
+                except configparser.Error:
+                    continue   # un .ini que no se entiende no da perfil, y la base se omite
+                if ini == "installs.ini":
+                    candidatos += [c[s]["Default"] for s in c.sections() if "Default" in c[s]]
+                else:
+                    perfiles = [c[s] for s in c.sections() if "Path" in c[s]]
+                    candidatos += [p["Path"] for p in perfiles if p.get("Default") == "1" or len(perfiles) == 1]
+        for rel in candidatos:
+            if (raiz / rel).is_dir():
+                return raiz / rel
+    return ZEN_RAICES[0] / "sin-perfil"
+
+
+ZEN = perfil_zen()
+
+BASES = {"data": DATA, "config": CONFIG, "vscode": VSCODE, "positron": POSITRON, "vscodium": VSCODIUM, "zen": ZEN}
+# base condicional → (carpeta que debe existir, nombre del programa); el instalador nunca crea esa carpeta
+CONDICIONALES = {"positron": (POSITRON.parent, "Positron"), "vscodium": (VSCODIUM.parent, "VSCodium"),
+                 "zen": (ZEN, "Zen Browser")}
 # formato → tipo con que `kpackagetool6 --type <tipo> --show <id>` encuentra un paquete de usuario (comprobar). `--list`
 # no sirve: omite los paquetes sin `KPackageStructure`, como los estilos de Plasma (también Breeze). Los fondos
 # (`Wallpaper/Images`) no se resuelven así ni siquiera los del sistema (`Next`): se comprueban solo por sus archivos.

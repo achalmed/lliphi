@@ -1,0 +1,47 @@
+{
+  "nombre": "Navegadores: Zen Browser y Chrome",
+  "resumen": "Lliphi Claro y Lliphi Oscuro en Zen Browser (un userChrome.css que redefine las variables de Zen y de Firefox y sigue solo al modo del sistema) y en Google Chrome (dos temas sin empaquetar, uno por variante).",
+  "clase": "paquete",
+  "orden": 10,
+  "formato": "varios",
+  "tecnologia": "Zen Browser ≥ 1.24 (Firefox 159): `userChrome.css` sobre las variables `--zen-*` y de Firefox con `prefers-color-scheme`, y `user.js` (`toolkit.legacyUserProfileCustomizations.stylesheets`, `zen.view.window.scheme = 2`) en el perfil, también el del Flatpak `app.zen_browser.zen` · Chrome ≥ 120: tema de extensión (`manifest.json` v3 con `theme.colors`) sin empaquetar",
+  "estado": "experimental",
+  "desde": "0.4.0",
+  "archivos": [
+    "zen/userChrome.css",
+    "zen/user.js",
+    "chrome/lliphi-claro/manifest.json",
+    "chrome/lliphi-oscuro/manifest.json"
+  ],
+  "capturas": [
+    "../capturas/claro-38-zen.png",
+    "../capturas/oscuro-38-zen.png",
+    "../capturas/claro-39-chrome.png",
+    "../capturas/oscuro-39-chrome.png"
+  ],
+  "dependencias": {
+    "terceros": [
+      "Zen Browser o Google Chrome"
+    ]
+  },
+  "instalacion": [
+    {
+      "origen": "zen/userChrome.css",
+      "destino": "chrome/userChrome.css",
+      "base": "zen"
+    },
+    {
+      "origen": "zen/user.js",
+      "destino": "user.js",
+      "base": "zen"
+    },
+    {
+      "origen": "chrome/{id}-claro",
+      "destino": "{id}/chrome/{id}-claro"
+    },
+    {
+      "origen": "chrome/{id}-oscuro",
+      "destino": "{id}/chrome/{id}-oscuro"
+    }
+  ]
+}

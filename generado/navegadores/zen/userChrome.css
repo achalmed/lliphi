@@ -1,0 +1,131 @@
+/* Lliphi para Zen Browser: Lliphi Claro y Lliphi Oscuro, según el modo del sistema.
+   GENERADO por herramientas/generar.py (complementos/navegadores, Lliphi 0.3.0) desde tokens/; no editar.
+   https://github.com/achalmed/lliphi · código MIT, colores CC-BY-SA-4.0 */
+
+/* Lliphi Claro */
+:root {
+  --lliphi-ventana: #ecedef !important;
+  --lliphi-ventana-alterno: #e0e1e5 !important;
+  --lliphi-vista: #fbfcfd !important;
+  --lliphi-vista-alterno: #f2f3f5 !important;
+  --lliphi-boton: #e0e1e5 !important;
+  --lliphi-texto: #1d1f24 !important;
+  --lliphi-texto-secundario: #4b4d53 !important;
+  --lliphi-texto-inactivo: #66676c !important;
+  --lliphi-borde: #ccced2 !important;
+  --lliphi-borde-sutil: #e0e1e5 !important;
+  --lliphi-acento: #315bef !important;
+  --lliphi-acento-hover: #4777f0 !important;
+  --lliphi-sobre-acento: #fcfcfc !important;
+  --lliphi-seleccion-fondo: #315bef !important;
+  --lliphi-seleccion-texto: #fcfcfc !important;
+  --lliphi-foco: #315bef !important;
+  --lliphi-enlace: #2a4fd0 !important;
+  --lliphi-tooltip-fondo: #222428 !important;
+  --lliphi-tooltip-texto: #fbfcfd !important;
+  --lliphi-pestana: #fbfcfd !important;
+}
+#main-window, #main-window #browser, panel, menupopup, #tabbrowser-tabpanels browser[type='content'] {
+  color-scheme: light !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  /* Lliphi Oscuro */
+  :root {
+    --lliphi-ventana: #1b1c1e !important;
+    --lliphi-ventana-alterno: #232426 !important;
+    --lliphi-vista: #101012 !important;
+    --lliphi-vista-alterno: #161719 !important;
+    --lliphi-boton: #2e2f32 !important;
+    --lliphi-texto: #eaebed !important;
+    --lliphi-texto-secundario: #bcbec1 !important;
+    --lliphi-texto-inactivo: #97989c !important;
+    --lliphi-borde: #3d3e42 !important;
+    --lliphi-borde-sutil: #2e2f32 !important;
+    --lliphi-acento: #e22529 !important;
+    --lliphi-acento-hover: #f36259 !important;
+    --lliphi-sobre-acento: #fcfcfc !important;
+    --lliphi-seleccion-fondo: #e22529 !important;
+    --lliphi-seleccion-texto: #fcfcfc !important;
+    --lliphi-foco: #f36259 !important;
+    --lliphi-enlace: #ff968b !important;
+    --lliphi-tooltip-fondo: #323335 !important;
+    --lliphi-tooltip-texto: #eaebed !important;
+    --lliphi-pestana: #2e2f32 !important;
+  }
+  #main-window, #main-window #browser, panel, menupopup, #tabbrowser-tabpanels browser[type='content'] {
+    color-scheme: dark !important;
+  }
+}
+
+/* Zen y Firefox sobre las variables de Lliphi (el degradado del espacio de trabajo queda en el gris de la ventana) */
+:root:not([zen-private-window='true']), :root:not([zen-private-window='true']) :is(#zen-browser-background, #zen-toolbar-background, zen-workspace, .zen-library-space, #tabbrowser-tabs, #tabbrowser-arrowscrollbox-periphery, .tabbrowser-tab, panel, menupopup, #ctrlTab-panel, #confirmation-hint) {
+  --zen-primary-color: var(--lliphi-acento) !important;
+  --zen-branding-paper: var(--lliphi-vista) !important;
+  --zen-branding-dark: var(--lliphi-vista) !important;
+  --zen-colors-primary: var(--lliphi-ventana-alterno) !important;
+  --zen-colors-secondary: var(--lliphi-boton) !important;
+  --zen-colors-tertiary: var(--lliphi-vista) !important;
+  --zen-colors-hover-bg: var(--lliphi-ventana-alterno) !important;
+  --zen-colors-primary-foreground: var(--lliphi-texto) !important;
+  --zen-colors-border: var(--lliphi-borde) !important;
+  --zen-colors-border-contrast: var(--lliphi-borde-sutil) !important;
+  --zen-colors-input-bg: var(--lliphi-vista) !important;
+  --zen-dialog-background: var(--lliphi-vista) !important;
+  --zen-urlbar-background: var(--lliphi-vista) !important;
+  --zen-main-browser-background: var(--lliphi-ventana) !important;
+  --zen-main-browser-background-toolbar: var(--lliphi-ventana) !important;
+  --zen-main-browser-background-old: var(--lliphi-ventana) !important;
+  --zen-main-browser-background-toolbar-old: var(--lliphi-ventana) !important;
+  --zen-themed-toolbar-bg-transparent: var(--lliphi-ventana) !important;
+  --zen-toolbar-element-bg: var(--lliphi-ventana-alterno) !important;
+  --zen-toolbar-element-bg-hover: var(--lliphi-boton) !important;
+  --zen-sidebar-themed-icon-fill: var(--lliphi-texto-secundario) !important;
+  --zen-sidebar-notification-bg: var(--lliphi-vista) !important;
+  --toolbox-textcolor: var(--lliphi-texto) !important;
+  --toolbox-textcolor-inactive: var(--lliphi-texto-secundario) !important;
+  --toolbar-color: var(--lliphi-texto) !important;
+  --toolbar-field-color: var(--lliphi-texto) !important;
+  --toolbar-field-background-color: var(--lliphi-vista) !important;
+  --toolbar-field-focus-background-color: var(--lliphi-vista) !important;
+  --toolbar-field-focus-border-color: var(--lliphi-foco) !important;
+  --toolbarbutton-background-color-hover: var(--lliphi-ventana-alterno) !important;
+  --toolbarbutton-background-color-active: var(--lliphi-boton) !important;
+  --tab-background-color-selected: var(--lliphi-pestana) !important;
+  --tab-text-color-selected: var(--lliphi-texto) !important;
+  --tab-background-color-hover: var(--lliphi-ventana-alterno) !important;
+  --arrowpanel-background: var(--lliphi-vista) !important;
+  --arrowpanel-color: var(--lliphi-texto) !important;
+  --arrowpanel-border-color: var(--lliphi-borde) !important;
+  --panel-background-color: var(--lliphi-vista) !important;
+  --panel-text-color: var(--lliphi-texto) !important;
+  --panel-border-color: var(--lliphi-borde) !important;
+  --panel-separator-color: var(--lliphi-borde) !important;
+  --urlbarView-highlight-background: var(--lliphi-seleccion-fondo) !important;
+  --urlbarView-highlight-color: var(--lliphi-seleccion-texto) !important;
+  --urlbarView-hover-background: var(--lliphi-ventana-alterno) !important;
+  --focus-outline-color: var(--lliphi-foco) !important;
+  --link-color: var(--lliphi-enlace) !important;
+  --color-accent-primary: var(--lliphi-acento) !important;
+  --color-accent-primary-hover: var(--lliphi-acento-hover) !important;
+  --button-background-color-primary: var(--lliphi-acento) !important;
+  --button-primary-hover-bgcolor: var(--lliphi-acento-hover) !important;
+  --button-primary-color: var(--lliphi-sobre-acento) !important;
+  --button-text-color-primary: var(--lliphi-sobre-acento) !important;
+}
+
+/* Inter en la interfaz */
+:root {
+  font-family: "Inter", "Noto Sans", sans-serif !important;
+}
+
+/* la selección de texto y las etiquetas emergentes */
+::selection {
+  background-color: var(--lliphi-seleccion-fondo) !important;
+  color: var(--lliphi-seleccion-texto) !important;
+}
+tooltip {
+  background-color: var(--lliphi-tooltip-fondo) !important;
+  color: var(--lliphi-tooltip-texto) !important;
+  border-color: var(--lliphi-tooltip-fondo) !important;
+}
