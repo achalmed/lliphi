@@ -474,7 +474,7 @@
     },
     {
       "nombre": "El fondo y Konsole siguen a la variante",
-      "resumen": "Al cambiar entre Lliphi Claro y Lliphi Oscuro (con el tema global o el esquema), pone en cada escritorio la imagen clara u oscura del mismo fondo de Lliphi que tengas elegido, y en Konsole el esquema de la variante, también en las ventanas abiertas.",
+      "resumen": "Al cambiar entre Lliphi Claro y Lliphi Oscuro (con el tema global o el esquema), pone en cada escritorio la imagen clara u oscura del mismo fondo de Lliphi que tengas elegido, y en Konsole el esquema de la variante, también en las ventanas abiertas; si GTK de Lliphi está aplicado, la hoja de GTK 3 de la variante y la preferencia color-scheme.",
       "clase": "paquete",
       "orden": 9,
       "formato": "varios",
@@ -499,6 +499,136 @@
       "rol": "complemento",
       "ruta": "complementos/fondo-variante",
       "salida": "generado/fondo-variante"
+    },
+    {
+      "nombre": "GTK 3, GTK 4 y libadwaita",
+      "resumen": "Las aplicaciones GTK con los colores de Lliphi, los mismos que dan Kvantum a las de Qt: una hoja por variante para GTK 3 y una con las dos para GTK 4 y libadwaita, sobre el tema Breeze y los colores que escribe kde-gtk-config, sin cambiar de tema GTK. Al pasar entre claro y oscuro, GTK 4 cambia solo; GTK 3 lo cambia fondo-variante.",
+      "clase": "paquete",
+      "orden": 20,
+      "formato": "varios",
+      "tecnologia": "CSS de GTK (`@define-color` de Breeze `*_breeze` y de libadwaita 1.9, variables `--accent-bg-color`…, `@media (prefers-color-scheme: dark)` de GTK ≥ 4.20) importado desde `~/.config/gtk-{3,4}.0/gtk.css` después del `colors.css` de kde-gtk-config",
+      "estado": "probado",
+      "desde": "0.4.0",
+      "licencia": "MIT",
+      "archivos": [
+        "gtk-3.0/lliphi-claro.css",
+        "gtk-3.0/lliphi-oscuro.css",
+        "gtk-4.0/lliphi.css"
+      ],
+      "capturas": [
+        "../capturas/oscuro-38-gtk3-antes.png",
+        "../capturas/oscuro-38-gtk3.png",
+        "../capturas/claro-38-gtk3.png",
+        "../capturas/oscuro-38-gtk4-libadwaita.png",
+        "../capturas/claro-38-gtk4-libadwaita.png"
+      ],
+      "dependencias": {
+        "herramientas_opcionales": [
+          "gsettings"
+        ]
+      },
+      "id": "gtk",
+      "rol": "complemento",
+      "ruta": "complementos/gtk",
+      "salida": "generado/gtk"
+    },
+    {
+      "nombre": "Xournal++: paleta de bolígrafos y colores",
+      "resumen": "Xournal++ con Lliphi: la interfaz y el modo oscuro siguen al complemento gtk; aquí, una paleta de bolígrafos sobria desde los tokens (escribir legible sobre papel blanco y resaltar) y los colores de alrededor de las páginas, de la selección y del recoloreado del modo oscuro.",
+      "clase": "paquete",
+      "orden": 21,
+      "formato": "varios",
+      "tecnologia": "paleta «GIMP Palette» (`.gpl`) en `~/.config/xournalpp/palettes/` · propiedades de color de `settings.xml` (ARGB decimal: `backgroundColor`, `selection*Color`, `recolor.*`, `colorPalette`)",
+      "estado": "probado",
+      "desde": "0.4.0",
+      "licencia": "MIT",
+      "archivos": [
+        "palettes/Lliphi.gpl",
+        "settings-lliphi.xml"
+      ],
+      "capturas": [
+        "../capturas/oscuro-39-xournalpp.png",
+        "../capturas/claro-39-xournalpp.png"
+      ],
+      "dependencias": {
+        "herramientas_opcionales": [
+          "pgrep"
+        ]
+      },
+      "id": "xournalpp",
+      "rol": "complemento",
+      "ruta": "complementos/xournalpp",
+      "salida": "generado/xournalpp"
+    },
+    {
+      "nombre": "GIMP: tema de interfaz y paletas",
+      "resumen": "Un tema de interfaz de GIMP 3 con sus dos variantes, Lliphi Claro y Lliphi Oscuro, derivado del tema Default de GIMP: los neutros de los tokens y lo elegido en el acento, con el lienzo neutro; con el esquema de color «del sistema», sigue al escritorio. Y dos paletas .gpl con los colores de Lliphi.",
+      "clase": "paquete",
+      "orden": 22,
+      "formato": "varios",
+      "tecnologia": "tema de GIMP 3 (`gimp-{light,gray,dark}.css` con 17 `@define-color` e importación de `common-*.css`, CSS de GTK 3) · `(theme-color-scheme system)` de `gimprc` · paleta «GIMP Palette» (`.gpl`)",
+      "estado": "probado",
+      "desde": "0.4.0",
+      "licencia": "GPL-3.0-or-later",
+      "archivos": [
+        "themes/Lliphi/gimp-light.css",
+        "themes/Lliphi/gimp-gray.css",
+        "themes/Lliphi/gimp-dark.css",
+        "themes/Lliphi/common.css",
+        "themes/Lliphi/system.css",
+        "themes/Lliphi/ui/",
+        "palettes/Lliphi Claro.gpl",
+        "palettes/Lliphi Oscuro.gpl"
+      ],
+      "capturas": [
+        "../capturas/oscuro-40-gimp.png",
+        "../capturas/claro-40-gimp.png"
+      ],
+      "dependencias": {
+        "construccion": [
+          "libreoffice"
+        ],
+        "bases": [
+          "fuentes/base/GIMP-Default"
+        ],
+        "herramientas_opcionales": [
+          "pgrep"
+        ]
+      },
+      "id": "gimp",
+      "rol": "complemento",
+      "ruta": "complementos/gimp",
+      "salida": "generado/gimp"
+    },
+    {
+      "nombre": "Calibre: biblioteca y visor",
+      "resumen": "Calibre con las paletas Lliphi Claro y Lliphi Oscuro (las de Kvantum, para su propio estilo), que siguen al escritorio en vivo, y el visor de libros con su esquema «Sistema» en los colores de Lliphi y dos esquemas fijos más. Solo preferencias de la interfaz, con respaldo: la biblioteca no se toca.",
+      "clase": "paquete",
+      "orden": 23,
+      "formato": "varios",
+      "tecnologia": "`gui.json` de Calibre ≥ 7 (`color_palette`, `light_palettes`, `dark_palettes`: rol de `QPalette` → color) · `viewer-webengine.json` (`session_data.user_color_schemes`) · fundido con Calibre cerrado",
+      "estado": "probado",
+      "desde": "0.4.0",
+      "licencia": "MIT",
+      "archivos": [
+        "gui-lliphi.json",
+        "visor-lliphi.json"
+      ],
+      "capturas": [
+        "../capturas/oscuro-41-calibre.png",
+        "../capturas/claro-41-calibre.png",
+        "../capturas/oscuro-41-calibre-visor.png",
+        "../capturas/claro-41-calibre-visor.png"
+      ],
+      "dependencias": {
+        "herramientas_opcionales": [
+          "pgrep"
+        ]
+      },
+      "id": "calibre",
+      "rol": "complemento",
+      "ruta": "complementos/calibre",
+      "salida": "generado/calibre"
     }
   ]
 }

@@ -947,7 +947,8 @@ def test_registro_tema_global_y_seis_modulos():
     roles = {m.id: (m.rol, m.clase) for m in registro.todos()}
     assert roles["global"] == ("global", "paquete")
     assert {i: c for i, (r, c) in roles.items() if r == "modulo"} == SEIS
-    assert {i for i, (r, _) in roles.items() if r == "complemento"} == {"fondos", "kvantum", "konsole", "terminales", "editores", "libreoffice", "sddm", "obsidian", "fondo-variante"}
+    assert {i for i, (r, _) in roles.items() if r == "complemento"} == {"fondos", "kvantum", "konsole", "terminales", "editores", "libreoffice", "sddm", "obsidian", "fondo-variante",
+                                                                                     "gtk", "xournalpp", "gimp", "calibre"}
     g = registro.modulo("global")
     assert set(g.dependencias("integra")) == {"carga-bloqueo", "disposicion"}
     assert set(SEIS) <= set(g.dependencias("integra") + g.dependencias("referencia"))
@@ -1136,3 +1137,249 @@ def test_fondo_del_escritorio():
         plasmarc = (GEN / "estilo" / f"{MARCA['id']}-{v}" / "plasmarc").read_text(encoding="utf-8")
         assert f"defaultWallpaperTheme={MARCA['fondo_escritorio']}" in plasmarc and "defaultFileSuffix=.jpg" in plasmarc
     assert MARCA["id_fondo"] in registro.modulo("carga-bloqueo").archivo("aplicar.py").read_text(encoding="utf-8").replace('ctx.marca["id_fondo"]', MARCA["id_fondo"])
+
+
+# ---------------------------------------------------------------- GTK, Xournal++, GIMP y Calibre (decisiones 4.37, 5.20–5.22)
+
+def _hexes_maestro() -> set[str]:
+    return {t["$value"]["hex"].lower() for t in _tokens_planos(TOKENS).values() if isinstance(t["$value"], dict) and "hex" in t["$value"]}
+
+
+def _contraste(a: str, b: str) -> float:
+    def lum(h: str) -> float:
+        c = [int(h[i:i + 2], 16) / 255 for i in (1, 3, 5)]
+        c = [x / 12.92 if x <= 0.04045 else ((x + 0.055) / 1.055) ** 2.4 for x in c]
+        return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]
+    la, lb = sorted((lum(a), lum(b)), reverse=True)
+    return (la + 0.05) / (lb + 0.05)
+
+
+def test_hex_de_los_nuevos_complementos_del_maestro():
+    """Todo hex de lo generado para GTK, GIMP, Xournal++ y Calibre existe en tokens.json (los derivados van como mix())."""
+    hexes = _hexes_maestro()
+    for modulo in ("gtk", "gimp", "xournalpp", "calibre"):
+        for f in (GEN / modulo).rglob("*"):
+            if f.is_file() and f.suffix in (".css", ".svg", ".json", ".xml"):
+                for h in re.findall(r"#[0-9a-fA-F]{6}\b", f.read_text(encoding="utf-8")):
+                    assert h.lower() in hexes, (f.relative_to(GEN), h)
+
+
+def test_gtk_hojas():
+    """GTK 3: una hoja por variante con todos los colores _breeze que escribe kde-gtk-config; GTK 4: las dos variantes
+    con prefers-color-scheme, los colores con nombre de libadwaita y sus variables."""
+    gtk = registro.codigo("gtk")
+    for v in ("claro", "oscuro"):
+        texto = (GEN / "gtk" / "gtk-3.0" / f"{MARCA['id']}-{v}.css").read_text(encoding="utf-8")
+        assert "GENERADO" in texto and texto.count("{") == texto.count("}")
+        definidos = set(re.findall(r"@define-color (\w+)_breeze ", texto))
+        assert definidos == set(gtk.BREEZE) and len(definidos) == 84
+        sem = {k: t["$value"]["hex"] for k, t in _tokens_planos(TOKENS["semanticos"][v]).items()}
+        assert f"@define-color theme_bg_color_breeze {sem['fondo.ventana']};" in texto
+        assert f"@define-color theme_selected_bg_color_breeze {sem['seleccion.fondo']};" in texto
+        assert "#floatingToolbox" in texto
+    texto = (GEN / "gtk" / "gtk-4.0" / f"{MARCA['id']}.css").read_text(encoding="utf-8")
+    assert texto.count("{") == texto.count("}") and texto.count("@media (prefers-color-scheme: dark) {") == 2
+    claro, oscuro = texto.split("@media (prefers-color-scheme: dark) {", 1)
+    for nombre in gtk.ADWAITA:
+        assert f"@define-color {nombre} " in claro and f"@define-color {nombre} " in oscuro, nombre
+        assert f"--{nombre.replace('_', '-')}: " in claro and f"--{nombre.replace('_', '-')}: " in oscuro, nombre
+    assert f"@define-color accent_bg_color {_tokens_planos(TOKENS['semanticos']['claro'])['acento.base']['$value']['hex']};" in claro
+    assert f"@define-color accent_bg_color {_tokens_planos(TOKENS['semanticos']['oscuro'])['acento.base']['$value']['hex']};" in oscuro
+
+
+def test_gtk_contraste():
+    gtk = registro.codigo("gtk")
+    for v in ("claro", "oscuro"):
+        for tabla, pares in ((gtk.BREEZE, gtk.PARES_BREEZE), (gtk.ADWAITA, gtk.PARES_ADWAITA)):
+            r = gtk.resueltos(TOKENS, v, tabla)
+            for texto, fondo in pares:
+                assert _contraste(r[texto], r[fondo]) >= 4.5, (v, texto, fondo, r[texto], r[fondo])
+    assert gtk.mezclar("#000000", "#ffffff", 0.5) == "#808080"
+
+
+def test_gtk_importacion(tmp_path):
+    """gtk.css: la línea de Lliphi va detrás de colors.css, no se duplica, cambia de variante y no toca lo demás;
+    si colors.css existe y faltaba su línea, se pone delante; un enlace de dotfiles sigue siendo enlace."""
+    fijar = registro.codigo("gtk", "aplicar").fijar_importacion
+    d = tmp_path / "gtk-3.0"
+    d.mkdir()
+    (d / "colors.css").write_text("", encoding="utf-8")
+    css = d / "gtk.css"
+    css.write_text("@import 'colors.css';\nwindow { padding: 1px; }\n", encoding="utf-8")
+    assert fijar(css, "lliphi", "lliphi-oscuro.css")
+    assert css.read_text(encoding="utf-8") == "@import 'colors.css';\n@import 'lliphi-oscuro.css';\nwindow { padding: 1px; }\n"
+    assert not fijar(css, "lliphi", "lliphi-oscuro.css")                     # idempotente
+    fijar(css, "lliphi", "lliphi-claro.css")
+    assert css.read_text(encoding="utf-8").count("lliphi") == 1 and "lliphi-claro.css" in css.read_text(encoding="utf-8")
+    css.write_text("window { padding: 1px; }\n", encoding="utf-8")         # sin la línea de colors.css
+    fijar(css, "lliphi", "lliphi-claro.css")
+    assert css.read_text(encoding="utf-8").splitlines()[:2] == ["@import 'colors.css';", "@import 'lliphi-claro.css';"]
+    real = tmp_path / "dotfiles.css"
+    real.write_text("@import 'colors.css';\n", encoding="utf-8")
+    enlace = d / "enlace.css"
+    enlace.symlink_to(real)
+    fijar(enlace, "lliphi", "lliphi-oscuro.css")
+    assert enlace.is_symlink() and "lliphi-oscuro.css" in real.read_text(encoding="utf-8")
+
+
+def test_fondo_variante_cambia_gtk3(tmp_path, monkeypatch):
+    """Decisiones 4.37: la vigilancia cambia la hoja de GTK 3 de variante solo si gtk.css ya importa una de Lliphi."""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("seguir_variante_gtk", GEN / "fondo-variante" / "seguir-variante.py")
+    sv = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(sv)
+    monkeypatch.setattr(sv, "CONFIG", tmp_path)
+    monkeypatch.setattr(sv, "herramienta", lambda nombre: None)               # sin gsettings
+    css = tmp_path / "gtk-3.0" / "gtk.css"
+    css.parent.mkdir()
+    css.write_text(f"@import 'colors.css';\n@import '{MARCA['id']}-oscuro.css';\n", encoding="utf-8")
+    sv.gtk("claro", escribir=False)
+    assert f"{MARCA['id']}-oscuro.css" in css.read_text(encoding="utf-8")       # simular no escribe
+    sv.gtk("claro", escribir=True)
+    assert css.read_text(encoding="utf-8") == f"@import 'colors.css';\n@import '{MARCA['id']}-claro.css';\n"
+    css.write_text("@import 'colors.css';\n", encoding="utf-8")
+    sv.gtk("oscuro", escribir=True)
+    assert css.read_text(encoding="utf-8") == "@import 'colors.css';\n"           # sin GTK de Lliphi: intacto
+
+
+def test_gimp_tema():
+    """Tema de GIMP: los tres archivos de color definen los diecisiete nombres de Default e importan su común; el común
+    importa system.css (no ../System); los separadores, sin colores de Inkscape; contraste del texto y de lo elegido."""
+    gimp = registro.codigo("gimp")
+    tema = GEN / "gimp" / "themes" / MARCA["nombre"]
+    base = RAIZ / "fuentes" / "base" / "GIMP-Default"
+    nombres = set(re.findall(r"@define-color ([\w-]+)", (base / "gimp-dark.css").read_text(encoding="utf-8")))
+    assert len(nombres) == 17 and nombres == set(gimp.COLORES)
+    for archivo, comun in (("light", "common-light.css"), ("gray", "common-dark.css"), ("dark", "common-dark.css")):
+        texto = (tema / f"gimp-{archivo}.css").read_text(encoding="utf-8")
+        assert set(re.findall(r"@define-color ([\w-]+)", texto)) == nombres and f'@import url("{comun}");' in texto
+        assert texto.count("{") == texto.count("}")
+    comun = (tema / "common.css").read_text(encoding="utf-8")
+    assert '@import url("system.css");' in comun and "../System" not in comun and (tema / "system.css").is_file()
+    for svg in (tema / "ui").glob("*.svg"):
+        ET.parse(svg)
+        assert "pagecolor" not in svg.read_text(encoding="utf-8")
+    for v in ("claro", "oscuro"):
+        r = gimp.resueltos(TOKENS, v)
+        assert _contraste(r["fg-color"], r["bg-color"]) >= 4.5 and _contraste(r["fg-color"], r["extreme-bg-color"]) >= 4.5, v
+        sem = {k: t["$value"]["hex"] for k, t in _tokens_planos(TOKENS["semanticos"][v]).items()}
+        assert _contraste(sem["seleccion.texto"], sem["seleccion.fondo"]) >= 4.5, v
+    for v in ("claro", "oscuro"):
+        lineas = (GEN / "gimp" / "palettes" / f"{MARCA['nombre_esquema'][v]}.gpl").read_text(encoding="utf-8").splitlines()
+        assert lineas[0] == "GIMP Palette" and lineas[1] == f"Name: {MARCA['nombre_esquema'][v]}"
+        colores = [ln for ln in lineas[3:] if not ln.startswith("#")]
+        esperados = registro.codigo("libreoffice").paleta(TOKENS, v)
+        assert len(colores) == len(esperados)
+        for ln, (nombre, h) in zip(colores, esperados):
+            r, g, b, resto = ln.split(None, 3)
+            assert "#%02x%02x%02x" % (int(r), int(g), int(b)) == h and resto == nombre
+
+
+def test_gimp_aplicar():
+    fijar = registro.codigo("gimp", "aplicar").fijar
+    texto = '(prev-language "es")\n(theme "Default")\n(monitor-xresolution 158)\n'
+    nuevo = fijar(fijar(texto, "theme", '"Lliphi"'), "theme-color-scheme", "system")
+    assert nuevo == '(prev-language "es")\n(theme "Lliphi")\n(monitor-xresolution 158)\n(theme-color-scheme system)\n'
+    assert fijar(nuevo, "theme-color-scheme", "system") == nuevo
+
+
+def test_xournalpp():
+    """Paleta de bolígrafos: once colores como mínimo (los botones de la barra), los de escribir legibles sobre papel
+    blanco, cada uno del maestro; settings: ARGB opaco de los tokens; y la sustitución de propiedades."""
+    x = registro.codigo("xournalpp")
+    lineas = (GEN / "xournalpp" / "palettes" / f"{MARCA['nombre']}.gpl").read_text(encoding="utf-8").splitlines()
+    assert lineas[0] == "GIMP Palette"
+    colores = [ln.split(None, 3) for ln in lineas[1:] if ln[:1].isdigit() or ln[:1] == " "]
+    assert len(colores) >= 11
+    hexes = _hexes_maestro()
+    papel = _tokens_planos(TOKENS["semanticos"]["claro"])["fondo.vista"]["$value"]["hex"]
+    for r, g, b, nombre in colores:
+        h = "#%02x%02x%02x" % (int(r), int(g), int(b))
+        assert h in hexes, nombre
+        if "resaltar" not in nombre and nombre != "Blanco":
+            assert _contraste(h, papel) >= 4.5, (nombre, h)
+    props = x.propiedades(TOKENS, "/ruta/Lliphi.gpl")
+    assert props["colorPalette"] == "/ruta/Lliphi.gpl"
+    for k, v in props.items():
+        if k != "colorPalette":
+            assert int(v) >> 24 == 0xFF and "#%06x" % (int(v) & 0xFFFFFF) in hexes, k
+    fijar = registro.codigo("xournalpp", "aplicar").fijar_propiedades
+    texto = '<settings>\n  <property name="backgroundColor" value="1"/>\n  <property name="iconTheme" value="iconsLucide"/>\n</settings>\n'
+    nuevo = fijar(texto, {"backgroundColor": "2", "colorPalette": "/p/L.gpl"})
+    assert '<property name="backgroundColor" value="2"/>' in nuevo and '<property name="iconTheme" value="iconsLucide"/>' in nuevo
+    assert nuevo.count('name="colorPalette"') == 1 and nuevo.rstrip().endswith("</settings>")
+    ET.fromstring(nuevo)
+
+
+def test_calibre():
+    """Paletas de Calibre con roles de QPalette válidos y contraste; el visor con sus dos esquemas; el fundido conserva lo
+    del usuario (otras claves, otras paletas, sus esquemas)."""
+    c = registro.codigo("calibre")
+    roles = {"WindowText", "Text", "ButtonText", "PlaceholderText", "ToolTipText", "BrightText", "HighlightedText", "Window",
+             "Base", "Button", "AlternateBase", "ToolTipBase", "Highlight", "Accent", "Link", "LinkVisited"}
+    gui = json.loads((GEN / "calibre" / f"gui-{MARCA['id']}.json").read_text(encoding="utf-8"))
+    assert gui["color_palette"] == "system"
+    for v, clave in (("claro", "light"), ("oscuro", "dark")):
+        nombre = MARCA["nombre_esquema"][v]
+        assert gui[f"{clave}_palette_name"] == nombre
+        p = gui[f"{clave}_palettes"][nombre]
+        assert {r.removesuffix("-disabled") for r in p} <= roles and roles <= set(p)
+        for texto, fondo in c.PARES:
+            assert _contraste(p[texto], p[fondo]) >= 4.5, (v, texto, fondo)
+    visor = json.loads((GEN / "calibre" / f"visor-{MARCA['id']}.json").read_text(encoding="utf-8"))["user_color_schemes"]
+    assert set(visor) == {f"*{n}" for n in MARCA["nombre_esquema"].values()}
+    for e in visor.values():
+        assert _contraste(e["foreground"], e["background"]) >= 4.5 and _contraste(e["link"], e["background"]) >= 4.5
+    a = registro.codigo("calibre", "aplicar")
+    previo = {"emblem_style": "none", "dark_palettes": {"Mía": {"Window": "#000000"}}, "color_palette": "dark"}
+    fundido = a.fundir_gui(previo, c.preferencias_gui(TOKENS, MARCA))
+    assert fundido["emblem_style"] == "none" and "Mía" in fundido["dark_palettes"] and MARCA["nombre_esquema"]["oscuro"] in fundido["dark_palettes"]
+    assert fundido["color_palette"] == "system" and previo["dark_palettes"] == {"Mía": {"Window": "#000000"}}
+    visor_previo = {"session_data": {"base_font_size": 18, "user_color_schemes": {"*Mío": {"name": "Mío"}}}, "main_window_state": "x"}
+    fv = a.fundir_visor(visor_previo, c.esquemas_visor(TOKENS, MARCA))
+    assert fv["main_window_state"] == "x" and fv["session_data"]["base_font_size"] == 18
+    assert set(fv["session_data"]["user_color_schemes"]) == {"*Mío", *visor}
+
+
+def test_aplicar_gtk_xournalpp_gimp_calibre(tmp_path):
+    """Los cuatro aplicar() en un HOME temporal, con las herramientas del sistema simuladas (ni gsettings ni pgrep
+    reales): cada uno toca solo sus claves, y respaldos() declara los archivos que toca."""
+    import shutil as sh
+    from nucleo import instalacion
+    config, data = tmp_path / "config", tmp_path / "data"
+    ordenes = []
+    ctx = instalacion.Contexto(variante="claro", modulos=["gtk", "xournalpp", "gimp", "calibre"], CONFIG=config, DATA=data)
+    ctx.hay = lambda h: h == "gsettings"                                     # sin pgrep: los programas «cerrados»
+    ctx.ejecutar = lambda orden, mostrar=False: ordenes.append(orden)
+    ctx.decir = lambda texto: None
+    # lo instalado y lo que ya tenía el usuario
+    for v in (3, 4):
+        (config / f"gtk-{v}.0").mkdir(parents=True)
+        (config / f"gtk-{v}.0" / "colors.css").write_text("", encoding="utf-8")
+        (config / f"gtk-{v}.0" / "gtk.css").write_text("@import 'colors.css';\n", encoding="utf-8")
+    for f in ("lliphi-claro.css", "lliphi-oscuro.css"):
+        sh.copy(GEN / "gtk" / "gtk-3.0" / f, config / "gtk-3.0" / f)
+    sh.copy(GEN / "gtk" / "gtk-4.0" / "lliphi.css", config / "gtk-4.0" / "lliphi.css")
+    (config / "xournalpp" / "palettes").mkdir(parents=True)
+    sh.copy(GEN / "xournalpp" / "palettes" / f"{MARCA['nombre']}.gpl", config / "xournalpp" / "palettes")
+    (config / "xournalpp" / "settings.xml").write_text('<?xml version="1.0"?>\n<settings>\n  <property name="themeVariant" value="useSystem"/>\n</settings>\n', encoding="utf-8")
+    gimp = config / "GIMP" / "3.2"
+    sh.copytree(GEN / "gimp" / "themes" / MARCA["nombre"], gimp / "themes" / MARCA["nombre"])
+    (gimp / "gimprc").write_text('(config-version "3.2.2")\n', encoding="utf-8")
+    (config / "calibre").mkdir()
+    (config / "calibre" / "gui.json").write_text('{"emblem_style": "none"}', encoding="utf-8")
+    for m in ("gtk", "xournalpp", "gimp", "calibre"):
+        assert registro.codigo(m, "aplicar").aplicar(ctx) == 0, m
+    assert (config / "gtk-3.0" / "gtk.css").read_text(encoding="utf-8") == "@import 'colors.css';\n@import 'lliphi-claro.css';\n"
+    assert (config / "gtk-4.0" / "gtk.css").read_text(encoding="utf-8") == "@import 'colors.css';\n@import 'lliphi.css';\n"
+    assert ["gsettings", "set", "org.gnome.desktop.interface", "color-scheme", "prefer-light"] in ordenes
+    s = (config / "xournalpp" / "settings.xml").read_text(encoding="utf-8")
+    assert 'name="themeVariant" value="useSystem"' in s and f'{MARCA["nombre"]}.gpl' in s
+    assert (gimp / "gimprc").read_text(encoding="utf-8") == f'(config-version "3.2.2")\n(theme "{MARCA["nombre"]}")\n(theme-color-scheme system)\n'
+    gui = json.loads((config / "calibre" / "gui.json").read_text(encoding="utf-8"))
+    assert gui["emblem_style"] == "none" and gui["color_palette"] == "system"
+    visor = json.loads((config / "calibre" / "viewer-webengine.json").read_text(encoding="utf-8"))
+    assert len(visor["session_data"]["user_color_schemes"]) == 2
+    declarados = {r for m in ("gtk", "xournalpp", "gimp", "calibre") for r, _, _ in registro.codigo(m, "aplicar").respaldos(ctx)}
+    assert declarados == {config / "gtk-3.0" / "gtk.css", config / "gtk-4.0" / "gtk.css", config / "xournalpp" / "settings.xml",
+                          gimp / "gimprc", config / "calibre" / "gui.json", config / "calibre" / "viewer-webengine.json"}

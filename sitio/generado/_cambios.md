@@ -36,6 +36,18 @@ Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión de
   `sesion.py arrancar --escritorios N` y un reintento si el shell recién arrancado aún escribía su configuración.
 
 ### Added
+- **GTK 3, GTK 4 y libadwaita** (complemento `gtk`, decisiones 4.37): las aplicaciones GTK con los neutros y el acento de
+  los tokens, los mismos que Kvantum da a Qt, sobre el Breeze y los colores de `kde-gtk-config` (antes, los grises de
+  WhiteSur del esquema y el naranja de Yaru en libadwaita); GTK 4 cambia solo de variante con `prefers-color-scheme`, y
+  GTK 3 lo cambia `fondo-variante`, que también pone `color-scheme` en GSettings.
+- **Xournal++** (complemento `xournalpp`, decisiones 5.20): paleta de bolígrafos `Lliphi.gpl` (trece colores legibles
+  sobre papel) y los colores de alrededor de las páginas, de la selección y del recoloreado del modo oscuro.
+- **GIMP** (complemento `gimp`, decisiones 5.21): tema «Lliphi» con sus variantes clara y oscura, derivado del Default de
+  GIMP 3.2 (GPL-3.0-or-later, `fuentes/base/GIMP-Default/`), que sigue al escritorio con el esquema «Sistema»; y las
+  paletas `Lliphi Claro.gpl` y `Lliphi Oscuro.gpl`.
+- **Calibre** (complemento `calibre`, decisiones 5.22): paletas «Lliphi Claro» y «Lliphi Oscuro» para su propio estilo
+  (siguen al escritorio en vivo) y dos esquemas del visor; el esquema «Sistema» del visor ya sigue a Lliphi. Solo
+  preferencias de la interfaz, con respaldo; la biblioteca no se toca.
 - **Ningún azul fijo en el estilo de Plasma** (decisiones 4.36): la barra del volumen y del brillo, el botón pulsado, el
   calendario y otros controles siguen el acento (rojo en el oscuro); antes, WhiteSur dejaba el azul escrito.
 - **Iconos de la bandeja del mismo tamaño** (decisiones 4.35): superpuestos `Colloid-Grey-Light-Lliphi` y

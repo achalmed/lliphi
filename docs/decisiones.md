@@ -206,6 +206,26 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   (carpetas azules, para el claro) y crea `Papirus-Dark-Lliphi`, un tema superpuesto que hereda de Papirus-Dark y solo declara
   enlaces a las variantes rojas de todo icono que acaba en una carpeta azul (lugares, `inode-directory`, `user-home`…). El
   oscuro usa ese superpuesto. Efecto secundario bueno: Home y Escritorio, que antes quedaban azules en el oscuro, ahora son rojos.
+- **4.37 (2026-11-01) GTK con los neutros de los tokens, sobre Breeze y sin tema propio.** El autor pidió los temas de
+  Lliphi para las aplicaciones GTK. Medido en su escritorio: GTK 3 y GTK 4 usan Breeze (el portal de KDE da
+  `gtk-theme` Breeze; GSettings dice Adwaita, pero GTK en Plasma lo lee del portal) con los colores que `kde-gtk-config`
+  escribe en `~/.config/gtk-{3,4}.0/colors.css` desde el esquema; la preferencia oscura llega por el portal
+  (`org.freedesktop.appearance color-scheme` = 1 en el oscuro) y el acento no (el portal de KDE no lo da y el libadwaita
+  de Ubuntu pone el naranja de Yaru). El fallo de fondo: el esquema es la línea base de WhiteSur (4.4, ventana #363636) y
+  Qt se ve con los neutros de los tokens que pone Kvantum (#1b1c1e), así que GTK y Qt no casaban. Se decide (complemento
+  `gtk`): **(1) mejorar lo que genera KDE, no un tema derivado de WhiteSur-gtk**: libadwaita ignora los temas GTK y solo
+  lee `gtk.css` del usuario, `kde-gtk-config` ya reescribe los colores en cada cambio de esquema y conserva lo demás de
+  `gtk.css`, y un tema propio pedía `sassc`, recursos rasterizados y cambiar `gtk-theme-name` en cada variante; el precio
+  es la forma de Breeze en los controles. **(2)** Una hoja por variante para GTK 3 (`lliphi-claro.css`,
+  `lliphi-oscuro.css`, los 84 colores `*_breeze`) y una sola para GTK 4 con `@media (prefers-color-scheme: dark)`: los
+  colores con nombre de libadwaita 1.9 (que los define igual, dentro de la misma consulta) y sus variables
+  (`--accent-bg-color`, que Yaru fija con un valor directo), más los `*_breeze` de Breeze para GTK 4; se importan desde
+  `gtk.css` detrás de `colors.css`. **(3)** Los derivados se escriben como `mix()` de GTK sobre dos tokens; la selección
+  sin foco del claro es el azul entero (a media luz, el texto blanco no se leía en pantalla). **(4) Claro y oscuro**: GTK 4
+  y libadwaita cambian solos; la línea de GTK 3 la cambia la vigilancia de `fondo-variante`, solo si ya importa una hoja
+  de Lliphi, y también `color-scheme` de GSettings para lo que no lea el portal (no entra en `UNDO.sh`: `gsettings
+  reset`). Comprobado en un KWin virtual aparte (`muestras/capturas/*-38-gtk*.png`): antes y después en el oscuro,
+  libadwaita en las dos variantes con el acento de cada una.
 - **4.36 (2026-11-01) Ningún azul fijo en el estilo de Plasma.** El autor vio, en Lliphi Oscuro, la barra del volumen
   en azul. WhiteSur-dark dibuja esa barra (`widgets/bar_meter_*`) con la clase `ColorScheme-Highlight` pero con
   `fill:#4285f4` escrito, así que la clase no servía; lo mismo en el botón pulsado (`#0860f2`), el calendario, el
@@ -459,3 +479,37 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   `borde.separador` en las dos variantes: en el oscuro el anterior no se veía (comprobado en pantalla), y en el claro da
   el gris que LibreOffice trae por omisión. La interfaz sigue al escritorio; el «tema de LibreOffice» (UI propia) queda
   sin activar, como estaba. Validado con un perfil desechable en una sesión de KWin virtual (`validacion.md` §10).
+- **5.20 (2026-11-01) Xournal++: lo de GTK lo da `gtk`; la paleta y los colores propios, desde los tokens.** El autor
+  pidió Xournal++ (1.3.3, GTK 3). Su interfaz y su modo oscuro (`themeVariant=useSystem`) siguen al complemento `gtk`,
+  que además colorea la caja de herramientas flotante (su `xournalpp.css` la pinta en blanco). El complemento
+  `xournalpp` trae lo que es de Xournal++: **(1)** una paleta de bolígrafos `Lliphi.gpl` en la carpeta de paletas del
+  usuario, sobria: trece colores en el orden de los botones de la barra; como las páginas son blancas en las dos
+  variantes, los de escribir son los legibles sobre papel (≥ 4,5:1: texto y acento del claro, el rojo de Nothing, los
+  ANSI del claro) y los de resaltar, los claros del oscuro. **(2)** En `settings.xml`, con Xournal++ cerrado: gris oscuro
+  alrededor de las páginas, la selección en el azul del claro (se ve sobre el papel) y la activa en el rojo, y los colores
+  del recoloreado del modo oscuro (papel y tinta del oscuro, sin activarlo); son un valor para las dos variantes porque
+  Xournal++ no los cambia con el modo. El fondo de página y la rejilla se dejan: son del documento y se imprimen. El
+  `settings.xml` del autor es un enlace a sus dotfiles: aplicar escribe allí, con respaldo. Comprobado en el KWin
+  virtual con un documento de muestra (`muestras/capturas/*-39-xournalpp.png`).
+- **5.21 (2026-11-01) GIMP: un tema «Lliphi» con dos variantes, derivado del Default de GIMP 3.2.** GIMP es la 3.2.2.
+  Su tema Default ya es paramétrico (diecisiete colores con nombre en `gimp-{light,gray,dark}.css` y el resto en
+  `common*.css`), así que el de Lliphi copia los comunes (GPL-3.0-or-later, `fuentes/base/GIMP-Default/`) y escribe los
+  colores desde los tokens: el claro con Lliphi Claro, el oscuro y el gris con Lliphi Oscuro. Un tema con sus dos
+  variantes, como hace GIMP 3 y como Kvantum (4.19), en vez de dos temas: con `(theme-color-scheme system)` GIMP sigue al
+  escritorio en vivo y `fondo-variante` no tiene que hacer nada. Encima, una capa con lo elegido (filas de listas y
+  vistas, menú bajo el ratón, casillas, interruptores, progreso) en el acento; el lienzo y las barras de valor de las
+  opciones de herramienta quedan neutros: en rojo entero gritaban (visto en pantalla) y GIMP los quiere grises para no
+  sesgar el color. `common.css` importaba `../System/gimp.css`, que fuera del sistema no existe: pasa a `system.css`
+  copiado. Y dos paletas `.gpl` con los colores de las de LibreOffice. Aplicar escribe solo `theme` y
+  `theme-color-scheme` en `gimprc`, con GIMP cerrado. Comprobado en el KWin virtual en las dos variantes
+  (`muestras/capturas/*-40-gimp.png`).
+- **5.22 (2026-11-01) Calibre: sus paletas con nombre, no Kvantum; el visor sigue solo.** Calibre 9.17 no usa Kvantum
+  (pinta con su estilo, sobre Fusion, salvo con `CALIBRE_USE_SYSTEM_THEME`) y ya cambia entre claro y oscuro con el
+  escritorio (`color_palette` «system», en vivo). Desde la 7 cada modo admite una paleta con nombre en `gui.json`
+  (`light_palettes`, `dark_palettes`, rol de `QPalette` → color; leído del código de 9.17). Se decide: **(1)** dos paletas
+  «Lliphi Claro» y «Lliphi Oscuro» con la lógica de Kvantum, y `color_palette` en «system»; se conserva el estilo de
+  Calibre, que es el mantenido. **(2)** El visor tiene esquemas propios, pero su «Sistema» toma fondo, texto y enlaces de
+  la paleta de Calibre (`system_colors()`), así que con (1) ya sigue a Lliphi y a la variante; se añaden dos esquemas
+  fijos de Lliphi para leer en la otra variante. **(3)** Solo esas claves de `gui.json` y `viewer-webengine.json`, con
+  respaldo y con Calibre cerrado; la biblioteca del autor (`~/Documents/biblioteca`, `metadata.db`) no se abre. Comprobado
+  en el KWin virtual con un perfil y una biblioteca de prueba (`muestras/capturas/*-41-calibre*.png`).
