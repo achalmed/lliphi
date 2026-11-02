@@ -36,6 +36,11 @@ Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión de
   `sesion.py arrancar --escritorios N` y un reintento si el shell recién arrancado aún escribía su configuración.
 
 ### Added
+- **RStudio, GNU Octave y Spyder** (decisiones 5.40–5.43), tres complementos nuevos: temas `.rstheme` de RStudio (editor,
+  interfaz, consola de R y terminal con los ANSI de Konsole); los colores de Octave en sus dos modos (claro en el primero,
+  oscuro en el segundo) fusionados en `octave-gui.ini`; esquemas de Spyder con interfaz automática y los dieciséis ANSI
+  en la consola IPython. La vigilancia de `fondo-variante` ejecuta los programas de `variante.d/`, con los que los tres
+  siguen a la variante al abrirse de nuevo.
 - **Ningún azul fijo en el estilo de Plasma** (decisiones 4.36): la barra del volumen y del brillo, el botón pulsado, el
   calendario y otros controles siguen el acento (rojo en el oscuro); antes, WhiteSur dejaba el azul escrito.
 - **Iconos de la bandeja del mismo tamaño** (decisiones 4.35): superpuestos `Colloid-Grey-Light-Lliphi` y
