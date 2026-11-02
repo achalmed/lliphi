@@ -614,6 +614,20 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   `complementos/editores/INSTALL.md` y se le propone al autor, sin escribirlo. Todo comprobado en la sesión de prueba
   (capturas 53–56): con los cuatro abiertos en Lliphi Oscuro, el paso a Lliphi Claro cambió en vivo Kate, TeXstudio y
   Positron; `fondo-variante` pasó el perfil de Konsole a Lliphi Claro y un Neovim nuevo abrió con `background=light`.
+- **5.9 (2026-11-01) La extensión de los editores se instala con la orden del editor, no copiando la carpeta.** En el
+  escritorio del autor los temas de Lliphi no aparecían en Positron 2026.06 aunque la carpeta estaba en
+  `~/.positron/extensions/lliphi.lliphi`: Positron, como VS Code desde hace varias versiones, solo carga las extensiones
+  de su registro (`extensions.json`), anotó la carpeta copiada en `.obsolete` como desinstalada y la ignoró; y como
+  «Lliphi Claro» no existía para él, borró de `settings.json` el tema claro preferido que lo nombraba (lo que parecía
+  una línea que desaparecía sola). En la sesión de prueba no se vio porque el HOME era nuevo: la carpeta ya estaba antes
+  del primer arranque y entró en el registro. Se decide: (1) `editores` genera además `vscode/lliphi.vsix` (un zip OPC
+  con `extension.vsixmanifest`, reproducible: orden, fecha y permisos fijos, para que `verificar` no vea deriva); (2) el
+  instalador deja de copiar la carpeta a VS Code, Positron y VSCodium y la instala con `<editor> --install-extension
+  <vsix> --force` de cada uno que esté en el PATH (con `--extensions-dir` si el usuario fijó su carpeta), que la
+  registra; `UNDO.sh` y `desinstalar` la retiran con `--uninstall-extension`; (3) para eso el núcleo de instalación gana
+  dos ganchos genéricos de los `aplicar.py`, `tras_instalar(ctx, aplicar)` (después de copiar, también al simular;
+  devuelve las líneas de `UNDO.sh` que lo deshacen) y `al_desinstalar(ctx, aplicar)`. Probado con órdenes falsas en
+  `test_instalar_y_desinstalar_restaura` y, en el escritorio del autor, con el Positron real.
 - **5.30 (2026-11-01) Telegram Desktop: dos temas desde los tokens, con las claves de la versión instalada.** El autor
   pidió el tema de Lliphi para Telegram. Instalado: Telegram Desktop 7.3.3 (Snap). Se decide: (1) **plantilla de
   claves**: la paleta por omisión de esa versión, `ui/colors.palette` de lib_ui en la confirmación que usa tdesktop

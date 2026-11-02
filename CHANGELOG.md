@@ -4,6 +4,12 @@ Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión de
 
 ## [Unreleased]
 
+### Fixed
+- **La extensión de VS Code, Positron y VSCodium se instala con `--install-extension`** (decisiones 5.9): `editores`
+  genera `lliphi.vsix` y el instalador la registra con la orden de cada editor del PATH (y la retira el `UNDO.sh`), en
+  lugar de copiar la carpeta, que Positron daba por desinstalada y no mostraba los temas. Nuevos ganchos del instalador
+  para los `aplicar.py`: `tras_instalar()` y `al_desinstalar()`.
+
 ### Added
 - **Kate, TeXstudio y Vim/Neovim** (decisiones 5.5–5.8): tres complementos nuevos. `kate`: Lliphi Claro y Lliphi Oscuro
   como temas de KSyntaxHighlighting, con el fondo y la selección de la paleta de Kvantum, para que Kate (y KWrite y

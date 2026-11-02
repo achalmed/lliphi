@@ -226,7 +226,8 @@ def respaldar(ctx: Contexto, aplicar: bool) -> tuple[Path, list[tuple[Path, str,
     return carpeta, todos
 
 
-def escribir_undo(carpeta: Path, respaldados: list[tuple[Path, str, str, Path]], rutas: list[Path]) -> None:
+def escribir_undo(carpeta: Path, respaldados: list[tuple[Path, str, str, Path]], rutas: list[Path],
+                  deshacer: list[str] | None = None) -> None:
     lineas = ["#!/usr/bin/env bash", f"# UNDO de {MARCA['nombre']} {VERSION}: restaura la configuración respaldada en {carpeta.name} y desinstala.",
               "set -euo pipefail", f'CONFIG="{CONFIG}"', f'DATA="{DATA}"', f'RESPALDO="{carpeta}"', ""]
     for ruta, modo, rotulo, rel in respaldados:
@@ -238,10 +239,19 @@ def escribir_undo(carpeta: Path, respaldados: list[tuple[Path, str, str, Path]],
             lineas.append(f'[ -f "$RESPALDO/{rel.as_posix()}" ] && mkdir -p "$(dirname "{base}/{sub}")" && cp -p "$RESPALDO/{rel.as_posix()}" "{base}/{sub}" && echo "restaurado {rotulo}"')
     for r in rutas:
         lineas.append(f'rm -rf "{r}" && echo "retirado {r}"')
+    lineas += list(deshacer or [])       # lo que instalaron los `tras_instalar()` de los módulos
     lineas += [f'rm -f "{MANIFIESTO}"', 'echo "Listo. Cierra la sesión y vuelve a entrar para que Plasma relea la configuración."']
     undo = carpeta / "UNDO.sh"
     undo.write_text("\n".join(lineas) + "\n", encoding="utf-8")
     undo.chmod(0o755)
+
+
+def ganchos(nombre: str, ids: list[str]) -> list:
+    """Las funciones `nombre` de los `aplicar.py` de los módulos `ids`, en el orden del registro: `tras_instalar(ctx,
+    aplicar)`, que instala lo que no es copiar archivos (una extensión con la orden de su editor) y devuelve las líneas de
+    `UNDO.sh` que lo deshacen, y `al_desinstalar(ctx, aplicar)`."""
+    return [getattr(registro.codigo(m.id, "aplicar"), nombre) for m in registro.con("aplicar")
+            if m.id in ids and hasattr(registro.codigo(m.id, "aplicar"), nombre)]
 
 
 def a_aplicar(seleccion: list[str]) -> list[str]:
@@ -278,6 +288,7 @@ def instalar(seleccion: list[str], aplicar: bool, aplicar_tema: str | None) -> i
             if destino.exists():
                 shutil.rmtree(destino) if destino.is_dir() else destino.unlink()
             shutil.copytree(origen, destino) if origen.is_dir() else shutil.copy2(origen, destino)
+    deshacer = [linea for f in ganchos("tras_instalar", seleccion) for linea in (f(ctx, aplicar) or [])]
     if aplicar:
         STATE.mkdir(parents=True, exist_ok=True)
         # el manifiesto acumula: instalar solo algunos módulos no olvida los ya instalados
@@ -287,7 +298,7 @@ def instalar(seleccion: list[str], aplicar: bool, aplicar_tema: str | None) -> i
         MANIFIESTO.write_text(json.dumps({"version": VERSION, "fecha": datetime.now().isoformat(timespec="seconds"),
                                           "modulos": sorted(set(previo.get("modulos", [])) | set(instalables(seleccion))), "rutas": rutas,
                                           "respaldo": str(carpeta)}, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-        escribir_undo(carpeta, respaldados, [d for _, d in pares])
+        escribir_undo(carpeta, respaldados, [d for _, d in pares], deshacer)
         print(f"  manifiesto: {MANIFIESTO}\n  reversión: {carpeta / 'UNDO.sh'}")
     if aplicar_tema:
         orden = a_aplicar(seleccion)
@@ -312,6 +323,9 @@ def desinstalar(aplicar: bool) -> int:
         print(f"  {'retirado' if aplicar else 'SIM retirar'} {p}")
         if aplicar and p.exists():
             shutil.rmtree(p) if p.is_dir() else p.unlink()
+    ctx = Contexto(variante="oscuro", modulos=m["modulos"])
+    for f in ganchos("al_desinstalar", m["modulos"]):
+        f(ctx, aplicar)
     respaldo = Path(m["respaldo"])
     print(f"  la configuración previa está en {respaldo} (UNDO.sh la restaura entera)")
     print("  las dependencias de terceros (Colloid y su superpuesto -Lliphi, Papirus, Papirus-Dark-Lliphi, cursores, tipografías) no se retiran")

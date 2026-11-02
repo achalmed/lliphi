@@ -486,6 +486,16 @@ def test_vscode_extension():
             assert colores_por_ambito[ambito] == e[papel], (v, ambito)
         assert tema["semanticTokenColors"]["function"] == e["funcion"]
     assert (ext / "README.md").exists()
+    # el mismo paquete como VSIX (decisiones 5.9): la carpeta bajo extension/ y su manifiesto con la identidad
+    import zipfile
+    with zipfile.ZipFile(GEN / "editores" / "vscode" / f"{MARCA['id']}.vsix") as z:
+        nombres = set(z.namelist())
+        assert {"[Content_Types].xml", "extension.vsixmanifest"} <= nombres
+        assert {"extension/" + f.relative_to(ext).as_posix() for f in ext.rglob("*") if f.is_file()} <= nombres
+        assert json.loads(z.read("extension/package.json")) == pkg
+        m = ET.fromstring(z.read("extension.vsixmanifest"))
+        ident = m.find(".//{http://schemas.microsoft.com/developer/vsx-schema/2011}Identity")
+        assert (ident.get("Id"), ident.get("Publisher"), ident.get("Version")) == (pkg["name"], pkg["publisher"], pkg["version"])
 
 
 def test_zed_tema():
@@ -1071,13 +1081,21 @@ def _entorno(tmp: Path) -> dict:
 @pytest.mark.skipif(shutil.which("plasmashell") is None, reason="sin Plasma")
 def test_instalar_y_desinstalar_restaura(tmp_path: Path):
     env = _entorno(tmp_path)
+    # VS Code y Positron «instalados» como órdenes falsas que anotan cómo se las llama (decisiones 5.9); VSCodium no
+    bin_ = tmp_path / "bin"
+    bin_.mkdir()
+    for editor in ("code", "positron"):
+        (bin_ / editor).write_text(f'#!/bin/sh\necho "{editor} $*" >> "{tmp_path}/editores.log"\n', encoding="utf-8")
+        (bin_ / editor).chmod(0o755)
+    env["PATH"] = f"{bin_}:{env['PATH']}"
+    log = tmp_path / "editores.log"
     (tmp_path / ".config").mkdir()
     (tmp_path / ".config" / "kdeglobals").write_text("[General]\nColorScheme=BreezeDark\n", encoding="utf-8")
-    (tmp_path / ".positron").mkdir()          # Positron instalado; VSCodium (~/.vscode-oss) no: se omite sin crearlo
     antes = {p.relative_to(tmp_path): p.read_bytes() for p in tmp_path.rglob("*") if p.is_file()}
     sim = correr("herramientas/instalar.py", env=env)
     assert sim.returncode == 0 and "SIM" in sim.stdout and not (tmp_path / ".local/share").exists(), sim.stdout
-    assert "omitido" in sim.stdout and "VSCodium" in sim.stdout and "Positron no está" not in sim.stdout, sim.stdout
+    assert "SIM Positron:" in sim.stdout and "SIM VS Code:" in sim.stdout and "VSCodium" not in sim.stdout, sim.stdout
+    assert not log.exists()
     ap = correr("herramientas/instalar.py", "--aplicar", env=env)
     assert ap.returncode == 0, ap.stdout + ap.stderr
     assert (tmp_path / ".local/share/plasma/look-and-feel" / MARCA["id_global"]["oscuro"] / "metadata.json").exists()
@@ -1085,9 +1103,10 @@ def test_instalar_y_desinstalar_restaura(tmp_path: Path):
     assert (tmp_path / ".config/alacritty/themes" / f"{MARCA['id']}-oscuro.toml").exists()
     assert (tmp_path / ".config/kitty/themes" / f"{MARCA['id']}-claro.conf").exists()
     assert (tmp_path / ".config/zed/themes" / f"{MARCA['id']}.json").exists()
-    assert (tmp_path / ".vscode/extensions" / f"{MARCA['id']}.{MARCA['id']}" / "package.json").exists()
-    assert (tmp_path / ".positron/extensions" / f"{MARCA['id']}.{MARCA['id']}" / "package.json").exists()
-    assert not (tmp_path / ".vscode-oss").exists()
+    vsix = GEN / "editores" / "vscode" / f"{MARCA['id']}.vsix"
+    for editor in ("code", "positron"):     # la extensión, con la orden del editor; ya no se copia la carpeta
+        assert f"{editor} --install-extension {vsix} --force" in log.read_text(encoding="utf-8").splitlines()
+    assert not (tmp_path / ".vscode").exists() and not (tmp_path / ".positron").exists()
     assert (tmp_path / ".local/share/aurorae/themes" / MARCA["id"] / "decoration.svg").exists()
     assert (tmp_path / ".local/share/aurorae/themes" / f"{MARCA['id']}-claro" / f"{MARCA['id']}-clarorc").exists()
     manifiesto = tmp_path / ".local/state" / MARCA["id"] / "instalado.json"
@@ -1120,8 +1139,7 @@ def test_instalar_y_desinstalar_restaura(tmp_path: Path):
     assert (tmp_path / ".config" / "kdeglobals").read_bytes() == antes[Path(".config/kdeglobals")]
     assert not (tmp_path / ".local/share/plasma/look-and-feel" / MARCA["id_global"]["oscuro"]).exists()
     assert not (tmp_path / ".config/kitty/themes" / f"{MARCA['id']}-claro.conf").exists()
-    assert not (tmp_path / ".vscode/extensions" / f"{MARCA['id']}.{MARCA['id']}").exists()
-    assert not (tmp_path / ".positron/extensions" / f"{MARCA['id']}.{MARCA['id']}").exists() and (tmp_path / ".positron").is_dir()
+    assert f"positron --uninstall-extension {MARCA['id']}.{MARCA['id']}" in log.read_text(encoding="utf-8")
     assert not manifiesto.exists()
 
 

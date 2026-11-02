@@ -1,16 +1,26 @@
-## Instalar a mano
+## Instalar
 
-El instalador (`python3 herramientas/instalar.py --modulos editores --aplicar`) copia la extensión a
-`~/.vscode/extensions/lliphi.lliphi/` (o a `$VSCODE_EXTENSIONS` si está definida) y el tema de Zed a
-`~/.config/zed/themes/lliphi.json`. Si existe `~/.positron` copia la misma extensión a
-`~/.positron/extensions/lliphi.lliphi/` (o `$POSITRON_EXTENSIONS`), y si existe `~/.vscode-oss`, a
-`~/.vscode-oss/extensions/lliphi.lliphi/` (o `$VSCODIUM_EXTENSIONS`); si no existen, lo omite y lo dice en la
-simulación, sin crear nada. Ningún editor activa el tema solo.
+El instalador (`python3 herramientas/instalar.py --modulos editores --aplicar`) instala la extensión con la orden de
+cada editor de la familia que esté en el PATH (`code`, `positron`, `codium`): `<editor> --install-extension
+generado/editores/vscode/lliphi.vsix --force`, que la registra en su `extensions.json` (con `--extensions-dir` si está
+definida `$VSCODE_EXTENSIONS`, `$POSITRON_EXTENSIONS` o `$VSCODIUM_EXTENSIONS`). Copia además el tema de Zed a
+`~/.config/zed/themes/lliphi.json`. El `UNDO.sh` y `instalar.py desinstalar` la retiran con `--uninstall-extension`.
+Ningún editor activa el tema solo.
+
+**No copies la carpeta `vscode/lliphi/` a `~/.<editor>/extensions/`**: las versiones actuales solo cargan las
+extensiones de su registro, anotan la carpeta copiada en `.obsolete` como desinstalada y no muestran los temas
+(decisiones 5.9). A mano, instala el `.vsix`:
+
+```bash
+positron --install-extension generado/editores/vscode/lliphi.vsix --force    # o code, o codium
+```
+
+o, dentro del editor, Extensiones → «…» → Instalar desde VSIX. Recarga la ventana si estaba abierto.
 
 ### VS Code
 
-1. Copia la carpeta `vscode/lliphi/` a `~/.vscode/extensions/lliphi.lliphi/`.
-2. Reinicia VS Code y elige el tema: `Ctrl+K Ctrl+T` → «Lliphi Oscuro» o «Lliphi Claro»; o en `settings.json`:
+1. Instala `vscode/lliphi.vsix` (arriba).
+2. Elige el tema: `Ctrl+K Ctrl+T` → «Lliphi Oscuro» o «Lliphi Claro»; o en `settings.json`:
 
 ```json
 "workbench.colorTheme": "Lliphi Oscuro"
@@ -21,9 +31,8 @@ Para que siga al sistema: `"window.autoDetectColorScheme": true`, `"workbench.pr
 
 ### Positron y VSCodium
 
-Positron (Posit) y VSCodium son derivados de VS Code y leen la misma extensión, cada uno desde su carpeta:
-Positron, `~/.positron/extensions/`; VSCodium, `~/.vscode-oss/extensions/`. Copia allí `vscode/lliphi/` como
-`lliphi.lliphi/`, reinicia el editor y elige el tema como en VS Code (`Ctrl+K Ctrl+T` o `workbench.colorTheme`).
+Positron (Posit) y VSCodium son derivados de VS Code y leen la misma extensión. Instala `vscode/lliphi.vsix` con su
+orden (`positron` o `codium`, arriba) y elige el tema como en VS Code (`Ctrl+K Ctrl+T` o `workbench.colorTheme`).
 Positron guarda su `settings.json` en `~/.config/Positron/User/`; VSCodium, en `~/.config/VSCodium/User/`.
 
 En Positron el tema cubre también lo que es solo suyo (decisiones 5.4): la consola (con el fondo y los ANSI de la
@@ -54,6 +63,5 @@ Sustituye la carpeta de la extensión y el archivo de Zed; los nombres de los te
 
 ## Desinstalar
 
-Elige otro tema en cada editor y borra `~/.vscode/extensions/lliphi.lliphi/`, `~/.positron/extensions/lliphi.lliphi/`,
-`~/.vscode-oss/extensions/lliphi.lliphi/` (las que existan) y `~/.config/zed/themes/lliphi.json`.
+Elige otro tema en cada editor, `<editor> --uninstall-extension lliphi.lliphi` y borra `~/.config/zed/themes/lliphi.json`.
 El instalador (`desinstalar`) hace lo segundo y no toca los `settings.json`, que son tuyos.

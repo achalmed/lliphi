@@ -107,7 +107,7 @@ genera desde los manifiestos) y `herramientas/{lamina,boceto,comparar,contacto}.
 ├── README.md           obligatorio: responsabilidad, formato, estructura, dependencias, cómo desarrollarlo
 ├── INSTALL.md          obligatorio: instalar, actualizar y desinstalar a mano (lo publica el sitio)
 ├── construir.py        paquete: generar(); componente: integrar(); opcional: valores()
-├── aplicar.py          opcional: aplicar(ctx) y respaldos(ctx)
+├── aplicar.py          opcional: aplicar(ctx), respaldos(ctx), tras_instalar(ctx, aplicar), al_desinstalar(ctx, aplicar)
 ├── externas.py         externo (y quien tenga terceros): instalar(aplicar, opcionales)
 ├── ajustes.json        opcional: los valores editables del módulo, declarativos (los edita Lliphi Studio, `studio/`)
 └── …                   fuentes propias (p. ej. escritorio.js de disposicion)
@@ -143,6 +143,9 @@ Funciones:
 - `aplicar(ctx) -> int`: lo que hace en la sesión con `--aplicar-tema`; `ctx` da `variante`, `modulos`, `marca`,
   `tokens`, `DATA`, `CONFIG`, `kwrite()`, `ejecutar()`, `hay()`, `decir()` y `codigo()`. Distinto de 0 detiene la aplicación.
 - `respaldos(ctx) -> [(ruta, "reponer"|"completar", rótulo)]`: qué copiar antes de instalar y cómo devolverlo en `UNDO.sh`.
+- `tras_instalar(ctx, aplicar) -> [línea]`: lo que instala un módulo sin copiar archivos (la extensión de los editores,
+  con `--install-extension`; decisiones 5.9), después de copiar y también al simular; devuelve las líneas de `UNDO.sh`
+  que lo deshacen. `al_desinstalar(ctx, aplicar)`: lo retira con `instalar.py desinstalar`.
 
 ## 5. Construcción (`herramientas/generar.py`)
 
@@ -177,14 +180,15 @@ bash ~/.local/state/lliphi/respaldos/<fecha>/UNDO.sh                # vuelve exa
 2. Calcula los pares origen → destino de los manifiestos; omite y avisa las bases condicionales sin su editor.
 3. Se detiene (sale 3) si un destino tiene algo que no instaló Lliphi y no es idéntico.
 4. Respalda lo que declaran los `respaldos()` de todos los módulos con su SHA-256 verificada.
-5. Copia, anota `instalado.json` (rutas normalizadas, sumas, módulos, respaldo) y escribe `UNDO.sh`.
+5. Copia, corre los `tras_instalar()` de los módulos pedidos, anota `instalado.json` (rutas normalizadas, sumas,
+   módulos, respaldo) y escribe `UNDO.sh` con lo que estos devuelven.
 6. Con `--aplicar-tema`: `aplicar()` del tema global (si `plasma-apply-lookandfeel` falla, no sigue) y después el de
    cada módulo en el orden del registro; los componentes y externos del tema global se aplican siempre con él.
 
 `comprobar` (sale 4 si falta algo): cada ruta del manifiesto existe y es igual a `generado/`; KDE reconoce cada
 paquete (`kpackagetool6 --type <tipo> --show <id>` para tema global, estilo y decoración; los fondos no se resuelven
 así ni los del sistema); los temas de iconos y cursores y las tipografías que nombra el tema global existen (aviso).
-`desinstalar` retira lo del manifiesto, no lo de terceros. Nada de esto usa rutas absolutas del repositorio: todo
+`desinstalar` retira lo del manifiesto y corre los `al_desinstalar()`, no lo de terceros. Nada de esto usa rutas absolutas del repositorio: todo
 cuelga de la raíz del proyecto y de las variables XDG.
 
 ## 7. Validación y pruebas

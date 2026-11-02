@@ -2,7 +2,9 @@
 integrada, sobre el esquema de Nothing, decisiones 4.30; el fondo y el texto de la terminal siguen siendo los tokens):
 
 - VS Code: una extensión mínima `vscode/<id>/` (`package.json` que contribuye dos temas, `themes/*-color-theme.json`
-  con `colors` y `tokenColors`, `README.md`). Se instala copiando la carpeta a `~/.vscode/extensions/`.
+  con `colors` y `tokenColors`, `README.md`) y la misma empaquetada como `vscode/<id>.vsix`, que el instalador pasa
+  a `--install-extension` de cada editor de la familia (VS Code, Positron, VSCodium): copiada a mano, la carpeta no
+  queda en el registro del editor (`extensions.json`) y el editor la da por desinstalada (decisiones 5.9).
 - Zed: `zed/<id>.json` con las dos variantes en un solo archivo (`themes[]`, esquema v0.2.0), para `~/.config/zed/themes/`.
 
 La sintaxis deriva de los ANSI de cada variante con una tabla única (`sintaxis`): palabras clave en rojo (color1),
@@ -15,7 +17,9 @@ canal alfa (`#rrggbbaa`): el color base sigue siendo un token; la prueba de hexe
 from __future__ import annotations
 
 import json
+import zipfile
 from pathlib import Path
+from xml.sax.saxutils import escape
 
 from nucleo import VERSION, escribir, hexa, registro, semanticos
 
@@ -435,5 +439,51 @@ la sintaxis los dieciséis ANSI y la terminal integrada el esquema de Konsole.
 
 Generado por `herramientas/generar.py`; no editar. Sitio: {marca['sitio_tema']} · Código: {marca['repositorio']}
 """, hechos)
+    escribir_vsix(ext, destino / "vscode" / f"{marca['id']}.vsix", hechos)
     escribir(destino / "zed" / f"{marca['id']}.json", _json(tema_zed(tokens, marca)), hechos)
     return hechos
+
+
+def manifiesto_vsix(pkg: dict) -> str:
+    """El `extension.vsixmanifest` de un VSIX (OPC), con la identidad del `package.json`."""
+    return f"""<?xml version="1.0" encoding="utf-8"?>
+<PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
+  <Metadata>
+    <Identity Language="en-US" Id="{pkg['name']}" Version="{pkg['version']}" Publisher="{pkg['publisher']}" />
+    <DisplayName>{escape(pkg['displayName'])}</DisplayName>
+    <Description xml:space="preserve">{escape(pkg['description'])}</Description>
+    <Categories>Themes</Categories>
+    <Properties>
+      <Property Id="Microsoft.VisualStudio.Code.Engine" Value="{pkg['engines']['vscode']}" />
+    </Properties>
+  </Metadata>
+  <Installation>
+    <InstallationTarget Id="Microsoft.VisualStudio.Code" />
+  </Installation>
+  <Dependencies />
+  <Assets>
+    <Asset Type="Microsoft.VisualStudio.Code.Manifest" Path="extension/package.json" Addressable="true" />
+  </Assets>
+</PackageManifest>
+"""
+
+
+TIPOS_VSIX = ('<?xml version="1.0" encoding="utf-8"?>\n<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">'
+              '<Default Extension=".json" ContentType="application/json" /><Default Extension=".md" ContentType="text/markdown" />'
+              '<Default Extension=".vsixmanifest" ContentType="text/xml" /></Types>\n')
+
+
+def escribir_vsix(ext: Path, vsix: Path, hechos: list[Path]) -> None:
+    """La extensión `ext` empaquetada como VSIX (un zip: `[Content_Types].xml`, `extension.vsixmanifest` y la carpeta
+    bajo `extension/`), reproducible: entradas en orden, fecha fija y permisos fijos, para que `generar.py verificar`
+    no vea deriva entre dos construcciones."""
+    entradas = [("[Content_Types].xml", TIPOS_VSIX.encode()),
+                ("extension.vsixmanifest", manifiesto_vsix(json.loads((ext / "package.json").read_text(encoding="utf-8"))).encode())]
+    entradas += [("extension/" + f.relative_to(ext).as_posix(), f.read_bytes()) for f in sorted(ext.rglob("*")) if f.is_file()]
+    vsix.parent.mkdir(parents=True, exist_ok=True)
+    with zipfile.ZipFile(vsix, "w") as z:
+        for nombre, datos in entradas:
+            info = zipfile.ZipInfo(nombre, date_time=(1980, 1, 1, 0, 0, 0))
+            info.compress_type, info.external_attr = zipfile.ZIP_DEFLATED, 0o644 << 16
+            z.writestr(info, datos)
+    hechos.append(vsix)

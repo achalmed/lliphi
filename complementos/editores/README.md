@@ -12,8 +12,10 @@ Es un **complemento**: existía antes de la reingeniería y se conserva fuera de
 
 ## Responsabilidad y formato
 
-- La extensión va a `~/.vscode/extensions/lliphi.lliphi` y, solo si existe su carpeta, a Positron y VSCodium
-  (bases condicionales: el instalador nunca las crea); Zed, a `$XDG_CONFIG_HOME/zed/themes/`.
+- La extensión se empaqueta como `vscode/lliphi.vsix` (reproducible) y `aplicar.py` la instala con
+  `--install-extension` de cada editor de la familia que esté en el PATH (`tras_instalar()`, y la retira
+  `al_desinstalar()`): copiada a mano, el editor no la registra y no la carga (decisiones 5.9). Zed, a
+  `$XDG_CONFIG_HOME/zed/themes/`.
 - Lo generado: `generado/editores/{vscode,zed}/`.
 
 ## Desarrollar

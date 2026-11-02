@@ -4,11 +4,12 @@
   "clase": "paquete",
   "orden": 5,
   "formato": "varios",
-  "tecnologia": "VS Code color theme (`colors`, `tokenColors`, `semanticTokenColors`), leído también por Positron (`~/.positron/extensions/`) y VSCodium (`~/.vscode-oss/extensions/`) · Zed theme v0.2.0",
+  "tecnologia": "VS Code color theme (`colors`, `tokenColors`, `semanticTokenColors`), empaquetado como `.vsix` e instalado con `--install-extension` de VS Code, Positron y VSCodium · Zed theme v0.2.0",
   "estado": "experimental",
   "desde": "0.2.0",
   "archivos": [
     "vscode/lliphi/",
+    "vscode/lliphi.vsix",
     "zed/lliphi.json"
   ],
   "capturas": [
@@ -20,24 +21,14 @@
   "dependencias": {
     "construccion": [
       "konsole"
+    ],
+    "herramientas_opcionales": [
+      "code",
+      "positron",
+      "codium"
     ]
   },
   "instalacion": [
-    {
-      "origen": "vscode/{id}",
-      "destino": "{id}.{id}",
-      "base": "vscode"
-    },
-    {
-      "origen": "vscode/{id}",
-      "destino": "{id}.{id}",
-      "base": "positron"
-    },
-    {
-      "origen": "vscode/{id}",
-      "destino": "{id}.{id}",
-      "base": "vscodium"
-    },
     {
       "origen": "zed/{id}.json",
       "destino": "zed/themes/{id}.json",
