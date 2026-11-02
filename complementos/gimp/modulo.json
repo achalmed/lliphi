@@ -1,0 +1,53 @@
+{
+  "nombre": "GIMP: tema de interfaz y paletas",
+  "resumen": "Un tema de interfaz de GIMP 3 con sus dos variantes, Lliphi Claro y Lliphi Oscuro, derivado del tema Default de GIMP: los neutros de los tokens y lo elegido en el acento, con el lienzo neutro; con el esquema de color «del sistema», sigue al escritorio. Y dos paletas .gpl con los colores de Lliphi.",
+  "clase": "paquete",
+  "orden": 22,
+  "formato": "varios",
+  "tecnologia": "tema de GIMP 3 (`gimp-{light,gray,dark}.css` con 17 `@define-color` e importación de `common-*.css`, CSS de GTK 3) · `(theme-color-scheme system)` de `gimprc` · paleta «GIMP Palette» (`.gpl`)",
+  "estado": "probado",
+  "desde": "0.4.0",
+  "licencia": "GPL-3.0-or-later",
+  "archivos": [
+    "themes/Lliphi/gimp-light.css",
+    "themes/Lliphi/gimp-gray.css",
+    "themes/Lliphi/gimp-dark.css",
+    "themes/Lliphi/common.css",
+    "themes/Lliphi/system.css",
+    "themes/Lliphi/ui/",
+    "palettes/Lliphi Claro.gpl",
+    "palettes/Lliphi Oscuro.gpl"
+  ],
+  "capturas": [
+    "../capturas/oscuro-40-gimp.png",
+    "../capturas/claro-40-gimp.png"
+  ],
+  "dependencias": {
+    "construccion": [
+      "libreoffice"
+    ],
+    "bases": [
+      "fuentes/base/GIMP-Default"
+    ],
+    "herramientas_opcionales": [
+      "pgrep"
+    ]
+  },
+  "instalacion": [
+    {
+      "origen": "themes/{nombre}",
+      "destino": "GIMP/3.2/themes/{nombre}",
+      "base": "config"
+    },
+    {
+      "origen": "palettes/{nombre_esquema[claro]}.gpl",
+      "destino": "GIMP/3.2/palettes/{nombre_esquema[claro]}.gpl",
+      "base": "config"
+    },
+    {
+      "origen": "palettes/{nombre_esquema[oscuro]}.gpl",
+      "destino": "GIMP/3.2/palettes/{nombre_esquema[oscuro]}.gpl",
+      "base": "config"
+    }
+  ]
+}

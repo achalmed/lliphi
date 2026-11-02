@@ -48,3 +48,11 @@ path = ["generado/sddm/**"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = ["2014-2016 David Edmundson (Breeze)", "vinceliuice (WhiteSur-dark)", "2026 Edison Achalma (adaptación a Lliphi)"]
 SPDX-License-Identifier = "GPL-3.0-or-later"
+
+# Tema de GIMP (decisiones 5.21): deriva del tema «Default» de GIMP 3.2, GPL-3.0-or-later
+# (fuentes/base/GIMP-Default/ORIGEN.md); la copia de partida y lo generado desde ella heredan la licencia.
+[[annotations]]
+path = ["fuentes/base/GIMP-Default/**", "generado/gimp/**"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = ["The GIMP authors (tema Default de GIMP 3)", "2026 Edison Achalma (adaptación a Lliphi)"]
+SPDX-License-Identifier = "GPL-3.0-or-later"
