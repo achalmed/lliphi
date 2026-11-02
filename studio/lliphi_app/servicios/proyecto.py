@@ -1,4 +1,4 @@
-"""El proyecto Lliphi visto desde el studio, sin Qt: rutas, módulos, ajustes, versiones, git y las órdenes.
+"""studio/lliphi_app/servicios/proyecto.py — el proyecto Lliphi visto desde el studio, sin Qt: rutas, módulos, ajustes, versiones, git y las órdenes (heredado de 1.x).
 
 La ventana es un cliente: lee los `modulo.json`, `tokens/`, `generado/` y el manifiesto de instalación; escribe solo
 los `ajustes.json` de los módulos (fuente, nunca `generado/`); todo lo demás lo hacen las órdenes de Lliphi. La raíz
@@ -24,7 +24,7 @@ EDITABLES = ("esquema", "decoracion", "disposicion", "iconos-cursores")   # los 
 
 
 def raiz() -> Path:
-    return Path(os.environ.get("LLIPHI_DIR") or Path(__file__).resolve().parents[2])
+    return Path(os.environ.get("LLIPHI_DIR") or Path(__file__).resolve().parents[3])
 
 
 def home() -> Path:
@@ -37,9 +37,17 @@ def estado_studio() -> Path:
 
 
 def python() -> str:
-    """El Python de `.venv` (coloraide y Pillow, que piden la paleta y la construcción) o, si no hay, este."""
+    """El Python de las órdenes: el `.venv` del proyecto (coloraide, que pide la paleta) o, si no hay, el de la ventana."""
     venv = raiz() / ".venv" / "bin" / "python"
     return str(venv) if venv.exists() else sys.executable
+
+
+def hay_venv() -> bool:
+    return (raiz() / ".venv" / "bin" / "python").exists()
+
+
+def orden_crear_venv() -> str:
+    return f"/usr/bin/python3 -m venv --system-site-packages {raiz() / '.venv'} && {raiz() / '.venv'}/bin/pip install -r {raiz() / 'requirements.txt'}"
 
 
 def orden(herramienta: str, *args: str) -> list[str]:

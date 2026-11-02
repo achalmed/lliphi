@@ -217,7 +217,7 @@ scripting de Plasma y capturar; es la receta de `validacion.md` §8–§9 hecha 
 entorno del `plasmashell` de prueba y se niega si su `HOME` no es el de prueba; `cerrar` termina por PID solo lo de
 prueba y compara el `LockedHint` de la sesión real.
 
-`studio/` es la ventana opcional (PySide6 sobre `gui-comun`): cliente del proyecto, lee los manifiestos, los tokens, lo
+`studio/` es la ventana opcional (QML + Kirigami sobre `gui-comun` 2.7; `docs/rediseno.md`): cliente del proyecto, lee los manifiestos, los tokens, lo
 generado y el estado de la instalación, escribe solo los `ajustes.json` y corre las órdenes de arriba
 ([`studio/README.md`](../studio/README.md)). Ningún módulo sabe que existe.
 

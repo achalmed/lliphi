@@ -1,0 +1,6 @@
+# lliphi — lo que las órdenes necesitan y el Python del sistema no trae: coloraide (modulos/esquema/paleta.py).
+# Va en el entorno del studio, creado sobre el Python del sistema para que la ventana vea su PySide6 y su Kirigami:
+#   /usr/bin/python3 -m venv --system-site-packages .venv && .venv/bin/pip install -r requirements.txt
+# PySide6 NO se instala aquí: la ventana usa el del sistema (python3-pyside6.*), el único que carga Kirigami.
+# Pillow (los fondos) y pytest ya están en el Python del sistema; para desarrollar sigue valiendo pip install -e ".[dev]".
+coloraide>=8
