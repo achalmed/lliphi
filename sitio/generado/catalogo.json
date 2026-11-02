@@ -499,6 +499,33 @@
       "rol": "complemento",
       "ruta": "complementos/fondo-variante",
       "salida": "generado/fondo-variante"
+    },
+    {
+      "nombre": "Telegram Desktop",
+      "resumen": "Dos temas de Telegram Desktop (Lliphi Claro y Lliphi Oscuro, archivos .tdesktop-theme) con las 586 claves de color de la versión instalada, todas desde los tokens: neutros de Lliphi, el acento en la selección, el foco, los botones y los mensajes propios (un tinte del acento), los estados en enlaces, avisos, errores y «en línea», y un fondo de chat liso; Telegram alterna solo entre los dos si su modo nocturno automático sigue al sistema.",
+      "clase": "paquete",
+      "orden": 30,
+      "formato": "varios",
+      "tecnologia": "Telegram Desktop ≥ 7.3 · `.tdesktop-theme` (zip con `colors.tdesktop-theme` y `tiled.png`) · claves de `ui/colors.palette` de lib_ui",
+      "estado": "experimental",
+      "desde": "0.4.0",
+      "licencia": "GPL-3.0-or-later",
+      "archivos": [
+        "Lliphi Claro.tdesktop-theme",
+        "Lliphi Oscuro.tdesktop-theme",
+        "claro/",
+        "oscuro/"
+      ],
+      "capturas": [],
+      "dependencias": {
+        "bases": [
+          "fuentes/base/telegram-palette"
+        ]
+      },
+      "id": "telegram",
+      "rol": "complemento",
+      "ruta": "complementos/telegram",
+      "salida": "generado/telegram"
     }
   ]
 }
