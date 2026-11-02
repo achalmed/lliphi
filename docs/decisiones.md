@@ -459,7 +459,37 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   `borde.separador` en las dos variantes: en el oscuro el anterior no se veía (comprobado en pantalla), y en el claro da
   el gris que LibreOffice trae por omisión. La interfaz sigue al escritorio; el «tema de LibreOffice» (UI propia) queda
   sin activar, como estaba. Validado con un perfil desechable en una sesión de KWin virtual (`validacion.md` §10).
-- **5.3 (2026-11-01) Positron entero en Lliphi, en la misma extensión.** El autor pidió los temas de Positron, Kate,
+- **5.3 (2026-11-01) Navegadores: Zen con un `userChrome.css` que sigue al sistema y Chrome con dos temas.** El autor
+  pidió Lliphi en Zen Browser, el que usa, y en Chrome. Complemento `navegadores` con las dos piezas, generadas de los
+  semánticos de cada variante. **Zen** (1.24b, Flatpak `app.zen_browser.zen`, Firefox 159): pinta la interfaz con
+  variables `--zen-*` que en parte calcula del degradado del espacio de trabajo y escribe en línea en `:root`,
+  `#zen-browser-background` y `#zen-toolbar-background`, y otras que redefinen elementos como `zen-workspace` (la pestaña
+  activa). Se descartan (1) un tema WebExtension con `theme` y `dark_theme`: Zen ignora casi todos sus colores al pintar
+  con el degradado; y (2) un «Zen Mod»: Zen regenera `zen-themes.css` desde su tienda y uno local no sobrevive. Se elige
+  un **`userChrome.css`**: es una hoja de usuario y sus `!important` ganan a los de Zen y a los estilos en línea; define
+  `--lliphi-*` por variante (`@media (prefers-color-scheme: dark)` elige la oscura y fija `color-scheme`, para que lo que
+  Zen pinta con `light-dark()` vaya con ella) y pone sobre ellas unas cincuenta variables de Zen y de Firefox en la raíz
+  y en los elementos que las redefinen (buscados en las hojas de Zen 1.24 y Firefox 159). El degradado del espacio de
+  trabajo queda en el gris de la ventana: la identidad sobria manda. Las ventanas privadas conservan el aspecto de Zen
+  para que se distingan. La pestaña activa del oscuro es `fondo.boton`, no la vista, que es más oscura que la barra
+  lateral y la hundiría. Lo acompaña un **`user.js`**: `toolkit.legacyUserProfileCustomizations.stylesheets` (Zen no
+  carga `userChrome.css` sin ella) y `zen.view.window.scheme = 2`: el perfil del autor tenía el oscuro fijo (0), y sin
+  esto Zen no cambiaría con el sistema. Desinstalar retira ambos archivos, pero el valor queda en `prefs.js`
+  (`INSTALL.md` dice cómo volver). Comprobado en la sesión de prueba: con `plasma-apply-colorscheme` Zen pasa de una
+  variante a otra en vivo, y los colores medidos en pantalla son los de los tokens (barra lateral, pestaña activa y
+  barra de direcciones, en las dos). **Chrome** (156): un tema es un `manifest.json` con `theme.colors` y no tiene
+  variante oscura; con un tema puesto, Chrome deja de seguir al sistema. Se descarta un tema neutro (los colores de un
+  tema son fijos: o es claro o es oscuro) y el color de Chrome por semilla (un solo color por los dos modos, y lo
+  transforma Material 3); se hacen **dos temas sin empaquetar**, Lliphi Claro y Lliphi Oscuro: franja y pestañas de
+  fondo en `fondo.ventana`, barra y pestaña activa en `fondo.vista` (la pestaña se funde con la página), textos de los
+  semánticos y enlaces de la página nueva en `enlace`. Chrome reinterpreta un poco el oscuro (franja `#212223` en vez de
+  `#1b1c1e`) y su anillo de foco toma su propio acento: el formato no deja fijarlo. Chrome tampoco deja instalar un tema
+  desde fuera (desde la 137 ya no acepta `--load-extension`): el instalador deja los temas en
+  `$XDG_DATA_HOME/lliphi/chrome/` y se cargan con «Cargar descomprimida»; en la sesión de prueba se cargaron por el
+  protocolo de DevTools (`Extensions.loadUnpacked`). Nueva base de instalación condicional `zen` (el perfil de
+  `installs.ini`, el que abre Zen, también el del Flatpak; o `$ZEN_PERFIL`); un `userChrome.css` o `user.js` ajeno es
+  conflicto y no se pisa. Pruebas `test_navegadores_zen`, `test_navegadores_chrome` y `test_instalar_navegadores`.
+- **5.4 (2026-11-01) Positron entero en Lliphi, en la misma extensión.** El autor pidió los temas de Positron, Kate,
   TeXstudio y Vim/Neovim. Positron ya leía la extensión de VS Code (`complementos/editores`), pero registra 150 claves
   de color propias (`positron*`) y 37 de ellas tienen por omisión un color fijo suyo: los azules de la selección de la
   cuadrícula de datos, los grises de los separadores y de los campos de las barras de acciones y de los diálogos, los
@@ -473,7 +503,7 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   (3) se definen además las claves estándar de las que Positron deriva otras y que el tema dejaba vacías
   (`tree.tableColumnsBorder`, los fondos del desplazamiento fijo). Las demás claves de Positron derivan de claves
   estándar que el tema ya define. `test_positron_entero` comprueba que no falte ninguna de las 37.
-- **5.4 (2026-11-01) Kate: un tema de KSyntaxHighlighting con el fondo de la paleta que ven las aplicaciones.** La
+- **5.5 (2026-11-01) Kate: un tema de KSyntaxHighlighting con el fondo de la paleta que ven las aplicaciones.** La
   interfaz de Kate ya seguía el esquema de color; faltaba el editor. Kate, con «Seleccionar automáticamente el tema de
   color» (activo por omisión, y activo en la configuración del autor), elige el tema cuyo `BackgroundColor` es el
   `Base` de la paleta de la aplicación y, entre ellos, el de `TextSelection` igual a su `Highlight`
@@ -490,7 +520,7 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   resaltes (línea actual, búsqueda, plegado, plantillas) son colores del maestro con el alfa de los editores compuesto
   sobre el fondo (`editores.sobre`), porque el formato no mezcla alfa. Sin `aplicar.py`: no hace falta tocar la
   configuración del usuario.
-- **5.5 (2026-11-01) TeXstudio: las dos secciones de formatos, en un perfil y, si se pide, en `texstudio.ini`.**
+- **5.6 (2026-11-01) TeXstudio: las dos secciones de formatos, en un perfil y, si se pide, en `texstudio.ini`.**
   TeXstudio 4.9 guarda los formatos de resaltado en `[formats]` y en `[formatsDark]` de `texstudio.ini` y usa una u
   otra según su modo oscuro, que deduce de la paleta (texto casi blanco) y vuelve a deducir cuando la paleta cambia
   (`Texstudio::paletteChanged`); el fondo del editor es el `Base` de la paleta (con Kvantum, `fondo.vista`). Se decide: (1) **complemento
@@ -506,7 +536,7 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   de `texstudio.ini`, respalda el archivo, escribe el real si es un enlace de dotfiles y no hace nada con TeXstudio
   abierto (lo reescribiría al cerrarse). En la sesión de prueba, TeXstudio abierto pasó de `[formatsDark]` a
   `[formats]` al cambiar a Lliphi Claro, sin reiniciarse.
-- **5.6 (2026-11-01) Vim y Neovim: un solo `colors/lliphi.vim` con las dos variantes.** Vim 9.1 y Neovim 0.11 están
+- **5.7 (2026-11-01) Vim y Neovim: un solo `colors/lliphi.vim` con las dos variantes.** Vim 9.1 y Neovim 0.11 están
   instalados; el autor no tiene configuración de Neovim y su `~/.vimrc` solo fija el ratón. Se decide: (1)
   **complemento `vim`** con un esquema en Vim script que leen los dos (no uno en Lua y otro en Vim script, que se
   desincronizarían): Lliphi Claro con `background=light` y Lliphi Oscuro con `dark`; los grupos de Tree-sitter, de los
@@ -518,8 +548,8 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   `$XDG_DATA_HOME/nvim/site/colors/`, que Neovim lee solo; Vim, con `~/.vimrc`, no lee carpetas XDG, así que
   `INSTALL.md` pide un enlace en `~/.vim/colors/` (el instalador no escribe fuera de las carpetas XDG). La configuración
   del autor (`~/.vimrc`) no se toca: se le propone `set termguicolors` y `colorscheme lliphi`.
-- **5.7 (2026-11-01) Seguir a la variante: no hace falta ampliar `fondo-variante` para estos editores.** Se evaluó
-  añadirlos a la vigilancia de 4.26/4.28 y no compensa: **Kate** cambia solo (5.4), **TeXstudio** cambia solo (5.5),
+- **5.8 (2026-11-01) Seguir a la variante: no hace falta ampliar `fondo-variante` para estos editores.** Se evaluó
+  añadirlos a la vigilancia de 4.26/4.28 y no compensa: **Kate** cambia solo (5.5), **TeXstudio** cambia solo (5.6),
   **Vim y Neovim** toman `background` de la terminal al arrancar (Konsole responde a OSC 11) y un cambio de
   `background` recarga el esquema; en una sesión que ya estaba abierta basta `:set background=…`, y forzarla desde
   fuera exigiría un servidor de Neovim o una orden en la configuración del usuario. **Positron** (Electron) sigue al
@@ -528,3 +558,35 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   `complementos/editores/INSTALL.md` y se le propone al autor, sin escribirlo. Todo comprobado en la sesión de prueba
   (capturas 53–56): con los cuatro abiertos en Lliphi Oscuro, el paso a Lliphi Claro cambió en vivo Kate, TeXstudio y
   Positron; `fondo-variante` pasó el perfil de Konsole a Lliphi Claro y un Neovim nuevo abrió con `background=light`.
+- **5.30 (2026-11-01) Telegram Desktop: dos temas desde los tokens, con las claves de la versión instalada.** El autor
+  pidió el tema de Lliphi para Telegram. Instalado: Telegram Desktop 7.3.3 (Snap). Se decide: (1) **plantilla de
+  claves**: la paleta por omisión de esa versión, `ui/colors.palette` de lib_ui en la confirmación que usa tdesktop
+  `v7.3.3`, copiada en `fuentes/base/telegram-palette/` (GPL-3.0-or-later, como la base de Konsole; lo generado hereda
+  la licencia). De ella salen el nombre, el orden y las referencias de las 586 claves; de sus colores, ninguno: una
+  clave con color propio que no esté traducida hace fallar la generación. El `day-blue.tdesktop-theme` de los
+  recursos de tdesktop es de 2019 y le faltan unas cien claves. (2) **todo resuelto**: Telegram copia una referencia
+  con el valor que tenga la otra clave en ese momento, así que el tema se escribe con `#rrggbb[aa]` en cada clave y
+  no depende del orden. (3) **traducción**: la ventana, la lista y los cuadros siguen la lógica de Plasma (vistas en
+  `fondo.vista`, pasar el ratón en `fondo.ventana`); el acento en la selección (el chat activo), el foco, los botones
+  principales, los contadores y los mensajes propios; los enlaces y las marcas de leído en `acento.texto`; «en línea»,
+  aceptado y llamadas recibidas en `estado.exito` (Telegram los pinta con el acento); errores y borradores en
+  `estado.error`; los ocho colores de participantes, de los ANSI, con el naranja en `estado.advertencia`, como en
+  Obsidian. Lo que Telegram pinta siempre oscuro (visor de medios, llamadas, billetera) toma los tokens del oscuro en
+  las dos variantes; los botones de color con icono blanco (contestar, Premium), los del claro. Los fondos con texto
+  blanco del oscuro (peligro, insignias silenciadas) usan el acento o `borde.separador`, porque el error y el
+  inactivo del oscuro son claros. (4) **la burbuja propia es el acento con alfa** (`26` en el claro, `33` en el oscuro)
+  sobre el fondo del chat: un tinte azul o rojo oscuro, sobrio, sin un color fuera del maestro; la entrante es
+  `fondo.vista` sobre `fondo.ventana` (claro) o `fondo.ventana-alterno` sobre el negro de Nothing (oscuro). El blanco
+  sobre el rojo, con 4,5:1 justos, queda para lo breve (el chat activo, los botones), como en Plasma. Las flechas de
+  descarga van en blanco: por omisión toman el fondo de la burbuja, que con alfa las dejaría translúcidas. (5) **fondo
+  del chat liso** (`tiled.png` de un color): con un fondo de imagen, el tinte de las burbujas y su contraste dependerían
+  de la imagen; los fondos de Lliphi quedan para el escritorio. (6) **seguir al sistema sin `fondo-variante`**:
+  Telegram guarda un tema diurno y uno nocturno (`_themeKeyDay` y `_themeKeyNight` en `localstorage.cpp`; aplicar un
+  tema lo guarda en el del modo actual) y, con «Modo nocturno automático» en «Sistema», cambia entre ellos cuando
+  cambia la preferencia de color del sistema. Basta con aplicar cada tema en su modo una vez (`INSTALL.md`); ampliar la
+  vigilancia exigiría escribir en el `tdata/` cifrado de Telegram. (7) **comprobación**: las pruebas leen el zip como
+  Telegram (claves, sintaxis, fondo) y miden el contraste del texto sobre las burbujas con el alfa compuesto (≥ 4,5:1;
+  el mínimo, 4,52, es el blanco sobre el rojo). En pantalla solo se vio que Telegram arranca con un HOME y un
+  `-workdir` aislados en una sesión de KWin virtual (binario del Snap con sus bibliotecas). Antes de iniciar sesión,
+  Telegram toma un archivo de la línea de órdenes como algo que enviar a un chat y no lo aplica, así que el aspecto
+  queda por mirar en la cuenta del autor (con «Mantener cambios» o «Cancelar» en la vista previa de Telegram).

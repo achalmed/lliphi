@@ -13,7 +13,7 @@ El esquema de colores **`lliphi`** para Vim (≥ 9) y Neovim (≥ 0.9): un solo 
   los de diagnósticos.
 - **Sin colores verdaderos** (`notermguicolors`), cada grupo toma el más cercano de los dieciséis colores de Konsole.
 - **Sigue a la variante al arrancar**: Vim y Neovim deducen `background` del fondo de la terminal (Konsole responde a
-  la pregunta OSC 11), y un cambio de `background` vuelve a cargar el esquema (decisiones 5.6).
+  la pregunta OSC 11), y un cambio de `background` vuelve a cargar el esquema (decisiones 5.7).
 - `let g:lliphi_transparente = 1` antes de `colorscheme lliphi` deja sin fondo el texto, para ver la transparencia de
   Konsole.
 

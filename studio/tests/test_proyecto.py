@@ -7,7 +7,7 @@ import json
 from lliphi_studio import proyecto
 
 
-def test_los_dieciseis_modulos_y_los_seis(lliphi):
+def test_el_global_los_seis_modulos_y_los_complementos(lliphi):
     mods = proyecto.modulos()
     # el global, los seis módulos y un complemento por cada complementos/<id>/modulo.json de la copia
     complementos = sorted(p.parent.name for p in lliphi.glob("complementos/*/modulo.json"))

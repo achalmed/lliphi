@@ -11,7 +11,7 @@ es lo que faltaba, el área de texto.
   y `seleccion.fondo`): Kate, con «Seleccionar automáticamente el tema de color» activo (su valor por omisión), elige el
   tema cuyo fondo es el `Base` de la paleta y cuya selección es su `Highlight`. Así **Kate sigue solo a la variante**:
   al pasar de Lliphi Claro a Lliphi Oscuro cambia de tema también en las ventanas abiertas, sin tocar `katerc`
-  (decisiones 5.4; comprobado en la sesión de prueba, capturas 54).
+  (decisiones 5.5; comprobado en la sesión de prueba, capturas 54).
 - Los resaltes (línea actual, búsqueda, plegado, plantillas) son colores del maestro con el alfa ya compuesto sobre el
   fondo, porque el formato no mezcla el alfa.
 

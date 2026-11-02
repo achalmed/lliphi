@@ -3,7 +3,7 @@ los dos, con Lliphi Claro y Lliphi Oscuro según `background`.
 
 - **Variante.** `:colorscheme lliphi` pinta la variante de `&background`. Vim y Neovim deducen `background` del fondo
   de la terminal al arrancar (Konsole responde a la pregunta OSC 11), y al cambiar `background` vuelven a cargar el
-  esquema: en Konsole con Lliphi, un Vim nuevo abre en la variante de Plasma (decisiones 5.6).
+  esquema: en Konsole con Lliphi, un Vim nuevo abre en la variante de Plasma (decisiones 5.7).
 - **Colores.** Fondo y texto, los de Konsole (`konsole.ansi`), para que el editor se funda con la terminal en que corre;
   la sintaxis, la tabla única de los editores; la interfaz (menús, barras, selección, búsqueda, diferencias), de los
   semánticos, con los resaltes compuestos sobre el fondo (`editores.sobre`), porque Vim no mezcla alfa. La terminal

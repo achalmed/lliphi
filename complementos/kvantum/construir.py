@@ -142,6 +142,6 @@ def paleta_qt(tokens: dict, variante: str) -> dict[str, str]:
     """La paleta que Kvantum da a las aplicaciones Qt de la variante: clave del kvconfig (`base.color`,
     `highlight.color`…) → `#rrggbb`. Con el estilo Kvantum es la que ven las aplicaciones, no la del esquema `.colors`:
     Kate elige su tema por `base.color` y `highlight.color`, y TeXstudio pinta su editor con `base.color` (decisiones
-    5.4 y 5.5)."""
+    5.5 y 5.6)."""
     t = semanticos(tokens, variante)
     return {clave: t[token] for clave, token in CLAVES.items()}

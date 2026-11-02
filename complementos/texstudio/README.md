@@ -6,7 +6,7 @@ que faltaba, los formatos de resaltado.
 
 - **TeXstudio sigue solo a la variante.** Guarda sus formatos en dos secciones de `texstudio.ini`, `[formats]` y
   `[formatsDark]`, y usa una u otra según su «modo oscuro», que deduce de la paleta del sistema y vuelve a deducir
-  cuando la paleta cambia. Lliphi llena las dos: el claro en `[formats]`, el oscuro en `[formatsDark]` (decisiones 5.5;
+  cuando la paleta cambia. Lliphi llena las dos: el claro en `[formats]`, el oscuro en `[formatsDark]` (decisiones 5.6;
   comprobado en la sesión de prueba con TeXstudio abierto, capturas 55).
 - **La sintaxis** es la tabla única de los editores, leída como en VS Code con LaTeX Workshop: las órdenes en el azul
   de las funciones, `\begin` y `\end` en el rojo de las palabras clave, los entornos en cian, lo matemático en

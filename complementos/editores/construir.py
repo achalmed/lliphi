@@ -221,7 +221,7 @@ def colores_positron(s: dict[str, str], t: dict[str, str], k: dict[str, str]) ->
     (sus azules de selección y de bienvenida, sus grises de separador y de campo, los iconos del intérprete, los
     gráficos del explorador de datos), más la consola con el fondo de la terminal integrada, cuyos ANSI usa. Las que
     derivan de una clave estándar (`editorBackground`, `panel.background`, `listHoverBackground`…) ya siguen al tema.
-    Inventario: los `registerColor("positron…")` de `workbench.desktop.main.js` de Positron 2026.06 (decisiones 5.3)."""
+    Inventario: los `registerColor("positron…")` de `workbench.desktop.main.js` de Positron 2026.06 (decisiones 5.4)."""
     return {
         # consola: el fondo y los ANSI de la terminal integrada (Konsole, 4.30); la traza de error, un gris de la vista
         "positronConsole.background": t["fondo"], "positronConsole.foreground": t["texto"],

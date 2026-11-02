@@ -4,7 +4,7 @@
 TeXstudio guarda sus formatos en `texstudio.ini`, en `[formats]` o en `[formatsDark]` según su «modo oscuro», que
 deduce de la paleta de la aplicación (texto casi blanco: oscuro) y vuelve a deducir cuando la paleta cambia
 (`Texstudio::paletteChanged`): con las dos secciones llenas, **TeXstudio sigue solo a la variante de Plasma** (decisiones
-5.5). Cada formato es un grupo `data/<id>` con `foreground`, `background`, `linescolor`, `bold`, `italic`,
+5.6). Cada formato es un grupo `data/<id>` con `foreground`, `background`, `linescolor`, `bold`, `italic`,
 `underline`, `waveUnderline` y `priority` (`QFormatScheme::save(QSettings&)`); un formato leído sustituye entero al de
 omisión, así que se escriben todos los de `defaultFormats.qxf` de TeXstudio 4.9 salvo los marcadores, y la prioridad de
 los que la llevan.

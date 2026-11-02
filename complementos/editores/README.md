@@ -4,7 +4,7 @@ Una extensión de tema mínima de VS Code (que leen también Positron y VSCodium
 esquema, la sintaxis derivada de los ANSI de los tokens con una tabla única (`sintaxis()`, que reutilizan `libreoffice`,
 `obsidian`, `kate`, `texstudio` y `vim`) y la terminal integrada con los dieciséis ANSI de Konsole (`konsole.ansi`, sobre
 el esquema de Nothing; decisiones 4.30). En Positron cubre también sus claves propias (`colores_positron()`: consola,
-barras de acciones, diálogos, explorador de datos, estado del intérprete; decisiones 5.3). `sobre()` compone un color
+barras de acciones, diálogos, explorador de datos, estado del intérprete; decisiones 5.4). `sobre()` compone un color
 con alfa sobre un fondo, para los editores que no admiten `#rrggbbaa`.
 
 Es un **complemento**: existía antes de la reingeniería y se conserva fuera del tema global, porque no es parte de un

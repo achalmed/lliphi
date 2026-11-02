@@ -9,7 +9,7 @@ la aplicación y, entre ellos, el de `TextSelection` igual a su `Highlight` (`Re
 KSyntaxHighlighting 6). Con el estilo Kvantum que aplica el tema global, esa paleta es la de Kvantum
 (`kvantum.paleta_qt`: `base.color` es `fondo.vista`, `highlight.color` es `seleccion.fondo`), no la del esquema
 `.colors`; el fondo y la selección del tema son exactamente esos, y al pasar de Lliphi Claro a Lliphi Oscuro Kate
-cambia solo de tema, también en las ventanas abiertas (decisiones 5.4).
+cambia solo de tema, también en las ventanas abiertas (decisiones 5.5).
 
 Como la selección es el acento opaco (el de Plasma), el texto seleccionado de todos los estilos es `seleccion.texto`.
 Los resaltes sobre el texto (línea actual, búsqueda, plegado, plantillas) son el color del maestro con su alfa ya

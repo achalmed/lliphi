@@ -531,6 +531,37 @@
       "salida": "generado/kate"
     },
     {
+      "nombre": "Navegadores: Zen Browser y Chrome",
+      "resumen": "Lliphi Claro y Lliphi Oscuro en Zen Browser (un userChrome.css que redefine las variables de Zen y de Firefox y sigue solo al modo del sistema) y en Google Chrome (dos temas sin empaquetar, uno por variante).",
+      "clase": "paquete",
+      "orden": 10,
+      "formato": "varios",
+      "tecnologia": "Zen Browser ≥ 1.24 (Firefox 159): `userChrome.css` sobre las variables `--zen-*` y de Firefox con `prefers-color-scheme`, y `user.js` (`toolkit.legacyUserProfileCustomizations.stylesheets`, `zen.view.window.scheme = 2`) en el perfil, también el del Flatpak `app.zen_browser.zen` · Chrome ≥ 120: tema de extensión (`manifest.json` v3 con `theme.colors`) sin empaquetar",
+      "estado": "experimental",
+      "desde": "0.4.0",
+      "archivos": [
+        "zen/userChrome.css",
+        "zen/user.js",
+        "chrome/lliphi-claro/manifest.json",
+        "chrome/lliphi-oscuro/manifest.json"
+      ],
+      "capturas": [
+        "../capturas/claro-38-zen.png",
+        "../capturas/oscuro-38-zen.png",
+        "../capturas/claro-39-chrome.png",
+        "../capturas/oscuro-39-chrome.png"
+      ],
+      "dependencias": {
+        "terceros": [
+          "Zen Browser o Google Chrome"
+        ]
+      },
+      "id": "navegadores",
+      "rol": "complemento",
+      "ruta": "complementos/navegadores",
+      "salida": "generado/navegadores"
+    },
+    {
       "nombre": "TeXstudio: resaltado del editor",
       "resumen": "Los formatos de resaltado de TeXstudio para Lliphi Claro y Lliphi Oscuro (órdenes, entornos, matemática, referencias, ortografía, línea actual, selección, llaves por nivel) en las dos secciones que TeXstudio elige por la paleta del sistema, para que siga solo a la variante; como perfil que se carga desde TeXstudio o aplicados en texstudio.ini sin tocar lo demás.",
       "clase": "paquete",
@@ -586,6 +617,33 @@
       "rol": "complemento",
       "ruta": "complementos/vim",
       "salida": "generado/vim"
+    },
+    {
+      "nombre": "Telegram Desktop",
+      "resumen": "Dos temas de Telegram Desktop (Lliphi Claro y Lliphi Oscuro, archivos .tdesktop-theme) con las 586 claves de color de la versión instalada, todas desde los tokens: neutros de Lliphi, el acento en la selección, el foco, los botones y los mensajes propios (un tinte del acento), los estados en enlaces, avisos, errores y «en línea», y un fondo de chat liso; Telegram alterna solo entre los dos si su modo nocturno automático sigue al sistema.",
+      "clase": "paquete",
+      "orden": 30,
+      "formato": "varios",
+      "tecnologia": "Telegram Desktop ≥ 7.3 · `.tdesktop-theme` (zip con `colors.tdesktop-theme` y `tiled.png`) · claves de `ui/colors.palette` de lib_ui",
+      "estado": "experimental",
+      "desde": "0.4.0",
+      "licencia": "GPL-3.0-or-later",
+      "archivos": [
+        "Lliphi Claro.tdesktop-theme",
+        "Lliphi Oscuro.tdesktop-theme",
+        "claro/",
+        "oscuro/"
+      ],
+      "capturas": [],
+      "dependencias": {
+        "bases": [
+          "fuentes/base/telegram-palette"
+        ]
+      },
+      "id": "telegram",
+      "rol": "complemento",
+      "ruta": "complementos/telegram",
+      "salida": "generado/telegram"
     }
   ]
 }
