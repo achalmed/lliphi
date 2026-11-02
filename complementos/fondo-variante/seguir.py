@@ -13,6 +13,11 @@ Konsole tampoco sigue a la variante: si el perfil por defecto (`konsolerc` → D
 secuencia de Konsole `ESC ] 50 ; ColorScheme=… BEL` escrita en su terminal (la de `konsoleprofile`); un perfil con
 otro esquema no se toca.
 
+GTK 3 no tiene consultas de medios: si `~/.config/gtk-3.0/gtk.css` importa la hoja de una variante de @NOMBRE@
+(`@ID@-claro.css` o `@ID@-oscuro.css`, complemento gtk), se cambia esa línea por la de la otra (aplicaciones nuevas;
+kde-gtk-config ya reescribió `colors.css`), y la preferencia `color-scheme` de GSettings pasa a `prefer-light` o
+`prefer-dark`. Sin esa línea, GTK no se toca. GTK 4 y libadwaita cambian solos (`prefers-color-scheme`).
+
 Uso:  seguir-variante.py              # simula: dice qué cambiaría
       seguir-variante.py --aplicar    # lo cambia una vez
       seguir-variante.py --vigilar    # lo cambia ahora y cada vez que KDE avisa de un cambio de colores (sesión)
@@ -34,6 +39,8 @@ DOMINIO = "@DOMINIO@"
 VARIANTES = {"@ESQUEMA_CLARO@": "claro", "@ESQUEMA_OSCURO@": "oscuro"}
 CARPETA = {"claro": "images", "oscuro": "images_dark"}
 KONSOLE = {"claro": "@KONSOLE_CLARO@", "oscuro": "@KONSOLE_OSCURO@"}
+HOJA_GTK3 = re.compile(r"^(\s*@import\s+(?:url\()?['\"])@ID@-(claro|oscuro)(\.css['\"]\)?;\s*)$", re.M)
+ESQUEMA_GTK = {"claro": "prefer-light", "oscuro": "prefer-dark"}
 DATA = Path(os.environ.get("XDG_DATA_HOME") or Path.home() / ".local" / "share")
 CONFIG = Path(os.environ.get("XDG_CONFIG_HOME") or Path.home() / ".config")
 LEER = """var d = desktops(); var r = [];
@@ -174,6 +181,28 @@ def konsole(var: str, escribir: bool) -> None:
             pass
 
 
+def gtk(var: str, escribir: bool) -> None:
+    """GTK 3: la línea `@import '@ID@-<variante>.css';` de gtk.css, si existe; y `color-scheme` de GSettings."""
+    css = CONFIG / "gtk-3.0" / "gtk.css"
+    texto = css.read_text(encoding="utf-8", errors="ignore") if css.exists() else ""
+    m = HOJA_GTK3.search(texto)
+    if not m:
+        return                                       # GTK de @NOMBRE@ no aplicado: no se toca
+    if m.group(2) != var:
+        print(f"{'' if escribir else 'SIM '}GTK 3: gtk.css importa @ID@-{m.group(2)}.css → @ID@-{var}.css")
+        if escribir:
+            css.resolve().write_text(HOJA_GTK3.sub(lambda x: f"{x.group(1)}@ID@-{var}{x.group(3)}", texto, count=1), encoding="utf-8")
+    gsettings = herramienta("gsettings")
+    if not gsettings:
+        return
+    actual = subprocess.run([gsettings, "get", "org.gnome.desktop.interface", "color-scheme"],
+                            capture_output=True, text=True).stdout.strip().strip("'")
+    if actual != ESQUEMA_GTK[var]:
+        print(f"{'' if escribir else 'SIM '}GTK: color-scheme {actual} → {ESQUEMA_GTK[var]}")
+        if escribir:
+            subprocess.run([gsettings, "set", "org.gnome.desktop.interface", "color-scheme", ESQUEMA_GTK[var]], capture_output=True)
+
+
 def una_vez(escribir: bool) -> None:
     lista = cambios()
     for i, vieja, nueva in lista:
@@ -185,6 +214,7 @@ def una_vez(escribir: bool) -> None:
     var = variante()
     if var:
         konsole(var, escribir)
+        gtk(var, escribir)
 
 
 def vigilar() -> int:

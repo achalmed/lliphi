@@ -1,0 +1,45 @@
+{
+  "nombre": "GTK 3, GTK 4 y libadwaita",
+  "resumen": "Las aplicaciones GTK con los colores de Lliphi, los mismos que dan Kvantum a las de Qt: una hoja por variante para GTK 3 y una con las dos para GTK 4 y libadwaita, sobre el tema Breeze y los colores que escribe kde-gtk-config, sin cambiar de tema GTK. Al pasar entre claro y oscuro, GTK 4 cambia solo; GTK 3 lo cambia fondo-variante.",
+  "clase": "paquete",
+  "orden": 20,
+  "formato": "varios",
+  "tecnologia": "CSS de GTK (`@define-color` de Breeze `*_breeze` y de libadwaita 1.9, variables `--accent-bg-color`…, `@media (prefers-color-scheme: dark)` de GTK ≥ 4.20) importado desde `~/.config/gtk-{3,4}.0/gtk.css` después del `colors.css` de kde-gtk-config",
+  "estado": "probado",
+  "desde": "0.4.0",
+  "licencia": "MIT",
+  "archivos": [
+    "gtk-3.0/lliphi-claro.css",
+    "gtk-3.0/lliphi-oscuro.css",
+    "gtk-4.0/lliphi.css"
+  ],
+  "capturas": [
+    "../capturas/oscuro-38-gtk3-antes.png",
+    "../capturas/oscuro-38-gtk3.png",
+    "../capturas/claro-38-gtk3.png",
+    "../capturas/oscuro-38-gtk4-libadwaita.png",
+    "../capturas/claro-38-gtk4-libadwaita.png"
+  ],
+  "dependencias": {
+    "herramientas_opcionales": [
+      "gsettings"
+    ]
+  },
+  "instalacion": [
+    {
+      "origen": "gtk-3.0/{id}-claro.css",
+      "destino": "gtk-3.0/{id}-claro.css",
+      "base": "config"
+    },
+    {
+      "origen": "gtk-3.0/{id}-oscuro.css",
+      "destino": "gtk-3.0/{id}-oscuro.css",
+      "base": "config"
+    },
+    {
+      "origen": "gtk-4.0/{id}.css",
+      "destino": "gtk-4.0/{id}.css",
+      "base": "config"
+    }
+  ]
+}

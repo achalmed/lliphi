@@ -21,7 +21,7 @@ INICIO = "lliphi-fondo-variante.desktop"
 
 def generar(tokens: dict, marca: dict, destino: Path) -> list[Path]:
     hechos: list[Path] = []
-    texto = (FUENTE.read_text(encoding="utf-8").replace("@NOMBRE@", marca["nombre"]).replace("@DOMINIO@", marca["dominio_inverso"])
+    texto = (FUENTE.read_text(encoding="utf-8").replace("@NOMBRE@", marca["nombre"]).replace("@ID@", marca["id"]).replace("@DOMINIO@", marca["dominio_inverso"])
              .replace("@ESQUEMA_CLARO@", marca["id_esquema"]["claro"]).replace("@ESQUEMA_OSCURO@", marca["id_esquema"]["oscuro"])
              .replace("@KONSOLE_CLARO@", marca["nombre_esquema"]["claro"]).replace("@KONSOLE_OSCURO@", marca["nombre_esquema"]["oscuro"]))
     escribir(destino / PROGRAMA, texto, hechos)
