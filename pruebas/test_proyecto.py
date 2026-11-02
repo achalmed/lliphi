@@ -214,7 +214,8 @@ def test_sesion_de_prueba_prepara_y_aisla(tmp_path: Path, monkeypatch):
 
 
 def test_sesion_de_prueba_se_niega(tmp_path: Path, monkeypatch):
-    """Ninguna orden corre dentro sin una sesión de prueba viva y con su HOME bajo la caché de sesiones."""
+    """Ninguna orden corre dentro sin una sesión de prueba viva y con su HOME bajo la caché de sesiones. Sin las
+    herramientas de KWin y Plasma (la CI), `arrancar` se niega antes de simular, y tampoco escribe nada."""
     sesion = _sesion(monkeypatch, tmp_path)
     with pytest.raises(PermissionError):
         sesion.entorno_dentro({"casa": str(Path.home())})
@@ -224,7 +225,11 @@ def test_sesion_de_prueba_se_niega(tmp_path: Path, monkeypatch):
     assert sesion.cerrar(["cerrar"]) == 0
     env = {**os.environ, "XDG_CACHE_HOME": str(tmp_path / "c"), "XDG_STATE_HOME": str(tmp_path / "s")}
     r = correr("herramientas/sesion.py", "arrancar", "--virtual", env=env)
-    assert r.returncode == 0 and "SIMULACIÓN" in r.stdout and not (tmp_path / "c").exists()
+    if all(shutil.which(h, path=sesion.PATH) for h in sesion.HERRAMIENTAS):
+        assert r.returncode == 0 and "SIMULACIÓN" in r.stdout, r.stdout
+    else:
+        assert r.returncode == 2 and r.stdout.startswith("faltan:"), r.stdout
+    assert not (tmp_path / "c").exists()
     assert json.loads(correr("herramientas/sesion.py", "estado", "--json", env=env).stdout)["activa"] is False
 
 
@@ -821,6 +826,7 @@ def test_navegadores_chrome():
             assert c >= 4.5, (v, texto_, fondo, round(c, 2))
 
 
+@pytest.mark.skipif(shutil.which("plasmashell") is None, reason="sin Plasma: el instalador exige Plasma 6")
 def test_instalar_navegadores(tmp_path: Path):
     """El instalador pone userChrome.css y user.js en el perfil de Zen que abre el Flatpak (installs.ini), los temas de
     Chrome en $XDG_DATA_HOME/<id>/chrome/, no pisa un userChrome.css ajeno, omite Zen si no hay perfil y UNDO.sh
@@ -1362,6 +1368,7 @@ def test_kvantum_etiquetas_legibles():
     assert f"tooltip.text.color={claro['texto.normal']}" in kv
 
 
+@pytest.mark.skipif(shutil.which("plasmashell") is None, reason="sin Plasma: el instalador exige Plasma 6")
 def test_kvantum_en_xdg_config_home(tmp_path: Path):
     """Kvantum va a $XDG_CONFIG_HOME aunque no sea ~/.config (en 0.3.0 se calculaba desde $XDG_DATA_HOME/../..)."""
     env = _entorno(tmp_path)
