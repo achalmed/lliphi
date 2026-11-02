@@ -786,3 +786,8 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
   sesión de prueba (Claro → Oscuro → Claro con la vigilancia en marcha, y gretl en cada una) y en la prueba
   `test_gtk_sigue_a_kde`. Si algo de KDE vuelve a escribir `Breeze` sin cambio de variante (otra preferencia de GTK),
   gretl vuelve a sus iconos claros hasta el siguiente cambio.
+  (3) **el instalador arranca la vigilancia en una unidad propia del systemd de usuario** (`lliphi-fondo-variante`,
+  con `systemd-run --collect`): arrancada como hijo del instalador, quedaba en el grupo de procesos de quien lo
+  ejecutó (una terminal, el asistente) y se paraba al cerrarlo. Solo si ese systemd es el de la misma sesión (mismo
+  `HOME` y misma pantalla): en la sesión de prueba anidada no lo es y la vigilancia correría en el escritorio real;
+  allí sigue arrancando como antes.

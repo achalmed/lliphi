@@ -40,7 +40,9 @@ Es un **complemento**: no es parte de un `Plasma/LookAndFeel`. Arquitectura: [`d
 - `construir.py`: escribe `seguir-variante.py` y el archivo de inicio automático `lliphi-fondo-variante.desktop`
   (que resuelve la carpeta de datos al arrancar, sin rutas de la máquina).
 - `aplicar.py`: con `instalar.py --aplicar-tema`, pone ya la imagen de la variante y arranca la vigilancia (o la
-  reinicia, para que corra el programa recién instalado).
+  reinicia, para que corra el programa recién instalado), en una unidad propia del systemd de usuario
+  (`lliphi-fondo-variante`) para que no se pare al cerrar la terminal desde la que se instaló; en la sesión de prueba
+  anidada, cuyo systemd no es el suyo, como un proceso más.
 - Se instala en `$XDG_DATA_HOME/lliphi/seguir-variante.py` y `$XDG_CONFIG_HOME/autostart/`; `desinstalar` los
   retira (la vigilancia en marcha termina al cerrar la sesión).
 

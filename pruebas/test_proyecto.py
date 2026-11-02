@@ -2310,3 +2310,18 @@ def test_gtk_sigue_a_kde(tmp_path: Path, monkeypatch):
     estado["gtk-theme"] = "'Adwaita'"                          # otro tema: no se toca
     seguir.tema_gtk("oscuro", True)
     assert puestos() == []
+
+    # el instalador arranca la vigilancia en una unidad del systemd de usuario solo si ese systemd es el de esta
+    # sesión: en la sesión de prueba anidada correría en el escritorio real
+    instalador = _cargar_programa(registro.modulo("fondo-variante").archivo("aplicar.py"))
+    entorno = "HOME=/casa\nWAYLAND_DISPLAY=wayland-0\nDISPLAY=:0\n"
+    monkeypatch.setattr(instalador.shutil, "which", lambda n: f"/usr/bin/{n}")
+    monkeypatch.setattr(instalador.subprocess, "run", lambda *a, **k: SimpleNamespace(stdout=entorno, returncode=0))
+    for k, v in (("HOME", "/casa"), ("WAYLAND_DISPLAY", "wayland-0"), ("DISPLAY", ":0")):
+        monkeypatch.setenv(k, v)
+    assert instalador.misma_sesion()
+    monkeypatch.setenv("HOME", "/casa/.cache/lliphi/sesiones/x/casa")
+    assert not instalador.misma_sesion()
+    monkeypatch.setattr(instalador.shutil, "which", lambda n: None)
+    monkeypatch.setenv("HOME", "/casa")
+    assert not instalador.misma_sesion()
