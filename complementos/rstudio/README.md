@@ -3,10 +3,14 @@
 Dos temas para RStudio, **Lliphi Claro** y **Lliphi Oscuro**, en el formato propio de RStudio (`.rstheme`, CSS sobre el
 editor Ace): el editor de código y de R Markdown con la misma tabla de sintaxis que los demás editores de Lliphi, la
 consola de R y la terminal integrada con los dieciséis colores de Konsole, los paréntesis y las guías de sangría de
-colores, y la interfaz entera (paneles, pestañas, barras, menús) clara u oscura según la variante (`rs-theme-is-dark`).
+colores, y la ventana entera (barras, pestañas con la raya del acento, divisores) con los colores de Plasma.
+
+El menú **«RStudio theme»** de Tools → Global Options → Appearance («Modern», «Sky») es fijo y no admite temas propios:
+Lliphi se elige en **«Editor theme»**, y desde ahí pinta también la ventana, con cualquiera de los dos estilos
+(decisiones 5.44). Para eso usa solo las clases que RStudio deja estables (`rstheme_*`) y las de GWT.
 
 Es un **complemento**: vive fuera del tema global de Plasma. Arquitectura:
-[`docs/arquitectura.md`](../../docs/arquitectura.md); decisión: [`docs/decisiones.md`](../../docs/decisiones.md) §5.40.
+[`docs/arquitectura.md`](../../docs/arquitectura.md); decisión: [`docs/decisiones.md`](../../docs/decisiones.md) §5.40 y §5.44.
 
 ## Responsabilidad y formato
 

@@ -1595,6 +1595,18 @@ def test_rstudio_temas():
             assert reglas[f".xtermBgColor{i}"]["background-color"] == k[f"color{i}"]
         assert reglas[".xtermColor196"]["color"] == "#ff0000 !important" and reglas[".xtermColor244"]["color"] == "#808080 !important"
         assert _contraste(e["texto"], e["fondo"]) >= 4.5
+        # la ventana (barras, pestañas): solo clases estables de RStudio (`rstheme_*`) y de GWT, nunca las ofuscadas
+        # (cambian en cada versión), y la pestaña elegida con la raya del acento y texto legible
+        ventana = {sel: p for sel, p in reglas.items() if ".rstudio-themes-flat" in sel or sel.startswith("#rstudio_container")}
+        assert ventana and not any(re.search(r"\.GBQ|\.[A-Z0-9]{8,}\b", sel) for sel in ventana)
+        assert all(x.endswith("!important") for p in ventana.values() for x in p.values())
+        assert reglas[".rstudio-themes-flat .rstheme_toolbarWrapper, .rstudio-themes-flat .rstheme_secondaryToolbar,\n"
+                      ".rstudio-themes-flat .gwt-TabLayoutPanelContent, .rstudio-themes-flat .gwt-TabLayoutPanel-Workbench"
+                      ]["background-color"] == s["fondo.ventana"] + " !important"
+        elegida = reglas[".rstudio-themes-flat .gwt-TabLayoutPanelTab-selected .rstheme_tabLayoutCenter"]
+        assert elegida["box-shadow"] == f"inset 0 2px 0 {s['acento.base']} !important"
+        assert _contraste(s["texto.secundario"], s["fondo.ventana-alterno"]) >= 4.5
+        assert _contraste(s["texto.normal"], s["fondo.ventana"]) >= 4.5
         propios = re.sub(r"\.xterm(Bg)?Color(1[6-9]|[2-9]\d|1\d\d|2[0-5]\d) \{[^}]*\}", "", sin_comentarios)
         for h in re.findall(r"#([0-9a-fA-F]{6})(?:[0-9a-fA-F]{2})?\b", propios):
             assert "#" + h.lower() in _hexes_permitidos(), (v, h)
