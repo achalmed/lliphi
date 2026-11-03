@@ -46,7 +46,8 @@ Lo que había y funcionaba (línea base medida antes de tocar nada): `generar.py
    global existieran en los paquetes que se generan, ni que KDE reconociera lo instalado.
 
 **Defectos previos que no son de arquitectura** (se anotan, no se corrigen aquí, regla 12 del encargo):
-`herramientas/contacto.py` importa `destinos.iconos`, retirado antes de esta reingeniería, y no funciona; `REUSE.toml`
+`herramientas/contacto.py` importa `destinos.iconos`, retirado antes de esta reingeniería, y no funciona (retirada el
+2026-11-03: sin iconos propios desde `b1618de` y la decisión 4.22, no tenía qué dibujar); `REUSE.toml`
 cita `fuentes/aurorae/**`, que no existe (la base de Nothing está en `fuentes/base/Nothing-aurorae`) y declara
 CC BY-SA para el estilo de Plasma derivado de WhiteSur, cuyos metadatos dicen GPL-3.0-or-later.
 
@@ -157,7 +158,7 @@ Decisiones de diseño:
 | `generado/wallpapers/` | `generado/fondos/` | |
 | `generado/{kvantum,konsole,terminales,editores,libreoffice,sddm}/` | igual | |
 | `fuentes/base/`, `tokens/`, `muestras/`, `docs/`, `sitio/` | igual | compartidos |
-| `herramientas/{lamina,boceto,comparar,contacto}.py` | igual | herramientas de muestras |
+| `herramientas/{lamina,boceto,comparar,contacto}.py` | igual (`contacto.py`, retirada el 2026-11-03) | herramientas de muestras |
 | `docs/arquitectura.md` (fase 5) | `docs/historial/arquitectura-0.3.md` | historia |
 
 ## 5. Verificación

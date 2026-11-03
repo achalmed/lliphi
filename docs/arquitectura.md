@@ -97,7 +97,7 @@ y sigue la variante solo, con su modo nocturno automático.
 
 `tokens/` (contrato de color y marca), `fuentes/base/` (WhiteSur-kde y Nothing con su licencia y `ORIGEN.md`),
 `muestras/` (capturas reales, láminas y bocetos; de ahí salen las vistas previas), `sitio/` (Quarto; el catálogo se
-genera desde los manifiestos) y `herramientas/{lamina,boceto,comparar,contacto}.py` (muestras).
+genera desde los manifiestos) y `herramientas/{lamina,boceto,comparar}.py` (muestras).
 
 ## 4. Contrato de un módulo
 

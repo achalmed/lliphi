@@ -193,6 +193,11 @@ Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión de
   `instalar.py dependencias` e `instalar.py sddm`; `dependencias.py` e `instalar_sddm.py` quedan como atajos.
 - Nueve pruebas de la arquitectura (33 en total) y el paso `validar` en la integración continua.
 
+### Removed
+- **`herramientas/contacto.py`** (2026-11-03): la hoja de contacto de la iconografía propia importaba
+  `destinos.iconos`, retirado, y no tenía qué dibujar desde que Lliphi no lleva iconos propios (Colloid Grey,
+  decisión 4.22).
+
 ## [0.3.0] - 2026-10-19
 
 Lliphi parte ahora de la configuración que el autor eligió en su escritorio (WhiteSur-dark, decoración de Nothing,
