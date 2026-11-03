@@ -174,3 +174,17 @@ def test_con_un_ajeno_no_se_ejecuta(app, entorno_muestra, ajustes_temporales, mo
     w.ejecutar()
     assert not p["tareas"].activa and avisos and "bloquea" in avisos[-1]
     assert destino.read_text(encoding="utf-8").startswith("[General]\nDescription=otro tema")
+
+
+def test_muestra_de_solo_lectura_enlaza_lo_generado(tmp_path):
+    """La copia de solo lectura no copia generado/ ni sitio/generado/ (unos 70 MB): los enlaza, y lo dice su marca; la
+    normal los copia (2026-11-03)."""
+    import muestra as muestra_mod
+    ligera = muestra_mod.crear(tmp_path / "ligera", solo_lectura=True)
+    assert ligera.solo_lectura and (ligera.raiz / ".solo-lectura").is_file()
+    for carpeta in muestra_mod.GENERADOS:
+        assert (ligera.lliphi / carpeta).is_symlink() and (ligera.lliphi / carpeta).resolve() == (muestra_mod.REPO / carpeta).resolve()
+    assert not (ligera.lliphi / "tokens").is_symlink()                   # lo demás, copiado
+    completa = muestra_mod.crear(tmp_path / "completa")
+    assert not completa.solo_lectura and not (completa.raiz / ".solo-lectura").exists()
+    assert all(not (completa.lliphi / c).is_symlink() and (completa.lliphi / c).is_dir() for c in muestra_mod.GENERADOS)

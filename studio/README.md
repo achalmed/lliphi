@@ -17,7 +17,7 @@ en [`docs/reingenieria.md`](../docs/reingenieria.md), que sustituye a `docs/redi
 
 ```bash
 /usr/bin/python3 -m venv --system-site-packages .venv && .venv/bin/pip install -r requirements.txt   # coloraide (paleta.py); una vez
-python3 -m pip install --user "gui-comun @ git+https://github.com/achalmed/gui-comun.git@v3.0.0"      # o GUI_COMUN_DIR=<repo gui-comun>
+python3 -m pip install --user "gui-comun @ git+https://github.com/achalmed/gui-comun.git@v4.0.0"      # o GUI_COMUN_DIR=<repo gui-comun>
 /usr/bin/python3 studio/main.py                       # desde la raíz de lliphi (el PySide6 del sistema es el que carga Kirigami)
 /usr/bin/python3 studio/main.py --area konsole        # abre en un área (o --destino <id>)
 /usr/bin/python3 studio/main.py --instalar-lanzador   # acceso directo en el menú de aplicaciones (-n simula)
@@ -86,7 +86,7 @@ studio/
 ├── muestra.py               una COPIA ligera del proyecto y un HOME falso para pruebas y capturas
 ├── capturar.py              capturas para la documentación sobre la copia (ninguna ruta de la máquina; --pasos solo prepara)
 ├── lliphi_app/
-│   ├── __init__.py          hay_gui_comun(): instalado o por GUI_COMUN_DIR, nunca subiendo carpetas; pide gui_comun ≥ 3.0
+│   ├── __init__.py          hay_gui_comun(): instalado o por GUI_COMUN_DIR, nunca subiendo carpetas; pide gui_comun ≥ 3.1
 │   ├── aplicacion.py        arma la aplicación: controladores, Acciones (estado de operación, confirmaciones, atajos), carga Main.qml
 │   ├── servicios/           sin Qt: diseno.py (la paleta, las escalas, los contrastes y la maqueta desde los tokens),
 │   │                        areas.py (las áreas, las tarjetas, lo instalado frente a lo generado), pasos.py (los planes,

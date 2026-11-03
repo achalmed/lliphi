@@ -1,5 +1,5 @@
 // PanelPasos — generar, instalar o desinstalar en seis pasos visibles (docs/reingenieria.md §3.2): Plan · Afectados ·
-// Conflictos · Ejecutar · Verificar · Informe. Arriba los pasos (PasosOperacion) con su cuenta; debajo, el contenido del
+// Conflictos · Ejecutar · Verificar · Informe. Arriba los pasos (PasosEscritura de gui-comun) con su cuenta; debajo, el contenido del
 // paso elegido. Ejecutar (Ctrl+Intro) pide confirmación con las consecuencias del plan y su estado de operación
 // (instalación, eliminación o escritura); con un conflicto que bloquea no se puede. Todo sale de studio.escritura.
 import QtQuick
@@ -23,7 +23,7 @@ ColumnLayout {
         Layout.fillWidth: true
         Layout.margins: Kirigami.Units.smallSpacing
         Kirigami.Heading { level: 3; text: raiz.plan.titulo || "Sin plan"; Layout.fillWidth: true; elide: Text.ElideRight }
-        EtiquetaEstado { texto: raiz.plan.estadoOperacion ? studio.acciones.accion("escr.ejecutar." + raiz.plan.tipo).operacionTexto : "" }
+        EtiquetaNivel { visible: text !== ""; text: raiz.plan.estadoOperacion ? studio.acciones.accion("escr.ejecutar." + raiz.plan.tipo).operacionTexto : "" }
         BotonAccion { accion: studio.acciones.accion("escr.ejecutar"); conTexto: true }
         QQC2.ToolButton {
             icon.name: "window-close"
@@ -33,7 +33,7 @@ ColumnLayout {
             QQC2.ToolTip.visible: hovered
         }
     }
-    PasosOperacion {
+    PasosEscritura {
         Layout.fillWidth: true
         Layout.leftMargin: Kirigami.Units.smallSpacing
         pasos: raiz.escritura.pasos
@@ -84,7 +84,7 @@ ColumnLayout {
                     Layout.leftMargin: Kirigami.Units.smallSpacing
                     Layout.preferredWidth: Kirigami.Units.gridUnit * 6
                     implicitHeight: accion.implicitHeight
-                    EtiquetaEstado { id: accion; texto: modelData.accion; nivel: modelData.nivel }
+                    EtiquetaNivel { id: accion; visible: text !== ""; text: modelData.accion; nivel: modelData.nivel }
                 }
                 QQC2.Label { text: modelData.ruta; font: Kirigami.Theme.fixedWidthFont; elide: Text.ElideMiddle; Layout.fillWidth: true }
                 QQC2.Label { text: modelData.detalle; color: Kirigami.Theme.disabledTextColor; font: Kirigami.Theme.smallFont; elide: Text.ElideRight; Layout.maximumWidth: Kirigami.Units.gridUnit * 20 }

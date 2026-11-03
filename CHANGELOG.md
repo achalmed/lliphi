@@ -5,6 +5,12 @@ Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión de
 ## [Unreleased]
 
 ### Changed
+- **Lliphi Studio usa las piezas comunes de `gui-comun` 3.1** (2026-11-03): la diferencia lado a lado
+  (`VistaComparacion` y `gui_comun.diferencias`), los seis pasos (`PasosEscritura`) y las etiquetas (`EtiquetaNivel`);
+  se retiran las copias propias. La instalación por pip pide `gui-comun` `v4.0.0`.
+- **La copia de muestra de solo lectura no copia `generado/` ni `sitio/generado/`** (unos 70 MB por copia): los
+  enlaza (`studio/muestra.py`, `solo_lectura=True`, la de la sesión de pruebas y la de las capturas); la que genera de
+  verdad sigue copiando, y las pruebas comprueban al terminar que el `generado/` del repo no cambió.
 - **Lliphi Studio 3.0** (decisiones 5.50, `docs/reingenieria.md`): un centro de configuración del escritorio sobre
   `gui-comun` 3.0, con áreas en la barra lateral y una página propia para cada una:
   - el sistema de diseño con su color real, claro y oscuro lado a lado, contrastes WCAG con veredicto y una maqueta
@@ -19,31 +25,6 @@ Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión de
   paleta de los tokens como datos, F5 simula o lee y Ctrl+Intro escribe o instala tras confirmar (respaldo y `UNDO.sh` a
   la vista). Se retiran los editores visuales de 1.x; los `ajustes.json` se abren en el editor. `requirements.txt`
   (coloraide) para un `.venv` sobre el Python del sistema; pruebas en `studio/tests/run.sh`.
-
-### Fixed
-- **La extensión de VS Code, Positron y VSCodium se instala con `--install-extension`** (decisiones 5.9): `editores`
-  genera `lliphi.vsix` y el instalador la registra con la orden de cada editor del PATH (y la retira el `UNDO.sh`), en
-  lugar de copiar la carpeta, que Positron daba por desinstalada y no mostraba los temas. Nuevos ganchos del instalador
-  para los `aplicar.py`: `tras_instalar()` y `al_desinstalar()`.
-
-### Added
-- **Super Productivity** (decisiones 5.49): complemento `super-productivity` con `lliphi.css`, Lliphi Claro y Lliphi
-  Oscuro en un solo archivo que solo redefine variables de la aplicación (superficies, tinta, tareas y notas, los grises
-  del oscuro, la paleta de Material con el acento de Lliphi, los contenedores de Material). El instalador lo copia como
-  `styles.css` de su carpeta de datos (base condicional nueva `super-productivity`: deb, Flatpak o Snap); también se
-  instala desde «Instalar tema…». Con «Modo oscuro: Sistema» sigue sola y en vivo a la variante.
-- **Kate, TeXstudio y Vim/Neovim** (decisiones 5.5–5.8): tres complementos nuevos. `kate`: Lliphi Claro y Lliphi Oscuro
-  como temas de KSyntaxHighlighting, con el fondo y la selección de la paleta de Kvantum, para que Kate (y KWrite y
-  KDevelop) cambie solo de tema al cambiar de variante. `texstudio`: los 88 formatos de resaltado en `[formats]` (claro)
-  y `[formatsDark]` (oscuro), que TeXstudio elige por la paleta, como perfil `lliphi.txsprofile` y con un `aplicar.py`
-  que solo sustituye esas secciones de `texstudio.ini`. `vim`: el esquema `lliphi` para Vim y Neovim, con las dos
-  variantes según `background`, el fondo y la terminal de Konsole y, en Neovim, Tree-sitter, LSP y diagnósticos. Los
-  tres usan la tabla de sintaxis de los editores.
-- **Positron entero** (decisiones 5.4): las 37 claves `positron*` que llevaban un color fijo de Positron (cuadrícula de
-  datos, barras de acciones, diálogos, estado del intérprete, gráficos del explorador de datos, bienvenida) toman su
-  color de los tokens; la consola, el fondo y los ANSI de la terminal integrada.
-
-### Changed
 - **Arquitectura modular** (docs/arquitectura.md, docs/migracion-modular.md): un tema global integrador (`global/`), seis
   módulos (`modulos/`: `esquema`, `estilo`, `decoracion`, `iconos-cursores`, `carga-bloqueo`, `disposicion`) y los
   complementos fuera del tema global (`complementos/`: `fondos`, `kvantum`, `konsole`, `terminales`, `editores`,
@@ -75,7 +56,42 @@ Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión de
   con un trazo encima (acento en el activo), desde `modulos/estilo/ajustes.json`; el dock suma el paginador.
   `sesion.py arrancar --escritorios N` y un reintento si el shell recién arrancado aún escribía su configuración.
 
+### Fixed
+- **La sesión de prueba ya no se apaga con batería**: `herramientas/sesion.py` desactiva el apagado, la atenuación y la
+  suspensión de la pantalla anidada en los tres perfiles de energía (corriente, batería y batería baja); antes solo en
+  el de corriente, y con batería las capturas salían negras a los minutos.
+- `sitio/generado/_cambios.md` estaba desfasado del `CHANGELOG.md` (`generar.py verificar` daba deriva): regenerado.
+- **La extensión de VS Code, Positron y VSCodium se instala con `--install-extension`** (decisiones 5.9): `editores`
+  genera `lliphi.vsix` y el instalador la registra con la orden de cada editor del PATH (y la retira el `UNDO.sh`), en
+  lugar de copiar la carpeta, que Positron daba por desinstalada y no mostraba los temas. Nuevos ganchos del instalador
+  para los `aplicar.py`: `tras_instalar()` y `al_desinstalar()`.
+- LibreOffice: el sombreado de campos e índices de Writer pasa al tono del separador; en el oscuro, el anterior
+  (`fondo.ventana-alterno` sobre `fondo.vista`) no se distinguía de la página.
+- Disposición del escritorio: el fondo de cada escritorio apuntaba a la carpeta de datos y no a la de fondos
+  (`userDataPath("wallpapers")` → `userDataPath("data", "wallpapers")`) y el escritorio quedaba negro al aplicar la
+  disposición desde Preferencias; el dock pedía `windowscover`, que Plasma 6 ya no tiene, y no se ocultaba: ahora
+  `dodgewindows`, se aparta cuando una ventana llega a él.
+- Kvantum se instalaba en `$XDG_DATA_HOME/../../.config/Kvantum`, que falla si las rutas XDG no son las de omisión;
+  ahora va a `$XDG_CONFIG_HOME/Kvantum`, y un manifiesto de 0.3.0 con la ruta antigua se sigue reconociendo.
+- El instalador respalda las notas del widget de Plasma (`~/.local/share/plasma_notes`) y `UNDO.sh` las devuelve: si un
+  cambio de disposición quita el widget, Plasma borra su nota.
+
 ### Added
+- **Super Productivity** (decisiones 5.49): complemento `super-productivity` con `lliphi.css`, Lliphi Claro y Lliphi
+  Oscuro en un solo archivo que solo redefine variables de la aplicación (superficies, tinta, tareas y notas, los grises
+  del oscuro, la paleta de Material con el acento de Lliphi, los contenedores de Material). El instalador lo copia como
+  `styles.css` de su carpeta de datos (base condicional nueva `super-productivity`: deb, Flatpak o Snap); también se
+  instala desde «Instalar tema…». Con «Modo oscuro: Sistema» sigue sola y en vivo a la variante.
+- **Kate, TeXstudio y Vim/Neovim** (decisiones 5.5–5.8): tres complementos nuevos. `kate`: Lliphi Claro y Lliphi Oscuro
+  como temas de KSyntaxHighlighting, con el fondo y la selección de la paleta de Kvantum, para que Kate (y KWrite y
+  KDevelop) cambie solo de tema al cambiar de variante. `texstudio`: los 88 formatos de resaltado en `[formats]` (claro)
+  y `[formatsDark]` (oscuro), que TeXstudio elige por la paleta, como perfil `lliphi.txsprofile` y con un `aplicar.py`
+  que solo sustituye esas secciones de `texstudio.ini`. `vim`: el esquema `lliphi` para Vim y Neovim, con las dos
+  variantes según `background`, el fondo y la terminal de Konsole y, en Neovim, Tree-sitter, LSP y diagnósticos. Los
+  tres usan la tabla de sintaxis de los editores.
+- **Positron entero** (decisiones 5.4): las 37 claves `positron*` que llevaban un color fijo de Positron (cuadrícula de
+  datos, barras de acciones, diálogos, estado del intérprete, gráficos del explorador de datos, bienvenida) toman su
+  color de los tokens; la consola, el fondo y los ANSI de la terminal integrada.
 - **Sitios web: DuckDuckGo y GitHub** (decisiones 5.12): complemento `sitios-web` con un estilo de usuario por sitio
   (`duckduckgo.user.css`, `github.user.css`; UserCSS para Stylus en Zen y Chrome, o `userContent.css` en Zen) que
   redefine solo las variables del sitio (Primer en GitHub; `--theme-col-*`, `--sds-color-*` y `--ds-*` en DuckDuckGo)
@@ -177,18 +193,6 @@ Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión de
 - `instalar.py comprobar` (lo instalado está completo, es de esta versión y `kpackagetool6` lo reconoce),
   `instalar.py dependencias` e `instalar.py sddm`; `dependencias.py` e `instalar_sddm.py` quedan como atajos.
 - Nueve pruebas de la arquitectura (33 en total) y el paso `validar` en la integración continua.
-
-### Fixed
-- LibreOffice: el sombreado de campos e índices de Writer pasa al tono del separador; en el oscuro, el anterior
-  (`fondo.ventana-alterno` sobre `fondo.vista`) no se distinguía de la página.
-- Disposición del escritorio: el fondo de cada escritorio apuntaba a la carpeta de datos y no a la de fondos
-  (`userDataPath("wallpapers")` → `userDataPath("data", "wallpapers")`) y el escritorio quedaba negro al aplicar la
-  disposición desde Preferencias; el dock pedía `windowscover`, que Plasma 6 ya no tiene, y no se ocultaba: ahora
-  `dodgewindows`, se aparta cuando una ventana llega a él.
-- Kvantum se instalaba en `$XDG_DATA_HOME/../../.config/Kvantum`, que falla si las rutas XDG no son las de omisión;
-  ahora va a `$XDG_CONFIG_HOME/Kvantum`, y un manifiesto de 0.3.0 con la ruta antigua se sigue reconociendo.
-- El instalador respalda las notas del widget de Plasma (`~/.local/share/plasma_notes`) y `UNDO.sh` las devuelve: si un
-  cambio de disposición quita el widget, Plasma borra su nota.
 
 ## [0.3.0] - 2026-10-19
 

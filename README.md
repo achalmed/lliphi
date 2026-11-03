@@ -43,7 +43,7 @@ Generar, instalar y desinstalar van en seis pasos visibles, con el `UNDO.sh` del
 
 ```bash
 /usr/bin/python3 -m venv --system-site-packages .venv && .venv/bin/pip install -r requirements.txt   # coloraide (paleta.py)
-python3 -m pip install --user "gui-comun @ git+https://github.com/achalmed/gui-comun.git@v2.7.0"      # o GUI_COMUN_DIR
+python3 -m pip install --user "gui-comun @ git+https://github.com/achalmed/gui-comun.git@v4.0.0"      # o GUI_COMUN_DIR
 /usr/bin/python3 studio/main.py
 ```
 

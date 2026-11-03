@@ -6,6 +6,7 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls as QQC2
 import org.kde.kirigami as Kirigami
+import GuiComun
 
 QQC2.ItemDelegate {
     id: raiz
@@ -41,15 +42,15 @@ QQC2.ItemDelegate {
         Flow {
             Layout.fillWidth: true
             spacing: Kirigami.Units.smallSpacing
-            EtiquetaEstado { texto: "generado: " + (raiz.datos.generado || "").toLowerCase(); nivel: raiz.datos.nivel_generado === "inactivo" ? "" : raiz.datos.nivel_generado || ""; icono: "run-build" }
-            EtiquetaEstado {
-                texto: (raiz.datos.instalacion || "").toLowerCase()
+            EtiquetaNivel { visible: text !== ""; text: "generado: " + (raiz.datos.generado || "").toLowerCase(); nivel: raiz.datos.nivel_generado === "inactivo" ? "" : raiz.datos.nivel_generado || ""; icono: "run-build" }
+            EtiquetaNivel {
+                visible: text !== ""; text: (raiz.datos.instalacion || "").toLowerCase()
                 nivel: raiz.datos.nivel_instalacion === "inactivo" ? "" : raiz.datos.nivel_instalacion || ""
                 icono: "install"
             }
-            EtiquetaEstado { texto: raiz.compat.texto || ""; nivel: raiz.compat.nivel || ""; icono: "dialog-information" }
-            EtiquetaEstado { texto: raiz.datos.construccion && raiz.datos.construccion !== "—" ? "construido " + raiz.datos.construccion : ""; icono: "view-calendar" }
-            EtiquetaEstado { texto: raiz.datos.privilegiado ? "pide pkexec: en la terminal" : ""; nivel: "neutro"; icono: "dialog-password" }
+            EtiquetaNivel { visible: text !== ""; text: raiz.compat.texto || ""; nivel: raiz.compat.nivel || ""; icono: "dialog-information" }
+            EtiquetaNivel { visible: text !== ""; text: raiz.datos.construccion && raiz.datos.construccion !== "—" ? "construido " + raiz.datos.construccion : ""; icono: "view-calendar" }
+            EtiquetaNivel { visible: text !== ""; text: raiz.datos.privilegiado ? "pide pkexec: en la terminal" : ""; nivel: "neutro"; icono: "dialog-password" }
         }
     }
 }

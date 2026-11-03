@@ -48,14 +48,19 @@ RUNTIME_REAL = Path(os.environ.get("XDG_RUNTIME_DIR") or f"/run/user/{os.getuid(
 PATH = "/usr/local/bin:/usr/bin:/bin"
 HERRAMIENTAS = ("dbus-run-session", "kwin_wayland", "startplasma-wayland", "kwriteconfig6")
 
+# los perfiles de energía de powerdevil (corriente, batería, batería baja)
+PERFILES_ENERGIA = ("AC", "Battery", "LowBattery")
+
 # configuración que se escribe en el HOME de prueba antes de arrancar: (archivo, grupos, clave, valor)
 CONFIG_PREVIA = [
     ("startkderc", ["General"], "systemdBoot", "false"),
     ("kscreenlockerrc", ["Daemon"], "Autolock", "false"),
     ("kscreenlockerrc", ["Daemon"], "LockOnResume", "false"),
-    ("powerdevilrc", ["AC", "Display"], "TurnOffDisplayWhenIdle", "false"),
-    ("powerdevilrc", ["AC", "Display"], "DimDisplayWhenIdle", "false"),
-    ("powerdevilrc", ["AC", "SuspendAndShutdown"], "AutoSuspendAction", "0"),
+    # la pantalla anidada no se apaga ni se atenúa ni suspende con ningún perfil de energía: con batería (y con poca)
+    # también, o las capturas salían negras a los minutos (2026-11-03; antes solo el perfil de corriente)
+    *[("powerdevilrc", [perfil, grupo], clave, valor) for perfil in PERFILES_ENERGIA
+      for grupo, clave, valor in (("Display", "TurnOffDisplayWhenIdle", "false"), ("Display", "DimDisplayWhenIdle", "false"),
+                                  ("SuspendAndShutdown", "AutoSuspendAction", "0"))],
     ("ksmserverrc", ["General"], "loginMode", "emptySession"),
     ("plasma-welcomerc", ["General"], "LastSeenVersion", "99.0.0"),
 ]

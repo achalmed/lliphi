@@ -12,6 +12,7 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls as QQC2
 import org.kde.kirigami as Kirigami
+import GuiComun
 
 Loader {
     id: raiz
@@ -160,8 +161,8 @@ Loader {
                         Layout.fillWidth: true
                     }
                     QQC2.Label { text: modelData.familia; font.bold: true }
-                    EtiquetaEstado {
-                        texto: modelData.generica ? "genérica" : modelData.instalada === undefined || modelData.instalada === null ? "sin fc-list" : modelData.instalada ? "instalada" : "no instalada"
+                    EtiquetaNivel {
+                        visible: text !== ""; text: modelData.generica ? "genérica" : modelData.instalada === undefined || modelData.instalada === null ? "sin fc-list" : modelData.instalada ? "instalada" : "no instalada"
                         nivel: modelData.generica ? "" : modelData.instalada ? "positivo" : "neutro"
                     }
                 }
@@ -177,7 +178,7 @@ Loader {
                 spacing: Kirigami.Units.smallSpacing
                 Repeater {
                     model: (studio.centro.iconos.temas || [])
-                    delegate: EtiquetaEstado { required property var modelData; texto: modelData.que + ": " + modelData.tema + (modelData.instalado ? "" : " (falta)"); nivel: modelData.instalado ? "positivo" : "neutro"; icono: "preferences-desktop-icons" }
+                    delegate: EtiquetaNivel { required property var modelData; visible: text !== ""; text: modelData.que + ": " + modelData.tema + (modelData.instalado ? "" : " (falta)"); nivel: modelData.instalado ? "positivo" : "neutro"; icono: "preferences-desktop-icons" }
                 }
             }
             Row {

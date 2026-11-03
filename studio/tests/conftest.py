@@ -63,10 +63,30 @@ PYTHON_SISTEMA = _python_del_sistema()
 requiere_sistema = pytest.mark.skipif(PYTHON_SISTEMA is None, reason="sin PySide6 con QML en /usr/bin/python3 (Kirigami)")
 
 
+def _huella_generado() -> tuple:
+    """Cuántos archivos, cuántos bytes y la fecha más reciente de lo generado del repo (no de una copia)."""
+    n = tamano = ultimo = 0
+    for carpeta in muestra_mod.GENERADOS:
+        for raiz, _dirs, archivos in os.walk(muestra_mod.REPO / carpeta):
+            for a in archivos:
+                st = os.stat(os.path.join(raiz, a), follow_symlinks=False)
+                n, tamano, ultimo = n + 1, tamano + st.st_size, max(ultimo, st.st_mtime_ns)
+    return n, tamano, ultimo
+
+
+@pytest.fixture(scope="session", autouse=True)
+def generado_del_repo_intacto():
+    """La muestra de solo lectura enlaza el `generado/` del repo: al terminar, nada de él pudo cambiar."""
+    antes = _huella_generado()
+    yield
+    assert _huella_generado() == antes, "una prueba escribió en el generado/ del repo a través de una muestra de solo lectura"
+
+
 @pytest.fixture(scope="session")
 def muestra_sesion(tmp_path_factory):
     """Una copia del proyecto para toda la sesión (lo que solo lee)."""
-    return muestra_mod.crear(tmp_path_factory.mktemp("muestra") / "lliphi")
+    # de solo lectura: generado/ enlazado, no copiado (unos 70 MB menos); lo que genera usa `muestra`, una copia propia
+    return muestra_mod.crear(tmp_path_factory.mktemp("muestra") / "lliphi", solo_lectura=True)
 
 
 @pytest.fixture

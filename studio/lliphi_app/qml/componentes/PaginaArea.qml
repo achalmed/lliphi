@@ -128,7 +128,7 @@ ColumnLayout {
                                     font: Kirigami.Theme.fixedWidthFont
                                     color: filaPar.highlighted ? Kirigami.Theme.highlightedTextColor : Kirigami.Theme.textColor
                                 }
-                                EtiquetaEstado { texto: filaPar.modelData.texto; nivel: filaPar.modelData.nivel }
+                                EtiquetaNivel { visible: text !== ""; text: filaPar.modelData.texto; nivel: filaPar.modelData.nivel }
                                 QQC2.ToolButton {
                                     icon.name: "system-file-manager"
                                     onClicked: studio.espacio.abrirDolphin(filaPar.modelData.destino)
@@ -141,7 +141,7 @@ ColumnLayout {
                     }
                 }
             }
-            VistaDiferencia {
+            VistaComparacion {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 visible: raiz.centro.pares.length > 0

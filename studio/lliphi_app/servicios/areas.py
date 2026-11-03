@@ -22,7 +22,9 @@ import shutil
 import subprocess
 from pathlib import Path
 
-from lliphi_app.servicios import destinos, diferencias, proyecto
+from gui_comun import diferencias
+
+from lliphi_app.servicios import destinos, proyecto
 
 # id, título, icono, destinos (los complementos no nombrados van a «otros»), qué es
 AREAS = (

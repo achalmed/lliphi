@@ -51,7 +51,7 @@ def main() -> int:
         from gui_comun.galeria.esquema import entorno_con_esquema
         import muestra
         carpeta = Path(tempfile.mkdtemp(prefix="lliphi-studio-captura-", dir="/tmp"))   # fuera de la carpeta de inicio
-        m = muestra.crear(carpeta / "muestra")
+        m = muestra.crear(carpeta / "muestra", solo_lectura=True)     # solo ve, prepara y copia al HOME de la copia: generado/ enlazado
         config_usuario = Path(os.environ.get("XDG_CONFIG_HOME") or Path.home() / ".config")
         for nombre in ("kdeglobals", "kcminputrc", "Kvantum", "fontconfig"):
             origen = config_usuario / nombre

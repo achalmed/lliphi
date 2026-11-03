@@ -205,7 +205,11 @@ def test_sesion_de_prueba_prepara_y_aisla(tmp_path: Path, monkeypatch):
     assert "systemdBoot=false" in (casa / ".config" / "startkderc").read_text()
     kscreen = (casa / ".config" / "kscreenlockerrc").read_text()
     assert kscreen.count("[Daemon]") == 1 and "Autolock=false" in kscreen
-    assert "[AC][Display]" in (casa / ".config" / "powerdevilrc").read_text()
+    energia = (casa / ".config" / "powerdevilrc").read_text()
+    for perfil in ("AC", "Battery", "LowBattery"):          # con batería tampoco se apaga la pantalla anidada (2026-11-03)
+        bloque = energia.split(f"[{perfil}][Display]", 1)[1].split("\n[", 1)[0]
+        assert "TurnOffDisplayWhenIdle=false" in bloque and "DimDisplayWhenIdle=false" in bloque, perfil
+        assert "AutoSuspendAction=0" in energia.split(f"[{perfil}][SuspendAndShutdown]", 1)[1].split("\n[", 1)[0], perfil
     assert (casa / ".local" / "share" / "icons" / "Papirus").is_symlink()
     monkeypatch.setenv("DBUS_SESSION_BUS_ADDRESS", "unix:path=/no")
     env = sesion.entorno_inicial(casa, tmp_path / "run", virtual=True)

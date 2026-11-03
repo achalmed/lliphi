@@ -18,7 +18,7 @@ APP_NAME = "Lliphi Studio"
 APP_VERSION = "3.0.0"
 ORG_NAME = "achalma"
 VARIABLE_GUI_COMUN = "GUI_COMUN_DIR"
-INSTALAR = 'python3 -m pip install --user "gui-comun @ git+https://github.com/achalmed/gui-comun.git@v3.0.0"   # o GUI_COMUN_DIR=<repo gui-comun>'
+INSTALAR = 'python3 -m pip install --user "gui-comun @ git+https://github.com/achalmed/gui-comun.git@v4.0.0"   # o GUI_COMUN_DIR=<repo gui-comun>'
 
 
 def hay_gui_comun() -> bool:
@@ -46,8 +46,8 @@ def faltan() -> list[str]:
     else:
         import gui_comun
         try:
-            if tuple(int(x) for x in gui_comun.__version__.split(".")[:2]) < (3, 0):
-                salida.append(f"gui_comun 3.0 o superior (hay {gui_comun.__version__})")
+            if tuple(int(x) for x in gui_comun.__version__.split(".")[:2]) < (3, 1):
+                salida.append(f"gui_comun 3.1 o superior (hay {gui_comun.__version__})")
         except (AttributeError, ValueError):
-            salida.append("gui_comun 3.0 o superior")
+            salida.append("gui_comun 3.1 o superior")
     return salida

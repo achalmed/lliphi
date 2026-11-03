@@ -69,9 +69,9 @@ QQC2.ScrollView {
         spacing: Kirigami.Units.smallSpacing
         RowLayout {
             Kirigami.Heading { level: 2; text: col.v.titulo || "" }
-            EtiquetaEstado { texto: "acento " + (col.v.acento || ""); icono: "color-picker" }
-            EtiquetaEstado {
-                texto: (col.v.fallan || 0) ? col.v.fallan + " par(es) no llegan" : "todos los pares cumplen"
+            EtiquetaNivel { visible: text !== ""; text: "acento " + (col.v.acento || ""); icono: "color-picker" }
+            EtiquetaNivel {
+                visible: text !== ""; text: (col.v.fallan || 0) ? col.v.fallan + " par(es) no llegan" : "todos los pares cumplen"
                 nivel: (col.v.fallan || 0) ? "negativo" : "positivo"
             }
         }
@@ -140,7 +140,7 @@ QQC2.ScrollView {
                 Item {
                     Layout.preferredWidth: Kirigami.Units.gridUnit * 8
                     implicitHeight: veredicto.implicitHeight
-                    EtiquetaEstado { id: veredicto; texto: modelData.veredicto; nivel: modelData.nivel }
+                    EtiquetaNivel { id: veredicto; visible: text !== ""; text: modelData.veredicto; nivel: modelData.nivel }
                 }
             }
         }
