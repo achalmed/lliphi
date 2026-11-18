@@ -13,6 +13,7 @@ Hasta que el autor elija el nombre (fase 3), la carpeta se llama `lliphi` y no e
 
 | fecha | qué | dónde se ve |
 |---|---|---|
+| 2026-11-18 | **Kvantum sigue a la variante y la vigilancia vuelve a arrancar** (decisiones 5.52), aprobado por el autor: `seguir-variante.py` pone `widgetStyle` en `kvantum` o `kvantum-dark` según el esquema, solo si Kvantum usa `Lliphi`, y avisa StyleChanged para las ventanas abiertas (sin bucle: el segundo aviso lo encuentra al día). La vigilancia no arrancaba desde que se instaló: `systemd-xdg-autostart-generator` escribe `\$` en la unidad y `sh` recibía «${XDG_DATA_HOME:-…}» literal; el `Exec` usa ahora `~`. **Instalado en la sesión del autor** el 2026-11-18 a las 11:38 (`instalar.py --modulos fondo-variante --aplicar`; vuelta atrás `respaldos/2026-11-18_113817/UNDO.sh`) y arrancada: puso GTK 3, `gtk-theme`, RStudio, Octave y Spyder, que seguían en Claro, en Oscuro como el escritorio | `test_kvantum_sigue_a_la_variante`, `test_fondo_sigue_a_la_variante` |
 | 2026-11-18 | Lliphi Studio, una mesa de diseño (decisiones 5.51): las rampas de los tokens a la izquierda, la maqueta del escritorio pintada con ellos (claro u oscuro, repintada en vivo al cambiar `tokens.json`) a la derecha y los destinos con su estado y «Generar lo que cambió» (F5) al pie; el cromo, todo de `Kirigami.Theme`; avisos a las notificaciones de KDE | `studio/`, `docs/figuras/lliphi-studio-*.png` |
 | 2026-11-03 | Decisión del autor: el commit `709d381` (ya en el remoto) guarda como enlace la ruta del `.venv` de la máquina; se deja en la historia, sin reescribirla ni forzar el empuje (`f3b861d` lo sacó del índice y `.venv` queda ignorado) | `git show 709d381:.venv` |
 | 2026-11-03 | **`.venv` fuera del repo otra vez**: el commit `709d381` versionó por error el enlace `.venv` del worktree (el patrón `.venv/` solo excluye carpetas, no enlaces) y, al fusionarse, sustituyó el entorno ignorado del checkout principal por un enlace a sí mismo. Se saca del índice y el patrón pasa a `.venv` | `.gitignore` |
@@ -120,7 +121,7 @@ Hasta que el autor elija el nombre (fase 3), la carpeta se llama `lliphi` y no e
   `/usr/bin/python3 studio/main.py`, mirar las rampas y la maqueta en claro y en oscuro, y cambiar el tema del escritorio
   con la ventana abierta (sin elegir variante, la maqueta lo sigue). Probado solo aislado: `HOME` y `kdeglobals`
   temporales y un bus de sesión propio (`studio/capturar.py --vivo`); `plasma-apply-colorscheme` no se corrió.
-- 2026-11-18 · dueño: autor (aprobar) · asistente (hacer) · **Kvantum sigue a la variante** (propuesta, sin aplicar).
+- 2026-11-18 · dueño: autor (aprobar) · asistente (hacer) · **Kvantum sigue a la variante**: hecho el 2026-11-18 (decisiones 5.52); queda que el autor mire en su sesión si las ventanas QML repintan sin reabrir. Lo que se propuso:
   Lo visto: en la sesión real, al pasar de claro a oscuro, las pestañas y los campos de búsqueda de las ventanas abiertas
   se quedan en el tema anterior. La causa: la variante de Kvantum la elige `widgetStyle` en `[KDE]` de `kdeglobals`
   (`kvantum` usa `Lliphi`, `kvantum-dark` usa `LliphiDark`; decisiones 4.19), y ese valor solo lo declara el tema global

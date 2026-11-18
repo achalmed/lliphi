@@ -1445,7 +1445,8 @@ def test_fondo_sigue_a_la_variante(tmp_path: Path, monkeypatch):
     assert sv.imagen_para(ajeno.as_uri(), "oscuro") is None
     assert sv.imagen_para("file:///usr/share/wallpapers/Next/contents/images/1920x1080.png", "claro") is None
     inicio = (GEN / "fondo-variante" / "lliphi-fondo-variante.desktop").read_text(encoding="utf-8")
-    assert "--vigilar" in inicio and "/home/" not in inicio and "$HOME" in inicio
+    # decisiones 5.52: sin «$» (systemd-xdg-autostart-generator lo escribe `\$` y `sh` lo recibía literal) y sin rutas fijas
+    assert "--vigilar" in inicio and "/home/" not in inicio and "$" not in inicio and "~/.local/share/" in inicio
     texto = (GEN / "fondo-variante" / "seguir-variante.py").read_text(encoding="utf-8")
     assert not re.search(r"@[A-Z_]+@", texto)                                     # ninguna marca sin sustituir
     # decisiones 4.28: Konsole sigue a la variante si su perfil usa un esquema de Lliphi; si no, no se toca
@@ -2508,3 +2509,43 @@ def test_super_productivity_instalacion(tmp_path: Path):
     (deb / "styles.css").write_text("/* mío */\n", encoding="utf-8")
     conf = correr("herramientas/instalar.py", "--aplicar", "--modulos", "super-productivity", env=env)
     assert conf.returncode == 3 and (deb / "styles.css").read_text() == "/* mío */\n"
+
+
+def test_kvantum_sigue_a_la_variante(tmp_path: Path, monkeypatch):
+    """Decisiones 5.52: con el tema de Kvantum de Lliphi, `widgetStyle` pasa al de la variante y se avisa StyleChanged
+    (2) una sola vez; con el estilo ya al día, con otro tema de Kvantum o con otro estilo, no se toca nada."""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("seguir_variante_kv", GEN / "fondo-variante" / "seguir-variante.py")
+    sv = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(sv)
+    assert sv.KVANTUM == registro.codigo("kvantum").tema_de(MARCA)
+    config = tmp_path / "config"
+    (config / "Kvantum").mkdir(parents=True)
+    monkeypatch.setattr(sv, "CONFIG", config)
+    estado = {"widgetStyle": "kvantum-dark"}
+    ordenes: list[list[str]] = []
+
+    def correr(argv, **_):
+        ordenes.append(list(argv))
+        salida = estado["widgetStyle"] if "kreadconfig6" in argv[0] else ""
+        if "kwriteconfig6" in argv[0]:
+            estado["widgetStyle"] = argv[-1]
+        return subprocess.CompletedProcess(argv, 0, stdout=salida + "\n", stderr="")
+
+    monkeypatch.setattr(sv.subprocess, "run", correr)
+    (config / "Kvantum" / "kvantum.kvconfig").write_text(f"[General]\ntheme={sv.KVANTUM}\n", encoding="utf-8")
+    sv.kvantum("claro", False)                                                   # simula: no escribe
+    assert estado["widgetStyle"] == "kvantum-dark" and not any("dbus-send" in o[0] for o in ordenes)
+    sv.kvantum("claro", True)
+    assert estado["widgetStyle"] == "kvantum"
+    avisos = [o for o in ordenes if "dbus-send" in o[0]]
+    assert len(avisos) == 1 and avisos[0][-2:] == ["int32:2", "int32:0"]
+    sv.kvantum("claro", True)                                                    # ya al día: sin otro aviso
+    assert len([o for o in ordenes if "dbus-send" in o[0]]) == 1
+    estado["widgetStyle"] = "Breeze"
+    sv.kvantum("oscuro", True)                                                   # otro estilo: no se toca
+    assert estado["widgetStyle"] == "Breeze"
+    estado["widgetStyle"] = "kvantum"
+    (config / "Kvantum" / "kvantum.kvconfig").write_text("[General]\ntheme=KvArc\n", encoding="utf-8")
+    sv.kvantum("oscuro", True)                                                   # otro tema de Kvantum: no se toca
+    assert estado["widgetStyle"] == "kvantum"

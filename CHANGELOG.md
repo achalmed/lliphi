@@ -5,6 +5,12 @@ Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión de
 ## [Unreleased]
 
 ### Changed
+- **Kvantum sigue a la variante** (2026-11-18, decisiones 5.52): la vigilancia de `fondo-variante` pone `widgetStyle` en `kvantum` o `kvantum-dark` según el esquema, si Kvantum usa `Lliphi`, y avisa StyleChanged para las ventanas abiertas.
+
+### Fixed
+- **La vigilancia de la variante vuelve a arrancar con la sesión** (2026-11-18, decisiones 5.52): el `Exec` del inicio automático ya no lleva `$`, que `systemd-xdg-autostart-generator` dejaba literal; usa `~`.
+
+### Changed
 - **Lliphi Studio, una mesa de diseño** (2026-11-18, decisiones 5.51): a la izquierda, las rampas de color de los
   tokens (neutros, acento, estados, los 16 ANSI, los semánticos y los contrastes WCAG; un clic copia el hex); a la
   derecha, la maqueta del escritorio pintada con ellos (fondo, barra superior, ventana, Konsole, notificación y dock,

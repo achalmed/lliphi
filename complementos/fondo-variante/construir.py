@@ -12,7 +12,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from nucleo import escribir, semanticos
+from nucleo import escribir, registro, semanticos
 
 FUENTE = Path(__file__).resolve().parent / "seguir.py"
 PROGRAMA = "seguir-variante.py"
@@ -25,13 +25,16 @@ def generar(tokens: dict, marca: dict, destino: Path) -> list[Path]:
              .replace("@ESQUEMA_CLARO@", marca["id_esquema"]["claro"]).replace("@ESQUEMA_OSCURO@", marca["id_esquema"]["oscuro"])
              .replace("@KONSOLE_CLARO@", marca["nombre_esquema"]["claro"]).replace("@KONSOLE_OSCURO@", marca["nombre_esquema"]["oscuro"])
              # el acento del claro, con el que se reconoce que los botones de ventana de GTK son de la decoración clara
-             .replace("@ACENTOS_CLARO@", ",".join(semanticos(tokens, "claro")[k].lower() for k in ("acento.base", "acento.suave"))))
+             .replace("@ACENTOS_CLARO@", ",".join(semanticos(tokens, "claro")[k].lower() for k in ("acento.base", "acento.suave")))
+             # el tema de Kvantum de Lliphi, para reconocer que el estilo de las aplicaciones es el suyo (decisiones 5.52)
+             .replace("@KVANTUM@", registro.codigo("kvantum").tema_de(marca)))
     escribir(destino / PROGRAMA, texto, hechos)
     (destino / PROGRAMA).chmod(0o755)
     escribir(destino / INICIO, "\n".join([
         "[Desktop Entry]", "Type=Application", f"Name={marca['nombre']}: el fondo y Konsole siguen a la variante",
         f"Comment=Pone la imagen clara u oscura del fondo y el esquema de Konsole de {marca['nombre']} al cambiar entre {marca['nombre_esquema']['claro']} y {marca['nombre_esquema']['oscuro']}",
-        # sin rutas de la máquina: la carpeta de datos se resuelve al arrancar
-        f"Exec=sh -c 'exec python3 \"${{XDG_DATA_HOME:-$HOME/.local/share}}/{marca['id']}/{PROGRAMA}\" --vigilar'",
+        # sin rutas de la máquina y sin «$» (decisiones 5.52): systemd-xdg-autostart-generator escribe `\$` en la unidad
+        # y el `sh` recibía «${XDG_DATA_HOME:-…}» literal, así que la vigilancia nunca arrancaba; `~` lo expande `sh`
+        f"Exec=sh -c 'exec python3 ~/.local/share/{marca['id']}/{PROGRAMA} --vigilar'",
         "X-KDE-autostart-phase=2", "NoDisplay=true", "Terminal=false", ""]), hechos)
     return hechos

@@ -20,6 +20,12 @@ kde-gtk-config ya reescribió `colors.css`), y la preferencia `color-scheme` de 
 kde-gtk-config dejó en GTK el tema de iconos o el claro u oscuro del tema anterior, se recarga su módulo de kded; y
 `gtk-theme` de GSettings pasa a `Breeze-Dark` o `Breeze` (gretl elige por ese nombre sus iconos del modo oscuro).
 
+Kvantum tampoco: su variante la elige `widgetStyle` de kdeglobals (`kvantum` usa `Lliphi`, `kvantum-dark` usa
+`LliphiDark`; decisiones 4.19), que solo declara el tema global. Si Kvantum usa `Lliphi` y el estilo es uno de los
+dos pero no el de la variante, se escribe el que toca y se avisa `notifyChange` de tipo StyleChanged (2) para que las
+ventanas abiertas recarguen el estilo; con otro tema de Kvantum u otro estilo no se toca nada. Ese aviso vuelve a
+despertar la vigilancia, que ya lo encuentra al día (decisiones 5.52).
+
 Los programas que no cambian solos de variante (RStudio, Octave, Spyder) instalan cada uno el suyo en
 `variante.d/`, junto a este: en cada cambio se ejecuta `variante.d/<programa>.py <variante> --aplicar` (sin
 `--aplicar` al simular), y cada uno decide si le toca (decisiones 5.43).
@@ -48,6 +54,8 @@ KONSOLE = {"claro": "Lliphi Claro", "oscuro": "Lliphi Oscuro"}
 HOJA_GTK3 = re.compile(r"^(\s*@import\s+(?:url\()?['\"])lliphi-(claro|oscuro)(\.css['\"]\)?;\s*)$", re.M)
 ESQUEMA_GTK = {"claro": "prefer-light", "oscuro": "prefer-dark"}
 ACENTOS_CLARO = "#315bef,#4777f0".split(",")
+KVANTUM = "Lliphi"
+ESTILO_KVANTUM = {"claro": "kvantum", "oscuro": "kvantum-dark"}
 DATA = Path(os.environ.get("XDG_DATA_HOME") or Path.home() / ".local" / "share")
 CONFIG = Path(os.environ.get("XDG_CONFIG_HOME") or Path.home() / ".config")
 LEER = """var d = desktops(); var r = [];
@@ -306,7 +314,37 @@ def una_vez(escribir: bool) -> None:
         gtk(var, escribir)
         gtk_kde(var, escribir)
         tema_gtk(var, escribir)                      # después: recargar gtkconfig vuelve a escribir `Breeze`
+        kvantum(var, escribir)
         programas(var, escribir)
+
+
+def tema_kvantum() -> str | None:
+    """El tema de Kvantum elegido (`[General] theme=` de `Kvantum/kvantum.kvconfig`), o None."""
+    try:
+        texto = (CONFIG / "Kvantum" / "kvantum.kvconfig").read_text(encoding="utf-8", errors="replace")
+    except OSError:
+        return None
+    m = re.search(r"^\s*theme\s*=\s*(\S+)\s*$", texto, re.M)
+    return m.group(1) if m else None
+
+
+def kvantum(var: str, escribir: bool) -> None:
+    """Kvantum sigue a la variante (decisiones 5.52): `widgetStyle` al de la variante y el aviso StyleChanged."""
+    if tema_kvantum() != KVANTUM:
+        return
+    r = subprocess.run([herramienta("kreadconfig6") or "kreadconfig6", "--file", "kdeglobals", "--group", "KDE",
+                        "--key", "widgetStyle"], capture_output=True, text=True)
+    actual, quiere = r.stdout.strip(), ESTILO_KVANTUM[var]
+    if actual not in ESTILO_KVANTUM.values() or actual == quiere:
+        return
+    print(f"{'' if escribir else 'SIM '}Kvantum: widgetStyle {actual} → {quiere}")
+    if not escribir:
+        return
+    subprocess.run([herramienta("kwriteconfig6") or "kwriteconfig6", "--file", "kdeglobals", "--group", "KDE",
+                    "--key", "widgetStyle", quiere], capture_output=True)
+    # notifyChange(StyleChanged = 2, 0): las aplicaciones de KDE abiertas recargan su estilo
+    subprocess.run([herramienta("dbus-send") or "dbus-send", "--session", "--type=signal", "/KGlobalSettings",
+                    "org.kde.KGlobalSettings.notifyChange", "int32:2", "int32:0"], capture_output=True)
 
 
 def programas(var: str, escribir: bool) -> None:
