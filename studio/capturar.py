@@ -14,7 +14,8 @@ destinos salen desfasados). La mesa de diseño (2026-11-18): `--variante claro|o
 
 El cambio en vivo, sin tocar el escritorio (2026-11-18): `--vivo OTRO.colors` captura, reescribe el kdeglobals TEMPORAL
 con el otro esquema, avisa `notifyChange` en un bus de sesión PROPIO (relanza bajo `dbus-run-session`: el aviso nunca
-llega a la sesión real) y vuelve a capturar en `<salida>-vivo.png`; `--tokens-en-vivo` reescribe a mitad el acento de los
+llega a la sesión real; el bus, el aviso, Kvantum a juego y el cierre de los servicios que deja huérfanos son de
+`gui_comun.galeria.vivo`, gui-comun 4.1) y vuelve a capturar en `<salida>-vivo.png`; `--tokens-en-vivo` reescribe a mitad el acento de los
 tokens de la copia (la maqueta se repinta sola) y captura en `<salida>-tokens.png`. Corre con el Python del sistema; las órdenes, con el `.venv` del proyecto (enlazado
 en la copia) si existe. `--pasos` solo PREPARA el plan (pasos 1–3): nunca ejecuta.
 """
@@ -50,21 +51,6 @@ def tocar_tokens(lliphi: Path) -> None:
     tmp = ruta.with_suffix(".json.tmp")
     tmp.write_text(texto, encoding="utf-8")
     tmp.replace(ruta)                                   # como paleta.py y KConfig: un archivo nuevo y un renombrado
-
-
-def terminar_huerfanos(carpeta: str) -> None:
-    """Los servicios que el bus propio arrancó a pedido (el portal de KDE, ksecretd) sobreviven a `dbus-run-session`, con
-    el HOME de la copia y la salida heredada: se terminan por su PID, solo los que llevan ESTA captura en su entorno."""
-    import signal
-    marca = f"LLIPHI_STUDIO_CAPTURA={carpeta}".encode()
-    for proc in Path("/proc").iterdir():
-        if not proc.name.isdigit() or int(proc.name) == os.getpid():
-            continue
-        try:
-            if marca in (proc / "environ").read_bytes().split(b"\0"):
-                os.kill(int(proc.name), signal.SIGTERM)
-        except (OSError, ValueError):
-            pass
 
 
 def main() -> int:
@@ -116,12 +102,14 @@ def main() -> int:
             env["GUI_COMUN_DIR"] = str(Path(gui_comun.__file__).resolve().parents[1])
         orden = [sys.executable, str(AQUI / "capturar.py")] + [a for a in sys.argv[1:] if not a.startswith("--esquema") and a != args.esquema
                                                                     and not a.startswith("--vivo") and a != args.vivo]
-        if args.vivo or args.tokens_en_vivo:              # un bus de sesión propio: el aviso de cambio nunca sale de aquí
-            env["LLIPHI_STUDIO_VIVO"] = str(Path(args.vivo).expanduser().resolve()) if args.vivo else ""
-            orden = ["/usr/bin/dbus-run-session", "--"] + orden
-        codigo = subprocess.run(orden, env=env).returncode
         if args.vivo or args.tokens_en_vivo:
-            terminar_huerfanos(str(carpeta))
+            # un bus de sesión propio (el aviso de cambio nunca sale de aquí); al acabar, gui-comun 4.1 detiene por su PID
+            # los servicios que ese bus arrancó a pedido (el portal de KDE, ksecretd), solo los de esta captura
+            from gui_comun.galeria import vivo as en_vivo
+            env["LLIPHI_STUDIO_VIVO"] = str(Path(args.vivo).expanduser().resolve()) if args.vivo else ""
+            codigo = en_vivo.correr_en_bus_propio(orden, env, carpeta)
+        else:
+            codigo = subprocess.run(orden, env=env).returncode
         shutil.rmtree(carpeta, ignore_errors=True)
         return codigo
 
@@ -191,14 +179,10 @@ def main() -> int:
 
     def cambiar_en_vivo(vivo: str) -> None:
         base = Path(args.salida)
-        if vivo:                                         # el esquema: el kdeglobals TEMPORAL y el aviso en el bus propio
-            from gui_comun.galeria.esquema import kdeglobals_con_esquema
-            kdeglobals = Path(os.environ["XDG_CONFIG_HOME"]) / "kdeglobals"
-            if not str(kdeglobals).startswith("/tmp/"):
-                raise SystemExit("capturar.py: el kdeglobals no es temporal; no se cambia")
-            kdeglobals_con_esquema(Path(vivo), kdeglobals, kdeglobals=kdeglobals)
-            subprocess.run(["/usr/bin/dbus-send", "--session", "--type=signal", "/KGlobalSettings", "org.kde.KGlobalSettings.notifyChange",
-                            "int32:0", "int32:0"], check=False)
+        if vivo:                                         # el esquema: el kdeglobals TEMPORAL (y Kvantum a juego), el aviso en el bus propio
+            from gui_comun.galeria import vivo as en_vivo
+            if not os.environ["XDG_CONFIG_HOME"].startswith("/tmp/") or not en_vivo.aplicar_esquema_en_vivo(Path(vivo)):
+                raise SystemExit("capturar.py: la configuración no es temporal o el bus es el de la sesión; no se cambia")
             app.capturar(str(base.with_name(base.stem + "-vivo" + base.suffix)), espera_ms=2500, salir=not args.tokens_en_vivo)
         if args.tokens_en_vivo:
             def tokens():

@@ -27,14 +27,10 @@ VentanaBase {
     readonly property bool escritorioOscuro: Kirigami.ColorUtils.brightnessForColor(Kirigami.Theme.backgroundColor) === Kirigami.ColorUtils.Dark
     readonly property string varianteVista: variante || (escritorioOscuro ? "oscuro" : "claro")
     readonly property var datosVariante: (centro.sistema.variantes || []).find(x => x.variante === ventana.varianteVista) || ({})
-    // lo efímero va a la barra de estado (6 s); lo demás, a las notificaciones del escritorio
-    property string pista: ""
+    // lo efímero (todo aviso de información) es una pista de gui-comun 4.1: la barra de estado la muestra 6 s en lugar
+    // del contexto; lo demás, a las notificaciones del escritorio
     property double inicioTarea: 0
-    function avisar(texto, tipo) {
-        if (tipo === "informacion") { ventana.pista = texto; relojPista.restart() }
-        else ventana.notificar(texto, tipo)
-    }
-    Timer { id: relojPista; interval: 6000; onTriggered: ventana.pista = "" }
+    function avisar(texto, tipo) { ventana.notificar(texto, tipo === "informacion" ? "pista" : tipo) }
     onVarianteVistaChanged: marcarVariante()
     function marcarVariante() {
         registro.marcar("ver.variante.claro", varianteVista === "claro")
@@ -209,7 +205,7 @@ VentanaBase {
 
     footer: BarraEstado {
         resumen: studio.espacio.resumen
-        contexto: ventana.pista || studio.espacio.contexto
+        contexto: studio.espacio.contexto
         tareas: studio.tareas
         onProgresoPulsado: ventana.mostrarSalida = true
     }

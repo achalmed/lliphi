@@ -51,12 +51,14 @@ i.pedir.emit("variante", {"nombre": "claro"}); app.app.processEvents()
 variante = [raiz.property("varianteVista"), a.accion("ver.variante.claro").marcada, a.accion("ver.variante.oscuro").marcada]
 a.accion("ver.area.diseno").disparar(); app.app.processEvents()
 grupos = [[g["id"], len(g["destinos"])] for g in c.grupos]
+e.aviso.emit("Copiado #102030", "informacion"); app.app.processEvents()   # lo efímero: la pista de gui-comun 4.1
+pista = [raiz.property("footer").property("textoDerecha"), raiz.property("mensajes").property("cuantos")] if raiz else []
 QTimer.singleShot(800, app.app.quit); app.app.exec(); app.cerrar()
 print(json.dumps({"ok": ok, "errores": errores, "acciones": a.nombres(), "menus": [x["titulo"] for x in a.menus], "barra": a.barra, "paginas": paginas,
                   "pares": pares, "plan": {k: plan.get(k) for k in ("titulo", "tipo", "orden", "estadoOperacion")}, "afectados": len(plan.get("afectados", [])),
                   "pedida": [p.get("nombre") for p in pedida], "consecuencias": pedida[0].get("consecuencias", "") if pedida else "",
                   "activa": piezas["tareas"].activa, "operaciones": operaciones, "contexto": contexto, "atajos": atajos,
-                  "variante": variante, "grupos": grupos, "cambios": c.cambios}))
+                  "variante": variante, "grupos": grupos, "cambios": c.cambios, "pista": pista}))
 """
 
 COMPONENTE = """
@@ -123,6 +125,8 @@ def test_abre_y_cierra_su_ventana(muestra_sesion):
     grupos = dict(datos["grupos"])
     assert "diseno" not in grupos and grupos["plasma"] >= 5 and grupos["tipografia"] == 0 and sum(grupos.values()) >= 20
     assert datos["cambios"]["vigente"] is False and "F5" in datos["cambios"]["texto"]       # la muestra no se ha verificado
+    # un aviso de información es una pista de gui-comun: en la barra, en lugar del contexto, y no en la lista de mensajes
+    assert datos["pista"] == ["Copiado #102030", 0]
 
 
 @requiere_sistema
