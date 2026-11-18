@@ -1,7 +1,7 @@
 ---
 tipo: estado
 estado: activo
-actualizado: 2026-11-03
+actualizado: 2026-11-18
 ---
 # estado.md — lliphi (nombre provisional de la carpeta y del proyecto)
 
@@ -13,6 +13,7 @@ Hasta que el autor elija el nombre (fase 3), la carpeta se llama `lliphi` y no e
 
 | fecha | qué | dónde se ve |
 |---|---|---|
+| 2026-11-18 | Lliphi Studio, una mesa de diseño (decisiones 5.51): las rampas de los tokens a la izquierda, la maqueta del escritorio pintada con ellos (claro u oscuro, repintada en vivo al cambiar `tokens.json`) a la derecha y los destinos con su estado y «Generar lo que cambió» (F5) al pie; el cromo, todo de `Kirigami.Theme`; avisos a las notificaciones de KDE | `studio/`, `docs/figuras/lliphi-studio-*.png` |
 | 2026-11-03 | Decisión del autor: el commit `709d381` (ya en el remoto) guarda como enlace la ruta del `.venv` de la máquina; se deja en la historia, sin reescribirla ni forzar el empuje (`f3b861d` lo sacó del índice y `.venv` queda ignorado) | `git show 709d381:.venv` |
 | 2026-11-03 | **`.venv` fuera del repo otra vez**: el commit `709d381` versionó por error el enlace `.venv` del worktree (el patrón `.venv/` solo excluye carpetas, no enlaces) y, al fusionarse, sustituyó el entorno ignorado del checkout principal por un enlace a sí mismo. Se saca del índice y el patrón pasa a `.venv` | `.gitignore` |
 | 2026-11-03 | **`herramientas/contacto.py` retirada**: la hoja de contacto de la iconografía propia importaba `destinos.iconos`, retirado, y no tenía qué dibujar (sin iconos propios desde `b1618de`; Colloid Grey, decisión 4.22); nada la usaba en `lliphi`, `~/.dotfiles` ni `meta` | `git log -- herramientas/contacto.py` |
@@ -114,6 +115,33 @@ Hasta que el autor elija el nombre (fase 3), la carpeta se llama `lliphi` y no e
   decoración (`respaldos/2026-10-19_073454/UNDO.sh` la revierte). Comparación: `muestras/comparacion-linea-base-decoracion.png`.
 
 ## Por hacer
+
+- 2026-11-18 · dueño: autor · **Lliphi Studio, la mesa de diseño, en la sesión real** (decisiones 5.51): abrir
+  `/usr/bin/python3 studio/main.py`, mirar las rampas y la maqueta en claro y en oscuro, y cambiar el tema del escritorio
+  con la ventana abierta (sin elegir variante, la maqueta lo sigue). Probado solo aislado: `HOME` y `kdeglobals`
+  temporales y un bus de sesión propio (`studio/capturar.py --vivo`); `plasma-apply-colorscheme` no se corrió.
+- 2026-11-18 · dueño: autor (aprobar) · asistente (hacer) · **Kvantum sigue a la variante** (propuesta, sin aplicar).
+  Lo visto: en la sesión real, al pasar de claro a oscuro, las pestañas y los campos de búsqueda de las ventanas abiertas
+  se quedan en el tema anterior. La causa: la variante de Kvantum la elige `widgetStyle` en `[KDE]` de `kdeglobals`
+  (`kvantum` usa `Lliphi`, `kvantum-dark` usa `LliphiDark`; decisiones 4.19), y ese valor solo lo declara el tema global
+  (`complementos/kvantum/construir.py`, `valores`; hoy en `kdedefaults/kdeglobals`). Cambiar solo el esquema de color
+  (Preferencias → Colores, `plasma-apply-colorscheme`) no lo toca; y aun cambiándolo, las aplicaciones abiertas no
+  recargan el estilo sin el aviso `notifyChange` de tipo `StyleChanged` (2). Lo que se propone:
+  1. `complementos/kvantum/variante-kvantum.py`, instalado como `lliphi/variante.d/kvantum.py` (el camino de RStudio,
+     Octave y Spyder, decisiones 5.43), que `seguir-variante.py --vigilar` ya corre en cada cambio de colores;
+  2. si `Kvantum/kvantum.kvconfig` dice `theme=Lliphi` y `widgetStyle` es `kvantum` o `kvantum-dark` pero no el de la
+     variante del esquema, escribe el que toca con `kwriteconfig6 --file kdeglobals --group KDE --key widgetStyle` y
+     avisa `org.kde.KGlobalSettings.notifyChange` con `int32:2 int32:0` (StyleChanged) para que las aplicaciones abiertas
+     recarguen el estilo; con otro tema de Kvantum o con otro estilo (Breeze), no toca nada; sin `--aplicar`, solo dice
+     qué haría;
+  3. sin bucle: su propio aviso vuelve a despertar la vigilancia, que ya encuentra `widgetStyle` al día y no hace nada;
+  4. probarlo en la sesión de prueba (`herramientas/sesion.py`), con Dolphin y un studio abiertos: pestañas, campos y
+     botones deben cambiar sin reabrir. Duda abierta: si las ventanas QML (qqc2-desktop-style) repintan con el estilo
+     nuevo o piden reabrir; si piden reabrir, se documenta en `complementos/kvantum/INSTALL.md`.
+- 2026-11-18 · dueño: asistente · `generar.py verificar` da 1 deriva en `sitio/generado/_cambios.md` porque
+  `CHANGELOG.md` tiene entradas sin regenerar el sitio (la de Dolphin del 2026-11-11, sin commit, y la de la mesa de
+  diseño): regenerar `sitio/generado/` cuando la del 2026-11-11 entre en un commit (`pruebas/test_proyecto.py::
+  test_generado_sin_deriva`).
 
 - 2026-11-03 · dueño: director · tras fusionar esta rama, rehacer el entorno del checkout principal (el de `main`
   quedó como enlace a sí mismo): `/usr/bin/python3 -m venv --system-site-packages .venv && .venv/bin/pip install -r

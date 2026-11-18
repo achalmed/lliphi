@@ -5,6 +5,14 @@ Formato de Keep a Changelog 1.1.0; versiones según SemVer 2.0.0. La versión de
 ## [Unreleased]
 
 ### Changed
+- **Lliphi Studio, una mesa de diseño** (2026-11-18, decisiones 5.51): a la izquierda, las rampas de color de los
+  tokens (neutros, acento, estados, los 16 ANSI, los semánticos y los contrastes WCAG; un clic copia el hex); a la
+  derecha, la maqueta del escritorio pintada con ellos (fondo, barra superior, ventana, Konsole, notificación y dock,
+  con los radios, opacidades y familias de los tokens), en claro u oscuro, que se repinta al cambiar `tokens.json`; al
+  pie, los destinos por área con su estado y «Generar lo que cambió» (F5), que verifica antes si hace falta. El cromo
+  sale todo de `Kirigami.Theme`; lo efímero va a la barra de estado y los avisos, a las notificaciones de KDE.
+  «Verificar lo generado» con deriva ya no se presenta como error. `capturar.py`: `--variante`, `--tocar-tokens`,
+  `--vivo` (cambio de esquema en un bus de sesión propio) y `--tokens-en-vivo`.
 - **Lliphi Studio usa las piezas comunes de `gui-comun` 3.1** (2026-11-03): la diferencia lado a lado
   (`VistaComparacion` y `gui_comun.diferencias`), los seis pasos (`PasosEscritura`) y las etiquetas (`EtiquetaNivel`);
   se retiran las copias propias. La instalación por pip pide `gui-comun` `v4.0.0`.

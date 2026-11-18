@@ -6,7 +6,10 @@
   de L entre vecinos (lo que hace que una escala se lea como escala);
 - `contrastes`: los pares que importan (texto sobre fondo, acento sobre fondo, selección, estados, bordes) con su razón
   WCAG 2.x y su veredicto: AAA ≥ 7, AA ≥ 4,5, AA grande ≥ 3 (texto) o «no textual» ≥ 3 (bordes y foco), falla;
-- `maqueta`: los colores semánticos que pinta la vista previa de una ventana (QML los usa como datos, no como estilo).
+- `maqueta`: los colores semánticos que pinta la vista previa de una ventana (QML los usa como datos, no como estilo);
+- `escritorio` (rediseño del 2026-11-18, la mesa de diseño): lo que la maqueta del escritorio toma de los tokens además del
+  color (los radios, las opacidades del panel y los diálogos, las familias) y, por variante, `fondo`: el fondo que pone la
+  disposición (`FONDO_ESCRITORIO`), la imagen más pequeña de `generado/fondos/`.
 
 La conversión y el contraste son los de `servicios/color.py` (Björn Ottosson y WCAG 2.x).
 """
@@ -40,6 +43,7 @@ MAQUETA = ("fondo.ventana", "fondo.ventana-alterno", "fondo.vista", "fondo.vista
            "fondo.tooltip", "texto.normal", "texto.secundario", "texto.inactivo", "texto.tooltip", "texto.sobre-acento", "borde.separador",
            "borde.sutil", "acento.base", "acento.suave", "acento.texto", "seleccion.fondo", "seleccion.texto", "foco", "enlace",
            "estado.error", "estado.advertencia", "estado.exito", "estado.info")
+FONDO_ESCRITORIO = "org.lliphi.relampago.firmado"     # el que la disposición escribe en cada escritorio (modulos/disposicion)
 
 
 def _hojas(nodo: dict, prefijo: str = "") -> dict[str, dict]:
@@ -80,6 +84,34 @@ def veredicto(razon: float, tipo: str) -> tuple[str, str]:
     return "Falla", "negativo"
 
 
+def fondo_escritorio() -> dict[str, str]:
+    """{claro, oscuro}: la URI de la imagen más pequeña del fondo del escritorio en `generado/fondos/` (vacío si no está)."""
+    base = proyecto.raiz() / "generado" / "fondos"
+    carpetas = [base / FONDO_ESCRITORIO] + (sorted(base.iterdir()) if base.is_dir() else [])
+    por_tamano = lambda c: sorted(c.glob("*x*.*"), key=lambda p: [int(n) for n in p.stem.split("x") if n.isdigit()])
+    for d in carpetas:
+        claro = por_tamano(d / "contents" / "images") if (d / "contents" / "images").is_dir() else []
+        if claro:
+            oscuro = (por_tamano(d / "contents" / "images_dark") if (d / "contents" / "images_dark").is_dir() else []) or claro
+            return {"claro": claro[0].as_uri(), "oscuro": oscuro[0].as_uri()}
+    return {"claro": "", "oscuro": ""}
+
+
+def escritorio(tokens: dict) -> dict:
+    """Lo que la maqueta del escritorio toma de los tokens además del color: radios (px), opacidades y familias."""
+    radios = {}
+    for k, v in (tokens.get("radio") or {}).items():
+        valor = v.get("$value") if isinstance(v, dict) else None
+        if isinstance(valor, dict) and isinstance(valor.get("value"), (int, float)):
+            radios[k.replace("-", "_")] = valor["value"]
+    efectos = {k.replace("-", "_"): v.get("$value") for k, v in (tokens.get("efectos") or {}).items()
+               if isinstance(v, dict) and isinstance(v.get("$value"), (int, float))}
+    tipo = tokens.get("tipografia") or {}
+    primera = lambda clave: next(iter((tipo.get(clave) or {}).get("$value") or []), "")
+    return {"radios": radios, "opacidadPanel": efectos.get("opacidad_panel", 1), "opacidadDialogo": efectos.get("opacidad_dialogo", 1),
+            "familia": primera("interfaz"), "mono": primera("monoespaciada")}
+
+
 def variante(tokens: dict, nombre: str) -> dict:
     prim = _hojas((tokens.get("primitivas") or {}).get(nombre))
     sem = _hojas((tokens.get("semanticos") or {}).get(nombre))
@@ -118,12 +150,13 @@ def variante(tokens: dict, nombre: str) -> dict:
 
 
 def sistema(tokens: dict | None = None) -> dict:
-    """Las dos variantes y la tipografía, listas para la página del sistema de diseño."""
+    """Las dos variantes, la tipografía y lo del escritorio, listas para la mesa de diseño."""
     tokens = tokens if tokens is not None else proyecto.tokens()
+    fondo = fondo_escritorio()
     tipo = tokens.get("tipografia") or {}
     familias = {k: (v.get("$value") or []) for k, v in tipo.items() if isinstance(v, dict) and isinstance(v.get("$value"), list)}
     tamano = (tipo.get("tamano-base") or {}).get("$value") or {}
-    return {"variantes": [variante(tokens, v) for v in VARIANTES],
+    return {"variantes": [variante(tokens, v) | {"fondo": fondo.get(v, "")} for v in VARIANTES], "escritorio": escritorio(tokens),
             "tipografia": {"familias": familias, "tamano": f"{tamano.get('value', '')} {tamano.get('unit', '')}".strip()},
             "radios": {k: v.get("$value") for k, v in (tokens.get("radio") or {}).items() if isinstance(v, dict)},
             "espaciado": {k: v.get("$value") for k, v in (tokens.get("espaciado") or {}).items() if isinstance(v, dict)}}

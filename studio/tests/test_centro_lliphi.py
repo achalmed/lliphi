@@ -188,3 +188,57 @@ def test_muestra_de_solo_lectura_enlaza_lo_generado(tmp_path):
     completa = muestra_mod.crear(tmp_path / "completa")
     assert not completa.solo_lectura and not (completa.raiz / ".solo-lectura").exists()
     assert all(not (completa.lliphi / c).is_symlink() and (completa.lliphi / c).is_dir() for c in muestra_mod.GENERADOS)
+
+
+# ------------------------------------------------------------------------------------------------ la mesa de diseño (2026-11-18)
+
+def test_mesa_escritorio_desde_los_tokens(entorno_sesion):
+    """Lo que la maqueta del escritorio toma de los tokens además del color: radios, opacidades, familias y el fondo."""
+    from lliphi_app.servicios import diseno
+    s = diseno.sistema()
+    e = s["escritorio"]
+    assert e["radios"]["ventana"] > e["radios"]["control"] > 0 and "panel_flotante" in e["radios"]
+    assert 0 < e["opacidadPanel"] <= 1 and 0 < e["opacidadDialogo"] <= 1
+    assert e["familia"] == "Inter" and e["mono"]
+    claro, oscuro = s["variantes"]
+    assert claro["fondo"].startswith("file://") and "/images/" in claro["fondo"]
+    assert oscuro["fondo"].startswith("file://") and "/images_dark/" in oscuro["fondo"]
+    assert diseno.FONDO_ESCRITORIO in claro["fondo"]          # el que pone la disposición
+
+
+def _hasta(app, condicion, segundos=5.0):
+    limite = time.monotonic() + segundos
+    while time.monotonic() < limite and not condicion():
+        app.processEvents()
+        time.sleep(0.05)
+    return condicion()
+
+
+@requiere_binding
+def test_mesa_destinos_lo_que_cambio_y_tokens_en_vivo(app, entorno_muestra, ajustes_temporales):
+    """Al pie, cada área con sus destinos; «lo que cambió» sale de la verificación vigente; y si alguien reescribe
+    tokens.json (como paleta.py: archivo nuevo y renombrado), la mesa se relee sola y la verificación deja de ser vigente."""
+    import json
+    p = _armar(ajustes_temporales)
+    c, d = p["centro"], p["destinos"]
+    grupos = {g["id"]: g for g in c.grupos}
+    assert "diseno" not in grupos and [x["id"] for x in grupos["konsole"]["destinos"]] == ["konsole", "terminales"]
+    assert grupos["tipografia"]["destinos"] == [] and "Inter" in grupos["tipografia"]["nota"]
+    assert {"clave_generado", "nivel_generado", "instalacion"} <= set(grupos["konsole"]["destinos"][0])
+    assert not c.cambios["vigente"] and "F5" in c.cambios["texto"]               # sin verificar todavía
+    d.registrar_verificacion(["konsole/Lliphi Oscuro.colorscheme"])               # una verificación vigente con deriva
+    assert c.cambios["vigente"] and c.cambios["n"] == 1 and c.pendientes() == ["konsole"] and c.cambios["nivel"] == "negativo"
+    assert next(x for x in c.grupos if x["id"] == "konsole")["destinos"][0]["clave_generado"] == "desfasado"
+
+    ruta = Path(os.environ["LLIPHI_DIR"]) / "tokens" / "tokens.json"
+    assert str(ruta).startswith(str(entorno_muestra.raiz))                      # la copia, nunca el repo
+    datos = json.loads(ruta.read_text(encoding="utf-8"))
+    viejo = datos["primitivas"]["oscuro"]["acento"]["$value"]["hex"]
+    antes = next(v for v in c.sistema["variantes"] if v["variante"] == "oscuro")["maqueta"]["acento_base"]
+    time.sleep(1.1)                                                             # que la fecha del archivo pase a la de la verificación
+    tmp = ruta.with_suffix(".json.tmp")
+    tmp.write_text(ruta.read_text(encoding="utf-8").replace(viejo, "#e8590c"), encoding="utf-8")
+    tmp.replace(ruta)
+    ahora = lambda: next(v for v in c.sistema["variantes"] if v["variante"] == "oscuro")["maqueta"]["acento_base"]
+    assert _hasta(app, lambda: ahora() != antes), "la mesa no se releyó al cambiar tokens.json"
+    assert ahora() == "#e8590c" and not c.cambios["vigente"]

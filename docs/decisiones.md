@@ -901,3 +901,46 @@ Una entrada por decisión, con fecha, lo decidido y el motivo. Lo pendiente va a
 
   Pruebas: 38 del studio, entre ellas instalar y desinstalar `konsole` de verdad **en el HOME de la copia**, y las 86 del
   proyecto, en verde; REUSE conforme. Nada se instaló en la sesión real ni se abrió una sesión anidada.
+- **5.51 (2026-11-18) Lliphi Studio: una mesa de diseño.** El autor aprobó para cada studio de la familia una forma
+  visual propia (nada de homogeneizar) y que el color de las ventanas salga solo de su tema de KDE. Para Lliphi, una
+  mesa de diseño:
+
+  - **a la izquierda, las rampas de color** de `tokens/tokens.json` de la variante que se mira: los neutros por su L
+    (el paso entre vecinos, al pasar el ratón), el acento y sus variantes, los estados, los 16 ANSI, los semánticos y
+    los contrastes WCAG con su veredicto; un clic en un cuadro copia su hex;
+  - **a la derecha, la maqueta del escritorio** pintada con los tokens: el fondo que pone la disposición
+    (`org.lliphi.relampago.firmado`), la barra superior fina, una ventana con su decoración, una Konsole con los ANSI,
+    una notificación y el dock flotante, con los radios, las opacidades y las familias de los tokens. Claro u Oscuro se
+    eligen encima (y en Ver); sin elegir, sigue al escritorio, también en vivo;
+  - **al pie, los destinos** por área, cada uno con un punto en color de estado (al día, desfasado, sin comprobar, sin
+    generar) y su texto si pide atención, y **«Generar lo que cambió» (F5)**: con una verificación vigente, prepara el
+    plan de los desfasados o sin generar; sin ella, verifica antes y lo prepara al terminar. Ctrl+Intro lo ejecuta tras
+    confirmar, en los seis pasos de 5.50. Un área o un destino abre su página (la de 5.50) en el lugar de la maqueta.
+
+  **La maqueta se repinta en vivo**: `controladores/centro.py` vigila `tokens.json` y su carpeta (paleta.py y KConfig
+  escriben un archivo nuevo y lo renombran) y relee la mesa; la verificación deja de ser vigente y los destinos pasan a
+  «sin comprobar».
+
+  **Color**: los cuadros y la maqueta muestran los tokens (son datos, la excepción que la norma de la familia prevé
+  para Lliphi); el cromo de la ventana sale entero de `Kirigami.Theme` (los estados de los destinos con
+  `positiveTextColor`, `negativeTextColor` y `neutralTextColor`; los bordes, con `Kirigami.ColorUtils`). Se retiran los
+  `Qt.alpha` sobre el tema, los radios fijos y el tamaño de letra propio de la muestra tipográfica. La prueba de la
+  ventana vigila ahora también `Qt.rgba`, `Qt.lighter`, `Qt.darker` y los tamaños de letra.
+
+  **Avisos**: lo efímero («Copiado #…», «Plan de … en la salida») va a la barra de estado 6 s; lo demás, a las
+  notificaciones de KDE por `Mensajes` de `gui-comun`. Una tarea larga (más de 10 s) que termina con la ventana sin foco
+  notifica. «Verificar lo generado» ya no presenta un error cuando encuentra deriva: sale con 1 a propósito, y el aviso
+  la cuenta.
+
+  Se retiran `BarraAreas.qml` y `PaginaDiseno.qml`: las áreas siguen en Ver (Ctrl+1 … Ctrl+0), en la paleta de órdenes y
+  al pie de la mesa; el área «Sistema de diseño» pasa a llamarse «Mesa de diseño». `capturar.py` gana `--variante`,
+  `--tocar-tokens` (en la copia), `--vivo OTRO.colors` (cambia el kdeglobals temporal y avisa en un bus de sesión propio,
+  bajo `dbus-run-session`: el escritorio no se entera) y `--tokens-en-vivo`.
+
+  **Kvantum no sigue el cambio de claro a oscuro en vivo**, y no es del studio: la variante de Kvantum la elige
+  `widgetStyle` (`kvantum` o `kvantum-dark`), que solo declara el tema global; cambiar el esquema de color no lo toca, y
+  las aplicaciones abiertas no recargan el estilo sin el aviso `StyleChanged`. La propuesta (sin aplicar) está en
+  `../estado.md` §Por hacer.
+
+  Pruebas: 38 del studio en verde (dos nuevas: lo que la maqueta toma de los tokens, y los destinos, «lo que cambió» y
+  el repintado al reescribir `tokens.json` en la copia). Nada se instaló ni se aplicó en el escritorio del autor.

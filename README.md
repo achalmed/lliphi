@@ -31,12 +31,13 @@ quarto render sitio                                   # el sitio → sitio/_site
 python3 herramientas/sesion.py arrancar --aplicar     # sesión de prueba: Plasma anidado con su propio HOME (cerrar: sesion.py cerrar)
 ```
 
-**Lliphi Studio** (`studio/`, opcional; QML + Kirigami sobre `gui-comun` 3.0) es el centro de configuración del
-tema, por áreas (sistema de diseño, esquemas de color, Plasma, Kvantum, Konsole, editores, fondos, tipografía, iconos,
-otros destinos). Muestra:
+**Lliphi Studio** (`studio/`, opcional; QML + Kirigami sobre `gui-comun` 3.0) es la mesa de diseño del tema:
 
-- la paleta OKLCH con su color real, claro y oscuro lado a lado, y los contrastes WCAG con su veredicto;
-- de cada destino, lo instalado frente a lo generado, archivo por archivo.
+- a la izquierda, las rampas de color de los tokens (OKLCH) con los contrastes WCAG y su veredicto;
+- a la derecha, la maqueta del escritorio pintada con ellos, en claro u oscuro, que se repinta al cambiar los tokens;
+- al pie, los destinos con su estado y «Generar lo que cambió»; cada área (esquemas de color, Plasma, Kvantum, Konsole,
+  editores, fondos, tipografía, iconos, otros destinos) con su página y, de cada destino, lo instalado frente a lo
+  generado, archivo por archivo.
 
 Generar, instalar y desinstalar van en seis pasos visibles, con el `UNDO.sh` del instalador. Corre estas mismas
 órdenes; ver [`studio/README.md`](studio/README.md) y [`docs/reingenieria.md`](docs/reingenieria.md).

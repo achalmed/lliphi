@@ -230,7 +230,7 @@ class Operaciones(QObject):
             self._escribir(o.id, False, f"# {time.strftime('%Y-%m-%d %H:%M:%S')} · plan · {o.titulo}\n\n{texto}\n")
             for linea in texto.splitlines():
                 self.consola.escribir(linea, "info")
-            self.aviso.emit(f"Plan de «{o.titulo}» en la pestaña Operación" + (": aplica con Ctrl+Intro." if o.aplicar else "."), "informacion")
+            self.aviso.emit(f"Plan de «{o.titulo}» en la salida (F4)" + (": «Aplicar la orden elegida…» lo escribe." if o.aplicar else "."), "informacion")
             self.corridaCambiada.emit()
             return True
         return self._lanzar(o, o.simular(self.contexto()), aplicar=False)
@@ -253,7 +253,9 @@ class Operaciones(QObject):
         destino = self.destinos.id if o.sobre_destino else ""
         verbo = "Aplicando" if aplicar else ("Simulando" if o.escribe else "Ejecutando")
         nombre = f"{verbo}: {o.titulo}" + (f" · {destino}" if destino else "")
-        self._worker = self.tareas.proceso(nombre, argv, cwd=str(orden.cwd), entorno={"PYTHONDONTWRITEBYTECODE": "1", "PYTHONUNBUFFERED": "1"},
+        # «verificar» sale con 1 cuando hay deriva: no es un fallo de la orden sino su respuesta (el aviso la cuenta abajo)
+        extra = {"error": False} if o.id == "verificar" else {}
+        self._worker = self.tareas.proceso(nombre, argv, cwd=str(orden.cwd), entorno={"PYTHONDONTWRITEBYTECODE": "1", "PYTHONUNBUFFERED": "1"}, **extra,
                                            al_terminar=lambda codigo, i=o.id, a=aplicar, d=destino: self._fin(codigo, i, a, d))
         self.cambiado.emit()
         self.corridaCambiada.emit()
@@ -294,7 +296,7 @@ class Operaciones(QObject):
                 for x in diferencias:
                     self.consola.escribir("  " + x, "warn")
                 texto = ("Todo lo generado está al día con los tokens." if not n else
-                         (f"{n_destinos} diferencia(s) en los destinos: mira «Desfasado» en la navegación y la pestaña Diferencias." if n_destinos else "Los destinos están al día")
+                         (f"{n_destinos} diferencia(s) en los destinos: los desfasados, al pie de la mesa; F5 prepara lo que cambió." if n_destinos else "Los destinos están al día")
                          + (f" · {n_sitio} en sitio/generado/ (Generar todo lo reescribe)." if n_sitio else ""))
                 self.aviso.emit(texto, "positivo" if not n else "aviso")
             else:

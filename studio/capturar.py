@@ -9,7 +9,13 @@ el destino y, si se pide, el plan de los seis pasos o la paleta de órdenes.
     /usr/bin/python3 studio/capturar.py docs/figuras/lliphi-studio-paleta.png --esquema generado/esquema/LliphiOscuro.colors --paleta "instalar"
 
 Con `--verificar` corre de verdad, sobre la copia, «Verificar lo generado» (unos segundos), para que las tarjetas
-enseñen si lo generado está al día. Corre con el Python del sistema; las órdenes, con el `.venv` del proyecto (enlazado
+enseñen si lo generado está al día; con `--tocar-tokens`, antes cambia el acento en los tokens DE LA COPIA (unos
+destinos salen desfasados). La mesa de diseño (2026-11-18): `--variante claro|oscuro` elige la de la maqueta.
+
+El cambio en vivo, sin tocar el escritorio (2026-11-18): `--vivo OTRO.colors` captura, reescribe el kdeglobals TEMPORAL
+con el otro esquema, avisa `notifyChange` en un bus de sesión PROPIO (relanza bajo `dbus-run-session`: el aviso nunca
+llega a la sesión real) y vuelve a capturar en `<salida>-vivo.png`; `--tokens-en-vivo` reescribe a mitad el acento de los
+tokens de la copia (la maqueta se repinta sola) y captura en `<salida>-tokens.png`. Corre con el Python del sistema; las órdenes, con el `.venv` del proyecto (enlazado
 en la copia) si existe. `--pasos` solo PREPARA el plan (pasos 1–3): nunca ejecuta.
 """
 from __future__ import annotations
@@ -27,6 +33,25 @@ if str(AQUI) not in sys.path:
     sys.path.insert(0, str(AQUI))
 
 
+ACENTOS_DE_PRUEBA = {"oscuro": "#e8590c", "claro": "#7048e8"}     # solo para ver un cambio en la copia; nunca en el repo
+
+
+def tocar_tokens(lliphi: Path) -> None:
+    """Cambia el acento de cada variante en `tokens/tokens.json` DE LA COPIA (la prueba de lo desfasado y del repintado)."""
+    import json
+    ruta = Path(lliphi) / "tokens" / "tokens.json"
+    if not str(ruta.resolve()).startswith("/tmp/"):
+        raise SystemExit(f"capturar.py: {ruta} no es de una copia temporal; no se toca")
+    texto = ruta.read_text(encoding="utf-8")
+    datos = json.loads(texto)
+    for variante, nuevo in ACENTOS_DE_PRUEBA.items():
+        viejo = datos["primitivas"][variante]["acento"]["$value"]["hex"]
+        texto = texto.replace(viejo, nuevo).replace(viejo.upper(), nuevo)
+    tmp = ruta.with_suffix(".json.tmp")
+    tmp.write_text(texto, encoding="utf-8")
+    tmp.replace(ruta)                                   # como paleta.py y KConfig: un archivo nuevo y un renombrado
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Captura de Lliphi Studio sobre una copia del proyecto")
     parser.add_argument("salida")
@@ -39,6 +64,10 @@ def main() -> int:
     parser.add_argument("--instalar-en-la-copia", default="", help="copia a mano al HOME de la copia lo generado de este destino (para ver «igual» y una diferencia)")
     parser.add_argument("--verificar", action="store_true", help="corre «Verificar lo generado» antes de capturar (unos segundos)")
     parser.add_argument("--paleta", default=None, help="abre la paleta de órdenes con este texto")
+    parser.add_argument("--tocar-tokens", action="store_true", help="cambia el acento en los tokens de la copia antes de abrir")
+    parser.add_argument("--variante", default="", help="la variante de la maqueta: claro · oscuro (por omisión, la del escritorio)")
+    parser.add_argument("--vivo", default="", help="otro .colors: tras la captura lo pone en el kdeglobals temporal, avisa en un bus propio y captura de nuevo")
+    parser.add_argument("--tokens-en-vivo", action="store_true", help="tras la captura cambia el acento de los tokens de la copia y captura de nuevo")
     parser.add_argument("--ancho", type=int, default=1360)
     parser.add_argument("--alto", type=int, default=900)
     args = parser.parse_args()
@@ -64,11 +93,17 @@ def main() -> int:
         # los iconos y tipografías del usuario se ven por XDG_DATA_DIRS; XDG_DATA_HOME sigue en la casa falsa (ninguna ruta de la máquina en los destinos)
         env["XDG_DATA_DIRS"] = str(Path.home() / ".local" / "share") + ":" + (os.environ.get("XDG_DATA_DIRS") or "/usr/local/share:/usr/share")
         env.update({"LLIPHI_STUDIO_CAPTURA": str(carpeta), "QT_QPA_PLATFORM": "offscreen", "LLIPHI_STUDIO_MUESTRA": str(m.raiz)})
+        if args.tocar_tokens:
+            tocar_tokens(m.lliphi)
         env.setdefault("QT_QPA_PLATFORMTHEME", "kde")
         if "GUI_COMUN_DIR" not in env:
             import gui_comun
             env["GUI_COMUN_DIR"] = str(Path(gui_comun.__file__).resolve().parents[1])
-        orden = [sys.executable, str(AQUI / "capturar.py")] + [a for a in sys.argv[1:] if not a.startswith("--esquema") and a != args.esquema]
+        orden = [sys.executable, str(AQUI / "capturar.py")] + [a for a in sys.argv[1:] if not a.startswith("--esquema") and a != args.esquema
+                                                                    and not a.startswith("--vivo") and a != args.vivo]
+        if args.vivo or args.tokens_en_vivo:              # un bus de sesión propio: el aviso de cambio nunca sale de aquí
+            env["LLIPHI_STUDIO_VIVO"] = str(Path(args.vivo).expanduser().resolve()) if args.vivo else ""
+            orden = ["/usr/bin/dbus-run-session", "--"] + orden
         codigo = subprocess.run(orden, env=env).returncode
         shutil.rmtree(carpeta, ignore_errors=True)
         return codigo
@@ -126,9 +161,33 @@ def main() -> int:
 
     def listo():
         raiz.setProperty("pasoMostrado", args.paso)
+        if args.variante:
+            interfaz.pedir.emit("variante", {"nombre": args.variante})
         if args.paleta is not None:
             QTimer.singleShot(900, lambda: interfaz.pedir.emit("paleta", {"texto": args.paleta}))
-        app.capturar(args.salida, espera_ms=2400)
+        vivo = os.environ.get("LLIPHI_STUDIO_VIVO")
+        if vivo is None:
+            app.capturar(args.salida, espera_ms=2400)
+            return
+        app.capturar(args.salida, espera_ms=2400, salir=False)
+        QTimer.singleShot(3200, lambda: cambiar_en_vivo(vivo))
+
+    def cambiar_en_vivo(vivo: str) -> None:
+        base = Path(args.salida)
+        if vivo:                                         # el esquema: el kdeglobals TEMPORAL y el aviso en el bus propio
+            from gui_comun.galeria.esquema import kdeglobals_con_esquema
+            kdeglobals = Path(os.environ["XDG_CONFIG_HOME"]) / "kdeglobals"
+            if not str(kdeglobals).startswith("/tmp/"):
+                raise SystemExit("capturar.py: el kdeglobals no es temporal; no se cambia")
+            kdeglobals_con_esquema(Path(vivo), kdeglobals, kdeglobals=kdeglobals)
+            subprocess.run(["/usr/bin/dbus-send", "--session", "--type=signal", "/KGlobalSettings", "org.kde.KGlobalSettings.notifyChange",
+                            "int32:0", "int32:0"], check=False)
+            app.capturar(str(base.with_name(base.stem + "-vivo" + base.suffix)), espera_ms=2500, salir=not args.tokens_en_vivo)
+        if args.tokens_en_vivo:
+            def tokens():
+                tocar_tokens(Path(os.environ["LLIPHI_STUDIO_MUESTRA"]) / "lliphi")
+                app.capturar(str(base.with_name(base.stem + "-tokens" + base.suffix)), espera_ms=2500)
+            QTimer.singleShot(3000 if vivo else 0, tokens)
 
     QTimer.singleShot(600, empezar)
     codigo = app.app.exec()

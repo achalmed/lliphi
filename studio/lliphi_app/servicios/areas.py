@@ -28,7 +28,7 @@ from lliphi_app.servicios import destinos, proyecto
 
 # id, título, icono, destinos (los complementos no nombrados van a «otros»), qué es
 AREAS = (
-    ("diseno", "Sistema de diseño", "color-management", (), "Los tokens, la única fuente: paleta OKLCH, contrastes y la vista previa"),
+    ("diseno", "Mesa de diseño", "color-management", (), "Las rampas de los tokens, la maqueta del escritorio pintada con ellos y los destinos"),
     ("esquemas", "Esquemas de color", "preferences-desktop-color", ("esquema",), "Lliphi Claro y Lliphi Oscuro para KDE (.colors)"),
     ("plasma", "Plasma", "preferences-desktop-plasma", ("global", "estilo", "decoracion", "disposicion", "carga-bloqueo", "sddm"),
      "El tema global, el estilo de Plasma, la decoración, la disposición, la pantalla de carga y el inicio de sesión"),

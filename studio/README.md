@@ -4,12 +4,14 @@ estado: activo
 ---
 # studio/ — Lliphi Studio, la ventana opcional de Lliphi (QML + Kirigami sobre gui-comun 3.0)
 
-Un **centro de configuración del escritorio** para el tema Lliphi, con la forma de las Preferencias del sistema de KDE.
-Cada área tiene su página propia (no una tabla común):
+Una **mesa de diseño** para el tema Lliphi (2026-11-18, decisiones 5.51):
 
-- el sistema de diseño;
-- los esquemas de color, Plasma, Kvantum, Konsole y terminales y los editores;
-- los fondos, la tipografía, los iconos y cursores y los otros destinos.
+- a la izquierda, **las rampas de color** de `tokens/tokens.json`;
+- a la derecha, **la maqueta del escritorio** pintada con ellos, en claro u oscuro, que se repinta al cambiar los tokens;
+- al pie, **los destinos** con su estado y «Generar lo que cambió» (F5).
+
+Cada área (esquemas de color, Plasma, Kvantum, Konsole y terminales, editores, fondos, tipografía, iconos y cursores,
+otros destinos) tiene además su página propia, que se abre en el lugar de la maqueta.
 
 **Es opcional**: todo lo de terminal (`herramientas/generar.py`, `instalar.py`, `sesion.py`,
 `modulos/esquema/paleta.py`) funciona sin ella, y la ventana no reemplaza ninguna orden: las corre. Diseño y diagnóstico
@@ -23,21 +25,23 @@ python3 -m pip install --user "gui-comun @ git+https://github.com/achalmed/gui-c
 /usr/bin/python3 studio/main.py --instalar-lanzador   # acceso directo en el menú de aplicaciones (-n simula)
 ```
 
-![El sistema de diseño en Lliphi Oscuro: claro y oscuro lado a lado, la maqueta pintada con los tokens, las escalas y los contrastes](../docs/figuras/lliphi-studio-oscuro.png)
+![La mesa de diseño en Lliphi Oscuro: las rampas de los tokens, la maqueta del escritorio pintada con ellos y los destinos al pie](../docs/figuras/lliphi-studio-oscuro.png)
 
 ## La ventana
 
 | parte | qué hay |
 |---|---|
-| barra lateral | las diez áreas con cuántos destinos tiene cada una (Ctrl+1 … Ctrl+0); al pie, la versión de Lliphi y la fecha de la última verificación de lo generado |
-| cabecera | el área; Releer (F6), Verificar lo generado (Ctrl+T), Comprobar la instalación (Ctrl+Mayús+T), la salida (F4) |
-| **Sistema de diseño** | claro y oscuro **lado a lado**, cada uno con: la maqueta de una ventana pintada con sus tokens; la escala de neutros en muestras grandes con L, C, H, hex y el paso de L entre vecinas; el acento y sus variantes; los estados; los 16 colores ANSI sobre su fondo; los **contrastes WCAG** de los pares que importan (texto sobre la ventana y las vistas, selección, texto sobre el acento, enlaces, estados, foco) con su razón y su veredicto (AAA · AA · AA grande · falla; ≥ 3 en los controles; el separador, decorativo) |
-| las demás áreas | qué son y su **vista previa** (las maquetas en esquemas y Plasma; los controles en Kvantum; una terminal con sus colores ANSI; un fragmento de código con los colores de sintaxis; los fondos generados; las familias de la tipografía y si están instaladas; los temas de iconos y cursores); debajo, las **tarjetas** de sus destinos y, del elegido, **lo instalado frente a lo generado archivo por archivo** con su diferencia lado a lado |
+| cabecera | el área (y, en un área, «Mesa de diseño» para volver); Releer (F6), Verificar lo generado (Ctrl+T), Comprobar la instalación (Ctrl+Mayús+T), la salida (F4) |
+| **rampas** (izquierda) | de la variante que se mira: los neutros por su L, el acento y sus variantes, los estados y los 16 ANSI como rampas (al pasar: nombre, hex, OKLCH y el paso de L; un clic copia el hex); los semánticos que pinta la maqueta; los **contrastes WCAG** de los pares que importan con su razón y su veredicto (AAA · AA · AA grande · falla; ≥ 3 en los controles; el separador, decorativo) |
+| **maqueta del escritorio** (derecha) | el fondo de la disposición, la barra superior, una ventana con su decoración, una Konsole con los ANSI, una notificación y el dock, con los colores, radios, opacidades y familias de los tokens; Claro u Oscuro encima (y en Ver); sin elegir, sigue al escritorio. Se repinta cuando alguien reescribe `tokens.json` |
+| **destinos** (al pie) | cada área con sus destinos y un punto en color de estado (al día · desfasado · sin comprobar · sin generar), con su texto si pide atención; la versión de Lliphi y la última verificación; **Generar lo que cambió** (F5): el plan de los desfasados, o verificar antes si la verificación ya no es vigente; Ctrl+Intro lo ejecuta tras confirmar. Un área o un destino abre su página |
+| la página de un área (Ctrl+1 … Ctrl+0) | qué son y su **vista previa** (las maquetas en esquemas y Plasma; los controles en Kvantum; una terminal con sus colores ANSI; un fragmento de código con los colores de sintaxis; los fondos generados; las familias de la tipografía y si están instaladas; los temas de iconos y cursores); debajo, las **tarjetas** de sus destinos y, del elegido, **lo instalado frente a lo generado archivo por archivo** con su diferencia lado a lado |
 | tarjeta de un destino | lo generado (al día · desfasado · sin comprobar) con la fecha de su última construcción, la instalación, la compatibilidad (el `estado` del `modulo.json`, «desde», lo que falta) y si pide pkexec |
 | un archivo instalado | **igual** (a lo generado) · **distinto** (instalado por Lliphi y cambiado después) · **ajeno** (ocupa la ruta y Lliphi no lo instaló: el instalador no lo toca) · **falta** · **sin generar** |
 | seis pasos (abajo) | Plan · Afectados · Conflictos · Ejecutar · Verificar · Informe, ver la sección siguiente |
 | panel inferior (F4) | la salida íntegra de las órdenes y el registro |
 | paleta (Ctrl+K) | cualquier orden y «Destino: <nombre>» (lleva a su área y lo elige) |
+| avisos | lo efímero («Copiado #…», un plan en la salida), en la barra de estado 6 s; lo demás, en las notificaciones de KDE; en la ventana, solo lo que pide una decisión. Una tarea larga que termina con la ventana sin foco notifica |
 
 ### Generar, instalar y desinstalar en seis pasos
 
@@ -92,10 +96,10 @@ studio/
 │   │                        areas.py (las áreas, las tarjetas, lo instalado frente a lo generado), pasos.py (los planes,
 │   │                        la verificación y el informe), diferencias.py (filas lado a lado), proyecto.py, color.py,
 │   │                        destinos.py, operaciones.py (heredados de la 2.0)
-│   ├── controladores/       centro (áreas y páginas), escritura (los seis pasos), destinos, operaciones, espacio, ajustes
-│   ├── qml/Main.qml         la ventana sobre GuiComun.VentanaBase; componentes/ (BarraAreas, PaginaDiseno, Maqueta,
-│   │                        PaginaArea, VistaPrevia, TarjetaDestino, VistaDiferencia, PanelPasos, PasosOperacion,
-│   │                        EtiquetaEstado y los diálogos de respaldos, sesión y ajustes)
+│   ├── controladores/       centro (la mesa, las áreas y sus páginas; vigila tokens.json), escritura (los seis pasos), destinos, operaciones, espacio, ajustes
+│   ├── qml/Main.qml         la mesa de diseño sobre GuiComun.VentanaBase; componentes/ (PanelRampas, Maqueta (el
+│   │                        escritorio, una ventana o los controles), PanelDestinos, PaginaArea, VistaPrevia,
+│   │                        TarjetaDestino, PanelPasos y los diálogos de respaldos, sesión y ajustes)
 │   └── recursos/marca.svg   el icono del acceso directo (nunca dentro de la ventana)
 └── tests/                   run.sh · conftest · test_servicios_lliphi · test_controladores_lliphi · test_centro_lliphi · test_ventana_lliphi
 ```
@@ -104,7 +108,11 @@ studio/
 
 ```bash
 studio/tests/run.sh                                   # sobre una copia del proyecto en ~/.cache/pytest/lliphi-studio; QML con /usr/bin/python3
-/usr/bin/python3 studio/capturar.py docs/figuras/lliphi-studio-oscuro.png --esquema generado/esquema/LliphiOscuro.colors --area diseno
+/usr/bin/python3 studio/capturar.py docs/figuras/lliphi-studio-oscuro.png --esquema generado/esquema/LliphiOscuro.colors --verificar
+/usr/bin/python3 studio/capturar.py docs/figuras/lliphi-studio-claro.png --esquema generado/esquema/LliphiClaro.colors --verificar --tocar-tokens
+# el cambio en vivo, sin tocar tu escritorio: kdeglobals temporal y un bus de sesión propio (dbus-run-session);
+# deja tres capturas: <salida>.png, <salida>-vivo.png (el otro esquema) y <salida>-tokens.png (tokens reescritos en la copia)
+/usr/bin/python3 studio/capturar.py /tmp/vivo.png --esquema generado/esquema/LliphiClaro.colors --vivo generado/esquema/LliphiOscuro.colors --tokens-en-vivo
 /usr/bin/python3 studio/capturar.py docs/figuras/lliphi-studio-pasos.png --esquema generado/esquema/LliphiOscuro.colors --destino decoracion --pasos instalar --paso 1
 ```
 

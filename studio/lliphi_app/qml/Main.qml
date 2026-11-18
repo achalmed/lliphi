@@ -1,9 +1,11 @@
-// Main.qml — Lliphi Studio (reingeniería 2026-11-02): un centro de configuración del escritorio sobre GuiComun.VentanaBase,
-// con la forma de las Preferencias del sistema de KDE y no la de Dolphin. A la izquierda, las áreas (sistema de diseño,
-// esquemas de color, Plasma, Kvantum, Konsole, editores, fondos, tipografía, iconos, otros destinos); a la derecha, la
-// página del área elegida, cada una con lo suyo. Generar, instalar y desinstalar abren los seis pasos abajo; la salida,
-// plegada (F4). Los colores de Lliphi aparecen solo como datos (la paleta, las maquetas); la ventana viste
-// Kirigami.Theme. Ninguna orden ni escritura aquí: todo lo hacen los controladores de Python (studio.*).
+// Main.qml — Lliphi Studio sobre GuiComun.VentanaBase: una mesa de diseño (rediseño del 2026-11-18, decisiones 5.51).
+// A la izquierda, las rampas de color de los tokens (PanelRampas); a la derecha, la maqueta del escritorio pintada con
+// ellos, en claro o en oscuro, que se repinta cuando cambian (Maqueta, tipo «escritorio»), o la página del área elegida
+// (PaginaArea: su vista previa, sus destinos y lo instalado frente a lo generado); al pie, los destinos con su estado y
+// «Generar lo que cambió» (PanelDestinos). Generar, instalar y desinstalar abren los seis pasos abajo; la salida, plegada
+// (F4). Los colores de Lliphi aparecen solo como datos (las rampas, las maquetas); la ventana viste Kirigami.Theme.
+// Avisos: lo efímero, a la barra de estado; lo demás, a las notificaciones de KDE (Mensajes de gui-comun). Ninguna orden
+// ni escritura aquí: todo lo hacen los controladores de Python (studio.*).
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls as QQC2
@@ -20,6 +22,24 @@ VentanaBase {
     property bool mostrarSalida: false
     property bool mostrarPasos: false
     property alias pasoMostrado: panelPasos.paso
+    // la variante que se mira en la mesa: la que se eligió o, mientras no se elija, la del escritorio (sigue su cambio en vivo)
+    property string variante: ""
+    readonly property bool escritorioOscuro: Kirigami.ColorUtils.brightnessForColor(Kirigami.Theme.backgroundColor) === Kirigami.ColorUtils.Dark
+    readonly property string varianteVista: variante || (escritorioOscuro ? "oscuro" : "claro")
+    readonly property var datosVariante: (centro.sistema.variantes || []).find(x => x.variante === ventana.varianteVista) || ({})
+    // lo efímero va a la barra de estado (6 s); lo demás, a las notificaciones del escritorio
+    property string pista: ""
+    property double inicioTarea: 0
+    function avisar(texto, tipo) {
+        if (tipo === "informacion") { ventana.pista = texto; relojPista.restart() }
+        else ventana.notificar(texto, tipo)
+    }
+    Timer { id: relojPista; interval: 6000; onTriggered: ventana.pista = "" }
+    onVarianteVistaChanged: marcarVariante()
+    function marcarVariante() {
+        registro.marcar("ver.variante.claro", varianteVista === "claro")
+        registro.marcar("ver.variante.oscuro", varianteVista === "oscuro")
+    }
 
     title: (centro.datosArea.titulo || "Lliphi") + " — Lliphi Studio"
     width: 1360
@@ -37,7 +57,7 @@ VentanaBase {
         property alias salida: ventana.mostrarSalida
     }
     onMostrarSalidaChanged: registro.marcar("ver.salida", mostrarSalida)
-    Component.onCompleted: registro.marcar("ver.salida", mostrarSalida)
+    Component.onCompleted: { registro.marcar("ver.salida", mostrarSalida); marcarVariante() }
 
     // ------------------------------------------------------------------ lo que Python pide a la interfaz
     Connections {
@@ -50,21 +70,44 @@ VentanaBase {
             case "sesion": dialogoSesion.open(); break
             case "venv": dialogoVenv.open(); break
             case "paleta": ventana.paleta.abrir(datos.texto || ""); break
-            case "aviso": ventana.notificar(datos.texto, datos.tipo || "informacion"); break
+            case "aviso": ventana.avisar(datos.texto, datos.tipo || "informacion"); break
+            case "variante": ventana.variante = datos.nombre || ""; ventana.marcarVariante(); break
             }
         }
     }
-    Connections { target: studio.espacio; function onAviso(texto, tipo) { ventana.notificar(texto, tipo) } }
-    Connections { target: studio.destinos; function onAviso(texto, tipo) { ventana.notificar(texto, tipo) } }
-    Connections { target: studio.operaciones; function onAviso(texto, tipo) { ventana.notificar(texto, tipo) } }
-    Connections { target: studio.centro; function onAviso(texto, tipo) { ventana.notificar(texto, tipo) } }
-    Connections { target: studio.escritura; function onAviso(texto, tipo) { ventana.notificar(texto, tipo) } }
+    Connections { target: studio.espacio; function onAviso(texto, tipo) { ventana.avisar(texto, tipo) } }
+    Connections { target: studio.destinos; function onAviso(texto, tipo) { ventana.avisar(texto, tipo) } }
+    Connections { target: studio.operaciones; function onAviso(texto, tipo) { ventana.avisar(texto, tipo) } }
+    Connections { target: studio.centro; function onAviso(texto, tipo) { ventana.avisar(texto, tipo) } }
+    Connections { target: studio.escritura; function onAviso(texto, tipo) { ventana.avisar(texto, tipo) } }
+    // una tarea larga (más de 10 s) que termina con la ventana sin foco avisa en Plasma; las de escritura, instalación y
+    // eliminación ya las avisa VentanaBase, y un fallo llega como error presentable
+    Connections {
+        target: studio.tareas
+        function onIniciada(nombre) { ventana.inicioTarea = Date.now() }
+        function onResultado(r) {
+            const propia = !r.operacion || r.operacion === "lectura" || r.operacion === "simulacion"
+            if (propia && r.nivel === "ok" && !ventana.active && ventana.inicioTarea && Date.now() - ventana.inicioTarea > 10000)
+                ventana.notificar("Terminó: " + r.nombre.replace(/^(Ejecutando|Simulando): /, ""), "positivo")
+        }
+    }
 
     // ------------------------------------------------------------------ cabecera: el área, releer, verificar, la salida
     header: QQC2.ToolBar {
         RowLayout {
             anchors.fill: parent
             spacing: Kirigami.Units.smallSpacing
+            QQC2.ToolButton {
+                visible: ventana.centro.area !== "diseno"
+                icon.name: "go-previous"
+                text: "Mesa de diseño"
+                onClicked: ventana.registro.accion("ver.area.diseno").disparar()
+                Accessible.name: "Volver a la mesa de diseño"
+                QQC2.ToolTip.text: "Las rampas, la maqueta del escritorio y los destinos (Ctrl+1)"
+                QQC2.ToolTip.visible: hovered
+                QQC2.ToolTip.delay: Kirigami.Units.toolTipDelay
+            }
+            QQC2.ToolSeparator { visible: ventana.centro.area !== "diseno" }
             Kirigami.Icon { source: ventana.centro.datosArea.icono || "preferences-system"; implicitWidth: Kirigami.Units.iconSizes.smallMedium; implicitHeight: implicitWidth }
             QQC2.Label { text: ventana.centro.datosArea.titulo || ""; font.bold: true }
             Item { Layout.fillWidth: true }
@@ -76,24 +119,77 @@ VentanaBase {
         }
     }
 
-    // ------------------------------------------------------------------ áreas | página; debajo, los seis pasos y la salida
+    // ------------------------------------------------------------------ la mesa: rampas | maqueta (o el área); al pie, los
+    // destinos; debajo, los seis pasos y la salida
     QQC2.SplitView {
         anchors.fill: parent
         orientation: Qt.Vertical
 
-        RowLayout {
+        QQC2.SplitView {
             QQC2.SplitView.fillHeight: true
-            spacing: 0
-            BarraAreas { Layout.fillHeight: true }
-            Kirigami.Separator { Layout.fillHeight: true }
+            orientation: Qt.Horizontal
+
+            PanelRampas {
+                QQC2.SplitView.preferredWidth: Kirigami.Units.gridUnit * 22
+                QQC2.SplitView.minimumWidth: Kirigami.Units.gridUnit * 16
+                v: ventana.datosVariante
+                error: ventana.centro.sistema.error || ""
+                onCopiado: hex => { studio.espacio.copiar(hex); ventana.avisar("Copiado " + hex, "informacion") }
+            }
             StackLayout {
-                Layout.fillWidth: true
-                Layout.fillHeight: true
+                QQC2.SplitView.fillWidth: true
                 clip: true
                 currentIndex: ventana.centro.area === "diseno" ? 0 : 1
-                PaginaDiseno {}
+                // la maqueta del escritorio, con el cambio de claro a oscuro
+                ColumnLayout {
+                    spacing: 0
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Layout.margins: Kirigami.Units.largeSpacing
+                        Layout.bottomMargin: 0
+                        ColumnLayout {
+                            Layout.fillWidth: true
+                            spacing: 0
+                            Kirigami.Heading { level: 2; text: "Maqueta del escritorio" }
+                            QQC2.Label {
+                                Layout.fillWidth: true
+                                text: "Pintada con los tokens de " + (ventana.datosVariante.titulo || "") + "; se repinta al cambiar tokens.json. El escritorio no se toca."
+                                color: Kirigami.Theme.disabledTextColor
+                                elide: Text.ElideRight
+                            }
+                        }
+                        QQC2.ButtonGroup { id: grupoVariante }
+                        Repeater {
+                            model: [["claro", "Claro", "weather-clear"], ["oscuro", "Oscuro", "weather-clear-night"]]
+                            delegate: QQC2.ToolButton {
+                                required property var modelData
+                                text: modelData[1]
+                                icon.name: modelData[2]
+                                checkable: true
+                                checked: ventana.varianteVista === modelData[0]
+                                QQC2.ButtonGroup.group: grupoVariante
+                                onClicked: ventana.registro.accion("ver.variante." + modelData[0]).disparar()
+                                Accessible.name: "Maqueta en Lliphi " + modelData[1]
+                            }
+                        }
+                    }
+                    Maqueta {
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        Layout.margins: Kirigami.Units.largeSpacing
+                        tipo: "escritorio"
+                        colores: ventana.datosVariante.maqueta || ({})
+                        variante: ventana.datosVariante
+                        escritorio: ventana.centro.sistema.escritorio || ({})
+                        titulo: ventana.datosVariante.titulo || ""
+                    }
+                }
                 PaginaArea {}
             }
+        }
+        PanelDestinos {
+            QQC2.SplitView.preferredHeight: Kirigami.Units.gridUnit * 11
+            QQC2.SplitView.minimumHeight: Kirigami.Units.gridUnit * 5
         }
         PanelPasos {
             id: panelPasos
@@ -113,7 +209,7 @@ VentanaBase {
 
     footer: BarraEstado {
         resumen: studio.espacio.resumen
-        contexto: studio.espacio.contexto
+        contexto: ventana.pista || studio.espacio.contexto
         tareas: studio.tareas
         onProgresoPulsado: ventana.mostrarSalida = true
     }

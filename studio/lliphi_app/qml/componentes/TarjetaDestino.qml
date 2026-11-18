@@ -20,9 +20,10 @@ QQC2.ItemDelegate {
 
     background: Rectangle {
         radius: Kirigami.Units.cornerRadius
-        color: raiz.elegida ? Qt.alpha(Kirigami.Theme.highlightColor, 0.12) : raiz.hovered ? Qt.alpha(Kirigami.Theme.highlightColor, 0.06) : Kirigami.Theme.backgroundColor
+        color: raiz.elegida ? Kirigami.ColorUtils.tintWithAlpha(Kirigami.Theme.backgroundColor, Kirigami.Theme.highlightColor, 0.12)
+             : raiz.hovered ? Kirigami.ColorUtils.tintWithAlpha(Kirigami.Theme.backgroundColor, Kirigami.Theme.hoverColor, 0.1) : Kirigami.Theme.backgroundColor
         border.width: 1
-        border.color: raiz.elegida ? Kirigami.Theme.highlightColor : Qt.alpha(Kirigami.Theme.textColor, 0.15)
+        border.color: raiz.elegida ? Kirigami.Theme.highlightColor : Kirigami.ColorUtils.linearInterpolation(Kirigami.Theme.backgroundColor, Kirigami.Theme.textColor, Kirigami.Theme.frameContrast)
     }
 
     contentItem: ColumnLayout {

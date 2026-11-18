@@ -1,7 +1,9 @@
 """studio/lliphi_app/aplicacion.py — arma Lliphi Studio: la aplicación (gui_comun.nucleo), los controladores, el registro
 de acciones (menú, barra, paleta, atajos) y carga `qml/Main.qml`.
 
-Reingeniería del 2026-11-02 (`docs/reingenieria.md`): un centro de configuración del escritorio por áreas. Toda
+Reingeniería del 2026-11-02 (`docs/reingenieria.md`): un centro de configuración del escritorio por áreas; rediseño del
+2026-11-18 (decisiones 5.51): una mesa de diseño, con las rampas de los tokens, la maqueta del escritorio y los destinos al
+pie, donde F5 prepara «Generar lo que cambió» y Ctrl+Intro lo ejecuta tras confirmar. Toda
 operación existe una sola vez, aquí, en `Acciones`, con su estado de operación de `gui-comun` 3.0. Generar, instalar y
 desinstalar van en seis pasos (`controladores/escritura.py`): preparar el plan es lectura; ejecutarlo (Ctrl+Intro) pide
 confirmación con las consecuencias del plan y es escritura, instalación o eliminación. La sesión de prueba es una
@@ -42,10 +44,12 @@ QML_DIR = APP_DIR / "qml"
 RECURSOS_DIR = APP_DIR / "recursos"
 APP_ID = "lliphi-studio"
 NOMBRE = APP_NAME
-DESCRIPCION = ("El centro de configuración del tema Lliphi: por áreas (sistema de diseño, esquemas de color, Plasma, Kvantum, Konsole, "
-               "editores, fondos, tipografía, iconos y otros destinos), cada una con su página; la paleta OKLCH con su color real, los "
-               "contrastes WCAG con su veredicto y claro y oscuro lado a lado; de cada destino, lo instalado frente a lo generado archivo "
-               "por archivo, la compatibilidad y la fecha. Generar, instalar y desinstalar en seis pasos visibles (plan, afectados, "
+DESCRIPCION = ("La mesa de diseño del tema Lliphi: a la izquierda, las rampas de color de los tokens (neutros, acento, estados, los 16 "
+               "ANSI) con los contrastes WCAG y su veredicto; a la derecha, la maqueta del escritorio pintada con ellos, en claro o en "
+               "oscuro, que se repinta cuando cambian los tokens; al pie, los destinos con el estado de lo generado y «Generar lo que "
+               "cambió». Cada área (esquemas de color, Plasma, Kvantum, Konsole, editores, fondos, tipografía, iconos y otros destinos) "
+               "tiene su página, con lo instalado frente a lo generado archivo por archivo, la compatibilidad y la fecha. Generar, "
+               "instalar y desinstalar en seis pasos visibles (plan, afectados, "
                "conflictos, ejecutar, verificar, informe), con el respaldo y su UNDO.sh. Las órdenes son las de Lliphi (generar.py, "
                "instalar.py, paleta.py, sesion.py); la ventana no reemplaza ninguna.")
 ACENTO = "carmesi"
@@ -98,6 +102,10 @@ def construir(app: Aplicacion, cache: Path | None = None, leer_instalacion: bool
     for i, a in enumerate(svc_areas.areas(), start=1):
         acciones.registrar(f"ver.area.{a['id']}", f"{a['titulo']}", a["icono"], f"Ctrl+{i % 10}", "Ver", marcable=True,
                            al_disparar=lambda *_, n=a["id"]: centro.fijarArea(n), descripcion=a["que"])
+    for nombre, titulo in (("claro", "Lliphi Claro"), ("oscuro", "Lliphi Oscuro")):
+        acciones.registrar(f"ver.variante.{nombre}", f"Maqueta en {titulo}", "weather-clear" if nombre == "claro" else "weather-clear-night", None, "Ver",
+                           marcable=True, al_disparar=lambda *_, n=nombre: interfaz.pedir.emit("variante", {"nombre": n}),
+                           descripcion=f"Las rampas y la maqueta del escritorio con los tokens de {titulo} (sin tocar el escritorio)")
     acciones.registrar("ver.salida", "&Salida y registro", "utilities-terminal", "F4", "Ver", marcable=True, al_disparar=pedir("salida"),
                        descripcion="La salida íntegra de las órdenes de Lliphi y el registro")
     acciones.registrar("ver.releer", "&Releer el proyecto", "view-refresh", "F6", "Ver", operacion="lectura",
@@ -111,6 +119,33 @@ def construir(app: Aplicacion, cache: Path | None = None, leer_instalacion: bool
                        al_disparar=lambda *_: preparar("generar", [actual()]), descripcion="Prepara el plan de generar.py --modulos <destino> (pasos 1–3); no escribe")
     acciones.registrar("escr.instalar", "&Instalar el destino…", "install", "Ctrl+I", "Destino", operacion="lectura",
                        al_disparar=lambda *_: preparar("instalar", [actual()]), descripcion="Prepara el plan de instalar.py --modulos <destino>: cada archivo, lo que cambia y lo ajeno")
+    tras_verificar = {"generar": False}
+
+    def generar_cambios(*_):
+        """F5: el plan de lo que cambió. Con una verificación vigente, los destinos desfasados o sin generar; sin ella, verifica
+        antes (lectura) y prepara el plan al terminar."""
+        if destinos._verificacion.vigente:
+            ids = centro.pendientes()
+            if ids:
+                preparar("generar", ids)
+            else:
+                interfaz.pedir.emit("aviso", {"texto": "Lo generado está al día con los tokens: nada que generar.", "tipo": "informacion"})
+            return
+        tras_verificar["generar"] = True
+        operaciones.fijar("verificar")
+        if not operaciones.simular():
+            tras_verificar["generar"] = False
+
+    def verificado(id_: str, _aplicar: bool, _codigo: int) -> None:
+        if id_ == "verificar" and tras_verificar["generar"]:
+            tras_verificar["generar"] = False
+            if destinos._verificacion.vigente:
+                generar_cambios()
+
+    operaciones.terminada.connect(verificado)
+    acciones.registrar("escr.generar_cambios", "Generar &lo que cambió…", "run-build", "F5", "Destino", operacion="lectura",
+                       al_disparar=generar_cambios,
+                       descripcion="Prepara el plan de generar.py para los destinos desfasados o sin generar (si la verificación no es vigente, verifica antes); no escribe")
     acciones.registrar("escr.generar_todo", "Generar &todo…", "run-build", "Ctrl+Shift+B", "Destino", operacion="lectura",
                        al_disparar=lambda *_: preparar("generar", []), descripcion="Prepara el plan de generar.py para todos los destinos")
     acciones.registrar("escr.instalar_todo", "Instalar t&odo…", "install", None, "Destino", operacion="lectura",
@@ -162,15 +197,16 @@ def construir(app: Aplicacion, cache: Path | None = None, leer_instalacion: bool
 
     acciones.definir_menus([
         ("&Archivo", ["archivo.ajustes", "archivo.generado", "archivo.terminal", "|", "archivo.tokens", "archivo.esquema", "|", "app.salir"]),
-        ("&Ver", [f"ver.area.{a['id']}" for a in svc_areas.areas()] + ["|", "ver.releer", "ver.salida", "ventana.pantalla_completa"]),
-        ("&Destino", ["escr.generar", "escr.instalar", "|", "escr.generar_todo", "escr.instalar_todo", "escr.desinstalar", "|", "escr.ejecutar", "escr.cancelar"]),
+        ("&Ver", [f"ver.area.{a['id']}" for a in svc_areas.areas()] + ["|", "ver.variante.claro", "ver.variante.oscuro", "|", "ver.releer", "ver.salida",
+                  "ventana.pantalla_completa"]),
+        ("&Destino", ["escr.generar_cambios", "|", "escr.generar", "escr.instalar", "|", "escr.generar_todo", "escr.instalar_todo", "escr.desinstalar", "|", "escr.ejecutar", "escr.cancelar"]),
         ("&Proyecto", ["proyecto.verificar", "proyecto.comprobar", "|"] + [f"op.{o.id}" for o in ops.de_grupo("proyecto") if acciones.existe(f"op.{o.id}")] + ["|", "op.aplicar"]),
         ("&Herramientas", ["sesion.arrancar", "herr.sesion", "herr.respaldos", "|"] + [f"op.{o.id}" for o in ops.de_grupo("herramientas") if acciones.existe(f"op.{o.id}")]
          + ["|", "herr.sitio", "herr.lanzador", "herr.venv", "|", "ventana.paleta"]),
         ("A&justes", ["app.ajustes"]),
         ("Ay&uda", ["ayuda.manual", "ayuda.arquitectura", "app.acerca"]),
     ])
-    acciones.definir_barra(["ver.releer", "proyecto.verificar", "|", "escr.generar", "escr.instalar", "|", "escr.ejecutar"])
+    acciones.definir_barra(["ver.releer", "proyecto.verificar", "|", "escr.generar_cambios", "escr.generar", "escr.instalar", "|", "escr.ejecutar"])
     acciones.anadir_fuente(lambda _t: [{"nombre": f"destino.{m.id}", "texto": f"Destino: {m.nombre}", "grupo": "Destinos", "icono": "preferences-desktop-theme-global",
                                         "ejecutar": lambda i=m.id: centro.irADestino(i)} for m in destinos._modulos.values()])
 
@@ -186,6 +222,7 @@ def construir(app: Aplicacion, cache: Path | None = None, leer_instalacion: bool
         acciones.habilitar("archivo.generado", m is not None)
         acciones.habilitar("escr.generar", m is not None and not activa)
         acciones.habilitar("escr.instalar", m is not None and m.clase == "paquete" and bool(m.datos.get("instalacion")) and m.id not in ("sddm", "gtk") and not activa)
+        acciones.habilitar("escr.generar_cambios", not activa and not (destinos._verificacion.vigente and not centro.pendientes()))
         for n in ("escr.generar_todo", "escr.instalar_todo", "escr.desinstalar", "proyecto.verificar", "proyecto.comprobar", "ver.releer", "herr.lanzador", "sesion.arrancar"):
             acciones.habilitar(n, not activa)
         acciones.habilitar("escr.ejecutar", escritura.puedeEjecutar)

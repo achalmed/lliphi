@@ -45,11 +45,18 @@ for q in ("respaldos", "sesion", "venv"):
     i.pedir.emit(q, {}); app.app.processEvents()
 a.accion("app.ajustes").disparar(); app.app.processEvents()
 operaciones = {n: [a.accion(n).operacion, a.accion(n).requiereConfirmacion] for n in a.nombres() if a.accion(n).operacion}
+atajos = {n: a.accion(n).atajo for n in ("escr.generar_cambios", "escr.ejecutar")}
+contexto = e.contexto
+i.pedir.emit("variante", {"nombre": "claro"}); app.app.processEvents()
+variante = [raiz.property("varianteVista"), a.accion("ver.variante.claro").marcada, a.accion("ver.variante.oscuro").marcada]
+a.accion("ver.area.diseno").disparar(); app.app.processEvents()
+grupos = [[g["id"], len(g["destinos"])] for g in c.grupos]
 QTimer.singleShot(800, app.app.quit); app.app.exec(); app.cerrar()
 print(json.dumps({"ok": ok, "errores": errores, "acciones": a.nombres(), "menus": [x["titulo"] for x in a.menus], "barra": a.barra, "paginas": paginas,
                   "pares": pares, "plan": {k: plan.get(k) for k in ("titulo", "tipo", "orden", "estadoOperacion")}, "afectados": len(plan.get("afectados", [])),
                   "pedida": [p.get("nombre") for p in pedida], "consecuencias": pedida[0].get("consecuencias", "") if pedida else "",
-                  "activa": piezas["tareas"].activa, "operaciones": operaciones, "contexto": e.contexto}))
+                  "activa": piezas["tareas"].activa, "operaciones": operaciones, "contexto": contexto, "atajos": atajos,
+                  "variante": variante, "grupos": grupos, "cambios": c.cambios}))
 """
 
 COMPONENTE = """
@@ -85,7 +92,7 @@ def test_abre_y_cierra_su_ventana(muestra_sesion):
     assert not _graves(datos["errores"]), "\n".join(_graves(datos["errores"]))
     for n in ("archivo.ajustes", "archivo.generado", "archivo.terminal", "archivo.tokens", "archivo.esquema", "ver.area.diseno", "ver.area.esquemas",
               "ver.area.plasma", "ver.area.kvantum", "ver.area.konsole", "ver.area.editores", "ver.area.fondos", "ver.area.tipografia", "ver.area.iconos",
-              "ver.area.otros", "ver.salida", "ver.releer", "escr.generar", "escr.instalar", "escr.generar_todo", "escr.instalar_todo", "escr.desinstalar",
+              "ver.area.otros", "ver.variante.claro", "ver.variante.oscuro", "ver.salida", "ver.releer", "escr.generar_cambios", "escr.generar", "escr.instalar", "escr.generar_todo", "escr.instalar_todo", "escr.desinstalar",
               "escr.ejecutar", "escr.ejecutar.generar", "escr.ejecutar.instalar", "escr.ejecutar.desinstalar", "escr.cancelar",
               "op.verificar", "op.validar", "op.paleta", "op.estado", "op.comprobar", "op.dependencias", "op.pruebas", "op.licencias", "op.empaquetar", "op.sitio",
               "op.sesion_estado", "op.sesion_recargar", "op.sesion_capturar", "op.sesion_cerrar", "op.revertir", "op.aplicar", "proyecto.verificar", "proyecto.comprobar",
@@ -94,7 +101,7 @@ def test_abre_y_cierra_su_ventana(muestra_sesion):
         assert n in datos["acciones"], n
     assert "ventana.navegacion" not in datos["acciones"] and "op.instalar_todo" not in datos["acciones"]   # VentanaBase; instalar va en seis pasos
     assert datos["menus"] == ["&Archivo", "&Ver", "&Destino", "&Proyecto", "&Herramientas", "A&justes", "Ay&uda"]
-    assert datos["barra"] == ["ver.releer", "proyecto.verificar", "|", "escr.generar", "escr.instalar", "|", "escr.ejecutar"]
+    assert datos["barra"] == ["ver.releer", "proyecto.verificar", "|", "escr.generar_cambios", "escr.generar", "escr.instalar", "|", "escr.ejecutar"]
     paginas = {p[0]: p for p in datos["paginas"]}
     assert set(paginas) == {"diseno", "esquemas", "plasma", "kvantum", "konsole", "editores", "fondos", "tipografia", "iconos", "otros"}
     assert paginas["esquemas"][1] == 1 and paginas["plasma"][1] >= 5 and paginas["otros"][1] >= 5 and paginas["diseno"][1] == 0
@@ -107,8 +114,15 @@ def test_abre_y_cierra_su_ventana(muestra_sesion):
     op = datos["operaciones"]
     assert op["escr.ejecutar.instalar"] == ["instalacion", True] and op["escr.ejecutar.desinstalar"] == ["eliminacion", True]
     assert op["escr.ejecutar.generar"] == ["escritura", True] and op["sesion.arrancar"] == ["escritura", True]
+    assert op["escr.generar_cambios"] == ["lectura", False]                   # F5 prepara (simula); Ctrl+Intro ejecuta tras confirmar
+    assert datos["atajos"]["escr.generar_cambios"] == "F5" and datos["atajos"]["escr.ejecutar"] == "Ctrl+Return"
     assert op["escr.instalar"] == ["lectura", False] and op["op.paleta"] == ["simulacion", False] and op["op.aplicar"] == ["escritura", True]
     assert datos["contexto"].startswith("Konsole y terminales · Konsole")
+    # la mesa de diseño: la variante elegida manda en la maqueta y se marca en Ver; al pie, cada área con sus destinos
+    assert datos["variante"] == ["claro", True, False]
+    grupos = dict(datos["grupos"])
+    assert "diseno" not in grupos and grupos["plasma"] >= 5 and grupos["tipografia"] == 0 and sum(grupos.values()) >= 20
+    assert datos["cambios"]["vigente"] is False and "F5" in datos["cambios"]["texto"]       # la muestra no se ha verificado
 
 
 @requiere_sistema
@@ -139,11 +153,12 @@ def test_sin_colores_propios_en_qml():
     for qml in QML.rglob("*.qml"):
         for n, linea in enumerate(qml.read_text(encoding="utf-8").splitlines(), 1):
             sin_comentario = linea.split("//")[0]
-            if re.search(r'"#[0-9a-fA-F]{3,8}"', sin_comentario) or re.search(r'\bfont\.(pointSize|pixelSize|family)\s*:\s*["\d]', sin_comentario):
+            if (re.search(r'"#[0-9a-fA-F]{3,8}"', sin_comentario) or re.search(r'\bfont\.(pointSize|pixelSize|family)\s*:\s*["\d]', sin_comentario)
+                    or re.search(r'\bQt\.(rgba|rgb|hsla|hsva|lighter|darker)\(', sin_comentario) or re.search(r'\bfont\.(pointSize|pixelSize)\s*:', sin_comentario)):
                 malos.append(f"{qml.relative_to(STUDIO)}:{n}: {linea.strip()}")
     assert not malos, "\n".join(malos)
-    paleta = (QML / "componentes" / "PaginaDiseno.qml").read_text(encoding="utf-8")
-    assert "color: m.hex" in paleta and "Kirigami.Theme" in paleta
+    rampas = (QML / "componentes" / "PanelRampas.qml").read_text(encoding="utf-8")
+    assert "color: modelData.hex" in rampas and "Kirigami.Theme" in rampas
     assert "property var colores" in (QML / "componentes" / "Maqueta.qml").read_text(encoding="utf-8")
 
 

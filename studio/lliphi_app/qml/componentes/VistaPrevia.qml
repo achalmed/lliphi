@@ -28,7 +28,7 @@ Loader {
             spacing: Kirigami.Units.largeSpacing
             Repeater {
                 model: raiz.variantes
-                delegate: Maqueta { required property var modelData; colores: modelData.maqueta; titulo: modelData.titulo; Layout.fillWidth: true; Layout.preferredHeight: Kirigami.Units.gridUnit * 13 }
+                delegate: Maqueta { required property var modelData; colores: modelData.maqueta; escritorio: studio.centro.sistema.escritorio || ({}); titulo: modelData.titulo; Layout.fillWidth: true; Layout.preferredHeight: Kirigami.Units.gridUnit * 13 }
             }
         }
     }
@@ -38,7 +38,7 @@ Loader {
             spacing: Kirigami.Units.largeSpacing
             Repeater {
                 model: raiz.variantes
-                delegate: Maqueta { required property var modelData; colores: modelData.maqueta; titulo: modelData.titulo; tipo: "controles"; Layout.fillWidth: true; Layout.preferredHeight: Kirigami.Units.gridUnit * 10 }
+                delegate: Maqueta { required property var modelData; colores: modelData.maqueta; escritorio: studio.centro.sistema.escritorio || ({}); titulo: modelData.titulo; tipo: "controles"; Layout.fillWidth: true; Layout.preferredHeight: Kirigami.Units.gridUnit * 10 }
             }
         }
     }
@@ -153,10 +153,10 @@ Loader {
                 delegate: RowLayout {
                     required property var modelData
                     spacing: Kirigami.Units.largeSpacing
-                    QQC2.Label {
-                        text: "El veloz murciélago hindú comía feliz cardillo y kiwi — 0123456789"
+                    Kirigami.Heading {                    // la muestra: la familia es un dato de los tokens; el tamaño, el del tema
+                        level: 3
+                        text: "El veloz murciélago hindú comía feliz cardillo y kiwi · 0123456789"
                         font.family: modelData.familia
-                        font.pointSize: Kirigami.Theme.defaultFont.pointSize * 1.3
                         elide: Text.ElideRight
                         Layout.fillWidth: true
                     }

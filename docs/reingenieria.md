@@ -173,9 +173,9 @@ borrador de `proyecto.guardar_borrador`. Queda anotado en `estado.md`.
 Capturas sobre la copia de `studio/muestra.py` (HOME y XDG temporales, ninguna ruta de la máquina), hechas con
 `studio/capturar.py`; `--pasos` solo prepara el plan.
 
-![El sistema de diseño en Lliphi Oscuro](figuras/lliphi-studio-oscuro.png)
+![La mesa de diseño en Lliphi Oscuro (desde el 2026-11-18, decisiones 5.51): las rampas, la maqueta del escritorio y los destinos](figuras/lliphi-studio-oscuro.png)
 
-![El sistema de diseño en Lliphi Claro: las muestras con L, C, H, ΔL y hex](figuras/lliphi-studio-claro.png)
+![La mesa de diseño con la maqueta en Lliphi Claro: las rampas con su L y el paso al pasar el ratón](figuras/lliphi-studio-claro.png)
 
 ![Konsole y terminales: las terminales de muestra, las tarjetas y un .colorscheme cambiado a mano («ajeno»), lado a lado con lo generado](figuras/lliphi-studio-area.png)
 
