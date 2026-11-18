@@ -52,6 +52,21 @@ def tocar_tokens(lliphi: Path) -> None:
     tmp.replace(ruta)                                   # como paleta.py y KConfig: un archivo nuevo y un renombrado
 
 
+def terminar_huerfanos(carpeta: str) -> None:
+    """Los servicios que el bus propio arrancó a pedido (el portal de KDE, ksecretd) sobreviven a `dbus-run-session`, con
+    el HOME de la copia y la salida heredada: se terminan por su PID, solo los que llevan ESTA captura en su entorno."""
+    import signal
+    marca = f"LLIPHI_STUDIO_CAPTURA={carpeta}".encode()
+    for proc in Path("/proc").iterdir():
+        if not proc.name.isdigit() or int(proc.name) == os.getpid():
+            continue
+        try:
+            if marca in (proc / "environ").read_bytes().split(b"\0"):
+                os.kill(int(proc.name), signal.SIGTERM)
+        except (OSError, ValueError):
+            pass
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Captura de Lliphi Studio sobre una copia del proyecto")
     parser.add_argument("salida")
@@ -105,6 +120,8 @@ def main() -> int:
             env["LLIPHI_STUDIO_VIVO"] = str(Path(args.vivo).expanduser().resolve()) if args.vivo else ""
             orden = ["/usr/bin/dbus-run-session", "--"] + orden
         codigo = subprocess.run(orden, env=env).returncode
+        if args.vivo or args.tokens_en_vivo:
+            terminar_huerfanos(str(carpeta))
         shutil.rmtree(carpeta, ignore_errors=True)
         return codigo
 
